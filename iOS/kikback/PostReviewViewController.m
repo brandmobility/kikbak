@@ -9,6 +9,8 @@
 #import "PostReviewViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "AppDelegate.h"
+#import "Flurry.h"
+
 
 @interface PostReviewViewController ()
 
@@ -43,45 +45,30 @@
   [self.descriptionText resignFirstResponder];
   UIActionSheet* sheet = [[UIActionSheet alloc] initWithTitle:@"Share It" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take Photo", nil];
   [sheet showInView:self.view];
-  
 }
 
 -(IBAction)submit:(id)sender{
 
-//  UIImage *img = self.photo.image;
-  
-//  [FBRequestConnection startForUploadPhoto:img
-//                         completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-//                               NSLog(@"result: %@", result);
-//                               NSLog(@"error: %@", error);
-//                         }];
-//  
+  self.submit.enabled = NO;
   FBRequestConnection* connection = [[FBRequestConnection alloc]initWithTimeout:30];
 
   
   FBRequest* request = [FBRequest requestForUploadPhoto:self.photo.image];
   [request.parameters setValue:self.descriptionText.text forKey:@"message"];
   
-  NSLog(@"request parameters: %@", request.parameters);
-  NSLog(@"request rest: %@", request.restMethod);
-  NSLog(@"request httpmethod: %@", request.HTTPMethod);
-  NSLog(@"request graphpath: %@", request.graphPath);
-  
-//  FBRequest* postMsg = [FBRequest requestForPostStatusUpdate:@"Status"];
-//  NSLog(@"request parameters: %@", postMsg.parameters);
-//  NSLog(@"request rest: %@", postMsg.restMethod);
-//  NSLog(@"request httpmethod: %@", postMsg.HTTPMethod);
-//  NSLog(@"request graphpath: %@", postMsg.graphPath);
   
   [connection addRequest:request completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-    NSLog(@"result: %@", result);
-    NSLog(@"error: %@", error);
-      }];
+    if(error == nil){
+      UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"KikBak" message:@"Thanks for sharing" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+      [alert show];
+      self.submit.enabled = YES;
+    }
+  }];
   
-  NSLog(@"url request: %@", connection.urlRequest);
 
   [connection start];
-  //[connection cancel];
+  
+  [Flurry logEvent:@"ShareExperienceEvent" timed:YES];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -91,6 +78,8 @@
       picker.view.frame = self.view.frame;
       picker.sourceType = UIImagePickerControllerSourceTypeCamera;
       picker.delegate = self;
+      
+      [Flurry logEvent:@"TakePhotoEvent" timed:YES];
       
       [self presentViewController:picker animated:YES completion:nil];
     }

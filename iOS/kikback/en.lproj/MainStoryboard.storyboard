@@ -12,6 +12,7 @@
                         <rect key="frame" x="0.0" y="20" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="Default.png" translatesAutoresizingMaskIntoConstraints="NO" id="pS9-3G-nZc"/>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MI8-5l-rFa">
                                 <constraints>
                                     <constraint firstAttribute="height" constant="39" id="8RM-OF-cGg"/>
@@ -32,8 +33,12 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="MI8-5l-rFa" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="6R7-Kd-JDS"/>
+                            <constraint firstItem="pS9-3G-nZc" firstAttribute="trailing" secondItem="3" secondAttribute="trailing" type="default" id="92V-NK-AjQ"/>
+                            <constraint firstItem="pS9-3G-nZc" firstAttribute="leading" secondItem="3" secondAttribute="leading" type="default" id="PNg-Hq-SCn"/>
+                            <constraint firstItem="pS9-3G-nZc" firstAttribute="top" secondItem="3" secondAttribute="top" type="default" id="Q1N-vI-Ic1"/>
                             <constraint firstAttribute="trailing" secondItem="MI8-5l-rFa" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="UEy-Qe-b4a"/>
                             <constraint firstAttribute="bottom" secondItem="MI8-5l-rFa" secondAttribute="bottom" constant="73" id="luK-eR-oP9"/>
+                            <constraint firstItem="pS9-3G-nZc" firstAttribute="bottom" secondItem="3" secondAttribute="bottom" type="default" id="mi4-hb-1eU"/>
                         </constraints>
                     </view>
                     <connections>
@@ -54,7 +59,7 @@
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BVW-ie-xtx">
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="morning_320x480.png" translatesAutoresizingMaskIntoConstraints="NO" id="wUW-Gu-xlF"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="Default.png" translatesAutoresizingMaskIntoConstraints="NO" id="wUW-Gu-xlF"/>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Tell us about your purchase" translatesAutoresizingMaskIntoConstraints="NO" id="jNO-Rl-duZ">
                                         <color key="backgroundColor" white="0.8136405109489051" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -128,6 +133,7 @@
                         <outlet property="descriptionText" destination="jNO-Rl-duZ" id="Ik0-rY-kyZ"/>
                         <outlet property="photo" destination="wUW-Gu-xlF" id="lBn-2v-eJa"/>
                         <outlet property="scrollView" destination="BVW-ie-xtx" id="GOC-wz-LcB"/>
+                        <outlet property="submit" destination="k2Z-DF-tn2" id="SMk-A3-3GE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i3L-PU-KHT" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -136,7 +142,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="morning_320x480.png" width="320" height="480"/>
+        <image name="Default.png" width="640" height="1136"/>
     </resources>
     <classes>
         <class className="LoginViewController" superclassName="UIViewController">
@@ -157,6 +163,7 @@
                 <relationship kind="outlet" name="descriptionText" candidateClass="UITextView"/>
                 <relationship kind="outlet" name="photo" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="submit" candidateClass="UIButton"/>
             </relationships>
         </class>
     </classes>

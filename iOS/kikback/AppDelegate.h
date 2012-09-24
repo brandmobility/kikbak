@@ -16,7 +16,7 @@
   UIImageView* splash;
 }
 
--(void)createFBSession;
+-(NSArray*)FBPermissions;
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) FBSession *session;
