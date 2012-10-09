@@ -15,8 +15,10 @@
 @property (strong, nonatomic) IBOutlet UITextView* descriptionText;
 @property (strong, nonatomic) IBOutlet UIScrollView* scrollView;
 @property (strong, nonatomic) IBOutlet UIButton* submit;
+@property (strong, nonatomic) IBOutlet UIButton *locationButton;
 
 -(IBAction)takePhoto:(id)sender;
 -(IBAction)submit:(id)sender;
+- (IBAction)chooseLocation:(id)sender;
 
 @end

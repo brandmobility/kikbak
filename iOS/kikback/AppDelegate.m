@@ -8,22 +8,39 @@
 
 #import "AppDelegate.h"
 #import "Flurry.h"
+#import "Parse/Parse.h"
+#import "SBJson.h"
+#import "FBQuery.h"
+#import "FBUserInfo.h"
 
 @interface AppDelegate()
 -(void)fadeOutSplash;
--(void)createFBSession;
 @end
 
 @implementation AppDelegate
 
 @synthesize window = _window;
 @synthesize session = _session;
+@synthesize userInfo = _userInfo;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [Flurry startSession:@"CTV2Q76T677N86KZVTNC"];
+    //FLuury
+    [Flurry startSession:@"3MFX5FS2Z6YBXBQS2F8P"];
   
-    [self createFBSession];
+    //parse server setup
+    [Parse setApplicationId:@"HKX3h3Xgt6FXTX9ndG0SySwqF5O2ShWbhxBXuiaE" clientKey:@"Suat5isMgkTCzhKMWurHtXbJza9uTYYZCecDxoqD"];
+    [PFUser enableAutomaticUser];
+    PFACL *defaultACL = [PFACL ACL];
+    // If you would like all objects to be private by default, remove this line.
+    //[defaultACL setPublicReadAccess:YES];
+    [PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
+  
+    self.userInfo = [[FBUserInfo alloc]init];
+    [FBQuery createFBSession];
+    if( self.session ){
+        [FBQuery fbMe];
+    }
   
     if( self.session.isOpen ){
 
@@ -33,7 +50,7 @@
     }
   
     splash = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Default.png"]];
-    splash.frame = self.window.frame;
+    splash.frame = CGRectMake(0, 0, 320, 460);
     [self.window.rootViewController.view addSubview:splash];
     [self.window bringSubviewToFront:splash];
   
@@ -96,36 +113,11 @@
   
   [self.session handleOpenURL:url];  
   [FBSession setActiveSession:self.session];
+  [FBQuery fbMe];
   return YES;
 }
 
 
--(void)createFBSession{
-  if (!self.session.isOpen) {
-    NSArray* permissions = [self FBPermissions];
 
-    
-    // if we don't have a cached token, a call to open here would cause UX for login to
-    // occur; we don't want that to happen unless the user clicks the login button, and so
-    // we check here to make sure we have a token before calling open
-    if (self.session.state != FBSessionStateOpen) {
-      // even though we had a cached token, we need to login to make the session usable
-
-      
-    [FBSession openActiveSessionWithPermissions:permissions
-                                   allowLoginUI:NO
-                              completionHandler:^(FBSession *session,
-                                                  FBSessionState state,
-                                                  NSError *error) {
-                self.session = [FBSession setActiveSession:session];
-      }];
-    }
-  }
-
-}
-
--(NSArray*)FBPermissions{
-    return [[NSArray alloc]initWithObjects:@"email",@"publish_actions",@"publish_stream",@"publish_checkins",nil];
-}
 
 @end

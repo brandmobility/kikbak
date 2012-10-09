@@ -13,12 +13,9 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="Default.png" translatesAutoresizingMaskIntoConstraints="NO" id="pS9-3G-nZc"/>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MI8-5l-rFa">
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="39" id="8RM-OF-cGg"/>
-                                </constraints>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MI8-5l-rFa">
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Button">
+                                <state key="normal" image="login.png">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -32,12 +29,11 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="MI8-5l-rFa" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="6R7-Kd-JDS"/>
-                            <constraint firstItem="pS9-3G-nZc" firstAttribute="trailing" secondItem="3" secondAttribute="trailing" type="default" id="92V-NK-AjQ"/>
                             <constraint firstItem="pS9-3G-nZc" firstAttribute="leading" secondItem="3" secondAttribute="leading" type="default" id="PNg-Hq-SCn"/>
                             <constraint firstItem="pS9-3G-nZc" firstAttribute="top" secondItem="3" secondAttribute="top" type="default" id="Q1N-vI-Ic1"/>
-                            <constraint firstAttribute="trailing" secondItem="MI8-5l-rFa" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="UEy-Qe-b4a"/>
-                            <constraint firstAttribute="bottom" secondItem="MI8-5l-rFa" secondAttribute="bottom" constant="73" id="luK-eR-oP9"/>
+                            <constraint firstItem="pS9-3G-nZc" firstAttribute="trailing" secondItem="3" secondAttribute="trailing" type="default" id="hUA-9e-KGZ"/>
+                            <constraint firstAttribute="bottom" secondItem="MI8-5l-rFa" secondAttribute="bottom" constant="66" id="kKy-Rz-IoR"/>
+                            <constraint firstItem="MI8-5l-rFa" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="llF-Lm-iOL"/>
                             <constraint firstItem="pS9-3G-nZc" firstAttribute="bottom" secondItem="3" secondAttribute="bottom" type="default" id="mi4-hb-1eU"/>
                         </constraints>
                     </view>
@@ -59,37 +55,21 @@
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BVW-ie-xtx">
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="Default.png" translatesAutoresizingMaskIntoConstraints="NO" id="wUW-Gu-xlF"/>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Tell us about your purchase" translatesAutoresizingMaskIntoConstraints="NO" id="jNO-Rl-duZ">
-                                        <color key="backgroundColor" white="0.8136405109489051" alpha="1" colorSpace="calibratedWhite"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="Default.png" translatesAutoresizingMaskIntoConstraints="NO" id="wUW-Gu-xlF">
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="154" id="O1h-op-0kQ"/>
+                                            <constraint firstAttribute="height" constant="123" id="5ed-VP-Ub9"/>
+                                            <constraint firstAttribute="width" constant="130" id="SQA-19-u9x"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                    </textView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k2Z-DF-tn2">
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="Default.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ibj-JC-lPn">
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="32" id="m6e-Mn-DiM"/>
-                                            <constraint firstAttribute="width" constant="112" id="pdh-TL-fkY"/>
+                                            <constraint firstAttribute="width" constant="130" id="tz0-Bh-yEx"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="Submit">
-                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="submit:" destination="0wG-Y2-aDu" eventType="touchUpInside" id="1Jc-YW-kOe"/>
-                                        </connections>
-                                    </button>
+                                    </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CGs-5W-AXq">
                                         <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="188" id="X7c-UR-EYv"/>
-                                            <constraint firstAttribute="width" constant="275" id="nTQ-v3-Gwa"/>
+                                            <constraint firstAttribute="width" constant="144" id="eQf-2y-eFr"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" title="Take a Photo">
@@ -103,21 +83,67 @@
                                             <action selector="takePhoto:" destination="0wG-Y2-aDu" eventType="touchUpInside" id="OFh-Lk-QIt"/>
                                         </connections>
                                     </button>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Tell us about your purchase" translatesAutoresizingMaskIntoConstraints="NO" id="jNO-Rl-duZ">
+                                        <color key="backgroundColor" white="0.8136405109489051" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="154" id="O1h-op-0kQ"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k2Z-DF-tn2">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="112" id="pdh-TL-fkY"/>
+                                            <constraint firstAttribute="height" constant="31" id="ybV-5r-c8t"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="Submit">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="submit:" destination="0wG-Y2-aDu" eventType="touchUpInside" id="1Jc-YW-kOe"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3cr-W8-o55">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="140" id="5HL-jH-6dW"/>
+                                            <constraint firstAttribute="height" constant="31" id="i03-DE-UVL"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="Choose Location">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="chooseLocation:" destination="0wG-Y2-aDu" eventType="touchUpInside" id="Ula-74-5We"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="wUW-Gu-xlF" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="6bn-Nd-FWj"/>
-                                    <constraint firstItem="wUW-Gu-xlF" firstAttribute="top" secondItem="BVW-ie-xtx" secondAttribute="top" constant="32" id="6u5-TJ-U1P"/>
+                                    <constraint firstItem="3cr-W8-o55" firstAttribute="top" secondItem="BVW-ie-xtx" secondAttribute="top" constant="38" id="10t-OT-faU"/>
+                                    <constraint firstItem="Ibj-JC-lPn" firstAttribute="top" secondItem="wUW-Gu-xlF" secondAttribute="top" type="default" id="3Q9-ru-00Z"/>
                                     <constraint firstItem="jNO-Rl-duZ" firstAttribute="leading" secondItem="BVW-ie-xtx" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="AlP-di-8s4"/>
-                                    <constraint firstItem="wUW-Gu-xlF" firstAttribute="leading" secondItem="BVW-ie-xtx" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="EYP-gk-eLm"/>
-                                    <constraint firstItem="wUW-Gu-xlF" firstAttribute="bottom" secondItem="CGs-5W-AXq" secondAttribute="bottom" type="default" id="JA0-Ai-O4V"/>
-                                    <constraint firstAttribute="bottom" secondItem="k2Z-DF-tn2" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="Lz4-Lb-6x3"/>
+                                    <constraint firstItem="wUW-Gu-xlF" firstAttribute="top" secondItem="BVW-ie-xtx" secondAttribute="top" constant="108" id="OCZ-zz-Y6O"/>
+                                    <constraint firstItem="k2Z-DF-tn2" firstAttribute="centerX" secondItem="BVW-ie-xtx" secondAttribute="centerX" type="default" id="Q7Y-cD-hjm"/>
+                                    <constraint firstItem="jNO-Rl-duZ" firstAttribute="centerX" secondItem="3cr-W8-o55" secondAttribute="centerX" type="default" id="X9D-5M-UJy"/>
+                                    <constraint firstItem="k2Z-DF-tn2" firstAttribute="top" secondItem="jNO-Rl-duZ" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="YlL-Ec-K9W"/>
+                                    <constraint firstItem="CGs-5W-AXq" firstAttribute="top" secondItem="wUW-Gu-xlF" secondAttribute="top" type="default" id="Z20-fA-rF7"/>
                                     <constraint firstAttribute="trailing" secondItem="jNO-Rl-duZ" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="ZCE-dS-30D"/>
-                                    <constraint firstItem="jNO-Rl-duZ" firstAttribute="centerX" secondItem="BVW-ie-xtx" secondAttribute="centerX" type="default" id="agF-f6-zOE"/>
-                                    <constraint firstItem="k2Z-DF-tn2" firstAttribute="top" secondItem="BVW-ie-xtx" secondAttribute="top" constant="408" id="aqk-hV-RkN"/>
-                                    <constraint firstItem="jNO-Rl-duZ" firstAttribute="top" secondItem="BVW-ie-xtx" secondAttribute="top" constant="239" id="lES-Bx-d3a"/>
-                                    <constraint firstItem="wUW-Gu-xlF" firstAttribute="top" secondItem="CGs-5W-AXq" secondAttribute="top" type="default" id="na5-dl-Cn6"/>
+                                    <constraint firstItem="CGs-5W-AXq" firstAttribute="leading" secondItem="BVW-ie-xtx" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="e0l-pU-TuV"/>
+                                    <constraint firstItem="Ibj-JC-lPn" firstAttribute="bottom" secondItem="CGs-5W-AXq" secondAttribute="bottom" type="default" id="fHj-5d-5X2"/>
+                                    <constraint firstAttribute="bottom" secondItem="k2Z-DF-tn2" secondAttribute="bottom" constant="21" id="nS6-b8-6Cb"/>
+                                    <constraint firstAttribute="trailing" secondItem="Ibj-JC-lPn" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="rTk-hE-wA2"/>
+                                    <constraint firstItem="wUW-Gu-xlF" firstAttribute="bottom" secondItem="CGs-5W-AXq" secondAttribute="bottom" type="default" id="rzC-uA-GbH"/>
+                                    <constraint firstItem="wUW-Gu-xlF" firstAttribute="leading" secondItem="BVW-ie-xtx" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="sRU-nS-QsF"/>
                                     <constraint firstItem="jNO-Rl-duZ" firstAttribute="centerX" secondItem="k2Z-DF-tn2" secondAttribute="centerX" type="default" id="sxJ-YB-9wZ"/>
-                                    <constraint firstItem="wUW-Gu-xlF" firstAttribute="centerX" secondItem="CGs-5W-AXq" secondAttribute="centerX" type="default" id="xqW-Cw-EIs"/>
+                                    <constraint firstItem="jNO-Rl-duZ" firstAttribute="top" secondItem="BVW-ie-xtx" secondAttribute="top" constant="246" id="wLt-GL-CB5"/>
                                 </constraints>
                             </scrollView>
                         </subviews>
@@ -131,6 +157,7 @@
                     </view>
                     <connections>
                         <outlet property="descriptionText" destination="jNO-Rl-duZ" id="Ik0-rY-kyZ"/>
+                        <outlet property="locationButton" destination="3cr-W8-o55" id="A5Q-ea-eF6"/>
                         <outlet property="photo" destination="wUW-Gu-xlF" id="lBn-2v-eJa"/>
                         <outlet property="scrollView" destination="BVW-ie-xtx" id="GOC-wz-LcB"/>
                         <outlet property="submit" destination="k2Z-DF-tn2" id="SMk-A3-3GE"/>
@@ -143,6 +170,7 @@
     </scenes>
     <resources>
         <image name="Default.png" width="640" height="1136"/>
+        <image name="login.png" width="280" height="47"/>
     </resources>
     <classes>
         <class className="LoginViewController" superclassName="UIViewController">
@@ -158,9 +186,11 @@
         <class className="PostReviewViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PostReviewViewController.h"/>
             <relationships>
+                <relationship kind="action" name="chooseLocation:"/>
                 <relationship kind="action" name="submit:"/>
                 <relationship kind="action" name="takePhoto:"/>
                 <relationship kind="outlet" name="descriptionText" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="locationButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="photo" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="submit" candidateClass="UIButton"/>

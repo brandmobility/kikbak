@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import "AppDelegate.h"
 #import "Flurry.h"
+#import "FBQuery.h"
 
 @interface LoginViewController ()
 
@@ -29,7 +30,7 @@
     AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
     if (!appDelegate.session.isOpen) {
       // create a fresh session object
-      appDelegate.session = [[FBSession alloc] initWithPermissions:[appDelegate FBPermissions]];
+      appDelegate.session = [[FBSession alloc] initWithPermissions:[FBQuery FBPermissions]];
       
       // if we don't have a cached token, a call to open here would cause UX for login to
       // occur; we don't want that to happen unless the user clicks the login button, and so
@@ -66,7 +67,7 @@
     [Flurry logEvent:@"FaceBookLoginEvent" timed:YES];
     if (appDelegate.session.state != FBSessionStateCreated) {
       // Create a new, logged out session.
-        appDelegate.session = [[FBSession alloc] initWithPermissions:[appDelegate FBPermissions]];
+        appDelegate.session = [[FBSession alloc] initWithPermissions:[FBQuery FBPermissions]];
     }
     
     // if the session isn't open, let's open it now and present the login UX to the user
@@ -88,10 +89,7 @@
     UIStoryboard* mainBoard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     UIViewController* postView = [mainBoard instantiateViewControllerWithIdentifier:@"PostReviewViewController"];
     appDelegate.window.rootViewController = postView;
-  } else {
-    // login-needed account UI is shown whenever the session is closed
-    [self.buttonLoginLogout setTitle:@"Log in" forState:UIControlStateNormal];
-  }
+  } 
 }
 
 @end

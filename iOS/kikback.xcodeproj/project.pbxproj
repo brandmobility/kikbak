@@ -7,6 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C07350021617F65F008F4C46 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07350011617F65F008F4C46 /* Parse.framework */; };
+		C073500D161813FB008F4C46 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C073500C161813FB008F4C46 /* CoreLocation.framework */; };
+		C07350131618278D008F4C46 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07350121618278D008F4C46 /* AudioToolbox.framework */; };
+		C0735015161827A0008F4C46 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0735014161827A0008F4C46 /* CFNetwork.framework */; };
+		C07350171618281F008F4C46 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07350161618281F008F4C46 /* Security.framework */; };
+		C073501916182860008F4C46 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C073501816182860008F4C46 /* MobileCoreServices.framework */; };
+		C073503816182B99008F4C46 /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = C073502016182B99008F4C46 /* NSObject+SBJson.m */; };
+		C073503916182B99008F4C46 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C073502316182B99008F4C46 /* SBJsonParser.m */; };
+		C073503A16182B99008F4C46 /* SBJsonStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C073502516182B99008F4C46 /* SBJsonStreamParser.m */; };
+		C073503B16182B99008F4C46 /* SBJsonStreamParserAccumulator.m in Sources */ = {isa = PBXBuildFile; fileRef = C073502716182B99008F4C46 /* SBJsonStreamParserAccumulator.m */; };
+		C073503C16182B99008F4C46 /* SBJsonStreamParserAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = C073502916182B99008F4C46 /* SBJsonStreamParserAdapter.m */; };
+		C073503D16182B99008F4C46 /* SBJsonStreamParserState.m in Sources */ = {isa = PBXBuildFile; fileRef = C073502B16182B99008F4C46 /* SBJsonStreamParserState.m */; };
+		C073503E16182B99008F4C46 /* SBJsonStreamWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = C073502D16182B99008F4C46 /* SBJsonStreamWriter.m */; };
+		C073503F16182B99008F4C46 /* SBJsonStreamWriterAccumulator.m in Sources */ = {isa = PBXBuildFile; fileRef = C073502F16182B99008F4C46 /* SBJsonStreamWriterAccumulator.m */; };
+		C073504016182B99008F4C46 /* SBJsonStreamWriterState.m in Sources */ = {isa = PBXBuildFile; fileRef = C073503116182B99008F4C46 /* SBJsonStreamWriterState.m */; };
+		C073504116182B99008F4C46 /* SBJsonTokeniser.m in Sources */ = {isa = PBXBuildFile; fileRef = C073503316182B99008F4C46 /* SBJsonTokeniser.m */; };
+		C073504216182B99008F4C46 /* SBJsonUTF8Stream.m in Sources */ = {isa = PBXBuildFile; fileRef = C073503516182B99008F4C46 /* SBJsonUTF8Stream.m */; };
+		C073504316182B99008F4C46 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = C073503716182B99008F4C46 /* SBJsonWriter.m */; };
+		C0735047161970C9008F4C46 /* FBUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = C0735046161970C9008F4C46 /* FBUserInfo.m */; };
+		C073504A161970F6008F4C46 /* FBQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = C0735049161970F6008F4C46 /* FBQuery.m */; };
+		C073504E16197DB1008F4C46 /* FacebookSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = C073504D16197DB1008F4C46 /* FacebookSerialization.m */; };
+		C079DCF6162154B200C50797 /* Hash.m in Sources */ = {isa = PBXBuildFile; fileRef = C079DCF5162154B200C50797 /* Hash.m */; };
+		C0DA3E05161181BC00EB08FF /* login.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DA3E04161181BC00EB08FF /* login.png */; };
 		C0ECB169160C1E37005D6AA3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0ECB168160C1E37005D6AA3 /* UIKit.framework */; };
 		C0ECB16B160C1E37005D6AA3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0ECB16A160C1E37005D6AA3 /* Foundation.framework */; };
 		C0ECB16D160C1E37005D6AA3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0ECB16C160C1E37005D6AA3 /* CoreGraphics.framework */; };
@@ -29,6 +52,48 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C07350011617F65F008F4C46 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = ../../../../Documents/ParseSDK/Parse.framework; sourceTree = "<group>"; };
+		C073500C161813FB008F4C46 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		C07350121618278D008F4C46 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		C0735014161827A0008F4C46 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		C07350161618281F008F4C46 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		C073501816182860008F4C46 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		C073501F16182B99008F4C46 /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJson.h"; sourceTree = "<group>"; };
+		C073502016182B99008F4C46 /* NSObject+SBJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJson.m"; sourceTree = "<group>"; };
+		C073502116182B99008F4C46 /* SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJson.h; sourceTree = "<group>"; };
+		C073502216182B99008F4C46 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
+		C073502316182B99008F4C46 /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
+		C073502416182B99008F4C46 /* SBJsonStreamParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParser.h; sourceTree = "<group>"; };
+		C073502516182B99008F4C46 /* SBJsonStreamParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamParser.m; sourceTree = "<group>"; };
+		C073502616182B99008F4C46 /* SBJsonStreamParserAccumulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParserAccumulator.h; sourceTree = "<group>"; };
+		C073502716182B99008F4C46 /* SBJsonStreamParserAccumulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamParserAccumulator.m; sourceTree = "<group>"; };
+		C073502816182B99008F4C46 /* SBJsonStreamParserAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParserAdapter.h; sourceTree = "<group>"; };
+		C073502916182B99008F4C46 /* SBJsonStreamParserAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamParserAdapter.m; sourceTree = "<group>"; };
+		C073502A16182B99008F4C46 /* SBJsonStreamParserState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParserState.h; sourceTree = "<group>"; };
+		C073502B16182B99008F4C46 /* SBJsonStreamParserState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamParserState.m; sourceTree = "<group>"; };
+		C073502C16182B99008F4C46 /* SBJsonStreamWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamWriter.h; sourceTree = "<group>"; };
+		C073502D16182B99008F4C46 /* SBJsonStreamWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamWriter.m; sourceTree = "<group>"; };
+		C073502E16182B99008F4C46 /* SBJsonStreamWriterAccumulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamWriterAccumulator.h; sourceTree = "<group>"; };
+		C073502F16182B99008F4C46 /* SBJsonStreamWriterAccumulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamWriterAccumulator.m; sourceTree = "<group>"; };
+		C073503016182B99008F4C46 /* SBJsonStreamWriterState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamWriterState.h; sourceTree = "<group>"; };
+		C073503116182B99008F4C46 /* SBJsonStreamWriterState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamWriterState.m; sourceTree = "<group>"; };
+		C073503216182B99008F4C46 /* SBJsonTokeniser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonTokeniser.h; sourceTree = "<group>"; };
+		C073503316182B99008F4C46 /* SBJsonTokeniser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonTokeniser.m; sourceTree = "<group>"; };
+		C073503416182B99008F4C46 /* SBJsonUTF8Stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonUTF8Stream.h; sourceTree = "<group>"; };
+		C073503516182B99008F4C46 /* SBJsonUTF8Stream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonUTF8Stream.m; sourceTree = "<group>"; };
+		C073503616182B99008F4C46 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		C073503716182B99008F4C46 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
+		C0735045161970C9008F4C46 /* FBUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBUserInfo.h; sourceTree = "<group>"; };
+		C0735046161970C9008F4C46 /* FBUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBUserInfo.m; sourceTree = "<group>"; };
+		C0735048161970F6008F4C46 /* FBQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBQuery.h; sourceTree = "<group>"; };
+		C0735049161970F6008F4C46 /* FBQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBQuery.m; sourceTree = "<group>"; };
+		C073504C16197DB1008F4C46 /* FacebookSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookSerialization.h; sourceTree = "<group>"; };
+		C073504D16197DB1008F4C46 /* FacebookSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookSerialization.m; sourceTree = "<group>"; };
+		C079DCF4162154B200C50797 /* Hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hash.h; sourceTree = "<group>"; };
+		C079DCF5162154B200C50797 /* Hash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Hash.m; sourceTree = "<group>"; };
+		C079DCF716215BFD00C50797 /* FBConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FBConstants.h; sourceTree = "<group>"; };
+		C079DCF81622915100C50797 /* ParseConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseConstants.h; sourceTree = "<group>"; };
+		C0DA3E04161181BC00EB08FF /* login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = login.png; path = graphics/login.png; sourceTree = "<group>"; };
 		C0ECB164160C1E37005D6AA3 /* kikback.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kikback.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0ECB168160C1E37005D6AA3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C0ECB16A160C1E37005D6AA3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -62,6 +127,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C073501916182860008F4C46 /* MobileCoreServices.framework in Frameworks */,
+				C07350171618281F008F4C46 /* Security.framework in Frameworks */,
+				C0735015161827A0008F4C46 /* CFNetwork.framework in Frameworks */,
+				C07350131618278D008F4C46 /* AudioToolbox.framework in Frameworks */,
+				C073500D161813FB008F4C46 /* CoreLocation.framework in Frameworks */,
+				C07350021617F65F008F4C46 /* Parse.framework in Frameworks */,
 				C0FB48E8160FEC4600074363 /* SystemConfiguration.framework in Frameworks */,
 				C0FB48D8160FD99300074363 /* libFlurry.a in Frameworks */,
 				C0FB48D6160FC49C00074363 /* FacebookSDK.framework in Frameworks */,
@@ -76,9 +147,80 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C073501E16182B71008F4C46 /* SBJson */ = {
+			isa = PBXGroup;
+			children = (
+				C073501F16182B99008F4C46 /* NSObject+SBJson.h */,
+				C073502016182B99008F4C46 /* NSObject+SBJson.m */,
+				C073502116182B99008F4C46 /* SBJson.h */,
+				C073502216182B99008F4C46 /* SBJsonParser.h */,
+				C073502316182B99008F4C46 /* SBJsonParser.m */,
+				C073502416182B99008F4C46 /* SBJsonStreamParser.h */,
+				C073502516182B99008F4C46 /* SBJsonStreamParser.m */,
+				C073502616182B99008F4C46 /* SBJsonStreamParserAccumulator.h */,
+				C073502716182B99008F4C46 /* SBJsonStreamParserAccumulator.m */,
+				C073502816182B99008F4C46 /* SBJsonStreamParserAdapter.h */,
+				C073502916182B99008F4C46 /* SBJsonStreamParserAdapter.m */,
+				C073502A16182B99008F4C46 /* SBJsonStreamParserState.h */,
+				C073502B16182B99008F4C46 /* SBJsonStreamParserState.m */,
+				C073502C16182B99008F4C46 /* SBJsonStreamWriter.h */,
+				C073502D16182B99008F4C46 /* SBJsonStreamWriter.m */,
+				C073502E16182B99008F4C46 /* SBJsonStreamWriterAccumulator.h */,
+				C073502F16182B99008F4C46 /* SBJsonStreamWriterAccumulator.m */,
+				C073503016182B99008F4C46 /* SBJsonStreamWriterState.h */,
+				C073503116182B99008F4C46 /* SBJsonStreamWriterState.m */,
+				C073503216182B99008F4C46 /* SBJsonTokeniser.h */,
+				C073503316182B99008F4C46 /* SBJsonTokeniser.m */,
+				C073503416182B99008F4C46 /* SBJsonUTF8Stream.h */,
+				C073503516182B99008F4C46 /* SBJsonUTF8Stream.m */,
+				C073503616182B99008F4C46 /* SBJsonWriter.h */,
+				C073503716182B99008F4C46 /* SBJsonWriter.m */,
+			);
+			name = SBJson;
+			path = kikback/SBJson;
+			sourceTree = "<group>";
+		};
+		C073504416197072008F4C46 /* Facebook */ = {
+			isa = PBXGroup;
+			children = (
+				C0735045161970C9008F4C46 /* FBUserInfo.h */,
+				C0735046161970C9008F4C46 /* FBUserInfo.m */,
+				C0735048161970F6008F4C46 /* FBQuery.h */,
+				C0735049161970F6008F4C46 /* FBQuery.m */,
+				C079DCF716215BFD00C50797 /* FBConstants.h */,
+			);
+			name = Facebook;
+			path = kikback/Facebook;
+			sourceTree = "<group>";
+		};
+		C073504B16197C1D008F4C46 /* Parse */ = {
+			isa = PBXGroup;
+			children = (
+				C073504C16197DB1008F4C46 /* FacebookSerialization.h */,
+				C073504D16197DB1008F4C46 /* FacebookSerialization.m */,
+				C079DCF81622915100C50797 /* ParseConstants.h */,
+			);
+			name = Parse;
+			path = kikback/Parse;
+			sourceTree = "<group>";
+		};
+		C079DCF21621546E00C50797 /* crypto */ = {
+			isa = PBXGroup;
+			children = (
+				C079DCF4162154B200C50797 /* Hash.h */,
+				C079DCF5162154B200C50797 /* Hash.m */,
+			);
+			name = crypto;
+			path = kikback/crypto;
+			sourceTree = "<group>";
+		};
 		C0ECB159160C1E37005D6AA3 = {
 			isa = PBXGroup;
 			children = (
+				C079DCF21621546E00C50797 /* crypto */,
+				C073504B16197C1D008F4C46 /* Parse */,
+				C073504416197072008F4C46 /* Facebook */,
+				C073501E16182B71008F4C46 /* SBJson */,
 				C0FB48DD160FE6DF00074363 /* Flurry */,
 				C0ECB16E160C1E37005D6AA3 /* kikback */,
 				C0ECB167160C1E37005D6AA3 /* Frameworks */,
@@ -97,11 +239,17 @@
 		C0ECB167160C1E37005D6AA3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C073501816182860008F4C46 /* MobileCoreServices.framework */,
+				C07350121618278D008F4C46 /* AudioToolbox.framework */,
+				C0735014161827A0008F4C46 /* CFNetwork.framework */,
 				C0ECB16C160C1E37005D6AA3 /* CoreGraphics.framework */,
+				C073500C161813FB008F4C46 /* CoreLocation.framework */,
 				C0FB48D5160FC49C00074363 /* FacebookSDK.framework */,
 				C0ECB16A160C1E37005D6AA3 /* Foundation.framework */,
 				C0FB48D7160FD99300074363 /* libFlurry.a */,
 				C0ECB1A5160D8BFC005D6AA3 /* libsqlite3.dylib */,
+				C07350011617F65F008F4C46 /* Parse.framework */,
+				C07350161618281F008F4C46 /* Security.framework */,
 				C0ECB192160C25F5005D6AA3 /* Social.framework */,
 				C0FB48E7160FEC4600074363 /* SystemConfiguration.framework */,
 				C0ECB168160C1E37005D6AA3 /* UIKit.framework */,
@@ -117,9 +265,9 @@
 				C0ECB1A4160D825B005D6AA3 /* LoginViewController.h */,
 				C0ECB184160C1E37005D6AA3 /* LoginViewController.m */,
 				C0ECB180160C1E37005D6AA3 /* MainStoryboard.storyboard */,
-				C0ECB16F160C1E37005D6AA3 /* Supporting Files */,
 				C0ECB18B160C2156005D6AA3 /* PostReviewViewController.h */,
 				C0ECB18C160C2156005D6AA3 /* PostReviewViewController.m */,
+				C0ECB16F160C1E37005D6AA3 /* Supporting Files */,
 			);
 			path = kikback;
 			sourceTree = "<group>";
@@ -127,6 +275,7 @@
 		C0ECB16F160C1E37005D6AA3 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C0DA3E04161181BC00EB08FF /* login.png */,
 				C0FB48CD160FC41D00074363 /* splash_320x480.png */,
 				C0ECB1A7160D91F5005D6AA3 /* morning_320x480.png */,
 				C0ECB170160C1E37005D6AA3 /* kikback-Info.plist */,
@@ -207,6 +356,7 @@
 				C0ECB182160C1E37005D6AA3 /* MainStoryboard.storyboard in Resources */,
 				C0ECB1A8160D91F5005D6AA3 /* morning_320x480.png in Resources */,
 				C0FB48CE160FC41D00074363 /* splash_320x480.png in Resources */,
+				C0DA3E05161181BC00EB08FF /* login.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,6 +371,22 @@
 				C0ECB179160C1E37005D6AA3 /* AppDelegate.m in Sources */,
 				C0ECB185160C1E37005D6AA3 /* LoginViewController.m in Sources */,
 				C0ECB18D160C2156005D6AA3 /* PostReviewViewController.m in Sources */,
+				C073503816182B99008F4C46 /* NSObject+SBJson.m in Sources */,
+				C073503916182B99008F4C46 /* SBJsonParser.m in Sources */,
+				C073503A16182B99008F4C46 /* SBJsonStreamParser.m in Sources */,
+				C073503B16182B99008F4C46 /* SBJsonStreamParserAccumulator.m in Sources */,
+				C073503C16182B99008F4C46 /* SBJsonStreamParserAdapter.m in Sources */,
+				C073503D16182B99008F4C46 /* SBJsonStreamParserState.m in Sources */,
+				C073503E16182B99008F4C46 /* SBJsonStreamWriter.m in Sources */,
+				C073503F16182B99008F4C46 /* SBJsonStreamWriterAccumulator.m in Sources */,
+				C073504016182B99008F4C46 /* SBJsonStreamWriterState.m in Sources */,
+				C073504116182B99008F4C46 /* SBJsonTokeniser.m in Sources */,
+				C073504216182B99008F4C46 /* SBJsonUTF8Stream.m in Sources */,
+				C073504316182B99008F4C46 /* SBJsonWriter.m in Sources */,
+				C0735047161970C9008F4C46 /* FBUserInfo.m in Sources */,
+				C073504A161970F6008F4C46 /* FBQuery.m in Sources */,
+				C073504E16197DB1008F4C46 /* FacebookSerialization.m in Sources */,
+				C079DCF6162154B200C50797 /* Hash.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,6 +467,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../Documents/FacebookSDK\"",
+					"\"$(SRCROOT)/../../../../Documents/ParseSDK\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "kikback/kikback-Prefix.pch";
@@ -320,6 +487,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../Documents/FacebookSDK\"",
+					"\"$(SRCROOT)/../../../../Documents/ParseSDK\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "kikback/kikback-Prefix.pch";

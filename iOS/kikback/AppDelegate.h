@@ -8,17 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import <FacebookSDK/FacebookSDK.h>
-#import <FacebookSDK/FBTestSession.h>
 
+@class FBUserInfo;
 @class LoginViewController;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>{
   UIImageView* splash;
+  FBUserInfo* userInfo;
 }
-
--(NSArray*)FBPermissions;
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) FBSession *session;
+@property (strong, nonatomic) FBUserInfo* userInfo;
 
 @end

@@ -60,15 +60,40 @@
   [connection addRequest:request completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
     if(error == nil){
       UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"KikBak" message:@"Thanks for sharing" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+      [Flurry logEvent:@"ShareEvent" timed:YES];
       [alert show];
-      self.submit.enabled = YES;
     }
+    else{
+      [Flurry logEvent:@"FailedShareEvent" timed:YES];
+      NSLog(@"Submit Error: %@", error);
+    }
+    self.submit.enabled = YES;
   }];
   
 
   [connection start];
+}
+
+- (IBAction)chooseLocation:(id)sender {
+  FBPlacePickerViewController *placePickerController = [[FBPlacePickerViewController alloc] init];
+  placePickerController.title = @"Pick a Seattle Place";
+  placePickerController.locationCoordinate = CLLocationCoordinate2DMake(47.6097, -122.3331);
+  [placePickerController loadData];
   
-  [Flurry logEvent:@"ShareExperienceEvent" timed:YES];
+  // Use the modal wrapper method to display the picker.
+  [placePickerController presentModallyFromViewController:self animated:YES handler:
+   ^(FBViewController *sender, BOOL donePressed) {
+     if (!donePressed) {
+       return;
+     }
+     
+     [[[UIAlertView alloc] initWithTitle:@"You Picked:"
+                                 message:placePickerController.selection.name
+                                delegate:nil
+                       cancelButtonTitle:@"OK"
+                       otherButtonTitles:nil]
+      show];
+   }];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -79,7 +104,7 @@
       picker.sourceType = UIImagePickerControllerSourceTypeCamera;
       picker.delegate = self;
       
-      [Flurry logEvent:@"TakePhotoEvent" timed:YES];
+      [Flurry logEvent:@"PhotoEvent" timed:YES];
       
       [self presentViewController:picker animated:YES completion:nil];
     }
