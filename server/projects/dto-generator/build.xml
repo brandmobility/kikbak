@@ -1,0 +1,61 @@
+<project name="generateHibernate" basedir="." default="build"> 
+<!-- the following data are assumed to be defined by
+    build scripts that import this build script:
+
+    properties:
+    src.dir
+    testsrc.dir
+    target.name
+    module.name
+
+    path:
+    extra.classpath
+-->
+
+  <import file="../ant/build.xml"/>
+  
+  <property name="src.dir" value="${basedir}/src"/>
+  <property name="testsrc.dir" value="${basedir}/testsrc"/>
+  <property name="module.name" value="dto-generator"/>
+  <property name="target.name" value="${module.name}.jar"/>
+
+  <path id="included_files">
+    <fileset dir="${basedir}" includes="log4j.properties"/>
+  </path>
+
+	
+  <target name="copy-templates" extensionOf="pre-build">
+    <mkdir dir="${dist.dir}/templates" />
+    <copy todir="${dist.dir}/templates">
+      <fileset dir="${basedir}/templates" includes="**/*"/>
+    </copy>
+  </target>
+
+	
+  <target name="generate-dto" depends="init-dependencies,build" description="Generate Hibernate Classes">
+    <echo>The library dir used for generateHibernate is ${lib.dir}</echo>
+    <echo>generateHibernate.src.dir=${generateHibernate.src.dir}</echo>
+    <echo>generateHibernate.reveng=${generateHibernate.reveng}</echo>
+    <echo>generateHibernate.config=${generateHibernate.config}</echo>
+    <echo>generateHibernate.package=${generateHibernate.package}</echo>
+    <taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask">
+      <classpath>
+        <pathelement path="${dist.dir}/templates"/>
+        <fileset dir="${lib.dir}">
+          <include name="**/*.jar"/>
+        </fileset>
+        <fileset file="${dist.dir}/generateHibernate.jar" />
+      </classpath>
+    </taskdef>
+
+    <hibernatetool destdir="${generateHibernate.src.dir}">
+      <jdbcconfiguration packagename="${generateHibernate.package}" 
+                         revengfile="${generateHibernate.reveng}" 
+                         reversestrategy="com.tango.hibernate.cfg.reveng.TangoReverseEngineeringStrategy"
+                         detectmanytomany="true"
+                         detectoptimisticlock="true"
+                         configurationfile="${generateHibernate.config}"/>
+      <hbm2java jdk5="true" ejb3="true"/>
+    </hibernatetool>
+  </target>
+</project>

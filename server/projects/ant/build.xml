@@ -1,0 +1,85 @@
+<project name="Kikbak-Main" basedir="." >
+	
+	<property name="patcher.dir" value="./patcher"/>
+	<property name="build.dir" value="${user.dir}/build"/>
+	<property name="external.lib.dir" value="${user.dir}/../external/libs"/>
+		
+	<target name="init-dependencies">
+	    <echo message="init: ${module.name}" />
+
+	    <!-- setup properties that depend on properties that should be defined in build scripts that import this one -->
+	    <property name="compile.args" value="-Xlint:all -Xlint:-serial -Xlint:-path -Werror -encoding utf-8"/>
+	
+	    
+	    <!-- base folders under TARGET in which build droppings live -->
+	    <property name="dist.dir" location="${build.dir}/${module.name}" />
+	
+	    <!-- this is the location of the intermediate bits generated during a build -->
+	    <property name="bin.dir.name" value="bin"/>
+	    <property name="bin.dir" value="${dist.dir}/${bin.dir.name}"/>
+	
+
+	    <!-- this is the final location of generated src by the build -->
+	    <property name="generated.src.dir" value="${dist.dir}/generatedsrc" />
+	
+	    <!-- this is the location of the JUnit reports -->
+	    <property name="reports.dir.name" value="reports"/>
+	    <property name="reports.dir" value="${dist.dir}/${reports.dir.name}"/>
+	    <property name="reports.url" location="${reports.dir}/html/index.html" />
+	
+	    <!-- No main class if none is specified by the importing build file -->
+	    <property name="module.main" value="" />
+	    <path id="lib.classpath">
+	        <fileset dir="${lib.dir}">
+	            <include name="**/*.jar" />
+	        </fileset>
+	    </path>
+	    <path id="project.classpath">
+	        <pathelement location="${bin.dir}" />
+	        <pathelement location="${bin.dir}/${classes.dir}" />
+	        <path refid="lib.classpath" />
+	    </path>
+	
+	    <!-- External command -->
+	    <property name="skip.dependencies" value="${skip.package}"/>
+	</target>
+
+	<target name="link-lib-dir">
+		<echo>********** symlink lib dir: ${lib.dir}</echo>
+		<symlink link="${lib.dir}" resource="${external.lib.dir}" overwrite="true"/>
+	</target>
+
+	<target name="create-module-dir">
+		<mkdir dir="${classes.dir}"/>
+	</target>
+
+    <path id="classpath">
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+    </path>
+
+    <target name="compile" depends="init-dependencies,create-module-dir,link-lib-dir">
+		<!-- get the source compile classpath in a printable form -->
+<pathconvert pathsep="${line.separator}|   |-- "
+             property="echo.path.compile"
+             refid="classpath">
+</pathconvert>
+<echo message="|-- compile classpath"/>
+<echo message="|   |"/>
+<echo message="|   |-- ${echo.path.compile}"/>
+
+		<!--<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath"/>-->
+    </target>
+
+    <target name="build" depends="compile, pre-build">
+        <mkdir dir="${jar.dir}"/>
+        <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${main-class}"/>
+            </manifest>
+        </jar>
+    </target>
+
+	<extension-point name="pre-build"/>
+
+</project>
+

@@ -1,0 +1,117 @@
+<project name="db-patcher" basedir="." default="create-patcher">
+
+	<property name="patcher.main" value="com.kikbak.Patcher" />
+
+	<target name="init-patcher-properties" depends="init-dependencies">
+		<property name="hibernate-tools.dir" value="$./generateHibernate" />
+		<property name="patcher.dir" value="./patcher" />
+		<property name="patcher.target.dir" value="${build.dir}/patcher" />
+		<property name="patcher.name" value="patcher-${module.name}" />
+		<property name="module.patcher.dir" value="${dist.dir}/${patcher.name}" />
+		<property name="patch.modules" value="" />
+	</target>
+
+	<target name="build-patcher-common" depends="init-patcher-properties">
+		<ant dir="${patcher.dir}" target="package" inheritAll="false" inheritRefs="false" useNativeBasedir="true" />
+	</target>
+
+	<target name="create-patcher" extensionOf="pre-compile-ext" depends="init-patcher-properties" >
+
+		<echo message="Creating patcher: ${patcher.name} in ${module.patcher.dir}" />
+
+		<!-- Build common patcher -->
+		<antcall target="build-patcher-common" />
+
+		<!-- Create patcher dir in modules target directory -->
+		<mkdir dir="${module.patcher.dir}" />
+		<mkdir dir="${module.patcher.dir}/libs" />
+		<mkdir dir="${module.patcher.dir}/META-INF" />
+		<mkdir dir="${module.patcher.dir}/bin" />
+		<mkdir dir="${module.patcher.dir}/bin/patches" />
+
+		<!-- Copy common patches items and patches dir-->
+		<copy todir="${module.patcher.dir}">
+			<fileset file="${patcher.target.dir}/patcher.sh" />
+		</copy>
+		<copy todir="${module.patcher.dir}/libs">
+			<fileset dir="${patcher.target.dir}/libs" />
+		</copy>
+		<copy todir="${module.patcher.dir}/META-INF">
+			<fileset dir="${patcher.target.dir}/META-INF" />
+		</copy>
+		<copy todir="${module.patcher.dir}/bin">
+			<fileset dir="${patcher.target.dir}/bin" excludes="META-INF/*" />
+		</copy>
+		<copy todir="${module.patcher.dir}/bin/patches">
+			<fileset dir="${patches.dir}">
+				<include name="**/*.sql" />
+			</fileset>
+		</copy>
+
+		<!-- Jar up new patcher -->
+		<jar destfile="${module.patcher.dir}/patcher.jar" basedir="${module.patcher.dir}/bin" />
+
+		<!-- Create configuration file using template and provided values -->
+		<exec executable="${patcher.dir}/create_local_properties.sh">
+			<arg value="${patcher.dir}/META-INF/local.properties" />
+			<arg value="${module.database}" />
+			<arg value="${module.patcher.dir}/META-INF/local.properties" />
+			<arg value="${patch.modules}" />
+		</exec>
+	</target>
+
+	<!-- Drop and re-create the database -->
+	<target name="restore-db" >
+		<exec executable="mysql">
+			<arg value="-u" />
+			<arg value="root" />
+			<arg value="-proot" />
+			<arg value="-e" />
+			<arg value="drop database if exists ${module.database}; create database ${module.database}" />
+		</exec>
+	</target>
+
+	<!-- Autopatch the DB -->
+	<target name="autopatch" depends="restore-db,init-patcher-properties" if="should-create-patcher">
+		<echo message="patching the DB" />
+		<java classname="${patcher.module.main}" dir="${module.patcher.dir}" fork="true" maxmemory="1500m" failonerror="true">
+			<classpath>
+				<fileset dir="${module.patcher.dir}/lib">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset file="${module.patcher.dir}/patcher.jar" />
+				<pathelement path="${module.patcher.dir}" />
+			</classpath>
+		</java>
+	</target>
+
+	<target name="check-generate-dto">
+		<condition property="should-generate-dto">
+			<and>
+				<isset property="dto.package.name" />
+				<isset property="hibernate.reveng" />
+				<isset property="hibernate.config" />
+			</and>
+		</condition>
+	</target>
+
+	
+	<target name="run-autopatch">
+		<antcall target="autopatch" />
+		<touch file="${patcher.build.stamp}" />
+	</target>
+
+	<!-- Generate the DTOs by reverse engineering what's currently in the DB -->
+	<target name="generate-dto" extensionOf="pre-compile-ext" depends="check-generate-dto,run-autopatch" if="should-generate-dto" unless="uptodate">
+		<ant dir="${hibernate-tools.dir}" antfile="build.xml" target="generateHibernate" inheritAll="false">
+			<property name="generateHibernate.src.dir" value="${generated.src.dir}" />
+			<property name="generateHibernate.reveng" value="${hibernate.reveng}" />
+			<property name="generateHibernate.config" value="${hibernate.config}" />
+			<property name="generateHibernate.package" value="${dto.package.name}" />
+		</ant>
+	</target>
+
+	
+
+</project>
+

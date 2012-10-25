@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <type-mapping>
+    <sql-type jdbc-type="VARCHAR" hibernate-type="string" length="250" not-null="true">
+    </sql-type>
+    <sql-type jdbc-type="LONGVARCHAR" hibernate-type="string" length="65535" not-null="true">
+    </sql-type>
+  </type-mapping>
+
+  <table catalog="kikbak" name="USERS">
+    <primary-key>
+      <generator class="identity" />
+    </primary-key>
+  </table>
+  
+  <table catalog="kikbak" name="BRANCH">
+    <primary-key>
+      <generator class="identity" />
+    </primary-key>
+  </table>
+
+  <table catalog="kikbak" name="FRIEND">
+    <primary-key>
+      <generator class="identity" />
+    </primary-key>
+  </table>
+
+  <table catalog="kikbak" name="KIKBAK">
+    <primary-key>
+      <generator class="identity" />
+    </primary-key>
+  </table>
+
+  <table catalog="kikbak" name="MERCHANT">
+    <primary-key>
+      <generator class="identity" />
+    </primary-key>
+  </table>
+  
+  <table catalog="kikbak" name="REWARD">
+    <primary-key>
+      <generator class="identity" />
+    </primary-key>
+  </table>
+
+  <table catalog="kikbak" name="REWARDMULTIPLIER">
+    <primary-key>
+      <generator class="identity" />
+    </primary-key>
+  </table>
+
+  <table catalog="kikbak" name="SHARING">
+    <primary-key>
+      <generator class="identity" />
+    </primary-key>
+  </table>
+  
+</hibernate-reverse-engineering>
+  
+  
