@@ -45,7 +45,6 @@
 	</target>
 
 	<target name="link-lib-dir">
-		<echo>********** symlink lib dir: ${lib.dir}</echo>
 		<symlink link="${lib.dir}" resource="${external.lib.dir}" overwrite="true"/>
 	</target>
 
@@ -53,21 +52,8 @@
 		<mkdir dir="${classes.dir}"/>
 	</target>
 
-    <path id="classpath">
-        <fileset dir="${lib.dir}" includes="**/*.jar"/>
-    </path>
-
     <target name="compile" depends="init-dependencies,create-module-dir,link-lib-dir">
-		<!-- get the source compile classpath in a printable form -->
-<pathconvert pathsep="${line.separator}|   |-- "
-             property="echo.path.compile"
-             refid="classpath">
-</pathconvert>
-<echo message="|-- compile classpath"/>
-<echo message="|   |"/>
-<echo message="|   |-- ${echo.path.compile}"/>
-
-		<!--<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath"/>-->
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="lib.classpath"/>
     </target>
 
     <target name="build" depends="compile, pre-build">

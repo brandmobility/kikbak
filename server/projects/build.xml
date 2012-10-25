@@ -1,2 +1,17 @@
+<project name="Kikbak-Server" basedir="." default="build-all">
+	
+	<import file="./ant/build.xml" />
+	
+	<target name="build-all">
+		<ant dir="patcher"/>
+		<!--<ant dir="dto-generator"/>-->
+	</target>
+	
+	<target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
 
+	<target name="clean-build" depends="clean,build-all"/>
+	
+</project>
 
