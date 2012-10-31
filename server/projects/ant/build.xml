@@ -1,16 +1,22 @@
 <project name="Kikbak-Main" basedir="." >
 	
-	<property name="patcher.dir" value="./patcher"/>
+	<import file="./build.patcher.xml" />
+	
 	<property name="build.dir" value="${user.dir}/build"/>
 	<property name="external.lib.dir" value="${user.dir}/../external/libs"/>
+	
+	<path id="files_to_copy" />
 		
 	<target name="init-dependencies">
 	    <echo message="init: ${module.name}" />
+		<echo>exnternal lib dir: "${external.lib.dir}" </echo>
 
 	    <!-- setup properties that depend on properties that should be defined in build scripts that import this one -->
 	    <property name="compile.args" value="-Xlint:all -Xlint:-serial -Xlint:-path -Werror -encoding utf-8"/>
 	
+		<property name="classes.dir" value="${build.dir}/${module.name}/classes"/>
 	    
+
 	    <!-- base folders under TARGET in which build droppings live -->
 	    <property name="dist.dir" location="${build.dir}/${module.name}" />
 	
@@ -44,28 +50,40 @@
 	    <property name="skip.dependencies" value="${skip.package}"/>
 	</target>
 
-	<target name="link-lib-dir">
-		<symlink link="${lib.dir}" resource="${external.lib.dir}" overwrite="true"/>
+   <target name="check-create-lib-dir-symlink">
+        <condition property="should-create-lib-dir-symlink">
+            <isset property="lib.dir" />
+        </condition>
+    </target>
+	
+	<target name="link-lib-dir" depends="check-create-lib-dir-symlink" if="${should-create-lib-dir-symlink}"> 
+		<property name="build.lib.dir" value="${build.dir}/${module.name}/${lib.dir}"/>
+		<symlink link="${build.lib.dir}" resource="${external.lib.dir}" overwrite="true"/>
 	</target>
 
 	<target name="create-module-dir">
 		<mkdir dir="${classes.dir}"/>
 	</target>
 
-    <target name="compile" depends="init-dependencies,create-module-dir,link-lib-dir">
-		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="lib.classpath"/>
+    <target name="compile" depends="init-dependencies,pre-compile-ext,create-module-dir,link-lib-dir">
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="lib.classpath" includeantruntime="false"/>
     </target>
 
-    <target name="build" depends="compile, pre-build">
-        <mkdir dir="${jar.dir}"/>
-        <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
+    <target name="build" depends="compile, pre-build-ext">
+        <mkdir dir="${bin.dir}"/>
+        <jar destfile="${bin.dir}/${archive.name}" basedir="${classes.dir}">
             <manifest>
                 <attribute name="Main-Class" value="${main-class}"/>
             </manifest>
         </jar>
+    	<copy todir="${dist.dir}">
+            <path refid="files_to_copy" />
+        </copy>
     </target>
 
-	<extension-point name="pre-build"/>
+	<!-- extension points -->
+	<extension-point name="pre-build-ext"/>
+	<extension-point name="pre-compile-ext"/>
 
 </project>
 

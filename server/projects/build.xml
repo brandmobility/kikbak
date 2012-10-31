@@ -3,12 +3,15 @@
 	<import file="./ant/build.xml" />
 	
 	<target name="build-all">
-		<ant dir="patcher"/>
-		<!--<ant dir="dto-generator"/>-->
+		<!--<ant dir="patcher"/>-->
+		<ant dir="dto-generator"/>
+		<ant dir="kikbak"/>
 	</target>
 	
 	<target name="clean">
-        <delete dir="${build.dir}"/>
+		<symlink action="delete" link="./build/patcher/lib"/>
+		<symlink action="delete" link="./build/dto-generator/lib"/>
+		<delete dir="${build.dir}"/>
     </target>
 
 	<target name="clean-build" depends="clean,build-all"/>

@@ -1,21 +1,40 @@
 <project name="db-patcher" basedir="." default="create-patcher">
 
-	<property name="patcher.main" value="com.kikbak.Patcher" />
+	<property name="patcher.main" value="com.kikbak.patcher.Patcher" />
 
 	<target name="init-patcher-properties" depends="init-dependencies">
-		<property name="hibernate-tools.dir" value="$./generateHibernate" />
-		<property name="patcher.dir" value="./patcher" />
-		<property name="patcher.target.dir" value="${build.dir}/patcher" />
+		<property name="hibernate-tools.dir" value="$../dto-generator" />
+		<property name="patcher.dir" value="../patcher" />
+		<property name="patcher.target.dir" value="${user.dir}/patcher" />
 		<property name="patcher.name" value="patcher-${module.name}" />
 		<property name="module.patcher.dir" value="${dist.dir}/${patcher.name}" />
 		<property name="patch.modules" value="" />
+		<echo>patcher target dir ${patcher.target.dir}</echo>
 	</target>
 
 	<target name="build-patcher-common" depends="init-patcher-properties">
-		<ant dir="${patcher.dir}" target="package" inheritAll="false" inheritRefs="false" useNativeBasedir="true" />
+		<echo>patcher dir ${patcher.dir}</echo>
+		<ant dir="${patcher.dir}" target="build" inheritAll="false" inheritRefs="false" useNativeBasedir="true" />
 	</target>
 
-	<target name="create-patcher" extensionOf="pre-compile-ext" depends="init-patcher-properties" >
+	<target name="check-create-patcher">
+		<condition property="should-create-patcher">
+			<and>
+				<isset property="patches.dir" />
+				<isset property="module.database" />
+			</and>
+		</condition>
+	</target>
+
+	<!-- Copies the data dir if specified -->
+	<target name="copy-data-dir" if="patcher.data.dir">
+		<mkdir dir="${module.patcher.dir}/data" />
+		<copy todir="${module.patcher.dir}/data">
+			<fileset dir="${patcher.data.dir}" />
+		</copy>
+	</target>
+
+	<target name="create-patcher" extensionOf="pre-compile-ext" depends="init-patcher-properties,check-create-patcher,copy-data-dir" if="should-create-patcher">
 
 		<echo message="Creating patcher: ${patcher.name} in ${module.patcher.dir}" />
 
@@ -24,7 +43,7 @@
 
 		<!-- Create patcher dir in modules target directory -->
 		<mkdir dir="${module.patcher.dir}" />
-		<mkdir dir="${module.patcher.dir}/libs" />
+		<mkdir dir="${module.patcher.dir}/lib" />
 		<mkdir dir="${module.patcher.dir}/META-INF" />
 		<mkdir dir="${module.patcher.dir}/bin" />
 		<mkdir dir="${module.patcher.dir}/bin/patches" />
@@ -33,8 +52,8 @@
 		<copy todir="${module.patcher.dir}">
 			<fileset file="${patcher.target.dir}/patcher.sh" />
 		</copy>
-		<copy todir="${module.patcher.dir}/libs">
-			<fileset dir="${patcher.target.dir}/libs" />
+		<copy todir="${module.patcher.dir}/lib">
+			<fileset dir="${patcher.target.dir}/lib" />
 		</copy>
 		<copy todir="${module.patcher.dir}/META-INF">
 			<fileset dir="${patcher.target.dir}/META-INF" />
@@ -61,7 +80,8 @@
 	</target>
 
 	<!-- Drop and re-create the database -->
-	<target name="restore-db" >
+	<target name="restore-db" if="should-create-patcher">
+		<echo message="restore db: ${module.database}"/>
 		<exec executable="mysql">
 			<arg value="-u" />
 			<arg value="root" />
@@ -74,7 +94,8 @@
 	<!-- Autopatch the DB -->
 	<target name="autopatch" depends="restore-db,init-patcher-properties" if="should-create-patcher">
 		<echo message="patching the DB" />
-		<java classname="${patcher.module.main}" dir="${module.patcher.dir}" fork="true" maxmemory="1500m" failonerror="true">
+		<echo message="${module.patcher.dir}"/>
+		<java classname="${patcher.main}" dir="${module.patcher.dir}" fork="true" maxmemory="1500m" failonerror="true">
 			<classpath>
 				<fileset dir="${module.patcher.dir}/lib">
 					<include name="**/*.jar" />
@@ -93,17 +114,18 @@
 				<isset property="hibernate.config" />
 			</and>
 		</condition>
+		
+		
 	</target>
 
 	
-	<target name="run-autopatch">
+	<target name="run-autopatch" if="should-create-patcher">
 		<antcall target="autopatch" />
-		<touch file="${patcher.build.stamp}" />
 	</target>
 
 	<!-- Generate the DTOs by reverse engineering what's currently in the DB -->
-	<target name="generate-dto" extensionOf="pre-compile-ext" depends="check-generate-dto,run-autopatch" if="should-generate-dto" unless="uptodate">
-		<ant dir="${hibernate-tools.dir}" antfile="build.xml" target="generateHibernate" inheritAll="false">
+	<target name="generate-dto" extensionOf="pre-compile-ext" depends="check-generate-dto,run-autopatch" if="should-generate-dto" >
+		<ant dir="${hibernate-tools.dir}" antfile="build.xml" target="dto-generator" inheritAll="false">
 			<property name="generateHibernate.src.dir" value="${generated.src.dir}" />
 			<property name="generateHibernate.reveng" value="${hibernate.reveng}" />
 			<property name="generateHibernate.config" value="${hibernate.config}" />

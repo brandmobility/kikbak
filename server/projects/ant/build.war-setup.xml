@@ -1,0 +1,17 @@
+<project name="WAR-Setup" basedir=".">
+	<!-- the following data are assumed to be defined by 
+    build scripts that import this build script:
+
+    properties:
+-->
+	<import file="./build.xml" />
+
+	<property name="classes.dir" value="WEB-INF/classes" />
+	
+	<target name="copy-web-inf" extensionOf="pre-compile-ext">
+		<!-- copy WEB-INF to build directory -->
+		<copy todir="${bin.dir}/WEB-INF" failonerror="false">
+			<fileset dir="${web-inf.dir}" />
+		</copy>
+	</target>
+</project>

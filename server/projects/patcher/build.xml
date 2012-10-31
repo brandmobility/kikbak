@@ -2,11 +2,16 @@
 
 	<import file="../ant/build.xml" />
 	
+	<path id="files_to_copy">
+	    <fileset dir="${basedir}" includes="META-INF/*"/>
+	    <fileset dir="${basedir}" includes="data/**/*"/>
+	    <fileset dir="${basedir}" includes="autopatch.sh"/>
+	</path>
+	
     <property name="src.dir"     value="src"/>
-
 	<property name="module.name" value="patcher"/>
-    <property name="classes.dir" value="${build.dir}/${module.name}/classes"/>
-    <property name="jar.dir"     value="${build.dir}/${module.name}/jar"/>
-    <property name="lib.dir"     value="${build.dir}/${module.name}/lib"/>
+	<property name="lib.dir" value="./lib"/>	
+	<property name="archive.name" value="${module.name}.jar"/>
+    
 
 </project>
