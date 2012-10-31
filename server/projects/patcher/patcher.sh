@@ -20,14 +20,14 @@ ROOT_DIR=`pwd`
 CONFIG_FILE="META-INF/local.properties"
 
 function patch {
-echo "Running database autopatch..."
+echo "Running database patcher..."
 pushd ${ROOT_DIR}
 
 THIRDPARTY=${ABS_SCRIPT_DIR}/lib/*
 PATCHER_JAR=${ABS_SCRIPT_DIR}/patcher.jar
 CLASSPATH="${PATCHER_JAR}:${THIRDPARTY}"
 
-java -server -ea -Xmx2000M -cp ${CLASSPATH} com.tango.service.Patcher ${CONFIG_FILE}
+java -server -ea -Xmx2000M -cp ${CLASSPATH} com.kikbak.patcher.Patcher ${CONFIG_FILE}
 err=$?
 
 if [ $err -ne 0 ]; then

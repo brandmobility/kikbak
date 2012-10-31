@@ -35,7 +35,7 @@
         <hibernatetool destdir="${generateHibernate.src.dir}">
           <jdbcconfiguration packagename="${generateHibernate.package}" 
                              revengfile="${generateHibernate.reveng}" 
-                             reversestrategy="com.tango.hibernate.cfg.reveng.TangoReverseEngineeringStrategy"
+                             reversestrategy="com.kikbak.hibernate.cfg.reveng.KikbakReverseEngineeringStrategy"
                              detectmanytomany="true"
                              detectoptimisticlock="true"
                              configurationfile="${generateHibernate.config}"/>

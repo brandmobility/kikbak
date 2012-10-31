@@ -21,6 +21,6 @@
     <property name="dto.package.name" value="com.kikbak.dto" />
     <property name="hibernate.reveng" value="${hibernate.reveng}" />
     <property name="hibernate.config" value="${hibernate.config}" />
-    <property name="patch.modules" value="kikbak" />
+    <!--<property name="patch.modules" value="kikbak" /> -->
 	
 </project>

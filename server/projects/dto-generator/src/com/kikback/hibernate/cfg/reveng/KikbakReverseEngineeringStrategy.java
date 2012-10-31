@@ -18,7 +18,7 @@ public class KikbakReverseEngineeringStrategy extends DelegatingReverseEngineeri
 
     // Add signature
     MetaAttribute classDesc = new MetaAttribute("class-description");
-    classDesc.addValue("Generated using TangoReverseEngineeringStrategy");
+    classDesc.addValue("Generated using KikbakReverseEngineeringStrategy");
     metaAttributes.put("class-description", classDesc);
 
     return metaAttributes;
