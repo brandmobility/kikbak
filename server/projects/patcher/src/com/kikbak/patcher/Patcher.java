@@ -1,7 +1,6 @@
 package com.kikbak.patcher;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Properties;
 
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;

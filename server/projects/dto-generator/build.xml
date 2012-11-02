@@ -4,9 +4,13 @@
       
     <property name="src.dir" value="${basedir}/src"/>
     <property name="testsrc.dir" value="${basedir}/testsrc"/>
-    <property name="lib.dir" value="./lib"/>
     <property name="module.name" value="dto-generator"/>
     <property name="archive.name" value="${module.name}.jar"/>
+	
+	
+	<path id="files_to_copy">
+        <fileset dir="${basedir}" includes="lib/*"/>
+    </path>
 	
     <target name="copy-templates" extensionOf="pre-build-ext">
         <mkdir dir="${dist.dir}/templates" />
@@ -17,28 +21,29 @@
 
 	
     <target name="dto-generator" depends="init-dependencies,build" description="Generate Hibernate Classes">
-        <echo>The library dir used for generateHibernate is ${lib.dir}</echo>
-        <echo>generateHibernate.src.dir=${generateHibernate.src.dir}</echo>
-        <echo>generateHibernate.reveng=${generateHibernate.reveng}</echo>
-        <echo>generateHibernate.config=${generateHibernate.config}</echo>
-        <echo>generateHibernate.package=${generateHibernate.package}</echo>
+    	<echo>The library dir used for dto-generator is ${lib.dir}</echo>
+    	<echo>Jar for dto-generator is ${dist.dir}/dto-generator.jar</echo>
+        <echo>dto-generator.src.dir=${dto-generator.src.dir}</echo>
+        <echo>dto-generator.reveng=${dto-generator.reveng}</echo>
+        <echo>dto-generator.config=${dto-generator.config}</echo>
+        <echo>dto-generator.package=${dto-generator.package}</echo>
         <taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask">
             <classpath>
                 <pathelement path="${dist.dir}/templates"/>
                 <fileset dir="${lib.dir}">
                     <include name="**/*.jar"/>
                 </fileset>
-                <fileset file="${dist.dir}/generateHibernate.jar" />
+                <fileset file="${dist.dir}/dto-generator.jar" />
             </classpath>
         </taskdef>
 
-        <hibernatetool destdir="${generateHibernate.src.dir}">
-          <jdbcconfiguration packagename="${generateHibernate.package}" 
-                             revengfile="${generateHibernate.reveng}" 
+        <hibernatetool destdir="${dto-generator.src.dir}">
+          <jdbcconfiguration packagename="${dto-generator.package}" 
+                             revengfile="${dto-generator.reveng}" 
                              reversestrategy="com.kikbak.hibernate.cfg.reveng.KikbakReverseEngineeringStrategy"
                              detectmanytomany="true"
                              detectoptimisticlock="true"
-                             configurationfile="${generateHibernate.config}"/>
+                             configurationfile="${dto-generator.config}"/>
           <hbm2java jdk5="true" ejb3="true"/>
         </hibernatetool>
     </target>

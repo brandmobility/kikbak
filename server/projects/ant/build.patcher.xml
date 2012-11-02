@@ -3,7 +3,7 @@
 	<property name="patcher.main" value="com.kikbak.patcher.Patcher" />
 
 	<target name="init-patcher-properties" depends="init-dependencies">
-		<property name="hibernate-tools.dir" value="$../dto-generator" />
+		<property name="dto.generator.dir" value="${user.dir}/dto-generator" />
 		<property name="patcher.dir" value="../patcher" />
 		<property name="patcher.target.dir" value="${user.dir}/patcher" />
 		<property name="patcher.name" value="patcher-${module.name}" />
@@ -125,11 +125,11 @@
 
 	<!-- Generate the DTOs by reverse engineering what's currently in the DB -->
 	<target name="generate-dto" extensionOf="pre-compile-ext" depends="check-generate-dto,run-autopatch" if="should-generate-dto" >
-		<ant dir="${hibernate-tools.dir}" antfile="build.xml" target="dto-generator" inheritAll="false">
-			<property name="generateHibernate.src.dir" value="${generated.src.dir}" />
-			<property name="generateHibernate.reveng" value="${hibernate.reveng}" />
-			<property name="generateHibernate.config" value="${hibernate.config}" />
-			<property name="generateHibernate.package" value="${dto.package.name}" />
+		<ant dir="${dto.generator.dir}" antfile="build.xml" target="dto-generator" inheritAll="false">
+			<property name="dto-generator.src.dir" value="${generated.src.dir}" />
+			<property name="dto-generator.reveng" value="${hibernate.reveng}" />
+			<property name="dto-generator.config" value="${hibernate.config}" />
+			<property name="dto-generator.package" value="${dto.package.name}" />
 		</ant>
 	</target>
 

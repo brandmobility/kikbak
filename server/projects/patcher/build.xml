@@ -6,11 +6,13 @@
 	    <fileset dir="${basedir}" includes="META-INF/*"/>
 	    <fileset dir="${basedir}" includes="data/**/*"/>
 	    <fileset dir="${basedir}" includes="autopatch.sh"/>
+	    <fileset dir="${basedir}" includes="lib/*"/>
 	</path>
+	    
 	
     <property name="src.dir"     value="src"/>
 	<property name="module.name" value="patcher"/>
-	<property name="lib.dir" value="./lib"/>	
+	<!--<property name="lib.dir" value="./lib"/> -->	
 	<property name="archive.name" value="${module.name}.jar"/>
     
 

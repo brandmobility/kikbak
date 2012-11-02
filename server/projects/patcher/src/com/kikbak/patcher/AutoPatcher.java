@@ -8,7 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import com.kikbak.db.AbstractDataSourceFactory;
 import com.kikbak.db.DBCPDataSourceFactory;
 import com.tacitknowledge.util.migration.MigrationException;
-import com.tacitknowledge.util.migration.MigrationTask;
+import com.tacitknowledge.util.migration.RollbackableMigrationTask;
 import com.tacitknowledge.util.migration.jdbc.DataSourceMigrationContext;
 import com.tacitknowledge.util.migration.jdbc.DatabaseType;
 import com.tacitknowledge.util.migration.jdbc.JdbcMigrationLauncher;
@@ -220,9 +220,9 @@ public class AutoPatcher {
         try {
             int prePatchLevel = launcher.getDatabasePatchLevel(context);
 
-            MigrationTask latestPatch = null;
-            List<MigrationTask> tasks = launcher.getMigrationProcess().getMigrationTasks();
-            for(MigrationTask patch : tasks) {
+            RollbackableMigrationTask latestPatch = null;
+            List<RollbackableMigrationTask> tasks = launcher.getMigrationProcess().getMigrationTasks();
+            for(RollbackableMigrationTask patch : tasks) {
                 if ( latestPatch == null ) {
                     latestPatch = patch;
                 }

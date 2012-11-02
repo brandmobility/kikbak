@@ -3,7 +3,7 @@
 	<import file="./build.patcher.xml" />
 	
 	<property name="build.dir" value="${user.dir}/build"/>
-	<property name="external.lib.dir" value="${user.dir}/../external/libs"/>
+	<!-- <property name="external.lib.dir" value="${user.dir}/../external/libs"/> -->
 	
 	<path id="files_to_copy" />
 		
@@ -14,16 +14,16 @@
 	    <!-- setup properties that depend on properties that should be defined in build scripts that import this one -->
 	    <property name="compile.args" value="-Xlint:all -Xlint:-serial -Xlint:-path -Werror -encoding utf-8"/>
 	
-		<property name="classes.dir" value="${build.dir}/${module.name}/classes"/>
-	    
-
-	    <!-- base folders under TARGET in which build droppings live -->
+		<!-- base folders under TARGET in which build droppings live -->
 	    <property name="dist.dir" location="${build.dir}/${module.name}" />
 	
 	    <!-- this is the location of the intermediate bits generated during a build -->
 	    <property name="bin.dir.name" value="bin"/>
 	    <property name="bin.dir" value="${dist.dir}/${bin.dir.name}"/>
 	
+		<property name="classes.dir" value="${bin.dir}"/>
+		<property name="lib.dir" value="${build.dir}/${module.name}/lib"/>
+		        
 
 	    <!-- this is the final location of generated src by the build -->
 	    <property name="generated.src.dir" value="${dist.dir}/generatedsrc" />
@@ -56,29 +56,34 @@
         </condition>
     </target>
 	
+	<!--
 	<target name="link-lib-dir" depends="check-create-lib-dir-symlink" if="${should-create-lib-dir-symlink}"> 
 		<property name="build.lib.dir" value="${build.dir}/${module.name}/${lib.dir}"/>
 		<symlink link="${build.lib.dir}" resource="${external.lib.dir}" overwrite="true"/>
 	</target>
-
-	<target name="create-module-dir">
+-->
+	
+	<target name="create-classes-dir">
 		<mkdir dir="${classes.dir}"/>
 	</target>
-
-    <target name="compile" depends="init-dependencies,pre-compile-ext,create-module-dir,link-lib-dir">
+	
+	<target name="copy-files">
+		<copy todir="${dist.dir}">
+            <path refid="files_to_copy" />
+        </copy>
+	</target>
+		
+    <target name="compile" depends="init-dependencies,pre-compile-ext,create-classes-dir, copy-files">
 		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="lib.classpath" includeantruntime="false"/>
     </target>
 
     <target name="build" depends="compile, pre-build-ext">
-        <mkdir dir="${bin.dir}"/>
-        <jar destfile="${bin.dir}/${archive.name}" basedir="${classes.dir}">
+        <mkdir dir="${dist.dir}"/>
+        <jar destfile="${dist.dir}/${archive.name}" basedir="${classes.dir}">
             <manifest>
                 <attribute name="Main-Class" value="${main-class}"/>
             </manifest>
         </jar>
-    	<copy todir="${dist.dir}">
-            <path refid="files_to_copy" />
-        </copy>
     </target>
 
 	<!-- extension points -->

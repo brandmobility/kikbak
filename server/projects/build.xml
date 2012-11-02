@@ -9,8 +9,6 @@
 	</target>
 	
 	<target name="clean">
-		<symlink action="delete" link="./build/patcher/lib"/>
-		<symlink action="delete" link="./build/dto-generator/lib"/>
 		<delete dir="${build.dir}"/>
     </target>
 
