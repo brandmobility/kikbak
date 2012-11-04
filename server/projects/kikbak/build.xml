@@ -8,6 +8,10 @@
   	<property name="archive.name" value="${module.name}.war"/>
 	<property name="web-inf.dir" value="${basedir}/WebContent/WEB-INF" />
 	
+	<!-- jaxb -->
+	<property name="schema.dir" value="${basedir}/schema"/>
+	<property name="module.jaxb.package" value="com.kikbak.jaxb"/>
+	
 	<!-- dto-generator -->
 	<property name="config.dir" value="${basedir}/config" />
 	<property name="config.hibernate.dir" value="${config.dir}/hibernate" />

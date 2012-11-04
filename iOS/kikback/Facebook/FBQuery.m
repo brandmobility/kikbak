@@ -11,7 +11,6 @@
 #import "AppDelegate.h"
 #import "SBJson.h"
 #import "FBUserInfo.h"
-#import "FacebookSerialization.h"
 #import "FBConstants.h"
 
 
@@ -57,7 +56,7 @@
     if(error == nil){
       AppDelegate* delegate =[UIApplication sharedApplication].delegate;
       delegate.userInfo.friends = result;
-      [FacebookSerialization persistFriends];
+      NSLog(@"****friends: %@", result);
       [Flurry logEvent:@"FriendRequestEvent" timed:YES];
     }
     else{
@@ -79,10 +78,10 @@
     if(error == nil){
       AppDelegate* delegate =[UIApplication sharedApplication].delegate;
       delegate.userInfo.me = result;
+      NSLog(@"****me: %@", result);
       NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
       [prefs setValue:[delegate.userInfo.me objectForKey:FBUSERID_KEY] forKeyPath:FBUSERID_KEY];
       [prefs synchronize];
-      [FacebookSerialization persistMe];
       [Flurry logEvent:@"MeRequestEvent" timed:YES];
       
       [FBQuery fbFriends];

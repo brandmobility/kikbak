@@ -7,9 +7,8 @@
 	
 	<path id="files_to_copy" />
 		
-	<target name="init-dependencies">
+	<target name="init">
 	    <echo message="init: ${module.name}" />
-		<echo>exnternal lib dir: "${external.lib.dir}" </echo>
 
 	    <!-- setup properties that depend on properties that should be defined in build scripts that import this one -->
 	    <property name="compile.args" value="-Xlint:all -Xlint:-serial -Xlint:-path -Werror -encoding utf-8"/>
@@ -56,12 +55,28 @@
         </condition>
     </target>
 	
-	<!--
-	<target name="link-lib-dir" depends="check-create-lib-dir-symlink" if="${should-create-lib-dir-symlink}"> 
-		<property name="build.lib.dir" value="${build.dir}/${module.name}/${lib.dir}"/>
-		<symlink link="${build.lib.dir}" resource="${external.lib.dir}" overwrite="true"/>
-	</target>
--->
+   <target name="-check-generate-jaxb">
+        <condition property="should-generate-jaxb">
+            <and>
+                <isset property="schema.dir"/>
+                <isset property="module.jaxb.package"/>
+                <not>
+                    <isset property="uptodate"/>
+                </not>
+            </and>
+        </condition>
+    </target>
+
+    <target name="generate-jaxb" depends="-check-generate-jaxb,init" if="should-generate-jaxb">
+        <apply executable="xjc">
+            <arg value="-d" />
+            <arg value="${generated.src.dir}" />
+            <arg value="-p" />
+            <arg value="${module.jaxb.package}" />
+            <fileset dir="${schema.dir}" includes="*.xsd" />
+        </apply>
+    </target>
+
 	
 	<target name="create-classes-dir">
 		<mkdir dir="${classes.dir}"/>
@@ -73,7 +88,7 @@
         </copy>
 	</target>
 		
-    <target name="compile" depends="init-dependencies,pre-compile-ext,create-classes-dir, copy-files">
+    <target name="compile" depends="init,pre-compile-ext,create-classes-dir,generate-jaxb,copy-files">
 		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="lib.classpath" includeantruntime="false"/>
     </target>
 

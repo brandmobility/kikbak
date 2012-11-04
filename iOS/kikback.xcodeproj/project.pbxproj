@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C07350021617F65F008F4C46 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07350011617F65F008F4C46 /* Parse.framework */; };
 		C073500D161813FB008F4C46 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C073500C161813FB008F4C46 /* CoreLocation.framework */; };
 		C07350131618278D008F4C46 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07350121618278D008F4C46 /* AudioToolbox.framework */; };
 		C0735015161827A0008F4C46 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0735014161827A0008F4C46 /* CFNetwork.framework */; };
@@ -27,7 +26,6 @@
 		C073504316182B99008F4C46 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = C073503716182B99008F4C46 /* SBJsonWriter.m */; };
 		C0735047161970C9008F4C46 /* FBUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = C0735046161970C9008F4C46 /* FBUserInfo.m */; };
 		C073504A161970F6008F4C46 /* FBQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = C0735049161970F6008F4C46 /* FBQuery.m */; };
-		C073504E16197DB1008F4C46 /* FacebookSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = C073504D16197DB1008F4C46 /* FacebookSerialization.m */; };
 		C079DCF6162154B200C50797 /* Hash.m in Sources */ = {isa = PBXBuildFile; fileRef = C079DCF5162154B200C50797 /* Hash.m */; };
 		C0DA3E05161181BC00EB08FF /* login.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DA3E04161181BC00EB08FF /* login.png */; };
 		C0ECB169160C1E37005D6AA3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0ECB168160C1E37005D6AA3 /* UIKit.framework */; };
@@ -52,7 +50,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		C07350011617F65F008F4C46 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = ../../../../Documents/ParseSDK/Parse.framework; sourceTree = "<group>"; };
 		C073500C161813FB008F4C46 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		C07350121618278D008F4C46 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		C0735014161827A0008F4C46 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -87,12 +84,9 @@
 		C0735046161970C9008F4C46 /* FBUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBUserInfo.m; sourceTree = "<group>"; };
 		C0735048161970F6008F4C46 /* FBQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBQuery.h; sourceTree = "<group>"; };
 		C0735049161970F6008F4C46 /* FBQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBQuery.m; sourceTree = "<group>"; };
-		C073504C16197DB1008F4C46 /* FacebookSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookSerialization.h; sourceTree = "<group>"; };
-		C073504D16197DB1008F4C46 /* FacebookSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookSerialization.m; sourceTree = "<group>"; };
 		C079DCF4162154B200C50797 /* Hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hash.h; sourceTree = "<group>"; };
 		C079DCF5162154B200C50797 /* Hash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Hash.m; sourceTree = "<group>"; };
 		C079DCF716215BFD00C50797 /* FBConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FBConstants.h; sourceTree = "<group>"; };
-		C079DCF81622915100C50797 /* ParseConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseConstants.h; sourceTree = "<group>"; };
 		C0DA3E04161181BC00EB08FF /* login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = login.png; path = graphics/login.png; sourceTree = "<group>"; };
 		C0ECB164160C1E37005D6AA3 /* kikback.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kikback.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0ECB168160C1E37005D6AA3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -132,7 +126,6 @@
 				C0735015161827A0008F4C46 /* CFNetwork.framework in Frameworks */,
 				C07350131618278D008F4C46 /* AudioToolbox.framework in Frameworks */,
 				C073500D161813FB008F4C46 /* CoreLocation.framework in Frameworks */,
-				C07350021617F65F008F4C46 /* Parse.framework in Frameworks */,
 				C0FB48E8160FEC4600074363 /* SystemConfiguration.framework in Frameworks */,
 				C0FB48D8160FD99300074363 /* libFlurry.a in Frameworks */,
 				C0FB48D6160FC49C00074363 /* FacebookSDK.framework in Frameworks */,
@@ -196,9 +189,6 @@
 		C073504B16197C1D008F4C46 /* Parse */ = {
 			isa = PBXGroup;
 			children = (
-				C073504C16197DB1008F4C46 /* FacebookSerialization.h */,
-				C073504D16197DB1008F4C46 /* FacebookSerialization.m */,
-				C079DCF81622915100C50797 /* ParseConstants.h */,
 			);
 			name = Parse;
 			path = kikback/Parse;
@@ -248,7 +238,6 @@
 				C0ECB16A160C1E37005D6AA3 /* Foundation.framework */,
 				C0FB48D7160FD99300074363 /* libFlurry.a */,
 				C0ECB1A5160D8BFC005D6AA3 /* libsqlite3.dylib */,
-				C07350011617F65F008F4C46 /* Parse.framework */,
 				C07350161618281F008F4C46 /* Security.framework */,
 				C0ECB192160C25F5005D6AA3 /* Social.framework */,
 				C0FB48E7160FEC4600074363 /* SystemConfiguration.framework */,
@@ -385,7 +374,6 @@
 				C073504316182B99008F4C46 /* SBJsonWriter.m in Sources */,
 				C0735047161970C9008F4C46 /* FBUserInfo.m in Sources */,
 				C073504A161970F6008F4C46 /* FBQuery.m in Sources */,
-				C073504E16197DB1008F4C46 /* FacebookSerialization.m in Sources */,
 				C079DCF6162154B200C50797 /* Hash.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -467,7 +455,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../Documents/FacebookSDK\"",
-					"\"$(SRCROOT)/../../../../Documents/ParseSDK\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "kikback/kikback-Prefix.pch";
@@ -487,7 +474,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../Documents/FacebookSDK\"",
-					"\"$(SRCROOT)/../../../../Documents/ParseSDK\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "kikback/kikback-Prefix.pch";

@@ -20,7 +20,7 @@
     </target>
 
 	
-    <target name="dto-generator" depends="init-dependencies,build" description="Generate Hibernate Classes">
+    <target name="dto-generator" depends="init,build" description="Generate Hibernate Classes">
     	<echo>The library dir used for dto-generator is ${lib.dir}</echo>
     	<echo>Jar for dto-generator is ${dist.dir}/dto-generator.jar</echo>
         <echo>dto-generator.src.dir=${dto-generator.src.dir}</echo>

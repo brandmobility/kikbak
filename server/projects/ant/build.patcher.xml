@@ -2,7 +2,7 @@
 
 	<property name="patcher.main" value="com.kikbak.patcher.Patcher" />
 
-	<target name="init-patcher-properties" depends="init-dependencies">
+	<target name="init-patcher-properties" depends="init">
 		<property name="dto.generator.dir" value="${user.dir}/dto-generator" />
 		<property name="patcher.dir" value="../patcher" />
 		<property name="patcher.target.dir" value="${user.dir}/patcher" />

@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 #import "Flurry.h"
-#import "Parse/Parse.h"
 #import "SBJson.h"
 #import "FBQuery.h"
 #import "FBUserInfo.h"
@@ -28,13 +27,6 @@
     //FLuury
     [Flurry startSession:@"3MFX5FS2Z6YBXBQS2F8P"];
   
-    //parse server setup
-    [Parse setApplicationId:@"HKX3h3Xgt6FXTX9ndG0SySwqF5O2ShWbhxBXuiaE" clientKey:@"Suat5isMgkTCzhKMWurHtXbJza9uTYYZCecDxoqD"];
-    [PFUser enableAutomaticUser];
-    PFACL *defaultACL = [PFACL ACL];
-    // If you would like all objects to be private by default, remove this line.
-    //[defaultACL setPublicReadAccess:YES];
-    [PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
   
     self.userInfo = [[FBUserInfo alloc]init];
     [FBQuery createFBSession];
