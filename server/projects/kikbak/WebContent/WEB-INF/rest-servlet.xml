@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <context:component-scan base-package="com.kikbak.rest" />
+    
+
+    <!-- The message converters able to convert request data into the JAXB DTOs -->
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <ref bean="stringHttpMessageConverter" />
+                <!-- Handle XML input -->
+                <ref bean="jaxbHttpMessageConverter" />
+                <!-- Handle JSON input -->
+                <ref bean="jsonConverter" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
+        <property name="writeAcceptCharset" value="false" />
+    </bean>
+
+    <!-- Message converter for XML requests and responses -->
+    <bean id="jaxbHttpMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+        <property name="marshaller" ref="jaxb2Marshaller" />
+        <property name="unmarshaller" ref="jaxb2Marshaller" />
+    </bean>
+
+    <!-- Custom object mapper that uses the JAXB annotations to map between JSON and JAXB DTOs -->
+    <bean id="objectMapper" class="com.kikbak.util.rest.JsonJaxbObjectMapperFactory" factory-method="newObjectMapper" />
+
+    <!-- Message converter for JSON requests and responses -->
+    <bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+        <property name="objectMapper" ref="objectMapper" />
+    </bean>
+
+    <!-- Configure the XML JAXB marshaller with the packages holding the JAXB DTOs -->
+    <bean id="jaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+        <property name="contextPaths">
+            <list>
+                <value>com.kikbak.jaxb</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Allows Controllers to delegate to a named view (e.g. jaxbView). This is used to override the default view Content 
+        Negotiating View Resolver for requests that return JSON responses to UI clients. Controllers need to explicitly specify 
+        the name of that view resolver by returning a ModelAndView with the View set to "jaxbView". -->
+    <bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+        <property name="order" value="1" />
+    </bean>
+
+    <!-- Renders response JAXB DTOs to JSON or XML based on the file type (e.g. ".xml") on the URL. This view resolver 
+        is used to render responses to the Tango Clients. When the clients request the response as JSON, the JSON is rendered 
+        with properties having a leading lower case letter rather than what is specified in the XSD. This prevents the JSON from 
+        being properly parsed when presented in a request. The responses returned to UI clients use a named view resolver that 
+        renders the JSON using the JAXB annotations so that the same data can be properly parsed when presented in a request. 
+        Controllers need to explicitly specify the name of that view resolver by returning a ModelAndView with the View set to 
+        "jaxbView". -->
+    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+        <property name="order" value="2" />
+        <property name="mediaTypes">
+            <map>
+                <entry key="xml" value="application/xml" />
+                <entry key="json" value="application/json" />
+            </map>
+        </property>
+        <property name="defaultContentType" value="application/xml" />
+        <property name="favorPathExtension" value="true" />
+        <property name="defaultViews">
+            <list>
+                <!-- Renders XML from the JAXB objects -->
+                <bean class="org.springframework.web.servlet.view.xml.MarshallingView">
+                    <property name="marshaller" ref="jaxb2Marshaller" />
+                </bean>
+                <!-- Renders JSON using bean introspection. Properties start a with lower case letter. -->
+                <bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" />
+            </list>
+        </property>
+        <property name="ignoreAcceptHeader" value="true" />
+    </bean>
+
+    <!-- This named view is used by controllers to render XML or JSON to calling clients. The JSON is rendered in such 
+        a way that it can be used in a request in the same format because it uses the same converter for rendering as it does 
+        for parsing. -->
+    <bean name="jaxbView" class="com.kikbak.util.rest.FileExtensionView">
+        <constructor-arg name="defaultExtension" value="xml" />
+        <constructor-arg name="viewForFileExt">
+            <map>
+                <entry key="xml">
+                    <bean class="org.springframework.web.servlet.view.xml.MarshallingView">
+                        <property name="marshaller" ref="jaxb2Marshaller" />
+                    </bean>
+                </entry>
+                <entry key="json">
+                    <!-- This renders JSON with property names using the JAXB annotations based on the Entitlement.xsd -->
+                    <bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
+                        <property name="objectMapper" ref="objectMapper" />
+                    </bean>
+                </entry>
+            </map>
+        </constructor-arg>
+    </bean>
+  
+</beans>
+    

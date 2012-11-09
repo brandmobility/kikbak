@@ -118,10 +118,10 @@
         </xsd:sequence>
     </xsd:complexType>
     
-    <xsd:element name="MyKikbaksRequest">
+    <xsd:element name="RewardsRequest">
     </xsd:element>
     
-    <xsd:element name="MyKikbaksResponse">
+    <xsd:element name="RewardsResponse">
         <xsd:complexType>
             <xsd:sequence>
                 <xsd:element name="kikbak" type="kikbak:Kikbak" minOccurs="0" maxOccurs="unbounded"/>
@@ -130,7 +130,7 @@
         </xsd:complexType>
     </xsd:element>
     
-    <xsd:element name="KikbakTransactionRequest">
+    <xsd:element name="RewardRedeemedRequest">
 	    <xsd:complexType>
 	            <xsd:sequence>
 	                <xsd:element name="kikbak" type="kikbak:Kikbak" minOccurs="0" maxOccurs="unbounded"/>
@@ -139,7 +139,7 @@
 	        </xsd:complexType>
     </xsd:element>
     
-    <xsd:element name="KikbakTransactionResponse">
+    <xsd:element name="RewardRedeemedResponse">
         <xsd:complexType>
             <xsd:sequence>
                 <xsd:element name="status" type="kikbak:StatusResponseType" minOccurs="1" maxOccurs="1"/> 
