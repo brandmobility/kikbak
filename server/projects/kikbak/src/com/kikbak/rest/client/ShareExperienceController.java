@@ -17,8 +17,9 @@ public class ShareExperienceController {
 
 	@RequestMapping( value = "/{fbUserId}", method = RequestMethod.POST)
 	public ShareExperienceResponse postShareExperience(@PathVariable String fbUserId,
-			@RequestBody ShareExperienceRequest experienceRequest, final HttpServletResponse httpResponse){
+			@RequestBody ShareExperienceRequest experienceRequest, final HttpServletResponse httpResponse)
+	{
 		
-		return null;
+		return new ShareExperienceResponse();
 	}
 }

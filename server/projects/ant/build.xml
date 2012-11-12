@@ -3,7 +3,6 @@
 	<import file="./build.patcher.xml" />
 	
 	<property name="build.dir" value="${user.dir}/build"/>
-	<!-- <property name="external.lib.dir" value="${user.dir}/../external/libs"/> -->
 	
 	<path id="files_to_copy" />
 		
@@ -13,8 +12,11 @@
 	    <!-- setup properties that depend on properties that should be defined in build scripts that import this one -->
 	    <property name="compile.args" value="-Xlint:all -Xlint:-serial -Xlint:-path -Werror -encoding utf-8"/>
 	
-		<!-- base folders under TARGET in which build droppings live -->
 	    <property name="dist.dir" location="${build.dir}/${module.name}" />
+		
+		<property name="copy.sub.dir" value=""/>
+		<property name="copy.dist.dir" location="${dist.dir}/${copy.sub.dir}" />
+		<property name="copy.flatten" value="false"/>
 	
 	    <!-- this is the location of the intermediate bits generated during a build -->
 	    <property name="bin.dir.name" value="bin"/>
@@ -49,12 +51,7 @@
 	    <property name="skip.dependencies" value="${skip.package}"/>
 	</target>
 
-   <target name="check-create-lib-dir-symlink">
-        <condition property="should-create-lib-dir-symlink">
-            <isset property="lib.dir" />
-        </condition>
-    </target>
-	
+
    <target name="-check-generate-jaxb">
         <condition property="should-generate-jaxb">
             <and>
@@ -83,13 +80,27 @@
 	</target>
 	
 	<target name="copy-files">
-		<copy todir="${dist.dir}">
+		<copy todir="${copy.dist.dir}" flatten="${copy.flatten}">
             <path refid="files_to_copy" />
         </copy>
 	</target>
+	
+	<target name="make-dirs">
+		<mkdir dir="${generated.src.dir}"/>
+	</target>
+	
+	<target name="pre-compile" depends="make-dirs" unless="uptodate"/>
 		
     <target name="compile" depends="init,pre-compile-ext,create-classes-dir,generate-jaxb,copy-files">
-		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="lib.classpath" includeantruntime="false"/>
+		<javac fork="true" 
+			destdir="${classes.dir}" classpathref="lib.classpath" 
+			includeantruntime="false"
+			memoryinitialsize="1024m"
+			memorymaximumsize="1024m">
+            <compilerarg line="${compile.args}"/>
+            <src path="${src.dir}" />
+            <src path="${generated.src.dir}" />
+        </javac>
     </target>
 
     <target name="build" depends="compile, pre-build-ext">
@@ -103,7 +114,7 @@
 
 	<!-- extension points -->
 	<extension-point name="pre-build-ext"/>
-	<extension-point name="pre-compile-ext"/>
+	<extension-point name="pre-compile-ext" depends="pre-compile" unless="uptodate"/>
 
 </project>
 

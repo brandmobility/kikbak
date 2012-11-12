@@ -2,6 +2,12 @@
 	
 	<import file="../ant/build.war-setup.xml"/>
 
+	<property name="copy.flatten" value="true"/>
+	<property name="copy.sub.dir" value="lib"/>
+    <path id="files_to_copy">
+        <fileset dir="${basedir}" includes="WebContent/WEB-INF/lib/*"/>
+    </path>
+	
 	<property name="src.dir" value="${basedir}/src"/>
 	<property name="testsrc.dir" value="${basedir}/testsrc"/>
 	<property name="module.name" value="kikbak"/>

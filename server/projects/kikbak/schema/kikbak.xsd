@@ -59,9 +59,10 @@
     
     <xsd:element name="RegisterUserResponse">
 	   <xsd:complexType>
-	        <xsd:complexContent>
-                <xsd:extension base="kikbak:StatusResponseType"/>
-            </xsd:complexContent>
+	       <xsd:sequence>
+	           <xsd:element name="kikbak_user_id" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+	           <xsd:element name="status" type="kikbak:StatusResponseType" minOccurs="1" maxOccurs="1"/>
+	       </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
     
@@ -119,6 +120,9 @@
     </xsd:complexType>
     
     <xsd:element name="RewardsRequest">
+        <xsd:complexType>
+            <xsd:sequence/>
+        </xsd:complexType>
     </xsd:element>
     
     <xsd:element name="RewardsResponse">
@@ -130,7 +134,7 @@
         </xsd:complexType>
     </xsd:element>
     
-    <xsd:element name="RewardRedeemedRequest">
+    <xsd:element name="RedemptionRequest">
 	    <xsd:complexType>
 	            <xsd:sequence>
 	                <xsd:element name="kikbak" type="kikbak:Kikbak" minOccurs="0" maxOccurs="unbounded"/>
@@ -139,7 +143,7 @@
 	        </xsd:complexType>
     </xsd:element>
     
-    <xsd:element name="RewardRedeemedResponse">
+    <xsd:element name="RedemptionResponse">
         <xsd:complexType>
             <xsd:sequence>
                 <xsd:element name="status" type="kikbak:StatusResponseType" minOccurs="1" maxOccurs="1"/> 
@@ -198,7 +202,7 @@
         </xsd:complexType>
     </xsd:element>
     
-    <xsd:element name="AuthenticateAccountRequest">
+    <xsd:element name="AuthenticationRequest">
         <xsd:complexType>
             <xsd:sequence>
                 <xsd:element name="account_info" type="kikbak:AccountType" minOccurs="1" maxOccurs="1"/>
@@ -206,7 +210,7 @@
         </xsd:complexType>
     </xsd:element>
     
-    <xsd:element name="AuthenticateAccountResponse">
+    <xsd:element name="AuthenticationResponse">
         <xsd:complexType>
             <xsd:sequence>
                 <xsd:element name="token" type="xsd:string" minOccurs="1" maxOccurs="1"/>
@@ -255,7 +259,7 @@
         </xsd:complexType>
     </xsd:element>
         
-    <xsd:element name="AddLocation">
+    <xsd:element name="AddLocationRequest">
         <xsd:complexType>
             <xsd:sequence>
                 <xsd:element name="token" type="xsd:string" minOccurs="1" maxOccurs="1"/>
@@ -273,6 +277,11 @@
     </xsd:element>
         
     <xsd:element name="GetMerchantsRequest">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="token" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            </xsd:sequence>
+        </xsd:complexType>
     </xsd:element>    
     
     <xsd:element name="GetMerchantsResponse">
@@ -283,7 +292,7 @@
         </xsd:complexType>
     </xsd:element>
     
-    <xsd:complexType name="reward">
+    <xsd:complexType name="RewardType">
         <xsd:sequence>
             <xsd:element name="merchant" type="kikbak:MerchantType" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="sharer_value" type="xsd:double" minOccurs="1" maxOccurs="1"/>
@@ -292,5 +301,23 @@
             <xsd:element name="description" type="xsd:string" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
+    
+    <xsd:element name="AddRewardRequest">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="token" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+                <xsd:element name="reward" type="kikbak:RewardType" minOccurs="1" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    
+        <xsd:element name="AddRewardResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="status" type="kikbak:StatusResponseType" minOccurs="1" maxOccurs="1"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+        
     
 </xsd:schema>
