@@ -55,13 +55,6 @@
         <property name="order" value="1" />
     </bean>
 
-    <!-- Renders response JAXB DTOs to JSON or XML based on the file type (e.g. ".xml") on the URL. This view resolver 
-        is used to render responses to the Tango Clients. When the clients request the response as JSON, the JSON is rendered 
-        with properties having a leading lower case letter rather than what is specified in the XSD. This prevents the JSON from 
-        being properly parsed when presented in a request. The responses returned to UI clients use a named view resolver that 
-        renders the JSON using the JAXB annotations so that the same data can be properly parsed when presented in a request. 
-        Controllers need to explicitly specify the name of that view resolver by returning a ModelAndView with the View set to 
-        "jaxbView". -->
     <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
         <property name="order" value="2" />
         <property name="mediaTypes">
