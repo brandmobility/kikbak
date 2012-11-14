@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.annotations.FetchMode;
+import org.hibernate.FetchMode;
 import org.hibernate.criterion.Criterion;
 
 

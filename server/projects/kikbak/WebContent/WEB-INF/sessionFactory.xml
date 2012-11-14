@@ -8,10 +8,10 @@
     <bean id="sessionFactory"
         class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean" lazy-init="true">
         <property name="dataSource" ref="${datasource.readwrite}"/>
-        <property name="packagesToScan">
-            <list>
-                <value>com.kikbak.dto.**.*</value>
-            </list>
+        <property name="annotatedClasses">
+            <bean class="com.kikbak.config.EntityBeanFinderFactoryBean">
+                <property name="classNamePattern" value="com.kikbak.dto.**" />
+            </bean>
         </property>
         <property name="hibernateProperties">
             <props>
@@ -34,10 +34,10 @@
         class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"
         lazy-init="true">
         <property name="dataSource" ref="${datasource.readonly}"/> 
-        <property name="packagesToScan">
-            <list>
-                <value>com.kikbak.dto.**.*</value>
-            </list>
+        <property name="annotatedClasses">
+            <bean class="com.kikbak.config.EntityBeanFinderFactoryBean">
+                <property name="classNamePattern" value="com.kikbak.dto.**" />
+            </bean>
         </property>
         <property name="hibernateProperties">
             <props>

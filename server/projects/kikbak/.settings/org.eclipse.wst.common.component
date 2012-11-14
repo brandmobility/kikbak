@@ -4,6 +4,8 @@
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/generatedsrc"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/testsrc"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/WebContent"/>
         <property name="java-output-path" value="/kikbak/bin"/>
         <property name="context-root" value="rest"/>
     </wb-module>
