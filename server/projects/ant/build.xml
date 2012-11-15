@@ -22,7 +22,7 @@
 	    <property name="bin.dir.name" value="bin"/>
 	    <property name="bin.dir" value="${dist.dir}/${bin.dir.name}"/>
 	
-		<property name="classes.dir" value="${bin.dir}"/>
+		<property name="classes.dir" value="."/>
 		<property name="lib.dir" value="${build.dir}/${module.name}/lib"/>
 		        
 
@@ -87,13 +87,16 @@
 	
 	<target name="make-dirs">
 		<mkdir dir="${generated.src.dir}"/>
+		<mkdir dir="${bin.dir}"/>
 	</target>
 	
 	<target name="pre-compile" depends="make-dirs" unless="uptodate"/>
 		
     <target name="compile" depends="init,pre-compile-ext,create-classes-dir,generate-jaxb,copy-files">
+        <property name="dest.dir" value="${bin.dir}/${classes.dir}"/>
+    	<mkdir dir="${dest.dir}"/>
 		<javac fork="true" 
-			destdir="${classes.dir}" classpathref="lib.classpath" 
+			destdir="${dest.dir}" classpathref="lib.classpath" 
 			includeantruntime="false"
 			memoryinitialsize="1024m"
 			memorymaximumsize="1024m">
@@ -105,7 +108,8 @@
 
     <target name="build" depends="compile, pre-build-ext">
         <mkdir dir="${dist.dir}"/>
-        <jar destfile="${dist.dir}/${archive.name}" basedir="${classes.dir}">
+    	<mkdir dir="${bin.dir}/META-INF"/>
+        <jar destfile="${dist.dir}/${archive.name}" basedir="${bin.dir}">
             <manifest>
                 <attribute name="Main-Class" value="${main-class}"/>
             </manifest>
