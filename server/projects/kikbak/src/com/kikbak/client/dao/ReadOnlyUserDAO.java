@@ -1,4 +1,4 @@
-package com.kikbak.client.services.dao;
+package com.kikbak.client.dao;
 
 import com.kikbak.dto.User;
 

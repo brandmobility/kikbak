@@ -5,7 +5,7 @@
        http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean id="sessionFactory"
+    <bean id="rwSessionFactory"
         class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean" lazy-init="true">
         <property name="dataSource" ref="${datasource.readwrite}"/>
         <property name="annotatedClasses">
@@ -30,7 +30,7 @@
         </property>
     </bean>
 
-    <bean id="readOnlySessionFactory"
+    <bean id="roSessionFactory"
         class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"
         lazy-init="true">
         <property name="dataSource" ref="${datasource.readonly}"/> 

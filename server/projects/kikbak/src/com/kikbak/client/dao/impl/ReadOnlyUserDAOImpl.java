@@ -1,23 +1,22 @@
-package com.kikbak.client.services.dao.impl;
+package com.kikbak.client.dao.impl;
 
+import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kikbak.client.services.dao.ReadOnlyUserDAO;
+import com.kikbak.client.dao.ReadOnlyUserDAO;
 import com.kikbak.dao.generic.ReadOnlyGenericDAOImpl;
 import com.kikbak.dto.User;
 
+@Repository
 public class ReadOnlyUserDAOImpl extends ReadOnlyGenericDAOImpl<User, Long> implements ReadOnlyUserDAO{
 
-	private final CommonUserDAOImpl impl;
 	
-	public ReadOnlyUserDAOImpl() {
-		impl = new CommonUserDAOImpl(this);
-	}
-	
+	@Override
 	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
 	public User findByFacebookId(Long facebookId){
-		return impl.findByFacebookId(facebookId);
+		return findByCriteria(Restrictions.eq("facebookId", facebookId));
 	}
 	
 }

@@ -31,7 +31,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
         "file:WebContent/WEB-INF/dataSource.xml",
         "file:WebContent/WEB-INF/sessionFactory.xml"})
 
-public class KikbakBaseUTest {
+public class KikbakBaseTest {
 	
 private static String DATA_SOURCE = "testdataset.xml";
     

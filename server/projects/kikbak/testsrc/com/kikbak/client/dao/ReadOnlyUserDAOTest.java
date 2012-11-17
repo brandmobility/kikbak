@@ -1,14 +1,17 @@
-package com.kikbak.client.services.dao;
+package com.kikbak.client.dao;
 
 
 import static org.junit.Assert.*;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.kikbak.KikbakBaseUTest;
+import com.kikbak.KikbakBaseTest;
+import com.kikbak.client.dao.ReadOnlyUserDAO;
 import com.kikbak.dto.User;
 
-public class ReadOnlyUserDAOUTest extends KikbakBaseUTest{
+public class ReadOnlyUserDAOTest extends KikbakBaseTest{
+	
+	private final Long userId = 1L;
 	
 	@Autowired
 	ReadOnlyUserDAO dao;
@@ -17,14 +20,14 @@ public class ReadOnlyUserDAOUTest extends KikbakBaseUTest{
 	public void testFindById(){
 		User user = dao.findById(1L);
 		
-		assertEquals(new Long(1), user.getId());
+		assertEquals(userId, user.getId());
 	}
 
 	@Test
 	public void testFindByFacebookId(){
 		User user = dao.findByFacebookId(1234L);
 		
-		System.out.println(user.getFirstName());
+		assertEquals(userId, user.getId());
 	}
 	
 }
