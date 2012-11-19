@@ -1,5 +1,7 @@
 package com.kikbak.admin.dao;
 
+import java.util.Collection;
+
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,4 +21,11 @@ public class ReadOnlyLocationDAOTest extends ReadOnlyAccountDAOTest {
 		assertEquals("4343", location.getVerificationCode());
 	}
 
+	@Test
+	public void testListLocationsByMerchantId(){
+		Collection<Location> locations = dao.listByMerchant(1L);
+		
+		assertEquals(1, locations.size());
+		
+	}
 }

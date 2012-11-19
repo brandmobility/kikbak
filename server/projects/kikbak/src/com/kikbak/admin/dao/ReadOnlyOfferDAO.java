@@ -9,6 +9,8 @@ public interface ReadOnlyOfferDAO {
 	
 	public Offer findById(Long id);
 	
-	public Collection<Offer> findValidOffers(Merchant merchant);
+	public Collection<Offer> listValidOffers(Merchant merchant);
+	
+	public Collection<Offer> listOffers(Merchant merchant);
 
 }

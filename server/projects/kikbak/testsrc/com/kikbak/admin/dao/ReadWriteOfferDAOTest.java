@@ -25,7 +25,6 @@ public class ReadWriteOfferDAOTest extends KikbakBaseTest{
 		offer.setBeginDate(now);
 		offer.setEndDate(now);
 		offer.setMerchantId(1);
-		offer.setLocationId(1L);
 		offer.setName("test");
 		offer.setShareeValue(3.25);
 		offer.setSharerValue(2.25);

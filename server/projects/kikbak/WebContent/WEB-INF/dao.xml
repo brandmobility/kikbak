@@ -30,7 +30,8 @@
     </bean>
     <tx:advice id="readWriteAdvice" transaction-manager="transactionManager">
         <tx:attributes>
-            <tx:method name="*" rollback-for="com.kikbak.client.service" />
+            <tx:method name="*" rollback-for="com.kikbak.admin.service.AuthorizationException" />
+            <tx:method name="*" rollback-for="com.kikbak.admin.service.InvalidRequestException" />
             <!-- <tx:method name="*" rollback-for="com.kikbak.admin.service" /> -->
             <tx:method name="*" />
         </tx:attributes>

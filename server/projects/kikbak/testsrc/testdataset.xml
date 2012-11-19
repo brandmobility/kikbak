@@ -4,5 +4,5 @@
  <Account id="1" first_name="fn1" last_name="ln1" email="e@e.com" phone_number="1234" verified="0" password="123" account_type_id="1" create_date="2012-11-13 22:00:00"/>
  <Merchant id="1" name="Pied Piper" merchant_type="2" description="23" graph_path="Pied_Piper"/>
  <Location id="1" verification_code="4343" address_1="332 test" city="SF" state="CA" zipcode="43231" merchant_id="1" latitude="123.32" longitude="123.32"/>
- <Offer id="1" merchant_id="1" location_id="1" name="kikit" description="testing" sharer_value="3.24" sharee_value="1.24" begin_date="2012-11-13 22:00:00" end_date="2012-11-13 22:00:00"/>
+ <Offer id="1" merchant_id="1" name="kikit" description="testing" sharer_value="3.24" sharee_value="1.24" begin_date="2012-11-13 22:00:00" end_date="2012-11-13 22:00:00"/>
 </dataset>

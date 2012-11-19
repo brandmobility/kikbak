@@ -2,6 +2,7 @@ package com.kikbak.admin.dao.impl;
 
 import java.util.Collection;
 
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,4 +23,10 @@ public class ReadOnlyLocationDAOImpl extends ReadOnlyGenericDAOImpl<Location, Lo
 		return null;
 	}
 
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public Collection<Location> listByMerchant(Long merchantId){
+		
+		return listByCriteria(Restrictions.eq("merchantId", merchantId));
+	}
 }

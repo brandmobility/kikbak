@@ -109,7 +109,6 @@ CREATE TABLE `Offer`
 (
 	id BIGINT NOT NULL UNIQUE AUTO_INCREMENT,
 	merchant_id BIGINT NOT NULL,
-	location_id BIGINT,
 	name VARCHAR(64) NOT NULL,
 	description VARCHAR(4096) NOT NULL,
 	sharer_value DOUBLE NOT NULL,
@@ -152,7 +151,6 @@ CREATE INDEX zipcode_key ON `Location` (zipcode ASC);
 CREATE INDEX name_key USING BTREE ON `Merchant` (name ASC);
 CREATE INDEX merchant_type_key USING BTREE ON `Merchant` (merchant_type ASC);
 CREATE INDEX merchant_id_key USING BTREE ON `Offer` (merchant_id ASC);
-CREATE INDEX location_id_key ON `Offer` (location_id ASC);
 CREATE INDEX valid_reward_key ON `Offer` (merchant_id ASC, begin_date ASC, end_date ASC);
 CREATE INDEX facebook_id_key USING BTREE ON `Sharing` (facebook_id ASC);
 CREATE INDEX location_id_key USING BTREE ON `Sharing` (location_id ASC);
