@@ -14,6 +14,7 @@
             <list>
                 <ref bean="stringHttpMessageConverter" />
                 <ref bean="jaxbHttpMessageConverter" />
+                <ref bean="jsonMessageConverter" />
             </list>
         </property>
     </bean>
@@ -34,26 +35,30 @@
             </list>
         </property>
     </bean>
+    
+        <!-- Custom object mapper that uses the JAXB annotations to map between JSON and JAXB DTOs -->
+    <bean id="objectMapper" class="com.kikbak.rest.json.JsonObjectMapper" factory-method="newObjectMapper" />
+
+    <!-- Message converter for JSON requests and responses -->
+    <bean id="jsonMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+        <property name="objectMapper" ref="objectMapper" />
+    </bean>
 
     <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
         <property name="order" value="1" />
         <property name="mediaTypes">
             <map>
-                <entry key="xml" value="application/xml" />
+              <!-- <entry key="xml" value="application/xml" /> -->
                 <entry key="json" value="application/json" />
             </map>
         </property>
-
-        <property name="defaultContentType" value="application/xml" />
+        <property name="defaultContentType" value="application/json" />
         <property name="favorPathExtension" value="true" />
-
-
         <property name="viewResolvers">
             <list>
                 <bean class="org.springframework.web.servlet.view.BeanNameViewResolver" />
             </list>
         </property>
-
         <property name="defaultViews">
             <list>
                 <bean class="org.springframework.web.servlet.view.xml.MarshallingView">

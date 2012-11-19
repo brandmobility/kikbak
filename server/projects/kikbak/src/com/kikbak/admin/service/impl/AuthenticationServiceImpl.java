@@ -31,10 +31,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			md.update(account.getPassword().getBytes("UTF-8"));
 			md.update((new Date()).toString().getBytes("UTF-8"));
 		}
+		else{
+			throw new AuthenticationException("Invalid username or password.");
+		}
+		
+		byte [] digest = md.digest();
+		StringBuffer sb = new StringBuffer();
+		for(byte b : digest){
+			sb.append(Integer.toHexString((int)(b & 0xFF)));
+		}
 		
 		//generate token
 		TokenType token = new TokenType();
-		token.setToken(md.toString());
+		token.setToken(sb.toString());
 		
 		//add token to cache
 		AuthTokenManager.getInstance().addToken(token);

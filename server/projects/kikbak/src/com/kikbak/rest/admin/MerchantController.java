@@ -23,7 +23,6 @@ import com.kikbak.jaxb.GetMerchantsResponse;
 import com.kikbak.jaxb.GetOffersRequest;
 import com.kikbak.jaxb.GetOffersResponse;
 import com.kikbak.jaxb.StatusType;
-import com.kikbak.jaxb.TokenType;
 import com.kikbak.rest.StatusCode;
 
 @Controller

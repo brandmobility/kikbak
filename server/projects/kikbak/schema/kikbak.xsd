@@ -27,15 +27,15 @@
     <xsd:complexType name="User">
         <xsd:sequence>
             <xsd:element name="email" type="xsd:string" minOccurs="1" maxOccurs="1" />
-            <xsd:element name="first_name" type="xsd:string" minOccurs="1" maxOccurs="1" />
+            <xsd:element name="firstName" type="xsd:string" minOccurs="1" maxOccurs="1" />
             <xsd:element name="gender" type="xsd:string" minOccurs="1" maxOccurs="1" />
             <xsd:element name="id" type="xsd:long" minOccurs="1" maxOccurs="1" />
-            <xsd:element name="last_name" type="xsd:string" minOccurs="1" maxOccurs="1" />
+            <xsd:element name="lastName" type="xsd:string" minOccurs="1" maxOccurs="1" />
             <xsd:element name="link" type="xsd:string" minOccurs="1" maxOccurs="1" />
             <xsd:element name="local" type="xsd:string" minOccurs="1" maxOccurs="1" />
             <xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1" />
             <xsd:element name="timezone" type="xsd:int" minOccurs="1" maxOccurs="1" />
-            <xsd:element name="updated_time" type="xsd:string" minOccurs="1" maxOccurs="1" />
+            <xsd:element name="updatedTime" type="xsd:string" minOccurs="1" maxOccurs="1" />
             <xsd:element name="username" type="xsd:string" minOccurs="1" maxOccurs="1" />
             <xsd:element name="verified" type="xsd:int" minOccurs="1" maxOccurs="1" />
         </xsd:sequence>    
@@ -52,7 +52,7 @@
     <xsd:element name="RegisterUserResponse">
 	   <xsd:complexType>
 	       <xsd:sequence>
-	           <xsd:element name="kikbak_user_id" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+	           <xsd:element name="kikbakUserId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
 	           <xsd:element name="status" type="kikbak:StatusType" minOccurs="1" maxOccurs="1"/>
 	       </xsd:sequence>
         </xsd:complexType>
@@ -60,9 +60,9 @@
     
     <xsd:complexType name="Friend">
         <xsd:sequence>
-            <xsd:element name="frist_name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="fristName" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="id" type="xsd:long" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="last_name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="lastName" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="username" type="xsd:string" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
@@ -130,7 +130,7 @@
 	    <xsd:complexType>
 	            <xsd:sequence>
 	                <xsd:element name="kikbaks" type="kikbak:Kikbak" minOccurs="0" maxOccurs="unbounded"/>
-	                <xsd:element name="verification_code" type="xsd:string" minOccurs="1" maxOccurs="1"/>  
+	                <xsd:element name="verificationCode" type="xsd:string" minOccurs="1" maxOccurs="1"/>  
 	            </xsd:sequence>
 	        </xsd:complexType>
     </xsd:element>
@@ -147,8 +147,8 @@
         <xsd:complexType>
             <xsd:sequence>
                 <xsd:element name="locationId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
-                <xsd:element name="facebook_id" type="xsd:long" minOccurs="1" maxOccurs="1"/>
-                <xsd:element name="graph_path" type="xsd:string" minOccurs="1" maxOccurs="1"/> 
+                <xsd:element name="facebookId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+                <xsd:element name="graphPath" type="xsd:string" minOccurs="1" maxOccurs="1"/> 
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
@@ -163,9 +163,9 @@
     
     <xsd:complexType name="ConactInfoType">
         <xsd:sequence>
-            <xsd:element name="first_name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="last_name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="phone_number" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="firstName" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="lastName" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="phoneNumber" type="xsd:string" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
     
@@ -180,8 +180,8 @@
     <xsd:element name="RegistrationRequest">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="account_info" type="kikbak:AccountType" minOccurs="1" maxOccurs="1"/>
-                <xsd:element name="contact_info" type="kikbak:ConactInfoType" minOccurs="1" maxOccurs="1"/>
+                <xsd:element name="accountInfo" type="kikbak:AccountType" minOccurs="1" maxOccurs="1"/>
+                <xsd:element name="contactInfo" type="kikbak:ConactInfoType" minOccurs="1" maxOccurs="1"/>
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
@@ -203,7 +203,7 @@
     <xsd:element name="AuthenticationRequest">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="account_info" type="kikbak:AccountType" minOccurs="1" maxOccurs="1"/>
+                <xsd:element name="accountInfo" type="kikbak:AccountType" minOccurs="1" maxOccurs="1"/>
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
@@ -225,8 +225,8 @@
             <xsd:element name="address2" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="city" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="state" type="xsd:string" minOccurs="0" maxOccurs="1"/>
-            <xsd:element name="zip_code" type="xsd:int" minOccurs="0" maxOccurs="1"/>
-            <xsd:element name="graph_path" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="zipCode" type="xsd:int" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="graphPath" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="longitude" type="xsd:double" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="latitude" type="xsd:double" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="verification_code" type="xsd:string" minOccurs="0" maxOccurs="1"/>
@@ -238,7 +238,7 @@
             <xsd:element name="id" type="xsd:long" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="name" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="description" type="xsd:string" minOccurs="0" maxOccurs="1"/>
-            <xsd:element name="graph_path" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="graphPath" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="locations" type="kikbak:LocationType" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
     </xsd:complexType>
@@ -300,12 +300,12 @@
         <xsd:sequence>
             <xsd:element name="id" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="merchant" type="kikbak:MerchantType" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="sharer_value" type="xsd:double" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="sharee_value" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="sharerValue" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="shareeValue" type="xsd:double" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="description" type="xsd:string" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="begin_date" type="xsd:long" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="end_date" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="beginDate" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="endDate" type="xsd:long" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
     

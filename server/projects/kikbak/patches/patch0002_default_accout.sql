@@ -1,0 +1,1 @@
+insert into `account` (first_name, last_name, phone_number, email, password, account_type_id, create_date) values ('admin', 'kikbak', '', 'admin@kikbak.com', 'kikit', '1', CURDATE());
