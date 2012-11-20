@@ -108,6 +108,7 @@ public class MerchantServiceImpl implements MerchantService{
 			location.setZipcode(lt.getZipCode());
 			location.setLatitude(lt.getLongitude());
 			location.setLatitude(lt.getLatitude());
+			location.setMerchantId(merchant.getId());
 			
 			rwLocationDao.makePersistent(location);
 			lt.setId(location.getId());
@@ -130,6 +131,7 @@ public class MerchantServiceImpl implements MerchantService{
 		location.setLatitude(lt.getLatitude());
 		location.setLongitude(lt.getLongitude());
 		location.setVerificationCode(lt.getVerificationCode());
+		location.setMerchantId(lt.getMerchantId());
 		
 		rwLocationDao.makePersistent(location);
 		lt.setId(location.getId());

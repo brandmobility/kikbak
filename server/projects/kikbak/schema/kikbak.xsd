@@ -220,7 +220,6 @@
     <xsd:complexType name="LocationType">
         <xsd:sequence>
             <xsd:element name="id" type="xsd:long" minOccurs="0" maxOccurs="1"/>
-            <xsd:element name="kikbak_verification_code" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="address1" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="address2" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="city" type="xsd:string" minOccurs="0" maxOccurs="1"/>
@@ -229,7 +228,8 @@
             <xsd:element name="graphPath" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="longitude" type="xsd:double" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="latitude" type="xsd:double" minOccurs="0" maxOccurs="1"/>
-            <xsd:element name="verification_code" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="merchantId" type="xsd:long" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="verificationCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
     

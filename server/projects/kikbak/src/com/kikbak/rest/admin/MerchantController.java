@@ -40,7 +40,7 @@ public class MerchantController {
 
 	@RequestMapping(value = "/merchants", method = RequestMethod.GET)
 	public GetMerchantsResponse getMerchants(@RequestBody GetMerchantsRequest request, final HttpServletResponse httpResponse){
-		
+
 		GetMerchantsResponse response = new GetMerchantsResponse();
 		StatusType status = new StatusType();
 		status.setCode(StatusCode.OK.ordinal());
@@ -135,7 +135,7 @@ public class MerchantController {
 		return response;
 	}
 	
-	@RequestMapping(value = "/getOffers", method = RequestMethod.POST)
+	@RequestMapping(value = "/getOffers", method = RequestMethod.GET)
 	public GetOffersResponse getOffers(@RequestBody GetOffersRequest request, final HttpServletResponse httpResponse){
 		GetOffersResponse response = new GetOffersResponse();
 		StatusType status = new StatusType();
