@@ -56,6 +56,8 @@ public class MerchantServiceImpl implements MerchantService{
 			MerchantType mt = new MerchantType();
 			mt.setDescription(merchant.getDescription());
 			mt.setGraphPath(merchant.getGraphPath());
+			mt.setUrl(merchant.getUrl());
+			mt.setImageUrl(merchant.getImageUrl());
 			mt.setName(merchant.getName());
 			mt.setId(merchant.getId());
 			
@@ -93,6 +95,8 @@ public class MerchantServiceImpl implements MerchantService{
 		merchant.setDescription(mt.getDescription());
 		merchant.setGraphPath(mt.getGraphPath());
 		merchant.setName(mt.getName());
+		merchant.setUrl(mt.getUrl());
+		merchant.setImageUrl(mt.getImageUrl());
 		rwMerchantDao.makePersistent(merchant);
 		
 		for(LocationType lt : mt.getLocations() ){

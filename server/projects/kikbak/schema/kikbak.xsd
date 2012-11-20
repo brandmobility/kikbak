@@ -239,6 +239,8 @@
             <xsd:element name="name" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="description" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="graphPath" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="url" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="imageUrl" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="locations" type="kikbak:LocationType" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
     </xsd:complexType>

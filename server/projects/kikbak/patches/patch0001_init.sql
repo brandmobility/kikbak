@@ -92,8 +92,9 @@ CREATE TABLE `Merchant`
 (
 	id BIGINT NOT NULL AUTO_INCREMENT,
 	name VARCHAR(64) NOT NULL,
-	description VARCHAR(1024),
-	merchant_type BIGINT(0) NOT NULL,
+	description VARCHAR(4096),
+	url VARCHAR(256),
+	image_url VARCHAR(512),
 	graph_path VARCHAR(512) NOT NULL,
 	PRIMARY KEY (id)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
@@ -149,7 +150,6 @@ CREATE INDEX merchant_id_key ON `Location` (merchant_id ASC);
 CREATE INDEX geo_key ON `Location` (latitude ASC, longitude ASC);
 CREATE INDEX zipcode_key ON `Location` (zipcode ASC);
 CREATE INDEX name_key USING BTREE ON `Merchant` (name ASC);
-CREATE INDEX merchant_type_key USING BTREE ON `Merchant` (merchant_type ASC);
 CREATE INDEX merchant_id_key USING BTREE ON `Offer` (merchant_id ASC);
 CREATE INDEX valid_reward_key ON `Offer` (merchant_id ASC, begin_date ASC, end_date ASC);
 CREATE INDEX facebook_id_key USING BTREE ON `Sharing` (facebook_id ASC);

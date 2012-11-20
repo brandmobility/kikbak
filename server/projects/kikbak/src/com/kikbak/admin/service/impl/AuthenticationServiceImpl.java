@@ -38,7 +38,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		byte [] digest = md.digest();
 		StringBuffer sb = new StringBuffer();
 		for(byte b : digest){
-			sb.append(Integer.toHexString((int)(b & 0xFF)));
+			sb.append(Integer.toHexString(b & 0xFF));
 		}
 		
 		//generate token
