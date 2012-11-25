@@ -37,39 +37,47 @@
         </tx:attributes>
     </tx:advice>
 
-    <bean id="ReadOnlyUserDAO" class="com.kikbak.client.dao.impl.ReadOnlyUserDAOImpl">
+    <bean id="ReadOnlyUserDAO" class="com.kikbak.dao.impl.ReadOnlyUserDAOImpl">
         <property name="sessionFactory" ref="roSessionFactory"/>
     </bean>
      
-    <bean id="ReadWriteUserDAO" class="com.kikbak.client.dao.impl.ReadWriteUserDAOImpl">
+    <bean id="ReadWriteUserDAO" class="com.kikbak.dao.impl.ReadWriteUserDAOImpl">
         <property name="sessionFactory" ref="rwSessionFactory"/>
     </bean>
      
-    <bean id="ReadOnlyAccountDAO" class="com.kikbak.admin.dao.impl.ReadOnlyAccountDAOImpl">
+    <bean id="ReadOnlyAccountDAO" class="com.kikbak.dao.impl.ReadOnlyAccountDAOImpl">
         <property name="sessionFactory" ref="roSessionFactory" />
     </bean>
     
-    <bean id="ReadOnlyLocationDAO" class="com.kikbak.admin.dao.impl.ReadOnlyLocationDAOImpl">
+    <bean id="ReadOnlyLocationDAO" class="com.kikbak.dao.impl.ReadOnlyLocationDAOImpl">
         <property name="sessionFactory" ref="roSessionFactory"/>
     </bean>
     
-    <bean id="ReadWriteLocationDAO" class="com.kikbak.admin.dao.impl.ReadWriteLocationDAOImpl">
+    <bean id="ReadWriteLocationDAO" class="com.kikbak.dao.impl.ReadWriteLocationDAOImpl">
         <property name="sessionFactory" ref="rwSessionFactory"/>
     </bean>
 
-    <bean id="ReadOnlyMerchantDAO" class="com.kikbak.admin.dao.impl.ReadOnlyMerchantDAOImpl">
+    <bean id="ReadOnlyMerchantDAO" class="com.kikbak.dao.impl.ReadOnlyMerchantDAOImpl">
         <property name="sessionFactory" ref="roSessionFactory"/>
     </bean>
     
-    <bean id="ReadWriteMerchantDAO" class="com.kikbak.admin.dao.impl.ReadWriteMerchantDAOImpl">
+    <bean id="ReadWriteMerchantDAO" class="com.kikbak.dao.impl.ReadWriteMerchantDAOImpl">
         <property name="sessionFactory" ref="rwSessionFactory"/>
     </bean>
     
-    <bean id="ReadOnlyOfferDAO" class="com.kikbak.admin.dao.impl.ReadOnlyOfferDAOImpl">
+    <bean id="ReadOnlyOfferDAO" class="com.kikbak.dao.impl.ReadOnlyOfferDAOImpl">
         <property name="sessionFactory" ref="roSessionFactory"/>
     </bean>
     
-    <bean id="ReadWriteOfferDAO" class="com.kikbak.admin.dao.impl.ReadWriteOfferDAOImpl">
+    <bean id="ReadWriteOfferDAO" class="com.kikbak.dao.impl.ReadWriteOfferDAOImpl">
+        <property name="sessionFactory" ref="rwSessionFactory"/>
+    </bean>
+    
+    <bean id="ReadOnlyUser2FriendDAO" class="com.kikbak.dao.impl.ReadOnlyUser2FriendDAOImpl">
+        <property name="sessionFactory" ref="roSessionFactory"/>
+    </bean>
+    
+    <bean id="ReadWriteUser2FriendDAO" class="com.kikbak.dao.impl.ReadWriteUser2FriendDAOImpl">
         <property name="sessionFactory" ref="rwSessionFactory"/>
     </bean>
 

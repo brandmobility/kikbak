@@ -24,7 +24,7 @@
     </xsd:element>
 
     <!--  Client API -->
-    <xsd:complexType name="User">
+    <xsd:complexType name="UserType">
         <xsd:sequence>
             <xsd:element name="email" type="xsd:string" minOccurs="1" maxOccurs="1" />
             <xsd:element name="firstName" type="xsd:string" minOccurs="1" maxOccurs="1" />
@@ -44,7 +44,7 @@
     <xsd:element name="RegisterUserRequest">
         <xsd:complexType>
             <xsd:complexContent>
-                <xsd:extension base="kikbak:User"/>
+                <xsd:extension base="kikbak:UserType"/>
             </xsd:complexContent>
         </xsd:complexType>
     </xsd:element>
@@ -52,16 +52,16 @@
     <xsd:element name="RegisterUserResponse">
 	   <xsd:complexType>
 	       <xsd:sequence>
-	           <xsd:element name="kikbakUserId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+	           <xsd:element name="userId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
 	           <xsd:element name="status" type="kikbak:StatusType" minOccurs="1" maxOccurs="1"/>
 	       </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
     
-    <xsd:complexType name="Friend">
+    <xsd:complexType name="FriendType">
         <xsd:sequence>
             <xsd:element name="fristName" type="xsd:string" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="id" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="facebookId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="lastName" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="username" type="xsd:string" minOccurs="1" maxOccurs="1"/>
@@ -71,7 +71,8 @@
     <xsd:element name="UpdateFriendsRequest">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="friends" type="kikbak:Friend" minOccurs="1" maxOccurs="unbounded"/>
+                <xsd:element name="userId" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+                <xsd:element name="friends" type="kikbak:FriendType" minOccurs="1" maxOccurs="unbounded"/>
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>   
@@ -101,12 +102,24 @@
     </xsd:complexType>
 
     
-    <xsd:complexType name="Kikbak">
+    <xsd:complexType name="KikbakType">
         <xsd:sequence>
             <xsd:element name="id" type="xsd:long" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="merchant" type="kikbak:ClientMerchantType" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="name" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="description" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="defaultText" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="value" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="GiftType">
+        <xsd:sequence>
+            <xsd:element name="id" type="xsd:long" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="merchant" type="kikbak:ClientMerchantType" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="name" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="description" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="defaultText" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="value" type="xsd:double" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
@@ -120,7 +133,8 @@
     <xsd:element name="RewardsResponse">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="kikbaks" type="kikbak:Kikbak" minOccurs="0" maxOccurs="unbounded"/>
+                <xsd:element name="kikbaks" type="kikbak:KikbakType" minOccurs="0" maxOccurs="unbounded"/>
+                <xsd:element name="gifts" type="kikbak:GiftType" minOccurs="0" maxOccurs="unbounded"/>
                 <xsd:element name="status" type="kikbak:StatusType" minOccurs="1" maxOccurs="1"/> 
             </xsd:sequence>
         </xsd:complexType>
@@ -129,7 +143,8 @@
     <xsd:element name="RedemptionRequest">
 	    <xsd:complexType>
 	            <xsd:sequence>
-	                <xsd:element name="kikbaks" type="kikbak:Kikbak" minOccurs="0" maxOccurs="unbounded"/>
+	                <xsd:element name="kikbaks" type="kikbak:KikbakType" minOccurs="0" maxOccurs="1"/>
+	                <xsd:element name="gifts" type="kikbak:GiftType" minOccurs="0" maxOccurs="1"/>
 	                <xsd:element name="verificationCode" type="xsd:string" minOccurs="1" maxOccurs="1"/>  
 	            </xsd:sequence>
 	        </xsd:complexType>
@@ -138,7 +153,8 @@
     <xsd:element name="RedemptionResponse">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="status" type="kikbak:StatusType" minOccurs="1" maxOccurs="1"/> 
+                <xsd:element name="status" type="kikbak:StatusType" minOccurs="1" maxOccurs="1"/>
+                <xsd:element name="authorizationCode" type="xsd:string" minOccurs="1" maxOccurs="1"/> 
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
@@ -301,11 +317,13 @@
     <xsd:complexType name="OfferType">
         <xsd:sequence>
             <xsd:element name="id" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="description" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="default_text" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="merchant" type="kikbak:MerchantType" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="sharerValue" type="xsd:double" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="shareeValue" type="xsd:double" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="description" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="shareeRepeatValue" type="xsd:double" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="beginDate" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="endDate" type="xsd:long" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
@@ -320,7 +338,7 @@
         </xsd:complexType>
     </xsd:element>
     
-        <xsd:element name="AddOfferResponse">
+    <xsd:element name="AddOfferResponse">
         <xsd:complexType>
             <xsd:sequence>
                 <xsd:element name="status" type="kikbak:StatusType" minOccurs="1" maxOccurs="1"/>
@@ -338,7 +356,7 @@
         </xsd:complexType>
     </xsd:element>
     
-        <xsd:element name="GetOffersResponse">
+    <xsd:element name="GetOffersResponse">
         <xsd:complexType>
             <xsd:sequence>
                 <xsd:element name="status" type="kikbak:StatusType" minOccurs="1" maxOccurs="1"/>
@@ -346,6 +364,30 @@
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
-        
+
+    <xsd:complexType name="DeviceTokenType">
+        <xsd:sequence>
+            <xsd:element name="token" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="platform_id" type="xsd:short" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType> 
+    
+    <xsd:element name="DeviceTokenUpdateRequest">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="userId" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+                <xsd:element name="token" type="kikbak:DeviceTokenType" minOccurs="1" maxOccurs="1"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>       
+    
+    
+    <xsd:element name="DeviceTokenUpdateResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="status" type="kikbak:StatusType" minOccurs="1" maxOccurs="1"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
     
 </xsd:schema>

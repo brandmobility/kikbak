@@ -15,7 +15,7 @@
     </primary-key>
   </table>
   
-  <table catalog="kikbak" name="BRANCH">
+  <table catalog="kikbak" name="LOCATION">
     <primary-key>
       <generator class="identity" />
     </primary-key>
@@ -39,13 +39,7 @@
     </primary-key>
   </table>
   
-  <table catalog="kikbak" name="REWARD">
-    <primary-key>
-      <generator class="identity" />
-    </primary-key>
-  </table>
-
-  <table catalog="kikbak" name="REWARDMULTIPLIER">
+  <table catalog="kikbak" name="KIKBAK">
     <primary-key>
       <generator class="identity" />
     </primary-key>
@@ -57,6 +51,24 @@
     </primary-key>
   </table>
   
+  <table catalog="kikbak" name="ACCOUNT">
+    <primary-key>
+      <generator class="identity" />
+    </primary-key>
+  </table>
+  
+  <table catalog="kikbak" name="GIFT">
+    <primary-key>
+      <generator class="identity" />
+    </primary-key>
+  </table>
+
+  <table catalog="kikbak" name="TRANSACTION">
+    <primary-key>
+      <generator class="identity" />
+    </primary-key>
+  </table>
+    
 </hibernate-reverse-engineering>
   
   

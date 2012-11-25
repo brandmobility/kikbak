@@ -9,14 +9,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kikbak.admin.dao.ReadOnlyLocationDAO;
-import com.kikbak.admin.dao.ReadOnlyMerchantDAO;
-import com.kikbak.admin.dao.ReadOnlyOfferDAO;
-import com.kikbak.admin.dao.ReadWriteLocationDAO;
-import com.kikbak.admin.dao.ReadWriteMerchantDAO;
-import com.kikbak.admin.dao.ReadWriteOfferDAO;
 import com.kikbak.admin.service.InvalidRequestException;
 import com.kikbak.admin.service.MerchantService;
+import com.kikbak.dao.ReadOnlyLocationDAO;
+import com.kikbak.dao.ReadOnlyMerchantDAO;
+import com.kikbak.dao.ReadOnlyOfferDAO;
+import com.kikbak.dao.ReadWriteLocationDAO;
+import com.kikbak.dao.ReadWriteMerchantDAO;
+import com.kikbak.dao.ReadWriteOfferDAO;
 import com.kikbak.dto.Location;
 import com.kikbak.dto.Merchant;
 import com.kikbak.dto.Offer;
@@ -144,9 +144,11 @@ public class MerchantServiceImpl implements MerchantService{
 		Offer offer = getOfferFromOfferType(ot);
 		offer.setDescription(ot.getDescription());
 		offer.setMerchantId(ot.getMerchant().getId());
+		offer.setDefaultText(ot.getDefaultText());
 		offer.setName(ot.getName());
 		offer.setShareeValue(ot.getShareeValue());
 		offer.setSharerValue(ot.getSharerValue());
+		offer.setShareeRepeatValue(ot.getShareeRepeatValue());
 		offer.setBeginDate(new Date(ot.getBeginDate()));
 		offer.setEndDate(new Date(ot.getEndDate()));
 		
@@ -176,6 +178,8 @@ public class MerchantServiceImpl implements MerchantService{
 			ot.setName(offer.getName());
 			ot.setShareeValue(offer.getShareeValue());
 			ot.setSharerValue(offer.getSharerValue());
+			ot.setShareeRepeatValue(offer.getShareeRepeatValue());
+			ot.setDefaultText(offer.getDefaultText());
 			
 			ots.add(ot);
 		}

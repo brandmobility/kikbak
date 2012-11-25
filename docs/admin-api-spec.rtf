@@ -35,10 +35,10 @@ Request Body - \{ "addLocationRequest" : \{"location" : \{ "zipCode" : null, "ci
 AddOffer\
 URL - http://localhost:8080/rest/Merchant/addoffer\
 HTTP Method - POST\
-Request Body - \{ "addOfferRequest" : \{ "offer" : \{ "endDate" : 0, "id" : 0, "merchant" : null, "beginDate" : 0, "description" : null, "sharerValue" : 0, "shareeValue" : 0, "name" : null \}, "token" : \{ "token" : "foo" \}\}\}\
+Request Body - \{ "addOfferRequest" : \{ "offer" : \{ "endDate" : 0, "id" : 0, "merchant" : null, "beginDate" : 0, "description" : null, "defaultText": null, "sharerValue" : 0, "shareeValue" : 0, "shareeRepeatValue", 0, "name" : null \}, "token" : \{ "token" : "foo" \}\}\}\
 \
 --------------------\
 GetOffers\
 URL - http://localhost:8080/rest/Merchant/addoffer\
 HTTP Method - GET\
-Request Body - \{ "getOffersRequest" : \{ "merchant" : \{ "id" : null, "imageUrl" : null, "locations" : [], "graphPath" : null, "description" : null, "name" : null, "url" : null \}, "token" : \{ "token" : "foo" \} \}\}}
+Request Body - \{ "getOffersRequest" : \{ "merchant" : \{ "id" : null, "imageUrl" : null, "locations" : [], "graphPath" : null, "description" : null, "defaultText": null, "name" : null, "url" : null \}, "token" : \{ "token" : "foo" \} \}\}}

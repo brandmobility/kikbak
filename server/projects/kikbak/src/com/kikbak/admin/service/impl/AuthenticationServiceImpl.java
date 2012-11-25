@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kikbak.admin.dao.ReadOnlyAccountDAO;
 import com.kikbak.admin.service.AuthenticationException;
 import com.kikbak.admin.service.AuthenticationService;
 import com.kikbak.admin.util.AuthTokenManager;
+import com.kikbak.dao.ReadOnlyAccountDAO;
 import com.kikbak.dto.Account;
 import com.kikbak.jaxb.TokenType;
 

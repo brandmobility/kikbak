@@ -12,7 +12,7 @@ import com.kikbak.jaxb.RegisterUserRequest;
 import com.kikbak.jaxb.RegisterUserResponse;
 
 @Controller
-@RequestMapping("/RegisterUser")
+@RequestMapping("/register")
 public class RegisterUserController {
 
 	@RequestMapping(value = "/fb/{fbUserId}",  method = RequestMethod.POST)
