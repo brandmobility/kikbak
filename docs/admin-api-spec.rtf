@@ -8,37 +8,37 @@
 \
 -----------\
 Authenticate\
-URL - http://localhost:8080/rest/auth/authenticate\
+URL - http://localhost:8080/kikbak/auth/authenticate\
 HTTP Method - POST\
-Request Body - \{"authenticationRequest":\{"accountInfo":\{"password":"kikit","email" : "admin@kikbak.com"\}\}\}\
+Request Body - \{"AuthenticationRequest":\{"accountInfo":\{"password":"kikit","email" : "admin@kikbak.com"\}\}\}\
 \
 ------------------\
 Get Merchants\
-URL - http://localhost:8080/rest/Merchant/merchants\
-HTTP Method - GET\
-Request Body - \{"getMerchantsRequest" : \{"token" : \{"token" : "foo"\}\}\}\
+URL - http://localhost:8080/kikbak/Merchant/merchants\
+HTTP Method - POST\
+Request Body - \{"GetMerchantsRequest" : \{"token" : \{"token" : "d215d7bfef57c092de19f7ff61a8a2091373a56ed8ef33033cb896cb2578b55"\}\}\}\
 \
 -------------------\
 AddMerchant\
-URL - http://localhost:8080/rest/Merchant/addmerchant\
+URL - http://localhost:8080/kikbak/Merchant/addmerchant\
 HTTP Method - POST\
-Request Body - \{ "addMerchantRequest" : \{"merchant" : \{"id" : null, "imageUrl" : null, "locations" : [\{"zipCode" : null, "city" : null, "address1" : null, "id" : null, "longitude" : null, "verificationCode" : null, "latitude" : null, "merchantId" : null, "graphPath" : null, "state" : null, "address2" : null\}], "graphPath" : null, "description" : null, "name" : null, "url" : null \}, "token" : \{ "token" : "foo"\}\}\}\
+Request Body - \{ "AddMerchantRequest" : \{"merchant" : \{"id" : null, "imageUrl" : null, "locations" : [\{"zipCode" : null, "city" : null, "address1" : null, "id" : null, "longitude" : null, "verificationCode" : null, "latitude" : null, "merchantId" : null, "graphPath" : null, "state" : null, "address2" : null\}], "graphPath" : null, "description" : null, "name" : null, "url" : null \}, "token" : \{ "token" : "foo"\}\}\}\
 \
 -------------------\
 AddLocation\
-URL - http://localhost:8080/rest/Merchant/addlocation\
+URL - http://localhost:8080/kikbak/Merchant/addlocation\
 HTTP Method - POST\
-Request Body - \{ "addLocationRequest" : \{"location" : \{ "zipCode" : null, "city" : null, "address1" : null, "id" : null, "longitude" : null, "merchantId" : null, "verificationCode" : null, "latitude" : null, "graphPath" : null, "state" : null, "address2" : null \}, "token" : \{ "token" : "foo" \}\}\}\
+Request Body - \{ "AddLocationRequest" : \{"location" : \{ "zipCode" : null, "city" : null, "address1" : null, "id" : null, "longitude" : null, "merchantId" : null, "verificationCode" : null, "latitude" : null, "graphPath" : null, "state" : null, "address2" : null \}, "token" : \{ "token" : "foo" \}\}\}\
 \
 \
 -------------------\
 AddOffer\
-URL - http://localhost:8080/rest/Merchant/addoffer\
+URL - http://localhost:8080/kikbak/Merchant/addoffer\
 HTTP Method - POST\
-Request Body - \{ "addOfferRequest" : \{ "offer" : \{ "endDate" : 0, "id" : 0, "merchant" : null, "beginDate" : 0, "description" : null, "defaultText": null, "sharerValue" : 0, "shareeValue" : 0, "shareeRepeatValue", 0, "name" : null \}, "token" : \{ "token" : "foo" \}\}\}\
+Request Body - \{ "AddOfferRequest" : \{ "offer" : \{ "endDate" : 0, "id" : 0, "merchant" : null, "beginDate" : 0, "description" : null, "defaultText": null, "sharerValue" : 0, "shareeValue" : 0, "shareeRepeatValue", 0, "name" : null \}, "token" : \{ "token" : "foo" \}\}\}\
 \
 --------------------\
 GetOffers\
-URL - http://localhost:8080/rest/Merchant/addoffer\
+URL - http://localhost:8080/kikbak/Merchant/addoffer\
 HTTP Method - GET\
-Request Body - \{ "getOffersRequest" : \{ "merchant" : \{ "id" : null, "imageUrl" : null, "locations" : [], "graphPath" : null, "description" : null, "defaultText": null, "name" : null, "url" : null \}, "token" : \{ "token" : "foo" \} \}\}}
+Request Body - \{ "GetOffersRequest" : \{ "merchant" : \{ "id" : null, "imageUrl" : null, "locations" : [], "graphPath" : null, "description" : null, "defaultText": null, "name" : null, "url" : null \}, "token" : \{ "token" : "foo" \} \}\}}

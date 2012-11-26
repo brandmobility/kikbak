@@ -26,7 +26,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:WebContent/WEB-INF/applicationContext.xml",
-        "file:WebContent/WEB-INF/rest-servlet.xml",
+        "file:WebContent/WEB-INF/kikbak-servlet.xml",
         "file:WebContent/WEB-INF/dao.xml", 
         "file:WebContent/WEB-INF/dataSource.xml",
         "file:WebContent/WEB-INF/sessionFactory.xml"})

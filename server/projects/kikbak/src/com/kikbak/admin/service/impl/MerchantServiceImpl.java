@@ -48,7 +48,6 @@ public class MerchantServiceImpl implements MerchantService{
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public Collection<MerchantType> getMerchants() throws Exception {
-		
 		Collection<Merchant> merchants = roMerchantDao.listAll();
 		Collection<MerchantType> result = new ArrayList<MerchantType>();
 		//get all merchants
@@ -79,7 +78,44 @@ public class MerchantServiceImpl implements MerchantService{
 				mt.getLocations().add(lt);
 			}
 		}
-		
+		/*
+		Collection<MerchantType> result = new ArrayList<MerchantType>();
+		MerchantType merchant = new MerchantType();
+		merchant.setDescription("test");
+		merchant.setGraphPath("http://test");
+		merchant.setName("Test");
+		merchant.setUrl("http://co.com");
+		merchant.setImageUrl("image url");
+		LocationType lt = new LocationType();
+		lt.setAddress1("a1");
+		lt.setAddress2("a2");
+		lt.setCity("my city");
+		lt.setGraphPath("");
+		lt.setZipCode(12345);
+		lt.setState("my state");
+		lt.setLatitude(12.21);
+		lt.setLongitude(32.21);
+		merchant.getLocations().add(lt);
+		lt = new LocationType();
+		lt.setAddress1("a3");
+		lt.setAddress2("a4");
+		lt.setCity("that city");
+		lt.setGraphPath("");
+		lt.setZipCode(12345);
+		lt.setState("that state");
+		lt.setLatitude(12.21);
+		lt.setLongitude(32.21);
+		merchant.getLocations().add(lt);
+		result.add(merchant);
+		merchant = new MerchantType();
+		merchant.setDescription("t2");
+		merchant.setGraphPath("http://t2");
+		merchant.setName("T2");
+		merchant.setUrl("http://t.com");
+		merchant.setImageUrl("image url");
+		merchant.getLocations().add(lt);
+		result.add(merchant);
+		*/
 		return result;
 	}
 

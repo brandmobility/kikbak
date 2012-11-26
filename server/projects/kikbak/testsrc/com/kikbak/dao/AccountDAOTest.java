@@ -8,7 +8,7 @@ import com.kikbak.KikbakBaseTest;
 import com.kikbak.dao.ReadOnlyAccountDAO;
 import com.kikbak.dto.Account;
 
-public class ReadOnlyAccountDAOTest extends KikbakBaseTest{
+public class AccountDAOTest extends KikbakBaseTest{
 
 	@Autowired
 	ReadOnlyAccountDAO dao;

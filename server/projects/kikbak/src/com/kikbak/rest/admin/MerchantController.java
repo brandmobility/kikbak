@@ -38,7 +38,7 @@ public class MerchantController {
 	AuthenticationService authService;
 
 
-	@RequestMapping(value = "/merchants", method = RequestMethod.GET)
+	@RequestMapping(value = "/merchants", method = RequestMethod.POST)
 	public GetMerchantsResponse getMerchants(@RequestBody GetMerchantsRequest request, final HttpServletResponse httpResponse){
 
 		GetMerchantsResponse response = new GetMerchantsResponse();

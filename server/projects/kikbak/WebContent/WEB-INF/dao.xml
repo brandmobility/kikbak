@@ -36,17 +36,41 @@
             <tx:method name="*" />
         </tx:attributes>
     </tx:advice>
-
-    <bean id="ReadOnlyUserDAO" class="com.kikbak.dao.impl.ReadOnlyUserDAOImpl">
-        <property name="sessionFactory" ref="roSessionFactory"/>
-    </bean>
-     
-    <bean id="ReadWriteUserDAO" class="com.kikbak.dao.impl.ReadWriteUserDAOImpl">
-        <property name="sessionFactory" ref="rwSessionFactory"/>
-    </bean>
-     
+    
     <bean id="ReadOnlyAccountDAO" class="com.kikbak.dao.impl.ReadOnlyAccountDAOImpl">
         <property name="sessionFactory" ref="roSessionFactory" />
+    </bean>
+    
+    <bean id="ReadOnlyDeviceTokenDAO" class="com.kikbak.dao.impl.ReadOnlyDeviceTokenDAOImpl">
+        <property name="sessionFactory" ref="roSessionFactory"/>
+    </bean>
+    
+    <bean id="ReadWriteDeviceTokenDAO" class="com.kikbak.dao.impl.ReadWriteDeviceTokenDAOImpl">
+        <property name="sessionFactory" ref="rwSessionFactory"/>
+    </bean>
+    
+    <bean id="ReadOnlyFriendDAO" class="com.kikbak.dao.impl.ReadOnlyFriendDAOImpl">
+        <property name="sessionFactory" ref="roSessionFactory"/>
+    </bean>
+    
+    <bean id="ReadWriteFriendDAO" class="com.kikbak.dao.impl.ReadWriteFriendDAOImpl">
+        <property name="sessionFactory" ref="rwSessionFactory"/>
+    </bean>
+    
+    <bean id="ReadOnlyGiftDAO" class="com.kikbak.dao.impl.ReadOnlyGiftDAOImpl">
+        <property name="sessionFactory" ref="roSessionFactory"/>
+    </bean>
+    
+    <bean id="ReadWriteGiftDAO" class="com.kikbak.dao.impl.ReadWriteGiftDAOImpl">
+        <property name="sessionFactory" ref="rwSessionFactory"/>
+    </bean>
+    
+    <bean id="ReadOnlyKikbakDAO" class="com.kikbak.dao.impl.ReadOnlyKikbakDAOImpl">
+        <property name="sessionFactory" ref="roSessionFactory"/>
+    </bean>
+    
+    <bean id="ReadWriteKikbakDAO" class="com.kikbak.dao.impl.ReadWriteKikbakDAOImpl">
+        <property name="sessionFactory" ref="rwSessionFactory"/>
     </bean>
     
     <bean id="ReadOnlyLocationDAO" class="com.kikbak.dao.impl.ReadOnlyLocationDAOImpl">
@@ -72,7 +96,23 @@
     <bean id="ReadWriteOfferDAO" class="com.kikbak.dao.impl.ReadWriteOfferDAOImpl">
         <property name="sessionFactory" ref="rwSessionFactory"/>
     </bean>
+
+    <bean id="ReadOnlySharedDAO" class="com.kikbak.dao.impl.ReadOnlySharedDAOImpl">
+        <property name="sessionFactory" ref="roSessionFactory"/>
+    </bean>
     
+    <bean id="ReadWriteSharedDAO" class="com.kikbak.dao.impl.ReadWriteSharedDAOImpl">
+        <property name="sessionFactory" ref="rwSessionFactory"/>
+    </bean>
+    
+    <bean id="ReadOnlyTransactionDAO" class="com.kikbak.dao.impl.ReadOnlyTransactionDAOImpl">
+        <property name="sessionFactory" ref="roSessionFactory"/>
+    </bean>
+    
+    <bean id="ReadWriteTransactionDAO" class="com.kikbak.dao.impl.ReadWriteTransactionDAOImpl">
+        <property name="sessionFactory" ref="rwSessionFactory"/>
+    </bean>
+
     <bean id="ReadOnlyUser2FriendDAO" class="com.kikbak.dao.impl.ReadOnlyUser2FriendDAOImpl">
         <property name="sessionFactory" ref="roSessionFactory"/>
     </bean>
@@ -81,4 +121,12 @@
         <property name="sessionFactory" ref="rwSessionFactory"/>
     </bean>
 
+   <bean id="ReadOnlyUserDAO" class="com.kikbak.dao.impl.ReadOnlyUserDAOImpl">
+        <property name="sessionFactory" ref="roSessionFactory"/>
+    </bean>
+     
+    <bean id="ReadWriteUserDAO" class="com.kikbak.dao.impl.ReadWriteUserDAOImpl">
+        <property name="sessionFactory" ref="rwSessionFactory"/>
+    </bean>
+ 
 </beans>

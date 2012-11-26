@@ -1,24 +1,40 @@
 package com.kikbak.dao;
 
+
+import static org.junit.Assert.*;
+
 import java.util.Date;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.kikbak.KikbakBaseTest;
 import com.kikbak.dao.ReadOnlyUserDAO;
-import com.kikbak.dao.ReadWriteUserDAO;
 import com.kikbak.dto.User;
 
-public class ReadWriteUserDAOTest extends KikbakBaseTest{
+public class UserDAOTest extends KikbakBaseTest{
+	
+	private final Long userId = 1L;
 	
 	@Autowired
-	ReadOnlyUserDAO readOnlyUserDAO;
+	ReadOnlyUserDAO roDao;
 	
 	@Autowired
-	ReadWriteUserDAO readWriteUserDAO;
+	ReadWriteUserDAO rwDAO;
 	
+	@Test
+	public void testFindById(){
+		User user = roDao.findById(1L);
+		
+		assertEquals(userId, user.getId());
+	}
+
+	@Test
+	public void testFindByFacebookId(){
+		User user = roDao.findByFacebookId(1234L);
+		
+		assertEquals(userId, user.getId());
+	}
 	
 	@Test
 	public void testWriteUser(){
@@ -32,11 +48,10 @@ public class ReadWriteUserDAOTest extends KikbakBaseTest{
 		user.setCreateDate(new Date());
 		user.setUsername("tt");
 		
-		readWriteUserDAO.makePersistent(user);
+		rwDAO.makePersistent(user);
 		
-		User u2 = readOnlyUserDAO.findByFacebookId(123424L);
+		User u2 = roDao.findByFacebookId(123424L);
 		
 		assertEquals(u2.getEmail(), user.getEmail());
 	}
-
 }

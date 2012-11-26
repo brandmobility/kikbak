@@ -1,23 +1,40 @@
 package com.kikbak.dao;
 
+import java.util.Collection;
 import java.util.Date;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import static org.junit.Assert.*;
 
 import com.kikbak.KikbakBaseTest;
 import com.kikbak.dao.ReadOnlyOfferDAO;
-import com.kikbak.dao.ReadWriteOfferDAO;
+import com.kikbak.dto.Merchant;
 import com.kikbak.dto.Offer;
 
-public class ReadWriteOfferDAOTest extends KikbakBaseTest{
+public class OfferDAOTest extends KikbakBaseTest{
 
 	@Autowired
 	ReadOnlyOfferDAO roDao;
 	
 	@Autowired
 	ReadWriteOfferDAO rwDao;
+	
+	@Test
+	public void testReadOffer(){
+		Offer offer = roDao.findById(1L);
+		assertEquals("kikit", offer.getName());
+	}
+	
+	@Test
+	public void testListOffersByMerchant(){
+		Merchant merchant = new Merchant();
+		merchant.setId(1L);
+		
+		Collection<Offer> offers = roDao.listOffers(merchant);
+		assertEquals(1, offers.size());
+	}
 	
 	@Test
 	public void testRWOffer(){

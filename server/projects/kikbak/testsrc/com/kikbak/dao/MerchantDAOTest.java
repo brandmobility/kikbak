@@ -1,22 +1,30 @@
 package com.kikbak.dao;
 
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import static org.junit.Assert.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.kikbak.KikbakBaseTest;
 import com.kikbak.dao.ReadOnlyMerchantDAO;
-import com.kikbak.dao.ReadWriteMerchantDAO;
 import com.kikbak.dto.Merchant;
 
-public class ReadWriteMerchantDAOTest extends KikbakBaseTest{
+
+public class MerchantDAOTest extends KikbakBaseTest{
 
 	@Autowired
 	ReadWriteMerchantDAO rwDao;
 	
 	@Autowired
 	ReadOnlyMerchantDAO roDao;
+	
+	@Test
+	public void testReadMerchant(){
+	
+		Merchant merchant = roDao.findById(1L);
+		
+		assertEquals("23", merchant.getDescription());
+	}
 	
 	@Test
 	public void testWriteMerchant(){

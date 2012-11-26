@@ -10,7 +10,7 @@ import com.kikbak.KikbakBaseTest;
 import com.kikbak.dto.User2friend;
 import com.kikbak.dto.User2friendId;
 
-public class ReadWriteUser2FriendDAOTest extends KikbakBaseTest{
+public class User2FriendDAOTest extends KikbakBaseTest{
 
 	@Autowired
 	public ReadWriteUser2FriendDAO dao;

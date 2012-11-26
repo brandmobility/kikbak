@@ -1,21 +1,37 @@
 package com.kikbak.dao;
 
+import java.util.Collection;
+
 import org.junit.Test;
 import static org.junit.Assert.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.kikbak.KikbakBaseTest;
 import com.kikbak.dao.ReadOnlyLocationDAO;
-import com.kikbak.dao.ReadWriteLocationDAO;
 import com.kikbak.dto.Location;
 
-public class ReadWriteLocationDAOTest extends KikbakBaseTest{
-
-	@Autowired
-	ReadWriteLocationDAO rwDao;
+public class LocationDAOTest extends AccountDAOTest {
 	
 	@Autowired
 	ReadOnlyLocationDAO roDao;
+	
+	@Autowired
+	ReadWriteLocationDAO rwDao;
+	
+	@Test
+	public void testReadLocation(){
+		
+		Location location = roDao.findById(1L);
+		
+		assertEquals("4343", location.getVerificationCode());
+	}
+
+	@Test
+	public void testListLocationsByMerchantId(){
+		Collection<Location> locations = roDao.listByMerchant(1L);
+		
+		assertEquals(1, locations.size());
+	}
 	
 	@Test
 	public void testWriteLocation(){
