@@ -84,7 +84,6 @@ CREATE TABLE `Kikbak`
 	offer_id BIGINT NOT NULL,
 	begin_date DATETIME NOT NULL,
 	end_date DATETIME NOT NULL,
-	redeemed_date DATETIME,
 	value DOUBLE NOT NULL,
 	PRIMARY KEY (id)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
@@ -131,6 +130,7 @@ CREATE TABLE `Shared`
 CREATE TABLE `Transaction`
 (
     id BIGINT NOT NULL AUTO_INCREMENT,
+    user_id BIGINT NOT NULL,
     offer_id BIGINT NOT NULL,
     kikbak_id BIGINT NOT NULL,
     transaction_type SMALLINT NOT NULL,
@@ -175,7 +175,6 @@ CREATE INDEX email_password_key ON `Account` (email ASC, password ASC);
 CREATE INDEX facebook_id_key USING BTREE ON `Friend` (facebook_id ASC);
 
 CREATE INDEX date_range_key USING BTREE ON `Kikbak` (begin_date ASC, end_date ASC);
-CREATE INDEX redeemed_date_key ON `Kikbak` (redeemed_date ASC);
 CREATE INDEX merchant_id_key ON `Kikbak` (merchant_id ASC);
 CREATE INDEX location_id_key ON `Kikbak` (location_id ASC);
 CREATE INDEX offer_id_key ON `Kikbak` (offer_id ASC);
@@ -186,6 +185,7 @@ CREATE INDEX user_id_key ON `Gift` (user_id ASC);
 CREATE INDEX friend_user_id_key ON `Gift` (friend_user_id ASC);
 CREATE INDEX merchant_id_key ON `Gift` (merchant_id ASC);
 
+CREATE INDEX user_id_key ON `Transaction` (user_id ASC);
 CREATE INDEX offer_id_key ON `Transaction` (offer_id ASC);
 CREATE INDEX kikbak_id_key ON `Transaction` (kikbak_id ASC);
 CREATE INDEX merchant_id_key ON `Transaction` (merchant_id ASC);

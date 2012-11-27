@@ -14,8 +14,8 @@ public class ReadOnlyKikbakDAOImpl extends ReadOnlyGenericDAOImpl<Kikbak, Long> 
 
 	@Override
 	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
-	public Kikbak findByUserId(Long userId) {
-		return findByCriteria(Restrictions.eq("userId", userId));
+	public Collection<Kikbak> listByUserId(Long userId) {
+		return listByCriteria(Restrictions.eq("userId", userId));
 	}
 
 	@Override

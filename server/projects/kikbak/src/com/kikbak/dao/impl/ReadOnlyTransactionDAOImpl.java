@@ -17,6 +17,13 @@ public class ReadOnlyTransactionDAOImpl extends ReadOnlyGenericDAOImpl<Transacti
 	public Collection<Transaction> listByOfferId(Long offerId) {
 		return listByCriteria(Restrictions.eq("offerId", offerId));
 	}
+	
+	@Override
+	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
+	public Collection<Transaction> listByUserId(Long userId){
+		return listByCriteria(Restrictions.eq("userId", userId));
+	}
+	
 
 	@Override
 	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
