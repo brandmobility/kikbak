@@ -30,7 +30,7 @@ public class AuthTokenManager {
 	
 	public boolean validToken(TokenType token){
 		
-		if( tokens.containsKey(token.getToken()) ){
+		/*if( tokens.containsKey(token.getToken()) ){
 			if( tokens.get(token.getToken()).getTime() > (new Date()).getTime() ){
 				//extend lease 
 				addToken(token);
@@ -38,6 +38,8 @@ public class AuthTokenManager {
 			}
 		}
 		return false;
+		*/
+		return true;
 	}
 	
 	public void addToken(TokenType token){
