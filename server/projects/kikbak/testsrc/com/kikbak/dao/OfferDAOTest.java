@@ -46,9 +46,8 @@ public class OfferDAOTest extends KikbakBaseTest{
 		offer.setMerchantId(1);
 		offer.setName("test");
 		offer.setDefaultText("3243242");
-		offer.setShareeValue(3.25);
-		offer.setSharerValue(2.25);
-		offer.setShareeRepeatValue(23.23);
+		offer.setGiftValue(3.25);
+		offer.setKikbakValue(2.25);
 		
 		rwDao.makePersistent(offer);
 		

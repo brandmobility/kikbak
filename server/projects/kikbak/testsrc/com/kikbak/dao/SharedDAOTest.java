@@ -39,7 +39,8 @@ public class SharedDAOTest extends KikbakBaseTest{
 	@Test
 	public void testWriteShared(){
 		Shared shared = new Shared();
-		shared.setGraphPath("foo");
+		shared.setMerchantId(12);
+		shared.setOfferId(13);
 		shared.setLocationId(1234);
 		shared.setUserId(12342);
 		

@@ -30,4 +30,9 @@ public class ReadOnlyKikbakDAOImpl extends ReadOnlyGenericDAOImpl<Kikbak, Long> 
 		return listByCriteria(Restrictions.eq("offerId", offerId));
 	}
 
+	@Override
+	public Kikbak findByUserIdAndOfferId(Long userId, Long offerId) {
+		return findByCriteria(Restrictions.and(Restrictions.eq("userId", userId), Restrictions.eq("offerId", offerId)));
+	}
+
 }

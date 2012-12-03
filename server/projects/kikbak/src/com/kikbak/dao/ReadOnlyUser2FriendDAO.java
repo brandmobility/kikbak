@@ -7,6 +7,6 @@ import com.kikbak.dto.User2friend;
 public interface ReadOnlyUser2FriendDAO {
 
 	public User2friend findById(Long id);
-	
-	public Collection<User2friend> listFriendsForUser(Long userId);
+	public Collection<Long> listFriendsForUser(Long userId);
+	public Collection<Long> listFriendsToDelete(Long userId, Collection<Long> facebookIds);
 }

@@ -179,12 +179,15 @@ public class MerchantServiceImpl implements MerchantService{
 	public OfferType addOrUpdateOffer(OfferType ot) {
 		Offer offer = getOfferFromOfferType(ot);
 		offer.setDescription(ot.getDescription());
-		offer.setMerchantId(ot.getMerchant().getId());
+		offer.setMerchantId(ot.getMerchantId());
 		offer.setDefaultText(ot.getDefaultText());
+		offer.setGiftName(ot.getGiftName());
+		offer.setGiftDescription(ot.getGiftDescription());
+		offer.setGiftValue(ot.getGiftValue());
+		offer.setKikbakName(ot.getKikbakName());
+		offer.setKikbakDescription(ot.getKikbakDescription());
+		offer.setKikbakValue(ot.getKikbakValue());
 		offer.setName(ot.getName());
-		offer.setShareeValue(ot.getShareeValue());
-		offer.setSharerValue(ot.getSharerValue());
-		offer.setShareeRepeatValue(ot.getShareeRepeatValue());
 		offer.setBeginDate(new Date(ot.getBeginDate()));
 		offer.setEndDate(new Date(ot.getEndDate()));
 		
@@ -208,13 +211,16 @@ public class MerchantServiceImpl implements MerchantService{
 			OfferType ot = new OfferType();
 			ot.setBeginDate(offer.getBeginDate().getTime());
 			ot.setDescription(offer.getDescription());
+			ot.setKikbakName(offer.getKikbakName());
+			ot.setKikbakDescription(offer.getKikbakDescription());
+			ot.setKikbakValue(offer.getKikbakValue());
+			ot.setKikbakName(offer.getKikbakName());
+			ot.setGiftDescription(offer.getGiftDescription());
+			ot.setGiftValue(offer.getGiftValue());
 			ot.setEndDate(offer.getEndDate().getTime());
 			ot.setId(offer.getId());
-			ot.setMerchant(mt);
+			ot.setMerchantId(offer.getMerchantId());
 			ot.setName(offer.getName());
-			ot.setShareeValue(offer.getShareeValue());
-			ot.setSharerValue(offer.getSharerValue());
-			ot.setShareeRepeatValue(offer.getShareeRepeatValue());
 			ot.setDefaultText(offer.getDefaultText());
 			
 			ots.add(ot);

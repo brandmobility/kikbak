@@ -2,6 +2,7 @@ package com.kikbak.dao.impl;
 
 import java.util.Collection;
 
+import org.hibernate.classic.Session;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,10 @@ import com.kikbak.dto.Shared;
 
 public class ReadOnlySharedDAOImpl extends ReadOnlyGenericDAOImpl<Shared, Long> implements ReadOnlySharedDAO{
 
+	private static final String find_gifts="select {shared.*} from offer, shared where begin_date < now() and end_date > now()" + 
+			"and offer.id=shared.offer_id and offer.id in ( select offer_id from shared where user_id in " +
+			"(select user_id from user2friend where facebook_friend_id=?) group by offer_id)";
+	
 	@Override
 	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
 	public Collection<Shared> listByUserId(Long userId) {
@@ -22,6 +27,19 @@ public class ReadOnlySharedDAOImpl extends ReadOnlyGenericDAOImpl<Shared, Long> 
 	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
 	public Collection<Shared> listByLocationId(Long locationId) {
 		return listByCriteria(Restrictions.eq("locationId", locationId));
+	}
+
+	@Override
+	public Collection<Shared> listByUserIdAndOfferId(Long userId, Long offerId) {
+		return listByCriteria(Restrictions.and(Restrictions.eq("userId", userId),Restrictions.eq("offerId", userId)));
+	}
+
+	@Override
+	public Collection<Shared> listAvailableForGifting(Long userId) {
+		Session session = sessionFactory.getCurrentSession();
+		@SuppressWarnings("unchecked")
+		Collection<Shared> shared = session.createSQLQuery(find_gifts).addEntity(Shared.class).setLong(0, userId).list();
+		return shared;
 	}
 
 }

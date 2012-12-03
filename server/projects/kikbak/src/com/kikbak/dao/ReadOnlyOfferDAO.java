@@ -8,9 +8,7 @@ import com.kikbak.dto.Offer;
 public interface ReadOnlyOfferDAO {
 	
 	public Offer findById(Long id);
-	
-	public Collection<Offer> listValidOffers(Merchant merchant);
-	
+	public Collection<Offer> listValidOffers();	
 	public Collection<Offer> listOffers(Merchant merchant);
 
 }

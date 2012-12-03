@@ -17,13 +17,7 @@ public class GiftDAOTest extends KikbakBaseTest {
 	
 	@Autowired
 	ReadWriteGiftDAO rwDao;
-	
-	@Test
-	public void testFindByIdGift(){
-		Gift gift = roDao.findById(1L);
-		assertEquals(3, gift.getTimesUsed());
-		
-	}
+
 	
 	@Test
 	public void testListByUserId(){
@@ -50,7 +44,6 @@ public class GiftDAOTest extends KikbakBaseTest {
 		gift.setFriendUserId(12);
 		gift.setMerchantId(13);
 		gift.setOfferId(144);
-		gift.setTimesUsed((short)2);
 		gift.setUserId(6363);
 		gift.setValue(43.54);
 		rwDao.makePersistent(gift);

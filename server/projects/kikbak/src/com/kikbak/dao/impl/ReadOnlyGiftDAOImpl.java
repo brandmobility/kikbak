@@ -12,6 +12,7 @@ import com.kikbak.dto.Gift;
 
 public class ReadOnlyGiftDAOImpl extends ReadOnlyGenericDAOImpl<Gift, Long> implements ReadOnlyGiftDAO {
 
+	private static final String gift_offer_ids = "select offer_id from Gift where user_id=?";
 	
 	@Override
 	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
@@ -29,6 +30,12 @@ public class ReadOnlyGiftDAOImpl extends ReadOnlyGenericDAOImpl<Gift, Long> impl
 	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
 	public Collection<Gift> listByOfferId(Long offerId) {
 		return listByCriteria(Restrictions.eq("offerId", offerId));
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Collection<Long> listOfferIdsForUser(Long userId) {
+		return sessionFactory.getCurrentSession().createSQLQuery(gift_offer_ids).setLong(0, userId).list();
 	}
 
 	

@@ -9,7 +9,13 @@
     </sql-type>
   </type-mapping>
 
-  <table catalog="kikbak" name="USERS">
+  <table catalog="kikbak" name="USER">
+    <primary-key>
+      <generator class="identity" />
+    </primary-key>
+  </table>
+  
+  <table catalog="kikbak" name="USER2FRIEND">
     <primary-key>
       <generator class="identity" />
     </primary-key>
