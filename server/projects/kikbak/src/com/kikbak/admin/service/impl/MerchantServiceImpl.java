@@ -47,7 +47,7 @@ public class MerchantServiceImpl implements MerchantService{
 	
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	public Collection<MerchantType> getMerchants() throws Exception {
+	public Collection<MerchantType> getMerchants(){
 		Collection<Merchant> merchants = roMerchantDao.listAll();
 		Collection<MerchantType> result = new ArrayList<MerchantType>();
 		//get all merchants
@@ -136,15 +136,7 @@ public class MerchantServiceImpl implements MerchantService{
 		rwMerchantDao.makePersistent(merchant);
 		
 		for(LocationType lt : mt.getLocations() ){
-			Location location = getLocationFromLocationType(lt);
-			location.setAddress1(lt.getAddress1());
-			location.setAddress2(lt.getAddress2());
-			location.setCity(lt.getCity());
-			location.setState(lt.getState());
-			location.setZipcode(lt.getZipCode());
-			location.setLatitude(lt.getLongitude());
-			location.setLatitude(lt.getLatitude());
-			location.setMerchantId(merchant.getId());
+			Location location = transformLocationTypeToLocation(lt, merchant.getId());
 			
 			rwLocationDao.makePersistent(location);
 			lt.setId(location.getId());
@@ -157,17 +149,7 @@ public class MerchantServiceImpl implements MerchantService{
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public LocationType addOrUpdateLocation(LocationType lt) {
-		Location location = getLocationFromLocationType(lt);
-		
-		location.setAddress1(lt.getAddress1());
-		location.setAddress2(lt.getAddress2());
-		location.setCity(lt.getCity());
-		location.setState(lt.getState());
-		location.setZipcode(lt.getZipCode());
-		location.setLatitude(lt.getLatitude());
-		location.setLongitude(lt.getLongitude());
-		location.setVerificationCode(lt.getVerificationCode());
-		location.setMerchantId(lt.getMerchantId());
+		Location location = transformLocationTypeToLocation(lt, lt.getMerchantId());
 		
 		rwLocationDao.makePersistent(location);
 		lt.setId(location.getId());
@@ -231,18 +213,18 @@ public class MerchantServiceImpl implements MerchantService{
 	
 	protected Location getLocationFromLocationType(LocationType lt){
 		Location location;
-		if( lt.getId() != 0){
-			location = roLocationDao.findById(lt.getId());
+		if( lt.getId() == null || lt.getId() != 0){
+			location = new Location();
 		}
 		else{
-			location = new Location();
+			location = roLocationDao.findById(lt.getId());
 		}
 		return location;
 	}
 	
 	protected Merchant getMerchantFromMerchantType(MerchantType mt){
 		Merchant merchant;
-		if( mt.getId() == 0 ){
+		if( mt.getId() == null || mt.getId() == 0 ){
 			merchant = new Merchant();
 		}
 		else{
@@ -253,7 +235,7 @@ public class MerchantServiceImpl implements MerchantService{
 	
 	protected Offer getOfferFromOfferType(OfferType ot){
 		Offer offer;
-		if( ot.getId() == 0 ){
+		if( ot.getId() == null || ot.getId() == 0 ){
 			offer = new Offer();
 		}
 		else{
@@ -261,5 +243,20 @@ public class MerchantServiceImpl implements MerchantService{
 		}
 		
 		return offer;
+	}
+	
+	protected Location transformLocationTypeToLocation(LocationType lt, Long merchantId){
+		Location location = getLocationFromLocationType(lt);
+		location.setAddress1(lt.getAddress1());
+		location.setAddress2(lt.getAddress2());
+		location.setCity(lt.getCity());
+		location.setState(lt.getState());
+		location.setZipcode(lt.getZipCode());
+		location.setLatitude(lt.getLongitude());
+		location.setLatitude(lt.getLatitude());
+		location.setMerchantId(merchantId);
+		location.setVerificationCode(lt.getVerificationCode());
+		
+		return location;
 	}
 }

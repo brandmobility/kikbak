@@ -8,14 +8,10 @@ import com.kikbak.jaxb.OfferType;
 
 public interface MerchantService {
 
-	public Collection<MerchantType> getMerchants() throws Exception;
-	
+	public Collection<MerchantType> getMerchants();
 	public MerchantType addOrUpdateMerchant(MerchantType mt) throws Exception;
-	
 	public LocationType addOrUpdateLocation(LocationType lt);
-	
 	public OfferType addOrUpdateOffer(OfferType ot);
-	
 	public Collection<OfferType> getOffersByMerchant(MerchantType mt) throws Exception;
 	
 }

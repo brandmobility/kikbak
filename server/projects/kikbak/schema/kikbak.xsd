@@ -31,8 +31,6 @@
             <xsd:element name="gender" type="xsd:string" minOccurs="1" maxOccurs="1" />
             <xsd:element name="id" type="xsd:long" minOccurs="1" maxOccurs="1" />
             <xsd:element name="lastName" type="xsd:string" minOccurs="1" maxOccurs="1" />
-            <xsd:element name="link" type="xsd:string" minOccurs="1" maxOccurs="1" />
-            <xsd:element name="local" type="xsd:string" minOccurs="1" maxOccurs="1" />
             <xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1" />
             <xsd:element name="timezone" type="xsd:int" minOccurs="1" maxOccurs="1" />
             <xsd:element name="updatedTime" type="xsd:string" minOccurs="1" maxOccurs="1" />
@@ -284,7 +282,6 @@
             <xsd:element name="city" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="state" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="zipCode" type="xsd:int" minOccurs="0" maxOccurs="1"/>
-            <xsd:element name="graphPath" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="longitude" type="xsd:double" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="latitude" type="xsd:double" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="merchantId" type="xsd:long" minOccurs="0" maxOccurs="1"/>
@@ -368,7 +365,7 @@
     
     <xsd:complexType name="OfferType">
         <xsd:sequence>
-            <xsd:element name="id" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="id" type="xsd:long" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="description" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="defaultText" type="xsd:string" minOccurs="1" maxOccurs="1"/>

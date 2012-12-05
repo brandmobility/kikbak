@@ -109,7 +109,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	public Collection<OfferType> getUsersOffers(Long userId,
+	public Collection<OfferType> getOffers(Long userId,
 			UserLocationType userLocation) {
 		
 		Collection<Offer> offers = roOfferDao.listValidOffers();

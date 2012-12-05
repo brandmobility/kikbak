@@ -1,6 +1,7 @@
 package com.kikbak.dao;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -43,6 +44,7 @@ public class SharedDAOTest extends KikbakBaseTest{
 		shared.setOfferId(13);
 		shared.setLocationId(1234);
 		shared.setUserId(12342);
+		shared.setSharedDate(new Date());
 		
 		rwDao.makePersistent(shared);
 		Shared s = roDao.findById(shared.getId());

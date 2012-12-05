@@ -44,6 +44,10 @@ public class OfferDAOTest extends KikbakBaseTest{
 		offer.setBeginDate(now);
 		offer.setEndDate(now);
 		offer.setMerchantId(1);
+		offer.setGiftDescription("desc");
+		offer.setGiftName("gift");
+		offer.setKikbakDescription("kik");
+		offer.setKikbakName("kname");
 		offer.setName("test");
 		offer.setDefaultText("3243242");
 		offer.setGiftValue(3.25);

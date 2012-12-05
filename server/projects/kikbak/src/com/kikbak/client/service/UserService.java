@@ -13,7 +13,7 @@ public interface UserService {
 		
 	public UserIdType registerUser(UserType userType);
 	public void updateFriends(final long userId, final Collection<FriendType> friends);
-	public Collection<OfferType> getUsersOffers(final Long userId, final UserLocationType userLocation);
+	public Collection<OfferType> getOffers(final Long userId, final UserLocationType userLocation);
 	public void persistDeviceToken(final Long userId, final DeviceTokenType deviceToken);
 
 }

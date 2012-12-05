@@ -46,6 +46,7 @@ public class GiftDAOTest extends KikbakBaseTest {
 		gift.setOfferId(144);
 		gift.setUserId(6363);
 		gift.setValue(43.54);
+		gift.setRedemptionDate(new Date());
 		rwDao.makePersistent(gift);
 		
 		Collection<Gift> gifts = roDao.listByUserId(6363L);

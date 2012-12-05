@@ -52,7 +52,7 @@ public class User2FriendDAOTest extends KikbakBaseTest{
 		}
 	
 		rwDao.batchInsert(friends);
-		
+				
 		Collection<Long> ids = new ArrayList<Long>();
 		ids.add(1001L);
 		ids.add(1002L);

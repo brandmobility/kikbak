@@ -26,11 +26,10 @@ public class ReadOnlyUser2FriendDAOImpl extends ReadOnlyGenericDAOImpl<User2frie
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
-	public Collection<Long> listFriendsToDelete(Long userId,
-			Collection<Long> facebookIds) {
+	public Collection<Long> listFriendsToDelete(Long userId, Collection<Long> facebookIds) {
 		String fbIds = facebookIds.toString();
 		StringBuffer queryString = new StringBuffer(friends_to_delete_query + userId);
-		queryString.append(" and facebook_friend_id in(" + fbIds.substring(1, fbIds.length() -1) +")");
+		queryString.append(" and facebook_friend_id not in(" + fbIds.substring(1, fbIds.length() -1) +")");
 		SQLQuery query = sessionFactory.getCurrentSession().createSQLQuery(queryString.toString());
 		return query.list();
 	}

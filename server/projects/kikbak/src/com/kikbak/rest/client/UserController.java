@@ -77,7 +77,7 @@ public class UserController {
 		status.setCode(StatusCode.OK.ordinal());
 		response.setStatus(status);
 		try {
-			response.getOffers().addAll(service.getUsersOffers(userId, request.getUserLocation()));
+			response.getOffers().addAll(service.getOffers(userId, request.getUserLocation()));
 		} catch (Exception e) {
 			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			status.setCode(StatusCode.ERROR.ordinal());

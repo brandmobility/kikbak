@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +36,7 @@ import com.kikbak.jaxb.GiftType;
 import com.kikbak.jaxb.KikbakRedemptionType;
 import com.kikbak.jaxb.KikbakType;
 
+@Service
 public class RewardServiceImpl implements RewardService{
 
 	@Autowired

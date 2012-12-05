@@ -15,7 +15,7 @@ public class AccountDAOTest extends KikbakBaseTest{
 	
 	@Test
 	public void testAccount(){
-		Account account = dao.findByEmailAndPassword("e@e.com", "123");
+		Account account = dao.findByEmailAndPassword("test@kikbak.com", "1234");
 		
 		assertEquals(account.getPhoneNumber(), "1234");
 	}

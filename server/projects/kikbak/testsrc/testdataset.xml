@@ -1,17 +1,17 @@
 <dataset>
  <User id="1" first_name="fn1" last_name="ln1" email="e@e.com" facebook_id="1234" gender="0" username="123" create_date="2012-11-13 22:00:00"/>
  <AccountType id="1" type="admin"/>
- <Account id="1" first_name="fn1" last_name="ln1" email="e@e.com" phone_number="1234" verified="0" password="123" account_type_id="1" create_date="2012-11-13 22:00:00"/>
+ <Account id="1" first_name="fn1" last_name="ln1" email="test@kikbak.com" phone_number="1234" verified="0" password="1234" account_type_id="1" create_date="2012-11-13 22:00:00"/>
  <Merchant id="1" name="Pied Piper" description="23" graph_path="Pied_Piper"/>
  <Location id="1" verification_code="4343" address_1="332 test" city="SF" state="CA" zipcode="43231" merchant_id="1" latitude="123.32" longitude="123.32"/>
- <Offer id="1" merchant_id="1" name="kikit" description="testing" default_text="1234" sharee_repeat_value="1.00" sharer_value="3.24" sharee_value="1.24" begin_date="2012-11-13 22:00:00" end_date="2012-11-13 22:00:00"/>
+ <Offer id="1" merchant_id="1" name="kikit" description="testing" default_text="1234"  gift_value="3.24" gift_name="gift" gift_description="gift desc" kikbak_value="1.24" kikbak_name="kik" kikbak_description="kik desc" begin_date="2012-11-13 22:00:00" end_date="2012-11-13 22:00:00"/>
  <Friend id="1" first_name="test" last_name="bob" facebook_id="12" username="testbob" />
- <Gift id="1" offer_id="12" user_id="12" friend_user_id="13" merchant_id="3" times_used="3" value="12.21" experiration_date="2013-11-13 22:00:00"/>
- <Gift id="2" offer_id="13" user_id="11" friend_user_id="13" merchant_id="3" times_used="2" value="0.21" experiration_date="2013-11-13 22:00:00"/>
+ <Gift id="1" offer_id="12" user_id="12" friend_user_id="13" merchant_id="3" value="12.21" redemption_date="2012-11-13 22:00:00" experiration_date="2013-11-13 22:00:00"/>
+ <Gift id="2" offer_id="13" user_id="11" friend_user_id="13" merchant_id="3" value="0.21" redemption_date="2012-11-13 22:00:00" experiration_date="2013-11-13 22:00:00"/>
  <Kikbak id="1" merchant_id="3" location_id="14" user_id="2" offer_id="4" begin_date="2012-11-13 22:00:00" end_date="2013-11-13 22:00:00" value="12.23"/>
  <Kikbak id="2" merchant_id="3" location_id="12" user_id="4" offer_id="4" begin_date="2012-11-13 22:00:00" end_date="2013-11-13 22:00:00" value="12.23"/>
- <Shared id="1" user_id="3" location_id="13" facebook_friend_id="12" merchant_id="2"/>
- <Shared id="2" user_id="6" location_id="13" facebook_friend_id="12" merchant_id="2"/>
+ <Shared id="1" user_id="3" location_id="13" offer_id="2" merchant_id="2" shared_date="2012-11-13 22:00:00"/>
+ <Shared id="2" user_id="6" location_id="13" offer_id="3" merchant_id="2" shared_date="2012-11-13 22:00:00"/>
  <Transaction id="1" offer_id="12" user_id="1" kikbak_id="12" transaction_type="2" amount="12.2" date="2012-11-13 22:00:00" merchant_id="12" location_id="12" verification_code="1231" authorization_code="1231"/>
  <Transaction id="2" offer_id="9" user_id="2" kikbak_id="12" transaction_type="1" amount="12.2" date="2012-11-13 22:00:00" merchant_id="8" location_id="12" verification_code="1231" authorization_code="1231"/>
  <Transaction id="3" offer_id="9" user_id="1" kikbak_id="12" transaction_type="1" amount="12.2" date="2012-11-13 22:00:00" merchant_id="8" location_id="11" verification_code="1231" authorization_code="1231"/>
