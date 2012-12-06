@@ -29,13 +29,13 @@
             <xsd:element name="email" type="xsd:string" minOccurs="1" maxOccurs="1" />
             <xsd:element name="firstName" type="xsd:string" minOccurs="1" maxOccurs="1" />
             <xsd:element name="gender" type="xsd:string" minOccurs="1" maxOccurs="1" />
-            <xsd:element name="id" type="xsd:long" minOccurs="1" maxOccurs="1" />
             <xsd:element name="lastName" type="xsd:string" minOccurs="1" maxOccurs="1" />
             <xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1" />
             <xsd:element name="timezone" type="xsd:int" minOccurs="1" maxOccurs="1" />
             <xsd:element name="updatedTime" type="xsd:string" minOccurs="1" maxOccurs="1" />
             <xsd:element name="username" type="xsd:string" minOccurs="1" maxOccurs="1" />
             <xsd:element name="verified" type="xsd:int" minOccurs="1" maxOccurs="1" />
+            <xsd:element name="facebookId" type="xsd:long" minOccurs="1" maxOccurs="1" />
         </xsd:sequence>    
     </xsd:complexType>
     
@@ -56,7 +56,7 @@
     <xsd:element name="RegisterUserResponse">
 	   <xsd:complexType>
 	       <xsd:sequence>
-	           <xsd:element name="user" type="kikbak:UserIdType" minOccurs="1" maxOccurs="1"/>
+	           <xsd:element name="userId" type="kikbak:UserIdType" minOccurs="1" maxOccurs="1"/>
 	           <xsd:element name="status" type="kikbak:StatusType" minOccurs="1" maxOccurs="1"/>
 	       </xsd:sequence>
         </xsd:complexType>
@@ -64,7 +64,7 @@
     
     <xsd:complexType name="FriendType">
         <xsd:sequence>
-            <xsd:element name="fristName" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="firstName" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="facebookId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="lastName" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1"/>

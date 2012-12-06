@@ -1,5 +1,6 @@
 package com.kikbak.client.service.impl;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -71,6 +72,7 @@ public class UserServiceImpl implements UserService {
 		user.setLastName(userType.getLastName());
 		user.setUpdateDate(null);
 		user.setUsername(userType.getUsername());
+		user.setFacebookId(userType.getFacebookId());
 		
 		
 		rwUserDao.makePersistent(user);
@@ -88,14 +90,17 @@ public class UserServiceImpl implements UserService {
 		for(FriendType ft : friends){
 			currentFriendIds.add(ft.getFacebookId());
 		}
-		Collection<Long> friendsToDelete = roU2FDao.listFriendsToDelete(userId, currentFriendIds);
-		rwU2FDao.batchDelete(userId, friendsToDelete);
+		Collection<BigInteger> friendsToDelete = roU2FDao.listFriendsToDelete(userId, currentFriendIds);
+		if( friendsToDelete.size() != 0 ){
+			rwU2FDao.batchDelete(userId, friendsToDelete);
+		}
 		
 		//update new
 		Collection<Long> fbIds = roU2FDao.listFriendsForUser(userId);
 		Collection<User2friend> friendAssociations = new ArrayList<User2friend>();
 		for( FriendType ft : friends){
-			if( !fbIds.contains(ft.getFacebookId()) ){
+			BigInteger fbId = new BigInteger(((Long)ft.getFacebookId()).toString());
+			if( !fbIds.contains( fbId ) ){
 				User2friend u2f = new User2friend();
 				u2f.setFacebookFriendId(ft.getFacebookId());
 				u2f.setUserId(userId);
@@ -103,7 +108,9 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 		
-		rwU2FDao.batchInsert(friendAssociations);
+		if( friendAssociations.size() != 0 ){
+			rwU2FDao.batchInsert(friendAssociations);
+		}
 		
 	}
 

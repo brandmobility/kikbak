@@ -1,5 +1,6 @@
 package com.kikbak.dao.impl;
 
+import java.math.BigInteger;
 import java.util.Collection;
 
 import org.hibernate.SQLQuery;
@@ -37,13 +38,13 @@ public class ReadWriteUser2FriendDAOImpl extends GenericDAOImpl<User2friend, Lon
 
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public void batchDelete(final Long userId, final Collection<Long> ids) {
+	public void batchDelete(final Long userId, final Collection<BigInteger> ids) {
 		Session session = sessionFactory.getCurrentSession();
 		
 		StringBuffer sb = new StringBuffer(batch_delete);
 		sb.append(userId);
 		sb.append(" and facebook_friend_id in(");
-		for(Long id : ids){
+		for(BigInteger id : ids){
 			sb.append(id + ",");
 		}
 		

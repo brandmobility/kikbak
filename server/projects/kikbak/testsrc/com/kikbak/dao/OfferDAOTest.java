@@ -58,6 +58,27 @@ public class OfferDAOTest extends KikbakBaseTest{
 		Offer o2 = roDao.findById(offer.getId());
 		
 		assertEquals("test", o2.getName());
+	}
+	
+	@Test 
+	public void testListValidOffers(){
+		Offer offer = new Offer();
+		Date now = new Date();
+		offer.setBeginDate(new Date(now.getTime() - 999999999));
+		offer.setEndDate(new Date(now.getTime() + 999999999));
+		offer.setDefaultText("default");
+		offer.setDescription("desc");
+		offer.setGiftDescription("gift");
+		offer.setGiftName("gn");
+		offer.setGiftValue(12.21);
+		offer.setKikbakDescription("kd");
+		offer.setKikbakName("kn");
+		offer.setKikbakValue(32.32);
+		offer.setName("name");
+		rwDao.makePersistent(offer);
+		
+		Collection<Offer> offers = roDao.listValidOffers();
+		assertTrue(offers.size() == 1);
 		
 	}
 }

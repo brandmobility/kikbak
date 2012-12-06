@@ -40,7 +40,7 @@ public class UserController {
 		status.setCode(StatusCode.OK.ordinal());
 		response.setStatus(status);
 		try {
-			response.setUser(service.registerUser(request.getUser()));
+			response.setUserId(service.registerUser(request.getUser()));
 		} catch (Exception e) {
 			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			status.setCode(StatusCode.ERROR.ordinal());

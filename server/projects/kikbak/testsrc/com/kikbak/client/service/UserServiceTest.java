@@ -1,9 +1,27 @@
 package com.kikbak.client.service;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+
 import org.junit.Test;
+import static org.junit.Assert.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.kikbak.KikbakBaseTest;
+import com.kikbak.admin.service.MerchantService;
+import com.kikbak.dao.ReadOnlyDeviceTokenDAO;
+import com.kikbak.dao.ReadOnlyUser2FriendDAO;
+import com.kikbak.dao.ReadOnlyUserDAO;
+import com.kikbak.dto.Devicetoken;
+import com.kikbak.dto.User;
+import com.kikbak.jaxb.DeviceTokenType;
+import com.kikbak.jaxb.FriendType;
+import com.kikbak.jaxb.LocationType;
+import com.kikbak.jaxb.MerchantType;
+import com.kikbak.jaxb.OfferType;
+import com.kikbak.jaxb.UserIdType;
+import com.kikbak.jaxb.UserLocationType;
 import com.kikbak.jaxb.UserType;
 
 public class UserServiceTest extends KikbakBaseTest{
@@ -11,25 +29,136 @@ public class UserServiceTest extends KikbakBaseTest{
 	@Autowired
 	UserService service;
 	
+	@Autowired
+	ReadOnlyUserDAO roUserDao;
+	
+	@Autowired
+	ReadOnlyUser2FriendDAO roU2FDao;
+	
+	@Autowired
+	ReadOnlyDeviceTokenDAO roDeviceTokenDao;
+	
+	@Autowired
+	MerchantService merchantService;
+	
 	@Test
 	public void testRegisterUser(){
 		UserType ut = generateUserType();		
-		service.registerUser(ut);
+		UserIdType uit = service.registerUser(ut);
+		User user = roUserDao.findByFacebookId(12345L);
+		assertTrue(user != null);
+		assertEquals(uit.getUserId(), user.getId().longValue());
 	}
 	
 	@Test
-	public void testUpdateFriends(){
+	public void testUpdateNewFriends(){
+		Collection<FriendType> fts = generateFriends(2);
 		
+		service.updateFriends(4L, fts);
+		
+		Collection<Long> friendIds = roU2FDao.listFriendsForUser(4L);
+		assertEquals(2, friendIds.size());
+	}
+	
+	@Test
+	public void testAddNewFriends(){
+		Collection<FriendType> fts = generateFriends(2);
+		service.updateFriends(4L, fts);
+		
+		fts = generateFriends(4);
+		service.updateFriends(4L, fts);
+		
+		Collection<Long> friendIds = roU2FDao.listFriendsForUser(4L);
+		assertEquals(4, friendIds.size());
+		
+	}
+	
+	@Test
+	public void testDeleteOldFriends(){
+		Collection<FriendType> fts = generateFriends(2);
+		service.updateFriends(4L, fts);
+		
+		FriendType ft = new FriendType();
+		ft.setFacebookId(888);
+		ft.setFirstName("f1");
+		ft.setLastName("l2");
+		ft.setName("name");
+		ft.setUsername("username");
+		fts = new ArrayList<FriendType>();
+		fts.add(ft);
+		
+		service.updateFriends(4L, fts);
+		
+		Collection<Long> friendIds = roU2FDao.listFriendsForUser(4L);
+		assertEquals(1, friendIds.size());
 	}
 	
 	@Test
 	public void testPersistDeviceToken(){
+		DeviceTokenType tt = new DeviceTokenType();
+		tt.setPlatformId((short)0);
+		tt.setToken("2142");
+		service.persistDeviceToken(5L, tt);
 		
+		Devicetoken token = roDeviceTokenDao.findByUserId(5L);
+		assertEquals(tt.getToken(), token.getToken());
 	}
 	
 	@Test
 	public void testGetOffers(){
+		MerchantType mt = new MerchantType();
+		mt.setDescription("test");
+		mt.setGraphPath("test");
+		mt.setImageUrl("url");
+		mt.setName("test");
+		mt.setUrl("url");
+		mt.getLocations().add(fillLocationType());
+		mt.getLocations().add(fillLocationType());
 		
+		OfferType ot = new OfferType();
+		ot.setBeginDate(new Date().getTime() - 100000);
+		ot.setEndDate(new Date().getTime() + 100000);
+		ot.setDefaultText("default");
+		ot.setDescription("desc");
+		ot.setGiftDescription("gift");
+		ot.setGiftName("gn");
+		ot.setGiftValue(12.21);
+		ot.setKikbakDescription("kd");
+		ot.setKikbakName("kn");
+		ot.setKikbakValue(32.32);
+		ot.setName("name");
+		
+		try {
+			merchantService.addOrUpdateMerchant(mt);
+			merchantService.addOrUpdateOffer(ot);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+		
+		
+		
+		UserLocationType ult = new UserLocationType();
+		ult.setLatitude(12.32);
+		ult.setLongitude(12.43);
+		Collection<OfferType> ots = service.getOffers(4L, ult);
+		assertTrue(ots.size() == 1);
+	}
+	
+	protected Collection<FriendType> generateFriends(int count){
+		Collection<FriendType> fts = new ArrayList<FriendType>();
+		
+		for( int i = 0; i < count; i++){
+			FriendType ft = new FriendType();
+			ft.setFacebookId(888 + i);
+			ft.setFirstName("f1");
+			ft.setLastName("l2");
+			ft.setName("name");
+			ft.setUsername("username");
+			fts.add(ft);
+		}
+			
+		return fts;
 	}
 	
 	protected UserType generateUserType(){
@@ -40,8 +169,23 @@ public class UserServiceTest extends KikbakBaseTest{
 		ut.setLastName("last");
 		ut.setName("first last");
 		ut.setUsername("username");
+		ut.setFacebookId(12345);
 		ut.setVerified(1);
 		
 		return ut;
+	}
+	
+	protected LocationType fillLocationType(){
+		LocationType lt = new LocationType();
+		lt.setAddress1("add");
+		lt.setAddress2("ass");
+		lt.setCity("test");
+		lt.setState("test");
+		lt.setVerificationCode("test");
+		lt.setZipCode(12345);
+		lt.setLatitude(12.12);
+		lt.setLongitude(12.31);
+
+		return lt;
 	}
 }

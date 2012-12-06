@@ -22,8 +22,8 @@ public class ReadOnlyOfferDAOImpl extends ReadOnlyGenericDAOImpl<Offer, Long> im
 	public Collection<Offer> listValidOffers() {
 		Date now = new Date();
 		Conjunction conjunction = Restrictions.conjunction();
-		conjunction.add(Restrictions.gt("beginDate", now));
-		conjunction.add(Restrictions.lt("endDate", now));
+		conjunction.add(Restrictions.lt("beginDate", now));
+		conjunction.add(Restrictions.gt("endDate", now));
 		return listByCriteria(conjunction);
 	}
 
