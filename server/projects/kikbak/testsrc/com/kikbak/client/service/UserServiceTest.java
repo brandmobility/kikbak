@@ -145,6 +145,48 @@ public class UserServiceTest extends KikbakBaseTest{
 		assertTrue(ots.size() == 1);
 	}
 	
+	
+	@Test
+	public void testNoValidOffers(){
+		MerchantType mt = new MerchantType();
+		mt.setDescription("test");
+		mt.setGraphPath("test");
+		mt.setImageUrl("url");
+		mt.setName("test");
+		mt.setUrl("url");
+		mt.getLocations().add(fillLocationType());
+		mt.getLocations().add(fillLocationType());
+		
+		OfferType ot = new OfferType();
+		ot.setBeginDate(new Date().getTime() + 100000);
+		ot.setEndDate(new Date().getTime() - 100000);
+		ot.setDefaultText("default");
+		ot.setDescription("desc");
+		ot.setGiftDescription("gift");
+		ot.setGiftName("gn");
+		ot.setGiftValue(12.21);
+		ot.setKikbakDescription("kd");
+		ot.setKikbakName("kn");
+		ot.setKikbakValue(32.32);
+		ot.setName("name");
+		
+		try {
+			merchantService.addOrUpdateMerchant(mt);
+			merchantService.addOrUpdateOffer(ot);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+		
+		
+		
+		UserLocationType ult = new UserLocationType();
+		ult.setLatitude(12.32);
+		ult.setLongitude(12.43);
+		Collection<OfferType> ots = service.getOffers(4L, ult);
+		assertTrue(ots.size() == 0);
+	}
+	
 	protected Collection<FriendType> generateFriends(int count){
 		Collection<FriendType> fts = new ArrayList<FriendType>();
 		
