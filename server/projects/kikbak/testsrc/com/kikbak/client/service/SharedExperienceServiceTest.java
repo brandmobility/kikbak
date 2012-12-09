@@ -1,0 +1,37 @@
+package com.kikbak.client.service;
+
+import java.util.Collection;
+
+import org.junit.Test;
+import static org.junit.Assert.*;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.kikbak.KikbakBaseTest;
+import com.kikbak.dao.ReadOnlySharedDAO;
+import com.kikbak.dto.Shared;
+import com.kikbak.jaxb.SharedType;
+
+public class SharedExperienceServiceTest extends KikbakBaseTest{
+
+	@Autowired
+	SharedExperienceService service;
+	
+	@Autowired
+	ReadOnlySharedDAO roSharedDao;
+	
+	@Test
+	public void testRegisteringSharing(){
+	
+		SharedType st = new SharedType();
+		st.setFriendFacebookId(12);
+		st.setLocationId(12);
+		st.setMerchantId(12);
+		st.setOfferId(432);
+		
+		service.registerSharing(12L, st);
+		
+		
+		Collection<Shared> shares = roSharedDao.listByUserId(12L);
+		assertEquals(1, shares.size());
+	}
+}

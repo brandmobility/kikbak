@@ -5,8 +5,9 @@
   <type-mapping>
     <sql-type jdbc-type="VARCHAR" hibernate-type="string" length="250" not-null="true">
     </sql-type>
-    <sql-type jdbc-type="LONGVARCHAR" hibernate-type="string" length="65535" not-null="true">
+    <sql-type jdbc-type="LONGVARCHAR" hibernate-type="string" length="65535" not-null="true">   
     </sql-type>
+    <sql-type jdbc-type="BIGINT" hibernate-type="long" not-null="true"></sql-type>
   </type-mapping>
 
   <table catalog="kikbak" name="USER">

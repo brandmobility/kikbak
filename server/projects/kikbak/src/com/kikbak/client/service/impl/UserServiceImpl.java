@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
 		for(FriendType ft : friends){
 			currentFriendIds.add(ft.getFacebookId());
 		}
-		Collection<BigInteger> friendsToDelete = roU2FDao.listFriendsToDelete(userId, currentFriendIds);
+		Collection<Long> friendsToDelete = roU2FDao.listFriendsToDelete(userId, currentFriendIds);
 		if( friendsToDelete.size() != 0 ){
 			rwU2FDao.batchDelete(userId, friendsToDelete);
 		}

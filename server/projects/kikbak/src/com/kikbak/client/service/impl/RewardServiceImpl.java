@@ -30,6 +30,7 @@ import com.kikbak.dto.Merchant;
 import com.kikbak.dto.Offer;
 import com.kikbak.dto.Shared;
 import com.kikbak.dto.Transaction;
+import com.kikbak.jaxb.ClientLocationType;
 import com.kikbak.jaxb.ClientMerchantType;
 import com.kikbak.jaxb.GiftRedemptionType;
 import com.kikbak.jaxb.GiftType;
@@ -72,18 +73,17 @@ public class RewardServiceImpl implements RewardService{
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public Collection<GiftType> getGifts(Long userId) {
-		createGifts(userId);
-		Collection<Gift> gifts = roGiftDao.listByUserId(userId);
+		Collection<Gift> gifts = createGifts(userId);
+		gifts.addAll(roGiftDao.listByUserId(userId));
 		Collection<GiftType> gts = new ArrayList<GiftType>();
 		
 		for( Gift gift: gifts){
 			GiftType gt = new GiftType();
+			gt.setId(gift.getId());
 			gt.setValue(gift.getValue());
 			
 			Merchant merchant = roMerchantDao.findById(gift.getMerchantId());
-			ClientMerchantType cmt = new ClientMerchantType();
-			cmt.setDescription(merchant.getDescription());
-			cmt.setName(merchant.getName());
+			ClientMerchantType cmt = fillClientMerchantType(merchant);
 			gt.setMerchant(cmt);
 			
 			Offer offer = roOfferDao.findById(gift.getOfferId());
@@ -107,9 +107,7 @@ public class RewardServiceImpl implements RewardService{
 			kt.setValue(kikbak.getValue());
 			
 			Merchant merchant = roMerchantDao.findById(kikbak.getMerchantId());
-			ClientMerchantType cmt = new ClientMerchantType();
-			cmt.setDescription(merchant.getDescription());
-			cmt.setName(merchant.getName());
+			ClientMerchantType cmt = fillClientMerchantType(merchant);
 			kt.setMerchant(cmt);
 			
 			Offer offer = roOfferDao.findById(kikbak.getOfferId());
@@ -136,6 +134,9 @@ public class RewardServiceImpl implements RewardService{
 		gift.setValue(0.0);
 		
 		rwGiftDao.makePersistent(gift);
+		
+		KikbakManager km = new KikbakManager(roOfferDao, roKikbakDao, rwKikbakDao, rwTxnDao);
+		km.manageKikbak(userId, gift.getOfferId(), gift.getMerchantId(), giftType.getLocationId());
 		
 		return generateAuthorizationCode();
 	}
@@ -174,7 +175,7 @@ public class RewardServiceImpl implements RewardService{
 	}
 	
 	
-	protected void createGifts(Long userId){
+	protected Collection<Gift> createGifts(Long userId){
 
 		Collection<Long> offerIds = roGiftDao.listOfferIdsForUser(userId);
 		Collection<Shared> shareds = roSharedDao.listAvailableForGifting(userId);
@@ -194,10 +195,29 @@ public class RewardServiceImpl implements RewardService{
 				newGifts.add(gift);
 			}
 		}
+		
+		return newGifts;
 	}
 
 	
 	protected String generateAuthorizationCode(){
-		return new BigInteger(130,random).toString(5);
+		return new BigInteger(16,random).toString(16);
+	}
+	
+	protected ClientMerchantType fillClientMerchantType(Merchant merchant){
+		ClientMerchantType cmt = new ClientMerchantType();
+		cmt.setId(merchant.getId());
+		cmt.setDescription(merchant.getDescription());
+		cmt.setName(merchant.getName());
+
+		Collection<Location> locations = roLocationDao.listByMerchant(merchant.getId());
+		for(Location location: locations){
+			ClientLocationType clt = new ClientLocationType();
+			clt.setId(location.getId());
+			clt.setLatitude(location.getLatitude());
+			clt.setLongitude(location.getLongitude());
+			cmt.getLocations().add(clt);
+		}
+		return cmt;
 	}
 }

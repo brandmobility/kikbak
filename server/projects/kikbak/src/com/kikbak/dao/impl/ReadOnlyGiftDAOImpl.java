@@ -3,6 +3,7 @@ package com.kikbak.dao.impl;
 import java.util.Collection;
 
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.type.StandardBasicTypes;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,8 +35,15 @@ public class ReadOnlyGiftDAOImpl extends ReadOnlyGenericDAOImpl<Gift, Long> impl
 
 	@SuppressWarnings("unchecked")
 	@Override
+	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
 	public Collection<Long> listOfferIdsForUser(Long userId) {
-		return sessionFactory.getCurrentSession().createSQLQuery(gift_offer_ids).setLong(0, userId).list();
+		return sessionFactory.getCurrentSession().createSQLQuery(gift_offer_ids).addScalar("offer_id",  StandardBasicTypes.LONG ).setLong(0, userId).list();
+	}
+
+	@Override
+	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
+	public Collection<Gift> listByFriendUserId(Long friendId) {
+		return listByCriteria(Restrictions.eq("friendUserId", friendId));
 	}
 
 	

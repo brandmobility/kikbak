@@ -14,7 +14,7 @@ import com.kikbak.dto.User;
 
 public class UserDAOTest extends KikbakBaseTest{
 	
-	private final Long userId = 1L;
+	private final long userId = 1;
 	
 	@Autowired
 	ReadOnlyUserDAO roDao;

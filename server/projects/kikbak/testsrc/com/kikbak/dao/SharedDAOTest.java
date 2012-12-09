@@ -50,5 +50,18 @@ public class SharedDAOTest extends KikbakBaseTest{
 		Shared s = roDao.findById(shared.getId());
 		assertEquals(1234, s.getLocationId());
 	}
+	
+	@Test
+	public void testListAvailableFOrGifting(){
+		
+		Collection<Shared> s = roDao.listAvailableForGifting(1L);
+		assertEquals(1, s.size());
+	}
+	
+	@Test
+	public void testListUserAndOfferId(){
+		Collection<Shared> shared = roDao.listByUserIdAndOfferId(6L, 3L);
+		assertEquals(1, shared.size());
+	}
 }
 

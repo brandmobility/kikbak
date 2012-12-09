@@ -47,7 +47,7 @@ public class UserServiceTest extends KikbakBaseTest{
 		UserIdType uit = service.registerUser(ut);
 		User user = roUserDao.findByFacebookId(12345L);
 		assertTrue(user != null);
-		assertEquals(uit.getUserId(), user.getId().longValue());
+		assertEquals(uit.getUserId(), user.getId());
 	}
 	
 	@Test

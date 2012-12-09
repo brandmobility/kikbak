@@ -37,6 +37,17 @@ public class GiftDAOTest extends KikbakBaseTest {
 		assertEquals(1, gifts.size());
 	}
 	
+	@Test 
+	public void testListOfferIdsForUser(){
+		Collection<Long> offerIds = roDao.listOfferIdsForUser(12L);	
+		assertEquals(1, offerIds.size());
+	}
+	
+	@Test
+	public void testListByFriendUserId(){
+		Collection<Gift> gifts = roDao.listByFriendUserId(13L);
+		assertEquals(2, gifts.size());
+	}
 	@Test
 	public void testWriteGift(){
 		Gift gift = new Gift();

@@ -53,7 +53,7 @@ CREATE TABLE `Gift`
     friend_user_id BIGINT NOT NULL,
     merchant_id BIGINT NOT NULL,
     value DOUBLE NOT NULL,
-    redemption_date DATETIME NOT NULL,
+    redemption_date DATETIME,
     experiration_date DATETIME NOT NULL,
     PRIMARY KEY(id)
 )ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;

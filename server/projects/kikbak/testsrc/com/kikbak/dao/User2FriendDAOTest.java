@@ -1,6 +1,5 @@
 package com.kikbak.dao;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -58,8 +57,8 @@ public class User2FriendDAOTest extends KikbakBaseTest{
 		ids.add(1001L);
 		ids.add(1002L);
 		
-		Collection<BigInteger> freinds = roDao.listFriendsToDelete(userIdBase, ids);
-		assertEquals(13, freinds.size());
+		Collection<Long> fIds = roDao.listFriendsToDelete(userIdBase, ids);
+		assertEquals(13, fIds.size());
 	}
 	
 	
@@ -68,14 +67,14 @@ public class User2FriendDAOTest extends KikbakBaseTest{
 		Collection<User2friend> friends = new ArrayList<User2friend>();
 		long userIdBase = 250;
 		int fbIdBase = 1000;
-		Collection<BigInteger> friendsToDelete = new ArrayList<BigInteger>();
+		Collection<Long> friendsToDelete = new ArrayList<Long>();
 		for( int count = 0; count< 15; count++){
 			User2friend friend = new User2friend();
 			friend.setFacebookFriendId(fbIdBase + count);
 			friend.setUserId(userIdBase);
 			friends.add(friend);
 			
-			friendsToDelete.add(new BigInteger(((Integer) (fbIdBase + count)).toString()));
+			friendsToDelete.add((long)(fbIdBase + count));
 		}
 		
 		rwDao.batchInsert(friends);
