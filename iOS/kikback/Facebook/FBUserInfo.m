@@ -10,8 +10,6 @@
 
 @implementation FBUserInfo
 
-@synthesize me = _me;
-@synthesize friends = _friends;
 
 
 @end

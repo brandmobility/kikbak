@@ -211,8 +211,8 @@ public class UserServiceTest extends KikbakBaseTest{
 		ut.setLastName("last");
 		ut.setName("first last");
 		ut.setUsername("username");
-		ut.setFacebookId(12345);
-		ut.setVerified(1);
+		ut.setId(12345);
+		ut.setVerified(true);
 		
 		return ut;
 	}

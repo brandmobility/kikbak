@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
 		user.setLastName(userType.getLastName());
 		user.setUpdateDate(null);
 		user.setUsername(userType.getUsername());
-		user.setFacebookId(userType.getFacebookId());
+		user.setFacebookId(userType.getId());
 		
 		
 		rwUserDao.makePersistent(user);

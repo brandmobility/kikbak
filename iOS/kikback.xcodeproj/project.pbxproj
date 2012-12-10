@@ -27,6 +27,8 @@
 		C0735047161970C9008F4C46 /* FBUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = C0735046161970C9008F4C46 /* FBUserInfo.m */; };
 		C073504A161970F6008F4C46 /* FBQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = C0735049161970F6008F4C46 /* FBQuery.m */; };
 		C079DCF6162154B200C50797 /* Hash.m in Sources */ = {isa = PBXBuildFile; fileRef = C079DCF5162154B200C50797 /* Hash.m */; };
+		C094818D16746C2C0077F506 /* PostRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C094818C16746C2C0077F506 /* PostRequest.m */; };
+		C09481911675A6630077F506 /* RegisterUser.m in Sources */ = {isa = PBXBuildFile; fileRef = C09481901675A6630077F506 /* RegisterUser.m */; };
 		C0DA3E05161181BC00EB08FF /* login.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DA3E04161181BC00EB08FF /* login.png */; };
 		C0ECB169160C1E37005D6AA3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0ECB168160C1E37005D6AA3 /* UIKit.framework */; };
 		C0ECB16B160C1E37005D6AA3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0ECB16A160C1E37005D6AA3 /* Foundation.framework */; };
@@ -87,6 +89,11 @@
 		C079DCF4162154B200C50797 /* Hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hash.h; sourceTree = "<group>"; };
 		C079DCF5162154B200C50797 /* Hash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Hash.m; sourceTree = "<group>"; };
 		C079DCF716215BFD00C50797 /* FBConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FBConstants.h; sourceTree = "<group>"; };
+		C094818B16746C2C0077F506 /* PostRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostRequest.h; sourceTree = "<group>"; };
+		C094818C16746C2C0077F506 /* PostRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostRequest.m; sourceTree = "<group>"; };
+		C094818E16746C720077F506 /* HTTPConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTTPConstants.h; sourceTree = "<group>"; };
+		C094818F1675A6630077F506 /* RegisterUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterUser.h; sourceTree = "<group>"; };
+		C09481901675A6630077F506 /* RegisterUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterUser.m; sourceTree = "<group>"; };
 		C0DA3E04161181BC00EB08FF /* login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = login.png; path = graphics/login.png; sourceTree = "<group>"; };
 		C0ECB164160C1E37005D6AA3 /* kikback.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kikback.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0ECB168160C1E37005D6AA3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -186,14 +193,6 @@
 			path = kikback/Facebook;
 			sourceTree = "<group>";
 		};
-		C073504B16197C1D008F4C46 /* Parse */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Parse;
-			path = kikback/Parse;
-			sourceTree = "<group>";
-		};
 		C079DCF21621546E00C50797 /* crypto */ = {
 			isa = PBXGroup;
 			children = (
@@ -204,11 +203,23 @@
 			path = kikback/crypto;
 			sourceTree = "<group>";
 		};
+		C094818A16746AB40077F506 /* rest */ = {
+			isa = PBXGroup;
+			children = (
+				C094818B16746C2C0077F506 /* PostRequest.h */,
+				C094818C16746C2C0077F506 /* PostRequest.m */,
+				C094818E16746C720077F506 /* HTTPConstants.h */,
+				C094818F1675A6630077F506 /* RegisterUser.h */,
+				C09481901675A6630077F506 /* RegisterUser.m */,
+			);
+			path = rest;
+			sourceTree = "<group>";
+		};
 		C0ECB159160C1E37005D6AA3 = {
 			isa = PBXGroup;
 			children = (
+				C094818A16746AB40077F506 /* rest */,
 				C079DCF21621546E00C50797 /* crypto */,
-				C073504B16197C1D008F4C46 /* Parse */,
 				C073504416197072008F4C46 /* Facebook */,
 				C073501E16182B71008F4C46 /* SBJson */,
 				C0FB48DD160FE6DF00074363 /* Flurry */,
@@ -375,6 +386,8 @@
 				C0735047161970C9008F4C46 /* FBUserInfo.m in Sources */,
 				C073504A161970F6008F4C46 /* FBQuery.m in Sources */,
 				C079DCF6162154B200C50797 /* Hash.m in Sources */,
+				C094818D16746C2C0077F506 /* PostRequest.m in Sources */,
+				C09481911675A6630077F506 /* RegisterUser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

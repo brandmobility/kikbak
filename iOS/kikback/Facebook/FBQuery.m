@@ -12,7 +12,7 @@
 #import "SBJson.h"
 #import "FBUserInfo.h"
 #import "FBConstants.h"
-
+#import "RegisterUser.h"
 
 @implementation FBQuery
 
@@ -56,7 +56,7 @@
     if(error == nil){
       AppDelegate* delegate =[UIApplication sharedApplication].delegate;
       delegate.userInfo.friends = result;
-      NSLog(@"****friends: %@", result);
+     // NSLog(@"****friends: %@", result);
       [Flurry logEvent:@"FriendRequestEvent" timed:YES];
     }
     else{
@@ -78,7 +78,9 @@
     if(error == nil){
       AppDelegate* delegate =[UIApplication sharedApplication].delegate;
       delegate.userInfo.me = result;
-      NSLog(@"****me: %@", result);
+      RegisterUser* registerUser = [[RegisterUser alloc] init];
+      [registerUser makeRequest:result];
+     // NSLog(@"****me: %@", result);
       NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
       [prefs setValue:[delegate.userInfo.me objectForKey:FBUSERID_KEY] forKeyPath:FBUSERID_KEY];
       [prefs synchronize];

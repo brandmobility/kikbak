@@ -31,9 +31,8 @@ public class UserController {
 	@Autowired
 	UserService service;
 
-	@RequestMapping(value = "/register/fb/{fbUserId}",  method = RequestMethod.POST)
-	public RegisterUserResponse registerFacebookUser(@PathVariable String fbUserId,
-			@RequestBody RegisterUserRequest request, final HttpServletResponse httpResponse){
+	@RequestMapping(value = "/register/fb/",  method = RequestMethod.POST)
+	public RegisterUserResponse registerFacebookUser(@RequestBody RegisterUserRequest request, final HttpServletResponse httpResponse){
 		
 		RegisterUserResponse response = new RegisterUserResponse();
 		StatusType status = new StatusType();

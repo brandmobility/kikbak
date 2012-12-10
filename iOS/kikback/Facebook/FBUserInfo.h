@@ -10,8 +10,6 @@
 #import <FacebookSDK/FacebookSDK.h>
 
 @interface FBUserInfo : NSObject{
-  FBGraphObject* friends;
-  FBGraphObject* me;
 }
 
 @property (nonatomic, strong) NSMutableDictionary* friends;
