@@ -17,6 +17,7 @@ import com.kikbak.dao.ReadOnlyDeviceTokenDAO;
 import com.kikbak.dao.ReadOnlyLocationDAO;
 import com.kikbak.dao.ReadOnlyOfferDAO;
 import com.kikbak.dao.ReadOnlyUser2FriendDAO;
+import com.kikbak.dao.ReadOnlyUserDAO;
 import com.kikbak.dao.ReadWriteDeviceTokenDAO;
 import com.kikbak.dao.ReadWriteUser2FriendDAO;
 import com.kikbak.dao.ReadWriteUserDAO;
@@ -36,6 +37,9 @@ import com.kikbak.jaxb.UserType;
 @Service
 public class UserServiceImpl implements UserService {
 
+	@Autowired
+	ReadOnlyUserDAO roUserDao;
+	
 	@Autowired
 	ReadWriteUserDAO rwUserDao;
 	
@@ -60,7 +64,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public UserIdType registerUser(UserType userType) {
-		User user = new User();
+		User user = findOrCreateUser(userType);
 		user.setCreateDate(new Date());
 		user.setEmail(userType.getEmail());
 		user.setFirstName(userType.getFirstName());
@@ -88,7 +92,7 @@ public class UserServiceImpl implements UserService {
 		//delete old
 		Collection<Long> currentFriendIds = new ArrayList<Long>();
 		for(FriendType ft : friends){
-			currentFriendIds.add(ft.getFacebookId());
+			currentFriendIds.add(ft.getId());
 		}
 		Collection<Long> friendsToDelete = roU2FDao.listFriendsToDelete(userId, currentFriendIds);
 		if( friendsToDelete.size() != 0 ){
@@ -99,10 +103,10 @@ public class UserServiceImpl implements UserService {
 		Collection<Long> fbIds = roU2FDao.listFriendsForUser(userId);
 		Collection<User2friend> friendAssociations = new ArrayList<User2friend>();
 		for( FriendType ft : friends){
-			BigInteger fbId = new BigInteger(((Long)ft.getFacebookId()).toString());
+			BigInteger fbId = new BigInteger(((Long)ft.getId()).toString());
 			if( !fbIds.contains( fbId ) ){
 				User2friend u2f = new User2friend();
-				u2f.setFacebookFriendId(ft.getFacebookId());
+				u2f.setFacebookFriendId(ft.getId());
 				u2f.setUserId(userId);
 				friendAssociations.add(u2f);
 			}
@@ -162,5 +166,14 @@ public class UserServiceImpl implements UserService {
 		token.setUserId(userId);
 		
 		rwDeviceTokenDao.makePersistent(token);
+	}
+	
+	protected User findOrCreateUser(UserType userType){
+		User user = roUserDao.findByFacebookId(userType.getId());
+		if( user == null ){
+			user = new User();
+		}
+		
+		return user;
 	}
 }

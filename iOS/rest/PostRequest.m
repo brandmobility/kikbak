@@ -20,7 +20,7 @@
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
                                                          cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60.0];
   
-  NSData *requestData = [NSData dataWithBytes:[_body UTF8String] length:[_body length]];
+  NSData *requestData = [NSData dataWithBytes:[_body UTF8String] length:[_body lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
   
   [request setHTTPMethod:@"POST"];
   [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
@@ -43,18 +43,21 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
-  NSLog(@"didReceiveResponse: %@", response);
+
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
   
-  NSLog(@"didReceiveData: %@", data);
+  if (_restDelegate) {
+    [_restDelegate receivedData:data];
+  }
 }
 
 
 
 - (void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten
                   totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite{
+  NSLog(@"didSendBodyData: written: %d; totalWritten: %d; expected written: %d",bytesWritten, totalBytesWritten, totalBytesExpectedToWrite);
   
 }
 

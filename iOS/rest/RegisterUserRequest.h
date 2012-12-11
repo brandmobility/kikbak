@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "RestDataDelegate.h"
 
 @class PostRequest;
 
-@interface RegisterUser : NSObject
+@interface RegisterUserRequest : NSObject<RestDataDelegate>
 {
   PostRequest* request;
 }

@@ -49,15 +49,16 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/friends/fb/{userId}", method=RequestMethod.POST)
-	public UpdateFriendResponse updateFriends(@PathVariable String userId,@RequestBody UpdateFriendsRequest request,
+	public UpdateFriendResponse updateFriends(@PathVariable("userId") Long userId,@RequestBody UpdateFriendsRequest request,
 			final HttpServletResponse httpResponse){
+		
 		
 		UpdateFriendResponse response = new UpdateFriendResponse();
 		StatusType status = new StatusType();
 		status.setCode(StatusCode.OK.ordinal());
 		response.setStatus(status);
 		try {
-			service.updateFriends(Long.parseLong(userId), request.getFriends());
+			service.updateFriends(userId, request.getFriends());
 		} catch (Exception e) {
 			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			status.setCode(StatusCode.ERROR.ordinal());

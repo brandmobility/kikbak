@@ -66,9 +66,9 @@
     
     <xsd:complexType name="FriendType">
         <xsd:sequence>
-            <xsd:element name="firstName" type="xsd:string" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="facebookId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="lastName" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="first_name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="id" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="last_name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="username" type="xsd:string" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
@@ -77,7 +77,6 @@
     <xsd:element name="UpdateFriendsRequest">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="user" type="kikbak:UserIdType" minOccurs="1" maxOccurs="1"/>
                 <xsd:element name="friends" type="kikbak:FriendType" minOccurs="1" maxOccurs="unbounded"/>
             </xsd:sequence>
         </xsd:complexType>

@@ -7,15 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "RestDataDelegate.h"
 
 @interface PostRequest : NSObject<NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 {
-  
 }
 
 @property(nonatomic, strong) NSString* resource;
 @property(nonatomic, strong) NSString* body;
 @property(nonatomic, strong) NSMutableData* receivedData;
+@property(nonatomic, strong) id<RestDataDelegate> restDelegate;
 
 -(void)makeSyncRequest;
 

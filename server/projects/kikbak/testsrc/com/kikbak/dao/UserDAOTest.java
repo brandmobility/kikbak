@@ -54,4 +54,5 @@ public class UserDAOTest extends KikbakBaseTest{
 		
 		assertEquals(u2.getEmail(), user.getEmail());
 	}
+	
 }

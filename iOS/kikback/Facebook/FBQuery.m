@@ -12,7 +12,10 @@
 #import "SBJson.h"
 #import "FBUserInfo.h"
 #import "FBConstants.h"
-#import "RegisterUser.h"
+#import "KikbakConstants.h"
+#import "RegisterUserRequest.h"
+#import "SubmitFriendsRequest.h"
+
 
 @implementation FBQuery
 
@@ -56,7 +59,9 @@
     if(error == nil){
       AppDelegate* delegate =[UIApplication sharedApplication].delegate;
       delegate.userInfo.friends = result;
-     // NSLog(@"****friends: %@", result);
+      SubmitFriendsRequest* request = [[SubmitFriendsRequest alloc]init];
+      [request makeRequest:[result objectForKey:@"data"]];
+      
       [Flurry logEvent:@"FriendRequestEvent" timed:YES];
     }
     else{
@@ -78,10 +83,12 @@
     if(error == nil){
       AppDelegate* delegate =[UIApplication sharedApplication].delegate;
       delegate.userInfo.me = result;
-      RegisterUser* registerUser = [[RegisterUser alloc] init];
-      [registerUser makeRequest:result];
-     // NSLog(@"****me: %@", result);
       NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
+      if( [prefs objectForKey:KIKBAK_USER_ID] == nil ){
+        RegisterUserRequest* request = [[RegisterUserRequest alloc] init];
+        [request makeRequest:result];
+      }
+      
       [prefs setValue:[delegate.userInfo.me objectForKey:FBUSERID_KEY] forKeyPath:FBUSERID_KEY];
       [prefs synchronize];
       [Flurry logEvent:@"MeRequestEvent" timed:YES];

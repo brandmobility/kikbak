@@ -156,7 +156,7 @@ CREATE TABLE `User`
 	last_name VARCHAR(64),
 	username VARCHAR(128) NOT NULL,
 	email VARCHAR(128) NOT NULL,
-	facebook_id BIGINT(0) NOT NULL,
+	facebook_id BIGINT(0) NOT NULL UNIQUE,
 	gender TINYINT NOT NULL,
 	create_date DATETIME NOT NULL,
 	update_date DATETIME,

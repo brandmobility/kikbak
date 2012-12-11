@@ -28,7 +28,8 @@
 		C073504A161970F6008F4C46 /* FBQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = C0735049161970F6008F4C46 /* FBQuery.m */; };
 		C079DCF6162154B200C50797 /* Hash.m in Sources */ = {isa = PBXBuildFile; fileRef = C079DCF5162154B200C50797 /* Hash.m */; };
 		C094818D16746C2C0077F506 /* PostRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C094818C16746C2C0077F506 /* PostRequest.m */; };
-		C09481911675A6630077F506 /* RegisterUser.m in Sources */ = {isa = PBXBuildFile; fileRef = C09481901675A6630077F506 /* RegisterUser.m */; };
+		C09481911675A6630077F506 /* RegisterUserRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C09481901675A6630077F506 /* RegisterUserRequest.m */; };
+		C09481A6167704AB0077F506 /* SubmitFriendsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C09481A5167704AB0077F506 /* SubmitFriendsRequest.m */; };
 		C0DA3E05161181BC00EB08FF /* login.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DA3E04161181BC00EB08FF /* login.png */; };
 		C0ECB169160C1E37005D6AA3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0ECB168160C1E37005D6AA3 /* UIKit.framework */; };
 		C0ECB16B160C1E37005D6AA3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0ECB16A160C1E37005D6AA3 /* Foundation.framework */; };
@@ -92,8 +93,12 @@
 		C094818B16746C2C0077F506 /* PostRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostRequest.h; sourceTree = "<group>"; };
 		C094818C16746C2C0077F506 /* PostRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostRequest.m; sourceTree = "<group>"; };
 		C094818E16746C720077F506 /* HTTPConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTTPConstants.h; sourceTree = "<group>"; };
-		C094818F1675A6630077F506 /* RegisterUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterUser.h; sourceTree = "<group>"; };
-		C09481901675A6630077F506 /* RegisterUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterUser.m; sourceTree = "<group>"; };
+		C094818F1675A6630077F506 /* RegisterUserRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterUserRequest.h; sourceTree = "<group>"; };
+		C09481901675A6630077F506 /* RegisterUserRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterUserRequest.m; sourceTree = "<group>"; };
+		C09481A01676FBC10077F506 /* RestDataDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RestDataDelegate.h; sourceTree = "<group>"; };
+		C09481A2167700510077F506 /* KikbakConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KikbakConstants.h; sourceTree = "<group>"; };
+		C09481A4167704AB0077F506 /* SubmitFriendsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubmitFriendsRequest.h; sourceTree = "<group>"; };
+		C09481A5167704AB0077F506 /* SubmitFriendsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubmitFriendsRequest.m; sourceTree = "<group>"; };
 		C0DA3E04161181BC00EB08FF /* login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = login.png; path = graphics/login.png; sourceTree = "<group>"; };
 		C0ECB164160C1E37005D6AA3 /* kikback.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kikback.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0ECB168160C1E37005D6AA3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -209,8 +214,11 @@
 				C094818B16746C2C0077F506 /* PostRequest.h */,
 				C094818C16746C2C0077F506 /* PostRequest.m */,
 				C094818E16746C720077F506 /* HTTPConstants.h */,
-				C094818F1675A6630077F506 /* RegisterUser.h */,
-				C09481901675A6630077F506 /* RegisterUser.m */,
+				C094818F1675A6630077F506 /* RegisterUserRequest.h */,
+				C09481901675A6630077F506 /* RegisterUserRequest.m */,
+				C09481A01676FBC10077F506 /* RestDataDelegate.h */,
+				C09481A4167704AB0077F506 /* SubmitFriendsRequest.h */,
+				C09481A5167704AB0077F506 /* SubmitFriendsRequest.m */,
 			);
 			path = rest;
 			sourceTree = "<group>";
@@ -262,6 +270,7 @@
 			children = (
 				C0ECB177160C1E37005D6AA3 /* AppDelegate.h */,
 				C0ECB178160C1E37005D6AA3 /* AppDelegate.m */,
+				C09481A2167700510077F506 /* KikbakConstants.h */,
 				C0ECB1A4160D825B005D6AA3 /* LoginViewController.h */,
 				C0ECB184160C1E37005D6AA3 /* LoginViewController.m */,
 				C0ECB180160C1E37005D6AA3 /* MainStoryboard.storyboard */,
@@ -387,7 +396,8 @@
 				C073504A161970F6008F4C46 /* FBQuery.m in Sources */,
 				C079DCF6162154B200C50797 /* Hash.m in Sources */,
 				C094818D16746C2C0077F506 /* PostRequest.m in Sources */,
-				C09481911675A6630077F506 /* RegisterUser.m in Sources */,
+				C09481911675A6630077F506 /* RegisterUserRequest.m in Sources */,
+				C09481A6167704AB0077F506 /* SubmitFriendsRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -79,7 +79,7 @@ public class UserServiceTest extends KikbakBaseTest{
 		service.updateFriends(4L, fts);
 		
 		FriendType ft = new FriendType();
-		ft.setFacebookId(888);
+		ft.setId(888);
 		ft.setFirstName("f1");
 		ft.setLastName("l2");
 		ft.setName("name");
@@ -192,7 +192,7 @@ public class UserServiceTest extends KikbakBaseTest{
 		
 		for( int i = 0; i < count; i++){
 			FriendType ft = new FriendType();
-			ft.setFacebookId(888 + i);
+			ft.setId(888 + i);
 			ft.setFirstName("f1");
 			ft.setLastName("l2");
 			ft.setName("name");
