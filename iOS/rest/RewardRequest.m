@@ -1,22 +1,22 @@
 //
-//  SubmitFriendsRequest.m
+//  RewardRequest.m
 //  kikback
 //
-//  Created by Ian Barile on 12/10/12.
+//  Created by Ian Barile on 12/11/12.
 //  Copyright (c) 2012 Ian Barile. All rights reserved.
 //
 
-#import "SubmitFriendsRequest.h"
-#import "KikbakConstants.h"
+#import "RewardRequest.h"
 #import "SBJson.h"
+#import "KikbakConstants.h"
 
-static NSString* resource = @"user/friends/fb";
+static NSString* resource = @"rewards/request";
 
-@interface SubmitFriendsRequest()
--(NSDictionary*)formatRequest:(NSDictionary*)requestData;
+@interface RewardRequest()
+-(NSDictionary*)formatRequest:(id)requestData;
 @end
 
-@implementation SubmitFriendsRequest
+@implementation RewardRequest
 
 -(void)makeRequest:(NSDictionary*)requestData{
   
@@ -36,10 +36,7 @@ static NSString* resource = @"user/friends/fb";
 
 -(NSDictionary*)formatRequest:(id)requestData{
   NSMutableDictionary* result = [[NSMutableDictionary alloc]initWithCapacity:1];
-  NSMutableDictionary* user =[[NSMutableDictionary alloc]initWithCapacity:1];
-  
-  [user setObject:requestData forKey:@"friends"];
-  [result setObject:user forKey:@"UpdateFriendsRequest"];
+  [result setObject:requestData forKey:@"RewardsRequest"];
   return result;
 }
 

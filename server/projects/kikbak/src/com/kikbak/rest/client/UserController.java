@@ -69,7 +69,7 @@ public class UserController {
 	}
 	
 	@RequestMapping( value = "/offer/{userId}", method = RequestMethod.POST)
-	public GetUserOffersResponse offersRequest(@PathVariable Long userId, 
+	public GetUserOffersResponse offersRequest(@PathVariable("userId") Long userId, 
 					@RequestBody GetUserOffersRequest request, final HttpServletResponse httpResponse){
 		
 		GetUserOffersResponse response = new GetUserOffersResponse();
@@ -87,7 +87,7 @@ public class UserController {
 	}
 	
 	@RequestMapping( value="/devicetoken/{userId}", method = RequestMethod.POST)
-	public DeviceTokenUpdateResponse deviceTokenUpdate(@PathVariable Long userId,
+	public DeviceTokenUpdateResponse deviceTokenUpdate(@PathVariable("userId") Long userId,
 					@RequestBody DeviceTokenUpdateRequest request, final HttpServletResponse httpResponse){
 		
 		return new DeviceTokenUpdateResponse();

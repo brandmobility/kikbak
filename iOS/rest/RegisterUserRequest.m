@@ -10,6 +10,9 @@
 #import "PostRequest.h"
 #import "SBJson.h"
 #import "KikbakConstants.h"
+#import "LocationManager.h"
+#import "AppDelegate.h"
+#import "DeviceTokenRequest.h"
 
 static NSString* resource = @"user/register/fb/";
 
@@ -55,6 +58,15 @@ static NSString* resource = @"user/register/fb/";
         NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
         [prefs setValue:userId forKeyPath:KIKBAK_USER_ID];
         [prefs synchronize];
+       
+        [((AppDelegate*)[UIApplication sharedApplication].delegate).locationMgr startUpdating];
+        if( ((AppDelegate*)[UIApplication sharedApplication].delegate).deviceToken ){
+          DeviceTokenRequest* tokenRequest = [[DeviceTokenRequest alloc]init];
+          NSMutableDictionary* data = [[NSMutableDictionary alloc]initWithCapacity:2];
+          [data setObject:((AppDelegate*)[UIApplication sharedApplication].delegate).deviceToken forKey:@"token"];
+          [data setObject:[NSNumber numberWithInt:0] forKey:@"platform_id"];
+          [tokenRequest makeRequest:data];
+        }
       }
     }
   }

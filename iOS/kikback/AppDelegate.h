@@ -11,6 +11,7 @@
 
 @class FBUserInfo;
 @class LoginViewController;
+@class LocationManager;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>{
   UIImageView* splash;
@@ -20,5 +21,7 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) FBSession *session;
 @property (strong, nonatomic) FBUserInfo* userInfo;
+@property (strong, nonatomic) LocationManager* locationMgr;
+@property (strong, nonatomic) NSData* deviceToken;
 
 @end

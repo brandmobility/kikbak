@@ -30,7 +30,7 @@ public class RewardController {
 	RewardService service;
 	
 	@RequestMapping(value = "/request/{userId}", method = RequestMethod.GET)
-	public RewardsResponse rewards(@PathVariable Long userId,
+	public RewardsResponse rewards(@PathVariable("userId") Long userId,
 						@RequestBody RewardsRequest request, final HttpServletResponse httpResponse){
 		
 		RewardsResponse response = new RewardsResponse();
@@ -49,7 +49,7 @@ public class RewardController {
 	}
 	
 	@RequestMapping(value="/redeem/gift/{userId}", method = RequestMethod.POST)
-	public RedeemGiftResponse redeemGift(@PathVariable Long userId,
+	public RedeemGiftResponse redeemGift(@PathVariable("userId") Long userId,
 						@RequestBody RedeemGiftRequest request, final HttpServletResponse httpResponse){
 		
 		RedeemGiftResponse response = new RedeemGiftResponse();
@@ -68,7 +68,7 @@ public class RewardController {
 	}
 	
 	@RequestMapping(value="/redeem/kikbak/{userId}", method = RequestMethod.POST)
-	public RedeemKikbakResponse redeemKikbak(@PathVariable Long userId,
+	public RedeemKikbakResponse redeemKikbak(@PathVariable("userId") Long userId,
 						@RequestBody RedeemKikbakRequest request, final HttpServletResponse httpResponse){
 		
 		RedeemKikbakResponse response = new RedeemKikbakResponse();

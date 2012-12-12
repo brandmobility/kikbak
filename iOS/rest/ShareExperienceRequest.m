@@ -1,22 +1,22 @@
 //
-//  SubmitFriendsRequest.m
+//  ShareExperienceRequest.m
 //  kikback
 //
-//  Created by Ian Barile on 12/10/12.
+//  Created by Ian Barile on 12/11/12.
 //  Copyright (c) 2012 Ian Barile. All rights reserved.
 //
 
-#import "SubmitFriendsRequest.h"
-#import "KikbakConstants.h"
+#import "ShareExperienceRequest.h"
 #import "SBJson.h"
+#import "KikbakConstants.h"
 
-static NSString* resource = @"user/friends/fb";
+static NSString* resource = @"ShareExperience";
 
-@interface SubmitFriendsRequest()
--(NSDictionary*)formatRequest:(NSDictionary*)requestData;
+@interface ShareExperienceRequest()
+-(NSDictionary*)formatRequest:(id)requestData;
 @end
 
-@implementation SubmitFriendsRequest
+@implementation ShareExperienceRequest
 
 -(void)makeRequest:(NSDictionary*)requestData{
   
@@ -38,8 +38,8 @@ static NSString* resource = @"user/friends/fb";
   NSMutableDictionary* result = [[NSMutableDictionary alloc]initWithCapacity:1];
   NSMutableDictionary* user =[[NSMutableDictionary alloc]initWithCapacity:1];
   
-  [user setObject:requestData forKey:@"friends"];
-  [result setObject:user forKey:@"UpdateFriendsRequest"];
+  [user setObject:requestData forKey:@"experience"];
+  [result setObject:user forKey:@"ShareExperienceRequest"];
   return result;
 }
 

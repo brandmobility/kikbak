@@ -10,6 +10,7 @@
 
 @protocol RestDataDelegate <NSObject>
 
+@required
 -(void)receivedData:(NSData*)data;
 
 @end

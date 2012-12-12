@@ -8,15 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import "RestDataDelegate.h"
+#import "RestRequestProtocol.h"
 
 @class PostRequest;
 
-@interface RegisterUserRequest : NSObject<RestDataDelegate>
+@interface RegisterUserRequest : NSObject<RestDataDelegate, RestRequestProtocol>
 {
   PostRequest* request;
 }
 
--(void)makeRequest:(NSDictionary*)requestData;
 
 @end
 

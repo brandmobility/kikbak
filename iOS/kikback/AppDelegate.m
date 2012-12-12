@@ -11,6 +11,9 @@
 #import "SBJson.h"
 #import "FBQuery.h"
 #import "FBUserInfo.h"
+#import "LocationManager.h"
+#import "KikbakConstants.h"
+#import "DeviceTokenRequest.h"
 
 @interface AppDelegate()
 -(void)fadeOutSplash;
@@ -40,6 +43,9 @@
         UIViewController* postView = [mainBoard instantiateViewControllerWithIdentifier:@"PostReviewViewController"];
         self.window.rootViewController = postView;
     }
+  
+    self.locationMgr = [[LocationManager alloc]init];
+    [application registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge|UIRemoteNotificationTypeSound|UIRemoteNotificationTypeAlert)];
   
     splash = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Default.png"]];
     splash.frame = CGRectMake(0, 0, 320, 460);
@@ -111,5 +117,19 @@
 
 
 
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
+ 
+    NSString* json = [[NSString alloc]initWithData:deviceToken encoding:NSUTF8StringEncoding];
+    self.deviceToken = deviceToken;
+    NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
+    if( [prefs objectForKey:KIKBAK_USER_ID] == nil ){
+      DeviceTokenRequest* request = [[DeviceTokenRequest alloc]init];
+      NSMutableDictionary* data = [[NSMutableDictionary alloc]initWithCapacity:2];
+      [data setObject:deviceToken forKey:@"token"];
+      [data setObject:[NSNumber numberWithInt:0] forKey:@"platform_id"];
+      [request makeRequest:data];
+    }
+  
+}
 
 @end

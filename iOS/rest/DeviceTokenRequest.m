@@ -1,22 +1,22 @@
 //
-//  SubmitFriendsRequest.m
+//  DeviceTokenRequest.m
 //  kikback
 //
-//  Created by Ian Barile on 12/10/12.
+//  Created by Ian Barile on 12/11/12.
 //  Copyright (c) 2012 Ian Barile. All rights reserved.
 //
 
-#import "SubmitFriendsRequest.h"
+#import "DeviceTokenRequest.h"
 #import "KikbakConstants.h"
 #import "SBJson.h"
 
-static NSString* resource = @"user/friends/fb";
+static NSString* resource = @"user/devicetoken";
 
-@interface SubmitFriendsRequest()
--(NSDictionary*)formatRequest:(NSDictionary*)requestData;
+@interface DeviceTokenRequest()
+-(NSDictionary*)formatRequest:(id)requestData;
 @end
 
-@implementation SubmitFriendsRequest
+@implementation DeviceTokenRequest
 
 -(void)makeRequest:(NSDictionary*)requestData{
   
@@ -27,7 +27,6 @@ static NSString* resource = @"user/friends/fb";
   
   
   NSString* body = [[self formatRequest:requestData] JSONRepresentation];
-  NSLog(@"Body: %@",body);
   request.body = body;
   request.restDelegate = self;
   [request makeSyncRequest];
@@ -38,8 +37,8 @@ static NSString* resource = @"user/friends/fb";
   NSMutableDictionary* result = [[NSMutableDictionary alloc]initWithCapacity:1];
   NSMutableDictionary* user =[[NSMutableDictionary alloc]initWithCapacity:1];
   
-  [user setObject:requestData forKey:@"friends"];
-  [result setObject:user forKey:@"UpdateFriendsRequest"];
+  [user setObject:requestData forKey:@"token"];
+  [result setObject:user forKey:@"DeviceTokenUpdateRequest"];
   return result;
 }
 
@@ -47,5 +46,6 @@ static NSString* resource = @"user/friends/fb";
 -(void)receivedData:(NSData*)data{
   
 }
+
 
 @end

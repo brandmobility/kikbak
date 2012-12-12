@@ -26,7 +26,7 @@ public class SharedController {
 	SharedExperienceService service;
 	
 	@RequestMapping( value = "/{userId}", method = RequestMethod.POST)
-	public ShareExperienceResponse postShareExperience(@PathVariable Long userId,
+	public ShareExperienceResponse postShareExperience(@PathVariable("userId") Long userId,
 			@RequestBody ShareExperienceRequest experienceRequest, final HttpServletResponse httpResponse)
 	{
 		ShareExperienceResponse response = new ShareExperienceResponse();
