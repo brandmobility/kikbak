@@ -29,7 +29,7 @@ public class RewardController {
 	@Autowired
 	RewardService service;
 	
-	@RequestMapping(value = "/request/{userId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/request/{userId}", method = RequestMethod.POST)
 	public RewardsResponse rewards(@PathVariable("userId") Long userId,
 						@RequestBody RewardsRequest request, final HttpServletResponse httpResponse){
 		

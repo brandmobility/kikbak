@@ -14,6 +14,7 @@
 #import "LocationManager.h"
 #import "KikbakConstants.h"
 #import "DeviceTokenRequest.h"
+#import "ServerTest.h"
 
 @interface AppDelegate()
 -(void)fadeOutSplash;
@@ -51,6 +52,9 @@
     splash.frame = CGRectMake(0, 0, 320, 460);
     [self.window.rootViewController.view addSubview:splash];
     [self.window bringSubviewToFront:splash];
+  
+    ServerTest* test = [[ServerTest alloc]init];
+    [test testRedeemKikbak];
   
     [self fadeOutSplash];
     return YES;

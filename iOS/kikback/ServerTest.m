@@ -28,7 +28,7 @@
 
 -(void)testReward{
   RewardRequest* request = [[RewardRequest alloc]init];
-  [request makeRequest:nil];
+  [request makeRequest:[[NSDictionary alloc]init]];
 }
 
 -(void)testRedeemGift{
