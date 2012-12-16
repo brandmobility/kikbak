@@ -28,6 +28,9 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+    <listener>
+        <listener-class>com.kikbak.servletlisteners.KikbakLoadListener</listener-class>
+    </listener>
 
     <servlet>
         <servlet-name>kikbak</servlet-name>

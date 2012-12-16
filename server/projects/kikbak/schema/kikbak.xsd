@@ -469,4 +469,21 @@
         </xsd:complexType>
     </xsd:element>
     
+    <!-- Push notification -->
+    <xsd:complexType name="ApsType">
+            <xsd:sequence>
+                <xsd:element name="alert" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+                <xsd:element name="badge" type="xsd:int" minOccurs="0" maxOccurs="1"/>
+                <xsd:element name="sound" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:element name="AppleNotificationPayload">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="aps" type="kikbak:ApsType" minOccurs="1" maxOccurs="1"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    
 </xsd:schema>

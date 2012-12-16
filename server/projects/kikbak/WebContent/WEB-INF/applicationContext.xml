@@ -11,6 +11,7 @@
         http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
         http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
   
+    <bean id="contextUtil" class="com.kikbak.config.ContextUtil"/>
      
     <!-- Properties from these files can populate place holders in the XML configuration files -->
     <bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -22,5 +23,25 @@
         </property>
     </bean>
 
+    <bean id="localPropertiesResourceFactory" class="com.kikbak.config.ResourceFactory">
+        <constructor-arg type="java.lang.String"
+            value="/WEB-INF/local.properties" />
+    </bean>
+
+    <!-- File object for local.properties -->
+    <bean id="localPropertiesFile" factory-bean="localPropertiesResourceFactory"
+        factory-method="getFile" />
+
+
+    <bean id="reloadingStrategy"
+        class="org.apache.commons.configuration.reloading.FileChangedReloadingStrategy">
+        <property name="refreshDelay" value="60000" />
+    </bean>
+
+    <bean id="staticPropertiesConfiguration"
+        class="org.apache.commons.configuration.PropertiesConfiguration">
+        <constructor-arg type="java.io.File" ref="localPropertiesFile" />
+        <property name="reloadingStrategy" ref="reloadingStrategy" />
+    </bean>
 
 </beans>
