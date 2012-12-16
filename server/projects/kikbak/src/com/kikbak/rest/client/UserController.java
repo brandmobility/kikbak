@@ -90,6 +90,17 @@ public class UserController {
 	public DeviceTokenUpdateResponse deviceTokenUpdate(@PathVariable("userId") Long userId,
 					@RequestBody DeviceTokenUpdateRequest request, final HttpServletResponse httpResponse){
 		
-		return new DeviceTokenUpdateResponse();
+		DeviceTokenUpdateResponse response = new DeviceTokenUpdateResponse();
+		StatusType status = new StatusType();
+		status.setCode(StatusCode.OK.ordinal());
+		response.setStatus(status);
+		try {
+			service.persistDeviceToken(userId, request.getToken());
+		} catch (Exception e) {
+			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			status.setCode(StatusCode.ERROR.ordinal());
+			logger.error(e,e);
+		}
+		return response;
 	}
 }

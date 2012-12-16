@@ -1,0 +1,606 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C0479989167D967500C2253D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0479988167D967500C2253D /* UIKit.framework */; };
+		C047998B167D967500C2253D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C047998A167D967500C2253D /* Foundation.framework */; };
+		C047998D167D967500C2253D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C047998C167D967500C2253D /* CoreGraphics.framework */; };
+		C0479993167D967500C2253D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C0479991167D967500C2253D /* InfoPlist.strings */; };
+		C0479995167D967500C2253D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C0479994167D967500C2253D /* main.m */; };
+		C0479999167D967500C2253D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C0479998167D967500C2253D /* AppDelegate.m */; };
+		C047999B167D967500C2253D /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = C047999A167D967500C2253D /* Default.png */; };
+		C047999D167D967500C2253D /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C047999C167D967500C2253D /* Default@2x.png */; };
+		C047999F167D967500C2253D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C047999E167D967500C2253D /* Default-568h@2x.png */; };
+		C04799A2167D967500C2253D /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C04799A0167D967500C2253D /* MainStoryboard.storyboard */; };
+		C04799A5167D967500C2253D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799A4167D967500C2253D /* ViewController.m */; };
+		C04799AD167D96C900C2253D /* Hash.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799AC167D96C900C2253D /* Hash.m */; };
+		C04799B4167D96E900C2253D /* FBQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799B1167D96E900C2253D /* FBQuery.m */; };
+		C04799B5167D96E900C2253D /* FBUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799B3167D96E900C2253D /* FBUserInfo.m */; };
+		C04799BD167D9B5A00C2253D /* login.png in Resources */ = {isa = PBXBuildFile; fileRef = C04799BA167D9B5A00C2253D /* login.png */; };
+		C04799BE167D9B5A00C2253D /* morning_320x480.png in Resources */ = {isa = PBXBuildFile; fileRef = C04799BB167D9B5A00C2253D /* morning_320x480.png */; };
+		C04799BF167D9B5A00C2253D /* splash_320x480.png in Resources */ = {isa = PBXBuildFile; fileRef = C04799BC167D9B5A00C2253D /* splash_320x480.png */; };
+		C04799DE167D9B9300C2253D /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799C2167D9B9300C2253D /* LocationManager.m */; };
+		C04799DF167D9B9300C2253D /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799C4167D9B9300C2253D /* LoginViewController.m */; };
+		C04799E0167D9B9300C2253D /* PostReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799C6167D9B9300C2253D /* PostReviewViewController.m */; };
+		C04799E1167D9B9300C2253D /* ServerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799C8167D9B9300C2253D /* ServerTest.m */; };
+		C04799E2167D9B9300C2253D /* DeviceTokenRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799CA167D9B9300C2253D /* DeviceTokenRequest.m */; };
+		C04799E3167D9B9300C2253D /* OffersRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799CD167D9B9300C2253D /* OffersRequest.m */; };
+		C04799E4167D9B9300C2253D /* PostRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799CF167D9B9300C2253D /* PostRequest.m */; };
+		C04799E5167D9B9300C2253D /* RedeemGiftRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799D1167D9B9300C2253D /* RedeemGiftRequest.m */; };
+		C04799E6167D9B9300C2253D /* RedeemKikbakRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799D3167D9B9300C2253D /* RedeemKikbakRequest.m */; };
+		C04799E7167D9B9300C2253D /* RegisterUserRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799D5167D9B9300C2253D /* RegisterUserRequest.m */; };
+		C04799E8167D9B9300C2253D /* RewardRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799D9167D9B9300C2253D /* RewardRequest.m */; };
+		C04799E9167D9B9300C2253D /* ShareExperienceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799DB167D9B9300C2253D /* ShareExperienceRequest.m */; };
+		C04799EA167D9B9300C2253D /* SubmitFriendsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799DD167D9B9300C2253D /* SubmitFriendsRequest.m */; };
+		C0479A05167D9BEC00C2253D /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799ED167D9BEC00C2253D /* NSObject+SBJson.m */; };
+		C0479A06167D9BEC00C2253D /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799F0167D9BEC00C2253D /* SBJsonParser.m */; };
+		C0479A07167D9BEC00C2253D /* SBJsonStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799F2167D9BEC00C2253D /* SBJsonStreamParser.m */; };
+		C0479A08167D9BEC00C2253D /* SBJsonStreamParserAccumulator.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799F4167D9BEC00C2253D /* SBJsonStreamParserAccumulator.m */; };
+		C0479A09167D9BEC00C2253D /* SBJsonStreamParserAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799F6167D9BEC00C2253D /* SBJsonStreamParserAdapter.m */; };
+		C0479A0A167D9BEC00C2253D /* SBJsonStreamParserState.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799F8167D9BEC00C2253D /* SBJsonStreamParserState.m */; };
+		C0479A0B167D9BEC00C2253D /* SBJsonStreamWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799FA167D9BEC00C2253D /* SBJsonStreamWriter.m */; };
+		C0479A0C167D9BEC00C2253D /* SBJsonStreamWriterAccumulator.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799FC167D9BEC00C2253D /* SBJsonStreamWriterAccumulator.m */; };
+		C0479A0D167D9BEC00C2253D /* SBJsonStreamWriterState.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799FE167D9BEC00C2253D /* SBJsonStreamWriterState.m */; };
+		C0479A0E167D9BEC00C2253D /* SBJsonTokeniser.m in Sources */ = {isa = PBXBuildFile; fileRef = C0479A00167D9BEC00C2253D /* SBJsonTokeniser.m */; };
+		C0479A0F167D9BEC00C2253D /* SBJsonUTF8Stream.m in Sources */ = {isa = PBXBuildFile; fileRef = C0479A02167D9BEC00C2253D /* SBJsonUTF8Stream.m */; };
+		C0479A10167D9BEC00C2253D /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = C0479A04167D9BEC00C2253D /* SBJsonWriter.m */; };
+		C0479A16167D9C5900C2253D /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0479A12167D9C5900C2253D /* Accounts.framework */; };
+		C0479A17167D9C5900C2253D /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0479A13167D9C5900C2253D /* AdSupport.framework */; };
+		C0479A18167D9C5900C2253D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0479A14167D9C5900C2253D /* CoreLocation.framework */; };
+		C0479A19167D9C5900C2253D /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C0479A15167D9C5900C2253D /* libsqlite3.dylib */; };
+		C0479A1B167D9C8400C2253D /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0479A1A167D9C8400C2253D /* Social.framework */; };
+		C0479A1D167D9CC800C2253D /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0479A1C167D9CC800C2253D /* FacebookSDK.framework */; };
+		C0479A21167D9D0700C2253D /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0479A20167D9D0700C2253D /* libFlurry.a */; };
+		C0479A25167D9D5800C2253D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0479A24167D9D5800C2253D /* SystemConfiguration.framework */; };
+		C0479A2E167DA59200C2253D /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = C0479A2C167DA59200C2253D /* NSData+Base64.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		C0479984167D967500C2253D /* kikit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kikit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0479988167D967500C2253D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		C047998A167D967500C2253D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		C047998C167D967500C2253D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		C0479990167D967500C2253D /* kikit-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "kikit-Info.plist"; sourceTree = "<group>"; };
+		C0479992167D967500C2253D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C0479994167D967500C2253D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		C0479996167D967500C2253D /* kikit-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kikit-Prefix.pch"; sourceTree = "<group>"; };
+		C0479997167D967500C2253D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		C0479998167D967500C2253D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		C047999A167D967500C2253D /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		C047999C167D967500C2253D /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		C047999E167D967500C2253D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		C04799A1167D967500C2253D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		C04799A3167D967500C2253D /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		C04799A4167D967500C2253D /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		C04799AB167D96C900C2253D /* Hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Hash.h; path = kikit/crypto/Hash.h; sourceTree = "<group>"; };
+		C04799AC167D96C900C2253D /* Hash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Hash.m; path = kikit/crypto/Hash.m; sourceTree = "<group>"; };
+		C04799AF167D96E900C2253D /* FBConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FBConstants.h; path = kikit/Facebook/FBConstants.h; sourceTree = "<group>"; };
+		C04799B0167D96E900C2253D /* FBQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FBQuery.h; path = kikit/Facebook/FBQuery.h; sourceTree = "<group>"; };
+		C04799B1167D96E900C2253D /* FBQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FBQuery.m; path = kikit/Facebook/FBQuery.m; sourceTree = "<group>"; };
+		C04799B2167D96E900C2253D /* FBUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FBUserInfo.h; path = kikit/Facebook/FBUserInfo.h; sourceTree = "<group>"; };
+		C04799B3167D96E900C2253D /* FBUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FBUserInfo.m; path = kikit/Facebook/FBUserInfo.m; sourceTree = "<group>"; };
+		C04799BA167D9B5A00C2253D /* login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = login.png; path = kikit/graphics/login.png; sourceTree = "<group>"; };
+		C04799BB167D9B5A00C2253D /* morning_320x480.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = morning_320x480.png; path = kikit/graphics/morning_320x480.png; sourceTree = "<group>"; };
+		C04799BC167D9B5A00C2253D /* splash_320x480.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = splash_320x480.png; path = kikit/graphics/splash_320x480.png; sourceTree = "<group>"; };
+		C04799C0167D9B9300C2253D /* KikbakConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KikbakConstants.h; sourceTree = "<group>"; };
+		C04799C1167D9B9300C2253D /* LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationManager.h; sourceTree = "<group>"; };
+		C04799C2167D9B9300C2253D /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationManager.m; sourceTree = "<group>"; };
+		C04799C3167D9B9300C2253D /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		C04799C4167D9B9300C2253D /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		C04799C5167D9B9300C2253D /* PostReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostReviewViewController.h; path = kikit/PostReviewViewController.h; sourceTree = "<group>"; };
+		C04799C6167D9B9300C2253D /* PostReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostReviewViewController.m; path = kikit/PostReviewViewController.m; sourceTree = "<group>"; };
+		C04799C7167D9B9300C2253D /* ServerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServerTest.h; path = kikit/ServerTest.h; sourceTree = "<group>"; };
+		C04799C8167D9B9300C2253D /* ServerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServerTest.m; path = kikit/ServerTest.m; sourceTree = "<group>"; };
+		C04799C9167D9B9300C2253D /* DeviceTokenRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceTokenRequest.h; path = kikit/DeviceTokenRequest.h; sourceTree = "<group>"; };
+		C04799CA167D9B9300C2253D /* DeviceTokenRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceTokenRequest.m; path = kikit/DeviceTokenRequest.m; sourceTree = "<group>"; };
+		C04799CB167D9B9300C2253D /* HTTPConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HTTPConstants.h; path = kikit/HTTPConstants.h; sourceTree = "<group>"; };
+		C04799CC167D9B9300C2253D /* OffersRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OffersRequest.h; path = kikit/OffersRequest.h; sourceTree = "<group>"; };
+		C04799CD167D9B9300C2253D /* OffersRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OffersRequest.m; path = kikit/OffersRequest.m; sourceTree = "<group>"; };
+		C04799CE167D9B9300C2253D /* PostRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostRequest.h; path = kikit/PostRequest.h; sourceTree = "<group>"; };
+		C04799CF167D9B9300C2253D /* PostRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostRequest.m; path = kikit/PostRequest.m; sourceTree = "<group>"; };
+		C04799D0167D9B9300C2253D /* RedeemGiftRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RedeemGiftRequest.h; path = kikit/RedeemGiftRequest.h; sourceTree = "<group>"; };
+		C04799D1167D9B9300C2253D /* RedeemGiftRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RedeemGiftRequest.m; path = kikit/RedeemGiftRequest.m; sourceTree = "<group>"; };
+		C04799D2167D9B9300C2253D /* RedeemKikbakRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RedeemKikbakRequest.h; path = kikit/RedeemKikbakRequest.h; sourceTree = "<group>"; };
+		C04799D3167D9B9300C2253D /* RedeemKikbakRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RedeemKikbakRequest.m; path = kikit/RedeemKikbakRequest.m; sourceTree = "<group>"; };
+		C04799D4167D9B9300C2253D /* RegisterUserRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegisterUserRequest.h; path = kikit/RegisterUserRequest.h; sourceTree = "<group>"; };
+		C04799D5167D9B9300C2253D /* RegisterUserRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RegisterUserRequest.m; path = kikit/RegisterUserRequest.m; sourceTree = "<group>"; };
+		C04799D6167D9B9300C2253D /* RestDataDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestDataDelegate.h; path = kikit/RestDataDelegate.h; sourceTree = "<group>"; };
+		C04799D7167D9B9300C2253D /* RestRequestProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestRequestProtocol.h; path = kikit/RestRequestProtocol.h; sourceTree = "<group>"; };
+		C04799D8167D9B9300C2253D /* RewardRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RewardRequest.h; path = kikit/RewardRequest.h; sourceTree = "<group>"; };
+		C04799D9167D9B9300C2253D /* RewardRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RewardRequest.m; path = kikit/RewardRequest.m; sourceTree = "<group>"; };
+		C04799DA167D9B9300C2253D /* ShareExperienceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShareExperienceRequest.h; path = kikit/ShareExperienceRequest.h; sourceTree = "<group>"; };
+		C04799DB167D9B9300C2253D /* ShareExperienceRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShareExperienceRequest.m; path = kikit/ShareExperienceRequest.m; sourceTree = "<group>"; };
+		C04799DC167D9B9300C2253D /* SubmitFriendsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SubmitFriendsRequest.h; path = kikit/SubmitFriendsRequest.h; sourceTree = "<group>"; };
+		C04799DD167D9B9300C2253D /* SubmitFriendsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SubmitFriendsRequest.m; path = kikit/SubmitFriendsRequest.m; sourceTree = "<group>"; };
+		C04799EC167D9BEC00C2253D /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+SBJson.h"; path = "kikit/SBJson/NSObject+SBJson.h"; sourceTree = "<group>"; };
+		C04799ED167D9BEC00C2253D /* NSObject+SBJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+SBJson.m"; path = "kikit/SBJson/NSObject+SBJson.m"; sourceTree = "<group>"; };
+		C04799EE167D9BEC00C2253D /* SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJson.h; path = kikit/SBJson/SBJson.h; sourceTree = "<group>"; };
+		C04799EF167D9BEC00C2253D /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJsonParser.h; path = kikit/SBJson/SBJsonParser.h; sourceTree = "<group>"; };
+		C04799F0167D9BEC00C2253D /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonParser.m; path = kikit/SBJson/SBJsonParser.m; sourceTree = "<group>"; };
+		C04799F1167D9BEC00C2253D /* SBJsonStreamParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJsonStreamParser.h; path = kikit/SBJson/SBJsonStreamParser.h; sourceTree = "<group>"; };
+		C04799F2167D9BEC00C2253D /* SBJsonStreamParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonStreamParser.m; path = kikit/SBJson/SBJsonStreamParser.m; sourceTree = "<group>"; };
+		C04799F3167D9BEC00C2253D /* SBJsonStreamParserAccumulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJsonStreamParserAccumulator.h; path = kikit/SBJson/SBJsonStreamParserAccumulator.h; sourceTree = "<group>"; };
+		C04799F4167D9BEC00C2253D /* SBJsonStreamParserAccumulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonStreamParserAccumulator.m; path = kikit/SBJson/SBJsonStreamParserAccumulator.m; sourceTree = "<group>"; };
+		C04799F5167D9BEC00C2253D /* SBJsonStreamParserAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJsonStreamParserAdapter.h; path = kikit/SBJson/SBJsonStreamParserAdapter.h; sourceTree = "<group>"; };
+		C04799F6167D9BEC00C2253D /* SBJsonStreamParserAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonStreamParserAdapter.m; path = kikit/SBJson/SBJsonStreamParserAdapter.m; sourceTree = "<group>"; };
+		C04799F7167D9BEC00C2253D /* SBJsonStreamParserState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJsonStreamParserState.h; path = kikit/SBJson/SBJsonStreamParserState.h; sourceTree = "<group>"; };
+		C04799F8167D9BEC00C2253D /* SBJsonStreamParserState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonStreamParserState.m; path = kikit/SBJson/SBJsonStreamParserState.m; sourceTree = "<group>"; };
+		C04799F9167D9BEC00C2253D /* SBJsonStreamWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJsonStreamWriter.h; path = kikit/SBJson/SBJsonStreamWriter.h; sourceTree = "<group>"; };
+		C04799FA167D9BEC00C2253D /* SBJsonStreamWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonStreamWriter.m; path = kikit/SBJson/SBJsonStreamWriter.m; sourceTree = "<group>"; };
+		C04799FB167D9BEC00C2253D /* SBJsonStreamWriterAccumulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJsonStreamWriterAccumulator.h; path = kikit/SBJson/SBJsonStreamWriterAccumulator.h; sourceTree = "<group>"; };
+		C04799FC167D9BEC00C2253D /* SBJsonStreamWriterAccumulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonStreamWriterAccumulator.m; path = kikit/SBJson/SBJsonStreamWriterAccumulator.m; sourceTree = "<group>"; };
+		C04799FD167D9BEC00C2253D /* SBJsonStreamWriterState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJsonStreamWriterState.h; path = kikit/SBJson/SBJsonStreamWriterState.h; sourceTree = "<group>"; };
+		C04799FE167D9BEC00C2253D /* SBJsonStreamWriterState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonStreamWriterState.m; path = kikit/SBJson/SBJsonStreamWriterState.m; sourceTree = "<group>"; };
+		C04799FF167D9BEC00C2253D /* SBJsonTokeniser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJsonTokeniser.h; path = kikit/SBJson/SBJsonTokeniser.h; sourceTree = "<group>"; };
+		C0479A00167D9BEC00C2253D /* SBJsonTokeniser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonTokeniser.m; path = kikit/SBJson/SBJsonTokeniser.m; sourceTree = "<group>"; };
+		C0479A01167D9BEC00C2253D /* SBJsonUTF8Stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJsonUTF8Stream.h; path = kikit/SBJson/SBJsonUTF8Stream.h; sourceTree = "<group>"; };
+		C0479A02167D9BEC00C2253D /* SBJsonUTF8Stream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonUTF8Stream.m; path = kikit/SBJson/SBJsonUTF8Stream.m; sourceTree = "<group>"; };
+		C0479A03167D9BEC00C2253D /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJsonWriter.h; path = kikit/SBJson/SBJsonWriter.h; sourceTree = "<group>"; };
+		C0479A04167D9BEC00C2253D /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonWriter.m; path = kikit/SBJson/SBJsonWriter.m; sourceTree = "<group>"; };
+		C0479A12167D9C5900C2253D /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		C0479A13167D9C5900C2253D /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		C0479A14167D9C5900C2253D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		C0479A15167D9C5900C2253D /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		C0479A1A167D9C8400C2253D /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		C0479A1C167D9CC800C2253D /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../../../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
+		C0479A1F167D9CF400C2253D /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Flurry.h; path = ../external/flurry_4.0.4/Flurry/Flurry.h; sourceTree = "<group>"; };
+		C0479A20167D9D0700C2253D /* libFlurry.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFlurry.a; path = ../external/flurry_4.0.4/Flurry/libFlurry.a; sourceTree = "<group>"; };
+		C0479A22167D9D1C00C2253D /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		C0479A24167D9D5800C2253D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		C0479A2C167DA59200C2253D /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Base64.m"; path = "../../../../../../Downloads/NSData_Base64/NSData+Base64.m"; sourceTree = "<group>"; };
+		C0479A2D167DA59200C2253D /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Base64.h"; path = "../../../../../../Downloads/NSData_Base64/NSData+Base64.h"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C0479981167D967500C2253D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C0479A25167D9D5800C2253D /* SystemConfiguration.framework in Frameworks */,
+				C0479A1D167D9CC800C2253D /* FacebookSDK.framework in Frameworks */,
+				C0479A1B167D9C8400C2253D /* Social.framework in Frameworks */,
+				C0479A16167D9C5900C2253D /* Accounts.framework in Frameworks */,
+				C0479A17167D9C5900C2253D /* AdSupport.framework in Frameworks */,
+				C0479A18167D9C5900C2253D /* CoreLocation.framework in Frameworks */,
+				C0479A19167D9C5900C2253D /* libsqlite3.dylib in Frameworks */,
+				C0479989167D967500C2253D /* UIKit.framework in Frameworks */,
+				C047998B167D967500C2253D /* Foundation.framework in Frameworks */,
+				C047998D167D967500C2253D /* CoreGraphics.framework in Frameworks */,
+				C0479A21167D9D0700C2253D /* libFlurry.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C0479979167D967500C2253D = {
+			isa = PBXGroup;
+			children = (
+				C0479A2B167DA57A00C2253D /* categories */,
+				C04799AE167D96CD00C2253D /* crypto */,
+				C04799B6167D96EF00C2253D /* facebook */,
+				C0479A1E167D9CE200C2253D /* flurry */,
+				C0479987167D967500C2253D /* Frameworks */,
+				C04799B9167D9B4B00C2253D /* graphics */,
+				C047998E167D967500C2253D /* kikit */,
+				C04799EB167D9BA400C2253D /* rest */,
+				C0479A11167D9BFA00C2253D /* SBJson */,
+				C0479985167D967500C2253D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C0479985167D967500C2253D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C0479984167D967500C2253D /* kikit.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C0479987167D967500C2253D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C0479A24167D9D5800C2253D /* SystemConfiguration.framework */,
+				C0479A22167D9D1C00C2253D /* CFNetwork.framework */,
+				C0479A20167D9D0700C2253D /* libFlurry.a */,
+				C0479A1C167D9CC800C2253D /* FacebookSDK.framework */,
+				C0479A1A167D9C8400C2253D /* Social.framework */,
+				C0479A12167D9C5900C2253D /* Accounts.framework */,
+				C0479A13167D9C5900C2253D /* AdSupport.framework */,
+				C0479A14167D9C5900C2253D /* CoreLocation.framework */,
+				C0479A15167D9C5900C2253D /* libsqlite3.dylib */,
+				C0479988167D967500C2253D /* UIKit.framework */,
+				C047998A167D967500C2253D /* Foundation.framework */,
+				C047998C167D967500C2253D /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C047998E167D967500C2253D /* kikit */ = {
+			isa = PBXGroup;
+			children = (
+				C04799C3167D9B9300C2253D /* LoginViewController.h */,
+				C04799C4167D9B9300C2253D /* LoginViewController.m */,
+				C04799C0167D9B9300C2253D /* KikbakConstants.h */,
+				C04799C1167D9B9300C2253D /* LocationManager.h */,
+				C04799C2167D9B9300C2253D /* LocationManager.m */,
+				C0479997167D967500C2253D /* AppDelegate.h */,
+				C0479998167D967500C2253D /* AppDelegate.m */,
+				C04799A0167D967500C2253D /* MainStoryboard.storyboard */,
+				C04799A3167D967500C2253D /* ViewController.h */,
+				C04799A4167D967500C2253D /* ViewController.m */,
+				C047998F167D967500C2253D /* Supporting Files */,
+			);
+			path = kikit;
+			sourceTree = "<group>";
+		};
+		C047998F167D967500C2253D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C0479990167D967500C2253D /* kikit-Info.plist */,
+				C0479991167D967500C2253D /* InfoPlist.strings */,
+				C0479994167D967500C2253D /* main.m */,
+				C0479996167D967500C2253D /* kikit-Prefix.pch */,
+				C047999A167D967500C2253D /* Default.png */,
+				C047999C167D967500C2253D /* Default@2x.png */,
+				C047999E167D967500C2253D /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C04799AE167D96CD00C2253D /* crypto */ = {
+			isa = PBXGroup;
+			children = (
+				C04799AB167D96C900C2253D /* Hash.h */,
+				C04799AC167D96C900C2253D /* Hash.m */,
+			);
+			name = crypto;
+			sourceTree = "<group>";
+		};
+		C04799B6167D96EF00C2253D /* facebook */ = {
+			isa = PBXGroup;
+			children = (
+				C04799AF167D96E900C2253D /* FBConstants.h */,
+				C04799B0167D96E900C2253D /* FBQuery.h */,
+				C04799B1167D96E900C2253D /* FBQuery.m */,
+				C04799B2167D96E900C2253D /* FBUserInfo.h */,
+				C04799B3167D96E900C2253D /* FBUserInfo.m */,
+			);
+			name = facebook;
+			sourceTree = "<group>";
+		};
+		C04799B9167D9B4B00C2253D /* graphics */ = {
+			isa = PBXGroup;
+			children = (
+				C04799BA167D9B5A00C2253D /* login.png */,
+				C04799BB167D9B5A00C2253D /* morning_320x480.png */,
+				C04799BC167D9B5A00C2253D /* splash_320x480.png */,
+			);
+			name = graphics;
+			sourceTree = "<group>";
+		};
+		C04799EB167D9BA400C2253D /* rest */ = {
+			isa = PBXGroup;
+			children = (
+				C04799C9167D9B9300C2253D /* DeviceTokenRequest.h */,
+				C04799CA167D9B9300C2253D /* DeviceTokenRequest.m */,
+				C04799CB167D9B9300C2253D /* HTTPConstants.h */,
+				C04799CC167D9B9300C2253D /* OffersRequest.h */,
+				C04799CD167D9B9300C2253D /* OffersRequest.m */,
+				C04799CE167D9B9300C2253D /* PostRequest.h */,
+				C04799CF167D9B9300C2253D /* PostRequest.m */,
+				C04799C5167D9B9300C2253D /* PostReviewViewController.h */,
+				C04799C6167D9B9300C2253D /* PostReviewViewController.m */,
+				C04799D0167D9B9300C2253D /* RedeemGiftRequest.h */,
+				C04799D1167D9B9300C2253D /* RedeemGiftRequest.m */,
+				C04799D2167D9B9300C2253D /* RedeemKikbakRequest.h */,
+				C04799D3167D9B9300C2253D /* RedeemKikbakRequest.m */,
+				C04799D4167D9B9300C2253D /* RegisterUserRequest.h */,
+				C04799D5167D9B9300C2253D /* RegisterUserRequest.m */,
+				C04799D6167D9B9300C2253D /* RestDataDelegate.h */,
+				C04799D7167D9B9300C2253D /* RestRequestProtocol.h */,
+				C04799D8167D9B9300C2253D /* RewardRequest.h */,
+				C04799D9167D9B9300C2253D /* RewardRequest.m */,
+				C04799C7167D9B9300C2253D /* ServerTest.h */,
+				C04799C8167D9B9300C2253D /* ServerTest.m */,
+				C04799DA167D9B9300C2253D /* ShareExperienceRequest.h */,
+				C04799DB167D9B9300C2253D /* ShareExperienceRequest.m */,
+				C04799DC167D9B9300C2253D /* SubmitFriendsRequest.h */,
+				C04799DD167D9B9300C2253D /* SubmitFriendsRequest.m */,
+			);
+			name = rest;
+			sourceTree = "<group>";
+		};
+		C0479A11167D9BFA00C2253D /* SBJson */ = {
+			isa = PBXGroup;
+			children = (
+				C04799EC167D9BEC00C2253D /* NSObject+SBJson.h */,
+				C04799ED167D9BEC00C2253D /* NSObject+SBJson.m */,
+				C04799EE167D9BEC00C2253D /* SBJson.h */,
+				C04799EF167D9BEC00C2253D /* SBJsonParser.h */,
+				C04799F0167D9BEC00C2253D /* SBJsonParser.m */,
+				C04799F1167D9BEC00C2253D /* SBJsonStreamParser.h */,
+				C04799F2167D9BEC00C2253D /* SBJsonStreamParser.m */,
+				C04799F3167D9BEC00C2253D /* SBJsonStreamParserAccumulator.h */,
+				C04799F4167D9BEC00C2253D /* SBJsonStreamParserAccumulator.m */,
+				C04799F5167D9BEC00C2253D /* SBJsonStreamParserAdapter.h */,
+				C04799F6167D9BEC00C2253D /* SBJsonStreamParserAdapter.m */,
+				C04799F7167D9BEC00C2253D /* SBJsonStreamParserState.h */,
+				C04799F8167D9BEC00C2253D /* SBJsonStreamParserState.m */,
+				C04799F9167D9BEC00C2253D /* SBJsonStreamWriter.h */,
+				C04799FA167D9BEC00C2253D /* SBJsonStreamWriter.m */,
+				C04799FB167D9BEC00C2253D /* SBJsonStreamWriterAccumulator.h */,
+				C04799FC167D9BEC00C2253D /* SBJsonStreamWriterAccumulator.m */,
+				C04799FD167D9BEC00C2253D /* SBJsonStreamWriterState.h */,
+				C04799FE167D9BEC00C2253D /* SBJsonStreamWriterState.m */,
+				C04799FF167D9BEC00C2253D /* SBJsonTokeniser.h */,
+				C0479A00167D9BEC00C2253D /* SBJsonTokeniser.m */,
+				C0479A01167D9BEC00C2253D /* SBJsonUTF8Stream.h */,
+				C0479A02167D9BEC00C2253D /* SBJsonUTF8Stream.m */,
+				C0479A03167D9BEC00C2253D /* SBJsonWriter.h */,
+				C0479A04167D9BEC00C2253D /* SBJsonWriter.m */,
+			);
+			name = SBJson;
+			sourceTree = "<group>";
+		};
+		C0479A1E167D9CE200C2253D /* flurry */ = {
+			isa = PBXGroup;
+			children = (
+				C0479A1F167D9CF400C2253D /* Flurry.h */,
+			);
+			name = flurry;
+			sourceTree = "<group>";
+		};
+		C0479A2B167DA57A00C2253D /* categories */ = {
+			isa = PBXGroup;
+			children = (
+				C0479A2C167DA59200C2253D /* NSData+Base64.m */,
+				C0479A2D167DA59200C2253D /* NSData+Base64.h */,
+			);
+			name = categories;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C0479983167D967500C2253D /* kikit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C04799A8167D967500C2253D /* Build configuration list for PBXNativeTarget "kikit" */;
+			buildPhases = (
+				C0479980167D967500C2253D /* Sources */,
+				C0479981167D967500C2253D /* Frameworks */,
+				C0479982167D967500C2253D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = kikit;
+			productName = kikit;
+			productReference = C0479984167D967500C2253D /* kikit.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C047997B167D967500C2253D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "Ian Barile";
+			};
+			buildConfigurationList = C047997E167D967500C2253D /* Build configuration list for PBXProject "kikit" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = C0479979167D967500C2253D;
+			productRefGroup = C0479985167D967500C2253D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C0479983167D967500C2253D /* kikit */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C0479982167D967500C2253D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C0479993167D967500C2253D /* InfoPlist.strings in Resources */,
+				C047999B167D967500C2253D /* Default.png in Resources */,
+				C047999D167D967500C2253D /* Default@2x.png in Resources */,
+				C047999F167D967500C2253D /* Default-568h@2x.png in Resources */,
+				C04799A2167D967500C2253D /* MainStoryboard.storyboard in Resources */,
+				C04799BD167D9B5A00C2253D /* login.png in Resources */,
+				C04799BE167D9B5A00C2253D /* morning_320x480.png in Resources */,
+				C04799BF167D9B5A00C2253D /* splash_320x480.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C0479980167D967500C2253D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C0479995167D967500C2253D /* main.m in Sources */,
+				C0479999167D967500C2253D /* AppDelegate.m in Sources */,
+				C04799A5167D967500C2253D /* ViewController.m in Sources */,
+				C04799AD167D96C900C2253D /* Hash.m in Sources */,
+				C04799B4167D96E900C2253D /* FBQuery.m in Sources */,
+				C04799B5167D96E900C2253D /* FBUserInfo.m in Sources */,
+				C04799DE167D9B9300C2253D /* LocationManager.m in Sources */,
+				C04799DF167D9B9300C2253D /* LoginViewController.m in Sources */,
+				C04799E0167D9B9300C2253D /* PostReviewViewController.m in Sources */,
+				C04799E1167D9B9300C2253D /* ServerTest.m in Sources */,
+				C04799E2167D9B9300C2253D /* DeviceTokenRequest.m in Sources */,
+				C04799E3167D9B9300C2253D /* OffersRequest.m in Sources */,
+				C04799E4167D9B9300C2253D /* PostRequest.m in Sources */,
+				C04799E5167D9B9300C2253D /* RedeemGiftRequest.m in Sources */,
+				C04799E6167D9B9300C2253D /* RedeemKikbakRequest.m in Sources */,
+				C04799E7167D9B9300C2253D /* RegisterUserRequest.m in Sources */,
+				C04799E8167D9B9300C2253D /* RewardRequest.m in Sources */,
+				C04799E9167D9B9300C2253D /* ShareExperienceRequest.m in Sources */,
+				C04799EA167D9B9300C2253D /* SubmitFriendsRequest.m in Sources */,
+				C0479A05167D9BEC00C2253D /* NSObject+SBJson.m in Sources */,
+				C0479A06167D9BEC00C2253D /* SBJsonParser.m in Sources */,
+				C0479A07167D9BEC00C2253D /* SBJsonStreamParser.m in Sources */,
+				C0479A08167D9BEC00C2253D /* SBJsonStreamParserAccumulator.m in Sources */,
+				C0479A09167D9BEC00C2253D /* SBJsonStreamParserAdapter.m in Sources */,
+				C0479A0A167D9BEC00C2253D /* SBJsonStreamParserState.m in Sources */,
+				C0479A0B167D9BEC00C2253D /* SBJsonStreamWriter.m in Sources */,
+				C0479A0C167D9BEC00C2253D /* SBJsonStreamWriterAccumulator.m in Sources */,
+				C0479A0D167D9BEC00C2253D /* SBJsonStreamWriterState.m in Sources */,
+				C0479A0E167D9BEC00C2253D /* SBJsonTokeniser.m in Sources */,
+				C0479A0F167D9BEC00C2253D /* SBJsonUTF8Stream.m in Sources */,
+				C0479A10167D9BEC00C2253D /* SBJsonWriter.m in Sources */,
+				C0479A2E167DA59200C2253D /* NSData+Base64.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		C0479991167D967500C2253D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C0479992167D967500C2253D /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		C04799A0167D967500C2253D /* MainStoryboard.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C04799A1167D967500C2253D /* en */,
+			);
+			name = MainStoryboard.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C04799A6167D967500C2253D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		C04799A7167D967500C2253D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C04799A9167D967500C2253D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../Documents/FacebookSDK\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "kikit/kikit-Prefix.pch";
+				INFOPLIST_FILE = "kikit/kikit-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../external/flurry_4.0.4/Flurry\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		C04799AA167D967500C2253D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../../Documents/FacebookSDK\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "kikit/kikit-Prefix.pch";
+				INFOPLIST_FILE = "kikit/kikit-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../external/flurry_4.0.4/Flurry\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C047997E167D967500C2253D /* Build configuration list for PBXProject "kikit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C04799A6167D967500C2253D /* Debug */,
+				C04799A7167D967500C2253D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C04799A8167D967500C2253D /* Build configuration list for PBXNativeTarget "kikit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C04799A9167D967500C2253D /* Debug */,
+				C04799AA167D967500C2253D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C047997B167D967500C2253D /* Project object */;
+}
