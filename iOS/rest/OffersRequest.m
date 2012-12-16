@@ -28,7 +28,6 @@ static NSString* resource = @"user/offer";
   
   
   NSString* body = [[self formatRequest:requestData] JSONRepresentation];
-  NSLog(@"Body: %@",body);
   request.body = body;
   request.restDelegate = self;
   [request makeSyncRequest];

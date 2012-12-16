@@ -38,6 +38,8 @@
 		C09481CE16786F780077F506 /* RewardRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C09481CD16786F780077F506 /* RewardRequest.m */; };
 		C09481D11678722F0077F506 /* RedeemGiftRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C09481D01678722F0077F506 /* RedeemGiftRequest.m */; };
 		C09481D4167872460077F506 /* RedeemKikbakRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C09481D3167872460077F506 /* RedeemKikbakRequest.m */; };
+		C0B593C3167D900E00DDD7DD /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0B593C2167D900E00DDD7DD /* AdSupport.framework */; };
+		C0B593C7167D908A00DDD7DD /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0B593C5167D902200DDD7DD /* Accounts.framework */; };
 		C0DA3E05161181BC00EB08FF /* login.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DA3E04161181BC00EB08FF /* login.png */; };
 		C0ECB169160C1E37005D6AA3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0ECB168160C1E37005D6AA3 /* UIKit.framework */; };
 		C0ECB16B160C1E37005D6AA3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0ECB16A160C1E37005D6AA3 /* Foundation.framework */; };
@@ -124,6 +126,8 @@
 		C09481D01678722F0077F506 /* RedeemGiftRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedeemGiftRequest.m; sourceTree = "<group>"; };
 		C09481D2167872460077F506 /* RedeemKikbakRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedeemKikbakRequest.h; sourceTree = "<group>"; };
 		C09481D3167872460077F506 /* RedeemKikbakRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedeemKikbakRequest.m; sourceTree = "<group>"; };
+		C0B593C2167D900E00DDD7DD /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		C0B593C5167D902200DDD7DD /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		C0DA3E04161181BC00EB08FF /* login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = login.png; path = graphics/login.png; sourceTree = "<group>"; };
 		C0ECB164160C1E37005D6AA3 /* kikback.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kikback.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0ECB168160C1E37005D6AA3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -158,6 +162,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0B593C7167D908A00DDD7DD /* Accounts.framework in Frameworks */,
+				C0B593C3167D900E00DDD7DD /* AdSupport.framework in Frameworks */,
+				C0ECB193160C25F5005D6AA3 /* Social.framework in Frameworks */,
 				C073501916182860008F4C46 /* MobileCoreServices.framework in Frameworks */,
 				C07350171618281F008F4C46 /* Security.framework in Frameworks */,
 				C0735015161827A0008F4C46 /* CFNetwork.framework in Frameworks */,
@@ -167,7 +174,6 @@
 				C0FB48D8160FD99300074363 /* libFlurry.a in Frameworks */,
 				C0FB48D6160FC49C00074363 /* FacebookSDK.framework in Frameworks */,
 				C0ECB1A6160D8BFC005D6AA3 /* libsqlite3.dylib in Frameworks */,
-				C0ECB193160C25F5005D6AA3 /* Social.framework in Frameworks */,
 				C0ECB169160C1E37005D6AA3 /* UIKit.framework in Frameworks */,
 				C0ECB16B160C1E37005D6AA3 /* Foundation.framework in Frameworks */,
 				C0ECB16D160C1E37005D6AA3 /* CoreGraphics.framework in Frameworks */,
@@ -264,6 +270,8 @@
 		C0ECB159160C1E37005D6AA3 = {
 			isa = PBXGroup;
 			children = (
+				C0B593C5167D902200DDD7DD /* Accounts.framework */,
+				C0B593C2167D900E00DDD7DD /* AdSupport.framework */,
 				C094818A16746AB40077F506 /* rest */,
 				C079DCF21621546E00C50797 /* crypto */,
 				C073504416197072008F4C46 /* Facebook */,

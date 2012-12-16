@@ -27,7 +27,6 @@ static NSString* resource = @"user/friends/fb";
   
   
   NSString* body = [[self formatRequest:requestData] JSONRepresentation];
-  NSLog(@"Body: %@",body);
   request.body = body;
   request.restDelegate = self;
   [request makeSyncRequest];

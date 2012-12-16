@@ -33,7 +33,8 @@
       // even though we had a cached token, we need to login to make the session usable
       
       
-      [FBSession openActiveSessionWithPermissions:permissions
+      [FBSession openActiveSessionWithPublishPermissions:permissions
+                                         defaultAudience:FBSessionDefaultAudienceEveryone
                                      allowLoginUI:NO
                                 completionHandler:^(FBSession *session,
                                                     FBSessionState state,
