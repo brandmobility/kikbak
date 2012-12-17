@@ -125,6 +125,8 @@
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
  
     NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
+    [prefs setValue:[deviceToken base64EncodedString] forKey:DEVICE_TOKEN_KEY];
+    [prefs synchronize];
     if( [prefs objectForKey:KIKBAK_USER_ID] != nil ){
       DeviceTokenRequest* request = [[DeviceTokenRequest alloc]init];
       NSMutableDictionary* data = [[NSMutableDictionary alloc]initWithCapacity:2];

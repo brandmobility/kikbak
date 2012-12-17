@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.kikbak.config.ContextUtil;
 import com.kikbak.dao.ReadOnlyDeviceTokenDAO;
 import com.kikbak.dto.Devicetoken;
-import com.kikbak.pushnotification.apple.ApsNotifier;
+import com.kikbak.push.service.impl.ApsNotifierImpl;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:WebContent/WEB-INF/applicationContext.xml",
@@ -34,9 +34,9 @@ public class PushTest {
 		
 		Devicetoken token = roDeviceTokenDao.findByUserId(1L);
 		
-		ApsNotifier notifier = new ApsNotifier();
+		ApsNotifierImpl notifier = new ApsNotifierImpl();
 		try {
-			notifier.sendNotification(token);
+			notifier.sendNotification(token, "test alert");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

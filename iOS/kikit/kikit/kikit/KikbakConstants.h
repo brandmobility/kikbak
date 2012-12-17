@@ -10,6 +10,7 @@
 #define kikback_KikbakConstantslh_h
 
 #define KIKBAK_USER_ID @"kikbakId"
+#define DEVICE_TOKEN_KEY @"deviceToken"
 
 
 #endif

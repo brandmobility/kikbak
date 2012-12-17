@@ -111,9 +111,11 @@ CREATE TABLE `Offer`
     kikbak_name VARCHAR(64) NOT NULL,
     kikbak_description VARCHAR(4096) NOT NULL,
     kikbak_value DOUBLE NOT NULL,
+    kikbak_notification_text VARCHAR(200) NOT NULL,
     gift_name VARCHAR(64) NOT NULL,
     gift_description VARCHAR(4096) NOT NULL,    
     gift_value DOUBLE NOT NULL,
+    gift_notification_text VARCHAR(200) NOT NULL,
     begin_date DATETIME NOT NULL,
     end_date DATETIME NOT NULL,
     PRIMARY KEY (id)

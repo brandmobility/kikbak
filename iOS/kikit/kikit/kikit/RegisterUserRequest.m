@@ -59,13 +59,14 @@ static NSString* resource = @"user/register/fb/";
         [prefs setValue:userId forKeyPath:KIKBAK_USER_ID];
         [prefs synchronize];
        
+        //once they log in start location mgr
         [((AppDelegate*)[UIApplication sharedApplication].delegate).locationMgr startUpdating];
-        if( ((AppDelegate*)[UIApplication sharedApplication].delegate).deviceToken ){
+        if( [prefs objectForKey:DEVICE_TOKEN_KEY] != nil ){
           DeviceTokenRequest* tokenRequest = [[DeviceTokenRequest alloc]init];
-          NSMutableDictionary* data = [[NSMutableDictionary alloc]initWithCapacity:2];
-          [data setObject:((AppDelegate*)[UIApplication sharedApplication].delegate).deviceToken forKey:@"token"];
-          [data setObject:[NSNumber numberWithInt:0] forKey:@"platform_id"];
-          [tokenRequest makeRequest:data];
+          NSMutableDictionary* tokenDict = [[NSMutableDictionary alloc]initWithCapacity:2];
+          [tokenDict setObject:[prefs objectForKey:DEVICE_TOKEN_KEY] forKey:@"token"];
+          [tokenDict setObject:[NSNumber numberWithInt:0] forKey:@"platform_id"];
+          [tokenRequest makeRequest:tokenDict];
         }
       }
     }

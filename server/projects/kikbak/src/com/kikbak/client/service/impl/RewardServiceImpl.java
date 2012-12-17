@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kikbak.client.service.RedemptionException;
 import com.kikbak.client.service.RewardService;
 import com.kikbak.client.service.impl.types.TransactionType;
+import com.kikbak.dao.ReadOnlyDeviceTokenDAO;
 import com.kikbak.dao.ReadOnlyGiftDAO;
 import com.kikbak.dao.ReadOnlyKikbakDAO;
 import com.kikbak.dao.ReadOnlyLocationDAO;
@@ -23,6 +24,7 @@ import com.kikbak.dao.ReadOnlySharedDAO;
 import com.kikbak.dao.ReadWriteGiftDAO;
 import com.kikbak.dao.ReadWriteKikbakDAO;
 import com.kikbak.dao.ReadWriteTransactionDAO;
+import com.kikbak.dto.Devicetoken;
 import com.kikbak.dto.Gift;
 import com.kikbak.dto.Kikbak;
 import com.kikbak.dto.Location;
@@ -36,6 +38,7 @@ import com.kikbak.jaxb.GiftRedemptionType;
 import com.kikbak.jaxb.GiftType;
 import com.kikbak.jaxb.KikbakRedemptionType;
 import com.kikbak.jaxb.KikbakType;
+import com.kikbak.push.service.ApsNotifier;
 
 @Service
 public class RewardServiceImpl implements RewardService{
@@ -66,6 +69,12 @@ public class RewardServiceImpl implements RewardService{
 	
 	@Autowired
 	ReadOnlyLocationDAO roLocationDao;
+	
+	@Autowired
+	ApsNotifier apsNotifier;
+	
+	@Autowired
+	ReadOnlyDeviceTokenDAO roDeviceToken;
 	
 	
 	private final SecureRandom random = new SecureRandom();
@@ -137,6 +146,13 @@ public class RewardServiceImpl implements RewardService{
 		
 		KikbakManager km = new KikbakManager(roOfferDao, roKikbakDao, rwKikbakDao, rwTxnDao);
 		km.manageKikbak(userId, gift.getOfferId(), gift.getMerchantId(), giftType.getLocationId());
+		
+		//send notification for kikbak when gift is redeemed
+		Devicetoken token = roDeviceToken.findByUserId(userId);
+		if( token != null){
+			Offer offer = roOfferDao.findById(gift.getOfferId());
+			apsNotifier.sendNotification(token, offer.getKikbakNotificationText());
+		}
 		
 		return generateAuthorizationCode();
 	}

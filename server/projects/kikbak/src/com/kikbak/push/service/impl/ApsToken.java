@@ -1,4 +1,4 @@
-package com.kikbak.pushnotification.apple;
+package com.kikbak.push.service.impl;
 
 import javax.xml.bind.DatatypeConverter;
 

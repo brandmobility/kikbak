@@ -166,9 +166,11 @@ public class MerchantServiceImpl implements MerchantService{
 		offer.setGiftName(ot.getGiftName());
 		offer.setGiftDescription(ot.getGiftDescription());
 		offer.setGiftValue(ot.getGiftValue());
+		offer.setKikbakNotificationText(ot.getKikbakNotificationText());
 		offer.setKikbakName(ot.getKikbakName());
 		offer.setKikbakDescription(ot.getKikbakDescription());
 		offer.setKikbakValue(ot.getKikbakValue());
+		offer.setKikbakNotificationText(ot.getKikbakNotificationText());
 		offer.setName(ot.getName());
 		offer.setBeginDate(new Date(ot.getBeginDate()));
 		offer.setEndDate(new Date(ot.getEndDate()));
@@ -197,8 +199,10 @@ public class MerchantServiceImpl implements MerchantService{
 			ot.setKikbakDescription(offer.getKikbakDescription());
 			ot.setKikbakValue(offer.getKikbakValue());
 			ot.setKikbakName(offer.getKikbakName());
+			ot.setKikbakNotificationText(offer.getKikbakNotificationText());
 			ot.setGiftDescription(offer.getGiftDescription());
 			ot.setGiftValue(offer.getGiftValue());
+			ot.setGiftNotificationText(offer.getGiftNotificationText());
 			ot.setEndDate(offer.getEndDate().getTime());
 			ot.setId(offer.getId());
 			ot.setMerchantId(offer.getMerchantId());
