@@ -67,9 +67,11 @@ public class MerchantServiceTest extends KikbakBaseTest{
 		ot.setGiftDescription("gift desc");
 		ot.setGiftName("gift name");
 		ot.setGiftValue(234.32);
+		ot.setGiftNotificationText("notification");
 		ot.setKikbakDescription("desc");
 		ot.setKikbakName("name");
 		ot.setKikbakValue(12.12);
+		ot.setKikbakNotificationText("notification");
 		ot.setMerchantId(1L);
 		ot.setName("test offer");
 		

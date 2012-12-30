@@ -166,6 +166,7 @@ public class MerchantServiceImpl implements MerchantService{
 		offer.setGiftName(ot.getGiftName());
 		offer.setGiftDescription(ot.getGiftDescription());
 		offer.setGiftValue(ot.getGiftValue());
+		offer.setGiftNotificationText(ot.getGiftNotificationText());
 		offer.setKikbakNotificationText(ot.getKikbakNotificationText());
 		offer.setKikbakName(ot.getKikbakName());
 		offer.setKikbakDescription(ot.getKikbakDescription());

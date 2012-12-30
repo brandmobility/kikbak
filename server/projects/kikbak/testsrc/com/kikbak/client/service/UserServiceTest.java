@@ -123,9 +123,11 @@ public class UserServiceTest extends KikbakBaseTest{
 		ot.setGiftDescription("gift");
 		ot.setGiftName("gn");
 		ot.setGiftValue(12.21);
+		ot.setGiftNotificationText("notification");
 		ot.setKikbakDescription("kd");
 		ot.setKikbakName("kn");
 		ot.setKikbakValue(32.32);
+		ot.setKikbakNotificationText("notification");
 		ot.setName("name");
 		
 		try {
@@ -139,8 +141,8 @@ public class UserServiceTest extends KikbakBaseTest{
 		
 		
 		UserLocationType ult = new UserLocationType();
-		ult.setLatitude(12.32);
-		ult.setLongitude(12.43);
+		ult.setLatitude(37.4207480);
+		ult.setLongitude(-122.1303430);
 		Collection<OfferType> ots = service.getOffers(4L, ult);
 		assertTrue(ots.size() == 1);
 	}
@@ -165,9 +167,11 @@ public class UserServiceTest extends KikbakBaseTest{
 		ot.setGiftDescription("gift");
 		ot.setGiftName("gn");
 		ot.setGiftValue(12.21);
+		ot.setGiftNotificationText("notification");
 		ot.setKikbakDescription("kd");
 		ot.setKikbakName("kn");
 		ot.setKikbakValue(32.32);
+		ot.setKikbakNotificationText("notification");
 		ot.setName("name");
 		
 		try {
@@ -181,8 +185,8 @@ public class UserServiceTest extends KikbakBaseTest{
 		
 		
 		UserLocationType ult = new UserLocationType();
-		ult.setLatitude(12.32);
-		ult.setLongitude(12.43);
+		ult.setLatitude(37.4207480);
+		ult.setLongitude(-12.1303430);
 		Collection<OfferType> ots = service.getOffers(4L, ult);
 		assertTrue(ots.size() == 0);
 	}

@@ -23,6 +23,8 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.kikbak.config.ContextUtil;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:WebContent/WEB-INF/applicationContext.xml",
@@ -40,8 +42,15 @@ private static String DATA_SOURCE = "testdataset.xml";
 			// get the default test log4j properties
 			Properties log4jProperties = new Properties();
 			log4jProperties.load(new FileReader(new File("testcfg/log4j.properties")));
-
+			
+			Properties localProperties = new Properties();
+			log4jProperties.load(new FileReader(new File("testcfg/local.properties")));
 			PropertyConfigurator.configure(log4jProperties);
+			PropertyConfigurator.configure(localProperties);
+			
+			final String dir = System.getProperty("user.dir");
+			ContextUtil.setRealPath(dir + "/WebContent/");
+
 		} catch (IOException e) {
 			// Just ignore it
 			e.printStackTrace();

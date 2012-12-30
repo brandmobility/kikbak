@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kikbak.client.service.UserService;
 import com.kikbak.client.service.impl.types.GenderType;
 import com.kikbak.client.service.impl.types.PlatformType;
+import com.kikbak.config.ContextUtil;
 import com.kikbak.dao.ReadOnlyDeviceTokenDAO;
 import com.kikbak.dao.ReadOnlyLocationDAO;
 import com.kikbak.dao.ReadOnlyOfferDAO;
@@ -33,10 +35,15 @@ import com.kikbak.jaxb.OfferType;
 import com.kikbak.jaxb.UserIdType;
 import com.kikbak.jaxb.UserLocationType;
 import com.kikbak.jaxb.UserType;
+import com.kikbak.location.Coordinate;
+import com.kikbak.location.GeoBoundaries;
+import com.kikbak.location.GeoFence;
 
 @Service
 public class UserServiceImpl implements UserService {
 
+	private static PropertiesConfiguration config = ContextUtil.getBean("staticPropertiesConfiguration", PropertiesConfiguration.class);
+	
 	@Autowired
 	ReadOnlyUserDAO roUserDao;
 	
@@ -123,7 +130,9 @@ public class UserServiceImpl implements UserService {
 	public Collection<OfferType> getOffers(Long userId,
 			UserLocationType userLocation) {
 		
-		Collection<Offer> offers = roOfferDao.listValidOffers();
+		Coordinate origin = new Coordinate(userLocation.getLatitude(), userLocation.getLongitude());
+		GeoFence fence = GeoBoundaries.getGeoFence(origin, config.getDouble("geo.fence.distance"));
+		Collection<Offer> offers = roOfferDao.listValidOffersInGeoFence(fence);
 		Collection<OfferType> ots = new ArrayList<OfferType>();
 		for(Offer offer : offers){
 			OfferType ot = new OfferType();

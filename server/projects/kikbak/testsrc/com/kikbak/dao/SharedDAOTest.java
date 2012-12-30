@@ -26,7 +26,7 @@ public class SharedDAOTest extends KikbakBaseTest{
 	
 	@Test
 	public void testListByUserId(){
-		Collection<Shared> shareds = roDao.listByUserId(3L);
+		Collection<Shared> shareds = roDao.listByUserId(6L);
 		assertEquals(1, shareds.size());
 		
 	}

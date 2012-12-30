@@ -12,9 +12,12 @@ import com.kikbak.KikbakBaseTest;
 import com.kikbak.dao.ReadOnlyOfferDAO;
 import com.kikbak.dto.Merchant;
 import com.kikbak.dto.Offer;
+import com.kikbak.jaxb.UserLocationType;
+import com.kikbak.location.Coordinate;
+import com.kikbak.location.GeoBoundaries;
+import com.kikbak.location.GeoFence;
 
-public class OfferDAOTest extends KikbakBaseTest{
-
+public class OfferDAOTest extends KikbakBaseTest{	
 	@Autowired
 	ReadOnlyOfferDAO roDao;
 	
@@ -46,8 +49,10 @@ public class OfferDAOTest extends KikbakBaseTest{
 		offer.setMerchantId(1);
 		offer.setGiftDescription("desc");
 		offer.setGiftName("gift");
+		offer.setGiftNotificationText("notification");
 		offer.setKikbakDescription("kik");
 		offer.setKikbakName("kname");
+		offer.setKikbakNotificationText("notification");
 		offer.setName("test");
 		offer.setDefaultText("3243242");
 		offer.setGiftValue(3.25);
@@ -71,14 +76,28 @@ public class OfferDAOTest extends KikbakBaseTest{
 		offer.setGiftDescription("gift");
 		offer.setGiftName("gn");
 		offer.setGiftValue(12.21);
+		offer.setGiftNotificationText("notification");
 		offer.setKikbakDescription("kd");
 		offer.setKikbakName("kn");
 		offer.setKikbakValue(32.32);
+		offer.setKikbakNotificationText("notification");
 		offer.setName("name");
 		rwDao.makePersistent(offer);
 		
 		Collection<Offer> offers = roDao.listValidOffers();
-		assertTrue(offers.size() == 1);
+		assertTrue(offers.size() == 2);
 		
+	}
+	
+	@Test
+	public void testListValidOffersWithGeoFence(){
+		UserLocationType ult = new UserLocationType();
+		ult.setLatitude(37.4207480);
+		ult.setLongitude(-122.1303430);
+		Coordinate origin = new Coordinate(ult.getLatitude(), ult.getLongitude());
+		GeoFence fence = GeoBoundaries.getGeoFence(origin, 10d);
+	
+		Collection<Offer> offers = roDao.listValidOffersInGeoFence(fence);
+		assertTrue(offers.size() == 1);
 	}
 }

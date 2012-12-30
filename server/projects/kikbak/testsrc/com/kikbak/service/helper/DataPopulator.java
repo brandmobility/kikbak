@@ -55,9 +55,11 @@ public class DataPopulator {
 			offer.setGiftDescription("gift");
 			offer.setGiftName("gn");
 			offer.setGiftValue(12.21);
+			offer.setGiftNotificationText("notification");
 			offer.setKikbakDescription("kd");
 			offer.setKikbakName("kn");
 			offer.setKikbakValue(32.32);
+			offer.setKikbakNotificationText("notification");
 			offer.setName("name");
 			offer.setMerchantId(i + merchantBaseId);
 			rwOfferDao.makePersistent(offer);
