@@ -24,7 +24,6 @@
 		C04799BD167D9B5A00C2253D /* login.png in Resources */ = {isa = PBXBuildFile; fileRef = C04799BA167D9B5A00C2253D /* login.png */; };
 		C04799BE167D9B5A00C2253D /* morning_320x480.png in Resources */ = {isa = PBXBuildFile; fileRef = C04799BB167D9B5A00C2253D /* morning_320x480.png */; };
 		C04799BF167D9B5A00C2253D /* splash_320x480.png in Resources */ = {isa = PBXBuildFile; fileRef = C04799BC167D9B5A00C2253D /* splash_320x480.png */; };
-		C04799DE167D9B9300C2253D /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799C2167D9B9300C2253D /* LocationManager.m */; };
 		C04799DF167D9B9300C2253D /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799C4167D9B9300C2253D /* LoginViewController.m */; };
 		C04799E1167D9B9300C2253D /* ServerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799C8167D9B9300C2253D /* ServerTest.m */; };
 		C04799E2167D9B9300C2253D /* DeviceTokenRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799CA167D9B9300C2253D /* DeviceTokenRequest.m */; };
@@ -58,7 +57,9 @@
 		C0479A25167D9D5800C2253D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0479A24167D9D5800C2253D /* SystemConfiguration.framework */; };
 		C0479A2E167DA59200C2253D /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = C0479A2C167DA59200C2253D /* NSData+Base64.m */; };
 		C0C9724616916081001A2A80 /* PostReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C9724516916081001A2A80 /* PostReviewViewController.m */; };
-		C0C9724A169160EC001A2A80 /* Distance.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C97249169160EC001A2A80 /* Distance.m */; };
+		C0C972691692CBE4001A2A80 /* Distance.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C972681692CBE4001A2A80 /* Distance.m */; };
+		C0C9726C1692CC9F001A2A80 /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C9726B1692CC9F001A2A80 /* LocationManager.m */; };
+		C0C972791692CCEE001A2A80 /* QRScannerViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = C0C972781692CCEE001A2A80 /* QRScannerViewController.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -89,8 +90,6 @@
 		C04799BB167D9B5A00C2253D /* morning_320x480.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = morning_320x480.png; path = kikit/graphics/morning_320x480.png; sourceTree = "<group>"; };
 		C04799BC167D9B5A00C2253D /* splash_320x480.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = splash_320x480.png; path = kikit/graphics/splash_320x480.png; sourceTree = "<group>"; };
 		C04799C0167D9B9300C2253D /* KikbakConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KikbakConstants.h; sourceTree = "<group>"; };
-		C04799C1167D9B9300C2253D /* LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocationManager.h; path = ../kikit/LocationManager.h; sourceTree = "<group>"; };
-		C04799C2167D9B9300C2253D /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationManager.m; path = ../kikit/LocationManager.m; sourceTree = "<group>"; };
 		C04799C3167D9B9300C2253D /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		C04799C4167D9B9300C2253D /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		C04799C7167D9B9300C2253D /* ServerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServerTest.h; path = kikit/ServerTest.h; sourceTree = "<group>"; };
@@ -155,8 +154,12 @@
 		C0479A2D167DA59200C2253D /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Base64.h"; path = "../../../../../../Downloads/NSData_Base64/NSData+Base64.h"; sourceTree = "<group>"; };
 		C0C9724416916081001A2A80 /* PostReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostReviewViewController.h; sourceTree = "<group>"; };
 		C0C9724516916081001A2A80 /* PostReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostReviewViewController.m; sourceTree = "<group>"; };
-		C0C97248169160EC001A2A80 /* Distance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Distance.h; sourceTree = "<group>"; };
-		C0C97249169160EC001A2A80 /* Distance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Distance.m; sourceTree = "<group>"; };
+		C0C972671692CBE4001A2A80 /* Distance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Distance.h; path = kikit/geo/Distance.h; sourceTree = SOURCE_ROOT; };
+		C0C972681692CBE4001A2A80 /* Distance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Distance.m; path = kikit/geo/Distance.m; sourceTree = SOURCE_ROOT; };
+		C0C9726A1692CC9F001A2A80 /* LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocationManager.h; path = kikit/geo/LocationManager.h; sourceTree = SOURCE_ROOT; };
+		C0C9726B1692CC9F001A2A80 /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationManager.m; path = kikit/geo/LocationManager.m; sourceTree = SOURCE_ROOT; };
+		C0C972771692CCEE001A2A80 /* QRScannerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRScannerViewController.h; sourceTree = "<group>"; };
+		C0C972781692CCEE001A2A80 /* QRScannerViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QRScannerViewController.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -239,6 +242,8 @@
 				C047998F167D967500C2253D /* Supporting Files */,
 				C04799A3167D967500C2253D /* ViewController.h */,
 				C04799A4167D967500C2253D /* ViewController.m */,
+				C0C972771692CCEE001A2A80 /* QRScannerViewController.h */,
+				C0C972781692CCEE001A2A80 /* QRScannerViewController.mm */,
 			);
 			path = kikit;
 			sourceTree = "<group>";
@@ -370,12 +375,13 @@
 		C0C97247169160C0001A2A80 /* geo */ = {
 			isa = PBXGroup;
 			children = (
-				C04799C1167D9B9300C2253D /* LocationManager.h */,
-				C04799C2167D9B9300C2253D /* LocationManager.m */,
-				C0C97248169160EC001A2A80 /* Distance.h */,
-				C0C97249169160EC001A2A80 /* Distance.m */,
+				C0C9726A1692CC9F001A2A80 /* LocationManager.h */,
+				C0C9726B1692CC9F001A2A80 /* LocationManager.m */,
+				C0C972671692CBE4001A2A80 /* Distance.h */,
+				C0C972681692CBE4001A2A80 /* Distance.m */,
 			);
-			path = geo;
+			name = geo;
+			path = kikit/geo;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -453,7 +459,6 @@
 				C04799AD167D96C900C2253D /* Hash.m in Sources */,
 				C04799B4167D96E900C2253D /* FBQuery.m in Sources */,
 				C04799B5167D96E900C2253D /* FBUserInfo.m in Sources */,
-				C04799DE167D9B9300C2253D /* LocationManager.m in Sources */,
 				C04799DF167D9B9300C2253D /* LoginViewController.m in Sources */,
 				C04799E1167D9B9300C2253D /* ServerTest.m in Sources */,
 				C04799E2167D9B9300C2253D /* DeviceTokenRequest.m in Sources */,
@@ -479,7 +484,9 @@
 				C0479A10167D9BEC00C2253D /* SBJsonWriter.m in Sources */,
 				C0479A2E167DA59200C2253D /* NSData+Base64.m in Sources */,
 				C0C9724616916081001A2A80 /* PostReviewViewController.m in Sources */,
-				C0C9724A169160EC001A2A80 /* Distance.m in Sources */,
+				C0C972691692CBE4001A2A80 /* Distance.m in Sources */,
+				C0C9726C1692CC9F001A2A80 /* LocationManager.m in Sources */,
+				C0C972791692CCEE001A2A80 /* QRScannerViewController.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
