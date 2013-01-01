@@ -9,6 +9,7 @@
 #import "LocationManager.h"
 #import "OffersRequest.h"
 #import "KikbakConstants.h"
+#import "Distance.h"
 
 @interface LocationManager()
 -(void)onForeground;
@@ -16,6 +17,8 @@
 @end
 
 @implementation LocationManager
+
+@synthesize currentLocation;
 
 -(id)init{
   self = [super init];
@@ -69,8 +72,8 @@
  */
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
   
-  CLLocation* location = [locations lastObject];
-  NSDate* eventDate = location.timestamp;
+  self.currentLocation = [locations lastObject];
+  NSDate* eventDate = self.currentLocation.timestamp;
   NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
   if (abs(howRecent) < 15.0) {
     //we don't need to get location again until next foreground
@@ -78,11 +81,14 @@
     NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
     if( [prefs objectForKey:KIKBAK_USER_ID] != nil ){
       NSMutableDictionary* data = [[NSMutableDictionary alloc]initWithCapacity:2];
-      [data setObject:[NSNumber numberWithDouble:location.coordinate.latitude ] forKey:@"latitude"];
-      [data setObject:[NSNumber numberWithDouble:location.coordinate.longitude ] forKey:@"longitude"];
+      [data setObject:[NSNumber numberWithDouble:self.currentLocation.coordinate.latitude ] forKey:@"latitude"];
+      [data setObject:[NSNumber numberWithDouble:self.currentLocation.coordinate.longitude ] forKey:@"longitude"];
       [request makeRequest:data];
     }    
   }
+  
+  NSString* distance = [Distance distanceToInMiles:[[CLLocation alloc]initWithLatitude:37.42706140 longitude:-122.1444120]];
+  NSLog(@"Distance: %@", distance);
 }
 
 /*

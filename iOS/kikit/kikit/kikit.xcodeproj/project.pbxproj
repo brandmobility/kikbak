@@ -26,7 +26,6 @@
 		C04799BF167D9B5A00C2253D /* splash_320x480.png in Resources */ = {isa = PBXBuildFile; fileRef = C04799BC167D9B5A00C2253D /* splash_320x480.png */; };
 		C04799DE167D9B9300C2253D /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799C2167D9B9300C2253D /* LocationManager.m */; };
 		C04799DF167D9B9300C2253D /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799C4167D9B9300C2253D /* LoginViewController.m */; };
-		C04799E0167D9B9300C2253D /* PostReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799C6167D9B9300C2253D /* PostReviewViewController.m */; };
 		C04799E1167D9B9300C2253D /* ServerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799C8167D9B9300C2253D /* ServerTest.m */; };
 		C04799E2167D9B9300C2253D /* DeviceTokenRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799CA167D9B9300C2253D /* DeviceTokenRequest.m */; };
 		C04799E3167D9B9300C2253D /* OffersRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C04799CD167D9B9300C2253D /* OffersRequest.m */; };
@@ -58,6 +57,8 @@
 		C0479A21167D9D0700C2253D /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0479A20167D9D0700C2253D /* libFlurry.a */; };
 		C0479A25167D9D5800C2253D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0479A24167D9D5800C2253D /* SystemConfiguration.framework */; };
 		C0479A2E167DA59200C2253D /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = C0479A2C167DA59200C2253D /* NSData+Base64.m */; };
+		C0C9724616916081001A2A80 /* PostReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C9724516916081001A2A80 /* PostReviewViewController.m */; };
+		C0C9724A169160EC001A2A80 /* Distance.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C97249169160EC001A2A80 /* Distance.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,12 +89,10 @@
 		C04799BB167D9B5A00C2253D /* morning_320x480.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = morning_320x480.png; path = kikit/graphics/morning_320x480.png; sourceTree = "<group>"; };
 		C04799BC167D9B5A00C2253D /* splash_320x480.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = splash_320x480.png; path = kikit/graphics/splash_320x480.png; sourceTree = "<group>"; };
 		C04799C0167D9B9300C2253D /* KikbakConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KikbakConstants.h; sourceTree = "<group>"; };
-		C04799C1167D9B9300C2253D /* LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationManager.h; sourceTree = "<group>"; };
-		C04799C2167D9B9300C2253D /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationManager.m; sourceTree = "<group>"; };
+		C04799C1167D9B9300C2253D /* LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocationManager.h; path = ../kikit/LocationManager.h; sourceTree = "<group>"; };
+		C04799C2167D9B9300C2253D /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationManager.m; path = ../kikit/LocationManager.m; sourceTree = "<group>"; };
 		C04799C3167D9B9300C2253D /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		C04799C4167D9B9300C2253D /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
-		C04799C5167D9B9300C2253D /* PostReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostReviewViewController.h; path = kikit/PostReviewViewController.h; sourceTree = "<group>"; };
-		C04799C6167D9B9300C2253D /* PostReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostReviewViewController.m; path = kikit/PostReviewViewController.m; sourceTree = "<group>"; };
 		C04799C7167D9B9300C2253D /* ServerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServerTest.h; path = kikit/ServerTest.h; sourceTree = "<group>"; };
 		C04799C8167D9B9300C2253D /* ServerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServerTest.m; path = kikit/ServerTest.m; sourceTree = "<group>"; };
 		C04799C9167D9B9300C2253D /* DeviceTokenRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceTokenRequest.h; path = kikit/DeviceTokenRequest.h; sourceTree = "<group>"; };
@@ -154,6 +153,10 @@
 		C0479A24167D9D5800C2253D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		C0479A2C167DA59200C2253D /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Base64.m"; path = "../../../../../../Downloads/NSData_Base64/NSData+Base64.m"; sourceTree = "<group>"; };
 		C0479A2D167DA59200C2253D /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Base64.h"; path = "../../../../../../Downloads/NSData_Base64/NSData+Base64.h"; sourceTree = "<group>"; };
+		C0C9724416916081001A2A80 /* PostReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostReviewViewController.h; sourceTree = "<group>"; };
+		C0C9724516916081001A2A80 /* PostReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostReviewViewController.m; sourceTree = "<group>"; };
+		C0C97248169160EC001A2A80 /* Distance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Distance.h; sourceTree = "<group>"; };
+		C0C97249169160EC001A2A80 /* Distance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Distance.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,6 +184,7 @@
 		C0479979167D967500C2253D = {
 			isa = PBXGroup;
 			children = (
+				C0C97247169160C0001A2A80 /* geo */,
 				C0479A2B167DA57A00C2253D /* categories */,
 				C04799AE167D96CD00C2253D /* crypto */,
 				C04799B6167D96EF00C2253D /* facebook */,
@@ -224,17 +228,17 @@
 		C047998E167D967500C2253D /* kikit */ = {
 			isa = PBXGroup;
 			children = (
-				C04799C3167D9B9300C2253D /* LoginViewController.h */,
-				C04799C4167D9B9300C2253D /* LoginViewController.m */,
-				C04799C0167D9B9300C2253D /* KikbakConstants.h */,
-				C04799C1167D9B9300C2253D /* LocationManager.h */,
-				C04799C2167D9B9300C2253D /* LocationManager.m */,
 				C0479997167D967500C2253D /* AppDelegate.h */,
 				C0479998167D967500C2253D /* AppDelegate.m */,
+				C04799C0167D9B9300C2253D /* KikbakConstants.h */,
+				C04799C3167D9B9300C2253D /* LoginViewController.h */,
+				C04799C4167D9B9300C2253D /* LoginViewController.m */,
 				C04799A0167D967500C2253D /* MainStoryboard.storyboard */,
+				C0C9724416916081001A2A80 /* PostReviewViewController.h */,
+				C0C9724516916081001A2A80 /* PostReviewViewController.m */,
+				C047998F167D967500C2253D /* Supporting Files */,
 				C04799A3167D967500C2253D /* ViewController.h */,
 				C04799A4167D967500C2253D /* ViewController.m */,
-				C047998F167D967500C2253D /* Supporting Files */,
 			);
 			path = kikit;
 			sourceTree = "<group>";
@@ -294,8 +298,6 @@
 				C04799CD167D9B9300C2253D /* OffersRequest.m */,
 				C04799CE167D9B9300C2253D /* PostRequest.h */,
 				C04799CF167D9B9300C2253D /* PostRequest.m */,
-				C04799C5167D9B9300C2253D /* PostReviewViewController.h */,
-				C04799C6167D9B9300C2253D /* PostReviewViewController.m */,
 				C04799D0167D9B9300C2253D /* RedeemGiftRequest.h */,
 				C04799D1167D9B9300C2253D /* RedeemGiftRequest.m */,
 				C04799D2167D9B9300C2253D /* RedeemKikbakRequest.h */,
@@ -363,6 +365,17 @@
 				C0479A2D167DA59200C2253D /* NSData+Base64.h */,
 			);
 			name = categories;
+			sourceTree = "<group>";
+		};
+		C0C97247169160C0001A2A80 /* geo */ = {
+			isa = PBXGroup;
+			children = (
+				C04799C1167D9B9300C2253D /* LocationManager.h */,
+				C04799C2167D9B9300C2253D /* LocationManager.m */,
+				C0C97248169160EC001A2A80 /* Distance.h */,
+				C0C97249169160EC001A2A80 /* Distance.m */,
+			);
+			path = geo;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -442,7 +455,6 @@
 				C04799B5167D96E900C2253D /* FBUserInfo.m in Sources */,
 				C04799DE167D9B9300C2253D /* LocationManager.m in Sources */,
 				C04799DF167D9B9300C2253D /* LoginViewController.m in Sources */,
-				C04799E0167D9B9300C2253D /* PostReviewViewController.m in Sources */,
 				C04799E1167D9B9300C2253D /* ServerTest.m in Sources */,
 				C04799E2167D9B9300C2253D /* DeviceTokenRequest.m in Sources */,
 				C04799E3167D9B9300C2253D /* OffersRequest.m in Sources */,
@@ -466,6 +478,8 @@
 				C0479A0F167D9BEC00C2253D /* SBJsonUTF8Stream.m in Sources */,
 				C0479A10167D9BEC00C2253D /* SBJsonWriter.m in Sources */,
 				C0479A2E167DA59200C2253D /* NSData+Base64.m in Sources */,
+				C0C9724616916081001A2A80 /* PostReviewViewController.m in Sources */,
+				C0C9724A169160EC001A2A80 /* Distance.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

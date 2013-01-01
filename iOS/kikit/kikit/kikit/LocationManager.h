@@ -20,4 +20,6 @@
 -(void)startUpdating;
 -(void)stopUpdating;
 
+@property (strong, nonatomic) CLLocation* currentLocation;
+
 @end

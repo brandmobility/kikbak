@@ -9,11 +9,6 @@
 #ifndef kikback_FBConstants_h
 #define kikback_FBConstants_h
 
-#define FBUSERID_KEY @"id"
-#define FBFRIEND_HASH_KEY @"fbfriendhash"
-#define FB_FRIEND_ARRAY_KEY @"data"
-
-#define FB_PAGING @"paging"
-#define FB_PAGING_NEXT @"next"
-
+const char* FB_USER_ID_KEY = "id";
+const char* FB_USERNAME_KEY = "username";
 #endif
