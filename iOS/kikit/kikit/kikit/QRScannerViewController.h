@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <ZXingWidgetController.h>
 
-@interface QRScannerViewController : UIViewController
+@interface QRScannerViewController : UIViewController<ZXingDelegate>
+{
+  
+}
+
+-(IBAction)ScanPressed:(id)sender;
 
 @end

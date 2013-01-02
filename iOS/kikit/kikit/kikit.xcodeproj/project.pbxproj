@@ -11,7 +11,7 @@
 		C047998B167D967500C2253D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C047998A167D967500C2253D /* Foundation.framework */; };
 		C047998D167D967500C2253D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C047998C167D967500C2253D /* CoreGraphics.framework */; };
 		C0479993167D967500C2253D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C0479991167D967500C2253D /* InfoPlist.strings */; };
-		C0479995167D967500C2253D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C0479994167D967500C2253D /* main.m */; };
+		C0479995167D967500C2253D /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = C0479994167D967500C2253D /* main.mm */; };
 		C0479999167D967500C2253D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C0479998167D967500C2253D /* AppDelegate.m */; };
 		C047999B167D967500C2253D /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = C047999A167D967500C2253D /* Default.png */; };
 		C047999D167D967500C2253D /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C047999C167D967500C2253D /* Default@2x.png */; };
@@ -55,12 +55,45 @@
 		C0479A1D167D9CC800C2253D /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0479A1C167D9CC800C2253D /* FacebookSDK.framework */; };
 		C0479A21167D9D0700C2253D /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0479A20167D9D0700C2253D /* libFlurry.a */; };
 		C0479A25167D9D5800C2253D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0479A24167D9D5800C2253D /* SystemConfiguration.framework */; };
-		C0479A2E167DA59200C2253D /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = C0479A2C167DA59200C2253D /* NSData+Base64.m */; };
 		C0C9724616916081001A2A80 /* PostReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C9724516916081001A2A80 /* PostReviewViewController.m */; };
 		C0C972691692CBE4001A2A80 /* Distance.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C972681692CBE4001A2A80 /* Distance.m */; };
 		C0C9726C1692CC9F001A2A80 /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C9726B1692CC9F001A2A80 /* LocationManager.m */; };
 		C0C972791692CCEE001A2A80 /* QRScannerViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = C0C972781692CCEE001A2A80 /* QRScannerViewController.mm */; };
+		C0C972881692D1B4001A2A80 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C972871692D1B4001A2A80 /* NSData+Base64.m */; };
+		C0C9738B1692D74E001A2A80 /* libZXingWidget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0C973861692D73A001A2A80 /* libZXingWidget.a */; };
+		C0C9738E1693AD7F001A2A80 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0C9738C1693AD7F001A2A80 /* AudioToolbox.framework */; };
+		C0C9738F1693AD7F001A2A80 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0C9738D1693AD7F001A2A80 /* AVFoundation.framework */; };
+		C0C973921693AD8F001A2A80 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0C973901693AD8F001A2A80 /* CoreAudio.framework */; };
+		C0C973931693AD8F001A2A80 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0C973911693AD8F001A2A80 /* CoreMedia.framework */; };
+		C0C973961693AD9F001A2A80 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0C973941693AD9F001A2A80 /* AddressBook.framework */; };
+		C0C973971693AD9F001A2A80 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0C973951693AD9F001A2A80 /* AddressBookUI.framework */; };
+		C0C973991693ADB1001A2A80 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C0C973981693ADB1001A2A80 /* libiconv.dylib */; };
+		C0C9739B1693FDA2001A2A80 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0C9739A1693FDA2001A2A80 /* CoreVideo.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C0C973851692D73A001A2A80 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C0C9737D1692D73A001A2A80 /* ZXingWidget.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D2AAC07E0554694100DB518D;
+			remoteInfo = ZXingWidget;
+		};
+		C0C973871692D73A001A2A80 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C0C9737D1692D73A001A2A80 /* ZXingWidget.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1D60398D13DF7CAD006F4B51;
+			remoteInfo = ZXingTests;
+		};
+		C0C973891692D748001A2A80 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C0C9737D1692D73A001A2A80 /* ZXingWidget.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC07D0554694100DB518D;
+			remoteInfo = ZXingWidget;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		C0479984167D967500C2253D /* kikit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kikit.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,7 +102,7 @@
 		C047998C167D967500C2253D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		C0479990167D967500C2253D /* kikit-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "kikit-Info.plist"; sourceTree = "<group>"; };
 		C0479992167D967500C2253D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		C0479994167D967500C2253D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		C0479994167D967500C2253D /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		C0479996167D967500C2253D /* kikit-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kikit-Prefix.pch"; sourceTree = "<group>"; };
 		C0479997167D967500C2253D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		C0479998167D967500C2253D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -150,8 +183,6 @@
 		C0479A20167D9D0700C2253D /* libFlurry.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFlurry.a; path = ../external/flurry_4.0.4/Flurry/libFlurry.a; sourceTree = "<group>"; };
 		C0479A22167D9D1C00C2253D /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		C0479A24167D9D5800C2253D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		C0479A2C167DA59200C2253D /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Base64.m"; path = "../../../../../../Downloads/NSData_Base64/NSData+Base64.m"; sourceTree = "<group>"; };
-		C0479A2D167DA59200C2253D /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Base64.h"; path = "../../../../../../Downloads/NSData_Base64/NSData+Base64.h"; sourceTree = "<group>"; };
 		C0C9724416916081001A2A80 /* PostReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostReviewViewController.h; sourceTree = "<group>"; };
 		C0C9724516916081001A2A80 /* PostReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostReviewViewController.m; sourceTree = "<group>"; };
 		C0C972671692CBE4001A2A80 /* Distance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Distance.h; path = kikit/geo/Distance.h; sourceTree = SOURCE_ROOT; };
@@ -160,6 +191,17 @@
 		C0C9726B1692CC9F001A2A80 /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationManager.m; path = kikit/geo/LocationManager.m; sourceTree = SOURCE_ROOT; };
 		C0C972771692CCEE001A2A80 /* QRScannerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRScannerViewController.h; sourceTree = "<group>"; };
 		C0C972781692CCEE001A2A80 /* QRScannerViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QRScannerViewController.mm; sourceTree = "<group>"; };
+		C0C972861692D1B4001A2A80 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Base64.h"; path = "kikit/NSData+Base64.h"; sourceTree = "<group>"; };
+		C0C972871692D1B4001A2A80 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Base64.m"; path = "kikit/NSData+Base64.m"; sourceTree = "<group>"; };
+		C0C9737D1692D73A001A2A80 /* ZXingWidget.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZXingWidget.xcodeproj; path = zxing/iOS/ZXingWidget/ZXingWidget.xcodeproj; sourceTree = "<group>"; };
+		C0C9738C1693AD7F001A2A80 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		C0C9738D1693AD7F001A2A80 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		C0C973901693AD8F001A2A80 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		C0C973911693AD8F001A2A80 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		C0C973941693AD9F001A2A80 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		C0C973951693AD9F001A2A80 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		C0C973981693ADB1001A2A80 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
+		C0C9739A1693FDA2001A2A80 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +209,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0C9739B1693FDA2001A2A80 /* CoreVideo.framework in Frameworks */,
+				C0C973991693ADB1001A2A80 /* libiconv.dylib in Frameworks */,
+				C0C973961693AD9F001A2A80 /* AddressBook.framework in Frameworks */,
+				C0C973971693AD9F001A2A80 /* AddressBookUI.framework in Frameworks */,
+				C0C973921693AD8F001A2A80 /* CoreAudio.framework in Frameworks */,
+				C0C973931693AD8F001A2A80 /* CoreMedia.framework in Frameworks */,
+				C0C9738E1693AD7F001A2A80 /* AudioToolbox.framework in Frameworks */,
+				C0C9738F1693AD7F001A2A80 /* AVFoundation.framework in Frameworks */,
+				C0C9738B1692D74E001A2A80 /* libZXingWidget.a in Frameworks */,
 				C0479A25167D9D5800C2253D /* SystemConfiguration.framework in Frameworks */,
 				C0479A1D167D9CC800C2253D /* FacebookSDK.framework in Frameworks */,
 				C0479A1B167D9C8400C2253D /* Social.framework in Frameworks */,
@@ -187,6 +238,7 @@
 		C0479979167D967500C2253D = {
 			isa = PBXGroup;
 			children = (
+				C0C9737D1692D73A001A2A80 /* ZXingWidget.xcodeproj */,
 				C0C97247169160C0001A2A80 /* geo */,
 				C0479A2B167DA57A00C2253D /* categories */,
 				C04799AE167D96CD00C2253D /* crypto */,
@@ -212,18 +264,26 @@
 		C0479987167D967500C2253D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C0479A24167D9D5800C2253D /* SystemConfiguration.framework */,
-				C0479A22167D9D1C00C2253D /* CFNetwork.framework */,
-				C0479A20167D9D0700C2253D /* libFlurry.a */,
-				C0479A1C167D9CC800C2253D /* FacebookSDK.framework */,
-				C0479A1A167D9C8400C2253D /* Social.framework */,
 				C0479A12167D9C5900C2253D /* Accounts.framework */,
+				C0C973941693AD9F001A2A80 /* AddressBook.framework */,
+				C0C973951693AD9F001A2A80 /* AddressBookUI.framework */,
 				C0479A13167D9C5900C2253D /* AdSupport.framework */,
-				C0479A14167D9C5900C2253D /* CoreLocation.framework */,
-				C0479A15167D9C5900C2253D /* libsqlite3.dylib */,
-				C0479988167D967500C2253D /* UIKit.framework */,
-				C047998A167D967500C2253D /* Foundation.framework */,
+				C0C9738C1693AD7F001A2A80 /* AudioToolbox.framework */,
+				C0C9738D1693AD7F001A2A80 /* AVFoundation.framework */,
+				C0479A22167D9D1C00C2253D /* CFNetwork.framework */,
+				C0C973901693AD8F001A2A80 /* CoreAudio.framework */,
 				C047998C167D967500C2253D /* CoreGraphics.framework */,
+				C0479A14167D9C5900C2253D /* CoreLocation.framework */,
+				C0C973911693AD8F001A2A80 /* CoreMedia.framework */,
+				C0C9739A1693FDA2001A2A80 /* CoreVideo.framework */,
+				C0479A1C167D9CC800C2253D /* FacebookSDK.framework */,
+				C047998A167D967500C2253D /* Foundation.framework */,
+				C0479A20167D9D0700C2253D /* libFlurry.a */,
+				C0C973981693ADB1001A2A80 /* libiconv.dylib */,
+				C0479A15167D9C5900C2253D /* libsqlite3.dylib */,
+				C0479A1A167D9C8400C2253D /* Social.framework */,
+				C0479A24167D9D5800C2253D /* SystemConfiguration.framework */,
+				C0479988167D967500C2253D /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -253,7 +313,7 @@
 			children = (
 				C0479990167D967500C2253D /* kikit-Info.plist */,
 				C0479991167D967500C2253D /* InfoPlist.strings */,
-				C0479994167D967500C2253D /* main.m */,
+				C0479994167D967500C2253D /* main.mm */,
 				C0479996167D967500C2253D /* kikit-Prefix.pch */,
 				C047999A167D967500C2253D /* Default.png */,
 				C047999C167D967500C2253D /* Default@2x.png */,
@@ -366,8 +426,8 @@
 		C0479A2B167DA57A00C2253D /* categories */ = {
 			isa = PBXGroup;
 			children = (
-				C0479A2C167DA59200C2253D /* NSData+Base64.m */,
-				C0479A2D167DA59200C2253D /* NSData+Base64.h */,
+				C0C972861692D1B4001A2A80 /* NSData+Base64.h */,
+				C0C972871692D1B4001A2A80 /* NSData+Base64.m */,
 			);
 			name = categories;
 			sourceTree = "<group>";
@@ -384,6 +444,15 @@
 			path = kikit/geo;
 			sourceTree = "<group>";
 		};
+		C0C9737E1692D73A001A2A80 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C0C973861692D73A001A2A80 /* libZXingWidget.a */,
+				C0C973881692D73A001A2A80 /* ZXingTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -398,6 +467,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				C0C9738A1692D748001A2A80 /* PBXTargetDependency */,
 			);
 			name = kikit;
 			productName = kikit;
@@ -423,12 +493,35 @@
 			mainGroup = C0479979167D967500C2253D;
 			productRefGroup = C0479985167D967500C2253D /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = C0C9737E1692D73A001A2A80 /* Products */;
+					ProjectRef = C0C9737D1692D73A001A2A80 /* ZXingWidget.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				C0479983167D967500C2253D /* kikit */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		C0C973861692D73A001A2A80 /* libZXingWidget.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libZXingWidget.a;
+			remoteRef = C0C973851692D73A001A2A80 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C0C973881692D73A001A2A80 /* ZXingTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ZXingTests.octest;
+			remoteRef = C0C973871692D73A001A2A80 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		C0479982167D967500C2253D /* Resources */ = {
@@ -453,7 +546,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0479995167D967500C2253D /* main.m in Sources */,
+				C0479995167D967500C2253D /* main.mm in Sources */,
 				C0479999167D967500C2253D /* AppDelegate.m in Sources */,
 				C04799A5167D967500C2253D /* ViewController.m in Sources */,
 				C04799AD167D96C900C2253D /* Hash.m in Sources */,
@@ -482,15 +575,23 @@
 				C0479A0E167D9BEC00C2253D /* SBJsonTokeniser.m in Sources */,
 				C0479A0F167D9BEC00C2253D /* SBJsonUTF8Stream.m in Sources */,
 				C0479A10167D9BEC00C2253D /* SBJsonWriter.m in Sources */,
-				C0479A2E167DA59200C2253D /* NSData+Base64.m in Sources */,
 				C0C9724616916081001A2A80 /* PostReviewViewController.m in Sources */,
 				C0C972691692CBE4001A2A80 /* Distance.m in Sources */,
 				C0C9726C1692CC9F001A2A80 /* LocationManager.m in Sources */,
 				C0C972791692CCEE001A2A80 /* QRScannerViewController.mm in Sources */,
+				C0C972881692D1B4001A2A80 /* NSData+Base64.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C0C9738A1692D748001A2A80 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ZXingWidget;
+			targetProxy = C0C973891692D748001A2A80 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		C0479991167D967500C2253D /* InfoPlist.strings */ = {
@@ -565,18 +666,24 @@
 		C04799A9167D967500C2253D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LIBRARY = "compiler-default";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../../../Documents/FacebookSDK\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "kikit/kikit-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					zxing/cpp/core/src/,
+					"zxing/iOS/ZXingWidget/Classes/**",
+				);
 				INFOPLIST_FILE = "kikit/kikit-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../external/flurry_4.0.4/Flurry\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -584,18 +691,24 @@
 		C04799AA167D967500C2253D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LIBRARY = "compiler-default";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../../../Documents/FacebookSDK\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "kikit/kikit-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					zxing/cpp/core/src/,
+					"zxing/iOS/ZXingWidget/Classes/**",
+				);
 				INFOPLIST_FILE = "kikit/kikit-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../external/flurry_4.0.4/Flurry\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

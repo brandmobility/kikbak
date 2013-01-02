@@ -7,6 +7,7 @@
 //
 
 #import "QRScannerViewController.h"
+#import "QRCodeReader.h"
 
 @interface QRScannerViewController ()
 
@@ -34,5 +35,33 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+-(void)ScanPressed:(id)sender{
+  ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO];
+  
+  NSMutableSet *readers = [[NSMutableSet alloc ] init];
+  
+  QRCodeReader* qrcodeReader = [[QRCodeReader alloc] init];
+  [readers addObject:qrcodeReader];
+
+  
+  widController.readers = readers;
+  
+  NSBundle *mainBundle = [NSBundle mainBundle];
+  //widController.soundToPlay =
+ // [NSURL fileURLWithPath:[mainBundle pathForResource:@"beep-beep" ofType:@"aiff"] isDirectory:NO];
+  [self presentModalViewController:widController animated:YES];
+}
+
+
+- (void)zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)result {
+
+  [self dismissModalViewControllerAnimated:NO];
+}
+
+- (void)zxingControllerDidCancel:(ZXingWidgetController*)controller {
+  [self dismissModalViewControllerAnimated:YES];
+}
+
 
 @end

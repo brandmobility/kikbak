@@ -17,6 +17,8 @@
 #import "ServerTest.h"
 #import "NSData+Base64.h"
 
+#import "QRScannerViewController.h"
+
 @interface AppDelegate()
 -(void)fadeOutSplash;
 @end
@@ -42,7 +44,8 @@
     if( self.session.isOpen ){
 
         UIStoryboard* mainBoard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-        UIViewController* postView = [mainBoard instantiateViewControllerWithIdentifier:@"PostReviewViewController"];
+        //UIViewController* postView = [mainBoard instantiateViewControllerWithIdentifier:@"PostReviewViewController"];
+        UIViewController* postView = [mainBoard instantiateViewControllerWithIdentifier:@"QRScannerViewController"];
         self.window.rootViewController = postView;
     }
   
