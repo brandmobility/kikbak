@@ -69,6 +69,7 @@
 		C0C973971693AD9F001A2A80 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0C973951693AD9F001A2A80 /* AddressBookUI.framework */; };
 		C0C973991693ADB1001A2A80 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C0C973981693ADB1001A2A80 /* libiconv.dylib */; };
 		C0C9739B1693FDA2001A2A80 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0C9739A1693FDA2001A2A80 /* CoreVideo.framework */; };
+		C0C974011696BF16001A2A80 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0C974001696BF15001A2A80 /* Security.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -202,6 +203,7 @@
 		C0C973951693AD9F001A2A80 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		C0C973981693ADB1001A2A80 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		C0C9739A1693FDA2001A2A80 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		C0C974001696BF15001A2A80 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,6 +211,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0C974011696BF16001A2A80 /* Security.framework in Frameworks */,
 				C0C9739B1693FDA2001A2A80 /* CoreVideo.framework in Frameworks */,
 				C0C973991693ADB1001A2A80 /* libiconv.dylib in Frameworks */,
 				C0C973961693AD9F001A2A80 /* AddressBook.framework in Frameworks */,
@@ -238,6 +241,7 @@
 		C0479979167D967500C2253D = {
 			isa = PBXGroup;
 			children = (
+				C0C974001696BF15001A2A80 /* Security.framework */,
 				C0C9737D1692D73A001A2A80 /* ZXingWidget.xcodeproj */,
 				C0C97247169160C0001A2A80 /* geo */,
 				C0479A2B167DA57A00C2253D /* categories */,

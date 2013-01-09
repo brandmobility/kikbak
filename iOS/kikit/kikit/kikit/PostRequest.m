@@ -15,7 +15,7 @@
 
 -(void)makeSyncRequest{
   
-  NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%s/%s/%@",hostname, kikbak_service, _resource]];
+  NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"https://%s/%s/%@",hostname, kikbak_service, _resource]];
   
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
                                                          cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60.0];
@@ -69,6 +69,44 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection{
   NSLog(@"connectionDidFinishLoading");
   
+}
+
+#pragma mark - authentication -
+
+- (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace{
+  NSLog(@"canAuthenticateAgainstProtectionSpace: \n authenticationMethod - %@\n distinguishedNames - %@\nprotocol - %@,\nserverTrust - %@", [protectionSpace authenticationMethod], [protectionSpace distinguishedNames], [protectionSpace protocol], [protectionSpace serverTrust]);
+  return true;
+}
+
+- (void)connection:(NSURLConnection *)connection didCancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge{
+  
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge{
+  if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
+    
+    // Verify certificate:
+    SecTrustResultType trustResult;
+    CFIndex index = SecTrustGetCertificateCount(challenge.protectionSpace.serverTrust);
+    SecCertificateRef cert = SecTrustGetCertificateAtIndex(challenge.protectionSpace.serverTrust, 0);
+    CFStringRef str = SecCertificateCopySubjectSummary (cert);
+    OSStatus status = SecTrustEvaluate(challenge.protectionSpace.serverTrust, &trustResult);
+    BOOL trusted = (status == errSecSuccess) && ((trustResult == kSecTrustResultProceed) || (trustResult == kSecTrustResultUnspecified));
+    
+    if (trusted) {
+      [challenge.sender useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust]
+           forAuthenticationChallenge:challenge];
+    } else {
+      if (YES) {
+        [challenge.sender useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust]
+             forAuthenticationChallenge:challenge];
+      } else {
+        [challenge.sender cancelAuthenticationChallenge:challenge];
+      }
+    }
+  } else {
+    [challenge.sender performDefaultHandlingForAuthenticationChallenge:challenge];
+  }
 }
 
 @end
