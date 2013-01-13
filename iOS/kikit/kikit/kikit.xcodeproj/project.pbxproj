@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3CC6D5AD16A1587300D42AD1 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CC6D5AC16A1587300D42AD1 /* FacebookSDK.framework */; };
 		C0479989167D967500C2253D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0479988167D967500C2253D /* UIKit.framework */; };
 		C047998B167D967500C2253D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C047998A167D967500C2253D /* Foundation.framework */; };
 		C047998D167D967500C2253D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C047998C167D967500C2253D /* CoreGraphics.framework */; };
@@ -52,7 +53,6 @@
 		C0479A18167D9C5900C2253D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0479A14167D9C5900C2253D /* CoreLocation.framework */; };
 		C0479A19167D9C5900C2253D /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C0479A15167D9C5900C2253D /* libsqlite3.dylib */; };
 		C0479A1B167D9C8400C2253D /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0479A1A167D9C8400C2253D /* Social.framework */; };
-		C0479A1D167D9CC800C2253D /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0479A1C167D9CC800C2253D /* FacebookSDK.framework */; };
 		C0479A21167D9D0700C2253D /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0479A20167D9D0700C2253D /* libFlurry.a */; };
 		C0479A25167D9D5800C2253D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0479A24167D9D5800C2253D /* SystemConfiguration.framework */; };
 		C0C9724616916081001A2A80 /* PostReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C9724516916081001A2A80 /* PostReviewViewController.m */; };
@@ -97,6 +97,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3CC6D5AC16A1587300D42AD1 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		C0479984167D967500C2253D /* kikit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kikit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0479988167D967500C2253D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C047998A167D967500C2253D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -179,7 +180,6 @@
 		C0479A14167D9C5900C2253D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		C0479A15167D9C5900C2253D /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		C0479A1A167D9C8400C2253D /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
-		C0479A1C167D9CC800C2253D /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../../../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		C0479A1F167D9CF400C2253D /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Flurry.h; path = ../external/flurry_4.0.4/Flurry/Flurry.h; sourceTree = "<group>"; };
 		C0479A20167D9D0700C2253D /* libFlurry.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFlurry.a; path = ../external/flurry_4.0.4/Flurry/libFlurry.a; sourceTree = "<group>"; };
 		C0479A22167D9D1C00C2253D /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -212,6 +212,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C0C974011696BF16001A2A80 /* Security.framework in Frameworks */,
+				3CC6D5AD16A1587300D42AD1 /* FacebookSDK.framework in Frameworks */,
 				C0C9739B1693FDA2001A2A80 /* CoreVideo.framework in Frameworks */,
 				C0C973991693ADB1001A2A80 /* libiconv.dylib in Frameworks */,
 				C0C973961693AD9F001A2A80 /* AddressBook.framework in Frameworks */,
@@ -222,7 +223,6 @@
 				C0C9738F1693AD7F001A2A80 /* AVFoundation.framework in Frameworks */,
 				C0C9738B1692D74E001A2A80 /* libZXingWidget.a in Frameworks */,
 				C0479A25167D9D5800C2253D /* SystemConfiguration.framework in Frameworks */,
-				C0479A1D167D9CC800C2253D /* FacebookSDK.framework in Frameworks */,
 				C0479A1B167D9C8400C2253D /* Social.framework in Frameworks */,
 				C0479A16167D9C5900C2253D /* Accounts.framework in Frameworks */,
 				C0479A17167D9C5900C2253D /* AdSupport.framework in Frameworks */,
@@ -267,6 +267,7 @@
 		C0479987167D967500C2253D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3CC6D5AC16A1587300D42AD1 /* FacebookSDK.framework */,
 				C0479A12167D9C5900C2253D /* Accounts.framework */,
 				C0C973941693AD9F001A2A80 /* AddressBook.framework */,
 				C0C973951693AD9F001A2A80 /* AddressBookUI.framework */,
@@ -279,7 +280,6 @@
 				C0479A14167D9C5900C2253D /* CoreLocation.framework */,
 				C0C973911693AD8F001A2A80 /* CoreMedia.framework */,
 				C0C9739A1693FDA2001A2A80 /* CoreVideo.framework */,
-				C0479A1C167D9CC800C2253D /* FacebookSDK.framework */,
 				C047998A167D967500C2253D /* Foundation.framework */,
 				C0479A20167D9D0700C2253D /* libFlurry.a */,
 				C0C973981693ADB1001A2A80 /* libiconv.dylib */,
@@ -493,6 +493,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				he,
 			);
 			mainGroup = C0479979167D967500C2253D;
 			productRefGroup = C0479985167D967500C2253D /* Products */;
@@ -674,6 +675,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../../../Documents/FacebookSDK\"",
+					"\"$(SRCROOT)/FacebookSDK\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "kikit/kikit-Prefix.pch";
@@ -699,6 +701,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../../../../Documents/FacebookSDK\"",
+					"\"$(SRCROOT)/FacebookSDK\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "kikit/kikit-Prefix.pch";
