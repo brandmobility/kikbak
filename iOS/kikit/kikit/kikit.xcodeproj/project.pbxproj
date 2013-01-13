@@ -241,7 +241,6 @@
 		C0479979167D967500C2253D = {
 			isa = PBXGroup;
 			children = (
-				C0C974001696BF15001A2A80 /* Security.framework */,
 				C0C9737D1692D73A001A2A80 /* ZXingWidget.xcodeproj */,
 				C0C97247169160C0001A2A80 /* geo */,
 				C0479A2B167DA57A00C2253D /* categories */,
@@ -285,6 +284,7 @@
 				C0479A20167D9D0700C2253D /* libFlurry.a */,
 				C0C973981693ADB1001A2A80 /* libiconv.dylib */,
 				C0479A15167D9C5900C2253D /* libsqlite3.dylib */,
+				C0C974001696BF15001A2A80 /* Security.framework */,
 				C0479A1A167D9C8400C2253D /* Social.framework */,
 				C0479A24167D9D5800C2253D /* SystemConfiguration.framework */,
 				C0479988167D967500C2253D /* UIKit.framework */,
