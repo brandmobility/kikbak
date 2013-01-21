@@ -1,6 +1,6 @@
 <project name="Kikbak-Server" basedir="." default="build-all">
 	
-	<import file="./ant/build.xml" />
+	<import file="./ant/build.main.xml" />
 	
 	<target name="build-all">
 		<!--<ant dir="patcher"/>-->

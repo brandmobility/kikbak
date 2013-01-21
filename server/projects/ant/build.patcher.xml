@@ -3,9 +3,9 @@
 	<property name="patcher.main" value="com.kikbak.patcher.Patcher" />
 
 	<target name="init-patcher-properties" depends="init">
-		<property name="dto.generator.dir" value="${user.dir}/dto-generator" />
+		<property name="dto.generator.dir" value="../dto-generator" />
 		<property name="patcher.dir" value="../patcher" />
-		<property name="patcher.target.dir" value="${user.dir}/patcher" />
+		<property name="patcher.target.dir" value="../patcher" />
 		<property name="patcher.name" value="patcher-${module.name}" />
 		<property name="module.patcher.dir" value="${dist.dir}/${patcher.name}" />
 		<property name="patch.modules" value="" />
@@ -34,7 +34,7 @@
 		</copy>
 	</target>
 
-	<target name="create-patcher" extensionOf="pre-compile-ext" depends="init-patcher-properties,check-create-patcher,copy-data-dir" if="should-create-patcher">
+	<target name="create-patcher" extensionOf="pre-compile-ext" depends="init-patcher-properties,check-create-patcher,copy-data-dir" if="should-create-patcher" unless="uptodate">
 
 		<echo message="Creating patcher: ${patcher.name} in ${module.patcher.dir}" />
 
@@ -133,8 +133,6 @@
 			<property name="dto-generator.package" value="${dto.package.name}" />
 		</ant>
 	</target>
-
-	
 
 </project>
 

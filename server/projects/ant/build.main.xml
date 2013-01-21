@@ -1,0 +1,224 @@
+<project name="Kikbak-Main" basedir="." >
+	
+	<import file="./build.patcher.xml" />
+	
+	<property name="build.dir" value="../build"/>
+	<property name="debug.address" value="8000" />
+    <property name="debug.suspend" value="y" />
+    <property name="build_type" value="debug" />
+
+	<condition property="tests.fork" value="false" else="true">
+        <isset property="debug.remote"/>
+    </condition>
+
+    <!-- If debug is defined, sets to -Xdebug, otherwise sets it to a noop parameter for the jvm.
+           This is done this way to make sure jvmargs does have a non-blank value-->
+    <condition property="jvm.debug.args1" value="-Xdebug" else="-D">
+        <isset property="debug.remote"/>
+    </condition>
+
+    <!-- If debug is defined, sets it properly, otherwise sets it to a noop parameter for the jvm.
+           This is done this way to make sure jvmargs does have a non-blank value-->
+    <condition property="jvm.debug.args2" value="-agentlib:jdwp=transport=dt_socket,server=y,address=${debug.address},suspend=${debug.suspend}" else="-D">
+        <isset property="debug.remote"/>
+    </condition>
+	
+	<path id="files_to_copy" />
+		
+	<target name="init">
+	    <echo message="init: ${module.name}" />
+
+	    <!-- setup properties that depend on properties that should be defined in build scripts that import this one -->
+	    <property name="compile.args" value="-Xlint:all -Xlint:-serial -Xlint:-path -Werror -encoding utf-8"/>
+	
+	    <property name="dist.dir" location="${build.dir}/${module.name}" />
+		
+		<property name="copy.sub.dir" value=""/>
+		<property name="copy.dist.dir" location="${dist.dir}/${copy.sub.dir}" />
+		<property name="copy.flatten" value="false"/>
+	
+	    <!-- this is the location of the intermediate bits generated during a build -->
+	    <property name="bin.dir.name" value="bin"/>
+	    <property name="bin.dir" value="${dist.dir}/${bin.dir.name}"/>
+	
+		<property name="classes.dir" value="."/>
+		<property name="lib.dir" value="${build.dir}/${module.name}/lib"/>
+		        
+
+	    <!-- this is the final location of generated src by the build -->
+	    <property name="generated.src.dir" value="${dist.dir}/generatedsrc" />
+	
+		<!-- wild card for junit tests -->
+		<property name="test" value="*Test*" />
+		
+	    <!-- this is the location of the JUnit reports -->
+	    <property name="reports.dir.name" value="reports"/>
+	    <property name="reports.dir" value="${dist.dir}/${reports.dir.name}"/>
+	    <property name="reports.url" location="${reports.dir}/html/index.html" />
+	
+	    <!-- No main class if none is specified by the importing build file -->
+	    <property name="module.main" value="" />
+	    <path id="lib.classpath">
+	        <fileset dir="${lib.dir}">
+	            <include name="**/*.jar" />
+	        </fileset>
+	    </path>
+	    <path id="project.classpath">
+	        <pathelement location="${bin.dir}" />
+	        <pathelement location="${bin.dir}/${classes.dir}" />
+	        <path refid="lib.classpath" />
+	    </path>
+	
+	    <!-- External command -->
+	    <property name="skip.dependencies" value="${skip.package}"/>
+		
+		
+	</target>
+
+
+   <target name="-check-generate-jaxb">
+        <condition property="should-generate-jaxb">
+            <and>
+                <isset property="schema.dir"/>
+                <isset property="module.jaxb.package"/>
+                <not>
+                    <isset property="uptodate"/>
+                </not>
+            </and>
+        </condition>
+    </target>
+
+    <target name="generate-jaxb" depends="-check-generate-jaxb,init" if="should-generate-jaxb">
+        <apply executable="xjc">
+            <arg value="-d" />
+            <arg value="${generated.src.dir}" />
+            <arg value="-p" />
+            <arg value="${module.jaxb.package}" />
+            <fileset dir="${schema.dir}" includes="*.xsd" />
+        </apply>
+    </target>
+
+	
+	<target name="create-classes-dir">
+		<mkdir dir="${classes.dir}"/>
+	</target>
+	
+	<target name="copy-files">
+		<copy todir="${copy.dist.dir}" flatten="${copy.flatten}">
+            <path refid="files_to_copy" />
+        </copy>
+	</target>
+	
+	<target name="make-dirs">
+		<mkdir dir="${generated.src.dir}"/>
+		<mkdir dir="${bin.dir}"/>
+	</target>
+	
+	<target name="pre-compile" depends="make-dirs" unless="uptodate"/>
+		
+    <target name="compile" depends="init,pre-compile-ext,create-classes-dir,generate-jaxb,copy-files" unless="uptodate">
+        <property name="dest.dir" value="${bin.dir}/${classes.dir}"/>
+    	<mkdir dir="${dest.dir}"/>
+		<javac fork="true" debug="true"
+			destdir="${dest.dir}" classpathref="lib.classpath" 
+			includeantruntime="false"
+			memoryinitialsize="1024m"
+			memorymaximumsize="1024m">
+            <compilerarg line="${compile.args}"/>
+            <src path="${src.dir}" />
+            <src path="${generated.src.dir}" />
+        </javac>
+    </target>
+
+    <target name="build" depends="compile, pre-build-ext">
+        <mkdir dir="${dist.dir}"/>
+    	<mkdir dir="${bin.dir}/META-INF"/>
+        <jar destfile="${dist.dir}/${archive.name}" basedir="${bin.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${main-class}"/>
+            </manifest>
+        </jar>
+    </target>
+
+	<!-- extension points -->
+	<extension-point name="pre-build-ext"/>
+	<extension-point name="pre-compile-ext" depends="pre-compile" unless="uptodate"/>
+	
+	
+   <target name="-check-run-unit-test">
+        <condition property="should-run-unit-test">
+        	<isset property="testsrc.dir"/>
+        </condition>
+    </target>
+	
+    <target name="report-timestamp">
+        <tstamp>
+            <format property="current.time" pattern="MM/dd/yyyy hh:mm:ss aa" />
+        </tstamp>
+        <echo message="${message} ${current.time}" />
+    </target>
+
+    <target name="build-tests" depends="build"><!-- unless="uptodate">-->
+        <javac fork="true" destdir="${bin.dir}/${classes.dir}" debug="true" includeantruntime="false"
+            memoryinitialsize="1024m"
+            memorymaximumsize="1024m">
+            <compilerarg line="${compile.args}"/>
+            <src path="${testsrc.dir}" />
+            <classpath refid="project.classpath" />
+        </javac>
+
+        <copy todir="${bin.dir}">
+            <fileset dir="${testsrc.dir}" includes="**/*.properties,**/*.xml" />
+            <fileset dir="${resources.dir}" erroronmissingdir="false" />
+            <fileset dir="${resources.test.dir}" erroronmissingdir="false" />
+        </copy>
+    </target>
+        	
+	<target name="unit-tests" depends="build,-check-run-unit-test,build-tests" if="should-run-unit-test">
+        <path id="junit.classpath">
+            <pathelement path="${bin.dir}" />
+            <pathelement path="${bin.dir}/${classes.dir}" />
+            <pathelement path="${bin.dir}/META-INF" />
+            <fileset dir="${lib.dir}">
+                <include name="**/*.jar" />
+            </fileset>
+        </path>
+
+        <property name="junit.classpath.prop" refid="junit.classpath"/>
+
+        <antcall target="report-timestamp">
+            <param name="message" value="Running ${module.name}'s unit tests" />
+        </antcall>
+        <delete dir="${reports.dir}/raw" />
+        <mkdir dir="${reports.dir}/raw" />
+		<delete dir="${reports.dir}/html" />
+        <mkdir dir="${reports.dir}/html" />
+
+        <junit printsummary="yes" haltonerror="no" haltonfailure="no" 
+                	errorProperty="test.failed" failureProperty="test.failed" 
+                	showoutput="yes" fork="${tests.fork}" dir="${basedir}">
+            <!-- for WAR builds, catalina.home is used to configure log4j -->
+            <!--<jvmarg value="-Dcatalina.home=${catalina.home}"/> -->
+            <jvmarg value="-Djava.security.egd=file:/dev/./urandom"/>
+            <jvmarg value="${jvm.debug.args1}"/>
+            <jvmarg value="${jvm.debug.args2}"/>
+            <classpath refid="junit.classpath" />
+            <batchtest fork="yes" todir="${reports.dir}/raw/">
+                <formatter type="brief" />
+                <formatter type="xml" />
+                <fileset dir="${testsrc.dir}">
+                    <include name="**/${test}.java" />
+                </fileset>
+            </batchtest>
+        </junit>
+        <junitreport todir="${reports.dir}/html">
+            <fileset dir="${reports.dir}/raw">
+                <include name="*.xml" />
+            </fileset>
+            <report format="frames" todir="${reports.dir}/html/" />
+        </junitreport>
+		<fail message="Tests failed" if="test.failed"/>
+	</target>
+	
+</project>
+

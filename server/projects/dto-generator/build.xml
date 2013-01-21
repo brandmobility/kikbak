@@ -1,6 +1,6 @@
 <project name="dto-generator" basedir="." default="build"> 
 
-    <import file="../ant/build.xml"/>
+    <import file="../ant/build.main.xml"/>
       
     <property name="src.dir" value="${basedir}/src"/>
     <property name="testsrc.dir" value="${basedir}/testsrc"/>

@@ -13,9 +13,10 @@ import com.kikbak.dto.Shared;
 
 public class ReadOnlySharedDAOImpl extends ReadOnlyGenericDAOImpl<Shared, Long> implements ReadOnlySharedDAO{
 
-	private static final String find_gifts="select shared.* from offer, shared where begin_date < now() and end_date > now()" + 
+	private static final String find_gifts="select shared.* from offer, shared where begin_date < now() and end_date > now() " + 
 			"and offer.id=shared.offer_id and offer.id in ( select offer_id from shared where user_id in " +
-			"(select user_id from user2friend where facebook_friend_id=?) group by offer_id)";
+			"(select user_id from user2friend where facebook_friend_id=?) group by offer_id) " +
+			"and user_id in (select user_id from user2friend where facebook_friend_id=?)";
 	
 	@Override
 	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
@@ -40,7 +41,7 @@ public class ReadOnlySharedDAOImpl extends ReadOnlyGenericDAOImpl<Shared, Long> 
 	public Collection<Shared> listAvailableForGifting(Long userId) {
 		Session session = sessionFactory.getCurrentSession();
 		@SuppressWarnings("unchecked")
-		Collection<Shared> shared = session.createSQLQuery(find_gifts).addEntity(Shared.class).setLong(0, userId).list();
+		Collection<Shared> shared = session.createSQLQuery(find_gifts).addEntity(Shared.class).setLong(0, userId).setLong(1, userId).list();
 		return shared;
 	}
 

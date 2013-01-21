@@ -54,9 +54,9 @@ public class RewardServiceTest extends KikbakBaseTest{
 	@Test
 	public void testGetGifts(){
 		DataPopulator populator = new DataPopulator(rwOfferDao, rwMerchantDao, rwU2FDao, rwSharedDao, rwLocationDao);
-		populator.pupulateDataForGiftTest(2, 32);
+		populator.pupulateDataForGiftTest(2, 99999);
 		
-		Collection<GiftType> gifts = service.getGifts(32L);
+		Collection<GiftType> gifts = service.getGifts(99999L);
 		assertEquals(2, gifts.size());
 	}
 	

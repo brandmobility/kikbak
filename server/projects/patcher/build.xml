@@ -1,6 +1,6 @@
 <project name="patcher" basedir="." default="build">
 
-	<import file="../ant/build.xml" />
+	<import file="../ant/build.main.xml" />
 	
 	<path id="files_to_copy">
 	    <fileset dir="${basedir}" includes="META-INF/*"/>
