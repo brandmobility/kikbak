@@ -87,9 +87,6 @@
     
     // Verify certificate:
     SecTrustResultType trustResult;
-    CFIndex index = SecTrustGetCertificateCount(challenge.protectionSpace.serverTrust);
-    SecCertificateRef cert = SecTrustGetCertificateAtIndex(challenge.protectionSpace.serverTrust, 0);
-    CFStringRef str = SecCertificateCopySubjectSummary (cert);
     OSStatus status = SecTrustEvaluate(challenge.protectionSpace.serverTrust, &trustResult);
     BOOL trusted = (status == errSecSuccess) && ((trustResult == kSecTrustResultProceed) || (trustResult == kSecTrustResultUnspecified));
     
