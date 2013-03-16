@@ -32,4 +32,8 @@
 @property(nonatomic, strong) IBOutlet UIView* locationView;
 
 
+-(IBAction)onRedeem:(id)sender;
+-(IBAction)onTermsAndCondition:(id)sender;
+
+
 @end

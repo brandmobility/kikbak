@@ -49,6 +49,10 @@
 		3CCCBC9D16EC710F00FA71A2 /* back_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CCCBC8D16EC710F00FA71A2 /* back_button.png */; };
 		3CCCBCF016F03A0B00FA71A2 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCBCEF16F03A0B00FA71A2 /* NSData+Base64.m */; };
 		3CCCBCF316F03A2300FA71A2 /* UIDevice+Screen.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCBCF216F03A2300FA71A2 /* UIDevice+Screen.m */; };
+		3CCCBCF716F2E59500FA71A2 /* TermsAndConditionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCBCF616F2E59500FA71A2 /* TermsAndConditionsView.m */; };
+		3CCCBCFA16F2E60B00FA71A2 /* RedeemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCBCF916F2E60B00FA71A2 /* RedeemView.m */; };
+		3CCCBCFC16F307F100FA71A2 /* barcode.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CCCBCFB16F307F100FA71A2 /* barcode.png */; };
+		3CCCBCFE16F3080500FA71A2 /* barcode@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CCCBCFD16F3080500FA71A2 /* barcode@x2.png */; };
 		C0479989167D967500C2253D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0479988167D967500C2253D /* UIKit.framework */; };
 		C047998B167D967500C2253D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C047998A167D967500C2253D /* Foundation.framework */; };
 		C047998D167D967500C2253D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C047998C167D967500C2253D /* CoreGraphics.framework */; };
@@ -179,6 +183,12 @@
 		3CCCBCEF16F03A0B00FA71A2 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
 		3CCCBCF116F03A2300FA71A2 /* UIDevice+Screen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+Screen.h"; sourceTree = "<group>"; };
 		3CCCBCF216F03A2300FA71A2 /* UIDevice+Screen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+Screen.m"; sourceTree = "<group>"; };
+		3CCCBCF516F2E59500FA71A2 /* TermsAndConditionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TermsAndConditionsView.h; sourceTree = "<group>"; };
+		3CCCBCF616F2E59500FA71A2 /* TermsAndConditionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TermsAndConditionsView.m; sourceTree = "<group>"; };
+		3CCCBCF816F2E60B00FA71A2 /* RedeemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedeemView.h; sourceTree = "<group>"; };
+		3CCCBCF916F2E60B00FA71A2 /* RedeemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedeemView.m; sourceTree = "<group>"; };
+		3CCCBCFB16F307F100FA71A2 /* barcode.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = barcode.png; sourceTree = "<group>"; };
+		3CCCBCFD16F3080500FA71A2 /* barcode@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "barcode@x2.png"; sourceTree = "<group>"; };
 		C0479984167D967500C2253D /* kikit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kikit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0479988167D967500C2253D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C047998A167D967500C2253D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -324,6 +334,18 @@
 			path = kikit/ViewControllers;
 			sourceTree = "<group>";
 		};
+		3CCCBCF416F2E33E00FA71A2 /* views */ = {
+			isa = PBXGroup;
+			children = (
+				3CCCBCF516F2E59500FA71A2 /* TermsAndConditionsView.h */,
+				3CCCBCF616F2E59500FA71A2 /* TermsAndConditionsView.m */,
+				3CCCBCF816F2E60B00FA71A2 /* RedeemView.h */,
+				3CCCBCF916F2E60B00FA71A2 /* RedeemView.m */,
+			);
+			name = views;
+			path = kikit/views;
+			sourceTree = "<group>";
+		};
 		C0479979167D967500C2253D = {
 			isa = PBXGroup;
 			children = (
@@ -339,6 +361,7 @@
 				C04799EB167D9BA400C2253D /* rest */,
 				C0479A11167D9BFA00C2253D /* SBJson */,
 				3CCCBC4A16EC59A700FA71A2 /* ViewControllers */,
+				3CCCBCF416F2E33E00FA71A2 /* views */,
 				C0C9737D1692D73A001A2A80 /* ZXingWidget.xcodeproj */,
 			);
 			sourceTree = "<group>";
@@ -431,6 +454,8 @@
 		C04799B9167D9B4B00C2253D /* graphics */ = {
 			isa = PBXGroup;
 			children = (
+				3CCCBCFD16F3080500FA71A2 /* barcode@x2.png */,
+				3CCCBCFB16F307F100FA71A2 /* barcode.png */,
 				3CCCBC8816EC710F00FA71A2 /* avatar.png */,
 				3CCCBC6116EC70F900FA71A2 /* avatar@2x.png */,
 				3CCCBC8D16EC710F00FA71A2 /* back_button.png */,
@@ -690,6 +715,8 @@
 				3CCCBC9B16EC710F00FA71A2 /* logo_select.png in Resources */,
 				3CCCBC9C16EC710F00FA71A2 /* back_button_press.png in Resources */,
 				3CCCBC9D16EC710F00FA71A2 /* back_button.png in Resources */,
+				3CCCBCFC16F307F100FA71A2 /* barcode.png in Resources */,
+				3CCCBCFE16F3080500FA71A2 /* barcode@x2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -736,6 +763,8 @@
 				3CCCBC5716EC5C2400FA71A2 /* RedeemViewController.m in Sources */,
 				3CCCBCF016F03A0B00FA71A2 /* NSData+Base64.m in Sources */,
 				3CCCBCF316F03A2300FA71A2 /* UIDevice+Screen.m in Sources */,
+				3CCCBCF716F2E59500FA71A2 /* TermsAndConditionsView.m in Sources */,
+				3CCCBCFA16F2E60B00FA71A2 /* RedeemView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

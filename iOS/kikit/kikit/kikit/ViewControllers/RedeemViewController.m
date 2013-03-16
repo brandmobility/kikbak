@@ -8,6 +8,8 @@
 
 #import "RedeemViewController.h"
 #import "UIDevice+Screen.h"
+#import "RedeemView.h"
+#import "AppDelegate.h"
 
 @interface RedeemViewController ()
 -(void)manuallyLayoutSubviews;
@@ -30,6 +32,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.title = @"Redeem";
 }
 
 - (void)didReceiveMemoryWarning
@@ -51,7 +54,7 @@
 }
 
 -(void)viewDidLayoutSubviews{
-    //[self manuallyLayoutSubviews];
+    [self manuallyLayoutSubviews];
 }
 
 -(void)manuallyLayoutSubviews{
@@ -66,15 +69,15 @@
         _retailerImage.frame = fr;
         
         CGRect retailerFr = _retailer.frame;
-        retailerFr.origin.y = 18;
+        retailerFr.origin.y = 14;
         _retailer.frame = retailerFr;
         
         fr = _mapMarker.frame;
-        fr.origin.y = retailerFr.origin.y + retailerFr.size.height + 9;
+        fr.origin.y = retailerFr.origin.y + retailerFr.size.height + 6;
         _mapMarker.frame = fr;
         
         fr = _distance.frame;
-        fr.origin.y = retailerFr.origin.y + retailerFr.size.height + 16;
+        fr.origin.y = retailerFr.origin.y + retailerFr.size.height + 6;
         _distance.frame = fr;
         
         fr = _topGradient.frame;
@@ -133,6 +136,19 @@
         offerFr.size.height = scanFr.origin.y + scanFr.size.height + 8 - offerFr.origin.y;
         _offerBackgroundImage.frame = offerFr;
     }
+}
+
+-(void)onRedeem:(id)sender{
+
+    CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+    RedeemView* redeemView = [[RedeemView alloc]initWithFrame:frame];
+    [redeemView manuallyLayoutSubviews];
+    [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:redeemView];
+
+}
+
+-(void)onTermsAndCondition:(id)sender{
+    
 }
 
 

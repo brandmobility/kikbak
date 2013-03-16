@@ -280,6 +280,9 @@
                                                 <state key="highlighted">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="onTermsAndCondition:" destination="rf3-yr-rgm" eventType="touchUpInside" id="iLX-Fr-vdZ"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -324,6 +327,9 @@
                                         <state key="highlighted">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="onRedeem:" destination="rf3-yr-rgm" eventType="touchUpInside" id="O9c-5x-AhG"/>
+                                        </connections>
                                     </button>
                                     <imageView userInteractionEnabled="NO" contentMode="center" image="wave_bottom.png" translatesAutoresizingMaskIntoConstraints="NO" id="sha-lt-mQI">
                                         <constraints>
@@ -443,61 +449,6 @@
         <image name="top_gradient.png" width="1" height="4"/>
         <image name="wave_bottom.png" width="307" height="5"/>
     </resources>
-    <classes>
-        <class className="LoginViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoginViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="onFaceBookLogin:"/>
-                <relationship kind="outlet" name="buttonLoginLogout" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="PostReviewViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PostReviewViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="chooseLocation:"/>
-                <relationship kind="action" name="submit:"/>
-                <relationship kind="action" name="takePhoto:"/>
-                <relationship kind="outlet" name="descriptionText" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="locationButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="photo" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="submit" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="QRScannerViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/QRScannerViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="ScanPressed:"/>
-            </relationships>
-        </class>
-        <class className="RedeemViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RedeemViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="conditions" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="distance" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="friendCaption" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="friendImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="friendName" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="giftIcon" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="locationView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="mapMarker" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="offer" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="offerBackgroundImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="photoFrame" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="redeemBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="retailer" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="retailerImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="scan" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="sharedImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="termsBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="topGradient" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="yourGift" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
