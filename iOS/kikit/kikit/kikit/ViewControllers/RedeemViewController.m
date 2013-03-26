@@ -104,9 +104,10 @@
         _photoFrame.frame = photoFr;
         
         fr = _sharedImage.frame;
-        fr.origin.y = photoFr.origin.y + 8;
-        fr.size.width = 151;
-        fr.size.height = 151;
+        fr.origin.y = photoFr.origin.y + 10;
+        fr.origin.x = 77;
+        fr.size.width = 150;
+        fr.size.height = 149;
         _sharedImage.frame = fr;
         
         CGRect offerFr = _offerBackgroundImage.frame;
@@ -147,7 +148,7 @@
 
 }
 
--(void)onTermsAndCondition:(id)sender{
+-(void)onTermsAndConditions:(id)sender{
     
 }
 

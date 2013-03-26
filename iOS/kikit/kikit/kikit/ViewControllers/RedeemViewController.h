@@ -33,7 +33,7 @@
 
 
 -(IBAction)onRedeem:(id)sender;
--(IBAction)onTermsAndCondition:(id)sender;
+-(IBAction)onTermsAndConditions:(id)sender;
 
 
 @end
