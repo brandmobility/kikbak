@@ -88,7 +88,7 @@
   
   [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
   
-  [UIView setAnimationDuration:0.3];
+  [UIView setAnimationDuration:0.2];
   
   [UIView setAnimationDelay:0.5]; //was 1.5
   
