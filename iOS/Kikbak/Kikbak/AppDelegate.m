@@ -20,6 +20,7 @@
 #import "QRScannerViewController.h"
 #import "RedeemViewController.h"
 #import "ShareViewController.h"
+#import "RootViewController.h"
 
 @interface AppDelegate()
 -(void)fadeOutSplash;
@@ -47,7 +48,7 @@
 
         UIStoryboard* mainBoard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
         //UIViewController* postView = [mainBoard instantiateViewControllerWithIdentifier:@"PostReviewViewController"];
-        UIViewController* postView = [mainBoard instantiateViewControllerWithIdentifier:@"ShareNavigationController"];
+        UIViewController* postView = [mainBoard instantiateViewControllerWithIdentifier:@"RootViewController"];
         self.window.rootViewController = postView;
     }
   

@@ -61,8 +61,6 @@
     self.retakeBtn.backgroundColor = [UIColor grayColor];
     [self.retakeBtn setTitle:NSLocalizedString(@"Retake", nil) forState:UIControlStateNormal];
     [self.retakeBtn addTarget:self action:@selector(retakePhoto:) forControlEvents:UIControlEventTouchUpInside];
-
-    
 }
 
 - (void)didReceiveMemoryWarning
@@ -84,7 +82,7 @@
 }
 
 -(void)viewDidLayoutSubviews{
-    [self manuallyLayoutSubviews];
+//    [self manuallyLayoutSubviews];
 }
 
 -(void)manuallyLayoutSubviews{
@@ -273,7 +271,6 @@
             [self presentViewController:picker animated:YES completion:nil];
         }
     }
-    
 }
 
 @end

@@ -33,6 +33,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.title = @"Redeem";
+    self.hidesBottomBarWhenPushed = YES;
 }
 
 - (void)didReceiveMemoryWarning

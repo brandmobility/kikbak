@@ -53,6 +53,14 @@
 		3C329C5D170178F70007345E /* ShareSuccessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C329C5C170178F70007345E /* ShareSuccessView.m */; };
 		3CA1B3081702CBB7005D2918 /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CA1B3071702CBB7005D2918 /* libFlurry.a */; };
 		3CA1B30B1702CC8D005D2918 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3CA1B30A1702CC8D005D2918 /* Localizable.strings */; };
+		3CA1B30E1704020B005D2918 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA1B30D1704020B005D2918 /* RootViewController.m */; };
+		3CA1B31117040374005D2918 /* OfferListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA1B31017040374005D2918 /* OfferListViewController.m */; };
+		3CA1B314170405B9005D2918 /* RedeemListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA1B313170405B9005D2918 /* RedeemListViewController.m */; };
+		3CA1B31717041BAA005D2918 /* KikbakTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA1B31617041BAA005D2918 /* KikbakTableViewCell.m */; };
+		3CA1B31A17056B9F005D2918 /* give_tabbar.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CA1B31817056B9F005D2918 /* give_tabbar.png */; };
+		3CA1B31B17056B9F005D2918 /* redeem_tabbar.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CA1B31917056B9F005D2918 /* redeem_tabbar.png */; };
+		3CA1B31E17056BBF005D2918 /* give_tabbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CA1B31C17056BBF005D2918 /* give_tabbar@2x.png */; };
+		3CA1B31F17056BBF005D2918 /* redeem_tabbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CA1B31D17056BBF005D2918 /* redeem_tabbar@2x.png */; };
 		3CC6D5AD16A1587300D42AD1 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CC6D5AC16A1587300D42AD1 /* FacebookSDK.framework */; };
 		3CCCBC5216EC5BF500FA71A2 /* PostReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCBC4D16EC5BF500FA71A2 /* PostReviewViewController.m */; };
 		3CCCBC5316EC5BF500FA71A2 /* QRScannerViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCBC4F16EC5BF500FA71A2 /* QRScannerViewController.mm */; };
@@ -191,6 +199,18 @@
 		3CA1B3071702CBB7005D2918 /* libFlurry.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFlurry.a; path = Flurry_4.1.0/libFlurry.a; sourceTree = "<group>"; };
 		3CA1B3091702CBC4005D2918 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Flurry.h; path = Flurry_4.1.0/Flurry.h; sourceTree = "<group>"; };
 		3CA1B30A1702CC8D005D2918 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		3CA1B30C1704020B005D2918 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		3CA1B30D1704020B005D2918 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		3CA1B30F17040374005D2918 /* OfferListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfferListViewController.h; sourceTree = "<group>"; };
+		3CA1B31017040374005D2918 /* OfferListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfferListViewController.m; sourceTree = "<group>"; };
+		3CA1B312170405B9005D2918 /* RedeemListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedeemListViewController.h; sourceTree = "<group>"; };
+		3CA1B313170405B9005D2918 /* RedeemListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedeemListViewController.m; sourceTree = "<group>"; };
+		3CA1B31517041BAA005D2918 /* KikbakTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KikbakTableViewCell.h; sourceTree = "<group>"; };
+		3CA1B31617041BAA005D2918 /* KikbakTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KikbakTableViewCell.m; sourceTree = "<group>"; };
+		3CA1B31817056B9F005D2918 /* give_tabbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = give_tabbar.png; sourceTree = "<group>"; };
+		3CA1B31917056B9F005D2918 /* redeem_tabbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redeem_tabbar.png; sourceTree = "<group>"; };
+		3CA1B31C17056BBF005D2918 /* give_tabbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "give_tabbar@2x.png"; sourceTree = "<group>"; };
+		3CA1B31D17056BBF005D2918 /* redeem_tabbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redeem_tabbar@2x.png"; sourceTree = "<group>"; };
 		3CC6D5AC16A1587300D42AD1 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		3CCCBC4C16EC5BF500FA71A2 /* PostReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostReviewViewController.h; sourceTree = "<group>"; };
 		3CCCBC4D16EC5BF500FA71A2 /* PostReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostReviewViewController.m; sourceTree = "<group>"; };
@@ -356,6 +376,12 @@
 				3CCCBC5616EC5C2400FA71A2 /* RedeemViewController.m */,
 				3CCCBCFF16F4444000FA71A2 /* ShareViewController.h */,
 				3CCCBD0016F4444000FA71A2 /* ShareViewController.m */,
+				3CA1B30C1704020B005D2918 /* RootViewController.h */,
+				3CA1B30D1704020B005D2918 /* RootViewController.m */,
+				3CA1B30F17040374005D2918 /* OfferListViewController.h */,
+				3CA1B31017040374005D2918 /* OfferListViewController.m */,
+				3CA1B312170405B9005D2918 /* RedeemListViewController.h */,
+				3CA1B313170405B9005D2918 /* RedeemListViewController.m */,
 			);
 			name = ViewControllers;
 			path = Kikbak/ViewControllers;
@@ -370,6 +396,8 @@
 				3CCCBCF916F2E60B00FA71A2 /* RedeemView.m */,
 				3C329C5B170178F70007345E /* ShareSuccessView.h */,
 				3C329C5C170178F70007345E /* ShareSuccessView.m */,
+				3CA1B31517041BAA005D2918 /* KikbakTableViewCell.h */,
+				3CA1B31617041BAA005D2918 /* KikbakTableViewCell.m */,
 			);
 			name = views;
 			path = Kikbak/views;
@@ -378,7 +406,6 @@
 		C0479979167D967500C2253D = {
 			isa = PBXGroup;
 			children = (
-				3C329BFE170123A80007345E /* resources */,
 				C0479A2B167DA57A00C2253D /* categories */,
 				C04799AE167D96CD00C2253D /* crypto */,
 				C04799B6167D96EF00C2253D /* facebook */,
@@ -387,6 +414,7 @@
 				C0C97247169160C0001A2A80 /* geo */,
 				C047998E167D967500C2253D /* Kikbak */,
 				C0479985167D967500C2253D /* Products */,
+				3C329BFE170123A80007345E /* resources */,
 				C04799EB167D9BA400C2253D /* rest */,
 				C0479A11167D9BFA00C2253D /* SBJson */,
 				3CCCBC4A16EC59A700FA71A2 /* ViewControllers */,
@@ -483,6 +511,10 @@
 		C04799B9167D9B4B00C2253D /* graphics */ = {
 			isa = PBXGroup;
 			children = (
+				3CA1B31C17056BBF005D2918 /* give_tabbar@2x.png */,
+				3CA1B31D17056BBF005D2918 /* redeem_tabbar@2x.png */,
+				3CA1B31817056B9F005D2918 /* give_tabbar.png */,
+				3CA1B31917056B9F005D2918 /* redeem_tabbar.png */,
 				3C329BFF170148E50007345E /* dotted_line.png */,
 				3C329C00170148E50007345E /* dotted_line@2x.png */,
 				3C329C01170148E50007345E /* right_ribbon@x2.png */,
@@ -758,6 +790,10 @@
 				3C329C53170148E50007345E /* morning_320x480.png in Resources */,
 				3C329C54170148E50007345E /* splash_320x480.png in Resources */,
 				3CA1B30B1702CC8D005D2918 /* Localizable.strings in Resources */,
+				3CA1B31A17056B9F005D2918 /* give_tabbar.png in Resources */,
+				3CA1B31B17056B9F005D2918 /* redeem_tabbar.png in Resources */,
+				3CA1B31E17056BBF005D2918 /* give_tabbar@2x.png in Resources */,
+				3CA1B31F17056BBF005D2918 /* redeem_tabbar@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -807,6 +843,10 @@
 				3CCCBCFA16F2E60B00FA71A2 /* RedeemView.m in Sources */,
 				3CCCBD0116F4444000FA71A2 /* ShareViewController.m in Sources */,
 				3C329C5D170178F70007345E /* ShareSuccessView.m in Sources */,
+				3CA1B30E1704020B005D2918 /* RootViewController.m in Sources */,
+				3CA1B31117040374005D2918 /* OfferListViewController.m in Sources */,
+				3CA1B314170405B9005D2918 /* RedeemListViewController.m in Sources */,
+				3CA1B31717041BAA005D2918 /* KikbakTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
