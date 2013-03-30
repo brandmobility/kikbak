@@ -234,7 +234,7 @@
         <scene sceneID="h6g-2x-New">
             <objects>
                 <tabBarController storyboardIdentifier="RootViewController" definesPresentationContext="YES" id="baR-eX-wZb" sceneMemberID="viewController">
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="Rln-qB-SO1">
                         <rect key="frame" x="129" y="330" width="163" height="49"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -272,7 +272,7 @@
             <objects>
                 <viewController storyboardIdentifier="ShareViewController" id="ftx-I1-ga6" customClass="ShareViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MLi-aX-Iq3">
-                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BYy-fU-jfd">
                                 <subviews>
@@ -443,6 +443,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="arA-U5-Dxg"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="distance" destination="EFA-4c-sPq" id="fN6-a5-JT8"/>
                         <outlet property="getArrow" destination="KKU-oE-tmF" id="Ah4-Q5-CXu"/>
@@ -469,7 +470,7 @@
             <objects>
                 <viewController storyboardIdentifier="RedeemViewController" id="rf3-yr-rgm" customClass="RedeemViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="U9c-3I-Kb3">
-                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wUP-Z3-M26">
@@ -680,6 +681,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="OvE-Yz-Ykw"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="blackOpaque" prompted="NO"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="conditions" destination="3Rf-Pd-TkE" id="Ba7-2K-uXv"/>
                         <outlet property="distance" destination="FuT-Ta-iOf" id="v93-Z1-dQp"/>
@@ -724,6 +726,95 @@
         <image name="top_gradient.png" width="1" height="4"/>
         <image name="wave_bottom.png" width="307" height="5"/>
     </resources>
+    <classes>
+        <class className="LoginViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoginViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="onFaceBookLogin:"/>
+                <relationship kind="outlet" name="buttonLoginLogout" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="OfferListViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OfferListViewController.h"/>
+        </class>
+        <class className="PostReviewViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PostReviewViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="chooseLocation:"/>
+                <relationship kind="action" name="submit:"/>
+                <relationship kind="action" name="takePhoto:"/>
+                <relationship kind="outlet" name="descriptionText" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="locationButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="photo" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="submit" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="QRScannerViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/QRScannerViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="ScanPressed:"/>
+            </relationships>
+        </class>
+        <class className="RedeemListViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RedeemListViewController.h"/>
+        </class>
+        <class className="RedeemViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RedeemViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="onRedeem:"/>
+                <relationship kind="action" name="onTermsAndConditions:"/>
+                <relationship kind="outlet" name="conditions" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="distance" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="friendCaption" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="friendImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="friendName" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="giftIcon" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="locationView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="mapMarker" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="offer" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="offerBackgroundImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="photoFrame" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="redeemBtn" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="retailer" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="retailerImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="scan" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="sharedImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="termsBtn" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="topGradient" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="yourGift" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="ShareViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ShareViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="addCaption:"/>
+                <relationship kind="action" name="onGiveGift:"/>
+                <relationship kind="action" name="onTermsAndConditions:"/>
+                <relationship kind="action" name="retakePhoto:"/>
+                <relationship kind="action" name="takePhoto:"/>
+                <relationship kind="outlet" name="distance" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="getArrow" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="getLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="getText" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="giftImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="giftLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="giveArrow" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="giveText" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="locationView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="mapMarker" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="photoFrame" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="redeemBtn" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="retailer" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="retailerImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="termsBtn" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="topGradient" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

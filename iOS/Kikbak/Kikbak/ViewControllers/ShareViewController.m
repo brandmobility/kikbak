@@ -47,6 +47,7 @@
     self.takePhotoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.takePhotoBtn setImage:[UIImage imageNamed:@"add_photo"] forState:UIControlStateNormal];
     [self.takePhotoBtn addTarget:self action:@selector(takePhoto:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.takePhotoBtn];
     
     self.addCaptionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.addCaptionBtn.backgroundColor = [UIColor colorWithRed:0.81 green:0.81 blue:0.81 alpha:1.0];
@@ -54,6 +55,8 @@
     [self.addCaptionBtn setTitle:NSLocalizedString(@"Caption", nil) forState:UIControlStateNormal];
     [self.addCaptionBtn addTarget:self action:@selector(addCaptionBtn:) forControlEvents:UIControlEventTouchUpInside];
     self.addCaptionBtn.backgroundColor = [UIColor grayColor];
+    [self.view addSubview:self.addCaptionBtn];
+    
     
     self.retakeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.retakeBtn.backgroundColor = [UIColor colorWithRed:0.81 green:0.81 blue:0.81 alpha:1.0];
@@ -61,6 +64,7 @@
     self.retakeBtn.backgroundColor = [UIColor grayColor];
     [self.retakeBtn setTitle:NSLocalizedString(@"Retake", nil) forState:UIControlStateNormal];
     [self.retakeBtn addTarget:self action:@selector(retakePhoto:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.retakeBtn];
 }
 
 - (void)didReceiveMemoryWarning
@@ -82,7 +86,7 @@
 }
 
 -(void)viewDidLayoutSubviews{
-//    [self manuallyLayoutSubviews];
+    [self manuallyLayoutSubviews];
 }
 
 -(void)manuallyLayoutSubviews{
@@ -160,10 +164,9 @@
         CGRect fr = _giftImage.frame;
         CGRect takePhotoFr = CGRectMake(fr.origin.x + ((fr.size.width-110)/2) + 8, fr.origin.y + ((fr.size.height - 64)/2), 110, 64);
         self.takePhotoBtn.frame = takePhotoFr;
-        [self.view addSubview:self.takePhotoBtn];
-        
-        [self.retakeBtn removeFromSuperview];
-        [self.addCaptionBtn removeFromSuperview];
+        self.takePhotoBtn.hidden = NO;
+        self.retakeBtn.hidden = YES;
+        self.addCaptionBtn.hidden = YES;
     }
     else{
         CGRect fr = _giftImage.frame;
@@ -175,7 +178,7 @@
         captionFr.size.width += 3;
         self.addCaptionBtn.frame = captionFr;
         self.addCaptionBtn.layer.cornerRadius = 4;
-        [self.view addSubview:self.addCaptionBtn];
+        
      
         [self.retakeBtn sizeToFit];
         CGRect retakeFr = self.retakeBtn.frame;
@@ -185,9 +188,10 @@
         retakeFr.origin.y = fr.origin.y + 1;
         self.retakeBtn.frame = retakeFr;
         self.retakeBtn.layer.cornerRadius = 4;
-        [self.view addSubview:self.retakeBtn];
-        
-        [self.takePhotoBtn removeFromSuperview];
+
+        self.takePhotoBtn.hidden = YES;
+        self.retakeBtn.hidden = NO;
+        self.addCaptionBtn.hidden = NO;
     }
     
 }

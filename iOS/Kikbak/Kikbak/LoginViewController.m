@@ -87,7 +87,7 @@
   if (appDelegate.session.isOpen) {
     // valid account UI is shown whenever the session is open
     UIStoryboard* mainBoard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-    UIViewController* postView = [mainBoard instantiateViewControllerWithIdentifier:@"PostReviewViewController"];
+    UIViewController* postView = [mainBoard instantiateViewControllerWithIdentifier:@"RootViewController"];
     appDelegate.window.rootViewController = postView;
   } 
 }
