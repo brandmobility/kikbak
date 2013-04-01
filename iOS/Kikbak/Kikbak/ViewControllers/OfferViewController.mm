@@ -6,14 +6,15 @@
 //  Copyright (c) 2013 Ian Barile. All rights reserved.
 //
 
-#import "ShareViewController.h"
+#import "OfferViewController.h"
 #import "UIDevice+Screen.h"
 #import "AppDelegate.h"
 #import <QuartzCore/QuartzCore.h>
 #import "Flurry.h"
 #import "ShareSuccessView.h"
+#import "UIImage+Manipulate.h"
 
-@interface ShareViewController ()
+@interface OfferViewController ()
 
 
 @property (nonatomic, strong) UIButton* takePhotoBtn;
@@ -25,9 +26,11 @@
 -(IBAction)takePhoto:(id)sender;
 -(IBAction)retakePhoto:(id)sender;
 -(IBAction)addCaption:(id)sender;
+
+-(void)postToFacebook;
 @end
 
-@implementation ShareViewController
+@implementation OfferViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -41,8 +44,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.title = NSLocalizedString(@"Give", nil);
 	// Do any additional setup after loading the view.
-    pictureTaken = NO;
+    photoTaken = NO;
+    captionAdded = NO;
     
     self.takePhotoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.takePhotoBtn setImage:[UIImage imageNamed:@"add_photo"] forState:UIControlStateNormal];
@@ -53,7 +58,7 @@
     self.addCaptionBtn.backgroundColor = [UIColor colorWithRed:0.81 green:0.81 blue:0.81 alpha:1.0];
     self.addCaptionBtn.titleLabel.font = [UIFont systemFontOfSize:12];
     [self.addCaptionBtn setTitle:NSLocalizedString(@"Caption", nil) forState:UIControlStateNormal];
-    [self.addCaptionBtn addTarget:self action:@selector(addCaptionBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [self.addCaptionBtn addTarget:self action:@selector(addCaption:) forControlEvents:UIControlEventTouchUpInside];
     self.addCaptionBtn.backgroundColor = [UIColor grayColor];
     [self.view addSubview:self.addCaptionBtn];
     
@@ -160,7 +165,7 @@
         _giftImage.frame = fr;
     }
     
-    if( !pictureTaken ){
+    if( !photoTaken ){
         CGRect fr = _giftImage.frame;
         CGRect takePhotoFr = CGRectMake(fr.origin.x + ((fr.size.width-110)/2) + 8, fr.origin.y + ((fr.size.height - 64)/2), 110, 64);
         self.takePhotoBtn.frame = takePhotoFr;
@@ -200,11 +205,28 @@
 #pragma mark - btn actions 
 -(IBAction)onGiveGift:(id)sender{
     
-    CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
-    ShareSuccessView* shareView = [[ShareSuccessView alloc]initWithFrame:frame];
-    [shareView manuallyLayoutSubviews];
-    [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:shareView];
+    if(!photoTaken){
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Error" message:@"Please Add Photo" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alert show];
+        return;
+    }
     
+    if(!captionAdded){
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Warning"
+                                                       message:@"Would you like to add a caption"
+                                                      delegate:self
+                                             cancelButtonTitle:@"No"
+                                             otherButtonTitles: @"Yes", nil];
+        [alert show];
+        return;
+    }
+    
+//    CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+//    ShareSuccessView* shareView = [[ShareSuccessView alloc]initWithFrame:frame];
+//    [shareView manuallyLayoutSubviews];
+//    [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:shareView];
+
+    [self postToFacebook];
 }
 
 -(IBAction)onTermsAndConditions:(id)sender{
@@ -212,8 +234,6 @@
 }
 
 -(IBAction)takePhoto:(id)sender{
-
-    pictureTaken = YES;
     UIActionSheet* sheet = [[UIActionSheet alloc] initWithTitle:@"Share It" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take Photo", nil];
     [sheet showInView:self.view];
 }
@@ -225,9 +245,17 @@
 }
 
 -(IBAction)addCaption:(id)sender{
+    captionAdded = YES;
     
 }
 
+#pragma mark - AlertView Delegate Methods
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
+ 
+    if (buttonIndex == 0) {
+        [self postToFacebook];
+    }
+}
 
 
 #pragma mark - image picker delegates
@@ -235,16 +263,11 @@
     
     UIImage* image = [info valueForKey:UIImagePickerControllerOriginalImage];
     
-    CGImageRef cgImage = [image CGImage];
-    size_t height = CGImageGetHeight(cgImage);
-    size_t width = CGImageGetWidth(cgImage);
-    CGRect fr = self.giftImage.frame;
-    CGRect cropRect = CGRectMake(0, 0, width>fr.size.width?fr.size.width:width, height>fr.size.height?fr.size.height:height);
-    CGImageRef cropImage = CGImageCreateWithImageInRect([image CGImage], cropRect);
-    self.giftImage.image = [UIImage imageWithCGImage:cropImage];
-    CGImageRelease(cropImage);
+    CGSize size = CGSizeMake(self.giftImage.frame.size.width, self.giftImage.frame.size.height);
+    self.giftImage.image = [UIImage resizeImage:image newSize:size];
     
     [self dismissViewControllerAnimated:YES completion:nil];
+    photoTaken = YES;
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
@@ -275,6 +298,40 @@
             [self presentViewController:picker animated:YES completion:nil];
         }
     }
+}
+
+
+#pragma mark - facebook
+-(void)postToFacebook{
+    
+    self.shareBtn.enabled = NO;
+    FBRequestConnection* connection = [[FBRequestConnection alloc]initWithTimeout:30];
+    
+    
+    FBRequest* request = [FBRequest requestForUploadPhoto:self.giftImage.image];
+//    [request.parameters setValue:self.descriptionText.text forKey:@"message"];
+    
+    
+    [connection addRequest:request completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+        if(error == nil){
+            [Flurry logEvent:@"ShareEvent" timed:YES];
+
+            CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+            ShareSuccessView* shareView = [[ShareSuccessView alloc]initWithFrame:frame];
+            [shareView manuallyLayoutSubviews];
+            [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:shareView];
+
+        }
+        else{
+            [Flurry logEvent:@"FailedShareEvent" timed:YES];
+            NSLog(@"Submit Error: %@", error);
+        }
+        self.shareBtn.enabled = YES;
+    }];
+    
+    
+    [connection start];
+    
 }
 
 @end

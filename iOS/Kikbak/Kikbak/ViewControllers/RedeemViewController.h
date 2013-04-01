@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <ZXingWidgetController.h>
 
-@interface RedeemViewController : UIViewController
+@interface RedeemViewController : UIViewController<ZXingDelegate>
 
 
 @property(nonatomic, strong) IBOutlet UIImageView* retailerImage;

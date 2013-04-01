@@ -33,6 +33,7 @@
     self.table = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStylePlain];
     self.table.dataSource = self;
     self.table.delegate = self;
+    self.table.backgroundColor = [UIColor colorWithRed:0.835 green:0.835 blue:0.835 alpha:1];
     [self.view addSubview:self.table];
 }
 
@@ -91,7 +92,6 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    UIViewController * dest = segue.destinationViewController;
     [segue.destinationViewController setHidesBottomBarWhenPushed:YES];
 }
 

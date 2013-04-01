@@ -10,6 +10,7 @@
 #import "UIDevice+Screen.h"
 #import "RedeemView.h"
 #import "AppDelegate.h"
+#import "QRCodeReader.h"
 
 @interface RedeemViewController ()
 -(void)manuallyLayoutSubviews;
@@ -32,7 +33,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    self.title = @"Redeem";
+    self.title = NSLocalizedString(@"Redeem", nil);
     self.hidesBottomBarWhenPushed = YES;
 }
 
@@ -142,16 +143,32 @@
 
 -(void)onRedeem:(id)sender{
 
-    CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
-    RedeemView* redeemView = [[RedeemView alloc]initWithFrame:frame];
-    [redeemView manuallyLayoutSubviews];
-    [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:redeemView];
-
+    ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO];
+    
+    NSMutableSet *readers = [[NSMutableSet alloc ] init];
+    QRCodeReader* qrcodeReader = [[QRCodeReader alloc] init];
+    [readers addObject:qrcodeReader];
+    
+    widController.readers = readers;
+    [self presentViewController:widController animated:YES completion:nil];
 }
 
 -(void)onTermsAndConditions:(id)sender{
     
 }
 
+
+- (void)zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)result {
+    [self dismissViewControllerAnimated:NO completion:nil];
+    
+    CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+    RedeemView* redeemView = [[RedeemView alloc]initWithFrame:frame];
+    [redeemView manuallyLayoutSubviews];
+    [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:redeemView];
+}
+
+- (void)zxingControllerDidCancel:(ZXingWidgetController*)controller {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 @end

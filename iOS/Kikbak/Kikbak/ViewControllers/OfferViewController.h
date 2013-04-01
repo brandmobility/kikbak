@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ShareViewController : UIViewController<UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>{
-    bool pictureTaken;
+@interface OfferViewController : UIViewController<UIActionSheetDelegate, UIImagePickerControllerDelegate,
+                                        UINavigationControllerDelegate, UIAlertViewDelegate>{
+    bool photoTaken;
+    bool captionAdded;
 }
 
 @property(nonatomic, strong) IBOutlet UIImageView* retailerImage;
@@ -26,7 +28,7 @@
 @property(nonatomic, strong) IBOutlet UIImageView* photoFrame;
 @property(nonatomic, strong) IBOutlet UIImageView* giftImage;
 @property(nonatomic, strong) IBOutlet UIButton* termsBtn;
-@property(nonatomic, strong) IBOutlet UIButton* redeemBtn;
+@property(nonatomic, strong) IBOutlet UIButton* shareBtn;
 @property(nonatomic, strong) IBOutlet UIView* locationView;
 
 -(IBAction)onGiveGift:(id)sender;

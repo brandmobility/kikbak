@@ -17,9 +17,6 @@
 #import "ServerTest.h"
 #import "NSData+Base64.h"
 
-#import "QRScannerViewController.h"
-#import "RedeemViewController.h"
-#import "ShareViewController.h"
 #import "RootViewController.h"
 
 @interface AppDelegate()

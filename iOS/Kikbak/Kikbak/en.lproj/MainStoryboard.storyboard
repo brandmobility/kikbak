@@ -267,10 +267,10 @@
             </objects>
             <point key="canvasLocation" x="-1310" y="1334"/>
         </scene>
-        <!--Share View Controller-->
+        <!--Offer View Controller-->
         <scene sceneID="GpY-ai-jud">
             <objects>
-                <viewController storyboardIdentifier="ShareViewController" id="ftx-I1-ga6" customClass="ShareViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ShareViewController" id="ftx-I1-ga6" customClass="OfferViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MLi-aX-Iq3">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <subviews>
@@ -458,6 +458,7 @@
                         <outlet property="photoFrame" destination="EA3-tp-iZh" id="k7b-x3-Es5"/>
                         <outlet property="retailer" destination="eQk-QR-CcI" id="Cac-Eu-txE"/>
                         <outlet property="retailerImage" destination="akL-aE-jFp" id="RwC-MP-CBz"/>
+                        <outlet property="shareBtn" destination="Ahs-kf-Nmf" id="1oh-LP-Dat"/>
                         <outlet property="topGradient" destination="1Hk-sY-8rN" id="wQL-ao-JYm"/>
                     </connections>
                 </viewController>
@@ -740,6 +741,32 @@
         <class className="OfferListViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OfferListViewController.h"/>
         </class>
+        <class className="OfferViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OfferViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="addCaption:"/>
+                <relationship kind="action" name="onGiveGift:"/>
+                <relationship kind="action" name="onTermsAndConditions:"/>
+                <relationship kind="action" name="retakePhoto:"/>
+                <relationship kind="action" name="takePhoto:"/>
+                <relationship kind="outlet" name="distance" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="getArrow" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="getLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="getText" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="giftImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="giftLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="giveArrow" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="giveText" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="locationView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="mapMarker" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="photoFrame" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="retailer" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="retailerImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="shareBtn" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="termsBtn" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="topGradient" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
         <class className="PostReviewViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PostReviewViewController.h"/>
             <relationships>
@@ -786,32 +813,6 @@
                 <relationship kind="outlet" name="termsBtn" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="topGradient" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="yourGift" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="ShareViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ShareViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="addCaption:"/>
-                <relationship kind="action" name="onGiveGift:"/>
-                <relationship kind="action" name="onTermsAndConditions:"/>
-                <relationship kind="action" name="retakePhoto:"/>
-                <relationship kind="action" name="takePhoto:"/>
-                <relationship kind="outlet" name="distance" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="getArrow" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="getLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="getText" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="giftImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="giftLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="giveArrow" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="giveText" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="locationView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="mapMarker" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="photoFrame" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="redeemBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="retailer" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="retailerImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="termsBtn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="topGradient" candidateClass="UIImageView"/>
             </relationships>
         </class>
     </classes>

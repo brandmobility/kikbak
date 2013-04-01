@@ -87,6 +87,7 @@
     self.leftArrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"left_ribbon"]];
     fr = self.leftArrow.frame;
     fr.origin.y = 65;
+    fr.origin.x = 1;
     self.leftArrow.frame = fr;
     [self addSubview:self.leftArrow];
     
