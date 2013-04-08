@@ -9,6 +9,8 @@
 #import "OffersRequest.h"
 #import "KikbakConstants.h"
 #import "SBJson.h"
+#import "OfferParser.h"
+#import "AppDelegate.h"
 
 static NSString* resource = @"user/offer";
 
@@ -21,16 +23,21 @@ static NSString* resource = @"user/offer";
 
 -(void)makeRequest:(NSDictionary*)requestData{
   
-  NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
-  
-  request = [[PostRequest alloc]init];
-  request.resource = [NSString stringWithFormat:@"%@/%@/", resource, [prefs objectForKey:KIKBAK_USER_ID] ];
-  
-  
-  NSString* body = [[self formatRequest:requestData] JSONRepresentation];
-  request.body = body;
-  request.restDelegate = self;
-  [request makeSyncRequest];
+    NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
+
+    NSString* userId = [prefs objectForKey:KIKBAK_USER_ID];
+    assert(userId != nil);
+    if( userId == nil){
+        return;
+    }
+    request = [[PostRequest alloc]init];
+    request.resource = [NSString stringWithFormat:@"%@/%@/", resource, userId ];
+
+
+    NSString* body = [[self formatRequest:requestData] JSONRepresentation];
+    request.body = body;
+    request.restDelegate = self;
+    [request makeSyncRequest];
   
 }
 
@@ -45,7 +52,21 @@ static NSString* resource = @"user/offer";
 
 
 -(void)receivedData:(NSData*)data{
-  
+    NSString* json = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@"***Offers Request");
+    NSLog(@"%@", json);
+    NSDictionary* dict = [json JSONValue];
+    if( dict ){
+        NSDictionary* getUserOffersResponse = [dict objectForKey:@"getUserOffersResponse"];
+        if( getUserOffersResponse){
+            NSArray* offers = [getUserOffersResponse objectForKey:@"offers"];
+            for(id offer in offers){
+                [OfferParser parse:offer];
+            }
+        }
+    }
+    
+    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakOfferUpdate object:nil];
 }
 
 @end

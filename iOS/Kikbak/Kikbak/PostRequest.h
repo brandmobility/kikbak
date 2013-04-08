@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "RestDataDelegate.h"
+#import "assert.h"
 
 @interface PostRequest : NSObject<NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 {

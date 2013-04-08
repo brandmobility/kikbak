@@ -77,29 +77,31 @@
 
 +(void)fbMe{
   
-  //  id json;
-  [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection,
+    //  id json;
+    [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection,
                                                          id result,
                                                          NSError *error){
     if(error == nil){
-      AppDelegate* delegate =[UIApplication sharedApplication].delegate;
-      delegate.userInfo.me = result;
-      NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
-      if( [prefs objectForKey:KIKBAK_USER_ID] == nil ){
-        RegisterUserRequest* request = [[RegisterUserRequest alloc] init];
-        [request makeRequest:result];
-      }
-      
-      [prefs setValue:[delegate.userInfo.me objectForKey:@(FB_USER_ID_KEY)] forKeyPath:@(FB_USER_ID_KEY)];
-      [prefs setValue:[delegate.userInfo.me objectForKey:@(FB_USERNAME_KEY)] forKeyPath:@(FB_USERNAME_KEY)];
-      [prefs synchronize];
-      [Flurry logEvent:@"MeRequestEvent" timed:YES];
-      
-      [FBQuery fbFriends];
+        AppDelegate* delegate =[UIApplication sharedApplication].delegate;
+        delegate.userInfo.me = result;
+        NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
+        if( [prefs objectForKey:KIKBAK_USER_ID] == nil ){
+            RegisterUserRequest* request = [[RegisterUserRequest alloc] init];
+            [request makeRequest:result];
+        }
+
+        [prefs setValue:[delegate.userInfo.me objectForKey:@(FB_USER_ID_KEY)] forKeyPath:@(FB_USER_ID_KEY)];
+        [prefs setValue:[delegate.userInfo.me objectForKey:@(FB_USERNAME_KEY)] forKeyPath:@(FB_USERNAME_KEY)];
+        [prefs synchronize];
+        [Flurry logEvent:@"MeRequestEvent" timed:YES];
+
+        if( [prefs objectForKey:KIKBAK_USER_ID] ){
+            [FBQuery fbFriends];
+        }
     }
     else{
-      [Flurry logEvent:@"MeFailedRequestEvent" timed:YES];
-      NSLog(@"Submit Error: %@", error);
+        [Flurry logEvent:@"MeFailedRequestEvent" timed:YES];
+        NSLog(@"Submit Error: %@", error);
     }
   }];
 }

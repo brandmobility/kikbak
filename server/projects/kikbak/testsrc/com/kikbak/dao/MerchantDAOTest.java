@@ -26,18 +26,4 @@ public class MerchantDAOTest extends KikbakBaseTest{
 		assertEquals("23", merchant.getDescription());
 	}
 	
-	@Test
-	public void testWriteMerchant(){
-		Merchant merchant = new Merchant();
-		merchant.setName("name");
-		merchant.setGraphPath("foo_path");
-		merchant.setDescription("desc");
-	
-		rwDao.makePersistent(merchant);
-		
-		Merchant m2 = roDao.findByGraphPath("foo_path");
-		
-		assertEquals("foo_path",m2.getGraphPath());
-		
-	}
 }

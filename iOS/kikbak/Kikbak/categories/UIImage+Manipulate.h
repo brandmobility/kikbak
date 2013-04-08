@@ -11,6 +11,6 @@
 @interface UIImage (Manipulate)
 
 +(UIImage*)resizeImage:(UIImage*)image newSize:(CGSize)newSize;
-+(UIImage*)reColor:(UIImage*)image newColor:(UIColor*)color;
++(UIImage*)changeColor:(UIImage*)image newColor:(UIColor*)color;
 
 @end

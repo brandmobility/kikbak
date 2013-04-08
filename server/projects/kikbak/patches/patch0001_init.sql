@@ -96,7 +96,6 @@ CREATE TABLE `Merchant`
     description VARCHAR(4096),
     url VARCHAR(256),
     image_url VARCHAR(512),
-    graph_path VARCHAR(512) NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 

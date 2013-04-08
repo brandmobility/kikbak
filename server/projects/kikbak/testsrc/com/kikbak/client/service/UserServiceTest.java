@@ -108,7 +108,6 @@ public class UserServiceTest extends KikbakBaseTest{
 	public void testGetOffers(){
 		MerchantType mt = new MerchantType();
 		mt.setDescription("test");
-		mt.setGraphPath("test");
 		mt.setImageUrl("url");
 		mt.setName("test");
 		mt.setUrl("url");
@@ -152,7 +151,6 @@ public class UserServiceTest extends KikbakBaseTest{
 	public void testNoValidOffers(){
 		MerchantType mt = new MerchantType();
 		mt.setDescription("test");
-		mt.setGraphPath("test");
 		mt.setImageUrl("url");
 		mt.setName("test");
 		mt.setUrl("url");

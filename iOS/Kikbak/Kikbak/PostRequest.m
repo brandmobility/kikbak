@@ -15,7 +15,7 @@
 
 -(void)makeSyncRequest{
   
-  NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"https://%s/%s/%@",hostname, kikbak_service, _resource]];
+  NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%s/%s/%@",hostname, kikbak_service, _resource]];
   
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
                                                          cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60.0];

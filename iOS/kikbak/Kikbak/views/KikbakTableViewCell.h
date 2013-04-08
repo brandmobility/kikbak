@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RedeemTableViewCell : UITableViewCell
+@class Offer;
+
+@interface KikbakTableViewCell : UITableViewCell
 
 
--(void)setup:(UIColor*)arrowColor withImage:(UIImage*)img giveText:(NSString*)give redeemText:(NSString*)redeem;
+-(void)setup:(Offer*)offer;
 
 @end

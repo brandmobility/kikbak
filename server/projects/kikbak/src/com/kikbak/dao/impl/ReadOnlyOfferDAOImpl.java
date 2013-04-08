@@ -22,7 +22,7 @@ import com.kikbak.location.GeoFenceCoordinateType;
 public class ReadOnlyOfferDAOImpl extends ReadOnlyGenericDAOImpl<Offer, Long> implements ReadOnlyOfferDAO {
 
 	private static final String list_offers_in_geo_fence = "select offer.* from offer, location where offer.merchant_id=location.merchant_id " +
-														" and offer.begin_date < ? and offer.end_date > ? and location.latitude > ? " +
+														" and offer.begin_date <= ? and offer.end_date >= ? and location.latitude > ? " +
 														" and location.latitude < ? and location.longitude > ? and location.longitude < ?"; 
 	
 	@Override
@@ -51,8 +51,8 @@ public class ReadOnlyOfferDAOImpl extends ReadOnlyGenericDAOImpl<Offer, Long> im
 		Session session = sessionFactory.getCurrentSession();
 		@SuppressWarnings("unchecked")
 		Collection<Offer> offers = session.createSQLQuery(list_offers_in_geo_fence).addEntity(Offer.class)
-																				   .setDate(0, now)
-																				   .setDate(1, now)
+																				   .setTimestamp(0, now)
+																				   .setTimestamp(1, now)
 																				   .setDouble(2, se.getLatDeg())
 																				   .setDouble(3, nw.getLatDeg())
 																				   .setDouble(4, se.getLongDeg())

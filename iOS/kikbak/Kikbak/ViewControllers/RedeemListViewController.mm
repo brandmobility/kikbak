@@ -72,7 +72,7 @@
     
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"redeemCell"];
     if( cell == nil){
-        cell = [[RedeemTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"redeemCell"];
+        cell = [[KikbakTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"redeemCell"];
     }
     
     return cell;

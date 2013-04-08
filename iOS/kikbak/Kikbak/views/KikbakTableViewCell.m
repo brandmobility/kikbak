@@ -7,8 +7,11 @@
 //
 
 #import "KikbakTableViewCell.h"
+#import "Offer.h"
+#import "Location.h"
+#import "Distance.h"
 
-@interface RedeemTableViewCell()
+@interface KikbakTableViewCell()
 
 @property (nonatomic, strong) UIView* backgroundView;
 @property (nonatomic, strong) UIView* overlayView;
@@ -25,7 +28,7 @@
 
 @end
 
-@implementation RedeemTableViewCell
+@implementation KikbakTableViewCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -116,8 +119,17 @@
 }
 
 
--(void)setup:(UIColor*)arrowColor withImage:(UIImage*)img giveText:(NSString*)give redeemText:(NSString*)redeem{
+-(void)setup:(Offer*)offer{
+    self.store.text = offer.name;
+    self.leftText.text = [NSString stringWithFormat:@"%@ off", offer.giftValue];
+    self.rightText.text = [NSString stringWithFormat:@"%@ credit", offer.kikbakValue];
+    Location* location = nil;
+    //todo: find closest location
+    if (offer.location.count > 0) {
+        location = [offer.location anyObject];
+    }
     
+    self.distance.text = [Distance distanceToInMiles:[[CLLocation alloc]initWithLatitude:location.latitude.doubleValue longitude:location.longitude.doubleValue]];
 }
 
 

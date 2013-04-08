@@ -20,17 +20,20 @@ static NSString* resource = @"user/friends/fb";
 
 -(void)makeRequest:(NSDictionary*)requestData{
   
-  NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
-  
-  request = [[PostRequest alloc]init];
-  request.resource = [NSString stringWithFormat:@"%@/%@/", resource, [prefs objectForKey:KIKBAK_USER_ID] ];
-  
-  
-  NSString* body = [[self formatRequest:requestData] JSONRepresentation];
-  request.body = body;
-  request.restDelegate = self;
-  [request makeSyncRequest];
-  
+    NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
+
+    NSString* userId = [prefs objectForKey:KIKBAK_USER_ID];
+    assert(userId != nil);
+    if( userId == nil){
+        return;
+    }
+    request = [[PostRequest alloc]init];
+    request.resource = [NSString stringWithFormat:@"%@/%@/", resource, userId];
+
+    NSString* body = [[self formatRequest:requestData] JSONRepresentation];
+    request.body = body;
+    request.restDelegate = self;
+    [request makeSyncRequest];
 }
 
 -(NSDictionary*)formatRequest:(id)requestData{

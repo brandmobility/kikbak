@@ -35,7 +35,7 @@
     return newImage;
 }
 
-+(UIImage*)reColor:(UIImage*)image newColor:(UIColor*)color
++(UIImage*)changeColor:(UIImage*)image newColor:(UIColor*)color
 {
     CGRect rect = CGRectMake(0, 0, image.size.width, image.size.height);
     UIGraphicsBeginImageContext(rect.size);

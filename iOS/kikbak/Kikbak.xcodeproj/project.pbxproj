@@ -51,6 +51,10 @@
 		3C329C54170148E50007345E /* splash_320x480.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C329C29170148E50007345E /* splash_320x480.png */; };
 		3C329C5D170178F70007345E /* ShareSuccessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C329C5C170178F70007345E /* ShareSuccessView.m */; };
 		3C752BD81707E97C0092CFB1 /* right_ribbon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C752BD71707E97C0092CFB1 /* right_ribbon@2x.png */; };
+		3C752BDF17113CA10092CFB1 /* kikbak.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3C752BDD17113CA10092CFB1 /* kikbak.xcdatamodeld */; };
+		3C752BEF171145210092CFB1 /* OfferParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C752BEE171145210092CFB1 /* OfferParser.m */; };
+		3C752BF2171145BB0092CFB1 /* LocationParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C752BF1171145BB0092CFB1 /* LocationParser.m */; };
+		3C752BF4171146130092CFB1 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C752BF3171146120092CFB1 /* CoreData.framework */; };
 		3CA1B3081702CBB7005D2918 /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CA1B3071702CBB7005D2918 /* libFlurry.a */; };
 		3CA1B30B1702CC8D005D2918 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3CA1B30A1702CC8D005D2918 /* Localizable.strings */; };
 		3CA1B30E1704020B005D2918 /* RootViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3CA1B30D1704020B005D2918 /* RootViewController.mm */; };
@@ -61,6 +65,10 @@
 		3CA1B31B17056B9F005D2918 /* redeem_tabbar.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CA1B31917056B9F005D2918 /* redeem_tabbar.png */; };
 		3CA1B31E17056BBF005D2918 /* give_tabbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CA1B31C17056BBF005D2918 /* give_tabbar@2x.png */; };
 		3CA1B31F17056BBF005D2918 /* redeem_tabbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CA1B31D17056BBF005D2918 /* redeem_tabbar@2x.png */; };
+		3CBCBF20171221E9007B4249 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF1F171221E9007B4249 /* Location.m */; };
+		3CBCBF23171221E9007B4249 /* Offer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF22171221E9007B4249 /* Offer.m */; };
+		3CBCBF2617127468007B4249 /* OfferLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF2517127468007B4249 /* OfferLoader.m */; };
+		3CBCBF29171277A3007B4249 /* LocationLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF28171277A3007B4249 /* LocationLoader.m */; };
 		3CC6D5AD16A1587300D42AD1 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CC6D5AC16A1587300D42AD1 /* FacebookSDK.framework */; };
 		3CCCBC5216EC5BF500FA71A2 /* PostReviewViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCBC4D16EC5BF500FA71A2 /* PostReviewViewController.mm */; };
 		3CCCBC5316EC5BF500FA71A2 /* QRScannerViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCBC4F16EC5BF500FA71A2 /* QRScannerViewController.mm */; };
@@ -197,6 +205,12 @@
 		3C329C5B170178F70007345E /* ShareSuccessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareSuccessView.h; sourceTree = "<group>"; };
 		3C329C5C170178F70007345E /* ShareSuccessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareSuccessView.m; sourceTree = "<group>"; };
 		3C752BD71707E97C0092CFB1 /* right_ribbon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "right_ribbon@2x.png"; sourceTree = "<group>"; };
+		3C752BDE17113CA10092CFB1 /* kikbak.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = kikbak.xcdatamodel; sourceTree = "<group>"; };
+		3C752BED171145210092CFB1 /* OfferParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfferParser.h; sourceTree = "<group>"; };
+		3C752BEE171145210092CFB1 /* OfferParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfferParser.m; sourceTree = "<group>"; };
+		3C752BF0171145BB0092CFB1 /* LocationParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationParser.h; sourceTree = "<group>"; };
+		3C752BF1171145BB0092CFB1 /* LocationParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationParser.m; sourceTree = "<group>"; };
+		3C752BF3171146120092CFB1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		3CA1B3071702CBB7005D2918 /* libFlurry.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFlurry.a; path = Flurry_4.1.0/libFlurry.a; sourceTree = "<group>"; };
 		3CA1B3091702CBC4005D2918 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Flurry.h; path = Flurry_4.1.0/Flurry.h; sourceTree = "<group>"; };
 		3CA1B30A1702CC8D005D2918 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
@@ -212,6 +226,14 @@
 		3CA1B31917056B9F005D2918 /* redeem_tabbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redeem_tabbar.png; sourceTree = "<group>"; };
 		3CA1B31C17056BBF005D2918 /* give_tabbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "give_tabbar@2x.png"; sourceTree = "<group>"; };
 		3CA1B31D17056BBF005D2918 /* redeem_tabbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redeem_tabbar@2x.png"; sourceTree = "<group>"; };
+		3CBCBF1E171221E9007B4249 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
+		3CBCBF1F171221E9007B4249 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
+		3CBCBF21171221E9007B4249 /* Offer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Offer.h; sourceTree = "<group>"; };
+		3CBCBF22171221E9007B4249 /* Offer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Offer.m; sourceTree = "<group>"; };
+		3CBCBF2417127468007B4249 /* OfferLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfferLoader.h; sourceTree = "<group>"; };
+		3CBCBF2517127468007B4249 /* OfferLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfferLoader.m; sourceTree = "<group>"; };
+		3CBCBF27171277A3007B4249 /* LocationLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationLoader.h; sourceTree = "<group>"; };
+		3CBCBF28171277A3007B4249 /* LocationLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationLoader.m; sourceTree = "<group>"; };
 		3CC6D5AC16A1587300D42AD1 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		3CCCBC4C16EC5BF500FA71A2 /* PostReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostReviewViewController.h; sourceTree = "<group>"; };
 		3CCCBC4D16EC5BF500FA71A2 /* PostReviewViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PostReviewViewController.mm; sourceTree = "<group>"; };
@@ -331,6 +353,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C752BF4171146130092CFB1 /* CoreData.framework in Frameworks */,
 				C0C974011696BF16001A2A80 /* Security.framework in Frameworks */,
 				3CC6D5AD16A1587300D42AD1 /* FacebookSDK.framework in Frameworks */,
 				C0C9739B1693FDA2001A2A80 /* CoreVideo.framework in Frameworks */,
@@ -361,11 +384,40 @@
 		3C329BFE170123A80007345E /* resources */ = {
 			isa = PBXGroup;
 			children = (
-				3CA1B30A1702CC8D005D2918 /* Localizable.strings */,
+				3C752BDD17113CA10092CFB1 /* kikbak.xcdatamodeld */,
 				C04799B9167D9B4B00C2253D /* graphics */,
+				3CA1B30A1702CC8D005D2918 /* Localizable.strings */,
 			);
 			name = resources;
 			path = Kikbak/resources;
+			sourceTree = "<group>";
+		};
+		3C752BD917113B710092CFB1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3CBCBF21171221E9007B4249 /* Offer.h */,
+				3CBCBF22171221E9007B4249 /* Offer.m */,
+				3CBCBF1E171221E9007B4249 /* Location.h */,
+				3CBCBF1F171221E9007B4249 /* Location.m */,
+				3CBCBF2417127468007B4249 /* OfferLoader.h */,
+				3CBCBF2517127468007B4249 /* OfferLoader.m */,
+				3CBCBF27171277A3007B4249 /* LocationLoader.h */,
+				3CBCBF28171277A3007B4249 /* LocationLoader.m */,
+			);
+			name = Model;
+			path = Kikbak/dataobjects;
+			sourceTree = "<group>";
+		};
+		3C752BEC171144DE0092CFB1 /* parsers */ = {
+			isa = PBXGroup;
+			children = (
+				3C752BED171145210092CFB1 /* OfferParser.h */,
+				3C752BEE171145210092CFB1 /* OfferParser.m */,
+				3C752BF0171145BB0092CFB1 /* LocationParser.h */,
+				3C752BF1171145BB0092CFB1 /* LocationParser.m */,
+			);
+			name = parsers;
+			path = Kikbak/parsers;
 			sourceTree = "<group>";
 		};
 		3CCCBC4A16EC59A700FA71A2 /* ViewControllers */ = {
@@ -409,8 +461,10 @@
 		C0479979167D967500C2253D = {
 			isa = PBXGroup;
 			children = (
+				3C752BEC171144DE0092CFB1 /* parsers */,
 				C0479A2B167DA57A00C2253D /* categories */,
 				C04799AE167D96CD00C2253D /* crypto */,
+				3C752BD917113B710092CFB1 /* Model */,
 				C04799B6167D96EF00C2253D /* facebook */,
 				C0479A1E167D9CE200C2253D /* flurry */,
 				C0479987167D967500C2253D /* Frameworks */,
@@ -437,8 +491,6 @@
 		C0479987167D967500C2253D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3CA1B3071702CBB7005D2918 /* libFlurry.a */,
-				3CC6D5AC16A1587300D42AD1 /* FacebookSDK.framework */,
 				C0479A12167D9C5900C2253D /* Accounts.framework */,
 				C0C973941693AD9F001A2A80 /* AddressBook.framework */,
 				C0C973951693AD9F001A2A80 /* AddressBookUI.framework */,
@@ -447,11 +499,14 @@
 				C0C9738D1693AD7F001A2A80 /* AVFoundation.framework */,
 				C0479A22167D9D1C00C2253D /* CFNetwork.framework */,
 				C0C973901693AD8F001A2A80 /* CoreAudio.framework */,
+				3C752BF3171146120092CFB1 /* CoreData.framework */,
 				C047998C167D967500C2253D /* CoreGraphics.framework */,
 				C0479A14167D9C5900C2253D /* CoreLocation.framework */,
 				C0C973911693AD8F001A2A80 /* CoreMedia.framework */,
 				C0C9739A1693FDA2001A2A80 /* CoreVideo.framework */,
+				3CC6D5AC16A1587300D42AD1 /* FacebookSDK.framework */,
 				C047998A167D967500C2253D /* Foundation.framework */,
+				3CA1B3071702CBB7005D2918 /* libFlurry.a */,
 				C0C973981693ADB1001A2A80 /* libiconv.dylib */,
 				C0479A15167D9C5900C2253D /* libsqlite3.dylib */,
 				C0C974001696BF15001A2A80 /* Security.framework */,
@@ -853,6 +908,13 @@
 				3CA1B314170405B9005D2918 /* RedeemListViewController.mm in Sources */,
 				3CA1B31717041BAA005D2918 /* KikbakTableViewCell.m in Sources */,
 				3CF383D51706C2350010D9B9 /* UIImage+Manipulate.m in Sources */,
+				3C752BDF17113CA10092CFB1 /* kikbak.xcdatamodeld in Sources */,
+				3C752BEF171145210092CFB1 /* OfferParser.m in Sources */,
+				3C752BF2171145BB0092CFB1 /* LocationParser.m in Sources */,
+				3CBCBF20171221E9007B4249 /* Location.m in Sources */,
+				3CBCBF23171221E9007B4249 /* Offer.m in Sources */,
+				3CBCBF2617127468007B4249 /* OfferLoader.m in Sources */,
+				3CBCBF29171277A3007B4249 /* LocationLoader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1062,6 +1124,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		3C752BDD17113CA10092CFB1 /* kikbak.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				3C752BDE17113CA10092CFB1 /* kikbak.xcdatamodel */,
+			);
+			currentVersion = 3C752BDE17113CA10092CFB1 /* kikbak.xcdatamodel */;
+			path = kikbak.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = C047997B167D967500C2253D /* Project object */;
 }

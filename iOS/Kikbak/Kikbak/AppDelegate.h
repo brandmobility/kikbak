@@ -8,6 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import <FacebookSDK/FacebookSDK.h>
+#import <CoreData/CoreData.h>
+
+
+#ifdef __cplusplus
+#define KIKBAK_EXTERN		extern "C" __attribute__((visibility ("default")))
+#else
+#define KIKBAK_EXTERN	        extern __attribute__((visibility ("default")))
+#endif
+
+KIKBAK_EXTERN NSString *const kKikbakLocationUpdate;
+KIKBAK_EXTERN NSString *const kKikbakOfferUpdate;
 
 @class FBUserInfo;
 @class LoginViewController;
@@ -23,5 +34,8 @@
 @property (strong, nonatomic) FBUserInfo* userInfo;
 @property (strong, nonatomic) LocationManager* locationMgr;
 @property (strong, nonatomic) NSData* deviceToken;
+@property (strong, nonatomic, readonly) NSManagedObjectModel *managedObjectModel;
+@property (strong, nonatomic, readonly) NSManagedObjectContext *managedObjectContext;
+@property (strong, nonatomic, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 @end

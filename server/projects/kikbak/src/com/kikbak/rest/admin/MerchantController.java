@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,13 +24,15 @@ import com.kikbak.jaxb.GetMerchantsResponse;
 import com.kikbak.jaxb.GetOffersRequest;
 import com.kikbak.jaxb.GetOffersResponse;
 import com.kikbak.jaxb.StatusType;
+import com.kikbak.jaxb.TokenType;
 import com.kikbak.rest.StatusCode;
 
 @Controller
 @RequestMapping("/merchant")
 public class MerchantController {
 	
-	private static final Logger logger = Logger.getLogger(MerchantController.class); 
+	private static final Logger logger = Logger.getLogger(MerchantController.class);
+	
 	
 	@Autowired
 	MerchantService merchantService;
@@ -39,7 +42,7 @@ public class MerchantController {
 
 
 	@RequestMapping(value = "/merchants", method = RequestMethod.POST)
-	public GetMerchantsResponse getMerchants(@RequestBody GetMerchantsRequest request, final HttpServletResponse httpResponse){
+	public GetMerchantsResponse getMerchants(@CookieValue("AuthToken") String authToken, @RequestBody GetMerchantsRequest request, final HttpServletResponse httpResponse){
 
 		GetMerchantsResponse response = new GetMerchantsResponse();
 		StatusType status = new StatusType();
@@ -47,7 +50,9 @@ public class MerchantController {
 		response.setStatus(status);
 		try {
 			//check for authentication
-			authService.isValidToken(request.getToken());
+			TokenType token = new TokenType();
+			token.setToken(authToken);
+			authService.isValidToken(token);
 			response.getMerchants().addAll(merchantService.getMerchants());
 		} catch (AuthenticationException e) {
 			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -64,14 +69,16 @@ public class MerchantController {
 	}
 	
 	@RequestMapping(value = "/addmerchant", method = RequestMethod.POST)
-	public AddMerchantResponse addMerchant(@RequestBody AddMerchantRequest request, final HttpServletResponse httpResponse){
+	public AddMerchantResponse addMerchant(@CookieValue("AuthToken") String authToken, @RequestBody AddMerchantRequest request, final HttpServletResponse httpResponse){
 		
 		AddMerchantResponse response = new AddMerchantResponse();
 		StatusType status = new StatusType();
 		status.setCode(StatusCode.OK.ordinal());
 		response.setStatus(status);
 		try{
-			authService.isValidToken(request.getToken());
+			TokenType token = new TokenType();
+			token.setToken(authToken);
+			authService.isValidToken(token);
 			response.setMerchant(merchantService.addOrUpdateMerchant(request.getMerchant()));
 		} catch (AuthenticationException e) {
 			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -88,14 +95,16 @@ public class MerchantController {
 	}
 	
 	@RequestMapping(value = "/addlocation", method = RequestMethod.POST)
-	public AddLocationResponse addLocation(@RequestBody AddLocationRequest request, final HttpServletResponse httpResponse){
+	public AddLocationResponse addLocation(@CookieValue("AuthToken") String authToken, @RequestBody AddLocationRequest request, final HttpServletResponse httpResponse){
 		
 		AddLocationResponse response = new AddLocationResponse();
 		StatusType status = new StatusType();
 		status.setCode(StatusCode.OK.ordinal());
 		response.setStatus(status);
 		try{
-			authService.isValidToken(request.getToken());
+			TokenType token = new TokenType();
+			token.setToken(authToken);
+			authService.isValidToken(token);
 			response.setLocation(merchantService.addOrUpdateLocation(request.getLocation()));
 		} catch (AuthenticationException e) {
 			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -112,14 +121,16 @@ public class MerchantController {
 	}
 	
 	@RequestMapping(value = "/addOffer", method = RequestMethod.POST)
-	public AddOfferResponse addOffer(@RequestBody AddOfferRequest request, final HttpServletResponse httpResponse){
+	public AddOfferResponse addOffer(@CookieValue("AuthToken") String authToken, @RequestBody AddOfferRequest request, final HttpServletResponse httpResponse){
 		AddOfferResponse response = new AddOfferResponse();
 		
 		StatusType status = new StatusType();
 		status.setCode(StatusCode.OK.ordinal());
 		response.setStatus(status);
 		try{
-			authService.isValidToken(request.getToken());
+			TokenType token = new TokenType();
+			token.setToken(authToken);
+			authService.isValidToken(token);
 			response.setOffer(merchantService.addOrUpdateOffer(request.getOffer()));
 		} catch (AuthenticationException e) {
 			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -136,13 +147,15 @@ public class MerchantController {
 	}
 	
 	@RequestMapping(value = "/getOffers", method = RequestMethod.GET)
-	public GetOffersResponse getOffers(@RequestBody GetOffersRequest request, final HttpServletResponse httpResponse){
+	public GetOffersResponse getOffers(@CookieValue("AuthToken") String authToken, @RequestBody GetOffersRequest request, final HttpServletResponse httpResponse){
 		GetOffersResponse response = new GetOffersResponse();
 		StatusType status = new StatusType();
 		status.setCode(StatusCode.OK.ordinal());
 		response.setStatus(status);
 		try{
-			authService.isValidToken(request.getToken());
+			TokenType token = new TokenType();
+			token.setToken(authToken);
+			authService.isValidToken(token);
 			response.getOffers().addAll(merchantService.getOffersByMerchant(request.getMerchant()));
 		} catch (AuthenticationException e) {
 			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

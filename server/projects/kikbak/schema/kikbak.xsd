@@ -270,7 +270,6 @@
     <xsd:element name="AuthenticationResponse">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="token" type="kikbak:TokenType" minOccurs="1" maxOccurs="1"/>
                 <xsd:element name="status" type="kikbak:StatusType" minOccurs="1" maxOccurs="1"/>
             </xsd:sequence>
         </xsd:complexType>
@@ -306,7 +305,6 @@
     <xsd:element name="AddMerchantRequest">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="token" type="kikbak:TokenType" minOccurs="1" maxOccurs="1"/>
                 <xsd:element name="merchant" type="kikbak:MerchantType" minOccurs="1" maxOccurs="1"/>
             </xsd:sequence>
         </xsd:complexType>
@@ -324,7 +322,6 @@
     <xsd:element name="AddLocationRequest">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="token" type="kikbak:TokenType" minOccurs="1" maxOccurs="1"/>
                 <xsd:element name="location" type="kikbak:LocationType" minOccurs="1" maxOccurs="1"/>
             </xsd:sequence>
         </xsd:complexType>
@@ -342,7 +339,6 @@
     <xsd:element name="GetMerchantsRequest">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="token" type="kikbak:TokenType" minOccurs="1" maxOccurs="1"/>
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>    
@@ -389,7 +385,6 @@
     <xsd:element name="AddOfferRequest">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="token" type="kikbak:TokenType" minOccurs="1" maxOccurs="1"/>
                 <xsd:element name="offer" type="kikbak:OfferType" minOccurs="1" maxOccurs="1"/>
             </xsd:sequence>
         </xsd:complexType>
@@ -407,7 +402,6 @@
     <xsd:element name="GetOffersRequest">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="token" type="kikbak:TokenType" minOccurs="1" maxOccurs="1"/>
                 <xsd:element name="merchant" type="kikbak:MerchantType" minOccurs="1" maxOccurs="1"/>
             </xsd:sequence>
         </xsd:complexType>

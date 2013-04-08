@@ -77,7 +77,6 @@ public class DataPopulator {
 		for(int i = 0; i < count; i++ ){
 			Merchant merchant = new Merchant();
 			merchant.setDescription("desc");
-			merchant.setGraphPath("path");
 			merchant.setImageUrl("url");
 			merchant.setName("name");
 			merchant.setUrl("url");

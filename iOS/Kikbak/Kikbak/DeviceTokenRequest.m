@@ -20,16 +20,21 @@ static NSString* resource = @"user/devicetoken";
 
 -(void)makeRequest:(NSDictionary*)requestData{
   
-  NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
   
-  request = [[PostRequest alloc]init];
-  request.resource = [NSString stringWithFormat:@"%@/%@/", resource, [prefs objectForKey:KIKBAK_USER_ID] ];
+    NSString* userId = [prefs objectForKey:KIKBAK_USER_ID];
+    assert(userId != nil);
+    if( userId == nil){
+        return;
+    }
+    request = [[PostRequest alloc]init];
+    request.resource = [NSString stringWithFormat:@"%@/%@/", resource,  userId];
   
   
-  NSString* body = [[self formatRequest:requestData] JSONRepresentation];
-  request.body = body;
-  request.restDelegate = self;
-  [request makeSyncRequest];
+    NSString* body = [[self formatRequest:requestData] JSONRepresentation];
+    request.body = body;
+    request.restDelegate = self;
+    [request makeSyncRequest];
   
 }
 

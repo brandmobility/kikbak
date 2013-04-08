@@ -8,10 +8,21 @@
 
 #import "OfferListViewController.h"
 #import "KikbakTableViewCell.h"
+#import "OfferLoader.h"
+#import "KikbakTableViewCell.h"
+#import "AppDelegate.h"
+#import "LocationManager.h"
 
-@interface OfferListViewController ()
+@interface OfferListViewController (){
+    bool locationResolved;
+}
+
 @property (nonatomic, strong) UITableView* table;
+@property (nonatomic, strong) NSArray* offers;
+
 -(void) manuallyLayoutSubviews;
+-(void) onLocationUpdate:(NSNotification*)notification;
+-(void) onOfferUpdate:(NSNotification*)notification;
 @end
 
 @implementation OfferListViewController
@@ -35,16 +46,31 @@
     self.table.delegate = self;
     self.table.backgroundColor = [UIColor colorWithRed:0.835 green:0.835 blue:0.835 alpha:1];
     [self.view addSubview:self.table];
+    
+    self.offers = [OfferLoader getOffers];
+    if(((AppDelegate*)[UIApplication sharedApplication].delegate).locationMgr.currentLocation != nil)
+        locationResolved = YES;
+    else{
+        locationResolved = NO;
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onLocationUpdate:) name:kKikbakLocationUpdate object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onOfferUpdate:) name:kKikbakOfferUpdate object:nil];
     [self.table reloadData];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     [self manuallyLayoutSubviews];
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakOfferUpdate object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakLocationUpdate object:nil];
+    [super viewDidDisappear:animated];
 }
 
 - (void)didReceiveMemoryWarning
@@ -68,17 +94,24 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"redeemCell"];
+    KikbakTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"redeemCell"];
     if( cell == nil){
-        cell = [[RedeemTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"redeemCell"];
+        cell = [[KikbakTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"redeemCell"];
     }
+    
+    [cell setup:[self.offers objectAtIndex:indexPath.row]];
     
     return cell;
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 1;
+    
+    if( locationResolved ){
+        return [self.offers count];
+    }
+
+    return 0;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -95,4 +128,15 @@
     [segue.destinationViewController setHidesBottomBarWhenPushed:YES];
 }
 
+
+#pragma mark - NSNotification Handlers
+-(void) onLocationUpdate:(NSNotification*)notification{
+    locationResolved = YES;
+    [self.table reloadData];
+}
+
+-(void) onOfferUpdate:(NSNotification*)notification{
+    
+    [self.table reloadData];
+}
 @end

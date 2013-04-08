@@ -29,7 +29,6 @@ public class MerchantServiceTest extends KikbakBaseTest{
 	public void testAddMerchant(){
 		MerchantType mt = new MerchantType();
 		mt.setDescription("test");
-		mt.setGraphPath("test");
 		mt.setImageUrl("url");
 		mt.setName("test");
 		mt.setUrl("url");

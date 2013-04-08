@@ -1,5 +1,6 @@
 package com.kikbak.rest.admin;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.kikbak.admin.service.AuthenticationService;
+import com.kikbak.admin.util.AdminCookies;
 import com.kikbak.jaxb.AuthenticationRequest;
 import com.kikbak.jaxb.AuthenticationResponse;
 import com.kikbak.jaxb.StatusType;
@@ -35,7 +37,8 @@ public class AuthenticationController {
 		try {
 			TokenType token = authenticationService.authorize(request.getAccountInfo().getEmail(), request.getAccountInfo().getPassword());
 			if( token != null){
-				authResponse.setToken(token);
+				Cookie authCookie = new Cookie(AdminCookies.AuthToken.name(), token.getToken());
+				response.addCookie(authCookie);
 			}
 			else{
 				status.setCode(StatusCode.AUTH_ERROR.ordinal());

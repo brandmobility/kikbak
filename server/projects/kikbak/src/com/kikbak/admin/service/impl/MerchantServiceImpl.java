@@ -54,7 +54,6 @@ public class MerchantServiceImpl implements MerchantService{
 		for(Merchant merchant : merchants){
 			MerchantType mt = new MerchantType();
 			mt.setDescription(merchant.getDescription());
-			mt.setGraphPath(merchant.getGraphPath());
 			mt.setUrl(merchant.getUrl());
 			mt.setImageUrl(merchant.getImageUrl());
 			mt.setName(merchant.getName());
@@ -129,7 +128,6 @@ public class MerchantServiceImpl implements MerchantService{
 		
 		Merchant merchant = getMerchantFromMerchantType(mt);
 		merchant.setDescription(mt.getDescription());
-		merchant.setGraphPath(mt.getGraphPath());
 		merchant.setName(mt.getName());
 		merchant.setUrl(mt.getUrl());
 		merchant.setImageUrl(mt.getImageUrl());
