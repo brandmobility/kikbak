@@ -14,6 +14,7 @@
 #import "AppDelegate.h"
 #import "DeviceTokenRequest.h"
 #import "FBQuery.h"
+#import <objc/runtime.h>
 
 static NSString* resource = @"user/register/fb/";
 
@@ -46,15 +47,15 @@ static NSString* resource = @"user/register/fb/";
 }
 
 
--(void)receivedData:(NSData*)data{
+-(void)parseResponse:(NSData*)data{
     NSString* json = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSDictionary* dict = [json JSONValue];
-    if( dict ){
-        NSDictionary* registerResponse = [dict objectForKey:@"registerUserResponse"];
-        if ( registerResponse ) {
-            NSDictionary* user = [registerResponse objectForKey:@"userId"];
+    id dict = [json JSONValue];
+    if( dict != [NSNull null] ){
+        id registerResponse = [dict objectForKey:@"registerUserResponse"];
+        if ( registerResponse != [NSNull null]) {
+            id user = [registerResponse objectForKey:@"userId"];
             NSLog(@"registerResponse: %@, \nkeys: %@", registerResponse, [registerResponse allKeys]);
-            if( user ){
+            if( user != [NSNull null]){
                 NSString* userId = [[NSString alloc]initWithFormat:@"%@",[user objectForKey:@"userId"] ];
                 NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
                 [prefs setValue:userId forKeyPath:KIKBAK_USER_ID];

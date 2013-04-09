@@ -82,10 +82,10 @@
         NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
         if( [prefs objectForKey:KIKBAK_USER_ID] != nil ){
             NSMutableDictionary* data = [[NSMutableDictionary alloc]initWithCapacity:2];
-        //      [data setObject:[NSNumber numberWithDouble:self.currentLocation.coordinate.latitude ] forKey:@"latitude"];
-        //      [data setObject:[NSNumber numberWithDouble:self.currentLocation.coordinate.longitude ] forKey:@"longitude"];
-            [data setObject:[NSNumber numberWithDouble:37.4207480 ] forKey:@"latitude"];
-            [data setObject:[NSNumber numberWithDouble:-122.1303430 ] forKey:@"longitude"];
+            [data setObject:[NSNumber numberWithDouble:self.currentLocation.coordinate.latitude ] forKey:@"latitude"];
+            [data setObject:[NSNumber numberWithDouble:self.currentLocation.coordinate.longitude ] forKey:@"longitude"];
+            //[data setObject:[NSNumber numberWithDouble:37.4207480 ] forKey:@"latitude"];
+            //[data setObject:[NSNumber numberWithDouble:-122.1303430 ] forKey:@"longitude"];
         //        [data setObject:[NSNumber numberWithDouble:37.77025720 ] forKey:@"latitude"];
         //        [data setObject:[NSNumber numberWithDouble:-122.40204120 ] forKey:@"longitude"];
 

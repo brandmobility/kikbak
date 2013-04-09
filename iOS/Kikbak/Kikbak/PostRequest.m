@@ -9,6 +9,9 @@
 #import "PostRequest.h"
 #import "HTTPConstants.h"
 
+@interface PostRequest()
+
+@end
 
 @implementation PostRequest
 
@@ -47,10 +50,7 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
-  
-  if (_restDelegate) {
-    [_restDelegate receivedData:data];
-  }
+    [self.receivedData appendData:data];
 }
 
 
@@ -67,8 +67,9 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection{
-  NSLog(@"connectionDidFinishLoading");
-  
+    if(self.restDelegate){
+        [self.restDelegate parseResponse:self.receivedData];
+    }
 }
 
 #pragma mark - authentication -

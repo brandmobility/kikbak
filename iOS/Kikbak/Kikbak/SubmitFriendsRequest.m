@@ -46,7 +46,7 @@ static NSString* resource = @"user/friends/fb";
 }
 
 
--(void)receivedData:(NSData*)data{
+-(void)parseResponse:(NSData*)data{
   
 }
 

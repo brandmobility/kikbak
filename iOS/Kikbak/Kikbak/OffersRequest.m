@@ -15,6 +15,8 @@
 static NSString* resource = @"user/offer";
 
 @interface OffersRequest()
+@property(strong,nonatomic)NSMutableData* data;
+
 -(NSDictionary*)formatRequest:(id)requestData;
 @end
 
@@ -51,12 +53,13 @@ static NSString* resource = @"user/offer";
 }
 
 
--(void)receivedData:(NSData*)data{
+-(void)parseResponse:(NSData*)data{
+
     NSString* json = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"***Offers Request");
+    NSLog(@"***Offers Request receivedData****");
     NSLog(@"%@", json);
-    NSDictionary* dict = [json JSONValue];
-    if( dict ){
+    id dict = [json JSONValue];
+    if( dict != [NSNull null] ){
         NSDictionary* getUserOffersResponse = [dict objectForKey:@"getUserOffersResponse"];
         if( getUserOffersResponse){
             NSArray* offers = [getUserOffersResponse objectForKey:@"offers"];

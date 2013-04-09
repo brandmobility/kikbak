@@ -45,7 +45,7 @@ static NSString* resource = @"rewards/redeem/gift";
 }
 
 
--(void)receivedData:(NSData*)data{
+-(void)parseResponse:(NSData*)data{
   
 }
 

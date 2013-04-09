@@ -2,7 +2,7 @@
  <User id="1" first_name="fn1" last_name="ln1" email="e@e.com" facebook_id="1234" gender="0" username="123" create_date="2012-11-13 22:00:00"/>
  <AccountType id="1" type="admin"/>
  <Account id="1" first_name="fn1" last_name="ln1" email="test@kikbak.com" phone_number="1234" verified="0" password="1234" account_type_id="1" create_date="2012-11-13 22:00:00"/>
- <Merchant id="1" name="Pied Piper" description="23" graph_path="Pied_Piper"/>
+ <Merchant id="1" name="Pied Piper" description="23" />
  <Location id="1" verification_code="4343" address_1="332 test" city="SF" state="CA" zipcode="43231" merchant_id="1" latitude="37.42706140" longitude="-122.1444120"/>
  <Offer id="1" merchant_id="1" name="kikit" description="testing" default_text="1234"  gift_value="3.24" gift_name="gift" gift_description="gift desc" kikbak_value="1.24" kikbak_name="kik" kikbak_description="kik desc" begin_date="2012-11-13 22:00:00" kikbak_notification_text="kikbak test" gift_notification_text="gift test" end_date="2014-11-13 22:00:00"/>
  <Friend id="1" first_name="test" last_name="bob" facebook_id="12" username="testbob" />

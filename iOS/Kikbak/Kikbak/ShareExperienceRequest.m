@@ -47,7 +47,7 @@ static NSString* resource = @"ShareExperience";
 }
 
 
--(void)receivedData:(NSData*)data{
+-(void)parseResponse:(NSData*)data{
   
 }
 

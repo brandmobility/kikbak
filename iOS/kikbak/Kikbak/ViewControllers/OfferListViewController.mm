@@ -136,7 +136,8 @@
 }
 
 -(void) onOfferUpdate:(NSNotification*)notification{
-    
+
+    self.offers = [OfferLoader getOffers];
     [self.table reloadData];
 }
 @end

@@ -48,7 +48,7 @@ static NSString* resource = @"user/devicetoken";
 }
 
 
--(void)receivedData:(NSData*)data{
+-(void)parseResponse:(NSData*)data{
   
 }
 

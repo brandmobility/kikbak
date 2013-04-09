@@ -47,7 +47,7 @@ static NSString* resource = @"rewards/redeem/kikbak";
 }
 
 
--(void)receivedData:(NSData*)data{
+-(void)parseResponse:(NSData*)data{
   
 }
 

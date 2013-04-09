@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="12D78" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Location" representedClassName="Location" syncable="YES">
+        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="locationId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <relationship name="offer" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Offer" inverseName="location" inverseEntity="Offer" syncable="YES"/>
+    </entity>
+    <entity name="Offer" representedClassName="Offer" syncable="YES">
+        <attribute name="beginDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="defaultText" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="endDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="giftDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="giftName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="giftNotificationText" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="giftValue" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="kikbakDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="kikbakName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="kikbakNotificationText" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="kikbakValue" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="merchantId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="offerId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="location" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Location" inverseName="offer" inverseEntity="Location" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Location" positionX="-5544" positionY="-567" width="128" height="103"/>
+        <element name="Offer" positionX="-5247" positionY="-585" width="128" height="283"/>
+    </elements>
+</model>

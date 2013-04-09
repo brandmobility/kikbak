@@ -1,6 +1,6 @@
 /* Create Tables */
 
-CREATE TABLE `Account`
+CREATE TABLE `account`
 (
 	id BIGINT NOT NULL AUTO_INCREMENT,
 	first_name VARCHAR(64) NOT NULL,
@@ -15,14 +15,14 @@ CREATE TABLE `Account`
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 
-CREATE TABLE `AccountType`
+CREATE TABLE `accounttype`
 (
 	id SMALLINT NOT NULL AUTO_INCREMENT,
 	type VARCHAR(64) NOT NULL UNIQUE,
 	PRIMARY KEY (id)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-CREATE TABLE `DeviceToken`
+CREATE TABLE `devicetoken`
 (
     id BIGINT NOT NULL UNIQUE AUTO_INCREMENT,
     user_id BIGINT NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE `DeviceToken`
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 
-CREATE TABLE `Friend`
+CREATE TABLE `friend`
 (
 	id BIGINT(0) NOT NULL AUTO_INCREMENT,
 	first_name VARCHAR(64),
@@ -45,7 +45,7 @@ CREATE TABLE `Friend`
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 
-CREATE TABLE `Gift`
+CREATE TABLE `gift`
 (
     id BIGINT NOT NULL AUTO_INCREMENT,
     offer_id BIGINT NOT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE `Gift`
     PRIMARY KEY(id)
 )ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-CREATE TABLE `Location`
+CREATE TABLE `location`
 (
     id BIGINT NOT NULL AUTO_INCREMENT,
     address_1 VARCHAR(256) NOT NULL,
@@ -75,7 +75,7 @@ CREATE TABLE `Location`
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 
-CREATE TABLE `Kikbak`
+CREATE TABLE `kikbak`
 (
 	id BIGINT NOT NULL UNIQUE AUTO_INCREMENT,
 	merchant_id BIGINT NOT NULL,
@@ -89,7 +89,7 @@ CREATE TABLE `Kikbak`
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 
-CREATE TABLE `Merchant`
+CREATE TABLE `merchant`
 (
     id BIGINT NOT NULL AUTO_INCREMENT,
     name VARCHAR(64) NOT NULL,
@@ -100,7 +100,7 @@ CREATE TABLE `Merchant`
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 
-CREATE TABLE `Offer`
+CREATE TABLE `offer`
 (
     id BIGINT NOT NULL UNIQUE AUTO_INCREMENT,
     merchant_id BIGINT NOT NULL,
@@ -121,7 +121,7 @@ CREATE TABLE `Offer`
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 
-CREATE TABLE `Shared`
+CREATE TABLE `shared`
 (
     id BIGINT NOT NULL UNIQUE AUTO_INCREMENT,
     user_id BIGINT NOT NULL,
@@ -133,7 +133,7 @@ CREATE TABLE `Shared`
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 
-CREATE TABLE `Transaction`
+CREATE TABLE `transaction`
 (
     id BIGINT NOT NULL AUTO_INCREMENT,
     user_id BIGINT NOT NULL,
@@ -150,7 +150,7 @@ CREATE TABLE `Transaction`
 )ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 
-CREATE TABLE `User`
+CREATE TABLE `user`
 (
 	id BIGINT NOT NULL AUTO_INCREMENT,
 	first_name VARCHAR(64),
@@ -165,7 +165,7 @@ CREATE TABLE `User`
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 
-CREATE TABLE `User2Friend`
+CREATE TABLE `user2friend`
 (
     id BIGINT NOT NULL AUTO_INCREMENT,
 	user_id BIGINT NOT NULL,
@@ -177,57 +177,57 @@ CREATE TABLE `User2Friend`
 
 /* Create Indexes */
 
-CREATE INDEX email_key ON `Account` (email ASC);
-CREATE INDEX email_password_key ON `Account` (email ASC, password ASC);
+CREATE INDEX email_key ON `account` (email ASC);
+CREATE INDEX email_password_key ON `account` (email ASC, password ASC);
 
-CREATE INDEX user_id_key USING BTREE ON `DeviceToken` (user_id ASC);
-CREATE INDEX last_failed_delivery_key USING BTREE on `DeviceToken` (last_failed_delivery ASC);
-
-
-CREATE INDEX facebook_id_key USING BTREE ON `Friend` (facebook_id ASC);
-
-CREATE INDEX offer_id_key ON `Gift` (offer_id ASC);
-CREATE INDEX user_id_key ON `Gift` (user_id ASC);
-CREATE INDEX friend_user_id_key ON `Gift` (friend_user_id ASC);
-CREATE INDEX merchant_id_key ON `Gift` (merchant_id ASC);
+CREATE INDEX user_id_key USING BTREE ON `devicetoken` (user_id ASC);
+CREATE INDEX last_failed_delivery_key USING BTREE on `devicetoken` (last_failed_delivery ASC);
 
 
-CREATE INDEX date_range_key USING BTREE ON `Kikbak` (begin_date ASC, end_date ASC);
-CREATE INDEX merchant_id_key ON `Kikbak` (merchant_id ASC);
-CREATE INDEX location_id_key ON `Kikbak` (location_id ASC);
-CREATE INDEX offer_id_key ON `Kikbak` (offer_id ASC);
-CREATE INDEX user_id_key ON `Kikbak` (user_id ASC);
+CREATE INDEX facebook_id_key USING BTREE ON `friend` (facebook_id ASC);
+
+CREATE INDEX offer_id_key ON `gift` (offer_id ASC);
+CREATE INDEX user_id_key ON `gift` (user_id ASC);
+CREATE INDEX friend_user_id_key ON `gift` (friend_user_id ASC);
+CREATE INDEX merchant_id_key ON `gift` (merchant_id ASC);
 
 
-CREATE INDEX merchant_id_key ON `Location` (merchant_id ASC);
-CREATE INDEX geo_key ON `Location` (latitude ASC, longitude ASC);
-CREATE INDEX zipcode_key ON `Location` (zipcode ASC);
-
-CREATE INDEX name_key USING BTREE ON `Merchant` (name ASC);
-
-CREATE INDEX merchant_id_key USING BTREE ON `Offer` (merchant_id ASC);
-CREATE INDEX valid_offer_key ON `Offer` (merchant_id ASC, begin_date ASC, end_date ASC);
-CREATE INDEX gift_create_key ON `Offer` (begin_date ASC, end_date ASC, id ASC);
-
-CREATE INDEX user_id_key USING BTREE ON `Shared` (user_id ASC);
-CREATE INDEX merchant_id_key USING BTREE ON `Shared` (merchant_id ASC);
-CREATE INDEX location_id_key USING BTREE ON `Shared` (location_id ASC);
-CREATE INDEX offer_id_key USING BTREE ON `Shared` (offer_id ASC);
-CREATE INDEX user_id_offer_id_key USING BTREE ON `Shared` (user_id ASC, offer_id ASC);
+CREATE INDEX date_range_key USING BTREE ON `kikbak` (begin_date ASC, end_date ASC);
+CREATE INDEX merchant_id_key ON `kikbak` (merchant_id ASC);
+CREATE INDEX location_id_key ON `kikbak` (location_id ASC);
+CREATE INDEX offer_id_key ON `kikbak` (offer_id ASC);
+CREATE INDEX user_id_key ON `kikbak` (user_id ASC);
 
 
-CREATE INDEX user_id_key ON `Transaction` (user_id ASC);
-CREATE INDEX offer_id_key ON `Transaction` (offer_id ASC);
-CREATE INDEX kikbak_id_key ON `Transaction` (kikbak_id ASC);
-CREATE INDEX merchant_id_key ON `Transaction` (merchant_id ASC);
-CREATE INDEX location_id_key ON `Transaction` (location_id ASC);
+CREATE INDEX merchant_id_key ON `location` (merchant_id ASC);
+CREATE INDEX geo_key ON `location` (latitude ASC, longitude ASC);
+CREATE INDEX zipcode_key ON `location` (zipcode ASC);
+
+CREATE INDEX name_key USING BTREE ON `merchant` (name ASC);
+
+CREATE INDEX merchant_id_key USING BTREE ON `offer` (merchant_id ASC);
+CREATE INDEX valid_offer_key ON `offer` (merchant_id ASC, begin_date ASC, end_date ASC);
+CREATE INDEX gift_create_key ON `offer` (begin_date ASC, end_date ASC, id ASC);
+
+CREATE INDEX user_id_key USING BTREE ON `shared` (user_id ASC);
+CREATE INDEX merchant_id_key USING BTREE ON `shared` (merchant_id ASC);
+CREATE INDEX location_id_key USING BTREE ON `shared` (location_id ASC);
+CREATE INDEX offer_id_key USING BTREE ON `shared` (offer_id ASC);
+CREATE INDEX user_id_offer_id_key USING BTREE ON `shared` (user_id ASC, offer_id ASC);
 
 
-CREATE INDEX facebook_id_key USING BTREE ON `User` (facebook_id ASC);
-CREATE INDEX email_key USING BTREE ON `User` (email ASC);
-CREATE INDEX create_date_key ON `User` (create_date ASC);
-CREATE INDEX gender_key ON `User` (gender ASC);
+CREATE INDEX user_id_key ON `transaction` (user_id ASC);
+CREATE INDEX offer_id_key ON `transaction` (offer_id ASC);
+CREATE INDEX kikbak_id_key ON `transaction` (kikbak_id ASC);
+CREATE INDEX merchant_id_key ON `transaction` (merchant_id ASC);
+CREATE INDEX location_id_key ON `transaction` (location_id ASC);
 
-CREATE INDEX user_id_key USING BTREE ON `User2Friend` (user_id ASC);
-CREATE INDEX facebook_id_key USING BTREE ON `User2Friend` (facebook_friend_id ASC);
+
+CREATE INDEX facebook_id_key USING BTREE ON `user` (facebook_id ASC);
+CREATE INDEX email_key USING BTREE ON `user` (email ASC);
+CREATE INDEX create_date_key ON `user` (create_date ASC);
+CREATE INDEX gender_key ON `user` (gender ASC);
+
+CREATE INDEX user_id_key USING BTREE ON `user2friend` (user_id ASC);
+CREATE INDEX facebook_id_key USING BTREE ON `user2friend` (facebook_friend_id ASC);
 create unique index compound_index on `user2friend` (user_id ASC, facebook_friend_id);

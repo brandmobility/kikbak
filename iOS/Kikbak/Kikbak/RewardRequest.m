@@ -44,7 +44,7 @@ static NSString* resource = @"rewards/request";
 }
 
 
--(void)receivedData:(NSData*)data{
+-(void)parseResponse:(NSData*)data{
   
 }
 

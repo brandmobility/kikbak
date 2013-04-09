@@ -11,6 +11,5 @@
 @protocol RestDataDelegate <NSObject>
 
 @required
--(void)receivedData:(NSData*)data;
-
+-(void)parseResponse:(NSData*)data;
 @end

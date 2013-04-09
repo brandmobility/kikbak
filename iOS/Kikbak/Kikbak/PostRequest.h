@@ -11,8 +11,6 @@
 #import "assert.h"
 
 @interface PostRequest : NSObject<NSURLConnectionDelegate, NSURLConnectionDataDelegate>
-{
-}
 
 @property(nonatomic, strong) NSString* resource;
 @property(nonatomic, strong) NSString* body;

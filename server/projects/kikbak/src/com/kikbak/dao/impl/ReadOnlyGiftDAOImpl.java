@@ -13,7 +13,7 @@ import com.kikbak.dto.Gift;
 
 public class ReadOnlyGiftDAOImpl extends ReadOnlyGenericDAOImpl<Gift, Long> implements ReadOnlyGiftDAO {
 
-	private static final String gift_offer_ids = "select offer_id from Gift where user_id=?";
+	private static final String gift_offer_ids = "select offer_id from gift where user_id=?";
 	
 	@Override
 	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
