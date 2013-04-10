@@ -1,5 +1,5 @@
 //
-//  DeviceTokenRequest.h
+//  OffersRequest.h
 //  kikback
 //
 //  Created by Ian Barile on 12/11/12.
@@ -7,14 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RestDataDelegate.h"
 #import "RestRequestProtocol.h"
-#import "PostRequest.h"
+#import "RestDataDelegate.h"
+#import "HttpRequest.h"
 
 
-@interface DeviceTokenRequest : NSObject <RestDataDelegate, RestRequestProtocol>
-{
-  PostRequest* request;
+@interface OffersRequest : NSObject<RestDataDelegate, RestRequestProtocol>{
+  HttpRequest* request;
 }
 
 @end

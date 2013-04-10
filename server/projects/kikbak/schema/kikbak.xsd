@@ -200,7 +200,6 @@
             <xsd:element name="locationId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="merchantId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="offerId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="friendFacebookId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
 
@@ -361,6 +360,23 @@
     </xsd:complexType>
     
     
+    <xsd:complexType name="ClientOfferType">
+        <xsd:sequence>
+            <xsd:element name="id" type="xsd:long" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="merchantName" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="description" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="defaultText" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="giftDescription" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="kikbakDescription" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="merchantId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="merchantImageUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="locations" type="kikbak:OfferLocationType" minOccurs="1" maxOccurs="unbounded"/>
+            <xsd:element name="beginDate" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="endDate" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
     <xsd:complexType name="OfferType">
         <xsd:sequence>
             <xsd:element name="id" type="xsd:long" minOccurs="0" maxOccurs="1"/>
@@ -376,6 +392,7 @@
             <xsd:element name="kikbakValue" type="xsd:double" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="kikbakNotificationText" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="merchantId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="merchantImageUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="locations" type="kikbak:OfferLocationType" minOccurs="1" maxOccurs="unbounded"/>
             <xsd:element name="beginDate" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="endDate" type="xsd:long" minOccurs="1" maxOccurs="1"/>
@@ -435,7 +452,7 @@
         <xsd:complexType>
             <xsd:sequence>
                 <xsd:element name="status" type="kikbak:StatusType" minOccurs="1" maxOccurs="1"/>
-                <xsd:element name="offers" type="kikbak:OfferType" minOccurs="1" maxOccurs="unbounded"/>
+                <xsd:element name="offers" type="kikbak:ClientOfferType" minOccurs="1" maxOccurs="unbounded"/>
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>

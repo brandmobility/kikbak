@@ -10,6 +10,7 @@
 #import "Offer.h"
 #import "Location.h"
 #import "Distance.h"
+#import "ImagePersistor.h"
 
 @interface KikbakTableViewCell()
 
@@ -120,9 +121,9 @@
 
 
 -(void)setup:(Offer*)offer{
-    self.store.text = offer.name;
-    self.leftText.text = [NSString stringWithFormat:@"%@ off", offer.giftValue];
-    self.rightText.text = [NSString stringWithFormat:@"%@ credit", offer.kikbakValue];
+    self.store.text = offer.merchantName;
+    self.leftText.text = offer.giftDescription;
+    self.rightText.text = offer.kikbakDescription;
     Location* location = nil;
     //todo: find closest location
     if (offer.location.count > 0) {
@@ -130,6 +131,11 @@
     }
     
     self.distance.text = [Distance distanceToInMiles:[[CLLocation alloc]initWithLatitude:location.latitude.doubleValue longitude:location.longitude.doubleValue]];
+    
+    NSString* imagePath = [ImagePersistor merchantImageFileExists:offer.merchantId];
+    if(imagePath != nil){
+        self.storeImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
+    }
 }
 
 

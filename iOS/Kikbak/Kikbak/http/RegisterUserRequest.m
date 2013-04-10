@@ -7,7 +7,7 @@
 //
 
 #import "RegisterUserRequest.h"
-#import "PostRequest.h"
+#import "HttpRequest.h"
 #import "SBJson.h"
 #import "KikbakConstants.h"
 #import "LocationManager.h"
@@ -27,14 +27,14 @@ static NSString* resource = @"user/register/fb/";
 
 -(void)makeRequest:(NSDictionary*)requestData{
   
-  request = [[PostRequest alloc]init];
+  request = [[HttpRequest alloc]init];
   request.resource = [NSString stringWithFormat:@"%@", resource];
   
   
   NSString* body = [[self formatRequest:requestData] JSONRepresentation];
   request.body = body;
   request.restDelegate = self;
-  [request makeSyncRequest];
+  [request restPostRequest];
   
 }
 

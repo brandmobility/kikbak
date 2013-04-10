@@ -2,7 +2,7 @@
 //  Offer.h
 //  Kikbak
 //
-//  Created by Ian Barile on 4/7/13.
+//  Created by Ian Barile on 4/9/13.
 //  Copyright (c) 2013 Ian Barile. All rights reserved.
 //
 
@@ -18,16 +18,12 @@
 @property (nonatomic, retain) NSString * desc;
 @property (nonatomic, retain) NSDate * endDate;
 @property (nonatomic, retain) NSString * giftDescription;
-@property (nonatomic, retain) NSString * giftName;
-@property (nonatomic, retain) NSString * giftNotificationText;
-@property (nonatomic, retain) NSNumber * giftValue;
 @property (nonatomic, retain) NSNumber * offerId;
-@property (nonatomic, retain) NSString * kikbakDescription;
-@property (nonatomic, retain) NSString * kikbakName;
-@property (nonatomic, retain) NSString * kikbakNotificationText;
-@property (nonatomic, retain) NSNumber * kikbakValue;
 @property (nonatomic, retain) NSNumber * merchantId;
 @property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) NSString * merchantImageUrl;
+@property (nonatomic, retain) NSString * kikbakDescription;
+@property (nonatomic, retain) NSString * merchantName;
 @property (nonatomic, retain) NSSet *location;
 @end
 

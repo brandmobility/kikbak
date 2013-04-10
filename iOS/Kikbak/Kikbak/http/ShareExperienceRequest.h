@@ -1,5 +1,5 @@
 //
-//  RewardRequest.h
+//  ShareExperienceRequest.h
 //  kikback
 //
 //  Created by Ian Barile on 12/11/12.
@@ -7,13 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PostRequest.h"
+#import "HttpRequest.h"
 #import "RestDataDelegate.h"
 #import "RestRequestProtocol.h"
 
-@interface RewardRequest : NSObject<RestDataDelegate, RestRequestProtocol>
+@interface ShareExperienceRequest : NSObject<RestDataDelegate, RestRequestProtocol>
 {
-  PostRequest* request;
+  HttpRequest* request;
 }
 
 @end

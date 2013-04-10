@@ -1,22 +1,22 @@
 //
-//  ShareExperienceRequest.m
+//  SubmitFriendsRequest.m
 //  kikback
 //
-//  Created by Ian Barile on 12/11/12.
+//  Created by Ian Barile on 12/10/12.
 //  Copyright (c) 2012 Ian Barile. All rights reserved.
 //
 
-#import "ShareExperienceRequest.h"
-#import "SBJson.h"
+#import "SubmitFriendsRequest.h"
 #import "KikbakConstants.h"
+#import "SBJson.h"
 
-static NSString* resource = @"ShareExperience";
+static NSString* resource = @"user/friends/fb";
 
-@interface ShareExperienceRequest()
--(NSDictionary*)formatRequest:(id)requestData;
+@interface SubmitFriendsRequest()
+-(NSDictionary*)formatRequest:(NSDictionary*)requestData;
 @end
 
-@implementation ShareExperienceRequest
+@implementation SubmitFriendsRequest
 
 -(void)makeRequest:(NSDictionary*)requestData{
   
@@ -27,22 +27,21 @@ static NSString* resource = @"ShareExperience";
     if( userId == nil){
         return;
     }
-    request = [[PostRequest alloc]init];
+    request = [[HttpRequest alloc]init];
     request.resource = [NSString stringWithFormat:@"%@/%@/", resource, userId];
-
 
     NSString* body = [[self formatRequest:requestData] JSONRepresentation];
     request.body = body;
     request.restDelegate = self;
-    [request makeSyncRequest];
+    [request restPostRequest];
 }
 
 -(NSDictionary*)formatRequest:(id)requestData{
   NSMutableDictionary* result = [[NSMutableDictionary alloc]initWithCapacity:1];
   NSMutableDictionary* user =[[NSMutableDictionary alloc]initWithCapacity:1];
   
-  [user setObject:requestData forKey:@"experience"];
-  [result setObject:user forKey:@"ShareExperienceRequest"];
+  [user setObject:requestData forKey:@"friends"];
+  [result setObject:user forKey:@"UpdateFriendsRequest"];
   return result;
 }
 

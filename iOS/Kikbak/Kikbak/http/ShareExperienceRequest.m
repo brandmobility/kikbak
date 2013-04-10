@@ -1,49 +1,48 @@
 //
-//  DeviceTokenRequest.m
+//  ShareExperienceRequest.m
 //  kikback
 //
 //  Created by Ian Barile on 12/11/12.
 //  Copyright (c) 2012 Ian Barile. All rights reserved.
 //
 
-#import "DeviceTokenRequest.h"
-#import "KikbakConstants.h"
+#import "ShareExperienceRequest.h"
 #import "SBJson.h"
+#import "KikbakConstants.h"
 
-static NSString* resource = @"user/devicetoken";
+static NSString* resource = @"ShareExperience";
 
-@interface DeviceTokenRequest()
+@interface ShareExperienceRequest()
 -(NSDictionary*)formatRequest:(id)requestData;
 @end
 
-@implementation DeviceTokenRequest
+@implementation ShareExperienceRequest
 
 -(void)makeRequest:(NSDictionary*)requestData{
   
     NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
-  
+
     NSString* userId = [prefs objectForKey:KIKBAK_USER_ID];
     assert(userId != nil);
     if( userId == nil){
         return;
     }
-    request = [[PostRequest alloc]init];
-    request.resource = [NSString stringWithFormat:@"%@/%@/", resource,  userId];
-  
-  
+    request = [[HttpRequest alloc]init];
+    request.resource = [NSString stringWithFormat:@"%@/%@/", resource, userId];
+
+
     NSString* body = [[self formatRequest:requestData] JSONRepresentation];
     request.body = body;
     request.restDelegate = self;
-    [request makeSyncRequest];
-  
+    [request restPostRequest];
 }
 
 -(NSDictionary*)formatRequest:(id)requestData{
   NSMutableDictionary* result = [[NSMutableDictionary alloc]initWithCapacity:1];
   NSMutableDictionary* user =[[NSMutableDictionary alloc]initWithCapacity:1];
   
-  [user setObject:requestData forKey:@"token"];
-  [result setObject:user forKey:@"DeviceTokenUpdateRequest"];
+  [user setObject:requestData forKey:@"experience"];
+  [result setObject:user forKey:@"ShareExperienceRequest"];
   return result;
 }
 
@@ -51,6 +50,5 @@ static NSString* resource = @"user/devicetoken";
 -(void)parseResponse:(NSData*)data{
   
 }
-
 
 @end

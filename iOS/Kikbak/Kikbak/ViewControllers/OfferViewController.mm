@@ -13,6 +13,7 @@
 #import "Flurry.h"
 #import "ShareSuccessView.h"
 #import "UIImage+Manipulate.h"
+#import "ShareExperienceRequest.h"
 
 @interface OfferViewController ()
 
@@ -309,7 +310,6 @@
     
     
     FBRequest* request = [FBRequest requestForUploadPhoto:self.giftImage.image];
-//    [request.parameters setValue:self.descriptionText.text forKey:@"message"];
     
     
     [connection addRequest:request completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {

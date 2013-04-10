@@ -1,48 +1,49 @@
 //
-//  RedeemKikbakRequest.m
+//  DeviceTokenRequest.m
 //  kikback
 //
-//  Created by Ian Barile on 12/12/12.
+//  Created by Ian Barile on 12/11/12.
 //  Copyright (c) 2012 Ian Barile. All rights reserved.
 //
 
-#import "RedeemKikbakRequest.h"
+#import "DeviceTokenRequest.h"
 #import "KikbakConstants.h"
 #import "SBJson.h"
 
-static NSString* resource = @"rewards/redeem/kikbak";
+static NSString* resource = @"user/devicetoken";
 
-@interface RedeemKikbakRequest()
+@interface DeviceTokenRequest()
 -(NSDictionary*)formatRequest:(id)requestData;
 @end
 
-@implementation RedeemKikbakRequest
+@implementation DeviceTokenRequest
 
 -(void)makeRequest:(NSDictionary*)requestData{
   
     NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
-
+  
     NSString* userId = [prefs objectForKey:KIKBAK_USER_ID];
     assert(userId != nil);
     if( userId == nil){
         return;
     }
-    request = [[PostRequest alloc]init];
-    request.resource = [NSString stringWithFormat:@"%@/%@/", resource, userId ];
-
-
+    request = [[HttpRequest alloc]init];
+    request.resource = [NSString stringWithFormat:@"%@/%@/", resource,  userId];
+  
+  
     NSString* body = [[self formatRequest:requestData] JSONRepresentation];
     request.body = body;
     request.restDelegate = self;
-    [request makeSyncRequest];
+    [request restPostRequest];
+  
 }
 
 -(NSDictionary*)formatRequest:(id)requestData{
   NSMutableDictionary* result = [[NSMutableDictionary alloc]initWithCapacity:1];
   NSMutableDictionary* user =[[NSMutableDictionary alloc]initWithCapacity:1];
   
-  [user setObject:requestData forKey:@"kikbak"];
-  [result setObject:user forKey:@"RedeemKikbakRequest"];
+  [user setObject:requestData forKey:@"token"];
+  [result setObject:user forKey:@"DeviceTokenUpdateRequest"];
   return result;
 }
 
@@ -50,5 +51,6 @@ static NSString* resource = @"rewards/redeem/kikbak";
 -(void)parseResponse:(NSData*)data{
   
 }
+
 
 @end

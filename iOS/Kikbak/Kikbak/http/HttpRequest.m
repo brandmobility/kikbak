@@ -6,17 +6,17 @@
 //  Copyright (c) 2012 Ian Barile. All rights reserved.
 //
 
-#import "PostRequest.h"
+#import "HttpRequest.h"
 #import "HTTPConstants.h"
 
-@interface PostRequest()
+@interface HttpRequest()
 
 @end
 
-@implementation PostRequest
+@implementation HttpRequest
 
 
--(void)makeSyncRequest{
+-(void)restPostRequest{
   
   NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%s/%s/%@",hostname, kikbak_service, _resource]];
   
@@ -37,6 +37,20 @@
   }
 }
 
+-(void)httpGetRequest{
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", _resource]];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
+                                                           cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60.0];
+    
+    [request setHTTPMethod:@"GET"];
+    
+    NSURLConnection *connection = [[NSURLConnection alloc]initWithRequest:request delegate:self];
+    if (connection) {
+        _receivedData = [NSMutableData data];
+    }
+}
+
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
   NSLog(@"Error: %@", error);
 }
@@ -46,7 +60,10 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
-
+    if( [response class] == [ NSHTTPURLResponse class]){
+        NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+        statusCode = [httpResponse statusCode];
+    }
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
@@ -67,7 +84,7 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection{
-    if(self.restDelegate){
+    if(self.restDelegate && statusCode == 200 ){
         [self.restDelegate parseResponse:self.receivedData];
     }
 }

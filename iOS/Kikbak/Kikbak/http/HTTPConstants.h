@@ -9,7 +9,7 @@
 #ifndef kikback_HTTPConstants_h
 #define kikback_HTTPConstants_h
 
-const char* hostname = "54.244.124.116:8080"; //"192.168.1.3:8443";
+const char* hostname = "localhost:8080"; //"54.244.124.116:8080"; //"192.168.1.3:8443";
 const char* kikbak_service = "kikbak";
 
 #endif

@@ -1,5 +1,5 @@
 //
-//  OffersRequest.h
+//  RewardRequest.h
 //  kikback
 //
 //  Created by Ian Barile on 12/11/12.
@@ -7,13 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RestRequestProtocol.h"
+#import "HttpRequest.h"
 #import "RestDataDelegate.h"
-#import "PostRequest.h"
+#import "RestRequestProtocol.h"
 
-
-@interface OffersRequest : NSObject<RestDataDelegate, RestRequestProtocol>{
-  PostRequest* request;
+@interface RewardRequest : NSObject<RestDataDelegate, RestRequestProtocol>
+{
+  HttpRequest* request;
 }
 
 @end

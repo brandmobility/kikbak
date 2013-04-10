@@ -1,5 +1,5 @@
 //
-//  ShareExperienceRequest.h
+//  DeviceTokenRequest.h
 //  kikback
 //
 //  Created by Ian Barile on 12/11/12.
@@ -7,13 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PostRequest.h"
 #import "RestDataDelegate.h"
 #import "RestRequestProtocol.h"
+#import "HttpRequest.h"
 
-@interface ShareExperienceRequest : NSObject<RestDataDelegate, RestRequestProtocol>
+
+@interface DeviceTokenRequest : NSObject <RestDataDelegate, RestRequestProtocol>
 {
-  PostRequest* request;
+  HttpRequest* request;
 }
 
 @end

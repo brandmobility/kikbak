@@ -15,6 +15,7 @@ import com.kikbak.dao.ReadOnlyUser2FriendDAO;
 import com.kikbak.dao.ReadOnlyUserDAO;
 import com.kikbak.dto.Devicetoken;
 import com.kikbak.dto.User;
+import com.kikbak.jaxb.ClientOfferType;
 import com.kikbak.jaxb.DeviceTokenType;
 import com.kikbak.jaxb.FriendType;
 import com.kikbak.jaxb.LocationType;
@@ -120,13 +121,6 @@ public class UserServiceTest extends KikbakBaseTest{
 		ot.setDefaultText("default");
 		ot.setDescription("desc");
 		ot.setGiftDescription("gift");
-		ot.setGiftName("gn");
-		ot.setGiftValue(12.21);
-		ot.setGiftNotificationText("notification");
-		ot.setKikbakDescription("kd");
-		ot.setKikbakName("kn");
-		ot.setKikbakValue(32.32);
-		ot.setKikbakNotificationText("notification");
 		ot.setName("name");
 		
 		try {
@@ -142,7 +136,7 @@ public class UserServiceTest extends KikbakBaseTest{
 		UserLocationType ult = new UserLocationType();
 		ult.setLatitude(37.4207480);
 		ult.setLongitude(-122.1303430);
-		Collection<OfferType> ots = service.getOffers(4L, ult);
+		Collection<ClientOfferType> ots = service.getOffers(4L, ult);
 		assertTrue(ots.size() == 1);
 	}
 	
@@ -163,13 +157,6 @@ public class UserServiceTest extends KikbakBaseTest{
 		ot.setDefaultText("default");
 		ot.setDescription("desc");
 		ot.setGiftDescription("gift");
-		ot.setGiftName("gn");
-		ot.setGiftValue(12.21);
-		ot.setGiftNotificationText("notification");
-		ot.setKikbakDescription("kd");
-		ot.setKikbakName("kn");
-		ot.setKikbakValue(32.32);
-		ot.setKikbakNotificationText("notification");
 		ot.setName("name");
 		
 		try {
@@ -185,7 +172,7 @@ public class UserServiceTest extends KikbakBaseTest{
 		UserLocationType ult = new UserLocationType();
 		ult.setLatitude(37.4207480);
 		ult.setLongitude(-12.1303430);
-		Collection<OfferType> ots = service.getOffers(4L, ult);
+		Collection<ClientOfferType> ots = service.getOffers(4L, ult);
 		assertTrue(ots.size() == 0);
 	}
 	

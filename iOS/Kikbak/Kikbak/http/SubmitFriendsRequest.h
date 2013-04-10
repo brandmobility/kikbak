@@ -8,12 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "RestDataDelegate.h"
-#import "PostRequest.h"
+#import "HttpRequest.h"
 #import "RestRequestProtocol.h"
 
 @interface SubmitFriendsRequest : NSObject<RestDataDelegate, RestRequestProtocol>
 {
-  PostRequest* request;
+  HttpRequest* request;
 }
 
 @end

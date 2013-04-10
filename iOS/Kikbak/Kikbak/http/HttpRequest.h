@@ -10,13 +10,16 @@
 #import "RestDataDelegate.h"
 #import "assert.h"
 
-@interface PostRequest : NSObject<NSURLConnectionDelegate, NSURLConnectionDataDelegate>
+@interface HttpRequest : NSObject<NSURLConnectionDelegate, NSURLConnectionDataDelegate>{
+    NSInteger statusCode;
+}
 
 @property(nonatomic, strong) NSString* resource;
 @property(nonatomic, strong) NSString* body;
 @property(nonatomic, strong) NSMutableData* receivedData;
 @property(nonatomic, strong) id<RestDataDelegate> restDelegate;
 
--(void)makeSyncRequest;
+-(void)restPostRequest;
+-(void)httpGetRequest;
 
 @end

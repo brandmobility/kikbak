@@ -10,11 +10,11 @@
 #import "RestDataDelegate.h"
 #import "RestRequestProtocol.h"
 
-@class PostRequest;
+@class HttpRequest;
 
 @interface RegisterUserRequest : NSObject<RestDataDelegate, RestRequestProtocol>
 {
-  PostRequest* request;
+  HttpRequest* request;
 }
 
 

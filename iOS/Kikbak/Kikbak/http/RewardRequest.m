@@ -27,14 +27,14 @@ static NSString* resource = @"rewards/request";
     if( userId == nil){
         return;
     }
-    request = [[PostRequest alloc]init];
+    request = [[HttpRequest alloc]init];
     request.resource = [NSString stringWithFormat:@"%@/%@/", resource, userId];
 
 
     NSString* body = [[self formatRequest:requestData] JSONRepresentation];
     request.body = body;
     request.restDelegate = self;
-    [request makeSyncRequest];
+    [request restPostRequest];
 }
 
 -(NSDictionary*)formatRequest:(id)requestData{

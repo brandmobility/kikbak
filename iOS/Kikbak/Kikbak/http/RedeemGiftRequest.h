@@ -7,12 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PostRequest.h"
+#import "HttpRequest.h"
 #import "RestDataDelegate.h"
 #import "RestRequestProtocol.h"
 
 @interface RedeemGiftRequest : NSObject<RestDataDelegate, RestRequestProtocol>{
-  PostRequest* request;
+  HttpRequest* request;
 }
 
 @end

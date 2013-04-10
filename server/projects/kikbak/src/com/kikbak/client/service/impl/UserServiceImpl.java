@@ -17,6 +17,7 @@ import com.kikbak.client.service.impl.types.PlatformType;
 import com.kikbak.config.ContextUtil;
 import com.kikbak.dao.ReadOnlyDeviceTokenDAO;
 import com.kikbak.dao.ReadOnlyLocationDAO;
+import com.kikbak.dao.ReadOnlyMerchantDAO;
 import com.kikbak.dao.ReadOnlyOfferDAO;
 import com.kikbak.dao.ReadOnlyUser2FriendDAO;
 import com.kikbak.dao.ReadOnlyUserDAO;
@@ -25,13 +26,14 @@ import com.kikbak.dao.ReadWriteUser2FriendDAO;
 import com.kikbak.dao.ReadWriteUserDAO;
 import com.kikbak.dto.Devicetoken;
 import com.kikbak.dto.Location;
+import com.kikbak.dto.Merchant;
 import com.kikbak.dto.Offer;
 import com.kikbak.dto.User;
 import com.kikbak.dto.User2friend;
+import com.kikbak.jaxb.ClientOfferType;
 import com.kikbak.jaxb.DeviceTokenType;
 import com.kikbak.jaxb.FriendType;
 import com.kikbak.jaxb.OfferLocationType;
-import com.kikbak.jaxb.OfferType;
 import com.kikbak.jaxb.UserIdType;
 import com.kikbak.jaxb.UserLocationType;
 import com.kikbak.jaxb.UserType;
@@ -67,6 +69,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	ReadWriteDeviceTokenDAO rwDeviceTokenDao;
+	
+	@Autowired
+	ReadOnlyMerchantDAO roMerchantDao;
 	
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
@@ -127,24 +132,28 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	public Collection<OfferType> getOffers(Long userId,
+	public Collection<ClientOfferType> getOffers(Long userId,
 			UserLocationType userLocation) {
 		
 		Coordinate origin = new Coordinate(userLocation.getLatitude(), userLocation.getLongitude());
 		GeoFence fence = GeoBoundaries.getGeoFence(origin, config.getDouble("geo.fence.distance"));
 		Collection<Offer> offers = roOfferDao.listValidOffersInGeoFence(fence);
-		Collection<OfferType> ots = new ArrayList<OfferType>();
+		Collection<ClientOfferType> ots = new ArrayList<ClientOfferType>();
 		for(Offer offer : offers){
-			OfferType ot = new OfferType();
+			ClientOfferType ot = new ClientOfferType();
 			ot.setBeginDate(offer.getBeginDate().getTime());
 			ot.setDefaultText(offer.getDefaultText());
 			ot.setDescription(offer.getDescription());
 			ot.setEndDate(offer.getEndDate().getTime());
 			ot.setId(offer.getId());
 			ot.setName(offer.getName());
-			ot.setGiftValue(offer.getGiftValue());
-			ot.setKikbakValue(offer.getKikbakValue());
+			ot.setGiftDescription(offer.getGiftDescription());
+			ot.setKikbakDescription(offer.getKikbakDescription());
 			ot.setMerchantId(offer.getMerchantId());
+			
+			Merchant merchant = roMerchantDao.findById(offer.getMerchantId());
+			ot.setMerchantImageUrl(merchant.getImageUrl());
+			ot.setMerchantName(merchant.getName());
 			
 			Collection<Location> locations = roLocationDao.listByMerchant(offer.getMerchantId());
 			for( Location location: locations){

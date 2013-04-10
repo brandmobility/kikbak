@@ -11,6 +11,7 @@
 #import "Offer.h"
 #import "LocationParser.h"
 #import "OfferLoader.h"
+#import "ImageRequest.h"
 
 @implementation OfferParser
 
@@ -24,14 +25,11 @@
     offer.name = [dict objectForKey:@"name"];
     offer.desc = [dict objectForKey:@"description"];
     offer.defaultText = [dict objectForKey:@"defaultText"];
-//    offer.giftName = [dict objectForKey:@"giftName"];
-//    offer.giftDescription = [dict objectForKey:@"giftDescription"];
-//    offer.giftNotificationText = [dict objectForKey:@"giftNotificationText"];
-    offer.giftValue = [dict objectForKey:@"giftValue"];
-//    offer.kikbakName = [dict objectForKey:@"kikbakName"];
-//    offer.kikbakDescription = [dict objectForKey:@"kikbakDescription"];
-    offer.kikbakValue = [dict objectForKey:@"kikbakValue"];
- //   offer.kikbakNotificationText = [dict objectForKey:@"kikbakNotificationText"];
+    offer.giftDescription = [dict objectForKey:@"giftDescription"];
+    offer.kikbakDescription = [dict objectForKey:@"kikbakDescription"];
+    offer.merchantImageUrl = [dict objectForKey:@"merchantImageUrl"];
+    offer.merchantId = [dict objectForKey:@"merchantId"];
+    offer.merchantName = [dict objectForKey:@"merchantName"];
     long date = [dict objectForKey:@"beginDate"];
     NSTimeInterval timeSince70 = date;
     offer.beginDate = [NSDate dateWithTimeIntervalSince1970:timeSince70];
@@ -49,7 +47,9 @@
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 		abort();
 	}
-    
+
+    ImageRequest* request = [[ImageRequest alloc]init];
+    [request requestMerchangeImage:offer.merchantImageUrl forMerchantId:offer.merchantId];
 }
 
 @end
