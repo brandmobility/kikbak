@@ -6,13 +6,13 @@
 //  Copyright (c) 2013 Ian Barile. All rights reserved.
 //
 
-#import "KikbakTableViewCell.h"
+#import "OfferTableViewCell.h"
 #import "Offer.h"
 #import "Location.h"
 #import "Distance.h"
 #import "ImagePersistor.h"
 
-@interface KikbakTableViewCell()
+@interface OfferTableViewCell()
 
 @property (nonatomic, strong) UIView* backgroundView;
 @property (nonatomic, strong) UIView* overlayView;
@@ -29,7 +29,7 @@
 
 @end
 
-@implementation KikbakTableViewCell
+@implementation OfferTableViewCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -120,19 +120,19 @@
 }
 
 
--(void)setup:(Offer*)offer{
-    self.store.text = offer.merchantName;
-    self.leftText.text = offer.giftDescription;
-    self.rightText.text = offer.kikbakDescription;
+-(void)setup{
+    self.store.text = self.offer.merchantName;
+    self.leftText.text = self.offer.giftDescription;
+    self.rightText.text = self.offer.kikbakDescription;
     Location* location = nil;
     //todo: find closest location
-    if (offer.location.count > 0) {
-        location = [offer.location anyObject];
+    if (self.offer.location.count > 0) {
+        location = [self.offer.location anyObject];
     }
     
     self.distance.text = [Distance distanceToInMiles:[[CLLocation alloc]initWithLatitude:location.latitude.doubleValue longitude:location.longitude.doubleValue]];
     
-    NSString* imagePath = [ImagePersistor merchantImageFileExists:offer.merchantId];
+    NSString* imagePath = [ImagePersistor merchantImageFileExists:self.offer.merchantId];
     if(imagePath != nil){
         self.storeImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
     }

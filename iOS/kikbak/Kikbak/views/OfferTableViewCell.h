@@ -10,9 +10,11 @@
 
 @class Offer;
 
-@interface KikbakTableViewCell : UITableViewCell
+@interface OfferTableViewCell : UITableViewCell
 
 
--(void)setup:(Offer*)offer;
+@property(strong, nonatomic)Offer* offer;
+
+-(void)setup;
 
 @end

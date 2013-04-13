@@ -7,9 +7,10 @@
 //
 
 #import "OfferListViewController.h"
-#import "KikbakTableViewCell.h"
+#import "OfferViewController.h"
+#import "OfferTableViewCell.h"
 #import "OfferLoader.h"
-#import "KikbakTableViewCell.h"
+#import "OfferTableViewCell.h"
 #import "AppDelegate.h"
 #import "LocationManager.h"
 
@@ -94,12 +95,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    KikbakTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"redeemCell"];
+    OfferTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"redeemCell"];
     if( cell == nil){
-        cell = [[KikbakTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"redeemCell"];
+        cell = [[OfferTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"redeemCell"];
     }
     
-    [cell setup:[self.offers objectAtIndex:indexPath.row]];
+    cell.offer = [self.offers objectAtIndex:indexPath.row];
+    [cell setup];
     
     return cell;
 }
@@ -120,11 +122,13 @@
 
 #pragma mark - segue
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [self performSegueWithIdentifier:@"OfferSegue" sender:self];
+    [self performSegueWithIdentifier:@"OfferSegue" sender:[self.offers objectAtIndex:indexPath.row]];
     
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    OfferViewController* vc = (OfferViewController*)segue.destinationViewController;
+    vc.offer = sender;
     [segue.destinationViewController setHidesBottomBarWhenPushed:YES];
 }
 

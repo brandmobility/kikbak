@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -45,6 +46,8 @@ import com.kikbak.location.GeoFence;
 public class UserServiceImpl implements UserService {
 
 	private static PropertiesConfiguration config = ContextUtil.getBean("staticPropertiesConfiguration", PropertiesConfiguration.class);
+	
+	private static final Logger logger = Logger.getLogger(UserServiceImpl.class);
 	
 	@Autowired
 	ReadOnlyUserDAO roUserDao;

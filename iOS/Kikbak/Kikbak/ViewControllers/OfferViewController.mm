@@ -14,10 +14,14 @@
 #import "ShareSuccessView.h"
 #import "UIImage+Manipulate.h"
 #import "ShareExperienceRequest.h"
+#import "Offer.h"
+#import "Location.h"
+#import "Distance.h"
+#import "ImagePersistor.h"
 
 @interface OfferViewController ()
 
-
+@property (nonatomic, strong) Location* location;
 @property (nonatomic, strong) UIButton* takePhotoBtn;
 @property (nonatomic, strong) UIButton* addCaptionBtn;
 @property (nonatomic, strong) UIButton* retakeBtn;
@@ -81,7 +85,20 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    self.retailer.text = self.offer.merchantName;
+    if (self.offer.location.count > 0) {
+        self.location = [self.offer.location anyObject];
+    }
     
+    self.distance.text = [Distance distanceToInMiles:[[CLLocation alloc]initWithLatitude:self.location.latitude.doubleValue longitude:self.location.longitude.doubleValue]];
+    
+    self.giveText.text = self.offer.giftDescription;
+    self.getText.text = self.offer.kikbakDescription;
+    
+    NSString* imagePath = [ImagePersistor merchantImageFileExists:self.offer.merchantId];
+    if(imagePath != nil){
+        self.retailerImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
+    }
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -320,7 +337,13 @@
             ShareSuccessView* shareView = [[ShareSuccessView alloc]initWithFrame:frame];
             [shareView manuallyLayoutSubviews];
             [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:shareView];
+            ShareExperienceRequest* request = [[ShareExperienceRequest alloc]init];
+            NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:3];
 
+            [dict setObject:self.offer.merchantId forKey:@"merchantId"];
+            [dict setObject:self.location.locationId forKey:@"locationId"];
+            [dict setObject:self.offer.offerId forKey:@"offerId"];
+            [request makeRequest:dict];
         }
         else{
             [Flurry logEvent:@"FailedShareEvent" timed:YES];

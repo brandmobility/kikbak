@@ -23,7 +23,6 @@ public class SharedExperienceServiceTest extends KikbakBaseTest{
 	public void testRegisteringSharing(){
 	
 		SharedType st = new SharedType();
-		st.setFriendFacebookId(12);
 		st.setLocationId(12);
 		st.setMerchantId(12);
 		st.setOfferId(432);

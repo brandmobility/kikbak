@@ -7,11 +7,17 @@
 //
 
 #import "RedeemListViewController.h"
-#import "KikbakTableViewCell.h"
+#import "RedeemTableViewCell.h"
+#import "GiftLoader.h"
+#import "AppDelegate.h"
+#import "LocationManager.h"
 
-@interface RedeemListViewController ()
+@interface RedeemListViewController (){
+    bool locationResolved;
+}
 
 @property (nonatomic, strong) UITableView* table;
+@property (nonatomic, strong) NSArray* gifts;
 
 -(void) manuallyLayoutSubviews;
 
@@ -37,16 +43,34 @@
     self.table.dataSource = self;
     self.table.delegate = self;
     [self.view addSubview:self.table];
+    self.gifts = [GiftLoader getGifts];
+    
+    if(((AppDelegate*)[UIApplication sharedApplication].delegate).locationMgr.currentLocation != nil)
+        locationResolved = YES;
+    else{
+        locationResolved = NO;
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onLocationUpdate:) name:kKikbakLocationUpdate object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onGiftUpdate:) name:kKikbakGiftUpdate object:nil];
+    
     [self.table reloadData];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     [self manuallyLayoutSubviews];
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakOfferUpdate object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakLocationUpdate object:nil];
+
+    [super viewDidDisappear:animated];
 }
 
 - (void)didReceiveMemoryWarning
@@ -70,17 +94,22 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"redeemCell"];
+    RedeemTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"redeemCell"];
     if( cell == nil){
-        cell = [[KikbakTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"redeemCell"];
+        cell = [[RedeemTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"redeemCell"];
     }
     
+    cell.gift = [self.gifts objectAtIndex:indexPath.row];
+    [cell setup];
     return cell;
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 1;
+    if (locationResolved) {
+        return [self.gifts count];
+    }
+    return 0;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -95,6 +124,19 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     [segue.destinationViewController setHidesBottomBarWhenPushed:YES];
+}
+
+
+#pragma mark - NSNotification Handlers
+-(void) onLocationUpdate:(NSNotification*)notification{
+    locationResolved = YES;
+    [self.table reloadData];
+}
+
+-(void) onGiftUpdate:(NSNotification*)notification{
+    
+    self.gifts = [GiftLoader getGifts];
+    [self.table reloadData];
 }
 
 @end

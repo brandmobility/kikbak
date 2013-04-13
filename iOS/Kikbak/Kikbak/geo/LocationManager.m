@@ -92,9 +92,6 @@
     }
 
     [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakLocationUpdate object:nil];
-
-  NSString* distance = [Distance distanceToInMiles:[[CLLocation alloc]initWithLatitude:37.42706140 longitude:-122.1444120]];
-  NSLog(@"Distance: %@", distance);
 }
 
 /*

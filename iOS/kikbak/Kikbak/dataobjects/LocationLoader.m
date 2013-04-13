@@ -31,7 +31,7 @@
     if (array == nil)
     {
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-		abort();
+		return nil;
     }
     
     if( [array count] ){

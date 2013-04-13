@@ -47,9 +47,6 @@
   
   widController.readers = readers;
   
-  //NSBundle *mainBundle = [NSBundle mainBundle];
-  //widController.soundToPlay =
- // [NSURL fileURLWithPath:[mainBundle pathForResource:@"beep-beep" ofType:@"aiff"] isDirectory:NO];
   [self presentModalViewController:widController animated:YES];
 }
 

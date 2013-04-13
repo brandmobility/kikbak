@@ -21,6 +21,7 @@ import com.kikbak.dao.ReadOnlyLocationDAO;
 import com.kikbak.dao.ReadOnlyMerchantDAO;
 import com.kikbak.dao.ReadOnlyOfferDAO;
 import com.kikbak.dao.ReadOnlySharedDAO;
+import com.kikbak.dao.ReadOnlyUserDAO;
 import com.kikbak.dao.ReadWriteGiftDAO;
 import com.kikbak.dao.ReadWriteKikbakDAO;
 import com.kikbak.dao.ReadWriteTransactionDAO;
@@ -32,6 +33,7 @@ import com.kikbak.dto.Merchant;
 import com.kikbak.dto.Offer;
 import com.kikbak.dto.Shared;
 import com.kikbak.dto.Transaction;
+import com.kikbak.dto.User;
 import com.kikbak.jaxb.ClientLocationType;
 import com.kikbak.jaxb.ClientMerchantType;
 import com.kikbak.jaxb.GiftRedemptionType;
@@ -59,6 +61,9 @@ public class RewardServiceImpl implements RewardService{
 	ReadOnlyOfferDAO roOfferDao;
 	
 	@Autowired
+	ReadOnlyUserDAO roUserDao;
+	
+	@Autowired
 	ReadOnlyMerchantDAO roMerchantDao;
 	
 	@Autowired
@@ -82,7 +87,8 @@ public class RewardServiceImpl implements RewardService{
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public Collection<GiftType> getGifts(Long userId) {
-		Collection<Gift> gifts = createGifts(userId);
+		createGifts(userId);
+		Collection<Gift> gifts = new ArrayList<Gift>();
 		gifts.addAll(roGiftDao.listByUserId(userId));
 		Collection<GiftType> gts = new ArrayList<GiftType>();
 		
@@ -191,10 +197,11 @@ public class RewardServiceImpl implements RewardService{
 	}
 	
 	
-	protected Collection<Gift> createGifts(Long userId){
+	protected void createGifts(Long userId){
 
 		Collection<Long> offerIds = roGiftDao.listOfferIdsForUser(userId);
-		Collection<Shared> shareds = roSharedDao.listAvailableForGifting(userId);
+		User user = roUserDao.findById(userId);
+		Collection<Shared> shareds = roSharedDao.listAvailableForGifting(user.getFacebookId());
 		Collection<Gift> newGifts = new ArrayList<Gift>();
 		for(Shared shared : shareds){
 			if(!offerIds.contains(shared.getOfferId())){
@@ -209,10 +216,10 @@ public class RewardServiceImpl implements RewardService{
 
 				rwGiftDao.makePersistent(gift);
 				newGifts.add(gift);
+				
+				offerIds.add(shared.getOfferId());
 			}
 		}
-		
-		return newGifts;
 	}
 
 	

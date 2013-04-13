@@ -102,7 +102,6 @@
         <xsd:sequence>
             <xsd:element name="id" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="description" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="locations" type="kikbak:ClientLocationType" minOccurs="1" maxOccurs="unbounded"/>
         </xsd:sequence>
     </xsd:complexType>
@@ -124,7 +123,6 @@
             <xsd:element name="merchant" type="kikbak:ClientMerchantType" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="name" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="description" type="xsd:string" minOccurs="0" maxOccurs="1"/>
-            <xsd:element name="value" type="xsd:double" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
     

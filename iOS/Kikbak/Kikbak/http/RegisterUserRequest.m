@@ -15,6 +15,7 @@
 #import "DeviceTokenRequest.h"
 #import "FBQuery.h"
 #import <objc/runtime.h>
+#import "RewardRequest.h"
 
 static NSString* resource = @"user/register/fb/";
 
@@ -54,7 +55,6 @@ static NSString* resource = @"user/register/fb/";
         id registerResponse = [dict objectForKey:@"registerUserResponse"];
         if ( registerResponse != [NSNull null]) {
             id user = [registerResponse objectForKey:@"userId"];
-            NSLog(@"registerResponse: %@, \nkeys: %@", registerResponse, [registerResponse allKeys]);
             if( user != [NSNull null]){
                 NSString* userId = [[NSString alloc]initWithFormat:@"%@",[user objectForKey:@"userId"] ];
                 NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
@@ -72,6 +72,9 @@ static NSString* resource = @"user/register/fb/";
                     [tokenDict setObject:[NSNumber numberWithInt:0] forKey:@"platform_id"];
                     [tokenRequest makeRequest:tokenDict];
                 }
+                
+                RewardRequest* rewaredRequest = [[RewardRequest alloc]init];
+                [rewaredRequest makeRequest:[[NSDictionary alloc]init]];
             }
         }
     }

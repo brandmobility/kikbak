@@ -8,11 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@class Offer;
+
 @interface OfferViewController : UIViewController<UIActionSheetDelegate, UIImagePickerControllerDelegate,
                                         UINavigationControllerDelegate, UIAlertViewDelegate>{
     bool photoTaken;
     bool captionAdded;
 }
+
+@property(nonatomic, strong) Offer* offer;
 
 @property(nonatomic, strong) IBOutlet UIImageView* retailerImage;
 @property(nonatomic, strong) IBOutlet UILabel* retailer;

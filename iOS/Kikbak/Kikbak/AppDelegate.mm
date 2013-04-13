@@ -17,9 +17,11 @@
 #import "ServerTest.h"
 #import "NSData+Base64.h"
 #import "RootViewController.h"
+#import "RewardRequest.h"
 
 NSString *const kKikbakLocationUpdate = @"kKikbakLocationUpdate";
 NSString *const kKikbakOfferUpdate = @"kKikbakOfferUpdate";
+NSString *const kKikbakGiftUpdate = @"kKikbakGiftUpdate";
 
 @interface AppDelegate()
 -(void)fadeOutSplash;
@@ -62,9 +64,12 @@ NSString *const kKikbakOfferUpdate = @"kKikbakOfferUpdate";
     [self.window.rootViewController.view addSubview:splash];
     [self.window bringSubviewToFront:splash];
   
-//    ServerTest* test = [[ServerTest alloc]init];
-//    [test testRedeemKikbak];
-  
+    NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
+    if( [prefs objectForKey:KIKBAK_USER_ID] != nil ){
+        RewardRequest* request = [[RewardRequest alloc]init];
+        [request makeRequest:[[NSDictionary alloc]init]];
+    }
+    
     [self fadeOutSplash];
     return YES;
 }
@@ -77,12 +82,23 @@ NSString *const kKikbakOfferUpdate = @"kKikbakOfferUpdate";
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-  splash.alpha = 1;
+    splash.alpha = 1;
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-  [self fadeOutSplash];
+    [self fadeOutSplash];
+    NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
+    if( [prefs objectForKey:KIKBAK_USER_ID] == nil ){
+        if( self.session ){
+            [FBQuery fbMe];
+        }
+    }
+    
+    if( [prefs objectForKey:KIKBAK_USER_ID] != nil ){
+        RewardRequest* request = [[RewardRequest alloc]init];
+        [request makeRequest:[[NSDictionary alloc]init]];
+    }
 }
 
 - (void)fadeOutSplash

@@ -38,17 +38,18 @@ static NSString* resource = @"ShareExperience";
 }
 
 -(NSDictionary*)formatRequest:(id)requestData{
-  NSMutableDictionary* result = [[NSMutableDictionary alloc]initWithCapacity:1];
-  NSMutableDictionary* user =[[NSMutableDictionary alloc]initWithCapacity:1];
-  
-  [user setObject:requestData forKey:@"experience"];
-  [result setObject:user forKey:@"ShareExperienceRequest"];
-  return result;
+    NSMutableDictionary* result = [[NSMutableDictionary alloc]initWithCapacity:1];
+    NSMutableDictionary* user =[[NSMutableDictionary alloc]initWithCapacity:1];
+
+    [user setObject:requestData forKey:@"experience"];
+    [result setObject:user forKey:@"ShareExperienceRequest"];
+
+    return result;
 }
 
 
 -(void)parseResponse:(NSData*)data{
-  
+    //NSString* json = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
 }
 
 @end

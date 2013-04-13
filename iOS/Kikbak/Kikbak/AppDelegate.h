@@ -19,6 +19,7 @@
 
 KIKBAK_EXTERN NSString *const kKikbakLocationUpdate;
 KIKBAK_EXTERN NSString *const kKikbakOfferUpdate;
+KIKBAK_EXTERN NSString *const kKikbakGiftUpdate;
 
 @class FBUserInfo;
 @class LoginViewController;
