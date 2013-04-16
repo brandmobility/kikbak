@@ -89,13 +89,12 @@ public class RewardServiceImpl implements RewardService{
 	public Collection<GiftType> getGifts(Long userId) {
 		createGifts(userId);
 		Collection<Gift> gifts = new ArrayList<Gift>();
-		gifts.addAll(roGiftDao.listByUserId(userId));
+		gifts.addAll(roGiftDao.listValidByUserId(userId));
 		Collection<GiftType> gts = new ArrayList<GiftType>();
 		
 		for( Gift gift: gifts){
 			GiftType gt = new GiftType();
 			gt.setId(gift.getId());
-			gt.setValue(gift.getValue());
 			
 			Merchant merchant = roMerchantDao.findById(gift.getMerchantId());
 			ClientMerchantType cmt = fillClientMerchantType(merchant);
@@ -230,13 +229,12 @@ public class RewardServiceImpl implements RewardService{
 	protected ClientMerchantType fillClientMerchantType(Merchant merchant){
 		ClientMerchantType cmt = new ClientMerchantType();
 		cmt.setId(merchant.getId());
-		cmt.setDescription(merchant.getDescription());
 		cmt.setName(merchant.getName());
 
 		Collection<Location> locations = roLocationDao.listByMerchant(merchant.getId());
 		for(Location location: locations){
 			ClientLocationType clt = new ClientLocationType();
-			clt.setId(location.getId());
+			clt.setLocationId(location.getId());
 			clt.setLatitude(location.getLatitude());
 			clt.setLongitude(location.getLongitude());
 			cmt.getLocations().add(clt);

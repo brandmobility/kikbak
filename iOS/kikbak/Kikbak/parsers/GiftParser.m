@@ -27,19 +27,20 @@
     if( merchant != [NSNull null]){
         gift.merchantId = [merchant objectForKey:@"id"];
         gift.merchantName = [merchant objectForKey:@"name"];
+        
+        NSArray* locations = [merchant objectForKey:@"locations"];
+        for(id giftLocation in locations){
+            [LocationParser parse:giftLocation forGift:gift];
+        }
     }
     gift.desc = [dict objectForKey:@"description"];
     gift.name = [dict objectForKey:@"name"];
     
-    NSArray* locations = [dict objectForKey:@"locations"];
-    for(id giftLocation in locations){
-        [LocationParser parse:giftLocation forGift:gift];
-    }
     
-	NSError *error = nil;
-	if (![context save:&error]) {
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-	}
+    NSError *error = nil;
+    if (![context save:&error]) {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+    }
 
 }
 

@@ -56,6 +56,7 @@ static NSString* resource = @"user/offer";
 -(void)parseResponse:(NSData*)data{
 
     NSString* json = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+  //  NSLog(@"**** offersRequest: %@", json);
     id dict = [json JSONValue];
     if( dict != [NSNull null] ){
         NSDictionary* getUserOffersResponse = [dict objectForKey:@"getUserOffersResponse"];

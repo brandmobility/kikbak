@@ -17,8 +17,8 @@ public class ReadOnlyGiftDAOImpl extends ReadOnlyGenericDAOImpl<Gift, Long> impl
 	
 	@Override
 	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
-	public Collection<Gift> listByUserId(Long userId) {
-		return listByCriteria(Restrictions.eq("userId", userId));
+	public Collection<Gift> listValidByUserId(Long userId) {
+		return listByCriteria(Restrictions.and(Restrictions.eq("userId", userId), Restrictions.isNull("redemptionDate")));
 	}
 
 	@Override

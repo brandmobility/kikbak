@@ -11,6 +11,8 @@
 #import "GiftLoader.h"
 #import "AppDelegate.h"
 #import "LocationManager.h"
+#import "RedeemViewController.h"
+
 
 @interface RedeemListViewController (){
     bool locationResolved;
@@ -43,7 +45,6 @@
     self.table.dataSource = self;
     self.table.delegate = self;
     [self.view addSubview:self.table];
-    self.gifts = [GiftLoader getGifts];
     
     if(((AppDelegate*)[UIApplication sharedApplication].delegate).locationMgr.currentLocation != nil)
         locationResolved = YES;
@@ -58,6 +59,7 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onLocationUpdate:) name:kKikbakLocationUpdate object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onGiftUpdate:) name:kKikbakGiftUpdate object:nil];
     
+    self.gifts = [GiftLoader getGifts];
     [self.table reloadData];
 }
 
@@ -118,11 +120,13 @@
 
 #pragma mark - segue
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [self performSegueWithIdentifier:@"RedeemSegue" sender:self];
+    [self performSegueWithIdentifier:@"RedeemSegue" sender:[self.gifts objectAtIndex:indexPath.row ]];
     
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    RedeemViewController* vc = (RedeemViewController*)segue.destinationViewController;
+    vc.gift = sender;
     [segue.destinationViewController setHidesBottomBarWhenPushed:YES];
 }
 

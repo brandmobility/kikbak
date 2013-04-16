@@ -90,7 +90,7 @@ public class RewardServiceTest extends KikbakBaseTest{
 		
 		GiftRedemptionType grt = new GiftRedemptionType();
 		grt.setId(gift.getId());
-		grt.setLocationId(clt.getId());
+		grt.setLocationId(clt.getLocationId());
 		grt.setVerificationCode("12345");
 		
 		try {

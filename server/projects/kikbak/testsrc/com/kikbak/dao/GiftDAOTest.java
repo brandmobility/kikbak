@@ -21,7 +21,7 @@ public class GiftDAOTest extends KikbakBaseTest {
 	
 	@Test
 	public void testListByUserId(){
-		Collection<Gift> gifts = roDao.listByUserId(12L);
+		Collection<Gift> gifts = roDao.listValidByUserId(12L);
 		assertEquals(1, gifts.size());
 	}
 	
@@ -60,7 +60,7 @@ public class GiftDAOTest extends KikbakBaseTest {
 		gift.setRedemptionDate(new Date());
 		rwDao.makePersistent(gift);
 		
-		Collection<Gift> gifts = roDao.listByUserId(6363L);
+		Collection<Gift> gifts = roDao.listValidByUserId(6363L);
 		assertEquals(1, gifts.size());
 		Gift g = (Gift) gifts.toArray()[0];
 		assertEquals(144, g.getOfferId());

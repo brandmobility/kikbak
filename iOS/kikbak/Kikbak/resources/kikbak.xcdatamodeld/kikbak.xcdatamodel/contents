@@ -30,8 +30,8 @@
         <relationship name="location" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Location" inverseName="offer" inverseEntity="Location" syncable="YES"/>
     </entity>
     <elements>
+        <element name="Gift" positionX="-5807" positionY="-495" width="128" height="135"/>
         <element name="Location" positionX="-5544" positionY="-567" width="128" height="118"/>
         <element name="Offer" positionX="-5247" positionY="-585" width="128" height="223"/>
-        <element name="Gift" positionX="160" positionY="192" width="128" height="135"/>
     </elements>
 </model>

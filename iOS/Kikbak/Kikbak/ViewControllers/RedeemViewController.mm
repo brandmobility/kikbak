@@ -11,6 +11,10 @@
 #import "RedeemView.h"
 #import "AppDelegate.h"
 #import "QRCodeReader.h"
+#import "Gift.h"
+#import "Location.h"
+#import "RedeemGiftRequest.h"
+
 
 @interface RedeemViewController ()
 -(void)manuallyLayoutSubviews;
@@ -165,10 +169,55 @@
     RedeemView* redeemView = [[RedeemView alloc]initWithFrame:frame];
     [redeemView manuallyLayoutSubviews];
     [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:redeemView];
+    
+    RedeemGiftRequest *request = [[RedeemGiftRequest alloc]init];
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:3];
+    [dict setObject:self.gift.giftId forKey:@"id"];
+    Location* location = [self.gift.location anyObject];
+    [dict setObject:location.locationId forKey:@"locationId"];
+    [dict setObject:@"zdfdw" forKey:@"verificationCode"];
+    [request makeRequest:dict];
+    
+    self.gift.location = nil;
+    NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
+    [context deleteObject:self.gift];
+    
+    NSError* error;
+    [context save:&error];
+    [context reset];
+    
+    if(error){
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+    }
+    
+    self.gift = nil;
+}
 }
 
 - (void)zxingControllerDidCancel:(ZXingWidgetController*)controller {
     [self dismissViewControllerAnimated:YES completion:nil];
+    
+    RedeemGiftRequest *request = [[RedeemGiftRequest alloc]init];
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:3];
+    [dict setObject:self.gift.giftId forKey:@"id"];
+    Location* location = [self.gift.location anyObject];
+    [dict setObject:location.locationId forKey:@"locationId"];
+    [dict setObject:@"zdfdw" forKey:@"verificationCode"];
+    [request makeRequest:dict];
+    
+    self.gift.location = nil;
+    NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
+    [context deleteObject:self.gift];
+    
+    NSError* error;
+    [context save:&error];
+    [context reset];
+    
+    if(error){
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+    }
+    
+    self.gift = nil;
 }
 
 @end

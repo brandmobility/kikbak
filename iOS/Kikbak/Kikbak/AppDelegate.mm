@@ -46,12 +46,9 @@ NSString *const kKikbakGiftUpdate = @"kKikbakGiftUpdate";
   
     self.userInfo = [[FBUserInfo alloc]init];
     [FBQuery createFBSession];
-    if( self.session ){
-        [FBQuery fbMe];
-    }
-  
-    if( self.session.isOpen ){
 
+    if( self.session.isOpen ){
+        [FBQuery fbMe];
         UIStoryboard* mainBoard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
         UIViewController* postView = [mainBoard instantiateViewControllerWithIdentifier:@"RootViewController"];
         self.window.rootViewController = postView;
@@ -90,7 +87,7 @@ NSString *const kKikbakGiftUpdate = @"kKikbakGiftUpdate";
     [self fadeOutSplash];
     NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
     if( [prefs objectForKey:KIKBAK_USER_ID] == nil ){
-        if( self.session ){
+        if( [self.session isOpen] ){
             [FBQuery fbMe];
         }
     }

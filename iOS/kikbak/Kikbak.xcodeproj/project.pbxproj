@@ -83,7 +83,6 @@
 		3CBCBF761717EC37007B4249 /* Gift.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF751717EC37007B4249 /* Gift.m */; };
 		3CBCBF7B171862A4007B4249 /* RedeemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF7A171862A4007B4249 /* RedeemTableViewCell.m */; };
 		3CC6D5AD16A1587300D42AD1 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CC6D5AC16A1587300D42AD1 /* FacebookSDK.framework */; };
-		3CCCBC5316EC5BF500FA71A2 /* QRScannerViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCBC4F16EC5BF500FA71A2 /* QRScannerViewController.mm */; };
 		3CCCBC5716EC5C2400FA71A2 /* RedeemViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCBC5616EC5C2400FA71A2 /* RedeemViewController.mm */; };
 		3CCCBCF016F03A0B00FA71A2 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCBCEF16F03A0B00FA71A2 /* NSData+Base64.m */; };
 		3CCCBCF316F03A2300FA71A2 /* UIDevice+Screen.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCBCF216F03A2300FA71A2 /* UIDevice+Screen.m */; };
@@ -270,8 +269,6 @@
 		3CBCBF79171862A4007B4249 /* RedeemTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedeemTableViewCell.h; sourceTree = "<group>"; };
 		3CBCBF7A171862A4007B4249 /* RedeemTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedeemTableViewCell.m; sourceTree = "<group>"; };
 		3CC6D5AC16A1587300D42AD1 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
-		3CCCBC4E16EC5BF500FA71A2 /* QRScannerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRScannerViewController.h; sourceTree = "<group>"; };
-		3CCCBC4F16EC5BF500FA71A2 /* QRScannerViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QRScannerViewController.mm; sourceTree = "<group>"; };
 		3CCCBC5516EC5C2400FA71A2 /* RedeemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedeemViewController.h; sourceTree = "<group>"; };
 		3CCCBC5616EC5C2400FA71A2 /* RedeemViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RedeemViewController.mm; sourceTree = "<group>"; };
 		3CCCBCEE16F03A0B00FA71A2 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
@@ -449,8 +446,6 @@
 		3CCCBC4A16EC59A700FA71A2 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				3CCCBC4E16EC5BF500FA71A2 /* QRScannerViewController.h */,
-				3CCCBC4F16EC5BF500FA71A2 /* QRScannerViewController.mm */,
 				3CCCBC5516EC5C2400FA71A2 /* RedeemViewController.h */,
 				3CCCBC5616EC5C2400FA71A2 /* RedeemViewController.mm */,
 				3CCCBCFF16F4444000FA71A2 /* OfferViewController.h */,
@@ -912,7 +907,6 @@
 				C0479A10167D9BEC00C2253D /* SBJsonWriter.m in Sources */,
 				C0C972691692CBE4001A2A80 /* Distance.m in Sources */,
 				C0C9726C1692CC9F001A2A80 /* LocationManager.m in Sources */,
-				3CCCBC5316EC5BF500FA71A2 /* QRScannerViewController.mm in Sources */,
 				3CCCBC5716EC5C2400FA71A2 /* RedeemViewController.mm in Sources */,
 				3CCCBCF016F03A0B00FA71A2 /* NSData+Base64.m in Sources */,
 				3CCCBCF316F03A2300FA71A2 /* UIDevice+Screen.m in Sources */,

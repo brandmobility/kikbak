@@ -48,7 +48,6 @@
     self.table.backgroundColor = [UIColor colorWithRed:0.835 green:0.835 blue:0.835 alpha:1];
     [self.view addSubview:self.table];
     
-    self.offers = [OfferLoader getOffers];
     if(((AppDelegate*)[UIApplication sharedApplication].delegate).locationMgr.currentLocation != nil)
         locationResolved = YES;
     else{
@@ -60,6 +59,9 @@
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onLocationUpdate:) name:kKikbakLocationUpdate object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onOfferUpdate:) name:kKikbakOfferUpdate object:nil];
+    
+    
+    self.offers = [OfferLoader getOffers];
     [self.table reloadData];
 }
 
