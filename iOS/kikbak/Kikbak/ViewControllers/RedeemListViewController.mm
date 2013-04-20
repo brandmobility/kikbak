@@ -8,10 +8,14 @@
 
 #import "RedeemListViewController.h"
 #import "RedeemTableViewCell.h"
+#import "Gift.h"
+#import "Kikbak.h"
 #import "GiftLoader.h"
+#import "KikbakLoader.h"
 #import "AppDelegate.h"
 #import "LocationManager.h"
 #import "RedeemViewController.h"
+#import "RewardCollection.h"
 
 
 @interface RedeemListViewController (){
@@ -19,9 +23,10 @@
 }
 
 @property (nonatomic, strong) UITableView* table;
-@property (nonatomic, strong) NSArray* gifts;
+@property (nonatomic, strong) NSMutableArray* rewards;
 
 -(void) manuallyLayoutSubviews;
+-(void) createRewardCollection;
 
 @end
 
@@ -57,9 +62,9 @@
     [super viewWillAppear:animated];
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onLocationUpdate:) name:kKikbakLocationUpdate object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onGiftUpdate:) name:kKikbakGiftUpdate object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onRewaredCollectionUpdate:) name:kKikbakRewardUpdate object:nil];
     
-    self.gifts = [GiftLoader getGifts];
+    [self createRewardCollection];
     [self.table reloadData];
 }
 
@@ -101,7 +106,7 @@
         cell = [[RedeemTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"redeemCell"];
     }
     
-    cell.gift = [self.gifts objectAtIndex:indexPath.row];
+    cell.rewards = [self.rewards objectAtIndex:indexPath.row];
     [cell setup];
     return cell;
 }
@@ -109,7 +114,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (locationResolved) {
-        return [self.gifts count];
+        return [self.rewards count];
     }
     return 0;
 }
@@ -120,13 +125,13 @@
 
 #pragma mark - segue
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [self performSegueWithIdentifier:@"RedeemSegue" sender:[self.gifts objectAtIndex:indexPath.row ]];
+    [self performSegueWithIdentifier:@"RedeemSegue" sender:[self.rewards objectAtIndex:indexPath.row ]];
     
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     RedeemViewController* vc = (RedeemViewController*)segue.destinationViewController;
-    vc.gift = sender;
+    vc.reward = sender;
     [segue.destinationViewController setHidesBottomBarWhenPushed:YES];
 }
 
@@ -137,10 +142,40 @@
     [self.table reloadData];
 }
 
--(void) onGiftUpdate:(NSNotification*)notification{
+-(void) onRewaredCollectionUpdate:(NSNotification*)notification{
     
-    self.gifts = [GiftLoader getGifts];
+    [self createRewardCollection];
     [self.table reloadData];
+}
+
+-(void) createRewardCollection{
+    
+    NSArray* gifts = [GiftLoader getGifts];
+    NSArray* kikbaks = [KikbakLoader getKikbaks];
+    
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:[gifts count]];
+    
+    for(Gift* gift in gifts){
+        RewardCollection* collection = [[RewardCollection alloc]init];
+        collection.gift = gift;
+        [dict setObject:collection forKey:gift.merchantId];
+    }
+    
+    for(Kikbak* kikbak in kikbaks){
+        if([dict objectForKey:kikbak.merchantId]){
+            ((RewardCollection*)[dict objectForKey:kikbak.merchantId]).kikbak = kikbak;
+        }
+        else{
+            RewardCollection* collection = [[RewardCollection alloc]init];
+            collection.kikbak = kikbak;
+            [dict setObject:collection forKey:kikbak.merchantId];
+        }
+    }
+    
+    self.rewards = [[NSMutableArray alloc]init];
+    for(RewardCollection* collection in [dict allValues]){
+        [self.rewards addObject:collection];
+    }
 }
 
 @end

@@ -103,6 +103,7 @@ public class RewardServiceImpl implements RewardService{
 			Offer offer = roOfferDao.findById(gift.getOfferId());
 			gt.setDescription(offer.getGiftDescription());
 			gt.setName(offer.getGiftName());
+			gt.setFriendUserId(gift.getFriendUserId());
 			
 			gts.add(gt);
 		}
@@ -113,12 +114,13 @@ public class RewardServiceImpl implements RewardService{
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public Collection<KikbakType> getKikbaks(Long userId) {
-		Collection<Kikbak> kikbaks = roKikbakDao.listByUserId(userId);
+		Collection<Kikbak> kikbaks = roKikbakDao.listKikbaksWithValue(userId);
 		Collection<KikbakType> kts = new ArrayList<KikbakType>();
 		
 		for( Kikbak kikbak : kikbaks){
 			KikbakType kt = new KikbakType();
 			kt.setValue(kikbak.getValue());
+			kt.setId(kikbak.getId());
 			
 			Merchant merchant = roMerchantDao.findById(kikbak.getMerchantId());
 			ClientMerchantType cmt = fillClientMerchantType(merchant);
@@ -150,7 +152,7 @@ public class RewardServiceImpl implements RewardService{
 		rwGiftDao.makePersistent(gift);
 		
 		KikbakManager km = new KikbakManager(roOfferDao, roKikbakDao, rwKikbakDao, rwTxnDao);
-		km.manageKikbak(userId, gift.getOfferId(), gift.getMerchantId(), giftType.getLocationId());
+		km.manageKikbak(giftType.getFriendUserId(), gift.getOfferId(), gift.getMerchantId(), giftType.getLocationId());
 		
 		//send notification for kikbak when gift is redeemed
 		Devicetoken token = roDeviceToken.findByUserId(userId);

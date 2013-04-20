@@ -39,13 +39,13 @@
     
     NSArray* locations = [dict objectForKey:@"locations"];
     for(id offerLocation in locations){
-        [LocationParser parse:offerLocation forOffer:offer];
+        Location* loc = [LocationParser parse:offerLocation withContext:offer.managedObjectContext];
+        [offer addLocationObject:loc];
     }
     
 	NSError *error = nil;
 	if (![context save:&error]) {
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-		abort();
 	}
 
     ImageRequest* request = [[ImageRequest alloc]init];

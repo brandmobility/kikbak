@@ -10,6 +10,7 @@
 #import "SBJson.h"
 #import "KikbakConstants.h"
 #import "GiftParser.h"
+#import "KikbakParser.h"
 #import "AppDelegate.h"
 
 static NSString* resource = @"rewards/request";
@@ -57,10 +58,14 @@ static NSString* resource = @"rewards/request";
             for(id gift in gifts){
                 [GiftParser parse:gift];
             }
+            NSArray* kikbaks = [rewardsResponse objectForKey:@"kikbaks"];
+            for(id kikbak in kikbaks){
+                [KikbakParser parse:kikbak];
+            }
         }
     }
     
-    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakGiftUpdate object:nil];
+    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakRewardUpdate object:nil];
 }
 
 @end

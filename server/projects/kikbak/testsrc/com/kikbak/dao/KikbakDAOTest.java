@@ -26,7 +26,7 @@ public class KikbakDAOTest extends KikbakBaseTest {
 	
 	@Test
 	public void testListByUserId(){
-		Collection<Kikbak> kikbaks = roDao.listByUserId(2L);
+		Collection<Kikbak> kikbaks = roDao.listKikbaksWithValue(2L);
 		assertEquals(1, kikbaks.size());
 	}
 	

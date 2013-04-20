@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Gift.h"
+
+
+@class Gift;
 
 @interface GiftLoader : NSObject
 

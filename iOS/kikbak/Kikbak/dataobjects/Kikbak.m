@@ -1,23 +1,23 @@
 //
-//  Gift.m
+//  Kikbak.m
 //  Kikbak
 //
 //  Created by Ian Barile on 4/16/13.
 //  Copyright (c) 2013 Ian Barile. All rights reserved.
 //
 
-#import "Gift.h"
+#import "Kikbak.h"
 #import "Location.h"
 
 
-@implementation Gift
+@implementation Kikbak
 
-@dynamic desc;
-@dynamic giftId;
+@dynamic kikbakId;
 @dynamic merchantId;
 @dynamic merchantName;
 @dynamic name;
-@dynamic friendUserId;
+@dynamic desc;
+@dynamic value;
 @dynamic location;
 
 @end

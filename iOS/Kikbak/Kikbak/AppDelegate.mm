@@ -21,7 +21,7 @@
 
 NSString *const kKikbakLocationUpdate = @"kKikbakLocationUpdate";
 NSString *const kKikbakOfferUpdate = @"kKikbakOfferUpdate";
-NSString *const kKikbakGiftUpdate = @"kKikbakGiftUpdate";
+NSString *const kKikbakRewardUpdate = @"kKikbakRewardUpdate";
 
 @interface AppDelegate()
 -(void)fadeOutSplash;

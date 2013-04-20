@@ -8,10 +8,11 @@
 
 #import "RedeemTableViewCell.h"
 #import "Gift.h"
+#import "Kikbak.h"
 #import "Distance.h"
 #import "Location.h"
 #import "ImagePersistor.h"
-
+#import "RewardCollection.h"
 
 @interface RedeemTableViewCell()
 
@@ -27,6 +28,8 @@
 @property (nonatomic, strong) UILabel* rightText;
 
 -(void)manuallyLayoutSubview;
+-(void)setupGift;
+-(void)setupKikbak;
 
 
 @end
@@ -123,18 +126,46 @@
 
 
 -(void)setup{
-    self.store.text = self.gift.merchantName;
-    self.leftText.text = self.gift.desc;
+    if( self.rewards.gift){
+        [self setupGift];
+    }
+    
+    if( self.rewards.kikbak){
+        [self setupKikbak];
+    }
+}
+
+-(void)setupGift{
+    self.store.text = self.rewards.gift.merchantName;
+    self.leftText.text = self.rewards.gift.desc;
     self.rightText.text = @"";
     Location* location = nil;
     //todo: find closest location
-    if (self.gift.location.count > 0) {
-        location = [self.gift.location anyObject];
+    if (self.rewards.gift.location.count > 0) {
+        location = [self.rewards.gift.location anyObject];
     }
     
     self.distance.text = [Distance distanceToInMiles:[[CLLocation alloc]initWithLatitude:location.latitude.doubleValue longitude:location.longitude.doubleValue]];
     
-    NSString* imagePath = [ImagePersistor merchantImageFileExists:self.gift.merchantId];
+    NSString* imagePath = [ImagePersistor merchantImageFileExists:self.rewards.gift.merchantId];
+    if(imagePath != nil){
+        self.storeImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
+    }
+}
+
+-(void)setupKikbak{
+    self.store.text = self.rewards.kikbak.merchantName;
+    self.leftText.text = self.rewards.kikbak.desc;
+    self.rightText.text = @"";
+    Location* location = nil;
+    //todo: find closest location
+    if (self.rewards.kikbak.location.count > 0) {
+        location = [self.rewards.kikbak.location anyObject];
+    }
+    
+    self.distance.text = [Distance distanceToInMiles:[[CLLocation alloc]initWithLatitude:location.latitude.doubleValue longitude:location.longitude.doubleValue]];
+    
+    NSString* imagePath = [ImagePersistor merchantImageFileExists:self.rewards.kikbak.merchantId];
     if(imagePath != nil){
         self.storeImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
     }

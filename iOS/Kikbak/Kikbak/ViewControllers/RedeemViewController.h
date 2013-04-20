@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <ZXingWidgetController.h>
 
-@class Gift;
+@class RewardCollection;
 
 @interface RedeemViewController : UIViewController<ZXingDelegate>
 
@@ -34,7 +34,7 @@
 @property(nonatomic, strong) IBOutlet UIButton* redeemBtn;
 @property(nonatomic, strong) IBOutlet UIView* locationView;
 
-@property(nonatomic, strong) IBOutlet Gift* gift;
+@property(nonatomic, strong) RewardCollection* reward;
 
 -(IBAction)onRedeem:(id)sender;
 -(IBAction)onTermsAndConditions:(id)sender;

@@ -65,6 +65,12 @@
 		3CA1B31B17056B9F005D2918 /* redeem_tabbar.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CA1B31917056B9F005D2918 /* redeem_tabbar.png */; };
 		3CA1B31E17056BBF005D2918 /* give_tabbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CA1B31C17056BBF005D2918 /* give_tabbar@2x.png */; };
 		3CA1B31F17056BBF005D2918 /* redeem_tabbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CA1B31D17056BBF005D2918 /* redeem_tabbar@2x.png */; };
+		3CA9F181171E782E001C3929 /* Gift.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA9F180171E782E001C3929 /* Gift.m */; };
+		3CA9F187171E7C54001C3929 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA9F186171E7C54001C3929 /* Location.m */; };
+		3CA9F18A171E7C9D001C3929 /* KikbakParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA9F189171E7C9D001C3929 /* KikbakParser.m */; };
+		3CA9F190171E7FC0001C3929 /* Kikbak.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA9F18F171E7FC0001C3929 /* Kikbak.m */; };
+		3CA9F193171E8016001C3929 /* KikbakLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA9F192171E8016001C3929 /* KikbakLoader.m */; };
+		3CA9F196171FB9CB001C3929 /* RewardCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA9F195171FB9CB001C3929 /* RewardCollection.m */; };
 		3CBCBF2617127468007B4249 /* OfferLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF2517127468007B4249 /* OfferLoader.m */; };
 		3CBCBF29171277A3007B4249 /* LocationLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF28171277A3007B4249 /* LocationLoader.m */; };
 		3CBCBF491713E696007B4249 /* SubmitFriendsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF351713E696007B4249 /* SubmitFriendsRequest.m */; };
@@ -80,7 +86,6 @@
 		3CBCBF581713F6AD007B4249 /* ImagePersistor.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF571713F6AD007B4249 /* ImagePersistor.m */; };
 		3CBCBF6D1717E2F8007B4249 /* GiftParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF6C1717E2F8007B4249 /* GiftParser.m */; };
 		3CBCBF701717E405007B4249 /* GiftLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF6F1717E405007B4249 /* GiftLoader.m */; };
-		3CBCBF761717EC37007B4249 /* Gift.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF751717EC37007B4249 /* Gift.m */; };
 		3CBCBF7B171862A4007B4249 /* RedeemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF7A171862A4007B4249 /* RedeemTableViewCell.m */; };
 		3CC6D5AD16A1587300D42AD1 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CC6D5AC16A1587300D42AD1 /* FacebookSDK.framework */; };
 		3CCCBC5716EC5C2400FA71A2 /* RedeemViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCBC5616EC5C2400FA71A2 /* RedeemViewController.mm */; };
@@ -227,6 +232,18 @@
 		3CA1B31917056B9F005D2918 /* redeem_tabbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redeem_tabbar.png; sourceTree = "<group>"; };
 		3CA1B31C17056BBF005D2918 /* give_tabbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "give_tabbar@2x.png"; sourceTree = "<group>"; };
 		3CA1B31D17056BBF005D2918 /* redeem_tabbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redeem_tabbar@2x.png"; sourceTree = "<group>"; };
+		3CA9F17F171E782E001C3929 /* Gift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gift.h; sourceTree = "<group>"; };
+		3CA9F180171E782E001C3929 /* Gift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gift.m; sourceTree = "<group>"; };
+		3CA9F185171E7C54001C3929 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
+		3CA9F186171E7C54001C3929 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
+		3CA9F188171E7C9D001C3929 /* KikbakParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KikbakParser.h; sourceTree = "<group>"; };
+		3CA9F189171E7C9D001C3929 /* KikbakParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KikbakParser.m; sourceTree = "<group>"; };
+		3CA9F18E171E7FC0001C3929 /* Kikbak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Kikbak.h; sourceTree = "<group>"; };
+		3CA9F18F171E7FC0001C3929 /* Kikbak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Kikbak.m; sourceTree = "<group>"; };
+		3CA9F191171E8016001C3929 /* KikbakLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KikbakLoader.h; sourceTree = "<group>"; };
+		3CA9F192171E8016001C3929 /* KikbakLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KikbakLoader.m; sourceTree = "<group>"; };
+		3CA9F194171FB9CB001C3929 /* RewardCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RewardCollection.h; sourceTree = "<group>"; };
+		3CA9F195171FB9CB001C3929 /* RewardCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RewardCollection.m; sourceTree = "<group>"; };
 		3CBCBF2417127468007B4249 /* OfferLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfferLoader.h; sourceTree = "<group>"; };
 		3CBCBF2517127468007B4249 /* OfferLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfferLoader.m; sourceTree = "<group>"; };
 		3CBCBF27171277A3007B4249 /* LocationLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationLoader.h; sourceTree = "<group>"; };
@@ -256,16 +273,12 @@
 		3CBCBF531713E6A8007B4249 /* ImageRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageRequest.m; sourceTree = "<group>"; };
 		3CBCBF561713F6AD007B4249 /* ImagePersistor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagePersistor.h; sourceTree = "<group>"; };
 		3CBCBF571713F6AD007B4249 /* ImagePersistor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagePersistor.m; sourceTree = "<group>"; };
-		3CBCBF671717E131007B4249 /* Location.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
-		3CBCBF681717E131007B4249 /* Location.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
 		3CBCBF691717E131007B4249 /* Offer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Offer.h; sourceTree = "<group>"; };
 		3CBCBF6A1717E132007B4249 /* Offer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Offer.m; sourceTree = "<group>"; };
 		3CBCBF6B1717E2F8007B4249 /* GiftParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GiftParser.h; sourceTree = "<group>"; };
 		3CBCBF6C1717E2F8007B4249 /* GiftParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GiftParser.m; sourceTree = "<group>"; };
 		3CBCBF6E1717E405007B4249 /* GiftLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GiftLoader.h; sourceTree = "<group>"; };
 		3CBCBF6F1717E405007B4249 /* GiftLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GiftLoader.m; sourceTree = "<group>"; };
-		3CBCBF741717EC37007B4249 /* Gift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gift.h; sourceTree = "<group>"; };
-		3CBCBF751717EC37007B4249 /* Gift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gift.m; sourceTree = "<group>"; };
 		3CBCBF79171862A4007B4249 /* RedeemTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedeemTableViewCell.h; sourceTree = "<group>"; };
 		3CBCBF7A171862A4007B4249 /* RedeemTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedeemTableViewCell.m; sourceTree = "<group>"; };
 		3CC6D5AC16A1587300D42AD1 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
@@ -402,18 +415,22 @@
 		3C752BD917113B710092CFB1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				3CBCBF741717EC37007B4249 /* Gift.h */,
-				3CBCBF751717EC37007B4249 /* Gift.m */,
+				3CA9F18E171E7FC0001C3929 /* Kikbak.h */,
+				3CA9F18F171E7FC0001C3929 /* Kikbak.m */,
+				3CA9F185171E7C54001C3929 /* Location.h */,
+				3CA9F186171E7C54001C3929 /* Location.m */,
+				3CA9F17F171E782E001C3929 /* Gift.h */,
+				3CA9F180171E782E001C3929 /* Gift.m */,
 				3CBCBF691717E131007B4249 /* Offer.h */,
 				3CBCBF6A1717E132007B4249 /* Offer.m */,
-				3CBCBF671717E131007B4249 /* Location.h */,
-				3CBCBF681717E131007B4249 /* Location.m */,
 				3CBCBF2417127468007B4249 /* OfferLoader.h */,
 				3CBCBF2517127468007B4249 /* OfferLoader.m */,
 				3CBCBF27171277A3007B4249 /* LocationLoader.h */,
 				3CBCBF28171277A3007B4249 /* LocationLoader.m */,
 				3CBCBF6E1717E405007B4249 /* GiftLoader.h */,
 				3CBCBF6F1717E405007B4249 /* GiftLoader.m */,
+				3CA9F191171E8016001C3929 /* KikbakLoader.h */,
+				3CA9F192171E8016001C3929 /* KikbakLoader.m */,
 			);
 			name = Model;
 			path = Kikbak/dataobjects;
@@ -428,6 +445,8 @@
 				3C752BF1171145BB0092CFB1 /* LocationParser.m */,
 				3CBCBF6B1717E2F8007B4249 /* GiftParser.h */,
 				3CBCBF6C1717E2F8007B4249 /* GiftParser.m */,
+				3CA9F188171E7C9D001C3929 /* KikbakParser.h */,
+				3CA9F189171E7C9D001C3929 /* KikbakParser.m */,
 			);
 			name = parsers;
 			path = Kikbak/parsers;
@@ -456,6 +475,8 @@
 				3CA1B31017040374005D2918 /* OfferListViewController.mm */,
 				3CA1B312170405B9005D2918 /* RedeemListViewController.h */,
 				3CA1B313170405B9005D2918 /* RedeemListViewController.mm */,
+				3CA9F194171FB9CB001C3929 /* RewardCollection.h */,
+				3CA9F195171FB9CB001C3929 /* RewardCollection.m */,
 			);
 			name = ViewControllers;
 			path = Kikbak/ViewControllers;
@@ -937,8 +958,13 @@
 				3CBCBF581713F6AD007B4249 /* ImagePersistor.m in Sources */,
 				3CBCBF6D1717E2F8007B4249 /* GiftParser.m in Sources */,
 				3CBCBF701717E405007B4249 /* GiftLoader.m in Sources */,
-				3CBCBF761717EC37007B4249 /* Gift.m in Sources */,
 				3CBCBF7B171862A4007B4249 /* RedeemTableViewCell.m in Sources */,
+				3CA9F181171E782E001C3929 /* Gift.m in Sources */,
+				3CA9F187171E7C54001C3929 /* Location.m in Sources */,
+				3CA9F18A171E7C9D001C3929 /* KikbakParser.m in Sources */,
+				3CA9F190171E7FC0001C3929 /* Kikbak.m in Sources */,
+				3CA9F193171E8016001C3929 /* KikbakLoader.m in Sources */,
+				3CA9F196171FB9CB001C3929 /* RewardCollection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

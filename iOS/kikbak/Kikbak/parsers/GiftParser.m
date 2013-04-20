@@ -30,11 +30,13 @@
         
         NSArray* locations = [merchant objectForKey:@"locations"];
         for(id giftLocation in locations){
-            [LocationParser parse:giftLocation forGift:gift];
+            Location* loc = [LocationParser parse:giftLocation withContext:gift.managedObjectContext];
+            [gift addLocationObject:loc];
         }
     }
     gift.desc = [dict objectForKey:@"description"];
     gift.name = [dict objectForKey:@"name"];
+    gift.friendUserId = [dict objectForKey:@"friendUserId"];
     
     
     NSError *error = nil;

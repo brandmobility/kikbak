@@ -12,12 +12,17 @@
 #import "AppDelegate.h"
 #import "QRCodeReader.h"
 #import "Gift.h"
+#import "Kikbak.h"
 #import "Location.h"
 #import "RedeemGiftRequest.h"
+#import "RedeemKikbakRequest.h"
+#import "RewardCollection.h"
 
 
 @interface RedeemViewController ()
 -(void)manuallyLayoutSubviews;
+-(NSDictionary*)setupKikbakRequest;
+-(NSDictionary*)setupGiftRequest;
 @end
 
 @implementation RedeemViewController
@@ -147,14 +152,32 @@
 
 -(void)onRedeem:(id)sender{
 
-    ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO];
+//    ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO];
+//    
+//    NSMutableSet *readers = [[NSMutableSet alloc ] init];
+//    QRCodeReader* qrcodeReader = [[QRCodeReader alloc] init];
+//    [readers addObject:qrcodeReader];
+//    
+//    widController.readers = readers;
+//    [self presentViewController:widController animated:YES completion:nil];
     
-    NSMutableSet *readers = [[NSMutableSet alloc ] init];
-    QRCodeReader* qrcodeReader = [[QRCodeReader alloc] init];
-    [readers addObject:qrcodeReader];
+    RedeemKikbakRequest* rkr = [[RedeemKikbakRequest alloc]init];
+    [rkr makeRequest:[self setupKikbakRequest]];
     
-    widController.readers = readers;
-    [self presentViewController:widController animated:YES completion:nil];
+    self.reward.kikbak.location = nil;
+    NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
+    [context deleteObject:self.reward.kikbak];
+    
+    NSError* error;
+    [context save:&error];
+    [context reset];
+    
+    if(error){
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+    }
+    
+    self.reward.kikbak = nil;
+    
 }
 
 -(void)onTermsAndConditions:(id)sender{
@@ -172,15 +195,16 @@
     
     RedeemGiftRequest *request = [[RedeemGiftRequest alloc]init];
     NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:3];
-    [dict setObject:self.gift.giftId forKey:@"id"];
-    Location* location = [self.gift.location anyObject];
+    [dict setObject:self.reward.gift.giftId forKey:@"id"];
+    Location* location = [self.reward.gift.location anyObject];
     [dict setObject:location.locationId forKey:@"locationId"];
+    [dict setObject:self.reward.gift.friendUserId forKey:@"friendId"];
     [dict setObject:@"zdfdw" forKey:@"verificationCode"];
     [request makeRequest:dict];
     
-    self.gift.location = nil;
+    self.reward.gift.location = nil;
     NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
-    [context deleteObject:self.gift];
+    [context deleteObject:self.reward.gift];
     
     NSError* error;
     [context save:&error];
@@ -190,24 +214,18 @@
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
     
-    self.gift = nil;
-}
+    self.reward.gift = nil;
 }
 
 - (void)zxingControllerDidCancel:(ZXingWidgetController*)controller {
     [self dismissViewControllerAnimated:YES completion:nil];
     
     RedeemGiftRequest *request = [[RedeemGiftRequest alloc]init];
-    NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:3];
-    [dict setObject:self.gift.giftId forKey:@"id"];
-    Location* location = [self.gift.location anyObject];
-    [dict setObject:location.locationId forKey:@"locationId"];
-    [dict setObject:@"zdfdw" forKey:@"verificationCode"];
-    [request makeRequest:dict];
+    [request makeRequest:[self setupGiftRequest]];
     
-    self.gift.location = nil;
+    self.reward.gift.location = nil;
     NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
-    [context deleteObject:self.gift];
+    [context deleteObject:self.reward.gift];
     
     NSError* error;
     [context save:&error];
@@ -217,7 +235,29 @@
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
     
-    self.gift = nil;
+    self.reward.gift = nil;
+}
+
+-(NSDictionary*)setupKikbakRequest{
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:4];
+    [dict setObject:self.reward.kikbak.kikbakId forKey:@"id"];
+    Location* location = [self.reward.kikbak.location anyObject];
+    [dict setObject:location.locationId forKey:@"locationId"];
+    [dict setObject:self.reward.kikbak.value forKey:@"amount"];
+    [dict setObject:@"zdfdw" forKey:@"verificationCode"];
+    
+    return dict;
+}
+
+-(NSDictionary*)setupGiftRequest{
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:3];
+    [dict setObject:self.reward.gift.giftId forKey:@"id"];
+    Location* location = [self.reward.gift.location anyObject];
+    [dict setObject:location.locationId forKey:@"locationId"];
+    [dict setObject:self.reward.gift.friendUserId forKey:@"friendUserId"];
+    [dict setObject:@"zdfdw" forKey:@"verificationCode"];
+    
+    return dict;
 }
 
 @end

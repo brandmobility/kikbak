@@ -1,36 +1,36 @@
 //
-//  GiftLoader.m
+//  KikbakLoader.m
 //  Kikbak
 //
-//  Created by Ian Barile on 4/11/13.
+//  Created by Ian Barile on 4/17/13.
 //  Copyright (c) 2013 Ian Barile. All rights reserved.
 //
 
-#import "GiftLoader.h"
+#import "KikbakLoader.h"
 #import "AppDelegate.h"
-#import "Gift.h"
+#import "Kikbak.h"
 
-@implementation GiftLoader
+@implementation KikbakLoader
 
-+(Gift*)findGiftById:(NSNumber*)giftId{
++(Kikbak*)findKikbaktById:(NSNumber*)kikbakId{
     NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
     
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Gift" inManagedObjectContext:context];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Kikbak" inManagedObjectContext:context];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDescription];
     
     // Set example predicate and sort orderings...
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(giftId = %@)", giftId];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(kikbakId = %@)", kikbakId];
     [request setPredicate:predicate];
     
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"giftId" ascending:YES];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"kikbakId" ascending:YES];
     [request setSortDescriptors:@[sortDescriptor]];
     
     NSError *error;
     NSArray *array = [context executeFetchRequest:request error:&error];
     if (array == nil)
     {
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         return nil;
     }
     
@@ -42,14 +42,14 @@
     }
 }
 
-+(NSArray*)getGifts{
++(NSArray*)getKikbaks{
     NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
     
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Gift" inManagedObjectContext:context];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Kikbak" inManagedObjectContext:context];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDescription];
     
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"giftId" ascending:YES];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"kikbakId" ascending:YES];
     [request setSortDescriptors:@[sortDescriptor]];
     
     NSError *error;

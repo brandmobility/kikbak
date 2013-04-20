@@ -1,5 +1,5 @@
 //
-//  Gift.h
+//  Kikbak.h
 //  Kikbak
 //
 //  Created by Ian Barile on 4/16/13.
@@ -11,18 +11,18 @@
 
 @class Location;
 
-@interface Gift : NSManagedObject
+@interface Kikbak : NSManagedObject
 
-@property (nonatomic, retain) NSString * desc;
-@property (nonatomic, retain) NSNumber * giftId;
+@property (nonatomic, retain) NSNumber * kikbakId;
 @property (nonatomic, retain) NSNumber * merchantId;
 @property (nonatomic, retain) NSString * merchantName;
 @property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSNumber * friendUserId;
+@property (nonatomic, retain) NSString * desc;
+@property (nonatomic, retain) NSNumber * value;
 @property (nonatomic, retain) NSSet *location;
 @end
 
-@interface Gift (CoreDataGeneratedAccessors)
+@interface Kikbak (CoreDataGeneratedAccessors)
 
 - (void)addLocationObject:(Location *)value;
 - (void)removeLocationObject:(Location *)value;

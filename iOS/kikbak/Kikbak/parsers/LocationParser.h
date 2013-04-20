@@ -8,12 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@class Offer;
-@class Gift;
+@class Location;
 
 @interface LocationParser : NSObject
 
-+(void)parse:(NSDictionary*)dict forOffer:(Offer*) offer;
-+(void)parse:(NSDictionary*)dict forGift:(Gift*) gift;
++(Location*)parse:(NSDictionary*)dict withContext:(NSManagedObjectContext*)context;
 
 @end

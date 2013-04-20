@@ -62,7 +62,7 @@ public class KikbakManager {
 		Kikbak kikbak = new Kikbak();
 		kikbak.setBeginDate(offer.getBeginDate());
 		kikbak.setEndDate(offer.getEndDate());
-		kikbak.setLocationId(0);
+		kikbak.setLocationId(locationId);
 		kikbak.setMerchantId(offer.getMerchantId());
 		kikbak.setOfferId(offerId);
 		kikbak.setUserId(userId);

@@ -8,38 +8,23 @@
 
 #import "LocationParser.h"
 #import "Location.h"
-#import "Offer.h"
 #import "LocationLoader.h"
-#import "Gift.h"
+
 
 @implementation LocationParser
 
-+(void)parse:(NSDictionary*)dict forOffer:(Offer*) offer{
-
-    NSManagedObjectContext* context = offer.managedObjectContext;
++(Location*)parse:(NSDictionary*)dict withContext:(NSManagedObjectContext*)context{
+    
     Location* location = [LocationLoader findById:[dict objectForKey:@"locationId"]];
     if(location == nil){
         location = [NSEntityDescription insertNewObjectForEntityForName:@"Location" inManagedObjectContext:context];
     }
     
-    [offer addLocationObject:location];
     location.longitude = [dict objectForKey:@"longitude"];
     location.latitude = [dict objectForKey:@"latitude"];
     location.locationId = [dict objectForKey:@"locationId"];
 
-}
-
-+(void)parse:(NSDictionary*)dict forGift:(Gift*) gift{
-    NSManagedObjectContext* context = gift.managedObjectContext;
-    Location* location = [LocationLoader findById:[dict objectForKey:@"locationId"]];
-    if(location == nil){
-        location = [NSEntityDescription insertNewObjectForEntityForName:@"Location" inManagedObjectContext:context];
-    }
-    
-    [gift addLocationObject:location];
-    location.longitude = [dict objectForKey:@"longitude"];
-    location.latitude = [dict objectForKey:@"latitude"];
-    location.locationId = [dict objectForKey:@"locationId"];
+    return location;
 }
 
 @end

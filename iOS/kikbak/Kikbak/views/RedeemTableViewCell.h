@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@class Gift;
+@class RewardCollection;
 
 @interface RedeemTableViewCell : UITableViewCell
 
-@property(strong, nonatomic)Gift* gift;
+@property(strong, nonatomic)RewardCollection* rewards;
 
 -(void)setup;
 
