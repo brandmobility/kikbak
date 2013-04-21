@@ -10,8 +10,8 @@
 #import "RedeemTableViewCell.h"
 #import "Gift.h"
 #import "Kikbak.h"
-#import "GiftLoader.h"
-#import "KikbakLoader.h"
+#import "GiftService.h"
+#import "KikbakService.h"
 #import "AppDelegate.h"
 #import "LocationManager.h"
 #import "RedeemViewController.h"
@@ -150,8 +150,8 @@
 
 -(void) createRewardCollection{
     
-    NSArray* gifts = [GiftLoader getGifts];
-    NSArray* kikbaks = [KikbakLoader getKikbaks];
+    NSArray* gifts = [GiftService getGifts];
+    NSArray* kikbaks = [KikbakService getKikbaks];
     
     NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:[gifts count]];
     

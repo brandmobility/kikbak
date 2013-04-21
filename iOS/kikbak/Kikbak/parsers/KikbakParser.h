@@ -10,6 +10,7 @@
 
 @interface KikbakParser : NSObject
 
-+(void)parse:(NSDictionary*)dict;
+-(void)parse:(NSDictionary*)dict;
+-(void)resolveDiff;
 
 @end

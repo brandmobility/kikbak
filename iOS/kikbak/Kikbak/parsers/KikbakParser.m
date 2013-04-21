@@ -11,13 +11,19 @@
 #import "Location.h"
 #import "LocationParser.h"
 #import "Kikbak.h"
-#import "KikbakLoader.h"
+#import "KikbakService.h"
+
+@interface KikbakParser()
+
+@property (nonatomic, strong) NSMutableArray* kikbaks;
+
+@end
 
 @implementation KikbakParser
 
-+(void)parse:(NSDictionary*)dict{
+-(void)parse:(NSDictionary*)dict{
     NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
-    Kikbak* kikbak = [KikbakLoader findKikbaktById:[dict objectForKey:@"id"]];
+    Kikbak* kikbak = [KikbakService findKikbaktById:[dict objectForKey:@"id"]];
     if( kikbak == nil){
         kikbak = [NSEntityDescription insertNewObjectForEntityForName:@"Kikbak" inManagedObjectContext:context];
         kikbak.kikbakId = [dict objectForKey:@"id"];
@@ -30,7 +36,7 @@
         
         NSArray* locations = [merchant objectForKey:@"locations"];
         for(id kikbakLocation in locations){
-            Location* loc = [LocationParser parse:kikbakLocation withContext:kikbak.managedObjectContext];
+            Location* loc = [[[LocationParser alloc]init] parse:kikbakLocation withContext:kikbak.managedObjectContext];
             [kikbak addLocationObject:loc];
         }
     }
@@ -44,7 +50,30 @@
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
     
+    if(self.kikbaks == nil){
+        self.kikbaks = [[NSMutableArray alloc]initWithCapacity:1];
+    }
+    [self.kikbaks addObject:kikbak];
 }
 
+
+-(void)resolveDiff{
+    NSMutableArray* persistedKikbaks = [[NSMutableArray alloc]initWithArray:[KikbakService getKikbaks]];
+    for(Kikbak* kikbak in self.kikbaks){
+        [persistedKikbaks removeObject: kikbak];
+    }
+    
+    NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
+    for(Kikbak* kikbak in persistedKikbaks){
+        [context deleteObject:kikbak];
+    }
+    
+    NSError* error = nil;
+    if(![context save:&error]){
+       NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+    }
+
+    [context reset];
+}
 
 @end

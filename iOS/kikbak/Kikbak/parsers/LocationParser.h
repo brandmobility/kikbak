@@ -12,6 +12,6 @@
 
 @interface LocationParser : NSObject
 
-+(Location*)parse:(NSDictionary*)dict withContext:(NSManagedObjectContext*)context;
+-(Location*)parse:(NSDictionary*)dict withContext:(NSManagedObjectContext*)context;
 
 @end

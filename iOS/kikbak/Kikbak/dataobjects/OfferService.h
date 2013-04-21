@@ -10,8 +10,10 @@
 
 @class Offer;
 
-@interface OfferLoader : NSObject
+@interface OfferService : NSObject
 
 +(Offer*)findOfferById:(NSNumber*)offerId;
 +(NSArray*)getOffers;
++(void)deleteAll;
+
 @end

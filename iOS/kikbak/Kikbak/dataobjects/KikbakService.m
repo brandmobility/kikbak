@@ -6,11 +6,13 @@
 //  Copyright (c) 2013 Ian Barile. All rights reserved.
 //
 
-#import "KikbakLoader.h"
+#import "KikbakService.h"
 #import "AppDelegate.h"
 #import "Kikbak.h"
 
-@implementation KikbakLoader
+@implementation KikbakService
+
+
 
 +(Kikbak*)findKikbaktById:(NSNumber*)kikbakId{
     NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
@@ -61,6 +63,19 @@
     }
     
     return array;
+}
+
++(void)deleteAll{
+    NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
+    NSArray* kikbaks = [self getKikbaks];
+    for(id kikbak in kikbaks){
+        [context deleteObject:kikbak];
+    }
+    
+    NSError* error = nil;
+    if(![context save:&error]){
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+    }
 }
 
 @end

@@ -6,11 +6,12 @@
 //  Copyright (c) 2013 Ian Barile. All rights reserved.
 //
 
-#import "GiftLoader.h"
+#import "GiftService.h"
 #import "AppDelegate.h"
 #import "Gift.h"
 
-@implementation GiftLoader
+
+@implementation GiftService
 
 +(Gift*)findGiftById:(NSNumber*)giftId{
     NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
@@ -61,6 +62,19 @@
     }
     
     return array;
+}
+
++(void)deleteAll{
+    NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
+    NSArray* gifts = [self getGifts];
+    for(id gift in gifts){
+        [context deleteObject:gift];
+    }
+    
+    NSError* error = nil;
+    if(![context save:&error]){
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+    }
 }
 
 @end

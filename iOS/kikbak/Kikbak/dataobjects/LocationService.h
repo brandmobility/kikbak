@@ -10,6 +10,8 @@
 
 @class Location;
 
-@interface LocationLoader : NSObject
+@interface LocationService : NSObject
+
 +(Location*)findById:(NSNumber*)locationId;
+
 @end

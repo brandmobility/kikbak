@@ -10,9 +10,10 @@
 
 @class Kikbak;
 
-@interface KikbakLoader : NSObject
+@interface KikbakService : NSObject
 
 +(Kikbak*)findKikbaktById:(NSNumber*)kikbakId;
 +(NSArray*)getKikbaks;
++(void)deleteAll;
 
 @end

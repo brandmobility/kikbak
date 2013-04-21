@@ -69,10 +69,10 @@
 		3CA9F187171E7C54001C3929 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA9F186171E7C54001C3929 /* Location.m */; };
 		3CA9F18A171E7C9D001C3929 /* KikbakParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA9F189171E7C9D001C3929 /* KikbakParser.m */; };
 		3CA9F190171E7FC0001C3929 /* Kikbak.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA9F18F171E7FC0001C3929 /* Kikbak.m */; };
-		3CA9F193171E8016001C3929 /* KikbakLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA9F192171E8016001C3929 /* KikbakLoader.m */; };
+		3CA9F193171E8016001C3929 /* KikbakService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA9F192171E8016001C3929 /* KikbakService.m */; };
 		3CA9F196171FB9CB001C3929 /* RewardCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA9F195171FB9CB001C3929 /* RewardCollection.m */; };
-		3CBCBF2617127468007B4249 /* OfferLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF2517127468007B4249 /* OfferLoader.m */; };
-		3CBCBF29171277A3007B4249 /* LocationLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF28171277A3007B4249 /* LocationLoader.m */; };
+		3CBCBF2617127468007B4249 /* OfferService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF2517127468007B4249 /* OfferService.m */; };
+		3CBCBF29171277A3007B4249 /* LocationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF28171277A3007B4249 /* LocationService.m */; };
 		3CBCBF491713E696007B4249 /* SubmitFriendsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF351713E696007B4249 /* SubmitFriendsRequest.m */; };
 		3CBCBF4A1713E696007B4249 /* ShareExperienceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF361713E696007B4249 /* ShareExperienceRequest.m */; };
 		3CBCBF4B1713E696007B4249 /* RewardRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF371713E696007B4249 /* RewardRequest.m */; };
@@ -85,7 +85,7 @@
 		3CBCBF541713E6A8007B4249 /* ImageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF531713E6A8007B4249 /* ImageRequest.m */; };
 		3CBCBF581713F6AD007B4249 /* ImagePersistor.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF571713F6AD007B4249 /* ImagePersistor.m */; };
 		3CBCBF6D1717E2F8007B4249 /* GiftParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF6C1717E2F8007B4249 /* GiftParser.m */; };
-		3CBCBF701717E405007B4249 /* GiftLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF6F1717E405007B4249 /* GiftLoader.m */; };
+		3CBCBF701717E405007B4249 /* GiftService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF6F1717E405007B4249 /* GiftService.m */; };
 		3CBCBF7B171862A4007B4249 /* RedeemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF7A171862A4007B4249 /* RedeemTableViewCell.m */; };
 		3CC6D5AD16A1587300D42AD1 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CC6D5AC16A1587300D42AD1 /* FacebookSDK.framework */; };
 		3CCCBC5716EC5C2400FA71A2 /* RedeemViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCBC5616EC5C2400FA71A2 /* RedeemViewController.mm */; };
@@ -240,14 +240,14 @@
 		3CA9F189171E7C9D001C3929 /* KikbakParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KikbakParser.m; sourceTree = "<group>"; };
 		3CA9F18E171E7FC0001C3929 /* Kikbak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Kikbak.h; sourceTree = "<group>"; };
 		3CA9F18F171E7FC0001C3929 /* Kikbak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Kikbak.m; sourceTree = "<group>"; };
-		3CA9F191171E8016001C3929 /* KikbakLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KikbakLoader.h; sourceTree = "<group>"; };
-		3CA9F192171E8016001C3929 /* KikbakLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KikbakLoader.m; sourceTree = "<group>"; };
+		3CA9F191171E8016001C3929 /* KikbakService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KikbakService.h; sourceTree = "<group>"; };
+		3CA9F192171E8016001C3929 /* KikbakService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KikbakService.m; sourceTree = "<group>"; };
 		3CA9F194171FB9CB001C3929 /* RewardCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RewardCollection.h; sourceTree = "<group>"; };
 		3CA9F195171FB9CB001C3929 /* RewardCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RewardCollection.m; sourceTree = "<group>"; };
-		3CBCBF2417127468007B4249 /* OfferLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfferLoader.h; sourceTree = "<group>"; };
-		3CBCBF2517127468007B4249 /* OfferLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfferLoader.m; sourceTree = "<group>"; };
-		3CBCBF27171277A3007B4249 /* LocationLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationLoader.h; sourceTree = "<group>"; };
-		3CBCBF28171277A3007B4249 /* LocationLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationLoader.m; sourceTree = "<group>"; };
+		3CBCBF2417127468007B4249 /* OfferService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfferService.h; sourceTree = "<group>"; };
+		3CBCBF2517127468007B4249 /* OfferService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfferService.m; sourceTree = "<group>"; };
+		3CBCBF27171277A3007B4249 /* LocationService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationService.h; sourceTree = "<group>"; };
+		3CBCBF28171277A3007B4249 /* LocationService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationService.m; sourceTree = "<group>"; };
 		3CBCBF341713E696007B4249 /* HTTPConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPConstants.h; sourceTree = "<group>"; };
 		3CBCBF351713E696007B4249 /* SubmitFriendsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubmitFriendsRequest.m; sourceTree = "<group>"; };
 		3CBCBF361713E696007B4249 /* ShareExperienceRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareExperienceRequest.m; sourceTree = "<group>"; };
@@ -277,8 +277,8 @@
 		3CBCBF6A1717E132007B4249 /* Offer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Offer.m; sourceTree = "<group>"; };
 		3CBCBF6B1717E2F8007B4249 /* GiftParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GiftParser.h; sourceTree = "<group>"; };
 		3CBCBF6C1717E2F8007B4249 /* GiftParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GiftParser.m; sourceTree = "<group>"; };
-		3CBCBF6E1717E405007B4249 /* GiftLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GiftLoader.h; sourceTree = "<group>"; };
-		3CBCBF6F1717E405007B4249 /* GiftLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GiftLoader.m; sourceTree = "<group>"; };
+		3CBCBF6E1717E405007B4249 /* GiftService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GiftService.h; sourceTree = "<group>"; };
+		3CBCBF6F1717E405007B4249 /* GiftService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GiftService.m; sourceTree = "<group>"; };
 		3CBCBF79171862A4007B4249 /* RedeemTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedeemTableViewCell.h; sourceTree = "<group>"; };
 		3CBCBF7A171862A4007B4249 /* RedeemTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedeemTableViewCell.m; sourceTree = "<group>"; };
 		3CC6D5AC16A1587300D42AD1 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
@@ -423,14 +423,14 @@
 				3CA9F180171E782E001C3929 /* Gift.m */,
 				3CBCBF691717E131007B4249 /* Offer.h */,
 				3CBCBF6A1717E132007B4249 /* Offer.m */,
-				3CBCBF2417127468007B4249 /* OfferLoader.h */,
-				3CBCBF2517127468007B4249 /* OfferLoader.m */,
-				3CBCBF27171277A3007B4249 /* LocationLoader.h */,
-				3CBCBF28171277A3007B4249 /* LocationLoader.m */,
-				3CBCBF6E1717E405007B4249 /* GiftLoader.h */,
-				3CBCBF6F1717E405007B4249 /* GiftLoader.m */,
-				3CA9F191171E8016001C3929 /* KikbakLoader.h */,
-				3CA9F192171E8016001C3929 /* KikbakLoader.m */,
+				3CBCBF2417127468007B4249 /* OfferService.h */,
+				3CBCBF2517127468007B4249 /* OfferService.m */,
+				3CBCBF27171277A3007B4249 /* LocationService.h */,
+				3CBCBF28171277A3007B4249 /* LocationService.m */,
+				3CBCBF6E1717E405007B4249 /* GiftService.h */,
+				3CBCBF6F1717E405007B4249 /* GiftService.m */,
+				3CA9F191171E8016001C3929 /* KikbakService.h */,
+				3CA9F192171E8016001C3929 /* KikbakService.m */,
 			);
 			name = Model;
 			path = Kikbak/dataobjects;
@@ -943,8 +943,8 @@
 				3C752BDF17113CA10092CFB1 /* kikbak.xcdatamodeld in Sources */,
 				3C752BEF171145210092CFB1 /* OfferParser.m in Sources */,
 				3C752BF2171145BB0092CFB1 /* LocationParser.m in Sources */,
-				3CBCBF2617127468007B4249 /* OfferLoader.m in Sources */,
-				3CBCBF29171277A3007B4249 /* LocationLoader.m in Sources */,
+				3CBCBF2617127468007B4249 /* OfferService.m in Sources */,
+				3CBCBF29171277A3007B4249 /* LocationService.m in Sources */,
 				3CBCBF491713E696007B4249 /* SubmitFriendsRequest.m in Sources */,
 				3CBCBF4A1713E696007B4249 /* ShareExperienceRequest.m in Sources */,
 				3CBCBF4B1713E696007B4249 /* RewardRequest.m in Sources */,
@@ -957,13 +957,13 @@
 				3CBCBF541713E6A8007B4249 /* ImageRequest.m in Sources */,
 				3CBCBF581713F6AD007B4249 /* ImagePersistor.m in Sources */,
 				3CBCBF6D1717E2F8007B4249 /* GiftParser.m in Sources */,
-				3CBCBF701717E405007B4249 /* GiftLoader.m in Sources */,
+				3CBCBF701717E405007B4249 /* GiftService.m in Sources */,
 				3CBCBF7B171862A4007B4249 /* RedeemTableViewCell.m in Sources */,
 				3CA9F181171E782E001C3929 /* Gift.m in Sources */,
 				3CA9F187171E7C54001C3929 /* Location.m in Sources */,
 				3CA9F18A171E7C9D001C3929 /* KikbakParser.m in Sources */,
 				3CA9F190171E7FC0001C3929 /* Kikbak.m in Sources */,
-				3CA9F193171E8016001C3929 /* KikbakLoader.m in Sources */,
+				3CA9F193171E8016001C3929 /* KikbakService.m in Sources */,
 				3CA9F196171FB9CB001C3929 /* RewardCollection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -6,12 +6,13 @@
 //  Copyright (c) 2013 Ian Barile. All rights reserved.
 //
 
-#import "LocationLoader.h"
+#import "LocationService.h"
 #import "AppDelegate.h"
 
 @class Location;
 
-@implementation LocationLoader
+@implementation LocationService
+
 +(Location*)findById:(NSNumber*)locationId{
     NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
     

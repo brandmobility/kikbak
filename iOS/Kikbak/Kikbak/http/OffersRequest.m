@@ -56,15 +56,17 @@ static NSString* resource = @"user/offer";
 -(void)parseResponse:(NSData*)data{
 
     NSString* json = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-  //  NSLog(@"**** offersRequest: %@", json);
+    NSLog(@"**** offersRequest: %@", json);
     id dict = [json JSONValue];
     if( dict != [NSNull null] ){
         NSDictionary* getUserOffersResponse = [dict objectForKey:@"getUserOffersResponse"];
         if( getUserOffersResponse){
+            OfferParser* parser = [[OfferParser alloc]init];
             NSArray* offers = [getUserOffersResponse objectForKey:@"offers"];
             for(id offer in offers){
-                [OfferParser parse:offer];
+                [parser parse:offer];
             }
+            [parser resolveDiff];
         }
     }
     

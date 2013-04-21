@@ -11,9 +11,10 @@
 
 @class Gift;
 
-@interface GiftLoader : NSObject
+@interface GiftService : NSObject
 
 +(Gift*)findGiftById:(NSNumber*)giftId;
 +(NSArray*)getGifts;
++(void)deleteAll;
 
 @end

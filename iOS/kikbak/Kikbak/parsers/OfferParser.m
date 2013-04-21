@@ -10,14 +10,20 @@
 #import "AppDelegate.h"
 #import "Offer.h"
 #import "LocationParser.h"
-#import "OfferLoader.h"
+#import "OfferService.h"
 #import "ImageRequest.h"
+
+@interface OfferParser()
+
+@property (nonatomic, strong)NSMutableArray* offers;
+
+@end
 
 @implementation OfferParser
 
-+(void)parse:(NSDictionary*)dict{
+-(void)parse:(NSDictionary*)dict{
     NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
-    Offer* offer = [OfferLoader findOfferById:[dict objectForKey:@"id"]];
+    Offer* offer = [OfferService findOfferById:[dict objectForKey:@"id"]];
     if( offer == nil){
         offer = [NSEntityDescription insertNewObjectForEntityForName:@"Offer" inManagedObjectContext:context];
         offer.offerId = [dict objectForKey:@"id"];
@@ -39,7 +45,7 @@
     
     NSArray* locations = [dict objectForKey:@"locations"];
     for(id offerLocation in locations){
-        Location* loc = [LocationParser parse:offerLocation withContext:offer.managedObjectContext];
+        Location* loc = [[[LocationParser alloc]init] parse:offerLocation withContext:offer.managedObjectContext];
         [offer addLocationObject:loc];
     }
     
@@ -47,9 +53,33 @@
 	if (![context save:&error]) {
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 	}
+    
+    if(self.offers == nil){
+        self.offers = [[NSMutableArray alloc]initWithCapacity:1];
+    }
+    [self.offers addObject:offer];
 
     ImageRequest* request = [[ImageRequest alloc]init];
     [request requestMerchangeImage:offer.merchantImageUrl forMerchantId:offer.merchantId];
+}
+
+-(void)resolveDiff{
+    NSMutableArray* persistedOffers = [[NSMutableArray alloc]initWithArray: [OfferService getOffers]];
+    for(Offer* offer in self.offers){
+        [persistedOffers removeObject:offer];
+    }
+    
+    NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
+    for(Offer* offer in persistedOffers){
+        [context deleteObject:offer];
+    }
+    
+    NSError* error = nil;
+    if(![context save:&error]){
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+    }
+    
+    [context reset];
 }
 
 @end

@@ -9,7 +9,7 @@
 #import "OfferListViewController.h"
 #import "OfferViewController.h"
 #import "OfferTableViewCell.h"
-#import "OfferLoader.h"
+#import "OfferService.h"
 #import "OfferTableViewCell.h"
 #import "AppDelegate.h"
 #import "LocationManager.h"
@@ -61,7 +61,7 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onOfferUpdate:) name:kKikbakOfferUpdate object:nil];
     
     
-    self.offers = [OfferLoader getOffers];
+    self.offers = [OfferService getOffers];
     [self.table reloadData];
 }
 
@@ -143,7 +143,7 @@
 
 -(void) onOfferUpdate:(NSNotification*)notification{
 
-    self.offers = [OfferLoader getOffers];
+    self.offers = [OfferService getOffers];
     [self.table reloadData];
 }
 @end

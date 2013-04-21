@@ -8,14 +8,15 @@
 
 #import "LocationParser.h"
 #import "Location.h"
-#import "LocationLoader.h"
+#import "LocationService.h"
 
 
 @implementation LocationParser
 
-+(Location*)parse:(NSDictionary*)dict withContext:(NSManagedObjectContext*)context{
+
+-(Location*)parse:(NSDictionary*)dict withContext:(NSManagedObjectContext*)context{
     
-    Location* location = [LocationLoader findById:[dict objectForKey:@"locationId"]];
+    Location* location = [LocationService findById:[dict objectForKey:@"locationId"]];
     if(location == nil){
         location = [NSEntityDescription insertNewObjectForEntityForName:@"Location" inManagedObjectContext:context];
     }

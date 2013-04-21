@@ -12,6 +12,8 @@
 #import "GiftParser.h"
 #import "KikbakParser.h"
 #import "AppDelegate.h"
+#import "GiftService.h"
+#import "KikbakService.h"
 
 static NSString* resource = @"rewards/request";
 
@@ -51,19 +53,24 @@ static NSString* resource = @"rewards/request";
     NSString* json = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
     NSLog(@"Reward Request: %@", json);
     id dict = [json JSONValue];
+    KikbakParser* kikbakParser = [[KikbakParser alloc]init];
+    GiftParser* giftParser = [[GiftParser alloc]init];
     if( dict != [NSNull null] ){
         id rewardsResponse = [dict objectForKey:@"rewardsResponse"];
         if( rewardsResponse != [NSNull null]){
             NSArray* gifts = [rewardsResponse objectForKey:@"gifts"];
             for(id gift in gifts){
-                [GiftParser parse:gift];
+                [giftParser parse:gift];
             }
             NSArray* kikbaks = [rewardsResponse objectForKey:@"kikbaks"];
             for(id kikbak in kikbaks){
-                [KikbakParser parse:kikbak];
+                [kikbakParser parse:kikbak];
             }
         }
     }
+    
+    [kikbakParser resolveDiff];
+    [giftParser resolveDiff];
     
     [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakRewardUpdate object:nil];
 }
