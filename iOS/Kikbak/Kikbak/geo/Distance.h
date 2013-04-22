@@ -13,5 +13,6 @@
 
 //returns distance in miles
 +(NSString*)distanceToInMiles:(CLLocation*)location;
++(double)distanceToInFeet:(CLLocation*)location;
 
 @end

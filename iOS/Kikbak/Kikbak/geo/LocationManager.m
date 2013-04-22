@@ -28,7 +28,7 @@
     if( [CLLocationManager locationServicesEnabled] ){
       locationMgr = [[CLLocationManager alloc]init];
       locationMgr.delegate = self;
-      locationMgr.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+      locationMgr.desiredAccuracy = kCLLocationAccuracyBest;
       
       // Set a movement threshold for new events.
       locationMgr.distanceFilter = 500;

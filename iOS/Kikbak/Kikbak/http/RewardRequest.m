@@ -51,7 +51,7 @@ static NSString* resource = @"rewards/request";
 
 -(void)parseResponse:(NSData*)data{
     NSString* json = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"Reward Request: %@", json);
+  //  NSLog(@"Reward Request: %@", json);
     id dict = [json JSONValue];
     KikbakParser* kikbakParser = [[KikbakParser alloc]init];
     GiftParser* giftParser = [[GiftParser alloc]init];

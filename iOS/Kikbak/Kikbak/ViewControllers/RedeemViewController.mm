@@ -17,12 +17,16 @@
 #import "RedeemGiftRequest.h"
 #import "RedeemKikbakRequest.h"
 #import "RewardCollection.h"
+#import "Distance.h"
 
-
-@interface RedeemViewController ()
+@interface RedeemViewController (){
+    double distanceToLocation;
+}
 -(void)manuallyLayoutSubviews;
 -(NSDictionary*)setupKikbakRequest;
 -(NSDictionary*)setupGiftRequest;
+-(void) onLocationUpdate:(NSNotification*)notification;
+-(void)updateDistance;
 @end
 
 @implementation RedeemViewController
@@ -54,7 +58,9 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onLocationUpdate:) name:kKikbakLocationUpdate object:nil];
     
+    [self updateDistance];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -62,6 +68,11 @@
 
  
     [self manuallyLayoutSubviews];
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakLocationUpdate object:nil];
+    [super viewDidDisappear:animated];
 }
 
 -(void)viewDidLayoutSubviews{
@@ -160,24 +171,40 @@
 //    
 //    widController.readers = readers;
 //    [self presentViewController:widController animated:YES completion:nil];
-    
-    RedeemKikbakRequest* rkr = [[RedeemKikbakRequest alloc]init];
-    [rkr makeRequest:[self setupKikbakRequest]];
-    
-    self.reward.kikbak.location = nil;
-    NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
-    [context deleteObject:self.reward.kikbak];
-    
-    NSError* error;
-    [context save:&error];
-    [context reset];
-    
-    if(error){
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+    if(self.reward.kikbak != nil){
+        RedeemKikbakRequest* rkr = [[RedeemKikbakRequest alloc]init];
+        [rkr makeRequest:[self setupKikbakRequest]];
+        
+        self.reward.kikbak.location = nil;
+        NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
+        [context deleteObject:self.reward.kikbak];
+        
+        NSError* error;
+        [context save:&error];
+        
+        if(error){
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        }
+        
+        self.reward.kikbak = nil;
     }
-    
-    self.reward.kikbak = nil;
-    
+    if(self.reward.gift != nil){
+        RedeemGiftRequest *request = [[RedeemGiftRequest alloc]init];
+        [request makeRequest:[self setupGiftRequest]];
+        
+        self.reward.gift.location = nil;
+        NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
+        [context deleteObject:self.reward.gift];
+        
+        NSError* error;
+        [context save:&error];
+        
+        if(error){
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        }
+        
+        self.reward.gift = nil;
+    }
 }
 
 -(void)onTermsAndConditions:(id)sender{
@@ -208,7 +235,6 @@
     
     NSError* error;
     [context save:&error];
-    [context reset];
     
     if(error){
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
@@ -229,7 +255,6 @@
     
     NSError* error;
     [context save:&error];
-    [context reset];
     
     if(error){
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
@@ -258,6 +283,25 @@
     [dict setObject:@"zdfdw" forKey:@"verificationCode"];
     
     return dict;
+}
+
+-(void) onLocationUpdate:(NSNotification*)notification{
+    
+}
+
+
+-(void)updateDistance{
+
+    //todo move to a function
+    Location* location;
+    if(self.reward.kikbak){
+        location = [self.reward.gift.location anyObject];
+    }
+    else if( self.reward.gift){
+        location = [self.reward.gift.location anyObject];
+    }
+    
+    distanceToLocation = [Distance distanceToInFeet:[[CLLocation alloc]initWithLatitude:location.latitude.doubleValue longitude:location.longitude.doubleValue]];
 }
 
 @end

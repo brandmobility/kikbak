@@ -15,7 +15,7 @@
 
 @interface KikbakParser()
 
-@property (nonatomic, strong) NSMutableArray* kikbaks;
+@property (nonatomic, strong) NSMutableDictionary* kikbaks;
 
 @end
 
@@ -27,53 +27,57 @@
     if( kikbak == nil){
         kikbak = [NSEntityDescription insertNewObjectForEntityForName:@"Kikbak" inManagedObjectContext:context];
         kikbak.kikbakId = [dict objectForKey:@"id"];
-    }
     
-    id merchant = [dict objectForKey:@"merchant"];
-    if( merchant != [NSNull null]){
-        kikbak.merchantId = [merchant objectForKey:@"id"];
-        kikbak.merchantName = [merchant objectForKey:@"name"];
-        
-        NSArray* locations = [merchant objectForKey:@"locations"];
-        for(id kikbakLocation in locations){
-            Location* loc = [[[LocationParser alloc]init] parse:kikbakLocation withContext:kikbak.managedObjectContext];
-            [kikbak addLocationObject:loc];
+        id merchant = [dict objectForKey:@"merchant"];
+        if( merchant != [NSNull null]){
+            kikbak.merchantId = [merchant objectForKey:@"id"];
+            kikbak.merchantName = [merchant objectForKey:@"name"];
+            
+            NSArray* locations = [merchant objectForKey:@"locations"];
+            for(id kikbakLocation in locations){
+                Location* loc = [[[LocationParser alloc]init] parse:kikbakLocation withContext:kikbak.managedObjectContext];
+                [kikbak addLocationObject:loc];
+            }
         }
-    }
-    kikbak.desc = [dict objectForKey:@"description"];
-    kikbak.name = [dict objectForKey:@"name"];
-    kikbak.value = [dict objectForKey:@"value"];
-    
-    
-    NSError *error = nil;
-    if (![context save:&error]) {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        kikbak.desc = [dict objectForKey:@"description"];
+        kikbak.name = [dict objectForKey:@"name"];
+        kikbak.value = [dict objectForKey:@"value"];
+        
+        
+        NSError *error = nil;
+        if (![context save:&error]) {
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        }
     }
     
     if(self.kikbaks == nil){
-        self.kikbaks = [[NSMutableArray alloc]initWithCapacity:1];
+        self.kikbaks = [[NSMutableDictionary alloc]initWithCapacity:1];
     }
-    [self.kikbaks addObject:kikbak];
+    [self.kikbaks setObject:kikbak forKey:kikbak.kikbakId];
 }
 
 
 -(void)resolveDiff{
-    NSMutableArray* persistedKikbaks = [[NSMutableArray alloc]initWithArray:[KikbakService getKikbaks]];
-    for(Kikbak* kikbak in self.kikbaks){
-        [persistedKikbaks removeObject: kikbak];
+    NSArray* pKikbaks = [KikbakService getKikbaks];
+    NSMutableDictionary* pKikbakDict = [[NSMutableDictionary alloc] initWithCapacity:[pKikbaks count]];
+    for(Kikbak* kikbak in pKikbaks){
+        [pKikbakDict setObject:kikbak forKey:kikbak.kikbakId];
     }
     
+    for(NSNumber* key in [self.kikbaks allKeys]){
+        [pKikbakDict removeObjectForKey:key];
+    }
+    
+    
     NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
-    for(Kikbak* kikbak in persistedKikbaks){
+    for(Kikbak* kikbak in [pKikbakDict allValues]){
         [context deleteObject:kikbak];
     }
     
     NSError* error = nil;
-    if(![context save:&error]){
+    if([[context deletedObjects]count] > 0 && ![context save:&error]){
        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
-
-    [context reset];
 }
 
 @end

@@ -11,6 +11,7 @@
 #import "Location.h"
 #import "Distance.h"
 #import "ImagePersistor.h"
+#import "AppDelegate.h"
 
 @interface OfferTableViewCell()
 
@@ -120,7 +121,7 @@
 }
 
 
--(void)setup{
+-(void)setup{    
     self.store.text = self.offer.merchantName;
     self.leftText.text = self.offer.giftDescription;
     self.rightText.text = self.offer.kikbakDescription;

@@ -11,6 +11,7 @@
 #import "OfferTableViewCell.h"
 #import "OfferService.h"
 #import "OfferTableViewCell.h"
+#import "Offer.h"
 #import "AppDelegate.h"
 #import "LocationManager.h"
 
@@ -142,8 +143,7 @@
 }
 
 -(void) onOfferUpdate:(NSNotification*)notification{
-
     self.offers = [OfferService getOffers];
-    [self.table reloadData];
 }
+
 @end

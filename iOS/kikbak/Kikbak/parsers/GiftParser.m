@@ -15,7 +15,7 @@
 
 @interface GiftParser()
 
-@property (nonatomic, strong) NSMutableArray* gifts;
+@property (nonatomic, strong) NSMutableDictionary* gifts;
 
 @end
 
@@ -27,52 +27,57 @@
     if( gift == nil){
         gift = [NSEntityDescription insertNewObjectForEntityForName:@"Gift" inManagedObjectContext:context];
         gift.giftId = [dict objectForKey:@"id"];
-    }
     
-    id merchant = [dict objectForKey:@"merchant"];
-    if( merchant != [NSNull null]){
-        gift.merchantId = [merchant objectForKey:@"id"];
-        gift.merchantName = [merchant objectForKey:@"name"];
         
-        NSArray* locations = [merchant objectForKey:@"locations"];
-        for(id giftLocation in locations){
-            Location* loc = [[[LocationParser alloc]init] parse:giftLocation withContext:gift.managedObjectContext];
-            [gift addLocationObject:loc];
+        id merchant = [dict objectForKey:@"merchant"];
+        if( merchant != [NSNull null]){
+            gift.merchantId = [merchant objectForKey:@"id"];
+            gift.merchantName = [merchant objectForKey:@"name"];
+            
+            NSArray* locations = [merchant objectForKey:@"locations"];
+            for(id giftLocation in locations){
+                Location* loc = [[[LocationParser alloc]init] parse:giftLocation withContext:gift.managedObjectContext];
+                [gift addLocationObject:loc];
+            }
         }
-    }
-    gift.desc = [dict objectForKey:@"description"];
-    gift.name = [dict objectForKey:@"name"];
-    gift.friendUserId = [dict objectForKey:@"friendUserId"];
-    
-    NSError *error = nil;
-    if (![context save:&error]) {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        gift.desc = [dict objectForKey:@"description"];
+        gift.name = [dict objectForKey:@"name"];
+        gift.friendUserId = [dict objectForKey:@"friendUserId"];
+        
+        NSError *error = nil;
+        if (![context save:&error]) {
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        }
     }
     
     if( self.gifts == nil){
-        self.gifts = [[NSMutableArray alloc]initWithCapacity:1];
+        self.gifts = [[NSMutableDictionary alloc]initWithCapacity:1];
     }
-    [self.gifts addObject:gift];
+    [self.gifts setObject:gift forKey:gift.giftId];
 }
 
 
 -(void)resolveDiff{
-    NSMutableArray* persistedGifts = [[NSMutableArray alloc]initWithArray:[GiftService getGifts]];
-    for(Gift* gift in self.gifts){
-        [persistedGifts removeObject:gift];
+    NSArray* pGifts = [GiftService getGifts];
+    NSMutableDictionary* pGiftDict = [[NSMutableDictionary alloc] initWithCapacity:[pGifts count]];
+    for(Gift* gift in pGifts){
+        [pGiftDict setObject:gift forKey:gift.giftId];
     }
     
+    for(NSNumber* key in [self.gifts allKeys]){
+        [pGiftDict removeObjectForKey:key];
+    }
+    
+    
     NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
-    for(Gift* gift in persistedGifts){
+    for(Gift* gift in [pGiftDict allValues]){
         [context deleteObject:gift];
     }
     
     NSError* error = nil;
-    if(![context save:&error]){
+    if([[context deletedObjects]count] > 0 && ![context save:&error]){
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
-    
-    [context reset];
 }
 
 @end
