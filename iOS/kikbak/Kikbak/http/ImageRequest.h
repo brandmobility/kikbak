@@ -7,12 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RestDataDelegate.h"
-#import "RestRequestProtocol.h"
+#import "ResponseHandlerProtocol.h"
 #import "HttpRequest.h"
 
 
-@interface ImageRequest : NSObject <RestDataDelegate>
+@interface ImageRequest : NSObject <ResponseHandlerProtocol>
 {
     HttpRequest* request;
     NSNumber* _merchantId;

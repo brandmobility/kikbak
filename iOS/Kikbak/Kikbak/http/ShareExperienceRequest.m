@@ -18,7 +18,7 @@ static NSString* resource = @"ShareExperience";
 
 @implementation ShareExperienceRequest
 
--(void)makeRequest:(NSDictionary*)requestData{
+-(void)restRequest:(NSDictionary*)requestData{
   
     NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
 
@@ -50,6 +50,10 @@ static NSString* resource = @"ShareExperience";
 
 -(void)parseResponse:(NSData*)data{
     //NSString* json = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+}
+
+-(void)handleError:(NSInteger)statusCode withData:(NSData*)data{
+    
 }
 
 @end

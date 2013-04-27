@@ -8,8 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol RestDataDelegate <NSObject>
+@protocol ResponseHandlerProtocol <NSObject>
 
 @required
+
 -(void)parseResponse:(NSData*)data;
+-(void)handleError:(NSInteger)statusCode withData:(NSData*)data;
+
 @end

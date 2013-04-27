@@ -9,6 +9,8 @@
 #import "RedeemKikbakRequest.h"
 #import "KikbakConstants.h"
 #import "SBJson.h"
+#import "NotificationContstants.h"
+#import "Kikbak.h"
 
 static NSString* resource = @"rewards/redeem/kikbak";
 
@@ -18,7 +20,7 @@ static NSString* resource = @"rewards/redeem/kikbak";
 
 @implementation RedeemKikbakRequest
 
--(void)makeRequest:(NSDictionary*)requestData{
+-(void)restRequest:(NSDictionary*)requestData{
   
     NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
 
@@ -48,7 +50,23 @@ static NSString* resource = @"rewards/redeem/kikbak";
 
 
 -(void)parseResponse:(NSData*)data{
-  
+
+    self.kikbak.location = nil;
+    NSManagedObjectContext* context = self.kikbak.managedObjectContext;
+    [context deleteObject:self.kikbak];
+    
+    NSError* error;
+    [context save:&error];
+    
+    if(error){
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+    }
+    
+    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakRedeemKikbakSuccess object:nil];
+}
+
+-(void)handleError:(NSInteger)statusCode withData:(NSData*)data{
+    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakRedeemKikbakError object:nil];
 }
 
 @end

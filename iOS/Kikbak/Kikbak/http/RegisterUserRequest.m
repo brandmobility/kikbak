@@ -26,7 +26,7 @@ static NSString* resource = @"user/register/fb/";
 @implementation RegisterUserRequest
 
 
--(void)makeRequest:(NSDictionary*)requestData{
+-(void)restRequest:(NSDictionary*)requestData{
   
   request = [[HttpRequest alloc]init];
   request.resource = [NSString stringWithFormat:@"%@", resource];
@@ -70,14 +70,18 @@ static NSString* resource = @"user/register/fb/";
                     NSMutableDictionary* tokenDict = [[NSMutableDictionary alloc]initWithCapacity:2];
                     [tokenDict setObject:[prefs objectForKey:DEVICE_TOKEN_KEY] forKey:@"token"];
                     [tokenDict setObject:[NSNumber numberWithInt:0] forKey:@"platform_id"];
-                    [tokenRequest makeRequest:tokenDict];
+                    [tokenRequest restRequest:tokenDict];
                 }
                 
                 RewardRequest* rewaredRequest = [[RewardRequest alloc]init];
-                [rewaredRequest makeRequest:[[NSDictionary alloc]init]];
+                [rewaredRequest restRequest:[[NSDictionary alloc]init]];
             }
         }
     }
+}
+
+-(void)handleError:(NSInteger)statusCode withData:(NSData*)data{
+    
 }
 
 @end

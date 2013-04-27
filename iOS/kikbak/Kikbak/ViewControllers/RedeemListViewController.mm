@@ -16,7 +16,7 @@
 #import "LocationManager.h"
 #import "RedeemViewController.h"
 #import "RewardCollection.h"
-
+#import "NotificationContstants.h"
 
 @interface RedeemListViewController (){
     bool locationResolved;

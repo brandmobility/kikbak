@@ -7,12 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RestDataDelegate.h"
-#import "RestRequestProtocol.h"
+#import "RestProtocol.h"
+#import "ResponseHandlerProtocol.h"
 #import "HttpRequest.h"
 
 
-@interface DeviceTokenRequest : NSObject <RestDataDelegate, RestRequestProtocol>
+@interface DeviceTokenRequest : NSObject <RestProtocol, ResponseHandlerProtocol>
 {
   HttpRequest* request;
 }

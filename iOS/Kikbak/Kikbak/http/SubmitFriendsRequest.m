@@ -18,7 +18,7 @@ static NSString* resource = @"user/friends/fb";
 
 @implementation SubmitFriendsRequest
 
--(void)makeRequest:(NSDictionary*)requestData{
+-(void)restRequest:(NSDictionary*)requestData{
   
     NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
 
@@ -48,6 +48,10 @@ static NSString* resource = @"user/friends/fb";
 
 -(void)parseResponse:(NSData*)data{
   
+}
+
+-(void)handleError:(NSInteger)statusCode withData:(NSData*)data{
+    
 }
 
 @end

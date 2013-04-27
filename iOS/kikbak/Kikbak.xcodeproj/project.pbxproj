@@ -71,6 +71,9 @@
 		3CA9F190171E7FC0001C3929 /* Kikbak.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA9F18F171E7FC0001C3929 /* Kikbak.m */; };
 		3CA9F193171E8016001C3929 /* KikbakService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA9F192171E8016001C3929 /* KikbakService.m */; };
 		3CA9F196171FB9CB001C3929 /* RewardCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA9F195171FB9CB001C3929 /* RewardCollection.m */; };
+		3CA9F1A81728E7AA001C3929 /* overlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CA9F1A61728E7AA001C3929 /* overlay.png */; };
+		3CA9F1A91728E7AA001C3929 /* overlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CA9F1A71728E7AA001C3929 /* overlay@2x.png */; };
+		3CA9F1AD172A5B2E001C3929 /* NotificationContstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA9F1AC172A5B2E001C3929 /* NotificationContstants.m */; };
 		3CBCBF2617127468007B4249 /* OfferService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF2517127468007B4249 /* OfferService.m */; };
 		3CBCBF29171277A3007B4249 /* LocationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF28171277A3007B4249 /* LocationService.m */; };
 		3CBCBF491713E696007B4249 /* SubmitFriendsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF351713E696007B4249 /* SubmitFriendsRequest.m */; };
@@ -244,6 +247,10 @@
 		3CA9F192171E8016001C3929 /* KikbakService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KikbakService.m; sourceTree = "<group>"; };
 		3CA9F194171FB9CB001C3929 /* RewardCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RewardCollection.h; sourceTree = "<group>"; };
 		3CA9F195171FB9CB001C3929 /* RewardCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RewardCollection.m; sourceTree = "<group>"; };
+		3CA9F1A61728E7AA001C3929 /* overlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = overlay.png; path = ../../../../../../../../Desktop/overlay/overlay.png; sourceTree = "<group>"; };
+		3CA9F1A71728E7AA001C3929 /* overlay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "overlay@2x.png"; path = "../../../../../../../../Desktop/overlay/overlay@2x.png"; sourceTree = "<group>"; };
+		3CA9F1AB172A5B2E001C3929 /* NotificationContstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationContstants.h; sourceTree = "<group>"; };
+		3CA9F1AC172A5B2E001C3929 /* NotificationContstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationContstants.m; sourceTree = "<group>"; };
 		3CBCBF2417127468007B4249 /* OfferService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfferService.h; sourceTree = "<group>"; };
 		3CBCBF2517127468007B4249 /* OfferService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfferService.m; sourceTree = "<group>"; };
 		3CBCBF27171277A3007B4249 /* LocationService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationService.h; sourceTree = "<group>"; };
@@ -258,14 +265,14 @@
 		3CBCBF3B1713E696007B4249 /* DeviceTokenRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceTokenRequest.m; sourceTree = "<group>"; };
 		3CBCBF3C1713E696007B4249 /* OffersRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OffersRequest.m; sourceTree = "<group>"; };
 		3CBCBF3D1713E696007B4249 /* HttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpRequest.m; sourceTree = "<group>"; };
-		3CBCBF3E1713E696007B4249 /* RestDataDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestDataDelegate.h; sourceTree = "<group>"; };
+		3CBCBF3E1713E696007B4249 /* ResponseHandlerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResponseHandlerProtocol.h; sourceTree = "<group>"; };
 		3CBCBF3F1713E696007B4249 /* HttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpRequest.h; sourceTree = "<group>"; };
 		3CBCBF401713E696007B4249 /* DeviceTokenRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceTokenRequest.h; sourceTree = "<group>"; };
 		3CBCBF411713E696007B4249 /* OffersRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OffersRequest.h; sourceTree = "<group>"; };
 		3CBCBF421713E696007B4249 /* RedeemGiftRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedeemGiftRequest.h; sourceTree = "<group>"; };
 		3CBCBF431713E696007B4249 /* RedeemKikbakRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedeemKikbakRequest.h; sourceTree = "<group>"; };
 		3CBCBF441713E696007B4249 /* RegisterUserRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterUserRequest.h; sourceTree = "<group>"; };
-		3CBCBF451713E696007B4249 /* RestRequestProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestRequestProtocol.h; sourceTree = "<group>"; };
+		3CBCBF451713E696007B4249 /* RestProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestProtocol.h; sourceTree = "<group>"; };
 		3CBCBF461713E696007B4249 /* RewardRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RewardRequest.h; sourceTree = "<group>"; };
 		3CBCBF471713E696007B4249 /* ShareExperienceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareExperienceRequest.h; sourceTree = "<group>"; };
 		3CBCBF481713E696007B4249 /* SubmitFriendsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubmitFriendsRequest.h; sourceTree = "<group>"; };
@@ -569,6 +576,8 @@
 				C04799C3167D9B9300C2253D /* LoginViewController.h */,
 				C04799C4167D9B9300C2253D /* LoginViewController.m */,
 				C04799A0167D967500C2253D /* MainStoryboard.storyboard */,
+				3CA9F1AB172A5B2E001C3929 /* NotificationContstants.h */,
+				3CA9F1AC172A5B2E001C3929 /* NotificationContstants.m */,
 				C047998F167D967500C2253D /* Supporting Files */,
 			);
 			path = Kikbak;
@@ -612,6 +621,8 @@
 		C04799B9167D9B4B00C2253D /* graphics */ = {
 			isa = PBXGroup;
 			children = (
+				3CA9F1A61728E7AA001C3929 /* overlay.png */,
+				3CA9F1A71728E7AA001C3929 /* overlay@2x.png */,
 				3C329C06170148E50007345E /* add_photo.png */,
 				3C329C03170148E50007345E /* add_photo@2x.png */,
 				3C329C18170148E50007345E /* avatar.png */,
@@ -681,8 +692,8 @@
 				3CBCBF391713E696007B4249 /* RedeemKikbakRequest.m */,
 				3CBCBF441713E696007B4249 /* RegisterUserRequest.h */,
 				3CBCBF381713E696007B4249 /* RegisterUserRequest.m */,
-				3CBCBF3E1713E696007B4249 /* RestDataDelegate.h */,
-				3CBCBF451713E696007B4249 /* RestRequestProtocol.h */,
+				3CBCBF3E1713E696007B4249 /* ResponseHandlerProtocol.h */,
+				3CBCBF451713E696007B4249 /* RestProtocol.h */,
 				3CBCBF461713E696007B4249 /* RewardRequest.h */,
 				3CBCBF371713E696007B4249 /* RewardRequest.m */,
 				3CBCBF471713E696007B4249 /* ShareExperienceRequest.h */,
@@ -898,6 +909,8 @@
 				3CA1B31E17056BBF005D2918 /* give_tabbar@2x.png in Resources */,
 				3CA1B31F17056BBF005D2918 /* redeem_tabbar@2x.png in Resources */,
 				3C752BD81707E97C0092CFB1 /* right_ribbon@2x.png in Resources */,
+				3CA9F1A81728E7AA001C3929 /* overlay.png in Resources */,
+				3CA9F1A91728E7AA001C3929 /* overlay@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -965,6 +978,7 @@
 				3CA9F190171E7FC0001C3929 /* Kikbak.m in Sources */,
 				3CA9F193171E8016001C3929 /* KikbakService.m in Sources */,
 				3CA9F196171FB9CB001C3929 /* RewardCollection.m in Sources */,
+				3CA9F1AD172A5B2E001C3929 /* NotificationContstants.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

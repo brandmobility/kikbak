@@ -61,7 +61,7 @@
       AppDelegate* delegate =[UIApplication sharedApplication].delegate;
       delegate.userInfo.friends = result;
       SubmitFriendsRequest* request = [[SubmitFriendsRequest alloc]init];
-      [request makeRequest:[result objectForKey:@"data"]];
+      [request restRequest:[result objectForKey:@"data"]];
       
       [Flurry logEvent:@"FriendRequestEvent" timed:YES];
     }
@@ -102,7 +102,7 @@
             [dict setObject:[result objectForKey:@"username"] forKey:@"username"];
             [dict setObject:[result objectForKey:@"verified"] forKey:@"verified"];
             [dict setObject:[result objectForKey:@"gender"] forKey:@"gender"];
-            [request makeRequest:dict];
+            [request restRequest:dict];
         }
 
       //  [prefs setValue:[delegate.userInfo.me objectForKey:@(FB_USER_ID_KEY)] forKeyPath:@(FB_USER_ID_KEY)];

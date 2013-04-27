@@ -85,8 +85,16 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection{
     if(self.restDelegate && statusCode == 200 ){
-        [self.restDelegate parseResponse:self.receivedData];
+        if( [self.restDelegate respondsToSelector:@selector(parseResponse:)] ){
+            [self.restDelegate parseResponse:self.receivedData];
+        }
     }
+    else{
+        if( [self.restDelegate respondsToSelector:@selector(handleError:withData:)] ){
+            [self.restDelegate handleError:statusCode withData:self.receivedData];
+        }
+    }
+    
 }
 
 #pragma mark - authentication -

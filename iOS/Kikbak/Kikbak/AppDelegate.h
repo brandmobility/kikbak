@@ -11,15 +11,7 @@
 #import <CoreData/CoreData.h>
 
 
-#ifdef __cplusplus
-#define KIKBAK_EXTERN		extern "C" __attribute__((visibility ("default")))
-#else
-#define KIKBAK_EXTERN	        extern __attribute__((visibility ("default")))
-#endif
 
-KIKBAK_EXTERN NSString *const kKikbakLocationUpdate;
-KIKBAK_EXTERN NSString *const kKikbakOfferUpdate;
-KIKBAK_EXTERN NSString *const kKikbakRewardUpdate;
 
 @class FBUserInfo;
 @class LoginViewController;

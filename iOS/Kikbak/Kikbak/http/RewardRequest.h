@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "HttpRequest.h"
-#import "RestDataDelegate.h"
-#import "RestRequestProtocol.h"
+#import "RestProtocol.h"
+#import "ResponseHandlerProtocol.h"
 
-@interface RewardRequest : NSObject<RestDataDelegate, RestRequestProtocol>
+@interface RewardRequest : NSObject<RestProtocol, ResponseHandlerProtocol>
 {
   HttpRequest* request;
 }

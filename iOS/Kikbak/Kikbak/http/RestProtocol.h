@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol RestRequestProtocol <NSObject>
+@protocol RestProtocol <NSObject>
 
--(void)makeRequest:(NSDictionary*)requestData;
+-(void)restRequest:(NSDictionary*)requestData;
 
 @end

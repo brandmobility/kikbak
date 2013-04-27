@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RestDataDelegate.h"
+#import "ResponseHandlerProtocol.h"
 #import "assert.h"
 
 @interface HttpRequest : NSObject<NSURLConnectionDelegate, NSURLConnectionDataDelegate>{
@@ -17,7 +17,7 @@
 @property(nonatomic, strong) NSString* resource;
 @property(nonatomic, strong) NSString* body;
 @property(nonatomic, strong) NSMutableData* receivedData;
-@property(nonatomic, strong) id<RestDataDelegate> restDelegate;
+@property(nonatomic, strong) id<ResponseHandlerProtocol> restDelegate;
 
 -(void)restPostRequest;
 -(void)httpGetRequest;

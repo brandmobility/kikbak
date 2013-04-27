@@ -8,11 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import "HttpRequest.h"
-#import "RestDataDelegate.h"
-#import "RestRequestProtocol.h"
+#import "ResponseHandlerProtocol.h"
+#import "RestProtocol.h"
 
-@interface RedeemGiftRequest : NSObject<RestDataDelegate, RestRequestProtocol>{
+@class Gift;
+
+@interface RedeemGiftRequest : NSObject<RestProtocol, ResponseHandlerProtocol>{
   HttpRequest* request;
 }
+
+@property (nonatomic, strong) Gift* gift;
 
 @end

@@ -8,11 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import "HttpRequest.h"
-#import "RestDataDelegate.h"
-#import "RestRequestProtocol.h"
+#import "ResponseHandlerProtocol.h"
+#import "RestProtocol.h"
 
-@interface RedeemKikbakRequest : NSObject<RestDataDelegate, RestRequestProtocol>{
+@class Kikbak;
+
+@interface RedeemKikbakRequest : NSObject<RestProtocol, ResponseHandlerProtocol>{
   HttpRequest* request;
 }
+
+@property (nonatomic, strong) Kikbak* kikbak;
 
 @end

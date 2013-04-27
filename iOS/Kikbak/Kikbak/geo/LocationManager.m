@@ -11,6 +11,7 @@
 #import "KikbakConstants.h"
 #import "Distance.h"
 #import "AppDelegate.h"
+#import "NotificationContstants.h"
 
 @interface LocationManager()
 -(void)onForeground;
@@ -87,7 +88,7 @@
             [data setObject:[NSNumber numberWithDouble:37.4207480 ] forKey:@"latitude"];
             [data setObject:[NSNumber numberWithDouble:-122.1303430 ] forKey:@"longitude"];
 
-            [request makeRequest:data];
+            [request restRequest:data];
         }    
     }
 

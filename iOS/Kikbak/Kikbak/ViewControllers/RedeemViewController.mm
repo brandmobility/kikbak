@@ -18,6 +18,7 @@
 #import "RedeemKikbakRequest.h"
 #import "RewardCollection.h"
 #import "Distance.h"
+#import "NotificationContstants.h"
 
 @interface RedeemViewController (){
     double distanceToLocation;
@@ -25,8 +26,13 @@
 -(void)manuallyLayoutSubviews;
 -(NSDictionary*)setupKikbakRequest;
 -(NSDictionary*)setupGiftRequest;
--(void) onLocationUpdate:(NSNotification*)notification;
 -(void)updateDistance;
+
+-(void) onLocationUpdate:(NSNotification*)notification;
+-(void) onRedeemGiftSuccess:(NSNotification*)notification;
+-(void) onRedeemGiftError:(NSNotification*)notification;
+-(void) onRedeemKikbakSuccess:(NSNotification*)notification;
+-(void) onRedeemKikbakError:(NSNotification*)notification;
 @end
 
 @implementation RedeemViewController
@@ -59,6 +65,10 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onLocationUpdate:) name:kKikbakLocationUpdate object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onRedeemGiftSuccess:) name:kKikbakRedeemGiftSuccess object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onRedeemGiftError:) name:kKikbakRedeemGiftError object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onRedeemKikbakSuccess:) name:kKikbakRedeemKikbakSuccess object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onRedeemKikbakError:) name:kKikbakRedeemKikbakError object:nil];
     
     [self updateDistance];
 }
@@ -72,6 +82,10 @@
 
 -(void)viewDidDisappear:(BOOL)animated{
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakLocationUpdate object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakRedeemGiftSuccess object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakRedeemGiftError object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakRedeemKikbakSuccess object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakRedeemKikbakError object:nil];
     [super viewDidDisappear:animated];
 }
 
@@ -173,37 +187,13 @@
 //    [self presentViewController:widController animated:YES completion:nil];
     if(self.reward.kikbak != nil){
         RedeemKikbakRequest* rkr = [[RedeemKikbakRequest alloc]init];
-        [rkr makeRequest:[self setupKikbakRequest]];
-        
-        self.reward.kikbak.location = nil;
-        NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
-        [context deleteObject:self.reward.kikbak];
-        
-        NSError* error;
-        [context save:&error];
-        
-        if(error){
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        }
-        
-        self.reward.kikbak = nil;
+        rkr.kikbak = self.reward.kikbak;
+        [rkr restRequest:[self setupKikbakRequest]];
     }
     if(self.reward.gift != nil){
         RedeemGiftRequest *request = [[RedeemGiftRequest alloc]init];
-        [request makeRequest:[self setupGiftRequest]];
-        
-        self.reward.gift.location = nil;
-        NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
-        [context deleteObject:self.reward.gift];
-        
-        NSError* error;
-        [context save:&error];
-        
-        if(error){
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        }
-        
-        self.reward.gift = nil;
+        request.gift = self.reward.gift;
+        [request restRequest:[self setupGiftRequest]];
     }
 }
 
@@ -227,7 +217,7 @@
     [dict setObject:location.locationId forKey:@"locationId"];
     [dict setObject:self.reward.gift.friendUserId forKey:@"friendId"];
     [dict setObject:@"zdfdw" forKey:@"verificationCode"];
-    [request makeRequest:dict];
+    [request restRequest:dict];
     
     self.reward.gift.location = nil;
     NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
@@ -247,7 +237,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
     
     RedeemGiftRequest *request = [[RedeemGiftRequest alloc]init];
-    [request makeRequest:[self setupGiftRequest]];
+    [request restRequest:[self setupGiftRequest]];
     
     self.reward.gift.location = nil;
     NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
@@ -280,13 +270,9 @@
     Location* location = [self.reward.gift.location anyObject];
     [dict setObject:location.locationId forKey:@"locationId"];
     [dict setObject:self.reward.gift.friendUserId forKey:@"friendUserId"];
-    [dict setObject:@"zdfdw" forKey:@"verificationCode"];
+    [dict setObject:@"12435" forKey:@"verificationCode"];
     
     return dict;
-}
-
--(void) onLocationUpdate:(NSNotification*)notification{
-    
 }
 
 
@@ -303,5 +289,27 @@
     
     distanceToLocation = [Distance distanceToInFeet:[[CLLocation alloc]initWithLatitude:location.latitude.doubleValue longitude:location.longitude.doubleValue]];
 }
+
+#pragma mark - NSNotification
+-(void) onLocationUpdate:(NSNotification*)notification{
+    
+}
+
+-(void) onRedeemGiftSuccess:(NSNotification*)notification{
+    
+}
+
+-(void) onRedeemGiftError:(NSNotification*)notification{
+    
+}
+
+-(void) onRedeemKikbakSuccess:(NSNotification*)notification{
+    
+}
+
+-(void) onRedeemKikbakError:(NSNotification*)notification{
+    
+}
+
 
 @end

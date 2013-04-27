@@ -11,6 +11,7 @@
 #import "SBJson.h"
 #import "OfferParser.h"
 #import "AppDelegate.h"
+#import "NotificationContstants.h"
 
 static NSString* resource = @"user/offer";
 
@@ -23,7 +24,7 @@ static NSString* resource = @"user/offer";
 @implementation OffersRequest
 
 
--(void)makeRequest:(NSDictionary*)requestData{
+-(void)restRequest:(NSDictionary*)requestData{
   
     NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
 
@@ -71,6 +72,10 @@ static NSString* resource = @"user/offer";
     }
     
     [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakOfferUpdate object:nil];
+}
+
+-(void)handleError:(NSInteger)statusCode withData:(NSData*)data{
+    
 }
 
 @end

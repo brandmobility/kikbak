@@ -14,6 +14,7 @@
 #import "AppDelegate.h"
 #import "GiftService.h"
 #import "KikbakService.h"
+#import "NotificationContstants.h"
 
 static NSString* resource = @"rewards/request";
 
@@ -23,7 +24,7 @@ static NSString* resource = @"rewards/request";
 
 @implementation RewardRequest
 
--(void)makeRequest:(NSDictionary*)requestData{
+-(void)restRequest:(NSDictionary*)requestData{
   
     NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
 
@@ -73,6 +74,10 @@ static NSString* resource = @"rewards/request";
     [giftParser resolveDiff];
     
     [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakRewardUpdate object:nil];
+}
+
+-(void)handleError:(NSInteger)statusCode withData:(NSData*)data{
+    
 }
 
 @end

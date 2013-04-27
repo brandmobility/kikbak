@@ -9,13 +9,15 @@
 #import "RedeemGiftRequest.h"
 #import "KikbakConstants.h"
 #import "SBJson.h"
+#import "Gift.h"
+#import "NotificationContstants.h"
 
 static NSString* resource = @"rewards/redeem/gift";
 
 
 @implementation RedeemGiftRequest
 
--(void)makeRequest:(NSDictionary*)requestData{
+-(void)restRequest:(NSDictionary*)requestData{
   
     NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
   
@@ -46,7 +48,25 @@ static NSString* resource = @"rewards/redeem/gift";
 
 
 -(void)parseResponse:(NSData*)data{
-  
+    NSString* json = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@"RedeemGiftRequest: %@", json);
+    
+    self.gift.location = nil;
+    NSManagedObjectContext* context = self.gift.managedObjectContext;
+    [context deleteObject:self.gift];
+    
+    NSError* error;
+    [context save:&error];
+    
+    if(error){
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+    }
+
+    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakRedeemGiftSuccess object:nil];
+}
+
+-(void)handleError:(NSInteger)statusCode withData:(NSData*)data{
+    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakRedeemGiftError object:nil];
 }
 
 @end

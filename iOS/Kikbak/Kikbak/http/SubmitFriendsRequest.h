@@ -7,11 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RestDataDelegate.h"
+#import "ResponseHandlerProtocol.h"
+#import "RestProtocol.h"
 #import "HttpRequest.h"
-#import "RestRequestProtocol.h"
 
-@interface SubmitFriendsRequest : NSObject<RestDataDelegate, RestRequestProtocol>
+@interface SubmitFriendsRequest : NSObject<ResponseHandlerProtocol, RestProtocol>
 {
   HttpRequest* request;
 }

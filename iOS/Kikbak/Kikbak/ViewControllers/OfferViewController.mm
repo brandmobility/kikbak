@@ -302,6 +302,12 @@
             picker.sourceType = UIImagePickerControllerSourceTypeCamera;
             picker.delegate = self;
             
+            UIView* overlay = [[UIView alloc]initWithFrame:picker.view.frame];
+            UIImageView* square = [[UIImageView alloc]initWithFrame:overlay.frame];
+            square.image = [UIImage imageNamed:@"overlay"];
+            [overlay addSubview:square];
+            picker.cameraOverlayView = overlay;
+            
             [Flurry logEvent:@"PhotoEvent" timed:YES];
             
             [self presentViewController:picker animated:YES completion:nil];
@@ -343,7 +349,7 @@
             [dict setObject:self.offer.merchantId forKey:@"merchantId"];
             [dict setObject:self.location.locationId forKey:@"locationId"];
             [dict setObject:self.offer.offerId forKey:@"offerId"];
-            [request makeRequest:dict];
+            [request restRequest:dict];
         }
         else{
             [Flurry logEvent:@"FailedShareEvent" timed:YES];

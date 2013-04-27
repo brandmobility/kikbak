@@ -18,7 +18,7 @@ static NSString* resource = @"user/devicetoken";
 
 @implementation DeviceTokenRequest
 
--(void)makeRequest:(NSDictionary*)requestData{
+-(void)restRequest:(NSDictionary*)requestData{
   
     NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
   
@@ -52,5 +52,9 @@ static NSString* resource = @"user/devicetoken";
   
 }
 
+
+-(void)handleError:(NSInteger)statusCode withData:(NSData*)data{
+    
+}
 
 @end

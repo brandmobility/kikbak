@@ -14,6 +14,7 @@
 #import "Offer.h"
 #import "AppDelegate.h"
 #import "LocationManager.h"
+#import "NotificationContstants.h"
 
 @interface OfferListViewController (){
     bool locationResolved;

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.kikbak.client.service.RedemptionException;
 import com.kikbak.client.service.RewardService;
 import com.kikbak.jaxb.RedeemGiftRequest;
 import com.kikbak.jaxb.RedeemGiftResponse;
@@ -58,7 +59,12 @@ public class RewardController {
 		response.setStatus(status);
 		try {
 			response.setAuthorizationCode(service.registerGiftRedemption(userId, request.getGift()));
-		} catch (Exception e) {
+		}
+		catch(RedemptionException e){
+			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			status.setCode(StatusCode.INVALID_VERIFICATION_CODE_ERROR.ordinal());
+		}
+		catch (Exception e) {
 			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			status.setCode(StatusCode.ERROR.ordinal());
 			logger.error(e,e);

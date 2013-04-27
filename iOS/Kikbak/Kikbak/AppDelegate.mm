@@ -19,9 +19,7 @@
 #import "RootViewController.h"
 #import "RewardRequest.h"
 
-NSString *const kKikbakLocationUpdate = @"kKikbakLocationUpdate";
-NSString *const kKikbakOfferUpdate = @"kKikbakOfferUpdate";
-NSString *const kKikbakRewardUpdate = @"kKikbakRewardUpdate";
+
 
 @interface AppDelegate()
 -(void)fadeOutSplash;
@@ -64,7 +62,7 @@ NSString *const kKikbakRewardUpdate = @"kKikbakRewardUpdate";
     NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
     if( [prefs objectForKey:KIKBAK_USER_ID] != nil ){
         RewardRequest* request = [[RewardRequest alloc]init];
-        [request makeRequest:[[NSDictionary alloc]init]];
+        [request restRequest:[[NSDictionary alloc]init]];
     }
     
     [self fadeOutSplash];
@@ -94,7 +92,7 @@ NSString *const kKikbakRewardUpdate = @"kKikbakRewardUpdate";
     
     if( [prefs objectForKey:KIKBAK_USER_ID] != nil ){
         RewardRequest* request = [[RewardRequest alloc]init];
-        [request makeRequest:[[NSDictionary alloc]init]];
+        [request restRequest:[[NSDictionary alloc]init]];
     }
 }
 
@@ -153,7 +151,7 @@ NSString *const kKikbakRewardUpdate = @"kKikbakRewardUpdate";
       NSMutableDictionary* data = [[NSMutableDictionary alloc]initWithCapacity:2];
       [data setObject:[deviceToken base64EncodedString] forKey:@"token"];
       [data setObject:[NSNumber numberWithInt:0] forKey:@"platform_id"];
-      [request makeRequest:data];
+      [request restRequest:data];
     }
   
 }

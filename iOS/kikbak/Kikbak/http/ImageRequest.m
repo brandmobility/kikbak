@@ -8,7 +8,7 @@
 
 #import "ImageRequest.h"
 #import "ImagePersistor.h"
-#import "AppDelegate.h"
+#import "NotificationContstants.h"
 
 
 @implementation ImageRequest
@@ -31,4 +31,10 @@
     [ImagePersistor persistMerchantImage:data forMerchantId:_merchantId];
     [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakOfferUpdate object:nil];
 }
+
+-(void)handleError:(NSInteger)statusCode withData:(NSData*)data{
+    
+}
+
+
 @end
