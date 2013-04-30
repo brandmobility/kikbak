@@ -105,6 +105,9 @@ public class RewardServiceImpl implements RewardService{
 			gt.setName(offer.getGiftName());
 			gt.setFriendUserId(gift.getFriendUserId());
 			
+			Shared shared = roSharedDao.findById(gift.getId());
+			gt.setFbImageId(shared.getFbImageId());
+			
 			gts.add(gt);
 		}
 		
@@ -213,6 +216,7 @@ public class RewardServiceImpl implements RewardService{
 				gift.setMerchantId(shared.getMerchantId());
 				gift.setOfferId(shared.getOfferId());
 				gift.setUserId(userId);
+				gift.setSharedId(shared.getId());
 				gift.setValue(offer.getGiftValue());
 
 				rwGiftDao.makePersistent(gift);

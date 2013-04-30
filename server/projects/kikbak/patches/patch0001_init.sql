@@ -52,6 +52,7 @@ CREATE TABLE `gift`
     user_id BIGINT NOT NULL,
     friend_user_id BIGINT NOT NULL,
     merchant_id BIGINT NOT NULL,
+    shared_id BIGINT NOT NULL,
     value DOUBLE NOT NULL,
     redemption_date DATETIME,
     experiration_date DATETIME NOT NULL,
@@ -128,6 +129,7 @@ CREATE TABLE `shared`
     merchant_id BIGINT NOT NULL,
     location_id BIGINT NOT NULL,
     offer_id BIGINT NOT NULL,
+    fb_image_id BIGINT NOT NULL,
     shared_date DATETIME NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
@@ -190,6 +192,7 @@ CREATE INDEX offer_id_key ON `gift` (offer_id ASC);
 CREATE INDEX user_id_key ON `gift` (user_id ASC);
 CREATE INDEX friend_user_id_key ON `gift` (friend_user_id ASC);
 CREATE INDEX merchant_id_key ON `gift` (merchant_id ASC);
+CREATE INDEX shared_id_key on `gift` (shared_id ASC);
 
 
 CREATE INDEX date_range_key USING BTREE ON `kikbak` (begin_date ASC, end_date ASC);

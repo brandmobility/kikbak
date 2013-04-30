@@ -65,7 +65,6 @@
 		3CA1B31B17056B9F005D2918 /* redeem_tabbar.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CA1B31917056B9F005D2918 /* redeem_tabbar.png */; };
 		3CA1B31E17056BBF005D2918 /* give_tabbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CA1B31C17056BBF005D2918 /* give_tabbar@2x.png */; };
 		3CA1B31F17056BBF005D2918 /* redeem_tabbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CA1B31D17056BBF005D2918 /* redeem_tabbar@2x.png */; };
-		3CA9F181171E782E001C3929 /* Gift.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA9F180171E782E001C3929 /* Gift.m */; };
 		3CA9F187171E7C54001C3929 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA9F186171E7C54001C3929 /* Location.m */; };
 		3CA9F18A171E7C9D001C3929 /* KikbakParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA9F189171E7C9D001C3929 /* KikbakParser.m */; };
 		3CA9F190171E7FC0001C3929 /* Kikbak.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA9F18F171E7FC0001C3929 /* Kikbak.m */; };
@@ -74,6 +73,7 @@
 		3CA9F1A81728E7AA001C3929 /* overlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CA9F1A61728E7AA001C3929 /* overlay.png */; };
 		3CA9F1A91728E7AA001C3929 /* overlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CA9F1A71728E7AA001C3929 /* overlay@2x.png */; };
 		3CA9F1AD172A5B2E001C3929 /* NotificationContstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA9F1AC172A5B2E001C3929 /* NotificationContstants.m */; };
+		3CA9F1B0172CF637001C3929 /* Gift.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA9F1AF172CF637001C3929 /* Gift.m */; };
 		3CBCBF2617127468007B4249 /* OfferService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF2517127468007B4249 /* OfferService.m */; };
 		3CBCBF29171277A3007B4249 /* LocationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF28171277A3007B4249 /* LocationService.m */; };
 		3CBCBF491713E696007B4249 /* SubmitFriendsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF351713E696007B4249 /* SubmitFriendsRequest.m */; };
@@ -96,7 +96,7 @@
 		3CCCBCF316F03A2300FA71A2 /* UIDevice+Screen.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCBCF216F03A2300FA71A2 /* UIDevice+Screen.m */; };
 		3CCCBCF716F2E59500FA71A2 /* TermsAndConditionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCBCF616F2E59500FA71A2 /* TermsAndConditionsView.m */; };
 		3CCCBCFA16F2E60B00FA71A2 /* RedeemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCBCF916F2E60B00FA71A2 /* RedeemView.m */; };
-		3CCCBD0116F4444000FA71A2 /* OfferViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCBD0016F4444000FA71A2 /* OfferViewController.mm */; };
+		3CCCBD0116F4444000FA71A2 /* GiveViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCBD0016F4444000FA71A2 /* GiveViewController.mm */; };
 		3CF383D51706C2350010D9B9 /* UIImage+Manipulate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CF383D41706C2350010D9B9 /* UIImage+Manipulate.m */; };
 		C0479989167D967500C2253D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0479988167D967500C2253D /* UIKit.framework */; };
 		C047998B167D967500C2253D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C047998A167D967500C2253D /* Foundation.framework */; };
@@ -235,8 +235,6 @@
 		3CA1B31917056B9F005D2918 /* redeem_tabbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redeem_tabbar.png; sourceTree = "<group>"; };
 		3CA1B31C17056BBF005D2918 /* give_tabbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "give_tabbar@2x.png"; sourceTree = "<group>"; };
 		3CA1B31D17056BBF005D2918 /* redeem_tabbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redeem_tabbar@2x.png"; sourceTree = "<group>"; };
-		3CA9F17F171E782E001C3929 /* Gift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gift.h; sourceTree = "<group>"; };
-		3CA9F180171E782E001C3929 /* Gift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gift.m; sourceTree = "<group>"; };
 		3CA9F185171E7C54001C3929 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
 		3CA9F186171E7C54001C3929 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
 		3CA9F188171E7C9D001C3929 /* KikbakParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KikbakParser.h; sourceTree = "<group>"; };
@@ -251,6 +249,8 @@
 		3CA9F1A71728E7AA001C3929 /* overlay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "overlay@2x.png"; path = "../../../../../../../../Desktop/overlay/overlay@2x.png"; sourceTree = "<group>"; };
 		3CA9F1AB172A5B2E001C3929 /* NotificationContstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationContstants.h; sourceTree = "<group>"; };
 		3CA9F1AC172A5B2E001C3929 /* NotificationContstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationContstants.m; sourceTree = "<group>"; };
+		3CA9F1AE172CF637001C3929 /* Gift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gift.h; sourceTree = "<group>"; };
+		3CA9F1AF172CF637001C3929 /* Gift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gift.m; sourceTree = "<group>"; };
 		3CBCBF2417127468007B4249 /* OfferService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfferService.h; sourceTree = "<group>"; };
 		3CBCBF2517127468007B4249 /* OfferService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfferService.m; sourceTree = "<group>"; };
 		3CBCBF27171277A3007B4249 /* LocationService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationService.h; sourceTree = "<group>"; };
@@ -299,8 +299,8 @@
 		3CCCBCF616F2E59500FA71A2 /* TermsAndConditionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TermsAndConditionsView.m; sourceTree = "<group>"; };
 		3CCCBCF816F2E60B00FA71A2 /* RedeemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedeemView.h; sourceTree = "<group>"; };
 		3CCCBCF916F2E60B00FA71A2 /* RedeemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedeemView.m; sourceTree = "<group>"; };
-		3CCCBCFF16F4444000FA71A2 /* OfferViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfferViewController.h; sourceTree = "<group>"; };
-		3CCCBD0016F4444000FA71A2 /* OfferViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OfferViewController.mm; sourceTree = "<group>"; };
+		3CCCBCFF16F4444000FA71A2 /* GiveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GiveViewController.h; sourceTree = "<group>"; };
+		3CCCBD0016F4444000FA71A2 /* GiveViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GiveViewController.mm; sourceTree = "<group>"; };
 		3CF383D31706C2350010D9B9 /* UIImage+Manipulate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Manipulate.h"; sourceTree = "<group>"; };
 		3CF383D41706C2350010D9B9 /* UIImage+Manipulate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Manipulate.m"; sourceTree = "<group>"; };
 		C0479984167D967500C2253D /* Kikbak.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kikbak.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -422,12 +422,12 @@
 		3C752BD917113B710092CFB1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3CA9F1AE172CF637001C3929 /* Gift.h */,
+				3CA9F1AF172CF637001C3929 /* Gift.m */,
 				3CA9F18E171E7FC0001C3929 /* Kikbak.h */,
 				3CA9F18F171E7FC0001C3929 /* Kikbak.m */,
 				3CA9F185171E7C54001C3929 /* Location.h */,
 				3CA9F186171E7C54001C3929 /* Location.m */,
-				3CA9F17F171E782E001C3929 /* Gift.h */,
-				3CA9F180171E782E001C3929 /* Gift.m */,
 				3CBCBF691717E131007B4249 /* Offer.h */,
 				3CBCBF6A1717E132007B4249 /* Offer.m */,
 				3CBCBF2417127468007B4249 /* OfferService.h */,
@@ -474,8 +474,8 @@
 			children = (
 				3CCCBC5516EC5C2400FA71A2 /* RedeemViewController.h */,
 				3CCCBC5616EC5C2400FA71A2 /* RedeemViewController.mm */,
-				3CCCBCFF16F4444000FA71A2 /* OfferViewController.h */,
-				3CCCBD0016F4444000FA71A2 /* OfferViewController.mm */,
+				3CCCBCFF16F4444000FA71A2 /* GiveViewController.h */,
+				3CCCBD0016F4444000FA71A2 /* GiveViewController.mm */,
 				3CA1B30C1704020B005D2918 /* RootViewController.h */,
 				3CA1B30D1704020B005D2918 /* RootViewController.mm */,
 				3CA1B30F17040374005D2918 /* OfferListViewController.h */,
@@ -510,19 +510,19 @@
 		C0479979167D967500C2253D = {
 			isa = PBXGroup;
 			children = (
-				3CBCBF551713F681007B4249 /* images */,
-				3C752BEC171144DE0092CFB1 /* parsers */,
 				C0479A2B167DA57A00C2253D /* categories */,
 				C04799AE167D96CD00C2253D /* crypto */,
-				3C752BD917113B710092CFB1 /* Model */,
 				C04799B6167D96EF00C2253D /* facebook */,
 				C0479A1E167D9CE200C2253D /* flurry */,
 				C0479987167D967500C2253D /* Frameworks */,
 				C0C97247169160C0001A2A80 /* geo */,
+				C04799EB167D9BA400C2253D /* http */,
+				3CBCBF551713F681007B4249 /* images */,
 				C047998E167D967500C2253D /* Kikbak */,
+				3C752BD917113B710092CFB1 /* Model */,
+				3C752BEC171144DE0092CFB1 /* parsers */,
 				C0479985167D967500C2253D /* Products */,
 				3C329BFE170123A80007345E /* resources */,
-				C04799EB167D9BA400C2253D /* http */,
 				C0479A11167D9BFA00C2253D /* SBJson */,
 				3CCCBC4A16EC59A700FA71A2 /* ViewControllers */,
 				3CCCBCF416F2E33E00FA71A2 /* views */,
@@ -946,7 +946,7 @@
 				3CCCBCF316F03A2300FA71A2 /* UIDevice+Screen.m in Sources */,
 				3CCCBCF716F2E59500FA71A2 /* TermsAndConditionsView.m in Sources */,
 				3CCCBCFA16F2E60B00FA71A2 /* RedeemView.m in Sources */,
-				3CCCBD0116F4444000FA71A2 /* OfferViewController.mm in Sources */,
+				3CCCBD0116F4444000FA71A2 /* GiveViewController.mm in Sources */,
 				3C329C5D170178F70007345E /* ShareSuccessView.m in Sources */,
 				3CA1B30E1704020B005D2918 /* RootViewController.mm in Sources */,
 				3CA1B31117040374005D2918 /* OfferListViewController.mm in Sources */,
@@ -972,13 +972,13 @@
 				3CBCBF6D1717E2F8007B4249 /* GiftParser.m in Sources */,
 				3CBCBF701717E405007B4249 /* GiftService.m in Sources */,
 				3CBCBF7B171862A4007B4249 /* RedeemTableViewCell.m in Sources */,
-				3CA9F181171E782E001C3929 /* Gift.m in Sources */,
 				3CA9F187171E7C54001C3929 /* Location.m in Sources */,
 				3CA9F18A171E7C9D001C3929 /* KikbakParser.m in Sources */,
 				3CA9F190171E7FC0001C3929 /* Kikbak.m in Sources */,
 				3CA9F193171E8016001C3929 /* KikbakService.m in Sources */,
 				3CA9F196171FB9CB001C3929 /* RewardCollection.m in Sources */,
 				3CA9F1AD172A5B2E001C3929 /* NotificationContstants.m in Sources */,
+				3CA9F1B0172CF637001C3929 /* Gift.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

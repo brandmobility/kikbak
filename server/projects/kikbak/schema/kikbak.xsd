@@ -124,6 +124,7 @@
             <xsd:element name="name" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="friendUserId" type="xsd:long" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="description" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="fbImageId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
     
@@ -200,6 +201,7 @@
             <xsd:element name="locationId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="merchantId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="offerId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="fbImageId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
 

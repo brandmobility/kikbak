@@ -10,7 +10,7 @@
 
 @class Offer;
 
-@interface OfferViewController : UIViewController<UIActionSheetDelegate, UIImagePickerControllerDelegate,
+@interface GiveViewController : UIViewController<UIActionSheetDelegate, UIImagePickerControllerDelegate,
                                         UINavigationControllerDelegate, UIAlertViewDelegate>{
     bool photoTaken;
     bool captionAdded;

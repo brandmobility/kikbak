@@ -2,7 +2,7 @@
 //  Gift.m
 //  Kikbak
 //
-//  Created by Ian Barile on 4/16/13.
+//  Created by Ian Barile on 4/27/13.
 //  Copyright (c) 2013 Ian Barile. All rights reserved.
 //
 
@@ -13,11 +13,12 @@
 @implementation Gift
 
 @dynamic desc;
+@dynamic friendUserId;
 @dynamic giftId;
 @dynamic merchantId;
 @dynamic merchantName;
 @dynamic name;
-@dynamic friendUserId;
+@dynamic fbImageId;
 @dynamic location;
 
 @end

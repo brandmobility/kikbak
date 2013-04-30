@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Ian Barile. All rights reserved.
 //
 
-#import "OfferViewController.h"
+#import "GiveViewController.h"
 #import "UIDevice+Screen.h"
 #import "AppDelegate.h"
 #import <QuartzCore/QuartzCore.h>
@@ -19,7 +19,7 @@
 #import "Distance.h"
 #import "ImagePersistor.h"
 
-@interface OfferViewController ()
+@interface GiveViewController ()
 
 @property (nonatomic, strong) Location* location;
 @property (nonatomic, strong) UIButton* takePhotoBtn;
@@ -35,7 +35,7 @@
 -(void)postToFacebook;
 @end
 
-@implementation OfferViewController
+@implementation GiveViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -349,6 +349,7 @@
             [dict setObject:self.offer.merchantId forKey:@"merchantId"];
             [dict setObject:self.location.locationId forKey:@"locationId"];
             [dict setObject:self.offer.offerId forKey:@"offerId"];
+            [dict setObject:[result objectForKey:@"id"] forKey:@"fbImageId"];
             [request restRequest:dict];
         }
         else{

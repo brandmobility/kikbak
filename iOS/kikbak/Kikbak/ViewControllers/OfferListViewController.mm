@@ -7,7 +7,7 @@
 //
 
 #import "OfferListViewController.h"
-#import "OfferViewController.h"
+#import "GiveViewController.h"
 #import "OfferTableViewCell.h"
 #import "OfferService.h"
 #import "OfferTableViewCell.h"
@@ -131,7 +131,7 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    OfferViewController* vc = (OfferViewController*)segue.destinationViewController;
+    GiveViewController* vc = (GiveViewController*)segue.destinationViewController;
     vc.offer = sender;
     [segue.destinationViewController setHidesBottomBarWhenPushed:YES];
 }
@@ -145,6 +145,7 @@
 
 -(void) onOfferUpdate:(NSNotification*)notification{
     self.offers = [OfferService getOffers];
+    [self.table reloadData];
 }
 
 @end

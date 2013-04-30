@@ -267,10 +267,10 @@
             </objects>
             <point key="canvasLocation" x="-1310" y="1334"/>
         </scene>
-        <!--Offer View Controller-->
+        <!--Give View Controller-->
         <scene sceneID="GpY-ai-jud">
             <objects>
-                <viewController storyboardIdentifier="ShareViewController" id="ftx-I1-ga6" customClass="OfferViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ShareViewController" id="ftx-I1-ga6" customClass="GiveViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MLi-aX-Iq3">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <subviews>
@@ -727,6 +727,73 @@
         <image name="top_gradient.png" width="1" height="4"/>
         <image name="wave_bottom.png" width="307" height="5"/>
     </resources>
+    <classes>
+        <class className="GiveViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GiveViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="onGiveGift:"/>
+                <relationship kind="action" name="onTermsAndConditions:"/>
+                <relationship kind="outlet" name="distance" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="getArrow" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="getLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="getText" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="giftImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="giftLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="giveArrow" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="giveText" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="locationView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="mapMarker" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="photoFrame" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="retailer" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="retailerImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="shareBtn" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="termsBtn" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="topGradient" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="LoginViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoginViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="onFaceBookLogin:"/>
+                <relationship kind="outlet" name="buttonLoginLogout" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="OfferListViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OfferListViewController.h"/>
+        </class>
+        <class className="RedeemListViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RedeemListViewController.h"/>
+        </class>
+        <class className="RedeemViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RedeemViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="onRedeem:"/>
+                <relationship kind="action" name="onTermsAndConditions:"/>
+                <relationship kind="outlet" name="conditions" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="distance" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="friendCaption" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="friendImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="friendName" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="giftIcon" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="locationView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="mapMarker" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="offer" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="offerBackgroundImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="photoFrame" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="redeemBtn" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="retailer" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="retailerImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="scan" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="sharedImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="termsBtn" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="topGradient" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="yourGift" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
