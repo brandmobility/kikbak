@@ -1044,7 +1044,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Referred Labs, inc.";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/FacebookSDK/3.2\"",
+					"\"$(SRCROOT)/FacebookSDK/3.5.1\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Kikbak/Kikbak-Prefix.pch";
@@ -1120,7 +1120,7 @@
 				CLANG_CXX_LIBRARY = "compiler-default";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/FacebookSDK/3.2\"",
+					"\"$(SRCROOT)/FacebookSDK/3.5.1\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Kikbak/Kikbak-Prefix.pch";
@@ -1145,7 +1145,7 @@
 				CLANG_CXX_LIBRARY = "compiler-default";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/FacebookSDK/3.2\"",
+					"\"$(SRCROOT)/FacebookSDK/3.5.1\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Kikbak/Kikbak-Prefix.pch";
