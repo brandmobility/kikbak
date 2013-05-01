@@ -15,7 +15,7 @@
 #import "KikbakConstants.h"
 #import "RegisterUserRequest.h"
 #import "SubmitFriendsRequest.h"
-
+#import "ImageRequest.h"
 
 @implementation FBQuery
 
@@ -120,6 +120,27 @@
         NSLog(@"Submit Error: %@", error);
     }
   }];
+}
+
++(void)resolveImageUrl:(NSNumber*)fbPictureId{
+    FBRequestConnection* connection = [[FBRequestConnection alloc]initWithTimeout:30];
+    
+    FBRequest* request = [FBRequest requestForGraphPath:[NSString stringWithFormat:@"%@?fields=source", fbPictureId]];
+    [connection addRequest:request completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+        if(error == nil){
+            NSLog(@"resolveImageUrl: %@", result);
+            ImageRequest* requestor = [[ImageRequest alloc]init];
+            requestor.url = [result objectForKey:@"source"];
+            requestor.type = GIVE_IMAGE_TYPE;
+            requestor.fileId = [result objectForKey:@"id"];
+            [requestor requestImage];
+        }
+        else{
+            NSLog(@"Submit Error: %@", error);
+        }
+    }];
+    
+    [connection start];
 }
 
 @end

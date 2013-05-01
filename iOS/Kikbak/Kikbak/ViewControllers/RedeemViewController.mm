@@ -19,6 +19,7 @@
 #import "RewardCollection.h"
 #import "Distance.h"
 #import "NotificationContstants.h"
+#import "ImagePersistor.h"
 
 @interface RedeemViewController (){
     double distanceToLocation;
@@ -71,12 +72,18 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onRedeemKikbakError:) name:kKikbakRedeemKikbakError object:nil];
     
     [self updateDistance];
+    
+    if(self.reward.gift){
+        NSString* imagePath = [ImagePersistor imageFileExists:self.reward.gift.fbImageId imageType:GIVE_IMAGE_TYPE];
+        if(imagePath != nil){
+            self.sharedImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
+        }
+    }
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
 
- 
     [self manuallyLayoutSubviews];
 }
 

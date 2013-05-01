@@ -13,6 +13,7 @@
 +(void)createFBSession;
 +(void)fbFriends;
 +(void)fbMe;
++(void)resolveImageUrl:(NSNumber*)fbPictureId;
 +(NSArray*)FBPermissions;
 
 @end

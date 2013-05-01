@@ -13,11 +13,10 @@
 
 @implementation ImageRequest
 
--(void)requestMerchangeImage:(NSString*)imageUrl forMerchantId:(NSNumber*)merchantId {
+-(void)requestImage{
 
-    _merchantId = merchantId;
     request = [[HttpRequest alloc]init];
-    request.resource = imageUrl;
+    request.resource = self.url;
     
     
     request.restDelegate = self;
@@ -28,7 +27,7 @@
 
 
 -(void)parseResponse:(NSData*)data{
-    [ImagePersistor persistMerchantImage:data forMerchantId:_merchantId];
+    [ImagePersistor persisttImage:data fileId:self.fileId imageType:self.type];
     [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakOfferUpdate object:nil];
 }
 

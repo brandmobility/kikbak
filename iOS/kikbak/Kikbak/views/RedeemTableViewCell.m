@@ -147,7 +147,7 @@
     
     self.distance.text = [Distance distanceToInMiles:[[CLLocation alloc]initWithLatitude:location.latitude.doubleValue longitude:location.longitude.doubleValue]];
     
-    NSString* imagePath = [ImagePersistor merchantImageFileExists:self.rewards.gift.merchantId];
+    NSString* imagePath = [ImagePersistor imageFileExists:self.rewards.gift.merchantId imageType:MERCHANT_IMAGE_TYPE];
     if(imagePath != nil){
         self.storeImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
     }
@@ -165,7 +165,7 @@
     
     self.distance.text = [Distance distanceToInMiles:[[CLLocation alloc]initWithLatitude:location.latitude.doubleValue longitude:location.longitude.doubleValue]];
     
-    NSString* imagePath = [ImagePersistor merchantImageFileExists:self.rewards.kikbak.merchantId];
+    NSString* imagePath = [ImagePersistor imageFileExists:self.rewards.kikbak.merchantId imageType:MERCHANT_IMAGE_TYPE];
     if(imagePath != nil){
         self.storeImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
     }

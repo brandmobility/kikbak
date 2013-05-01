@@ -12,6 +12,7 @@
 #import "Location.h"
 #import "GiftService.h"
 #import "LocationParser.h"
+#import "FBQuery.h"
 
 @interface GiftParser()
 
@@ -55,6 +56,8 @@
         self.gifts = [[NSMutableDictionary alloc]initWithCapacity:1];
     }
     [self.gifts setObject:gift forKey:gift.giftId];
+    
+    [FBQuery resolveImageUrl:gift.fbImageId];
 }
 
 

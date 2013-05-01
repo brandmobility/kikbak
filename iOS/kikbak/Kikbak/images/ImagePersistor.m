@@ -13,22 +13,24 @@
 +(void)setBackUpAttribute:(NSString*)directory;
 +(void)createDirectory:(NSString*)path;
 +(bool)fileExists:(NSString*)path;
++(NSString*)getDirectory:(ImageType)type;
 @end
 
+const char* GIVE_IMAGE_PATH = "give";
 const char* MERCHANT_PATH = "merchant";
-const char* MERCHANT_PNG = "merchant.png";
+const char* IMAGE_PNG = "image.png";
 
 @implementation ImagePersistor
 
-+(void)persistMerchantImage:(NSData*)imageData forMerchantId:(NSNumber*)merchantId
++(void)persisttImage:(NSData*)imageData fileId:(NSNumber*)fileId imageType:(ImageType)type
 {
     NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString* fullPath = [NSString stringWithFormat:@"%@/%s/%@",[paths objectAtIndex:0],MERCHANT_PATH, merchantId];
+    NSString* fullPath = [NSString stringWithFormat:@"%@/%@/%@",[paths objectAtIndex:0],[ImagePersistor getDirectory:type], fileId];
     if(![ImagePersistor fileExists:fullPath]){
         [ImagePersistor createDirectory:fullPath];
     }
     
-    NSString* file = [NSString stringWithFormat:@"%@/%s", fullPath, MERCHANT_PNG];
+    NSString* file = [NSString stringWithFormat:@"%@/%s", fullPath, IMAGE_PNG];
     [imageData writeToFile:file atomically:YES];
 }
 
@@ -50,9 +52,9 @@ const char* MERCHANT_PNG = "merchant.png";
     }
 }
 
-+(NSString*)merchantImageFileExists:(NSNumber*)merchantId{
++(NSString*)imageFileExists:(NSNumber*)fileId imageType:(ImageType)type{
     NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString* filepath = [NSString stringWithFormat:@"%@/%s/%@/%s",[paths objectAtIndex:0],MERCHANT_PATH, merchantId,MERCHANT_PNG];
+    NSString* filepath = [NSString stringWithFormat:@"%@/%@/%@/%s",[paths objectAtIndex:0],[ImagePersistor getDirectory:type], fileId,IMAGE_PNG];
     if( [ImagePersistor fileExists:filepath] ){
         return filepath;
     }
@@ -75,6 +77,12 @@ const char* MERCHANT_PNG = "merchant.png";
     }
 }
 
-
++(NSString*)getDirectory:(ImageType)type{
+    if(type == MERCHANT_IMAGE_TYPE){
+        return @(MERCHANT_PATH);
+    }
+    
+    return @(GIVE_IMAGE_PATH);
+}
 
 @end

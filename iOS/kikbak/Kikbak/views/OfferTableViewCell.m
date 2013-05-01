@@ -133,7 +133,7 @@
     
     self.distance.text = [Distance distanceToInMiles:[[CLLocation alloc]initWithLatitude:location.latitude.doubleValue longitude:location.longitude.doubleValue]];
     
-    NSString* imagePath = [ImagePersistor merchantImageFileExists:self.offer.merchantId];
+    NSString* imagePath = [ImagePersistor imageFileExists:self.offer.merchantId imageType:MERCHANT_IMAGE_TYPE];
     if(imagePath != nil){
         self.storeImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
     }

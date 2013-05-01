@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "KikbakConstants.h"
 
 @interface ImagePersistor : NSObject
 
-+(void)persistMerchantImage:(NSData*)imageData forMerchantId:(NSNumber*)merchantId;
-+(NSString*)merchantImageFileExists:(NSNumber*)merchantId;
++(void)persisttImage:(NSData*)imageData fileId:(NSNumber*)fileId imageType:(ImageType)type;
++(NSString*)imageFileExists:(NSNumber*)fileId imageType:(ImageType)type;
 
 @end

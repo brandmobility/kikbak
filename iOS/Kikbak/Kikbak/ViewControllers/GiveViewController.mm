@@ -95,7 +95,7 @@
     self.giveText.text = self.offer.giftDescription;
     self.getText.text = self.offer.kikbakDescription;
     
-    NSString* imagePath = [ImagePersistor merchantImageFileExists:self.offer.merchantId];
+    NSString* imagePath = [ImagePersistor imageFileExists:self.offer.merchantId imageType:MERCHANT_IMAGE_TYPE];
     if(imagePath != nil){
         self.retailerImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
     }

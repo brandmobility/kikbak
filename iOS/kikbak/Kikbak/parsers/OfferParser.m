@@ -55,7 +55,10 @@
         }
 
         ImageRequest* request = [[ImageRequest alloc]init];
-        [request requestMerchangeImage:offer.merchantImageUrl forMerchantId:offer.merchantId];
+        request.url = offer.merchantImageUrl;
+        request.fileId = offer.merchantId;
+        request.type = MERCHANT_IMAGE_TYPE;
+        [request requestImage];
     }
     
     if(self.offers == nil){

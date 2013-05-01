@@ -9,15 +9,18 @@
 #import <Foundation/Foundation.h>
 #import "ResponseHandlerProtocol.h"
 #import "HttpRequest.h"
-
+#import "KikbakConstants.h"
 
 @interface ImageRequest : NSObject <ResponseHandlerProtocol>
 {
     HttpRequest* request;
-    NSNumber* _merchantId;
 }
 
--(void)requestMerchangeImage:(NSString*)imageUrl forMerchantId:(NSNumber*)offerid;
+-(void)requestImage;
+
+@property (nonatomic, strong) NSNumber* fileId;
+@property (nonatomic, strong) NSString* url;
+@property (nonatomic) ImageType type;
 
 
 @end

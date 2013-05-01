@@ -13,4 +13,10 @@
 #define DEVICE_TOKEN_KEY @"deviceToken"
 
 
+typedef enum{
+    MERCHANT_IMAGE_TYPE = 0,
+    GIVE_IMAGE_TYPE = 1
+}ImageType;
+
+
 #endif
