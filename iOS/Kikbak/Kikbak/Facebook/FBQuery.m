@@ -16,6 +16,7 @@
 #import "RegisterUserRequest.h"
 #import "SubmitFriendsRequest.h"
 #import "ImageRequest.h"
+#import "ImagePersistor.h"
 
 @implementation FBQuery
 
@@ -128,12 +129,14 @@
     FBRequest* request = [FBRequest requestForGraphPath:[NSString stringWithFormat:@"%@?fields=source", fbPictureId]];
     [connection addRequest:request completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         if(error == nil){
-            NSLog(@"resolveImageUrl: %@", result);
-            ImageRequest* requestor = [[ImageRequest alloc]init];
-            requestor.url = [result objectForKey:@"source"];
-            requestor.type = GIVE_IMAGE_TYPE;
-            requestor.fileId = [result objectForKey:@"id"];
-            [requestor requestImage];
+//            NSLog(@"resolveImageUrl: %@", result);
+            if(![ImagePersistor imageFileExists:[result objectForKey:@"id"] imageType:GIVE_IMAGE_TYPE]) {
+                ImageRequest* requestor = [[ImageRequest alloc]init];
+                requestor.url = [result objectForKey:@"source"];
+                requestor.type = GIVE_IMAGE_TYPE;
+                requestor.fileId = [result objectForKey:@"id"];
+                [requestor requestImage];
+            }
         }
         else{
             NSLog(@"Submit Error: %@", error);

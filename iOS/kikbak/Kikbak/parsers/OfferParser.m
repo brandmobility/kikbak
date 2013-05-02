@@ -12,6 +12,7 @@
 #import "LocationParser.h"
 #import "OfferService.h"
 #import "ImageRequest.h"
+#import "ImagePersistor.h"
 
 @interface OfferParser()
 
@@ -54,11 +55,14 @@
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         }
 
-        ImageRequest* request = [[ImageRequest alloc]init];
-        request.url = offer.merchantImageUrl;
-        request.fileId = offer.merchantId;
-        request.type = MERCHANT_IMAGE_TYPE;
-        [request requestImage];
+        if(![ImagePersistor imageFileExists:offer.merchantId imageType:MERCHANT_IMAGE_TYPE]) {
+            ImageRequest* request = [[ImageRequest alloc]init];
+            request.url = offer.merchantImageUrl;
+            request.fileId = offer.merchantId;
+            request.type = MERCHANT_IMAGE_TYPE;
+            [request requestImage];
+
+        }
     }
     
     if(self.offers == nil){
