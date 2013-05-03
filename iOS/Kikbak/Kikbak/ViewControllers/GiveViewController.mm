@@ -279,11 +279,10 @@
 #pragma mark - image picker delegates
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     
+    CGRect cropRect = CGRectMake(60, 125, 200, 200);
     UIImage* image = [info valueForKey:UIImagePickerControllerOriginalImage];
-    
-    CGSize size = CGSizeMake(self.giftImage.frame.size.width, self.giftImage.frame.size.height);
-    self.giftImage.image = [UIImage resizeImage:image newSize:size];
-    
+    image = [image imageByScalingAndCroppingForSize:CGSizeMake(320, 480)];
+    self.giftImage.image =  [image imageCropToRect:cropRect];
     [self dismissViewControllerAnimated:YES completion:nil];
     photoTaken = YES;
 }

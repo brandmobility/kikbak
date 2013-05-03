@@ -10,7 +10,8 @@
 
 @interface UIImage (Manipulate)
 
-+(UIImage*)resizeImage:(UIImage*)image newSize:(CGSize)newSize;
 +(UIImage*)changeColor:(UIImage*)image newColor:(UIColor*)color;
+-(UIImage*)imageByScalingAndCroppingForSize:(CGSize)targetSize;
+-(UIImage*)imageCropToRect:(CGRect)cropRect;
 
 @end
