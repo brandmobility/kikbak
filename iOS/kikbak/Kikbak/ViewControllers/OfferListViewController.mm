@@ -50,6 +50,10 @@
     self.table.backgroundColor = [UIColor colorWithRed:0.835 green:0.835 blue:0.835 alpha:1];
     [self.view addSubview:self.table];
     
+    
+    UINavigationBar* bar = self.navigationController.navigationBar;
+    [bar setBackgroundImage:[UIImage imageNamed:@"titlebar_gradient"] forBarMetrics:UIBarMetricsDefault];
+    
     if(((AppDelegate*)[UIApplication sharedApplication].delegate).locationMgr.currentLocation != nil)
         locationResolved = YES;
     else{

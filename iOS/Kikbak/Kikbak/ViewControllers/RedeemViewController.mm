@@ -277,7 +277,7 @@
     Location* location = [self.reward.gift.location anyObject];
     [dict setObject:location.locationId forKey:@"locationId"];
     [dict setObject:self.reward.gift.friendUserId forKey:@"friendUserId"];
-    [dict setObject:@"12435" forKey:@"verificationCode"];
+    [dict setObject:@"zdfdw" forKey:@"verificationCode"];
     
     return dict;
 }

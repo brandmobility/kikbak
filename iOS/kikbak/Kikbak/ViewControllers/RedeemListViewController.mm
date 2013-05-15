@@ -51,6 +51,9 @@
     self.table.delegate = self;
     [self.view addSubview:self.table];
     
+    UINavigationBar* bar = self.navigationController.navigationBar;
+    [bar setBackgroundImage:[UIImage imageNamed:@"titlebar_gradient"] forBarMetrics:UIBarMetricsDefault];
+    
     if(((AppDelegate*)[UIApplication sharedApplication].delegate).locationMgr.currentLocation != nil)
         locationResolved = YES;
     else{
