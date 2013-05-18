@@ -11,7 +11,7 @@
 
 @class Offer;
 
-@interface GiveViewController : UIViewController<UIActionSheetDelegate, UIImagePickerControllerDelegate,
+@interface GiveViewController : UIViewController<UIImagePickerControllerDelegate,
                                         UINavigationControllerDelegate, UIAlertViewDelegate,
                                         HPGrowingTextViewDelegate>{
     bool photoTaken;

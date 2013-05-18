@@ -20,11 +20,44 @@
 #import "Distance.h"
 #import "NotificationContstants.h"
 #import "ImagePersistor.h"
+#import "util.h"
+#import <QuartzCore/QuartzCore.h>
+
+
 
 @interface RedeemViewController (){
     double distanceToLocation;
 }
+
+@property (nonatomic,strong) UIView* offerBackground;
+@property (nonatomic,strong) UIImageView* navDropShadow;
+@property (nonatomic,strong) UIImageView* backgroundDropShadow;
+@property (nonatomic,strong) UIImageView* friendBorder;
+@property (nonatomic,strong) UIImageView* friendImage;
+@property (nonatomic,strong) UILabel* friendName;
+@property (nonatomic,strong) UILabel* friendMessage;
+@property (nonatomic,strong) UIView* imageFrame;
+@property (nonatomic,strong) UIImageView* giftImage;
+@property (nonatomic,strong) UIImageView* ribbonBack;
+@property (nonatomic,strong) UIImageView* ribbonFront;
+@property (nonatomic,strong) UILabel* retailerName;
+@property (nonatomic,strong) UIImageView* mapIcon;
+@property (nonatomic,strong) UILabel* distance;
+@property (nonatomic,strong) UIImageView* callIcon;
+@property (nonatomic,strong) UILabel* call;
+@property (nonatomic,strong) UIImageView* webIcon;
+@property (nonatomic,strong) UILabel* web;
+@property (nonatomic,strong) UILabel* offer;
+@property (nonatomic,strong) UILabel* details;
+@property (nonatomic,strong) UIButton* termsBtn;
+@property (nonatomic,strong) UIButton* learnBtn;
+
+@property (nonatomic,strong) UIButton* redeemBtn;
+
+
+-(void)createSubviews;
 -(void)manuallyLayoutSubviews;
+
 -(NSDictionary*)setupKikbakRequest;
 -(NSDictionary*)setupGiftRequest;
 -(void)updateDistance;
@@ -54,7 +87,8 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.title = NSLocalizedString(@"Redeem", nil);
-    self.hidesBottomBarWhenPushed = YES;
+    [self createSubviews];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -76,7 +110,7 @@
     if(self.reward.gift){
         NSString* imagePath = [ImagePersistor imageFileExists:self.reward.gift.fbImageId imageType:GIVE_IMAGE_TYPE];
         if(imagePath != nil){
-            self.sharedImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
+            self.giftImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
         }
     }
 }
@@ -100,85 +134,164 @@
     [self manuallyLayoutSubviews];
 }
 
+
+-(void)createSubviews{
+    self.offerBackground = [[UIView alloc]initWithFrame:CGRectMake(0,0, 320, 442)];
+    self.offerBackground.backgroundColor = UIColorFromRGB(0xF0F0F0);
+    [self.view addSubview:self.offerBackground];
+    
+    self.navDropShadow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"navbar_dropshadow"]];
+    self.navDropShadow.frame = CGRectMake(0, 0, 320, 3);
+    [self.view addSubview:self.navDropShadow];
+    
+    self.backgroundDropShadow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"navbar_dropshadow"]];
+    self.backgroundDropShadow.frame = CGRectMake(0, 442, 320, 6);
+    [self.view addSubview:self.backgroundDropShadow];
+    
+    UIImage* friendBorderImage = [UIImage imageNamed:@"profile_pic_overlay"];
+    self.friendBorder = [[UIImageView alloc]initWithImage:friendBorderImage];
+    self.friendBorder.frame = CGRectMake(11, 16, friendBorderImage.size.width, friendBorderImage.size.height);
+    [self.offerBackground addSubview:self.friendBorder];
+    
+    self.friendImage = [[UIImageView alloc]initWithFrame:CGRectMake(12, 15,
+                                                                   friendBorderImage.size.width-1,
+                                                                   friendBorderImage.size.height-1)];
+    [self.offerBackground addSubview:self.friendImage];
+    
+    self.friendName = [[UILabel alloc]initWithFrame:CGRectMake(81, 19, 239, 18)];
+    self.friendName.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
+    self.friendName.textColor = UIColorFromRGB(0x3a3a3a);
+    self.friendName.text = @"Jessica Rabbit";
+    self.friendName.backgroundColor = [UIColor clearColor];
+    self.friendName.textAlignment = NSTextAlignmentLeft;
+    [self.offerBackground addSubview:self.friendName];
+    
+    self.friendMessage = [[UILabel alloc]initWithFrame:CGRectMake(81, 38, 239, 40)];
+    self.friendMessage.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
+    self.friendMessage.textColor = UIColorFromRGB(0x3a3a3a);
+    self.friendMessage.text = @"This is a message from my friends it's telling me all about the product they think is cool";;
+    self.friendMessage.backgroundColor = [UIColor clearColor];
+    self.friendMessage.textAlignment = NSTextAlignmentLeft;
+    self.friendMessage.lineBreakMode = NSLineBreakByWordWrapping;
+    self.friendMessage.numberOfLines = 2;
+    [self.offerBackground addSubview:self.friendMessage];
+    
+    
+    self.imageFrame = [[UIView alloc]initWithFrame:CGRectMake(35, 90, 250, 250)];
+    self.imageFrame.backgroundColor = [UIColor whiteColor];
+    self.imageFrame.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.imageFrame.layer.shadowOpacity = 0.4;
+    self.imageFrame.layer.shadowOffset = CGSizeMake(1, 1);
+    [self.offerBackground addSubview:self.imageFrame];
+    
+    self.giftImage = [[UIImageView alloc]initWithFrame:CGRectMake(45, 100, 230, 230)];
+    self.giftImage.backgroundColor = [UIColor greenColor];
+    [self.offerBackground addSubview:self.giftImage];
+    
+    UIImage* rbBack = [UIImage imageNamed:@"ribbon_back"];
+    self.ribbonBack = [[UIImageView alloc]initWithImage:rbBack];
+    self.ribbonBack.frame = CGRectMake(11, 256, rbBack.size.width, rbBack.size.height);
+    [self.offerBackground addSubview:self.ribbonBack];
+    
+    UIImage* rbFront = [UIImage imageNamed:@"ribbon_front"];
+    self.ribbonFront = [[UIImageView alloc]initWithImage:rbFront];
+    self.ribbonFront.frame = CGRectMake(11, 256, rbFront.size.width, rbFront.size.height);
+    [self.offerBackground addSubview:self.ribbonFront];
+    
+    
+    self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(11+rbBack.size.width+13, 260, rbFront.size.width, 22)];
+    self.retailerName.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:20];
+    self.retailerName.textColor = UIColorFromRGB(0xf5f5f5);
+    self.retailerName.text = NSLocalizedString(@"Test Retailer", nil);
+    self.retailerName.backgroundColor = [UIColor clearColor];
+    [self.offerBackground addSubview:self.retailerName];
+    
+    self.mapIcon = [[UIImageView alloc]initWithFrame:CGRectMake(43, 289, 13, 12)];
+    self.mapIcon.image = [UIImage imageNamed:@"map_marker"];
+    [self.offerBackground addSubview:self.mapIcon];
+    
+    self.distance = [[UILabel alloc] initWithFrame:CGRectMake(57, 289, 50, 13)];
+    self.distance.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
+    self.distance.textColor = UIColorFromRGB(0xf5f5f5);
+    self.distance.text = @"test";
+//    self.distance.text = [NSString stringWithFormat:NSLocalizedString(@"miles away", nil),
+//                          [Distance distanceToInMiles:
+//                           [[CLLocation alloc]initWithLatitude:
+//                            self.location.latitude.doubleValue
+//                                                     longitude:self.location.longitude.doubleValue]]];
+    self.distance.backgroundColor = [UIColor clearColor];
+    [self.offerBackground addSubview:self.distance];
+    
+    self.callIcon = [[UIImageView alloc]initWithFrame:CGRectMake(122, 289, 13, 12)];
+    self.callIcon.image = [UIImage imageNamed:@"phone_icon"];
+    [self.offerBackground addSubview:self.callIcon];
+    
+    self.call = [[UILabel alloc]initWithFrame:CGRectMake(137, 289, 20, 13)];
+    self.call.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
+    self.call.textColor = UIColorFromRGB(0xf5f5f5);
+    self.call.text = NSLocalizedString(@"call", nil);
+    self.call.backgroundColor = [UIColor clearColor];
+    [self.offerBackground addSubview:self.call];
+    
+    self.webIcon = [[UIImageView alloc]initWithFrame:CGRectMake(199, 289, 12, 12)];
+    self.webIcon.image = [UIImage imageNamed:@"web_icon"];
+    [self.offerBackground addSubview:self.webIcon];
+    
+    self.web = [[UILabel alloc]initWithFrame:CGRectMake(215, 289, 30, 13)];
+    self.web.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
+    self.web.textColor = UIColorFromRGB(0xf5f5f5);
+    self.web.text = NSLocalizedString(@"web", nil);
+    self.web.backgroundColor = [UIColor clearColor];
+    [self.offerBackground addSubview:self.web];
+    
+    self.offer = [[UILabel alloc]initWithFrame:CGRectMake(0, 344, 320, 54)];
+    self.offer.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:50];
+    self.offer.textColor = UIColorFromRGB(0x3a3a3a);
+    self.offer.text = @"$50 off";
+    self.offer.textAlignment = NSTextAlignmentCenter;
+    self.offer.backgroundColor = [UIColor clearColor];
+    [self.offerBackground addSubview:self.offer];
+    
+    self.details = [[UILabel alloc] initWithFrame:CGRectMake(0, 394, 320, 20)];
+    self.details.font = [UIFont fontWithName:@"HelveticaNeue" size:18];
+    self.details.textColor = UIColorFromRGB(0x3a3a3a);
+    self.details.text = @"with 1 year contract";
+    self.details.textAlignment = NSTextAlignmentCenter;
+    self.details.backgroundColor = [UIColor clearColor];
+    [self.offerBackground addSubview:self.details];
+    
+    self.termsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.termsBtn.frame = CGRectMake(10, 424, 150, 14);
+    [self.termsBtn setTitle:NSLocalizedString(@"Terms and Conditions", nil) forState:UIControlStateNormal];
+    self.termsBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
+    [self.termsBtn setTitleColor:UIColorFromRGB(0x686868) forState:UIControlStateNormal];
+    self.termsBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
+    self.termsBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [self.offerBackground addSubview:self.termsBtn];
+    
+    self.learnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.learnBtn.frame = CGRectMake(160, 424, 150, 14);
+    [self.learnBtn setTitle:NSLocalizedString(@"Learn More", nil) forState:UIControlStateNormal];
+    self.learnBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
+    [self.learnBtn setTitleColor:UIColorFromRGB(0x686868) forState:UIControlStateNormal];
+    self.learnBtn.titleLabel.textAlignment = NSTextAlignmentRight;
+    self.learnBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+    [self.offerBackground addSubview:self.learnBtn];
+    
+    
+    self.redeemBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.redeemBtn setBackgroundImage:[UIImage imageNamed:@"give_bkg_button"] forState:UIControlStateNormal];
+    [self.redeemBtn setTitle:NSLocalizedString(@"Redeem", nil) forState:UIControlStateNormal];
+    [self.redeemBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.redeemBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:15];
+    self.redeemBtn.frame = CGRectMake(10, 453, 300, 44);
+    [self.redeemBtn addTarget:self action:@selector(onGiveGift:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.redeemBtn];
+}
+
 -(void)manuallyLayoutSubviews{
-    if ([UIDevice hasFourInchDisplay]) {
-        //location
-        CGRect fr = _locationView.frame;
-        fr.size.height = 76;
-        _locationView.frame = fr;
-        
-        fr = _retailerImage.frame;
-        fr.origin.y = 12;
-        _retailerImage.frame = fr;
-        
-        CGRect retailerFr = _retailer.frame;
-        retailerFr.origin.y = 14;
-        _retailer.frame = retailerFr;
-        
-        fr = _mapMarker.frame;
-        fr.origin.y = retailerFr.origin.y + retailerFr.size.height + 6;
-        _mapMarker.frame = fr;
-        
-        fr = _distance.frame;
-        fr.origin.y = retailerFr.origin.y + retailerFr.size.height + 6;
-        _distance.frame = fr;
-        
-        fr = _topGradient.frame;
-        fr.origin.y = 76;
-        _topGradient.frame = fr;
-        
-        fr = _friendName.frame;
-        fr.origin.y = 76 + 13;
-        _friendName.frame = fr;
-        
-        CGRect captionFr = _friendCaption.frame;
-        captionFr.origin.y = 76+26;
-        _friendCaption.frame = captionFr;
-        
-        fr = _friendImage.frame;
-        fr.origin.y = 76+14;
-        _friendImage.frame = fr;
-        
-        CGRect photoFr = _photoFrame.frame;
-        photoFr.origin.y = captionFr.origin.y + captionFr.size.height + 16;
-        photoFr.origin.x = 70;
-        photoFr.size.width = 171;
-        photoFr.size.height = 171;
-        _photoFrame.frame = photoFr;
-        
-        fr = _sharedImage.frame;
-        fr.origin.y = photoFr.origin.y + 10;
-        fr.origin.x = 77;
-        fr.size.width = 150;
-        fr.size.height = 149;
-        _sharedImage.frame = fr;
-        
-        CGRect offerFr = _offerBackgroundImage.frame;
-        offerFr.origin.y = photoFr.origin.y + photoFr.size.height + 12;
-        _offerBackgroundImage.frame = offerFr;
-        
-        CGRect giftIconFr = _giftIcon.frame;
-        giftIconFr.origin.y = offerFr.origin.y + 9;
-        _giftIcon.frame = giftIconFr;
-        
-        fr = _yourGift.frame;
-        fr.origin.y = offerFr.origin.y + 10;
-        _yourGift.frame = fr;
-        
-        CGRect offFr = _offer.frame;
-        offFr.origin.y = giftIconFr.origin.y + giftIconFr.size.height + 7;
-        _offer.frame = offFr;
-        
-        CGRect conditionsFr = _conditions.frame;
-        conditionsFr.origin.y = offFr.origin.y + offFr.size.height - 1;
-        _conditions.frame = conditionsFr;
-        
-        CGRect scanFr = _scan.frame;
-        scanFr.origin.y = conditionsFr.origin.y + conditionsFr.size.height;
-        _scan.frame = scanFr;
-        
-        offerFr.size.height = scanFr.origin.y + scanFr.size.height + 8 - offerFr.origin.y;
-        _offerBackgroundImage.frame = offerFr;
+    if (![UIDevice hasFourInchDisplay]) {
+
     }
 }
 
