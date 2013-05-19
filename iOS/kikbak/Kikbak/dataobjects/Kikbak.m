@@ -2,7 +2,7 @@
 //  Kikbak.m
 //  Kikbak
 //
-//  Created by Ian Barile on 4/16/13.
+//  Created by Ian Barile on 5/19/13.
 //  Copyright (c) 2013 Ian Barile. All rights reserved.
 //
 
@@ -12,12 +12,13 @@
 
 @implementation Kikbak
 
+@dynamic desc;
 @dynamic kikbakId;
 @dynamic merchantId;
 @dynamic merchantName;
 @dynamic name;
-@dynamic desc;
 @dynamic value;
+@dynamic merchantUrl;
 @dynamic location;
 
 @end

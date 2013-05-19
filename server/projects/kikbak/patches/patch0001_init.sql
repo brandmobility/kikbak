@@ -68,6 +68,7 @@ CREATE TABLE `location`
     state VARCHAR(24) NOT NULL,
     zipcode INT NOT NULL,
     zip_plus_four VARCHAR(4),
+    phone_number BIGINT NOT NULL,
     verification_code VARCHAR(8) NOT NULL,
     merchant_id BIGINT NOT NULL,
     latitude DOUBLE NOT NULL,

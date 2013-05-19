@@ -86,14 +86,14 @@
         AppDelegate* delegate =[UIApplication sharedApplication].delegate;
         delegate.userInfo.me = result;
         NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
-    //    NSString* testUser = @"24502071";
+        NSString* testUser = @"24502071";
         if( [prefs objectForKey:KIKBAK_USER_ID] == nil ){
             RegisterUserRequest* request = [[RegisterUserRequest alloc] init];
             NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:12];
             [dict setObject:[result objectForKey:@"email"] forKey:@"email"];
             [dict setObject:[result objectForKey:@"first_name"] forKey:@"first_name"];
             [dict setObject:[result objectForKey:@"id"] forKey:@"id"];
-     //       [dict setObject:testUser forKey:@"id"];
+            [dict setObject:testUser forKey:@"id"];
             [dict setObject:[result objectForKey:@"last_name"] forKey:@"last_name"];
             [dict setObject:[result objectForKey:@"link"] forKey:@"link"];
             [dict setObject:[result objectForKey:@"locale"] forKey:@"locale"];
@@ -106,8 +106,8 @@
             [request restRequest:dict];
         }
 
-        [prefs setValue:[delegate.userInfo.me objectForKey:@(FB_USER_ID_KEY)] forKeyPath:@(FB_USER_ID_KEY)];
-      //  [prefs setValue:testUser forKeyPath:@(FB_USER_ID_KEY)];
+      //  [prefs setValue:[delegate.userInfo.me objectForKey:@(FB_USER_ID_KEY)] forKeyPath:@(FB_USER_ID_KEY)];
+        [prefs setValue:testUser forKeyPath:@(FB_USER_ID_KEY)];
         [prefs setValue:[delegate.userInfo.me objectForKey:@(FB_USERNAME_KEY)] forKeyPath:@(FB_USERNAME_KEY)];
         [prefs synchronize];
         [Flurry logEvent:@"MeRequestEvent" timed:YES];
@@ -144,6 +144,34 @@
     }];
     
     [connection start];
+}
+
+
++(void)requestProfileImage:(NSNumber*)fbUserId{
+    FBRequestConnection* connection = [[FBRequestConnection alloc]initWithTimeout:30];
+    
+    FBRequest* request = [FBRequest requestForGraphPath:[NSString stringWithFormat:@"%@?fields=picture", fbUserId]];
+    [connection addRequest:request completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+        if(error == nil){
+            //            NSLog(@"resolveImageUrl: %@", result);
+            if(![ImagePersistor imageFileExists:fbUserId imageType:FRIEND_IMAGE_TYPE]) {
+                ImageRequest* requestor = [[ImageRequest alloc]init];
+                id data = [[result objectForKey:@"picture"]objectForKey:@"data"];
+                if( data ){
+                    requestor.url = [data objectForKey:@"url"];
+                    requestor.type = FRIEND_IMAGE_TYPE;
+                    requestor.fileId = fbUserId;
+                    [requestor requestImage];
+                }
+            }
+        }
+        else{
+            NSLog(@"Submit Error: %@", error);
+        }
+    }];
+    
+    [connection start];
+    
 }
 
 @end

@@ -87,13 +87,10 @@
 		3CA1B31B17056B9F005D2918 /* redeem_tabbar.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CA1B31917056B9F005D2918 /* redeem_tabbar.png */; };
 		3CA1B31E17056BBF005D2918 /* give_tabbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CA1B31C17056BBF005D2918 /* give_tabbar@2x.png */; };
 		3CA1B31F17056BBF005D2918 /* redeem_tabbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CA1B31D17056BBF005D2918 /* redeem_tabbar@2x.png */; };
-		3CA9F187171E7C54001C3929 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA9F186171E7C54001C3929 /* Location.m */; };
 		3CA9F18A171E7C9D001C3929 /* KikbakParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA9F189171E7C9D001C3929 /* KikbakParser.m */; };
-		3CA9F190171E7FC0001C3929 /* Kikbak.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA9F18F171E7FC0001C3929 /* Kikbak.m */; };
 		3CA9F193171E8016001C3929 /* KikbakService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA9F192171E8016001C3929 /* KikbakService.m */; };
 		3CA9F196171FB9CB001C3929 /* RewardCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA9F195171FB9CB001C3929 /* RewardCollection.m */; };
 		3CA9F1AD172A5B2E001C3929 /* NotificationContstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA9F1AC172A5B2E001C3929 /* NotificationContstants.m */; };
-		3CA9F1B0172CF637001C3929 /* Gift.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA9F1AF172CF637001C3929 /* Gift.m */; };
 		3CBCBF2617127468007B4249 /* OfferService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF2517127468007B4249 /* OfferService.m */; };
 		3CBCBF29171277A3007B4249 /* LocationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF28171277A3007B4249 /* LocationService.m */; };
 		3CBCBF491713E696007B4249 /* SubmitFriendsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF351713E696007B4249 /* SubmitFriendsRequest.m */; };
@@ -126,6 +123,10 @@
 		3CE77DEF17475B2900CE963D /* ribbon_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CE77DEB17475B2900CE963D /* ribbon_back.png */; };
 		3CE77DF017475B2900CE963D /* ribbon_front.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CE77DEC17475B2900CE963D /* ribbon_front.png */; };
 		3CE77DF117475B2900CE963D /* scan_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CE77DED17475B2900CE963D /* scan_button.png */; };
+		3CE77DF81748B08300CE963D /* Kikbak.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CE77DF71748B08300CE963D /* Kikbak.m */; };
+		3CE77DFB1748B08300CE963D /* Offer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CE77DFA1748B08300CE963D /* Offer.m */; };
+		3CE77DFE1748B08300CE963D /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CE77DFD1748B08300CE963D /* Location.m */; };
+		3CE77E0417497C9300CE963D /* Gift.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CE77E0317497C9300CE963D /* Gift.m */; };
 		3CF383D51706C2350010D9B9 /* UIImage+Manipulate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CF383D41706C2350010D9B9 /* UIImage+Manipulate.m */; };
 		3CFED9C8174743C0007E227E /* profile_pic_overlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CFED9C4174743C0007E227E /* profile_pic_overlay@2x.png */; };
 		3CFED9C9174743C0007E227E /* ribbon_back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CFED9C5174743C0007E227E /* ribbon_back@2x.png */; };
@@ -293,20 +294,14 @@
 		3CA1B31917056B9F005D2918 /* redeem_tabbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redeem_tabbar.png; sourceTree = "<group>"; };
 		3CA1B31C17056BBF005D2918 /* give_tabbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "give_tabbar@2x.png"; sourceTree = "<group>"; };
 		3CA1B31D17056BBF005D2918 /* redeem_tabbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redeem_tabbar@2x.png"; sourceTree = "<group>"; };
-		3CA9F185171E7C54001C3929 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
-		3CA9F186171E7C54001C3929 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
 		3CA9F188171E7C9D001C3929 /* KikbakParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KikbakParser.h; sourceTree = "<group>"; };
 		3CA9F189171E7C9D001C3929 /* KikbakParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KikbakParser.m; sourceTree = "<group>"; };
-		3CA9F18E171E7FC0001C3929 /* Kikbak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Kikbak.h; sourceTree = "<group>"; };
-		3CA9F18F171E7FC0001C3929 /* Kikbak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Kikbak.m; sourceTree = "<group>"; };
 		3CA9F191171E8016001C3929 /* KikbakService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KikbakService.h; sourceTree = "<group>"; };
 		3CA9F192171E8016001C3929 /* KikbakService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KikbakService.m; sourceTree = "<group>"; };
 		3CA9F194171FB9CB001C3929 /* RewardCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RewardCollection.h; sourceTree = "<group>"; };
 		3CA9F195171FB9CB001C3929 /* RewardCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RewardCollection.m; sourceTree = "<group>"; };
 		3CA9F1AB172A5B2E001C3929 /* NotificationContstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationContstants.h; sourceTree = "<group>"; };
 		3CA9F1AC172A5B2E001C3929 /* NotificationContstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationContstants.m; sourceTree = "<group>"; };
-		3CA9F1AE172CF637001C3929 /* Gift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gift.h; sourceTree = "<group>"; };
-		3CA9F1AF172CF637001C3929 /* Gift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gift.m; sourceTree = "<group>"; };
 		3CBCBF2417127468007B4249 /* OfferService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfferService.h; sourceTree = "<group>"; };
 		3CBCBF2517127468007B4249 /* OfferService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfferService.m; sourceTree = "<group>"; };
 		3CBCBF27171277A3007B4249 /* LocationService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationService.h; sourceTree = "<group>"; };
@@ -336,8 +331,6 @@
 		3CBCBF531713E6A8007B4249 /* ImageRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageRequest.m; sourceTree = "<group>"; };
 		3CBCBF561713F6AD007B4249 /* ImagePersistor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagePersistor.h; sourceTree = "<group>"; };
 		3CBCBF571713F6AD007B4249 /* ImagePersistor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagePersistor.m; sourceTree = "<group>"; };
-		3CBCBF691717E131007B4249 /* Offer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Offer.h; sourceTree = "<group>"; };
-		3CBCBF6A1717E132007B4249 /* Offer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Offer.m; sourceTree = "<group>"; };
 		3CBCBF6B1717E2F8007B4249 /* GiftParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GiftParser.h; sourceTree = "<group>"; };
 		3CBCBF6C1717E2F8007B4249 /* GiftParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GiftParser.m; sourceTree = "<group>"; };
 		3CBCBF6E1717E405007B4249 /* GiftService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GiftService.h; sourceTree = "<group>"; };
@@ -366,6 +359,14 @@
 		3CE77DEB17475B2900CE963D /* ribbon_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ribbon_back.png; sourceTree = "<group>"; };
 		3CE77DEC17475B2900CE963D /* ribbon_front.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ribbon_front.png; sourceTree = "<group>"; };
 		3CE77DED17475B2900CE963D /* scan_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scan_button.png; sourceTree = "<group>"; };
+		3CE77DF61748B08300CE963D /* Kikbak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Kikbak.h; sourceTree = "<group>"; };
+		3CE77DF71748B08300CE963D /* Kikbak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Kikbak.m; sourceTree = "<group>"; };
+		3CE77DF91748B08300CE963D /* Offer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Offer.h; sourceTree = "<group>"; };
+		3CE77DFA1748B08300CE963D /* Offer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Offer.m; sourceTree = "<group>"; };
+		3CE77DFC1748B08300CE963D /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
+		3CE77DFD1748B08300CE963D /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
+		3CE77E0217497C9300CE963D /* Gift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gift.h; sourceTree = "<group>"; };
+		3CE77E0317497C9300CE963D /* Gift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gift.m; sourceTree = "<group>"; };
 		3CF383D31706C2350010D9B9 /* UIImage+Manipulate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Manipulate.h"; sourceTree = "<group>"; };
 		3CF383D41706C2350010D9B9 /* UIImage+Manipulate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Manipulate.m"; sourceTree = "<group>"; };
 		3CFED9C4174743C0007E227E /* profile_pic_overlay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile_pic_overlay@2x.png"; sourceTree = "<group>"; };
@@ -504,14 +505,14 @@
 		3C752BD917113B710092CFB1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				3CA9F1AE172CF637001C3929 /* Gift.h */,
-				3CA9F1AF172CF637001C3929 /* Gift.m */,
-				3CA9F18E171E7FC0001C3929 /* Kikbak.h */,
-				3CA9F18F171E7FC0001C3929 /* Kikbak.m */,
-				3CA9F185171E7C54001C3929 /* Location.h */,
-				3CA9F186171E7C54001C3929 /* Location.m */,
-				3CBCBF691717E131007B4249 /* Offer.h */,
-				3CBCBF6A1717E132007B4249 /* Offer.m */,
+				3CE77E0217497C9300CE963D /* Gift.h */,
+				3CE77E0317497C9300CE963D /* Gift.m */,
+				3CE77DFC1748B08300CE963D /* Location.h */,
+				3CE77DFD1748B08300CE963D /* Location.m */,
+				3CE77DF91748B08300CE963D /* Offer.h */,
+				3CE77DFA1748B08300CE963D /* Offer.m */,
+				3CE77DF61748B08300CE963D /* Kikbak.h */,
+				3CE77DF71748B08300CE963D /* Kikbak.m */,
 				3CBCBF2417127468007B4249 /* OfferService.h */,
 				3CBCBF2517127468007B4249 /* OfferService.m */,
 				3CBCBF27171277A3007B4249 /* LocationService.h */,
@@ -1125,15 +1126,16 @@
 				3CBCBF6D1717E2F8007B4249 /* GiftParser.m in Sources */,
 				3CBCBF701717E405007B4249 /* GiftService.m in Sources */,
 				3CBCBF7B171862A4007B4249 /* RedeemTableViewCell.m in Sources */,
-				3CA9F187171E7C54001C3929 /* Location.m in Sources */,
 				3CA9F18A171E7C9D001C3929 /* KikbakParser.m in Sources */,
-				3CA9F190171E7FC0001C3929 /* Kikbak.m in Sources */,
 				3CA9F193171E8016001C3929 /* KikbakService.m in Sources */,
 				3CA9F196171FB9CB001C3929 /* RewardCollection.m in Sources */,
 				3CA9F1AD172A5B2E001C3929 /* NotificationContstants.m in Sources */,
-				3CA9F1B0172CF637001C3929 /* Gift.m in Sources */,
 				3C2261B617434974001F0681 /* HPGrowingTextView.m in Sources */,
 				3C2261B717434974001F0681 /* HPTextViewInternal.m in Sources */,
+				3CE77DF81748B08300CE963D /* Kikbak.m in Sources */,
+				3CE77DFB1748B08300CE963D /* Offer.m in Sources */,
+				3CE77DFE1748B08300CE963D /* Location.m in Sources */,
+				3CE77E0417497C9300CE963D /* Gift.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

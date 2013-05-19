@@ -15,7 +15,7 @@
 #endif
 
 KIKBAK_EXTERN NSString *const kKikbakLocationUpdate;
-KIKBAK_EXTERN NSString *const kKikbakOfferUpdate;
+KIKBAK_EXTERN NSString *const kKikbakImageDownloaded;
 KIKBAK_EXTERN NSString *const kKikbakRewardUpdate;
 KIKBAK_EXTERN NSString *const kKikbakRedeemGiftError;
 KIKBAK_EXTERN NSString *const kKikbakRedeemGiftSuccess;

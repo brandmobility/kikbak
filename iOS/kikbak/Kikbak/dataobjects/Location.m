@@ -2,7 +2,7 @@
 //  Location.m
 //  Kikbak
 //
-//  Created by Ian Barile on 4/16/13.
+//  Created by Ian Barile on 5/19/13.
 //  Copyright (c) 2013 Ian Barile. All rights reserved.
 //
 
@@ -17,8 +17,9 @@
 @dynamic latitude;
 @dynamic locationId;
 @dynamic longitude;
+@dynamic phoneNumber;
 @dynamic gift;
-@dynamic offer;
 @dynamic kikbak;
+@dynamic offer;
 
 @end

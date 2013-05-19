@@ -9,7 +9,7 @@
 #import "NotificationContstants.h"
 
 NSString *const kKikbakLocationUpdate = @"kKikbakLocationUpdate";
-NSString *const kKikbakOfferUpdate = @"kKikbakOfferUpdate";
+NSString *const kKikbakImageDownloaded = @"kKikbakImageDownloaded";
 NSString *const kKikbakRewardUpdate = @"kKikbakRewardUpdate";
 NSString *const kKikbakRedeemGiftError = @"kKikbakRedeemGiftError";
 NSString *const kKikbakRedeemGiftSuccess = @"kKikbakRedeemGiftSuccess";

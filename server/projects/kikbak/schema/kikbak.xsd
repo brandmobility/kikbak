@@ -95,6 +95,7 @@
             <xsd:element name="locationId" type="xsd:long" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="latitude" type="xsd:double" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="longitude" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="phoneNumber" type="xsd:long" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
     
@@ -102,6 +103,7 @@
         <xsd:sequence>
             <xsd:element name="id" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="url" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="locations" type="kikbak:ClientLocationType" minOccurs="1" maxOccurs="unbounded"/>
         </xsd:sequence>
     </xsd:complexType>
@@ -125,6 +127,7 @@
             <xsd:element name="friendUserId" type="xsd:long" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="description" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="fbImageId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="fbFriendId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
     
@@ -225,7 +228,7 @@
         <xsd:sequence>
             <xsd:element name="firstName" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="lastName" type="xsd:string" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="phoneNumber" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="phoneNumber" type="xsd:long" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
     
@@ -358,6 +361,7 @@
             <xsd:element name="locationId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="latitude" type="xsd:double" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="longitude" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="phoneNumber" type="xsd:long" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
     
@@ -373,6 +377,7 @@
             <xsd:element name="kikbakDescription" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="merchantId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="merchantImageUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="merchantUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="locations" type="kikbak:OfferLocationType" minOccurs="1" maxOccurs="unbounded"/>
             <xsd:element name="beginDate" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="endDate" type="xsd:long" minOccurs="1" maxOccurs="1"/>

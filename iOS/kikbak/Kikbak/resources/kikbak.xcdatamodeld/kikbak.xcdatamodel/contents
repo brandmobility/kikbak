@@ -2,11 +2,13 @@
 <model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="12D78" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Gift" representedClassName="Gift" syncable="YES">
         <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fbFriendId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="fbImageId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="friendUserId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="giftId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="merchantId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="merchantName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="merchantUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="location" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Location" inverseName="gift" inverseEntity="Location" syncable="YES"/>
     </entity>
@@ -15,6 +17,7 @@
         <attribute name="kikbakId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="merchantId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="merchantName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="merchantUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <relationship name="location" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Location" inverseName="kikbak" inverseEntity="Location" syncable="YES"/>
@@ -23,6 +26,7 @@
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="locationId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="phoneNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <relationship name="gift" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Gift" inverseName="location" inverseEntity="Gift" syncable="YES"/>
         <relationship name="kikbak" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Kikbak" inverseName="location" inverseEntity="Kikbak" syncable="YES"/>
         <relationship name="offer" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Offer" inverseName="location" inverseEntity="Offer" syncable="YES"/>
@@ -37,14 +41,15 @@
         <attribute name="merchantId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="merchantImageUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="merchantName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="merchantUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="offerId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <relationship name="location" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Location" inverseName="offer" inverseEntity="Location" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Gift" positionX="-5807" positionY="-495" width="128" height="165"/>
-        <element name="Kikbak" positionX="160" positionY="192" width="128" height="150"/>
-        <element name="Location" positionX="-5544" positionY="-567" width="128" height="135"/>
-        <element name="Offer" positionX="-5247" positionY="-585" width="128" height="223"/>
+        <element name="Gift" positionX="-5807" positionY="-495" width="128" height="195"/>
+        <element name="Kikbak" positionX="160" positionY="192" width="128" height="165"/>
+        <element name="Location" positionX="-5544" positionY="-567" width="128" height="150"/>
+        <element name="Offer" positionX="-5247" positionY="-585" width="128" height="240"/>
     </elements>
 </model>

@@ -32,10 +32,13 @@
 @property(nonatomic, strong) UILabel* retailerName;
 @property(nonatomic, strong) UIImageView* mapIcon;
 @property(nonatomic, strong) UILabel* distance;
+@property(nonatomic, strong) UIButton* mapBtn;
 @property(nonatomic, strong) UIImageView* callIcon;
 @property(nonatomic, strong) UILabel* call;
+@property(nonatomic, strong) UIButton* callBtn;
 @property(nonatomic, strong) UIImageView* webIcon;
 @property(nonatomic, strong) UILabel* web;
+@property(nonatomic, strong) UIButton* webBtn;
 
 
 @property(nonatomic, strong) UIImageView* giveImage;
@@ -63,7 +66,12 @@
 -(IBAction)takePhoto:(id)sender;
 -(IBAction)onGiveGift:(id)sender;
 -(IBAction)onLearnMore:(id)sender;
+-(IBAction)onTerms:(id)sender;
+
 -(IBAction)backBtn:(id)sender;
+-(IBAction)onMapBtn:(id)sender;
+-(IBAction)onCallBtn:(id)sender;
+-(IBAction)onWebBtn:(id)sender;
 -(void)postToFacebook;
 
 -(IBAction)keyboardWillShow:(NSNotification*)notification;
@@ -128,6 +136,7 @@
     backButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     [backButton addTarget:self action:@selector(backBtn:)    forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    backBarButtonItem.style = UIBarButtonItemStylePlain;
     
     self.navigationItem.hidesBackButton = YES;
     self.navigationItem.leftBarButtonItem = backBarButtonItem;
@@ -159,6 +168,7 @@
         self.retailerName.frame = CGRectMake(66, 8, 254, 24);
         self.mapIcon.frame = CGRectMake(66, 41, 13, 12);
         self.distance.frame = CGRectMake(80, 40, 90, 13);
+        self.mapBtn.frame = CGRectMake(66, 30, 90, 30);
         self.callIcon.frame = CGRectMake(175, 40, 13, 12);
         self.call.frame = CGRectMake(190, 40, 20, 13);
         self.webIcon.frame = CGRectMake(246, 40, 12, 12);
@@ -230,6 +240,12 @@
     self.distance.backgroundColor = [UIColor clearColor];
     [self.merchantBackground addSubview:self.distance];
     
+    self.mapBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.mapBtn.frame = CGRectMake(66, 30, 90, 30);
+    self.mapBtn.backgroundColor = [UIColor clearColor];
+    [self.mapBtn addTarget:self action:@selector(onMapBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [self.merchantBackground addSubview:self.mapBtn];
+    
     self.callIcon = [[UIImageView alloc]initWithFrame:CGRectMake(175, 40, 13, 12)];
     self.callIcon.image = [UIImage imageNamed:@"phone_icon"];
     [self.merchantBackground addSubview:self.callIcon];
@@ -241,6 +257,12 @@
     self.call.backgroundColor = [UIColor clearColor];
     [self.merchantBackground addSubview:self.call];
     
+    self.callBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.callBtn.frame = CGRectMake(175, 30, 40, 30);
+    self.callBtn.backgroundColor = [UIColor clearColor];
+    [self.callBtn addTarget:self action:@selector(onCallBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [self.merchantBackground addSubview:self.callBtn];
+    
     self.webIcon = [[UIImageView alloc]initWithFrame:CGRectMake(246, 40, 12, 12)];
     self.webIcon.image = [UIImage imageNamed:@"web_icon"];
     [self.merchantBackground addSubview:self.webIcon];
@@ -251,6 +273,12 @@
     self.web.text = NSLocalizedString(@"web", nil);
     self.web.backgroundColor = [UIColor clearColor];
     [self.merchantBackground addSubview:self.web];
+    
+    self.webBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.webBtn.backgroundColor = [UIColor clearColor];
+    self.webBtn.frame = CGRectMake(246, 30, 40, 30);
+    [self.webBtn addTarget:self action:@selector(onWebBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [self.merchantBackground addSubview:self.webBtn];
     
     self.captionContainerView = [[UIView alloc]initWithFrame:CGRectMake(0, 279, 320, 48)];
     self.captionContainerView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.7];
@@ -403,6 +431,25 @@
     
 }
 
+-(IBAction)onTerms:(id)sender{
+    
+}
+
+-(IBAction)onMapBtn:(id)sender{
+    NSString *stringURL = [NSString stringWithFormat:@"http://maps.apple.com/maps?q=%@,%@",
+                                    self.location.latitude, self.location.longitude];
+    NSURL *url = [NSURL URLWithString:stringURL];
+    [[UIApplication sharedApplication] openURL:url];
+}
+
+-(IBAction)onCallBtn:(id)sender{
+    [[UIApplication sharedApplication]openURL:[[NSURL alloc]initWithString:[NSString stringWithFormat:@"tel:%@",self.location.phoneNumber]]];
+}
+
+
+-(IBAction)onWebBtn:(id)sender{
+    [[UIApplication sharedApplication]openURL:[[NSURL alloc]initWithString:self.offer.merchantUrl]];
+}
 
 #pragma mark - AlertView Delegate Methods
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{

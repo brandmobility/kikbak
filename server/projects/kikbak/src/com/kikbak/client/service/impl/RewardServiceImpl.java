@@ -104,7 +104,7 @@ public class RewardServiceImpl implements RewardService{
 			gt.setDescription(offer.getGiftDescription());
 			gt.setName(offer.getGiftName());
 			gt.setFriendUserId(gift.getFriendUserId());
-			
+			gt.setFbFriendId(roUserDao.findById(gift.getFriendUserId()).getFacebookId());
 			Shared shared = roSharedDao.findById(gift.getId());
 			gt.setFbImageId(shared.getFbImageId());
 			
@@ -236,6 +236,7 @@ public class RewardServiceImpl implements RewardService{
 		ClientMerchantType cmt = new ClientMerchantType();
 		cmt.setId(merchant.getId());
 		cmt.setName(merchant.getName());
+		cmt.setUrl(merchant.getUrl());
 
 		Collection<Location> locations = roLocationDao.listByMerchant(merchant.getId());
 		for(Location location: locations){
@@ -243,6 +244,7 @@ public class RewardServiceImpl implements RewardService{
 			clt.setLocationId(location.getId());
 			clt.setLatitude(location.getLatitude());
 			clt.setLongitude(location.getLongitude());
+			clt.setPhoneNumber(location.getPhoneNumber());
 			cmt.getLocations().add(clt);
 		}
 		return cmt;

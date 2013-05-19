@@ -121,6 +121,11 @@ public class UserServiceTest extends KikbakBaseTest{
 		ot.setDefaultText("default");
 		ot.setDescription("desc");
 		ot.setGiftDescription("gift");
+		ot.setGiftName("name");
+		ot.setGiftNotificationText("notification");
+		ot.setKikbakDescription("kik");
+		ot.setKikbakNotificationText("not");
+		ot.setKikbakName("kik");
 		ot.setName("name");
 		
 		try {
@@ -157,6 +162,11 @@ public class UserServiceTest extends KikbakBaseTest{
 		ot.setDefaultText("default");
 		ot.setDescription("desc");
 		ot.setGiftDescription("gift");
+		ot.setGiftName("name");
+		ot.setGiftNotificationText("notification");
+		ot.setKikbakDescription("kik");
+		ot.setKikbakNotificationText("not");
+		ot.setKikbakName("kik");
 		ot.setName("name");
 		
 		try {

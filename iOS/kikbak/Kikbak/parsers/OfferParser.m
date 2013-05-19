@@ -37,6 +37,7 @@
         offer.merchantImageUrl = [dict objectForKey:@"merchantImageUrl"];
         offer.merchantId = [dict objectForKey:@"merchantId"];
         offer.merchantName = [dict objectForKey:@"merchantName"];
+        offer.merchantUrl = [dict objectForKey:@"merchantUrl"];
         long date = [dict objectForKey:@"beginDate"];
         NSTimeInterval timeSince70 = date;
         offer.beginDate = [NSDate dateWithTimeIntervalSince1970:timeSince70];

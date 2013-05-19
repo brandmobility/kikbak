@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.Date;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -47,7 +46,7 @@ public class UserServiceImpl implements UserService {
 
 	private static PropertiesConfiguration config = ContextUtil.getBean("staticPropertiesConfiguration", PropertiesConfiguration.class);
 	
-	private static final Logger logger = Logger.getLogger(UserServiceImpl.class);
+//	private static final Logger logger = Logger.getLogger(UserServiceImpl.class);
 	
 	@Autowired
 	ReadOnlyUserDAO roUserDao;
@@ -157,6 +156,7 @@ public class UserServiceImpl implements UserService {
 			Merchant merchant = roMerchantDao.findById(offer.getMerchantId());
 			ot.setMerchantImageUrl(merchant.getImageUrl());
 			ot.setMerchantName(merchant.getName());
+			ot.setMerchantUrl(merchant.getUrl());
 			
 			Collection<Location> locations = roLocationDao.listByMerchant(offer.getMerchantId());
 			for( Location location: locations){
@@ -164,6 +164,7 @@ public class UserServiceImpl implements UserService {
 				otl.setLocationId(location.getId());
 				otl.setLatitude(location.getLatitude());
 				otl.setLongitude(location.getLongitude());
+				otl.setPhoneNumber(location.getPhoneNumber());
 				ot.getLocations().add(otl);
 			}
 			

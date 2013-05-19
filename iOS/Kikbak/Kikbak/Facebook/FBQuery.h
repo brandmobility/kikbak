@@ -14,6 +14,7 @@
 +(void)fbFriends;
 +(void)fbMe;
 +(void)resolveImageUrl:(NSNumber*)fbPictureId;
++(void)requestProfileImage:(NSNumber*)fbUserId;
 +(NSArray*)FBPermissions;
 
 @end

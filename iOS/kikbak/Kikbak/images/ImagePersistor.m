@@ -18,6 +18,7 @@
 
 const char* GIVE_IMAGE_PATH = "give";
 const char* MERCHANT_PATH = "merchant";
+const char* FRIEND_PATH = "friend";
 const char* IMAGE_PNG = "image.png";
 
 @implementation ImagePersistor
@@ -81,8 +82,11 @@ const char* IMAGE_PNG = "image.png";
     if(type == MERCHANT_IMAGE_TYPE){
         return @(MERCHANT_PATH);
     }
-    
-    return @(GIVE_IMAGE_PATH);
+    else if(type == GIVE_IMAGE_TYPE){
+        return @(GIVE_IMAGE_PATH);
+    }
+
+    return @(FRIEND_PATH);
 }
 
 @end

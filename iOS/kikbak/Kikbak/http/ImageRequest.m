@@ -28,7 +28,7 @@
 
 -(void)parseResponse:(NSData*)data{
     [ImagePersistor persisttImage:data fileId:self.fileId imageType:self.type];
-    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakOfferUpdate object:nil];
+    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakImageDownloaded object:nil];
 }
 
 -(void)handleError:(NSInteger)statusCode withData:(NSData*)data{

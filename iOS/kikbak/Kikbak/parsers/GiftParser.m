@@ -34,6 +34,7 @@
         if( merchant != [NSNull null]){
             gift.merchantId = [merchant objectForKey:@"id"];
             gift.merchantName = [merchant objectForKey:@"name"];
+            gift.merchantUrl = [merchant objectForKey:@"merchantUrl"];
             
             NSArray* locations = [merchant objectForKey:@"locations"];
             for(id giftLocation in locations){
@@ -44,6 +45,7 @@
         gift.desc = [dict objectForKey:@"description"];
         gift.name = [dict objectForKey:@"name"];
         gift.friendUserId = [dict objectForKey:@"friendUserId"];
+        gift.fbFriendId = [dict objectForKey:@"fbFriendId"];
         gift.fbImageId = [dict objectForKey:@"fbImageId"];
         
         NSError *error = nil;
@@ -58,6 +60,7 @@
     [self.gifts setObject:gift forKey:gift.giftId];
     
     [FBQuery resolveImageUrl:gift.fbImageId];
+    [FBQuery requestProfileImage:gift.fbFriendId];
 }
 
 

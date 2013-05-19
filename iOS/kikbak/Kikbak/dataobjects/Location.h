@@ -2,7 +2,7 @@
 //  Location.h
 //  Kikbak
 //
-//  Created by Ian Barile on 4/16/13.
+//  Created by Ian Barile on 5/19/13.
 //  Copyright (c) 2013 Ian Barile. All rights reserved.
 //
 
@@ -16,8 +16,9 @@
 @property (nonatomic, retain) NSNumber * latitude;
 @property (nonatomic, retain) NSNumber * locationId;
 @property (nonatomic, retain) NSNumber * longitude;
+@property (nonatomic, retain) NSNumber * phoneNumber;
 @property (nonatomic, retain) Gift *gift;
-@property (nonatomic, retain) Offer *offer;
 @property (nonatomic, retain) Kikbak *kikbak;
+@property (nonatomic, retain) Offer *offer;
 
 @end

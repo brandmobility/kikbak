@@ -8,10 +8,12 @@ import com.kikbak.dao.ReadWriteMerchantDAO;
 import com.kikbak.dao.ReadWriteOfferDAO;
 import com.kikbak.dao.ReadWriteSharedDAO;
 import com.kikbak.dao.ReadWriteUser2FriendDAO;
+import com.kikbak.dao.ReadWriteUserDAO;
 import com.kikbak.dto.Location;
 import com.kikbak.dto.Merchant;
 import com.kikbak.dto.Offer;
 import com.kikbak.dto.Shared;
+import com.kikbak.dto.User;
 import com.kikbak.dto.User2friend;
 
 
@@ -22,24 +24,29 @@ public class DataPopulator {
 	ReadWriteUser2FriendDAO rwU2FDao;
 	ReadWriteSharedDAO rwSharedDao;
 	ReadWriteLocationDAO rwLocationDao;
+	ReadWriteUserDAO rwUserDao;
 	
 
 	public DataPopulator(ReadWriteOfferDAO rwOfferDao, ReadWriteMerchantDAO rwMerchantDao,
-						ReadWriteUser2FriendDAO rwU2FDao, ReadWriteSharedDAO rwSharedDao, ReadWriteLocationDAO rwLocationDao){
+						ReadWriteUser2FriendDAO rwU2FDao, ReadWriteSharedDAO rwSharedDao, 
+						ReadWriteLocationDAO rwLocationDao, ReadWriteUserDAO rwUserDao){
 		this.rwMerchantDao = rwMerchantDao;
 		this.rwOfferDao = rwOfferDao;
 		this.rwSharedDao = rwSharedDao;
 		this.rwU2FDao = rwU2FDao;
+		this.rwUserDao = rwUserDao;
 		this.rwLocationDao = rwLocationDao;
 	}
 	
-	public void pupulateDataForGiftTest(int count, int userId){
+	public long pupulateDataForGiftTest(int count){
+		long userId = createUser(count);
 		long merchantBaseId = createMerchants(count);
 		createLocations(count, merchantBaseId);
 		long offerBaseId = createOffers(count, merchantBaseId);
 		createFriendsForUser(count, userId);
 		createShared(count, userId, merchantBaseId, offerBaseId);
-		
+	
+		return userId;
 	}
 	
 	protected long createOffers(int count, long merchantBaseId){
@@ -69,6 +76,27 @@ public class DataPopulator {
 			}
 		}
 		
+		return ret;
+	}
+	
+	protected long createUser(int count){
+		long ret = 0;
+		for(int i = 0; i < count; i++ ){
+			User user = new User();
+			user.setCreateDate(new Date());
+			user.setEmail("test@test.com");
+			user.setFacebookId(i);
+			user.setFirstName("test");
+			user.setGender((byte)0);
+			//user.setId(baseUserId + i);
+			user.setLastName("last");
+			user.setUsername("test");
+			
+			rwUserDao.makePersistent(user);
+			if( i == 0){
+				ret = user.getId();
+			}
+		}
 		return ret;
 	}
 	
@@ -105,7 +133,7 @@ public class DataPopulator {
 			shared.setLocationId(12);
 			shared.setMerchantId(merchantIdBase + i);
 			shared.setOfferId(offerBaseId + i);
-			shared.setUserId(userId + i);
+			shared.setUserId(userId);
 			shared.setSharedDate(new Date());
 			
 			rwSharedDao.makePersistent(shared);

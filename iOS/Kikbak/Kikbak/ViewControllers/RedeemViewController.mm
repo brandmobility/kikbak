@@ -104,6 +104,7 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onRedeemGiftError:) name:kKikbakRedeemGiftError object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onRedeemKikbakSuccess:) name:kKikbakRedeemKikbakSuccess object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onRedeemKikbakError:) name:kKikbakRedeemKikbakError object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onOfferUpdate:) name:kKikbakImageDownloaded object:nil];
     
     [self updateDistance];
     
@@ -111,6 +112,11 @@
         NSString* imagePath = [ImagePersistor imageFileExists:self.reward.gift.fbImageId imageType:GIVE_IMAGE_TYPE];
         if(imagePath != nil){
             self.giftImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
+        }
+        
+        imagePath = [ImagePersistor imageFileExists:self.reward.gift.fbFriendId imageType:FRIEND_IMAGE_TYPE];
+        if(imagePath != nil){
+            self.friendImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
         }
     }
 }
@@ -122,6 +128,7 @@
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakImageDownloaded object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakLocationUpdate object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakRedeemGiftSuccess object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakRedeemGiftError object:nil];
@@ -136,6 +143,8 @@
 
 
 -(void)createSubviews{
+    self.view.backgroundColor = UIColorFromRGB(0xf5f5f5);
+    
     self.offerBackground = [[UIView alloc]initWithFrame:CGRectMake(0,0, 320, 442)];
     self.offerBackground.backgroundColor = UIColorFromRGB(0xF0F0F0);
     [self.view addSubview:self.offerBackground];
@@ -153,9 +162,11 @@
     self.friendBorder.frame = CGRectMake(11, 16, friendBorderImage.size.width, friendBorderImage.size.height);
     [self.offerBackground addSubview:self.friendBorder];
     
-    self.friendImage = [[UIImageView alloc]initWithFrame:CGRectMake(12, 15,
-                                                                   friendBorderImage.size.width-1,
-                                                                   friendBorderImage.size.height-1)];
+    self.friendImage = [[UIImageView alloc]initWithFrame:CGRectMake(12, 17,
+                                                                   friendBorderImage.size.width-2,
+                                                                   friendBorderImage.size.height-2)];
+    self.friendImage.layer.cornerRadius = 7;
+    self.friendImage.layer.masksToBounds = YES;
     [self.offerBackground addSubview:self.friendImage];
     
     self.friendName = [[UILabel alloc]initWithFrame:CGRectMake(81, 19, 239, 18)];
@@ -166,7 +177,7 @@
     self.friendName.textAlignment = NSTextAlignmentLeft;
     [self.offerBackground addSubview:self.friendName];
     
-    self.friendMessage = [[UILabel alloc]initWithFrame:CGRectMake(81, 38, 239, 40)];
+    self.friendMessage = [[UILabel alloc]initWithFrame:CGRectMake(81, 38, 228, 40)];
     self.friendMessage.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
     self.friendMessage.textColor = UIColorFromRGB(0x3a3a3a);
     self.friendMessage.text = @"This is a message from my friends it's telling me all about the product they think is cool";;
@@ -226,7 +237,7 @@
     self.callIcon.image = [UIImage imageNamed:@"phone_icon"];
     [self.offerBackground addSubview:self.callIcon];
     
-    self.call = [[UILabel alloc]initWithFrame:CGRectMake(137, 289, 20, 13)];
+    self.call = [[UILabel alloc]initWithFrame:CGRectMake(135, 289, 20, 13)];
     self.call.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
     self.call.textColor = UIColorFromRGB(0xf5f5f5);
     self.call.text = NSLocalizedString(@"call", nil);
@@ -291,7 +302,31 @@
 
 -(void)manuallyLayoutSubviews{
     if (![UIDevice hasFourInchDisplay]) {
-
+        self.offerBackground.frame = CGRectMake(0, 0, 320, 351);
+        self.backgroundDropShadow.frame = CGRectMake(0, 351, 320, 6);
+        self.friendBorder.frame = CGRectMake(11, 9, 64, 64);
+        self.friendImage.frame = CGRectMake(81, 14, 239, 18);
+        self.friendName.frame = CGRectMake(81, 14, 239, 18);
+        self.friendMessage.frame = CGRectMake(81, 33, 228, 40);
+        self.imageFrame.frame = CGRectMake(35, 79, 250, 198);
+        self.giftImage.frame = CGRectMake(45, 89, 230, 178);
+        self.ribbonBack.frame = CGRectMake(11, 200,24,63);
+        self.ribbonFront.frame = CGRectMake(11, 200, 247, 55);
+        self.retailerName.frame = CGRectMake(43, 204, 247, 22);
+        self.mapIcon.frame = CGRectMake(43, 233, 13, 12);
+        self.distance.frame = CGRectMake(57, 233, 50, 12);
+        self.callIcon.frame = CGRectMake(122, 233, 13, 12);
+        self.call.frame = CGRectMake(135, 233, 20, 12);
+        self.webIcon.frame = CGRectMake(199, 233, 13, 12);
+        self.web.frame = CGRectMake(215, 233, 30, 12);
+        self.offer.frame = CGRectMake(0, 282, 320, 36);
+        self.offer.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:35];
+        self.details.frame = CGRectMake(0, 314, 320, 20);
+        self.details.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
+        self.termsBtn.frame = CGRectMake(10, 335, 150, 14);
+        self.learnBtn.frame = CGRectMake(160, 335, 150, 14);
+        self.redeemBtn.frame = CGRectMake(10, 362, 300, 44);
+        
     }
 }
 
