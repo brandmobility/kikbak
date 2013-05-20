@@ -132,6 +132,7 @@ CREATE TABLE `shared`
     offer_id BIGINT NOT NULL,
     fb_image_id BIGINT NOT NULL,
     shared_date DATETIME NOT NULL,
+    caption VARCHAR(4096),
     PRIMARY KEY (id)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 

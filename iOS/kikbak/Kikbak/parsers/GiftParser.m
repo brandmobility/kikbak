@@ -47,6 +47,8 @@
         gift.friendUserId = [dict objectForKey:@"friendUserId"];
         gift.fbFriendId = [dict objectForKey:@"fbFriendId"];
         gift.fbImageId = [dict objectForKey:@"fbImageId"];
+        gift.friendName = [dict objectForKey:@"friendName"];
+        gift.caption = [dict objectForKey:@"caption"];
         
         NSError *error = nil;
         if (![context save:&error]) {

@@ -106,7 +106,7 @@
             [request restRequest:dict];
         }
 
-      //  [prefs setValue:[delegate.userInfo.me objectForKey:@(FB_USER_ID_KEY)] forKeyPath:@(FB_USER_ID_KEY)];
+        [prefs setValue:[delegate.userInfo.me objectForKey:@(FB_USER_ID_KEY)] forKeyPath:@(FB_USER_ID_KEY)];
         [prefs setValue:testUser forKeyPath:@(FB_USER_ID_KEY)];
         [prefs setValue:[delegate.userInfo.me objectForKey:@(FB_USERNAME_KEY)] forKeyPath:@(FB_USERNAME_KEY)];
         [prefs synchronize];

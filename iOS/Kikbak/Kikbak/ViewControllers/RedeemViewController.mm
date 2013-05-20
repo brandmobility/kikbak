@@ -35,7 +35,7 @@
 @property (nonatomic,strong) UIImageView* friendBorder;
 @property (nonatomic,strong) UIImageView* friendImage;
 @property (nonatomic,strong) UILabel* friendName;
-@property (nonatomic,strong) UILabel* friendMessage;
+@property (nonatomic,strong) UILabel* caption;
 @property (nonatomic,strong) UIView* imageFrame;
 @property (nonatomic,strong) UIImageView* giftImage;
 @property (nonatomic,strong) UIImageView* ribbonBack;
@@ -118,6 +118,10 @@
         if(imagePath != nil){
             self.friendImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
         }
+        
+        self.friendName.text = self.reward.gift.friendName;
+        self.caption.text = self.reward.gift.caption;
+        self.retailerName.text = self.reward.gift.merchantName;
     }
 }
 
@@ -145,7 +149,7 @@
 -(void)createSubviews{
     self.view.backgroundColor = UIColorFromRGB(0xf5f5f5);
     
-    self.offerBackground = [[UIView alloc]initWithFrame:CGRectMake(0,0, 320, 442)];
+    self.offerBackground = [[UIView alloc]initWithFrame:CGRectMake(0,0, 320, 446)];
     self.offerBackground.backgroundColor = UIColorFromRGB(0xF0F0F0);
     [self.view addSubview:self.offerBackground];
     
@@ -153,8 +157,8 @@
     self.navDropShadow.frame = CGRectMake(0, 0, 320, 3);
     [self.view addSubview:self.navDropShadow];
     
-    self.backgroundDropShadow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"navbar_dropshadow"]];
-    self.backgroundDropShadow.frame = CGRectMake(0, 442, 320, 6);
+    self.backgroundDropShadow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"deal_dropshadow"]];
+    self.backgroundDropShadow.frame = CGRectMake(0, 440, 320, 6);
     [self.view addSubview:self.backgroundDropShadow];
     
     UIImage* friendBorderImage = [UIImage imageNamed:@"profile_pic_overlay"];
@@ -177,15 +181,15 @@
     self.friendName.textAlignment = NSTextAlignmentLeft;
     [self.offerBackground addSubview:self.friendName];
     
-    self.friendMessage = [[UILabel alloc]initWithFrame:CGRectMake(81, 38, 228, 40)];
-    self.friendMessage.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
-    self.friendMessage.textColor = UIColorFromRGB(0x3a3a3a);
-    self.friendMessage.text = @"This is a message from my friends it's telling me all about the product they think is cool";;
-    self.friendMessage.backgroundColor = [UIColor clearColor];
-    self.friendMessage.textAlignment = NSTextAlignmentLeft;
-    self.friendMessage.lineBreakMode = NSLineBreakByWordWrapping;
-    self.friendMessage.numberOfLines = 2;
-    [self.offerBackground addSubview:self.friendMessage];
+    self.caption = [[UILabel alloc]initWithFrame:CGRectMake(81, 38, 228, 40)];
+    self.caption.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
+    self.caption.textColor = UIColorFromRGB(0x3a3a3a);
+    self.caption.text = @"This is a message from my friends it's telling me all about the product they think is cool";;
+    self.caption.backgroundColor = [UIColor clearColor];
+    self.caption.textAlignment = NSTextAlignmentLeft;
+    self.caption.lineBreakMode = NSLineBreakByWordWrapping;
+    self.caption.numberOfLines = 2;
+    [self.offerBackground addSubview:self.caption];
     
     
     self.imageFrame = [[UIView alloc]initWithFrame:CGRectMake(35, 90, 250, 250)];
@@ -210,7 +214,7 @@
     [self.offerBackground addSubview:self.ribbonFront];
     
     
-    self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(11+rbBack.size.width+13, 260, rbFront.size.width, 22)];
+    self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(43, 260, rbFront.size.width, 22)];
     self.retailerName.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:20];
     self.retailerName.textColor = UIColorFromRGB(0xf5f5f5);
     self.retailerName.text = NSLocalizedString(@"Test Retailer", nil);
@@ -272,7 +276,7 @@
     [self.offerBackground addSubview:self.details];
     
     self.termsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.termsBtn.frame = CGRectMake(10, 424, 150, 14);
+    self.termsBtn.frame = CGRectMake(10, 426, 150, 14);
     [self.termsBtn setTitle:NSLocalizedString(@"Terms and Conditions", nil) forState:UIControlStateNormal];
     self.termsBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
     [self.termsBtn setTitleColor:UIColorFromRGB(0x686868) forState:UIControlStateNormal];
@@ -281,7 +285,7 @@
     [self.offerBackground addSubview:self.termsBtn];
     
     self.learnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.learnBtn.frame = CGRectMake(160, 424, 150, 14);
+    self.learnBtn.frame = CGRectMake(160, 426, 150, 14);
     [self.learnBtn setTitle:NSLocalizedString(@"Learn More", nil) forState:UIControlStateNormal];
     self.learnBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
     [self.learnBtn setTitleColor:UIColorFromRGB(0x686868) forState:UIControlStateNormal];
@@ -307,7 +311,7 @@
         self.friendBorder.frame = CGRectMake(11, 9, 64, 64);
         self.friendImage.frame = CGRectMake(81, 14, 239, 18);
         self.friendName.frame = CGRectMake(81, 14, 239, 18);
-        self.friendMessage.frame = CGRectMake(81, 33, 228, 40);
+        self.caption.frame = CGRectMake(81, 33, 228, 40);
         self.imageFrame.frame = CGRectMake(35, 79, 250, 198);
         self.giftImage.frame = CGRectMake(45, 89, 230, 178);
         self.ribbonBack.frame = CGRectMake(11, 200,24,63);

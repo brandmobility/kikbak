@@ -21,6 +21,9 @@
 #import "Util.h"
 
 #define DEFAULT_CONTAINER_VIEW_HEIGHT 50
+#define PHOTO_TAG  1000
+#define CAPTION_TAG  1001
+#define CALL_URL_TAG 1002
 
 @interface GiveViewController ()
 
@@ -216,6 +219,8 @@
     self.retailerLogo = [[UIImageView alloc]initWithFrame:CGRectMake(11, 11, 42, 42)];
     self.retailerLogo.image = [UIImage imageNamed:@"logo"];
     self.retailerLogo.backgroundColor = [UIColor clearColor];
+    self.retailerLogo.layer.cornerRadius = 5;
+    self.retailerLogo.layer.masksToBounds = YES;
     [self.merchantBackground addSubview:self.retailerLogo];
     
     self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(66, 10, 254, 24)];
@@ -300,13 +305,13 @@
     self.captionTextView.backgroundColor = [UIColor whiteColor];
     [self.captionContainerView addSubview:self.captionTextView];
     
-    self.dealBackground = [[UIView alloc]initWithFrame:CGRectMake(0, 332, 320, 110)];
+    self.dealBackground = [[UIView alloc]initWithFrame:CGRectMake(0, 332, 320, 114)];
     self.dealBackground.backgroundColor = UIColorFromRGB(0xF0F0F0);
     [self.view addSubview:self.dealBackground];
     
-    self.dealDropShaow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"navbar_dropshadow"]];
-    self.dealDropShaow.frame = CGRectMake(0, 442, 320, 6);
-    [self.view addSubview:self.dealDropShaow];
+    self.dealDropShaow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"deal_dropshadow"]];
+    self.dealDropShaow.frame = CGRectMake(0, 446, 320, 6);
+    [self.dealBackground addSubview:self.dealDropShaow];
 
     
     self.giveLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 10, 320, 26)];
@@ -330,7 +335,7 @@
     [self.dealBackground addSubview:self.getLabel];
     
     self.termsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.termsBtn.frame = CGRectMake(10, 92, 150, 14);
+    self.termsBtn.frame = CGRectMake(10, 95, 150, 14);
     [self.termsBtn setTitle:NSLocalizedString(@"Terms and Conditions", nil) forState:UIControlStateNormal];
     self.termsBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
     [self.termsBtn setTitleColor:UIColorFromRGB(0x686868) forState:UIControlStateNormal];
@@ -339,7 +344,7 @@
     [self.dealBackground addSubview:self.termsBtn];
     
     self.learnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.learnBtn.frame = CGRectMake(160, 92, 150, 14);
+    self.learnBtn.frame = CGRectMake(160, 95, 150, 14);
     [self.learnBtn setTitle:NSLocalizedString(@"Learn More", nil) forState:UIControlStateNormal];
     self.learnBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
     [self.learnBtn setTitleColor:UIColorFromRGB(0x686868) forState:UIControlStateNormal];
@@ -368,25 +373,23 @@
 -(IBAction)onGiveGift:(id)sender{
     
     if(!photoTaken){
-        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Error" message:@"Please Add Photo" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:nil message:@"Gifts should come\n with there own photo" delegate:self cancelButtonTitle:@"Next Time" otherButtonTitles: @"Take Photo", nil];
+        alert.tag = PHOTO_TAG;
         [alert show];
         return;
     }
     
     if(!captionAdded){
-        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Warning"
-                                                       message:@"Would you like to add a caption"
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:nil
+                                                       message:@"Do you want to tell your\n friend abour your photo?"
                                                       delegate:self
                                              cancelButtonTitle:@"No"
                                              otherButtonTitles: @"Yes", nil];
+        alert.tag = CAPTION_TAG;
         [alert show];
         return;
     }
     
-//    CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
-//    ShareSuccessView* shareView = [[ShareSuccessView alloc]initWithFrame:frame];
-//    [shareView manuallyLayoutSubviews];
-//    [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:shareView];
 
     [self postToFacebook];
 }
@@ -443,7 +446,15 @@
 }
 
 -(IBAction)onCallBtn:(id)sender{
-    [[UIApplication sharedApplication]openURL:[[NSURL alloc]initWithString:[NSString stringWithFormat:@"tel:%@",self.location.phoneNumber]]];
+    NSURL* url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"tel:%@",self.location.phoneNumber]];
+    if(![[UIApplication sharedApplication] canOpenURL:url]){
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:@"You need to be on an iPhone to make a call" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        alert.tag = CALL_URL_TAG;
+        [alert show];
+    }
+    else{
+        [[UIApplication sharedApplication]openURL:url];
+    }
 }
 
 
@@ -454,7 +465,7 @@
 #pragma mark - AlertView Delegate Methods
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
  
-    if (buttonIndex == 0) {
+    if((alertView.tag == PHOTO_TAG || alertView.tag == CAPTION_TAG) && buttonIndex == 0) {
         [self postToFacebook];
     }
 }
@@ -509,13 +520,20 @@
             [dict setObject:self.location.locationId forKey:@"locationId"];
             [dict setObject:self.offer.offerId forKey:@"offerId"];
             [dict setObject:[result objectForKey:@"id"] forKey:@"fbImageId"];
+            if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
+                [dict setObject:@"" forKey:@"caption"];
+            }
+            else{
+                [dict setObject:self.captionTextView.text forKey:@"caption"];
+            }
             [request restRequest:dict];
         }
         else{
             [Flurry logEvent:@"FailedShareEvent" timed:YES];
             NSLog(@"Submit Error: %@", error);
         }
-        self.giveBtn.enabled = YES;
+        //for testing
+        //self.giveBtn.enabled = YES;
     }];
     
     

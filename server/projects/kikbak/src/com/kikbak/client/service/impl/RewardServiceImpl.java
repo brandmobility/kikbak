@@ -104,8 +104,11 @@ public class RewardServiceImpl implements RewardService{
 			gt.setDescription(offer.getGiftDescription());
 			gt.setName(offer.getGiftName());
 			gt.setFriendUserId(gift.getFriendUserId());
-			gt.setFbFriendId(roUserDao.findById(gift.getFriendUserId()).getFacebookId());
+			User friend = roUserDao.findById(gift.getFriendUserId());
+			gt.setFbFriendId(friend.getFacebookId());
+			gt.setFriendName(friend.getFirstName() + " " + friend.getLastName());
 			Shared shared = roSharedDao.findById(gift.getId());
+			gt.setCaption(shared.getCaption());
 			gt.setFbImageId(shared.getFbImageId());
 			
 			gts.add(gt);

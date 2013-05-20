@@ -22,6 +22,8 @@
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * merchantUrl;
 @property (nonatomic, retain) NSNumber * fbFriendId;
+@property (nonatomic, retain) NSString * friendName;
+@property (nonatomic, retain) NSString * caption;
 @property (nonatomic, retain) NSSet *location;
 @end
 

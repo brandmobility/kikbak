@@ -21,6 +21,8 @@
 @dynamic name;
 @dynamic merchantUrl;
 @dynamic fbFriendId;
+@dynamic friendName;
+@dynamic caption;
 @dynamic location;
 
 @end
