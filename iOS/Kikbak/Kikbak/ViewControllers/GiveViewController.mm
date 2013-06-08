@@ -19,6 +19,8 @@
 #import "Distance.h"
 #import "ImagePersistor.h"
 #import "Util.h"
+#import "KikbakOpenGraphProtocols.h"
+#import "SpinnerView.h"
 
 #define DEFAULT_CONTAINER_VIEW_HEIGHT 50
 #define PHOTO_TAG  1000
@@ -28,6 +30,8 @@
 @interface GiveViewController ()
 
 @property (nonatomic, strong) Location* location;
+
+@property(nonatomic, strong)SpinnerView* spinnerView;
 
 @property(nonatomic, strong) UIImageView* navDropShadow;
 @property(nonatomic, strong) UIView* merchantBackground;
@@ -79,6 +83,11 @@
 
 -(IBAction)keyboardWillShow:(NSNotification*)notification;
 -(IBAction)keyboardWillHide:(NSNotification*)notification;
+
+-(id<KikbakOGCoupon>)CouponObject:(NSString*)caption;
+-(void)postPhotoThenOpenGraphAction;
+-(void)postOpenGraphActionWithPhotoURL:(NSString*)photoURL withImageId:(NSNumber*)fbImageId;
+
 @end
 
 @implementation GiveViewController
@@ -107,6 +116,23 @@
     
     [self createSubviews];
     [self manuallyLayoutSubviews];
+    
+    UIImage *backImage = [UIImage imageNamed:@"back_button.png"];
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    backButton.frame = CGRectMake(0, 0, backImage.size.width, backImage.size.height);
+    
+    [backButton setBackgroundImage:backImage forState:UIControlStateNormal];
+    [backButton setBackgroundImage:backImage forState:UIControlStateHighlighted];
+    [backButton setTitle:NSLocalizedString(@"Back",nil) forState:UIControlStateNormal];
+    backButton.titleLabel.font = [UIFont boldSystemFontOfSize:12];
+    backButton.titleEdgeInsets = UIEdgeInsetsMake(0, 6, 0, 0);
+    backButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    [backButton addTarget:self action:@selector(backBtn:)    forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    backBarButtonItem.style = UIBarButtonItemStylePlain;
+    
+    self.navigationItem.hidesBackButton = YES;
+    self.navigationItem.leftBarButtonItem = backBarButtonItem;
 }
 
 - (void)didReceiveMemoryWarning
@@ -128,26 +154,11 @@
                                                  name:UIKeyboardWillHideNotification 
                                                object:nil];
     
-    UIImage *backImage = [UIImage imageNamed:@"back_button.png"];
-    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    backButton.frame = CGRectMake(0, 0, backImage.size.width, backImage.size.height);
-    
-    [backButton setBackgroundImage:backImage forState:UIControlStateNormal];
-    [backButton setTitle:NSLocalizedString(@"Back",nil) forState:UIControlStateNormal];
-    backButton.titleLabel.font = [UIFont boldSystemFontOfSize:12];
-    backButton.titleEdgeInsets = UIEdgeInsetsMake(0, 6, 0, 0);
-    backButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-    [backButton addTarget:self action:@selector(backBtn:)    forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    backBarButtonItem.style = UIBarButtonItemStylePlain;
-    
-    self.navigationItem.hidesBackButton = YES;
-    self.navigationItem.leftBarButtonItem = backBarButtonItem;
-    
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -163,7 +174,7 @@
 
 -(void)manuallyLayoutSubviews{
     if(![UIDevice hasFourInchDisplay]){
-        self.giveImage.frame = CGRectMake(0, 0, 320, 275);
+        self.giveImage.frame = CGRectMake(23, 0, 276, 276);
         self.imageOverlay.frame = CGRectMake(0, 60, 320, 215);
         self.takePictureBtn.frame = CGRectMake(100, 72, 121, 121);
         self.merchantBackground.frame = CGRectMake(0, 0, 320, 60);
@@ -392,6 +403,7 @@
     
 
     [self postToFacebook];
+   // [self postPhotoThenOpenGraphAction];
 }
 
 -(IBAction)takePhoto:(id)sender{
@@ -467,6 +479,7 @@
  
     if((alertView.tag == PHOTO_TAG || alertView.tag == CAPTION_TAG) && buttonIndex == 0) {
         [self postToFacebook];
+        //[self postPhotoThenOpenGraphAction];
     }
 }
 
@@ -477,7 +490,7 @@
     CGRect cropRect = CGRectMake(10, 50, 500, 500);
   
     UIImage* image = [info valueForKey:UIImagePickerControllerOriginalImage];
-    image = [image imageByScalingAndCroppingForSize:CGSizeMake(320, 480)];
+    image = [image imageByScalingAndCroppingForSize:CGSizeMake(640, 960)];
     self.giveImage.image =  [image imageCropToRect:cropRect];
     [self dismissViewControllerAnimated:YES completion:nil];
     photoTaken = YES;
@@ -493,28 +506,34 @@
 #pragma mark - facebook
 -(void)postToFacebook{
     
+    CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+    self.spinnerView = [[SpinnerView alloc]initWithFrame:frame];
+    [self.spinnerView startActivity];
+    [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:self.spinnerView];
+
+    
     self.giveBtn.enabled = NO;
     FBRequestConnection* connection = [[FBRequestConnection alloc]initWithTimeout:30];
     
     
-    FBRequest* request = [FBRequest requestForUploadPhoto:self.giveImage.image];
+    FBRequest* request = [FBRequest requestForUploadPhoto:[self.giveImage.image imageByScalingAndCroppingForSize:CGSizeMake(300, 300)]];
     if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
         [request.parameters setObject:[NSString stringWithFormat:@"%@.\n\n To get gift install kikbak, http://en.wikipedia.org/wiki/Cyan", self.captionTextView.text] forKey:@"name"];
     }
     else{
-        [request.parameters setObject:@"To get gift install kikbak, http://en.wikipedia.org/wiki/Cyan" forKey:@"name"];
+        [request.parameters setObject:@"To get gift install kikbak, @[http://en.wikipedia.org/wiki/Cyan | test]" forKey:@"name"];
     }
     
     [connection addRequest:request completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         if(error == nil){
             [Flurry logEvent:@"ShareEvent" timed:YES];
 
-            CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+            [self.spinnerView removeFromSuperview];
             ShareSuccessView* shareView = [[ShareSuccessView alloc]initWithFrame:frame];
             [shareView manuallyLayoutSubviews];
             [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:shareView];
             ShareExperienceRequest* request = [[ShareExperienceRequest alloc]init];
-            NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:3];
+            NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:5];
 
             [dict setObject:self.offer.merchantId forKey:@"merchantId"];
             [dict setObject:self.location.locationId forKey:@"locationId"];
@@ -529,6 +548,7 @@
             [request restRequest:dict];
         }
         else{
+            [self.spinnerView removeFromSuperview];
             [Flurry logEvent:@"FailedShareEvent" timed:YES];
             NSLog(@"Submit Error: %@", error);
         }
@@ -540,6 +560,128 @@
     [connection start];
     
 }
+
+-(id<KikbakOGCoupon>)CouponObject:(NSString*)caption{
+    // This URL is specific to this sample, and can be used to
+    // create arbitrary OG objects for this app; your OG objects
+    // will have URLs hosted by your server.
+    NSString *format =
+    @"https://young-springs-3453.herokuapp.com/repeater.php?"
+    @"fb:app_id=493383324061333&og:type=%@&"
+    @"og:title=%@&og:description=%%22%@%%22&"
+    @"og:image=https://s-static.ak.fbcdn.net/images/devsite/attachment_blank.png&"
+    @"og:message=testing 1234&"
+    @"body=%@";
+    
+    // We create an FBGraphObject object, but we can treat it as
+    // an SCOGMeal with typed properties, etc. See <FacebookSDK/FBGraphObject.h>
+    // for more details.
+    id<KikbakOGCoupon> result = (id<KikbakOGCoupon>)[FBGraphObject graphObject];
+    
+    // Give it a URL that will echo back the name of the meal as its title,
+    // description, and body.
+    result.url = [NSString stringWithFormat:format,
+                  @"referredlabs:coupon", @"Testing", caption, caption];
+    
+    return result;
+}
+
+- (void)postPhotoThenOpenGraphAction{
+    self.giveBtn.enabled = NO;
+    
+    FBRequestConnection *connection = [[FBRequestConnection alloc] init];
+    
+    // First request uploads the photo.
+    FBRequest *request1 = [FBRequest
+                           requestForUploadPhoto:[self.giveImage.image imageByScalingAndCroppingForSize:CGSizeMake(480, 480)]];
+    [request1.parameters setObject:@"To get gift install kikbak, @[http://en.wikipedia.org/wiki/Cyan]" forKey:@"name"];
+    [connection addRequest:request1
+         completionHandler:
+     ^(FBRequestConnection *connection, id result, NSError *error) {
+         if (!error) {
+         }
+     }
+            batchEntryName:@"photopost"
+     ];
+    
+    // Second request retrieves photo information for just-created
+    // photo so we can grab its source.
+    FBRequest *request2 = [FBRequest
+                           requestForGraphPath:@"{result=photopost:$.id}"];
+    [connection addRequest:request2
+         completionHandler:
+     ^(FBRequestConnection *connection, id result, NSError *error) {
+         if (!error &&
+             result) {
+             NSString *source = [result objectForKey:@"source"];
+             NSNumber* fbImageId = [result objectForKey:@"id"];
+             [self postOpenGraphActionWithPhotoURL:source withImageId:fbImageId];
+         }
+     }
+     ];
+    
+    [connection start];
+}
+
+
+-(void)postOpenGraphActionWithPhotoURL:(NSString*)photoURL withImageId:(NSNumber*)fbImageId{
+    // First create the Open Graph meal object for the meal we ate.
+    id<KikbakOGCoupon> couponObject = [self CouponObject:self.captionTextView.text];
+    
+    // Now create an Open Graph eat action with the meal, our location,
+    // and the people we were with.
+    id<KikbakOGShareCouponAction> action = (id<KikbakOGShareCouponAction>)[FBGraphObject graphObject];
+    action.coupon = couponObject;
+    
+    if (photoURL) {
+        NSMutableDictionary *image = [[NSMutableDictionary alloc] init];
+        [image setObject:photoURL forKey:@"url"];
+        [image setObject:@"true" forKey:@"user_generated"];
+        [image setObject:@"true" forKey:@"fb:explicitly_shared"];
+        [image setObject:@"this is a test message" forKey:@"description"];
+        
+        NSMutableArray *images = [[NSMutableArray alloc] init];
+        [images addObject:image];
+        
+        action.image = images;
+    }
+    
+    // Create the request and post the action to the
+    // "me/<YOUR_APP_NAMESPACE>:eat" path.
+    [FBRequestConnection startForPostWithGraphPath:@"me/referredlabs:share"
+                                       graphObject:action
+                                 completionHandler:
+     ^(FBRequestConnection *connection, id result, NSError *error) {
+         if (!error) {
+             CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+             ShareSuccessView* shareView = [[ShareSuccessView alloc]initWithFrame:frame];
+             [shareView manuallyLayoutSubviews];
+             [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:shareView];
+             ShareExperienceRequest* request = [[ShareExperienceRequest alloc]init];
+             NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:5];
+             
+             [dict setObject:self.offer.merchantId forKey:@"merchantId"];
+             [dict setObject:self.location.locationId forKey:@"locationId"];
+             [dict setObject:self.offer.offerId forKey:@"offerId"];
+             [dict setObject:fbImageId forKey:@"fbImageId"];
+             if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
+                 [dict setObject:@"" forKey:@"caption"];
+             }
+             else{
+                 [dict setObject:self.captionTextView.text forKey:@"caption"];
+             }
+             [request restRequest:dict];
+         } else {
+             NSLog(@"%@, %@",[NSString stringWithFormat:
+                          @"error: domain = %@, code = %d",
+                          error.domain, error.code], error.userInfo);
+         }
+
+     }
+     ];
+}
+
+
 
 #pragma mark - keyboard options
 -(IBAction)keyboardWillShow:(NSNotification*)notification{
@@ -567,6 +709,7 @@
 	// commit animations
 	[UIView commitAnimations];
 }
+
 
 -(IBAction)keyboardWillHide:(NSNotification*)notification{
     NSNumber *duration = [notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];

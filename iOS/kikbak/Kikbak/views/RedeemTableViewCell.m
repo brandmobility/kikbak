@@ -130,7 +130,7 @@
         [self setupGift];
     }
     
-    if( self.rewards.kikbak){
+    if( self.rewards.credit){
         [self setupKikbak];
     }
 }
@@ -154,18 +154,18 @@
 }
 
 -(void)setupKikbak{
-    self.store.text = self.rewards.kikbak.merchantName;
-    self.leftText.text = self.rewards.kikbak.desc;
+    self.store.text = self.rewards.credit.merchantName;
+    self.leftText.text = self.rewards.credit.desc;
     self.rightText.text = @"";
     Location* location = nil;
     //todo: find closest location
-    if (self.rewards.kikbak.location.count > 0) {
-        location = [self.rewards.kikbak.location anyObject];
+    if (self.rewards.credit.location.count > 0) {
+        location = [self.rewards.credit.location anyObject];
     }
     
     self.distance.text = [Distance distanceToInMiles:[[CLLocation alloc]initWithLatitude:location.latitude.doubleValue longitude:location.longitude.doubleValue]];
     
-    NSString* imagePath = [ImagePersistor imageFileExists:self.rewards.kikbak.merchantId imageType:MERCHANT_IMAGE_TYPE];
+    NSString* imagePath = [ImagePersistor imageFileExists:self.rewards.credit.merchantId imageType:MERCHANT_IMAGE_TYPE];
     if(imagePath != nil){
         self.storeImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
     }

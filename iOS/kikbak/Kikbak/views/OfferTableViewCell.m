@@ -12,21 +12,30 @@
 #import "Distance.h"
 #import "ImagePersistor.h"
 #import "AppDelegate.h"
+#import "util.h"
 
 @interface OfferTableViewCell()
 
-@property (nonatomic, strong) UIView* backgroundView;
-@property (nonatomic, strong) UIView* overlayView;
-@property (nonatomic, strong) UIImageView* storeImage;
-@property (nonatomic, strong) UILabel* store;
-@property (nonatomic, strong) UIImageView* map_mark;
-@property (nonatomic, strong) UILabel* distance;
-@property (nonatomic, strong) UIImageView* leftArrow;
-@property (nonatomic, strong) UILabel* leftText;
-@property (nonatomic, strong) UIImageView* rightArrow;
-@property (nonatomic, strong) UILabel* rightText;
+@property (nonatomic,strong) UIImageView* topGradient;
+@property (nonatomic,strong) UIImageView* retailerImage;
+@property (nonatomic,strong) UIImageView* retailerImageGradient;
+@property (nonatomic,strong) UILabel* retailerName;
+@property (nonatomic,strong) UIButton* mapBtn;
+@property (nonatomic,strong) UIImageView* mapIcon;
+@property (nonatomic,strong) UILabel* distance;
+@property (nonatomic,strong) UIButton* webBtn;
+@property (nonatomic,strong) UIButton* callBtn;
+@property (nonatomic,strong) UIImageView* giveImage;
+@property (nonatomic,strong) UILabel* give;
+@property (nonatomic,strong) UILabel* giveDiscount;
+@property (nonatomic,strong) UIImageView* getImage;
+@property (nonatomic,strong) UILabel* get;
+@property (nonatomic,strong) UILabel* getDiscount;
 
 -(void)manuallyLayoutSubview;
+-(IBAction)onMap:(id)sender;
+-(IBAction)onWeb:(id)sender;
+-(IBAction)onCall:(id)sender;
 
 @end
 
@@ -37,7 +46,8 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.frame = CGRectMake(0, 0, 320, 155);
+        self.frame = CGRectMake(0, 0, 320, 156);
+        self.backgroundColor = [UIColor clearColor];
         [self manuallyLayoutSubview];
     }
     return self;
@@ -52,92 +62,135 @@
 
 -(void)manuallyLayoutSubview{
 
-    self.backgroundView = [[UIView alloc]initWithFrame:CGRectMake(8, 0, 304, 155)];
-    self.backgroundView.backgroundColor = [UIColor colorWithRed:0.835 green:0.835 blue:0.835 alpha:1];
-    [self addSubview:self.backgroundView];
+    self.topGradient = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"grd_btw-labels"]];
+    self.topGradient.frame = CGRectMake(0, 0, 320, 16);
+    [self addSubview:self.topGradient];
     
+    self.retailerImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"img1_tableview"]];
+    self.retailerImage.frame = CGRectMake(0, 16, 320, 140);
+    [self addSubview:self.retailerImage];
+
+    self.retailerImageGradient = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"grd_background"]];
+    self.retailerImageGradient.frame = CGRectMake(0, 39, 320, 117);
+    [self addSubview:self.retailerImageGradient];
     
-    self.overlayView = [[UIView alloc]initWithFrame:CGRectMake(8, 0, 304, 155)];
-    self.overlayView.backgroundColor = [UIColor whiteColor];
-    [self addSubview:self.overlayView];
+    self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(11, 111, 200, 22)];
+    self.retailerName.font = [UIFont fontWithName:@"HelveticaNeue" size:21];
+    self.retailerName.text = @"Verizon Wireless";
+    self.retailerName.textColor = [UIColor whiteColor];
+    self.retailerName.textAlignment = NSTextAlignmentLeft;
+    self.retailerName.backgroundColor = [UIColor clearColor];
+    [self addSubview:self.retailerName];
+
+    UIImage* mapIcon = [UIImage imageNamed:@"ic_map"];
+    self.mapIcon = [[UIImageView alloc]initWithImage:mapIcon];
+    self.mapIcon.frame = CGRectMake(11, 135, mapIcon.size.width, mapIcon.size.height);
+    [self addSubview:self.mapIcon];
     
-    self.storeImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"logo.png"]];
-    CGRect fr = self.storeImage.frame;
-    fr.origin.x = 16;
-    fr.origin.y = 8;
-    self.storeImage.frame = fr;
-    [self addSubview:self.storeImage];
-    
-    self.store = [[UILabel alloc]initWithFrame:CGRectMake(74, 10, 240, 20)];
-    self.store.font = [UIFont boldSystemFontOfSize:18];
-    self.store.text = @"Kohls";
-    self.store.backgroundColor = [UIColor clearColor];
-    self.store.textColor = [UIColor colorWithRed:0.435 green:0.435 blue:0.435 alpha:1];
-    [self addSubview:self.store];
-    
-    self.map_mark =[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"marker_map"]];
-    fr = self.map_mark.frame;
-    fr.origin.x = 74;
-    fr.origin.y = 32;
-    self.map_mark.frame = fr;
-    [self addSubview:self.map_mark];
-    
-    self.distance = [[UILabel alloc]initWithFrame:CGRectMake(103, 33, 200, 21)];
-    self.distance.text = @"3.2 miles";
-    self.distance.font = [UIFont systemFontOfSize:12];
+    self.distance = [[UILabel alloc]initWithFrame:CGRectMake(24, 133, 80, 16)];
+    self.distance.font = [UIFont fontWithName:@"HelveticaNeue" size:15];
+    self.distance.text = @"1.7 mi";
+    self.distance.textColor = [UIColor whiteColor];
+    self.distance.textAlignment = NSTextAlignmentLeft;
     self.distance.backgroundColor = [UIColor clearColor];
-    self.distance.textColor = [UIColor colorWithRed:0.435 green:0.435 blue:0.435 alpha:1.0];
     [self addSubview:self.distance];
     
-    self.leftArrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"left_ribbon"]];
-    fr = self.leftArrow.frame;
-    fr.origin.y = 65;
-    fr.origin.x = 1;
-    self.leftArrow.frame = fr;
-    [self addSubview:self.leftArrow];
     
-    self.leftText = [[UILabel alloc]initWithFrame:CGRectMake(12, 72, 183, 21)];
-    self.leftText.font = [UIFont boldSystemFontOfSize:20];
-    self.leftText.textColor = [UIColor whiteColor];
-    self.leftText.text = @"$10 off";
-    self.leftText.backgroundColor = [UIColor clearColor];
-    [self addSubview:self.leftText];
+    self.mapBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.mapBtn.frame = CGRectMake(11, 125, 60, 30);
+    [self.mapBtn addTarget:self action:@selector(onMap:) forControlEvents:UIControlEventTouchUpInside];
+   // self.mapBtn.backgroundColor = [UIColor greenColor];
+    [self addSubview:self.mapBtn];
+
+    self.webBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.webBtn.frame = CGRectMake(76, 126, 26, 30);
+    self.webBtn.contentMode = UIViewContentModeCenter;
+    //self.webBtn.backgroundColor = [UIColor redColor];
+    [self.webBtn setImage:[UIImage imageNamed:@"ic_web"] forState:UIControlStateNormal];
+    [self.webBtn addTarget:self action:@selector(onWeb:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:self.webBtn];
     
+    self.callBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.callBtn.frame = CGRectMake(104, 125, 26, 30);
+    self.callBtn.contentMode = UIViewContentModeLeft;
+    //self.callBtn.backgroundColor = [UIColor greenColor];
+    [self.callBtn setImage:[UIImage imageNamed:@"ic_phone"] forState:UIControlStateNormal];
+    [self.callBtn addTarget:self action:@selector(onCall:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:self.callBtn];
     
-    self.rightArrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"right_ribbon"]];
-    fr = self.rightArrow.frame;
-    fr.origin.x = 101;
-    fr.origin.y = 105;
-    self.rightArrow.frame = fr;
-    [self addSubview:self.rightArrow];
+    self.getImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"label2_price"]];
+    self.getImage.frame = CGRectMake(239, 74, 70, 82);
+    [self addSubview:self.getImage];
     
-    self.rightText = [[UILabel alloc]initWithFrame:CGRectMake(122, 112, 186, 21)];
-    self.rightText.font = [UIFont boldSystemFontOfSize:20];
-    self.rightText.textColor = [UIColor whiteColor];
-    self.rightText.text = @"$10 Credit";
-    self.rightText.textAlignment = NSTextAlignmentRight;
-    self.rightText.backgroundColor = [UIColor clearColor];
-    [self addSubview:self.rightText];
+    self.giveImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"label1_price"]];
+    self.giveImage.frame = CGRectMake(232, 10, 77, 90);
+    [self addSubview:self.giveImage];
+    
+    self.give = [[UILabel alloc]initWithFrame:CGRectMake(239, 30, 74, 13)];
+    self.give.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:12];
+    self.give.text = @"Give";
+    self.give.shadowColor = UIColorFromRGB(0x3a3a3a);
+    self.give.textColor = [UIColor whiteColor];
+    self.give.textAlignment = NSTextAlignmentCenter;
+    self.give.backgroundColor = [UIColor clearColor];
+    [self addSubview:self.give];
+
+    self.giveDiscount = [[UILabel alloc]initWithFrame:CGRectMake(239, 44, 74, 24)];
+    self.giveDiscount.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:24];
+    self.giveDiscount.text = @"20%";
+    self.giveDiscount.shadowColor = UIColorFromRGB(0x3a3a3a);
+    self.giveDiscount.textColor = [UIColor whiteColor];
+    self.giveDiscount.textAlignment = NSTextAlignmentCenter;
+    self.giveDiscount.backgroundColor = [UIColor clearColor];
+    [self addSubview:self.giveDiscount];
+    
+    self.get = [[UILabel alloc]initWithFrame:CGRectMake(239, 108, 74, 13)];
+    self.get.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:12];
+    self.get.text = @"Get";
+    self.get.textColor = [UIColor whiteColor];
+    self.get.textAlignment = NSTextAlignmentCenter;
+    self.get.backgroundColor = [UIColor clearColor];
+    [self addSubview:self.get];
+
+    
+    self.getDiscount = [[UILabel alloc]initWithFrame:CGRectMake(239, 122, 74, 24)];
+    self.getDiscount.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:24];
+    self.getDiscount.text = @"20%";
+    self.getDiscount.textColor = [UIColor whiteColor];
+    self.getDiscount.textAlignment = NSTextAlignmentCenter;
+    self.getDiscount.backgroundColor = [UIColor clearColor];
+    [self addSubview:self.getDiscount];
 }
 
 
 -(void)setup{    
-    self.store.text = self.offer.merchantName;
-    self.leftText.text = self.offer.giftDescription;
-    self.rightText.text = self.offer.kikbakDescription;
-    Location* location = nil;
-    //todo: find closest location
-    if (self.offer.location.count > 0) {
-        location = [self.offer.location anyObject];
-    }
-    
-    self.distance.text = [Distance distanceToInMiles:[[CLLocation alloc]initWithLatitude:location.latitude.doubleValue longitude:location.longitude.doubleValue]];
-    
-    NSString* imagePath = [ImagePersistor imageFileExists:self.offer.merchantId imageType:MERCHANT_IMAGE_TYPE];
-    if(imagePath != nil){
-        self.storeImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
-    }
+//    self.store.text = self.offer.merchantName;
+//    self.leftText.text = self.offer.giftDescription;
+//    self.rightText.text = self.offer.kikbakDescription;
+//    Location* location = nil;
+//    //todo: find closest location
+//    if (self.offer.location.count > 0) {
+//        location = [self.offer.location anyObject];
+//    }
+//    
+//    self.distance.text = [Distance distanceToInMiles:[[CLLocation alloc]initWithLatitude:location.latitude.doubleValue longitude:location.longitude.doubleValue]];
+//    
+//    NSString* imagePath = [ImagePersistor imageFileExists:self.offer.merchantId imageType:MERCHANT_IMAGE_TYPE];
+//    if(imagePath != nil){
+//        self.storeImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
+//    }
 }
 
+-(IBAction)onMap:(id)sender{
+    
+}
+
+-(IBAction)onWeb:(id)sender{
+    
+}
+
+-(IBAction)onCall:(id)sender{
+    
+}
 
 @end

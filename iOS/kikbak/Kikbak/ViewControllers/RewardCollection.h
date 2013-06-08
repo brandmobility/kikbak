@@ -14,6 +14,6 @@
 @interface RewardCollection : NSObject
 
 @property (nonatomic, strong) Gift* gift;
-@property (nonatomic, strong) Kikbak* kikbak;
+@property (nonatomic, strong) Kikbak* credit;
 
 @end

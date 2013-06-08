@@ -14,9 +14,11 @@
 #import "KikbakService.h"
 #import "AppDelegate.h"
 #import "LocationManager.h"
-#import "RedeemViewController.h"
+#import "RedeemGiftViewController.h"
 #import "RewardCollection.h"
 #import "NotificationContstants.h"
+#import "RedeemChooserView.h"
+#import "RedeemCreditViewController.h"
 
 @interface RedeemListViewController (){
     bool locationResolved;
@@ -109,6 +111,7 @@
         cell = [[RedeemTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"redeemCell"];
     }
     
+    cell.selectionStyle = UITableViewCellSelectionStyleGray;
     cell.rewards = [self.rewards objectAtIndex:indexPath.row];
     [cell setup];
     return cell;
@@ -128,13 +131,36 @@
 
 #pragma mark - segue
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [self performSegueWithIdentifier:@"RedeemSegue" sender:[self.rewards objectAtIndex:indexPath.row ]];
-    
+
+    RewardCollection* collection = [self.rewards objectAtIndex:indexPath.row];
+    if (collection.gift != nil && collection.credit != nil) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+        RedeemChooserView* chooser = [[RedeemChooserView alloc]initWithFrame:frame];
+        [chooser manuallyLayoutSubviews];
+        chooser.delegate = self;
+        [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:chooser];
+    }
+    else if(collection.gift != nil){
+        RewardCollection* collection = [self.rewards objectAtIndex:indexPath.row ];
+        [self performSegueWithIdentifier:@"RedeemGiftSegue" sender:collection.gift];
+    }
+    else if(collection.credit != nil){
+        RewardCollection* collection = [self.rewards objectAtIndex:indexPath.row ];
+        [self performSegueWithIdentifier:@"RedeemCreditSegue" sender:collection.credit];
+    }
+
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    RedeemViewController* vc = (RedeemViewController*)segue.destinationViewController;
-    vc.reward = sender;
+    if( [segue.destinationViewController isKindOfClass:[RedeemGiftViewController class]]){
+        RedeemGiftViewController* vc = (RedeemGiftViewController*)segue.destinationViewController;
+        vc.gift = sender;
+    }
+    else{
+        RedeemCreditViewController* vc = (RedeemCreditViewController*)segue.destinationViewController;
+        vc.credit = sender;
+    }
     [segue.destinationViewController setHidesBottomBarWhenPushed:YES];
 }
 
@@ -166,11 +192,11 @@
     
     for(Kikbak* kikbak in kikbaks){
         if([dict objectForKey:kikbak.merchantId]){
-            ((RewardCollection*)[dict objectForKey:kikbak.merchantId]).kikbak = kikbak;
+            ((RewardCollection*)[dict objectForKey:kikbak.merchantId]).credit = kikbak;
         }
         else{
             RewardCollection* collection = [[RewardCollection alloc]init];
-            collection.kikbak = kikbak;
+            collection.credit = kikbak;
             [dict setObject:collection forKey:kikbak.merchantId];
         }
     }
@@ -179,6 +205,14 @@
     for(RewardCollection* collection in [dict allValues]){
         [self.rewards addObject:collection];
     }
+}
+
+-(void)onRedeemCredit:(Kikbak*)credit{
+    [self performSegueWithIdentifier:@"RedeemCreditSegue" sender:credit];
+}
+
+-(void)onRedeemGift:(Gift*)gift{
+    [self performSegueWithIdentifier:@"RedeemGiftSegue" sender:gift];
 }
 
 @end

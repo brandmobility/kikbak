@@ -18,6 +18,7 @@
 #import "ImageRequest.h"
 #import "ImagePersistor.h"
 
+
 @implementation FBQuery
 
 +(void)createFBSession
@@ -86,14 +87,14 @@
         AppDelegate* delegate =[UIApplication sharedApplication].delegate;
         delegate.userInfo.me = result;
         NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
-        NSString* testUser = @"24502071";
+      //  NSString* testUser = @"24502071";
         if( [prefs objectForKey:KIKBAK_USER_ID] == nil ){
             RegisterUserRequest* request = [[RegisterUserRequest alloc] init];
             NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:12];
             [dict setObject:[result objectForKey:@"email"] forKey:@"email"];
             [dict setObject:[result objectForKey:@"first_name"] forKey:@"first_name"];
             [dict setObject:[result objectForKey:@"id"] forKey:@"id"];
-            [dict setObject:testUser forKey:@"id"];
+        //    [dict setObject:testUser forKey:@"id"];
             [dict setObject:[result objectForKey:@"last_name"] forKey:@"last_name"];
             [dict setObject:[result objectForKey:@"link"] forKey:@"link"];
             [dict setObject:[result objectForKey:@"locale"] forKey:@"locale"];
@@ -107,7 +108,7 @@
         }
 
         [prefs setValue:[delegate.userInfo.me objectForKey:@(FB_USER_ID_KEY)] forKeyPath:@(FB_USER_ID_KEY)];
-        [prefs setValue:testUser forKeyPath:@(FB_USER_ID_KEY)];
+     //   [prefs setValue:testUser forKeyPath:@(FB_USER_ID_KEY)];
         [prefs setValue:[delegate.userInfo.me objectForKey:@(FB_USERNAME_KEY)] forKeyPath:@(FB_USERNAME_KEY)];
         [prefs synchronize];
         [Flurry logEvent:@"MeRequestEvent" timed:YES];
@@ -173,5 +174,6 @@
     [connection start];
     
 }
+
 
 @end

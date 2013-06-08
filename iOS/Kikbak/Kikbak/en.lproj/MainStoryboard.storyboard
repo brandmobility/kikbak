@@ -14,6 +14,9 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="Default.png" translatesAutoresizingMaskIntoConstraints="NO" id="pS9-3G-nZc"/>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MI8-5l-rFa">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="47" id="tv7-NQ-Cjz"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" image="login.png">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -31,6 +34,7 @@
                         <constraints>
                             <constraint firstItem="pS9-3G-nZc" firstAttribute="leading" secondItem="3" secondAttribute="leading" type="default" id="PNg-Hq-SCn"/>
                             <constraint firstItem="pS9-3G-nZc" firstAttribute="top" secondItem="3" secondAttribute="top" type="default" id="Q1N-vI-Ic1"/>
+                            <constraint firstAttribute="trailing" secondItem="MI8-5l-rFa" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="gkH-ei-hhW"/>
                             <constraint firstItem="pS9-3G-nZc" firstAttribute="trailing" secondItem="3" secondAttribute="trailing" type="default" id="hUA-9e-KGZ"/>
                             <constraint firstAttribute="bottom" secondItem="MI8-5l-rFa" secondAttribute="bottom" constant="66" id="kKy-Rz-IoR"/>
                             <constraint firstItem="MI8-5l-rFa" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="llF-Lm-iOL"/>
@@ -205,18 +209,19 @@
                     </view>
                     <navigationItem key="navigationItem" id="pIj-BH-DNL"/>
                     <connections>
-                        <segue destination="rf3-yr-rgm" kind="push" identifier="RedeemSegue" id="EbD-Gw-e4v"/>
+                        <segue destination="rf3-yr-rgm" kind="push" identifier="RedeemGiftSegue" id="EbD-Gw-e4v"/>
+                        <segue destination="elB-9R-vZH" kind="push" identifier="RedeemCreditSegue" id="NuC-99-7SK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kel-2r-eHa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-559" y="1350"/>
+            <point key="canvasLocation" x="-593" y="1406"/>
         </scene>
         <!--Navigation Controller - Give-->
         <scene sceneID="HsZ-hn-qa3">
             <objects>
                 <navigationController storyboardIdentifier="OfferListViewControler" definesPresentationContext="YES" id="T07-6T-16A" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Give" image="give_tabbar.png" id="pf0-fj-tso"/>
+                    <tabBarItem key="tabBarItem" title="Give" id="pf0-fj-tso"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="blackOpaque" prompted="NO"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="blackOpaque" id="eyG-6g-dZx">
                         <rect key="frame" x="0.0" y="0.0" width="0.0" height="44"/>
@@ -282,11 +287,11 @@
             </objects>
             <point key="canvasLocation" x="365" y="549"/>
         </scene>
-        <!--Redeem View Controller-->
+        <!--Redeem Gift View Controller-->
         <scene sceneID="H7H-25-WyP">
             <objects>
-                <viewController storyboardIdentifier="RedeemViewController" id="rf3-yr-rgm" customClass="RedeemViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="U9c-3I-Kb3">
+                <viewController storyboardIdentifier="RedeemGiftViewController" id="rf3-yr-rgm" customClass="RedeemGiftViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="center" id="U9c-3I-Kb3">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -297,15 +302,58 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CEG-qV-cNm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="257" y="1334"/>
+            <point key="canvasLocation" x="34" y="1157"/>
+        </scene>
+        <!--Redeem Credit View Controller-->
+        <scene sceneID="Ua2-8u-KCL">
+            <objects>
+                <viewController id="elB-9R-vZH" customClass="RedeemCreditViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dwO-ZL-jkP">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0ru-xy-sYg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-97" y="1744"/>
         </scene>
     </scenes>
     <resources>
         <image name="Default.png" width="640" height="1136"/>
-        <image name="give_tabbar.png" width="23" height="24"/>
-        <image name="login.png" width="280" height="47"/>
-        <image name="redeem_tabbar.png" width="16" height="26"/>
+        <image name="login.png" width="16" height="16"/>
+        <image name="redeem_tabbar.png" width="16" height="16"/>
     </resources>
+    <classes>
+        <class className="GiveViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GiveViewController.h"/>
+        </class>
+        <class className="LoginViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoginViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="onFaceBookLogin:"/>
+                <relationship kind="outlet" name="buttonLoginLogout" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="OfferListViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OfferListViewController.h"/>
+        </class>
+        <class className="RedeemCreditViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RedeemCreditViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="onChangeAmount:"/>
+            </relationships>
+        </class>
+        <class className="RedeemGiftViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RedeemGiftViewController.h"/>
+        </class>
+        <class className="RedeemListViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RedeemListViewController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

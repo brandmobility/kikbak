@@ -80,7 +80,7 @@
         <condition property="should-generate-jaxb">
             <and>
                 <isset property="schema.dir"/>
-                <isset property="module.jaxb.package"/>
+               <!-- <isset property="module.jaxb.package"/> -->
                 <not>
                     <isset property="uptodate"/>
                 </not>
@@ -92,8 +92,8 @@
         <apply executable="xjc">
             <arg value="-d" />
             <arg value="${generated.src.dir}" />
-            <arg value="-p" />
-            <arg value="${module.jaxb.package}" />
+            <!--<arg value="-p" />
+            <arg value="${module.jaxb.package}" /> -->
             <fileset dir="${schema.dir}" includes="*.xsd" />
         </apply>
     </target>

@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RedeemTypeProtocol.h"
 
-@interface RedeemListViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+
+@interface RedeemListViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, RedeemTypeProtocol>
+
 
 @end

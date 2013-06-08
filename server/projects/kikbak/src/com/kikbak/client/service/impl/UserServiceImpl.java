@@ -149,6 +149,7 @@ public class UserServiceImpl implements UserService {
 			ot.setEndDate(offer.getEndDate().getTime());
 			ot.setId(offer.getId());
 			ot.setName(offer.getName());
+			ot.setTermsOfService(offer.getTermsOfService());
 			ot.setGiftDescription(offer.getGiftDescription());
 			ot.setKikbakDescription(offer.getKikbakDescription());
 			ot.setMerchantId(offer.getMerchantId());

@@ -18,10 +18,12 @@
 "give to friends" = "Give To Friends";
 "Redeem" = "Redeem";
 "Back" = "Back";
+"Suggest" = "Suggest";
 
-"miles away" = "%@ miles away";
+"miles away" = "%@ mi";
 "call" = "call";
 "web" = "web";
 "add comment" = "Add Comment...";
 "Terms and Conditions" = "Terms and Conditions";
 "Learn More" = "Learn more...";
+"redeem choice" = "Please select the offer you want to redeem now.";

@@ -16,7 +16,7 @@
 	
 	<!-- jaxb -->
 	<property name="schema.dir" value="${basedir}/schema"/>
-	<property name="module.jaxb.package" value="com.kikbak.jaxb"/>
+	<!--<property name="module.jaxb.package" value="com.kikbak.jaxb"/> --> 
 	
 	<!-- dto-generator -->
 	<property name="config.dir" value="${basedir}/config" />

@@ -16,6 +16,9 @@
 #import "LocationManager.h"
 #import "NotificationContstants.h"
 
+
+const int CELL_HEIGHT = 156;
+
 @interface OfferListViewController (){
     bool locationResolved;
 }
@@ -26,6 +29,9 @@
 -(void) manuallyLayoutSubviews;
 -(void) onLocationUpdate:(NSNotification*)notification;
 -(void) onOfferUpdate:(NSNotification*)notification;
+
+-(IBAction)onSuggest:(id)sender;
+
 @end
 
 @implementation OfferListViewController
@@ -44,21 +50,42 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.navigationController.navigationBar.topItem.title = NSLocalizedString(@"Kikbak", nil);
+    
     self.table = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStylePlain];
     self.table.dataSource = self;
+    self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.table.delegate = self;
-    self.table.backgroundColor = [UIColor colorWithRed:0.835 green:0.835 blue:0.835 alpha:1];
+    self.table.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"offer_bg"]];
     [self.view addSubview:self.table];
     
     
     UINavigationBar* bar = self.navigationController.navigationBar;
-    [bar setBackgroundImage:[UIImage imageNamed:@"titlebar_gradient"] forBarMetrics:UIBarMetricsDefault];
+    [bar setBackgroundImage:[UIImage imageNamed:@"grd_navigationbar"] forBarMetrics:UIBarMetricsDefault];
     
     if(((AppDelegate*)[UIApplication sharedApplication].delegate).locationMgr.currentLocation != nil)
         locationResolved = YES;
     else{
         locationResolved = NO;
     }
+    
+    UIImage *backImage = [UIImage imageNamed:@"btn_suggest"];
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    backButton.frame = CGRectMake(0, 0, backImage.size.width, backImage.size.height);
+    
+    [backButton setBackgroundImage:backImage forState:UIControlStateNormal];
+    [backButton setBackgroundImage:backImage forState:UIControlStateHighlighted];
+    [backButton setTitle:NSLocalizedString(@"Suggest",nil) forState:UIControlStateNormal];
+    backButton.titleLabel.font = [UIFont boldSystemFontOfSize:12];
+    backButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    [backButton addTarget:self action:@selector(onSuggest:)    forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    backBarButtonItem.style = UIBarButtonItemStylePlain;
+    
+    self.navigationItem.hidesBackButton = YES;
+    self.navigationItem.rightBarButtonItem = backBarButtonItem;
+    
+    UITabBar* tabBar = self.tabBarController.tabBar;
+    tabBar.se
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -98,7 +125,7 @@
 
 #pragma mark - table datasource methods
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 155;
+    return CELL_HEIGHT;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -150,6 +177,11 @@
 -(void) onOfferUpdate:(NSNotification*)notification{
     self.offers = [OfferService getOffers];
     [self.table reloadData];
+}
+
+#pragma mark - btns
+-(IBAction)onSuggest:(id)sender{
+    
 }
 
 @end
