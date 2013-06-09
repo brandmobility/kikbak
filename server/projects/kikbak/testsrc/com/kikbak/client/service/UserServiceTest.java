@@ -118,12 +118,8 @@ public class UserServiceTest extends KikbakBaseTest{
 		OfferType ot = new OfferType();
 		ot.setBeginDate(new Date().getTime() - 100000);
 		ot.setEndDate(new Date().getTime() + 100000);
-		ot.setDefaultText("default");
-		ot.setDescription("desc");
-		ot.setGiftDescription("gift");
 		ot.setGiftName("name");
 		ot.setGiftNotificationText("notification");
-		ot.setKikbakDescription("kik");
 		ot.setKikbakNotificationText("not");
 		ot.setKikbakName("kik");
 		ot.setName("name");
@@ -159,12 +155,8 @@ public class UserServiceTest extends KikbakBaseTest{
 		OfferType ot = new OfferType();
 		ot.setBeginDate(new Date().getTime() + 100000);
 		ot.setEndDate(new Date().getTime() - 100000);
-		ot.setDefaultText("default");
-		ot.setDescription("desc");
-		ot.setGiftDescription("gift");
 		ot.setGiftName("name");
 		ot.setGiftNotificationText("notification");
-		ot.setKikbakDescription("kik");
 		ot.setKikbakNotificationText("not");
 		ot.setKikbakName("kik");
 		ot.setName("name");

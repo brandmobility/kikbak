@@ -57,13 +57,9 @@ public class DataPopulator {
 			Offer offer = new Offer();
 			offer.setBeginDate(new Date(now.getTime() - 999999999));
 			offer.setEndDate(new Date(now.getTime() + 999999999));
-			offer.setDefaultText("default");
-			offer.setDescription("desc");
-			offer.setGiftDescription("gift");
 			offer.setGiftName("gn");
 			offer.setGiftValue(12.21);
 			offer.setGiftNotificationText("notification");
-			offer.setKikbakDescription("kd");
 			offer.setKikbakName("kn");
 			offer.setKikbakValue(32.32);
 			offer.setKikbakNotificationText("notification");

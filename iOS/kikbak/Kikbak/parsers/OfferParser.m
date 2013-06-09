@@ -32,8 +32,13 @@
         offer.name = [dict objectForKey:@"name"];
         offer.desc = [dict objectForKey:@"description"];
         offer.defaultText = [dict objectForKey:@"defaultText"];
-        offer.giftDescription = [dict objectForKey:@"giftDescription"];
-        offer.kikbakDescription = [dict objectForKey:@"kikbakDescription"];
+        offer.giftDescription = [dict objectForKey:@"giftDesc"];
+        offer.giftDescriptionOptional = [dict objectForKey:@"giftDescOptional"];
+        offer.giftValue = [dict objectForKey:@"giftValue"];
+        offer.giftType = [dict objectForKey:@"giftType"];
+        offer.kikbakDescription = [dict objectForKey:@"kikbakDesc"];
+        offer.kikbakDescriptionOptional = [dict objectForKey:@"kikbakDescOptional"];
+        offer.kikbakValue = [dict objectForKey:@"kikbakValue"];
         offer.merchantImageUrl = [dict objectForKey:@"merchantImageUrl"];
         offer.merchantId = [dict objectForKey:@"merchantId"];
         offer.merchantName = [dict objectForKey:@"merchantName"];

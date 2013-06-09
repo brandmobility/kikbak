@@ -19,6 +19,11 @@
 "Redeem" = "Redeem";
 "Back" = "Back";
 "Suggest" = "Suggest";
+"Give" = "Give";
+"Get" = "Get";
+
+"dollar format" = "$%@";
+"precentage format" = "%@%%";
 
 "miles away" = "%@ mi";
 "call" = "call";

@@ -158,16 +158,17 @@ public class MerchantServiceImpl implements MerchantService{
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public OfferType addOrUpdateOffer(OfferType ot) {
 		Offer offer = getOfferFromOfferType(ot);
-		offer.setDescription(ot.getDescription());
 		offer.setMerchantId(ot.getMerchantId());
-		offer.setDefaultText(ot.getDefaultText());
 		offer.setGiftName(ot.getGiftName());
-		offer.setGiftDescription(ot.getGiftDescription());
+		offer.setGiftDesc(ot.getGiftDesc());
+		offer.setGiftOptionalDesc(ot.getGiftDescOptional());
 		offer.setGiftValue(ot.getGiftValue());
+		offer.setGiftType(ot.getGiftType());
 		offer.setGiftNotificationText(ot.getGiftNotificationText());
 		offer.setKikbakNotificationText(ot.getKikbakNotificationText());
 		offer.setKikbakName(ot.getKikbakName());
-		offer.setKikbakDescription(ot.getKikbakDescription());
+		offer.setKikbakDesc(ot.getKikbakDesc());
+		offer.setKikbakOptionalDesc(ot.getKikbakDescOptional());
 		offer.setKikbakValue(ot.getKikbakValue());
 		offer.setKikbakNotificationText(ot.getKikbakNotificationText());
 		offer.setName(ot.getName());
@@ -193,20 +194,21 @@ public class MerchantServiceImpl implements MerchantService{
 		for(Offer offer: offers){
 			OfferType ot = new OfferType();
 			ot.setBeginDate(offer.getBeginDate().getTime());
-			ot.setDescription(offer.getDescription());
 			ot.setKikbakName(offer.getKikbakName());
-			ot.setKikbakDescription(offer.getKikbakDescription());
+			ot.setKikbakDesc(offer.getKikbakDesc());
+			ot.setKikbakDescOptional(offer.getKikbakOptionalDesc());
 			ot.setKikbakValue(offer.getKikbakValue());
 			ot.setKikbakName(offer.getKikbakName());
 			ot.setKikbakNotificationText(offer.getKikbakNotificationText());
-			ot.setGiftDescription(offer.getGiftDescription());
+			ot.setGiftDesc(offer.getGiftDesc());
+			ot.setGiftDescOptional(offer.getGiftOptionalDesc());
 			ot.setGiftValue(offer.getGiftValue());
+			ot.setGiftType(offer.getGiftType());
 			ot.setGiftNotificationText(offer.getGiftNotificationText());
 			ot.setEndDate(offer.getEndDate().getTime());
 			ot.setId(offer.getId());
 			ot.setMerchantId(offer.getMerchantId());
 			ot.setName(offer.getName());
-			ot.setDefaultText(offer.getDefaultText());
 			
 			ots.add(ot);
 		}

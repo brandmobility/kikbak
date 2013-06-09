@@ -61,13 +61,9 @@ public class MerchantServiceTest extends KikbakBaseTest{
 		OfferType ot = new OfferType();
 		ot.setBeginDate(new Date().getTime());
 		ot.setEndDate(new Date().getTime());
-		ot.setDefaultText("test");
-		ot.setDescription("desc");
-		ot.setGiftDescription("gift desc");
 		ot.setGiftName("gift name");
 		ot.setGiftValue(234.32);
 		ot.setGiftNotificationText("notification");
-		ot.setKikbakDescription("desc");
 		ot.setKikbakName("name");
 		ot.setKikbakValue(12.12);
 		ot.setKikbakNotificationText("notification");

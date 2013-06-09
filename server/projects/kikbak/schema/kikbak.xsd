@@ -123,8 +123,10 @@
             <xsd:element name="id" type="xsd:long" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="merchant" type="kikbak:ClientMerchantType" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="name" type="xsd:string" minOccurs="0" maxOccurs="1"/>
-            <xsd:element name="description" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="desc" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="descOptional" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="value" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="terms" type="xsd:string" minOccurs="0" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
     
@@ -134,7 +136,11 @@
             <xsd:element name="merchant" type="kikbak:ClientMerchantType" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="name" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="friendUserId" type="xsd:long" minOccurs="0" maxOccurs="1"/>
-            <xsd:element name="description" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="desc" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="descOptional" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="value" type="xsd:double" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="type" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="terms" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="fbImageId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="fbFriendId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="friendName" type="xsd:string" minOccurs="1" maxOccurs="1"/>
@@ -383,10 +389,13 @@
             <xsd:element name="id" type="xsd:long" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="merchantName" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="description" type="xsd:string" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="defaultText" type="xsd:string" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="giftDescription" type="xsd:string" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="kikbakDescription" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="giftDesc" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="giftDescOptional" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="giftValue" type="xsd:double" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="giftType" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="kikbakDesc" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="kikbakDescOptional" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="kikbakValue" type="xsd:double" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="merchantId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="merchantImageUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="merchantUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
@@ -401,14 +410,15 @@
         <xsd:sequence>
             <xsd:element name="id" type="xsd:long" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="description" type="xsd:string" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="defaultText" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="giftName" type="xsd:string" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="giftDescription" type="xsd:string" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="giftNotificationText" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="giftDesc" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="giftDescOptional" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="giftValue" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="giftType" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="giftNotificationText" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="kikbakName" type="xsd:string" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="kikbakDescription" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="kikbakDesc" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="kikbakDescOptional" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="kikbakValue" type="xsd:double" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="kikbakNotificationText" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="merchantId" type="xsd:long" minOccurs="1" maxOccurs="1"/>

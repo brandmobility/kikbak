@@ -42,19 +42,15 @@ public class OfferDAOTest extends KikbakBaseTest{
 	@Test
 	public void testRWOffer(){
 		Offer offer = new Offer();
-		offer.setDescription("testing");
 		Date now = new Date();
 		offer.setBeginDate(now);
 		offer.setEndDate(now);
 		offer.setMerchantId(1);
-		offer.setGiftDescription("desc");
 		offer.setGiftName("gift");
 		offer.setGiftNotificationText("notification");
-		offer.setKikbakDescription("kik");
 		offer.setKikbakName("kname");
 		offer.setKikbakNotificationText("notification");
 		offer.setName("test");
-		offer.setDefaultText("3243242");
 		offer.setGiftValue(3.25);
 		offer.setKikbakValue(2.25);
 		
@@ -71,13 +67,9 @@ public class OfferDAOTest extends KikbakBaseTest{
 		Date now = new Date();
 		offer.setBeginDate(new Date(now.getTime() - 999999999));
 		offer.setEndDate(new Date(now.getTime() + 999999999));
-		offer.setDefaultText("default");
-		offer.setDescription("desc");
-		offer.setGiftDescription("gift");
 		offer.setGiftName("gn");
 		offer.setGiftValue(12.21);
 		offer.setGiftNotificationText("notification");
-		offer.setKikbakDescription("kd");
 		offer.setKikbakName("kn");
 		offer.setKikbakValue(32.32);
 		offer.setKikbakNotificationText("notification");

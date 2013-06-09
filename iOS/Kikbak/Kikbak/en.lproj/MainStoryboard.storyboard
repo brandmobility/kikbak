@@ -217,11 +217,11 @@
             </objects>
             <point key="canvasLocation" x="-593" y="1406"/>
         </scene>
-        <!--Navigation Controller - Give-->
+        <!--Navigation Controller-->
         <scene sceneID="HsZ-hn-qa3">
             <objects>
                 <navigationController storyboardIdentifier="OfferListViewControler" definesPresentationContext="YES" id="T07-6T-16A" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Give" id="pf0-fj-tso"/>
+                    <tabBarItem key="tabBarItem" title="" id="pf0-fj-tso"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="blackOpaque" prompted="NO"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="blackOpaque" id="eyG-6g-dZx">
                         <rect key="frame" x="0.0" y="0.0" width="0.0" height="44"/>
@@ -254,11 +254,11 @@
             </objects>
             <point key="canvasLocation" x="-1939" y="962"/>
         </scene>
-        <!--Navigation Controller - Redeem-->
+        <!--Navigation Controller-->
         <scene sceneID="ptX-9C-smO">
             <objects>
                 <navigationController storyboardIdentifier="RedeemListViewController" definesPresentationContext="YES" id="Mst-3n-WWV" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Redeem" image="redeem_tabbar.png" id="rmF-9S-1IF"/>
+                    <tabBarItem key="tabBarItem" title="" id="rmF-9S-1IF"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="blackOpaque" prompted="NO"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="blackOpaque" id="P5y-iA-jCh">
                         <rect key="frame" x="0.0" y="0.0" width="0.0" height="44"/>
@@ -322,7 +322,6 @@
     <resources>
         <image name="Default.png" width="640" height="1136"/>
         <image name="login.png" width="16" height="16"/>
-        <image name="redeem_tabbar.png" width="16" height="16"/>
     </resources>
     <classes>
         <class className="GiveViewController" superclassName="UIViewController">
@@ -340,6 +339,9 @@
         </class>
         <class className="OfferListViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OfferListViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="onSuggest:"/>
+            </relationships>
         </class>
         <class className="RedeemCreditViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/RedeemCreditViewController.h"/>

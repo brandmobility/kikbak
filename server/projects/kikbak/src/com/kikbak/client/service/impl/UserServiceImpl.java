@@ -144,14 +144,17 @@ public class UserServiceImpl implements UserService {
 		for(Offer offer : offers){
 			ClientOfferType ot = new ClientOfferType();
 			ot.setBeginDate(offer.getBeginDate().getTime());
-			ot.setDefaultText(offer.getDefaultText());
-			ot.setDescription(offer.getDescription());
 			ot.setEndDate(offer.getEndDate().getTime());
 			ot.setId(offer.getId());
 			ot.setName(offer.getName());
 			ot.setTermsOfService(offer.getTermsOfService());
-			ot.setGiftDescription(offer.getGiftDescription());
-			ot.setKikbakDescription(offer.getKikbakDescription());
+			ot.setGiftDesc(offer.getGiftDesc());
+			ot.setGiftDescOptional(offer.getGiftOptionalDesc());
+			ot.setGiftValue(offer.getGiftValue());
+			ot.setGiftType(offer.getGiftType());
+			ot.setKikbakDesc(offer.getKikbakDesc());
+			ot.setKikbakDescOptional(offer.getKikbakOptionalDesc());
+			ot.setKikbakValue(offer.getKikbakValue());
 			ot.setMerchantId(offer.getMerchantId());
 			
 			Merchant merchant = roMerchantDao.findById(offer.getMerchantId());

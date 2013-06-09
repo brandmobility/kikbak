@@ -101,7 +101,10 @@ public class RewardServiceImpl implements RewardService{
 			gt.setMerchant(cmt);
 			
 			Offer offer = roOfferDao.findById(gift.getOfferId());
-			gt.setDescription(offer.getGiftDescription());
+			gt.setDesc(offer.getGiftDesc());
+			gt.setDescOptional(offer.getGiftOptionalDesc());
+			gt.setValue(offer.getGiftValue());
+			gt.setType(offer.getGiftType());
 			gt.setName(offer.getGiftName());
 			gt.setFriendUserId(gift.getFriendUserId());
 			User friend = roUserDao.findById(gift.getFriendUserId());
@@ -133,7 +136,9 @@ public class RewardServiceImpl implements RewardService{
 			kt.setMerchant(cmt);
 			
 			Offer offer = roOfferDao.findById(kikbak.getOfferId());
-			kt.setDescription(offer.getKikbakDescription());
+			kt.setDesc(offer.getKikbakDesc());
+			kt.setDescOptional(offer.getKikbakOptionalDesc());
+			kt.setValue(offer.getKikbakValue());
 			kt.setName(offer.getKikbakName());
 			
 			kts.add(kt);
