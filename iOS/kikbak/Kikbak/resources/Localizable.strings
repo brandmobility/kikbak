@@ -12,8 +12,8 @@
 "Caption" = "+ Caption";
 "Success" = "Success!";
 "Shared Gift" = "You have shared a gift.";
-"Gift Notification" = "We will notify you when your friend uses your gift and you earn a reward.";
-"Awesome" = "Awesome";
+"Gift Notification" = "We will notify you when a friend uses your gift and you earn a reward.";
+"Ok" = "Ok";
 "Give" = "Give";
 "give to friends" = "Give To Friends";
 "Redeem" = "Redeem";
@@ -24,6 +24,12 @@
 
 "dollar format" = "$%@";
 "precentage format" = "%@%%";
+"Take a photo" = "Take a photo";
+"Next Time" = "Next Time";
+
+"Suggest Photo" = "Share a photo of the business";
+"Business name" = "Business name";
+"What makes them great" = "What makes them great";
 
 "miles away" = "%@ mi";
 "call" = "call";
@@ -31,4 +37,6 @@
 "add comment" = "Add Comment...";
 "Terms and Conditions" = "Terms and Conditions";
 "Learn More" = "Learn more...";
+"Let us know" = "Let us know";
 "redeem choice" = "Please select the offer you want to redeem now.";
+"recommend business" = "Want to recommend a business with a special offer? Tell us and we'll let them know they should join Kikbak.";

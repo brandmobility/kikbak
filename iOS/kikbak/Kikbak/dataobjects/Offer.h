@@ -18,7 +18,12 @@
 @property (nonatomic, retain) NSString * desc;
 @property (nonatomic, retain) NSDate * endDate;
 @property (nonatomic, retain) NSString * giftDescription;
+@property (nonatomic, retain) NSString * giftDescriptionOptional;
+@property (nonatomic, retain) NSString * giftType;
+@property (nonatomic, retain) NSNumber * giftValue;
 @property (nonatomic, retain) NSString * kikbakDescription;
+@property (nonatomic, retain) NSString * kikbakDescriptionOptional;
+@property (nonatomic, retain) NSNumber * kikbakValue;
 @property (nonatomic, retain) NSNumber * merchantId;
 @property (nonatomic, retain) NSString * merchantImageUrl;
 @property (nonatomic, retain) NSString * merchantName;
@@ -26,11 +31,7 @@
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSNumber * offerId;
 @property (nonatomic, retain) NSString * termsOfService;
-@property (nonatomic, retain) NSString * giftDescriptionOptional;
-@property (nonatomic, retain) NSString * giftType;
-@property (nonatomic, retain) NSNumber * giftValue;
-@property (nonatomic, retain) NSString * kikbakDescriptionOptional;
-@property (nonatomic, retain) NSNumber * kikbakValue;
+@property (nonatomic, retain) NSString * imageUrl;
 @property (nonatomic, retain) NSSet *location;
 @end
 

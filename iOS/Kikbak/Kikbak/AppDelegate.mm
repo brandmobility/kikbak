@@ -22,7 +22,6 @@
 
 
 @interface AppDelegate()
--(void)fadeOutSplash;
 @end
 
 @implementation AppDelegate
@@ -54,18 +53,12 @@
   
     [application registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge|UIRemoteNotificationTypeSound|UIRemoteNotificationTypeAlert)];
   
-    splash = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Default.png"]];
-    splash.frame = CGRectMake(0, 0, 320, 460);
-    [self.window.rootViewController.view addSubview:splash];
-    [self.window bringSubviewToFront:splash];
-  
     NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
     if( [prefs objectForKey:KIKBAK_USER_ID] != nil ){
         RewardRequest* request = [[RewardRequest alloc]init];
         [request restRequest:[[NSDictionary alloc]init]];
     }
     
-    [self fadeOutSplash];
     return YES;
 }
 							
@@ -82,7 +75,6 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-    [self fadeOutSplash];
     NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
     if( [prefs objectForKey:KIKBAK_USER_ID] == nil ){
         if( [self.session isOpen] ){
@@ -96,20 +88,6 @@
     }
 }
 
-- (void)fadeOutSplash
-{
-  [UIView beginAnimations:nil context:NULL];
-  
-  [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-  
-  [UIView setAnimationDuration:0.2];
-  
-  [UIView setAnimationDelay:0.5]; //was 1.5
-  
-  splash.alpha = 0;
-  
-  [UIView commitAnimations];
-}
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {

@@ -155,6 +155,7 @@ public class UserServiceImpl implements UserService {
 			ot.setKikbakDesc(offer.getKikbakDesc());
 			ot.setKikbakDescOptional(offer.getKikbakOptionalDesc());
 			ot.setKikbakValue(offer.getKikbakValue());
+			ot.setImageUrl(offer.getImageUrl());
 			ot.setMerchantId(offer.getMerchantId());
 			
 			Merchant merchant = roMerchantDao.findById(offer.getMerchantId());

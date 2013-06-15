@@ -118,6 +118,7 @@ CREATE TABLE `offer`
     gift_value DOUBLE NOT NULL,
     gift_type VARCHAR (16) NULL,
     gift_notification_text VARCHAR(200) NOT NULL,
+    image_url VARCHAR(256) NOT NULL,
     terms_of_service VARCHAR(2048) NOT NULL,
     begin_date DATETIME NOT NULL,
     end_date DATETIME NOT NULL,

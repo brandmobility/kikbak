@@ -15,7 +15,7 @@
 #import "AppDelegate.h"
 #import "LocationManager.h"
 #import "NotificationContstants.h"
-
+#import "SuggestViewController.h"
 
 const int CELL_HEIGHT = 156;
 
@@ -61,7 +61,7 @@ const int CELL_HEIGHT = 156;
     self.table.dataSource = self;
     self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.table.delegate = self;
-    self.table.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"offer_bg"]];
+    self.table.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_offer"]];
     [self.view addSubview:self.table];
     
     
@@ -142,6 +142,12 @@ const int CELL_HEIGHT = 156;
     [self manuallyLayoutSubviews];
 }
 
+-(void)viewWillDisappear:(BOOL)animated{
+    [self.redeemBtn removeFromSuperview];
+    [self.seperator removeFromSuperview];
+    [self.giveBtn removeFromSuperview];
+}
+
 -(void)viewDidDisappear:(BOOL)animated{
     
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakImageDownloaded object:nil];
@@ -204,9 +210,6 @@ const int CELL_HEIGHT = 156;
     GiveViewController* vc = (GiveViewController*)segue.destinationViewController;
     vc.offer = sender;
     [segue.destinationViewController setHidesBottomBarWhenPushed:YES];
-    [self.redeemBtn removeFromSuperview];
-    [self.seperator removeFromSuperview];
-    [self.giveBtn removeFromSuperview];
 }
 
 
@@ -223,7 +226,9 @@ const int CELL_HEIGHT = 156;
 
 #pragma mark - btns
 -(IBAction)onSuggest:(id)sender{
-    
+    SuggestViewController* svc = [[SuggestViewController alloc]init];
+    [svc setHidesBottomBarWhenPushed:YES];
+    [self.navigationController pushViewController:svc animated:YES];
 }
 
 -(IBAction)onGiveBtn:(id)sender{

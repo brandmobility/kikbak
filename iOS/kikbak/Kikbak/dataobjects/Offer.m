@@ -17,7 +17,12 @@
 @dynamic desc;
 @dynamic endDate;
 @dynamic giftDescription;
+@dynamic giftDescriptionOptional;
+@dynamic giftType;
+@dynamic giftValue;
 @dynamic kikbakDescription;
+@dynamic kikbakDescriptionOptional;
+@dynamic kikbakValue;
 @dynamic merchantId;
 @dynamic merchantImageUrl;
 @dynamic merchantName;
@@ -25,11 +30,7 @@
 @dynamic name;
 @dynamic offerId;
 @dynamic termsOfService;
-@dynamic giftDescriptionOptional;
-@dynamic giftType;
-@dynamic giftValue;
-@dynamic kikbakDescriptionOptional;
-@dynamic kikbakValue;
+@dynamic imageUrl;
 @dynamic location;
 
 @end

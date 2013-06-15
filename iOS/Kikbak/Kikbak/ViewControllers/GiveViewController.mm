@@ -21,11 +21,15 @@
 #import "Util.h"
 #import "KikbakOpenGraphProtocols.h"
 #import "SpinnerView.h"
+#import "UIButton+Util.h"
 
 #define DEFAULT_CONTAINER_VIEW_HEIGHT 50
 #define PHOTO_TAG  1000
 #define CAPTION_TAG  1001
 #define CALL_URL_TAG 1002
+
+const double TEXT_EDIT_CONTAINER_ORIGIN_Y = 241.0;
+const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 
 @interface GiveViewController ()
 
@@ -33,35 +37,34 @@
 
 @property(nonatomic, strong)SpinnerView* spinnerView;
 
-@property(nonatomic, strong) UIImageView* navDropShadow;
-@property(nonatomic, strong) UIView* merchantBackground;
-@property(nonatomic, strong) UIImageView* retailerLogo;
+@property(nonatomic, strong) UIImageView* giveImage;
+@property(nonatomic, strong) UIView* imageOverlay;
+@property(nonatomic, strong) UILabel* takePhoto;
+@property(nonatomic, strong) UIButton* takePictureBtn;
+
+
 @property(nonatomic, strong) UILabel* retailerName;
 @property(nonatomic, strong) UIImageView* mapIcon;
 @property(nonatomic, strong) UILabel* distance;
 @property(nonatomic, strong) UIButton* mapBtn;
 @property(nonatomic, strong) UIImageView* callIcon;
-@property(nonatomic, strong) UILabel* call;
 @property(nonatomic, strong) UIButton* callBtn;
 @property(nonatomic, strong) UIImageView* webIcon;
-@property(nonatomic, strong) UILabel* web;
 @property(nonatomic, strong) UIButton* webBtn;
 
-
-@property(nonatomic, strong) UIImageView* giveImage;
-@property(nonatomic, strong) UIView* imageOverlay;
-@property(nonatomic, strong) UIButton* takePictureBtn;
 
 @property(nonatomic, strong) UIView* captionContainerView;
 @property(nonatomic, strong) HPGrowingTextView* captionTextView;
 
-@property(nonatomic, strong) UIView* dealBackground;
-@property(nonatomic, strong) UILabel* giveLabel;
+@property(nonatomic, strong) UIImageView* dottedSeperator;
+
+@property(nonatomic, strong) UIImageView* giftIcon;
+@property(nonatomic, strong) UILabel* giftDesctription;
+@property(nonatomic, strong) UILabel* giftDescriptionOptional;
 @property(nonatomic, strong) UIImageView* seperator;
-@property(nonatomic, strong) UILabel* getLabel;
+@property(nonatomic, strong) UILabel* rewardDescription;
+@property(nonatomic, strong) UILabel* rewardDescriptionOptional;
 @property(nonatomic, strong) UIButton* termsBtn;
-@property(nonatomic, strong) UIButton* learnBtn;
-@property(nonatomic, strong) UIImageView* dealDropShaow;
 
 @property(nonatomic, strong) UIButton* giveBtn;
 
@@ -69,13 +72,14 @@
 
 -(void)createSubviews;
 -(void)manuallyLayoutSubviews;
+-(void)adjustRetailerInfo:(CGFloat)delta;
 
--(IBAction)takePhoto:(id)sender;
+-(IBAction)onTakePhotoBtn:(id)sender;
 -(IBAction)onGiveGift:(id)sender;
 -(IBAction)onLearnMore:(id)sender;
 -(IBAction)onTerms:(id)sender;
 
--(IBAction)backBtn:(id)sender;
+-(IBAction)onBackBtn:(id)sender;
 -(IBAction)onMapBtn:(id)sender;
 -(IBAction)onCallBtn:(id)sender;
 -(IBAction)onWebBtn:(id)sender;
@@ -117,22 +121,10 @@
     [self createSubviews];
     [self manuallyLayoutSubviews];
     
-    UIImage *backImage = [UIImage imageNamed:@"back_button.png"];
-    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    backButton.frame = CGRectMake(0, 0, backImage.size.width, backImage.size.height);
     
-    [backButton setBackgroundImage:backImage forState:UIControlStateNormal];
-    [backButton setBackgroundImage:backImage forState:UIControlStateHighlighted];
-    [backButton setTitle:NSLocalizedString(@"Back",nil) forState:UIControlStateNormal];
-    backButton.titleLabel.font = [UIFont boldSystemFontOfSize:12];
-    backButton.titleEdgeInsets = UIEdgeInsetsMake(0, 6, 0, 0);
-    backButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-    [backButton addTarget:self action:@selector(backBtn:)    forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    backBarButtonItem.style = UIBarButtonItemStylePlain;
     
     self.navigationItem.hidesBackButton = YES;
-    self.navigationItem.leftBarButtonItem = backBarButtonItem;
+    self.navigationItem.leftBarButtonItem = [UIButton blackBackBtn:self];
 }
 
 - (void)didReceiveMemoryWarning
@@ -171,133 +163,117 @@
   //  [self manuallyLayoutSubviews];
 }
 
-
+#pragma mark - Layout
 -(void)manuallyLayoutSubviews{
     if(![UIDevice hasFourInchDisplay]){
-        self.giveImage.frame = CGRectMake(23, 0, 276, 276);
-        self.imageOverlay.frame = CGRectMake(0, 60, 320, 215);
-        self.takePictureBtn.frame = CGRectMake(100, 72, 121, 121);
-        self.merchantBackground.frame = CGRectMake(0, 0, 320, 60);
-        self.retailerLogo.frame = CGRectMake(11, 9, 42, 42);
-        self.retailerName.frame = CGRectMake(66, 8, 254, 24);
-        self.mapIcon.frame = CGRectMake(66, 41, 13, 12);
-        self.distance.frame = CGRectMake(80, 40, 90, 13);
-        self.mapBtn.frame = CGRectMake(66, 30, 90, 30);
-        self.callIcon.frame = CGRectMake(175, 40, 13, 12);
-        self.call.frame = CGRectMake(190, 40, 20, 13);
-        self.webIcon.frame = CGRectMake(246, 40, 12, 12);
-        self.web.frame = CGRectMake(262, 40, 30, 13);
-        self.captionContainerView.frame = CGRectMake(0, 203, 320, 48);
+        self.giveImage.frame = CGRectMake(0, 0, 320, 218);
+       // self.imageOverlay.frame = CGRectMake(0, 60, 320, 215);
+        [self.takePhoto removeFromSuperview];
+        self.takePictureBtn.frame = CGRectMake(112, 20, 95, 95);
+        self.retailerName.frame = CGRectMake(14, 120, 316, 26);
+        self.mapIcon.frame = CGRectMake(14, 152, 10, 14);
+        self.distance.frame = CGRectMake(30, 151, 70, 18);
+        self.mapBtn.frame = CGRectMake(14, 149, 70, 30);
+        self.webIcon.frame = CGRectMake(109, 150, 19, 19);
+        self.webBtn.frame = CGRectMake(99, 148, 30, 30);
+        self.callIcon.frame = CGRectMake(145, 150, 15, 18);
+        self.callBtn.frame = CGRectMake(140, 148, 30, 30);
+        self.captionContainerView.frame = CGRectMake(0, TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN, 320, 48);
         self.captionTextView.frame = CGRectMake(10, 8, 300, 32);
-        self.dealBackground.frame = CGRectMake(0, 251, 320, 100);
-        self.dealDropShaow.frame = CGRectMake(0, 351, 320, 6);
-        self.giveLabel.frame = CGRectMake(0, 8, 320, 20);
-        self.seperator.frame = CGRectMake(11, 34, 298, 1);
-        self.getLabel.frame = CGRectMake(0, 43, 320, 26);
-        self.termsBtn.frame = CGRectMake(10, 78, 150, 14);
-        self.learnBtn.frame = CGRectMake(160, 78, 150, 14);
-        self.giveBtn.frame = CGRectMake(10, 362, 300, 44);
+        self.dottedSeperator.frame = CGRectMake(0, 216, 320, 2);
+        self.giftDesctription.frame = CGRectMake(0, 230, 320, 33);
+        self.giftIcon.frame = CGRectMake(self.giftIcon.frame.origin.x, 237, 19, 18);
+        self.giftDescriptionOptional.frame = CGRectMake(0, 264, 320, 15);
+        self.seperator.frame = CGRectMake(11, 287, 298, 1);
+        self.rewardDescription.frame = CGRectMake(0, 292, 320, 30);
+        self.rewardDescriptionOptional.frame = CGRectMake(0, 322, 320, 15);
+        self.termsBtn.frame = CGRectMake(11, 344, 150, 16);
+        self.giveBtn.frame = CGRectMake(11, 366, 298, 40);
     }
 }
 
 -(void)createSubviews{
     
-    self.view.backgroundColor = UIColorFromRGB(0xf5f5f5);
+    self.view.backgroundColor = UIColorFromRGB(0xFFFFFF);
     
-    self.navDropShadow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"navbar_dropshadow"]];
-    self.navDropShadow.frame = CGRectMake(0, 0, 320, 3);
-    [self.view addSubview:self.navDropShadow];
-    
-    self.giveImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 320)];
-    self.giveImage.image = [UIImage imageNamed:@"sample.jpg"];
+    self.giveImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 292)];
+    self.giveImage.image = [UIImage imageNamed:@"img"];
     [self.view addSubview:self.giveImage];
     
-    self.imageOverlay = [[UIView alloc]initWithFrame:CGRectMake(0, 65, 320, 219)];
-    self.imageOverlay.backgroundColor = UIColorFromRGBWithOpacity(0xFFFFFF, .5);
-    [self.view addSubview:self.imageOverlay];
+//    self.imageOverlay = [[UIView alloc]initWithFrame:CGRectMake(0, 65, 320, 219)];
+//    self.imageOverlay.backgroundColor = UIColorFromRGBWithOpacity(0xFFFFFF, .5);
+//    [self.view addSubview:self.imageOverlay];
+    
+    self.takePhoto = [[UILabel alloc]initWithFrame:CGRectMake(0, 44, 320, 16)];
+    self.takePhoto.text = NSLocalizedString(@"Take a photo", nil);
+    self.takePhoto.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:16];
+    self.takePhoto.textColor = [UIColor whiteColor];
+    self.takePhoto.textAlignment = NSTextAlignmentCenter;
+    self.takePhoto.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:self.takePhoto];
     
     self.takePictureBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.takePictureBtn setImage:[UIImage imageNamed:@"add_picture"] forState:UIControlStateNormal];
-    self.takePictureBtn.frame = CGRectMake(100, 113, 121, 121);
-    [self.takePictureBtn addTarget:self action:@selector(takePhoto:) forControlEvents:UIControlEventTouchUpInside];
+    [self.takePictureBtn setImage:[UIImage imageNamed:@"ic_camera"] forState:UIControlStateNormal];
+    self.takePictureBtn.frame = CGRectMake(112, 68, 95, 95);
+    [self.takePictureBtn addTarget:self action:@selector(onTakePhotoBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.takePictureBtn];
     
     
-    self.merchantBackground = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 65)];
-    self.merchantBackground.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.7];
-    [self.view addSubview:self.merchantBackground];
-    
-    self.retailerLogo = [[UIImageView alloc]initWithFrame:CGRectMake(11, 11, 42, 42)];
-    self.retailerLogo.image = [UIImage imageNamed:@"logo"];
-    self.retailerLogo.backgroundColor = [UIColor clearColor];
-    self.retailerLogo.layer.cornerRadius = 5;
-    self.retailerLogo.layer.masksToBounds = YES;
-    [self.merchantBackground addSubview:self.retailerLogo];
-    
-    self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(66, 10, 254, 24)];
-    self.retailerName.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:24];
-    self.retailerName.textColor = UIColorFromRGB(0xf5f5f5);
+    self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(14, 183, 316, 26)];
+    self.retailerName.font = [UIFont fontWithName:@"HelveticaNeue" size:24];
+    self.retailerName.textColor = UIColorFromRGB(0xFFFFFF);
     self.retailerName.text = self.offer.merchantName;
+    self.retailerName.textAlignment = NSTextAlignmentLeft;
     self.retailerName.backgroundColor = [UIColor clearColor];
-    [self.merchantBackground addSubview:self.retailerName];
+    [self.view addSubview:self.retailerName];
     
-    self.mapIcon = [[UIImageView alloc]initWithFrame:CGRectMake(66, 41, 13, 12)];
-    self.mapIcon.image = [UIImage imageNamed:@"map_marker"];
-    [self.merchantBackground addSubview:self.mapIcon];
+    self.mapIcon = [[UIImageView alloc]initWithFrame:CGRectMake(14, 214, 10, 14)];
+    self.mapIcon.image = [UIImage imageNamed:@"ic_map_give"];
+    [self.view addSubview:self.mapIcon];
     
-    self.distance = [[UILabel alloc] initWithFrame:CGRectMake(80, 40, 90, 13)];
-    self.distance.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
-    self.distance.textColor = UIColorFromRGB(0xf5f5f5);
+    self.distance = [[UILabel alloc] initWithFrame:CGRectMake(30, 212, 70, 18)];
+    self.distance.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:18];
+    self.distance.textColor = UIColorFromRGB(0xFFFFFF);
     self.distance.text = [NSString stringWithFormat:NSLocalizedString(@"miles away", nil),
                           [Distance distanceToInMiles:
                            [[CLLocation alloc]initWithLatitude:
                             self.location.latitude.doubleValue
                                                      longitude:self.location.longitude.doubleValue]]];
     self.distance.backgroundColor = [UIColor clearColor];
-    [self.merchantBackground addSubview:self.distance];
+    [self.view addSubview:self.distance];
     
     self.mapBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.mapBtn.frame = CGRectMake(66, 30, 90, 30);
+    self.mapBtn.frame = CGRectMake(14, 210, 70, 30);
     self.mapBtn.backgroundColor = [UIColor clearColor];
     [self.mapBtn addTarget:self action:@selector(onMapBtn:) forControlEvents:UIControlEventTouchUpInside];
-    [self.merchantBackground addSubview:self.mapBtn];
+    [self.view addSubview:self.mapBtn];
     
-    self.callIcon = [[UIImageView alloc]initWithFrame:CGRectMake(175, 40, 13, 12)];
-    self.callIcon.image = [UIImage imageNamed:@"phone_icon"];
-    [self.merchantBackground addSubview:self.callIcon];
+    self.webIcon = [[UIImageView alloc]initWithFrame:CGRectMake(109, 211, 19, 19)];
+    self.webIcon.image = [UIImage imageNamed:@"ic_web_give"];
+    [self.view addSubview:self.webIcon];
     
-    self.call = [[UILabel alloc]initWithFrame:CGRectMake(190, 40, 20, 13)];
-    self.call.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
-    self.call.textColor = UIColorFromRGB(0xf5f5f5);
-    self.call.text = NSLocalizedString(@"call", nil);
-    self.call.backgroundColor = [UIColor clearColor];
-    [self.merchantBackground addSubview:self.call];
-    
-    self.callBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.callBtn.frame = CGRectMake(175, 30, 40, 30);
-    self.callBtn.backgroundColor = [UIColor clearColor];
-    [self.callBtn addTarget:self action:@selector(onCallBtn:) forControlEvents:UIControlEventTouchUpInside];
-    [self.merchantBackground addSubview:self.callBtn];
-    
-    self.webIcon = [[UIImageView alloc]initWithFrame:CGRectMake(246, 40, 12, 12)];
-    self.webIcon.image = [UIImage imageNamed:@"web_icon"];
-    [self.merchantBackground addSubview:self.webIcon];
-    
-    self.web = [[UILabel alloc]initWithFrame:CGRectMake(262, 40, 30, 13)];
-    self.web.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
-    self.web.textColor = UIColorFromRGB(0xf5f5f5);
-    self.web.text = NSLocalizedString(@"web", nil);
-    self.web.backgroundColor = [UIColor clearColor];
-    [self.merchantBackground addSubview:self.web];
-    
+
     self.webBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.webBtn.backgroundColor = [UIColor clearColor];
-    self.webBtn.frame = CGRectMake(246, 30, 40, 30);
+    self.webBtn.frame = CGRectMake(99, 209, 30, 30);
+    self.webBtn.backgroundColor = [UIColor clearColor];
     [self.webBtn addTarget:self action:@selector(onWebBtn:) forControlEvents:UIControlEventTouchUpInside];
-    [self.merchantBackground addSubview:self.webBtn];
+    [self.view addSubview:self.webBtn];
     
-    self.captionContainerView = [[UIView alloc]initWithFrame:CGRectMake(0, 279, 320, 48)];
-    self.captionContainerView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.7];
+    
+    self.callIcon = [[UIImageView alloc]initWithFrame:CGRectMake(145, 211, 15, 18)];
+    self.callIcon.image = [UIImage imageNamed:@"ic_phone_give"];
+    [self.view addSubview: self.callIcon];
+    
+    self.callBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.callBtn.frame = CGRectMake(140, 209, 30, 30);
+    self.callBtn.backgroundColor = [UIColor clearColor];
+    [self.callBtn addTarget:self action:@selector(onCallBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.callBtn];
+    
+    
+    self.captionContainerView = [[UIView alloc]initWithFrame:CGRectMake(0, TEXT_EDIT_CONTAINER_ORIGIN_Y, 320, 48)];
+    self.captionContainerView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1];
     [self.view addSubview:self.captionContainerView];
     
     self.captionTextView = [[HPGrowingTextView alloc]initWithFrame:CGRectMake(10, 8, 300, 32)];
@@ -307,76 +283,114 @@
     
     self.captionTextView.minNumberOfLines = 1;
 	self.captionTextView.maxNumberOfLines = 2;
-	self.captionTextView.returnKeyType = UIReturnKeyDone; //just as an example
-	self.captionTextView.font = [UIFont fontWithName:@"HelveticaNeue-LightItalic" size:14.0f];
-    self.captionTextView.textColor = UIColorFromRGB(0xb4b4b4);
+	self.captionTextView.returnKeyType = UIReturnKeyDone; 
+	self.captionTextView.font = [UIFont fontWithName:@"HelveticaNeue-Italic" size:14.0f];
+    self.captionTextView.textColor = UIColorFromRGB(0x9f9f9f);
 	self.captionTextView.delegate = self;
     self.captionTextView.layer.cornerRadius = 5;
     self.captionTextView.internalTextView.layer.cornerRadius = 5;
     self.captionTextView.backgroundColor = [UIColor whiteColor];
     [self.captionContainerView addSubview:self.captionTextView];
     
-    self.dealBackground = [[UIView alloc]initWithFrame:CGRectMake(0, 332, 320, 114)];
-    self.dealBackground.backgroundColor = UIColorFromRGB(0xF0F0F0);
-    [self.view addSubview:self.dealBackground];
+    self.dottedSeperator = [[UIImageView alloc] initWithFrame:CGRectMake(0, 290, 320, 2)];
+    self.dottedSeperator.image = [UIImage imageNamed:@"separator_dots"];
+    [self.view addSubview:self.dottedSeperator];
     
-    self.dealDropShaow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"deal_dropshadow"]];
-    self.dealDropShaow.frame = CGRectMake(0, 446, 320, 6);
-    [self.dealBackground addSubview:self.dealDropShaow];
+    
+    self.giftDesctription = [[UILabel alloc]initWithFrame:CGRectMake(0, 305, 320, 33)];
+    self.giftDesctription.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:27];
+    self.giftDesctription.text = self.offer.giftDescription;
+    self.giftDesctription.textColor = UIColorFromRGB(0x2A80E6);
+    self.giftDesctription.textAlignment = NSTextAlignmentCenter;
+    self.giftDesctription.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:self.giftDesctription];
+    
+    CGSize gdSize = [self.giftDesctription.text sizeWithFont:self.giftDesctription.font];
+    self.giftIcon = [[UIImageView alloc]initWithFrame:CGRectMake((self.view.frame.size.width/2) - (gdSize.width/2)- 24, 312, 19, 18)];
+    self.giftIcon.image = [UIImage imageNamed:@"ic_gift"];
+    [self.view addSubview:self.giftIcon];
+
+    self.giftDescriptionOptional = [[UILabel alloc]initWithFrame:CGRectMake(0, 338, 320, 15)];
+    self.giftDescriptionOptional.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
+    self.giftDescriptionOptional.text = self.offer.giftDescriptionOptional;
+    self.giftDescriptionOptional.textColor = UIColorFromRGB(0x3a3a3a);
+    self.giftDescriptionOptional.textAlignment = NSTextAlignmentCenter;
+    self.giftDescriptionOptional.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:self.giftDescriptionOptional];
+
+    self.seperator = [[UIImageView alloc]initWithFrame:CGRectMake(11, 364, 298, 1)];
+    self.seperator.image = [UIImage imageNamed:@"separator_give"];
+    [self.view addSubview:self.seperator];
+
+    self.rewardDescription = [[UILabel alloc]initWithFrame:CGRectMake(0, 370, 320, 30)];
+    self.rewardDescription.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:25];
+    self.rewardDescription.text = self.offer.kikbakDescription;
+    self.rewardDescription.textColor = UIColorFromRGB(0x3a3a3a);
+    self.rewardDescription.textAlignment = NSTextAlignmentCenter;
+    self.rewardDescription.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:self.rewardDescription];
 
     
-    self.giveLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 10, 320, 26)];
-    self.giveLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:24];
-    self.giveLabel.text = @"Give $10 off $50";
-    self.giveLabel.textColor = UIColorFromRGB(0x3a3a3a);
-    self.giveLabel.textAlignment = NSTextAlignmentCenter;
-    self.giveLabel.backgroundColor = [UIColor clearColor];
-    [self.dealBackground addSubview:self.giveLabel];
-    
-    self.seperator = [[UIImageView alloc]initWithFrame:CGRectMake(11, 42, 298, 1)];
-    self.seperator.image = [UIImage imageNamed:@"text_divider"];
-    [self.dealBackground addSubview:self.seperator];
-    
-    self.getLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 52, 320, 35)];
-    self.getLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:33];
-    self.getLabel.text = @"Get $5 Credit";
-    self.getLabel.textColor = UIColorFromRGB(0x3a3a3a);
-    self.getLabel.textAlignment = NSTextAlignmentCenter;
-    self.getLabel.backgroundColor = [UIColor clearColor];
-    [self.dealBackground addSubview:self.getLabel];
+    self.rewardDescriptionOptional = [[UILabel alloc]initWithFrame:CGRectMake(0, 401, 320, 15)];
+    self.rewardDescriptionOptional.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
+    self.rewardDescriptionOptional.text = self.offer.kikbakDescriptionOptional;
+    self.rewardDescriptionOptional.textColor = UIColorFromRGB(0x3a3a3a);
+    self.rewardDescriptionOptional.textAlignment = NSTextAlignmentCenter;
+    self.rewardDescriptionOptional.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:self.rewardDescriptionOptional];
     
     self.termsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.termsBtn.frame = CGRectMake(10, 95, 150, 14);
+    self.termsBtn.frame = CGRectMake(11, 424, 150, 16);
     [self.termsBtn setTitle:NSLocalizedString(@"Terms and Conditions", nil) forState:UIControlStateNormal];
     self.termsBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
     [self.termsBtn setTitleColor:UIColorFromRGB(0x686868) forState:UIControlStateNormal];
     self.termsBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
     self.termsBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [self.dealBackground addSubview:self.termsBtn];
-    
-    self.learnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.learnBtn.frame = CGRectMake(160, 95, 150, 14);
-    [self.learnBtn setTitle:NSLocalizedString(@"Learn More", nil) forState:UIControlStateNormal];
-    self.learnBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
-    [self.learnBtn setTitleColor:UIColorFromRGB(0x686868) forState:UIControlStateNormal];
-    self.learnBtn.titleLabel.textAlignment = NSTextAlignmentRight;
-    self.learnBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
-    [self.dealBackground addSubview:self.learnBtn];
+    [self.view addSubview:self.termsBtn];
 
     
     self.giveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.giveBtn setBackgroundImage:[UIImage imageNamed:@"give_bkg_button"] forState:UIControlStateNormal];
+    [self.giveBtn setBackgroundImage:[UIImage imageNamed:@"btn_blue"] forState:UIControlStateNormal];
     [self.giveBtn setTitle:NSLocalizedString(@"give to friends", nil) forState:UIControlStateNormal];
     [self.giveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.giveBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:15];
-    self.giveBtn.frame = CGRectMake(10, 453, 300, 44);
+    self.giveBtn.frame = CGRectMake(11, 453, 298, 40);
     [self.giveBtn addTarget:self action:@selector(onGiveGift:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.giveBtn];
 }
 
+-(void)adjustRetailerInfo:(CGFloat)delta{
+    CGRect fr = self.mapIcon.frame;
+    fr.origin.y -= delta;
+    self.mapIcon.frame = fr;
+    fr = self.mapBtn.frame;
+    fr.origin.y -= delta;
+    self.mapBtn.frame=fr;
+    fr = self.distance.frame;
+    fr.origin.y -= delta;
+    self.distance.frame = fr;
+    
+    fr = self.webIcon.frame;
+    fr.origin.y -= delta;
+    self.webIcon.frame = fr;
+    fr = self.webBtn.frame;
+    fr.origin.y -= delta;
+    self.webBtn.frame = fr;
+    
+    fr = self.retailerName.frame;
+    fr.origin.y -= delta;
+    self.retailerName.frame = fr;
+    
+    fr = self.callIcon.frame;
+    fr.origin.y -= delta;
+    self.callIcon.frame = fr;
+    fr = self.callBtn.frame;
+    fr.origin.y -= delta;
+    self.callBtn.frame = fr;
+}
 
-#pragma mark - btn actions 
--(IBAction)backBtn:(id)sender{
+#pragma mark - btn actions
+-(IBAction)onBackBtn:(id)sender{
     [self.navigationController popViewControllerAnimated:YES];
 
 }
@@ -406,7 +420,7 @@
    // [self postPhotoThenOpenGraphAction];
 }
 
--(IBAction)takePhoto:(id)sender{
+-(IBAction)onTakePhotoBtn:(id)sender{
     [self resignTextView];
 
     if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
@@ -704,6 +718,10 @@
     [UIView setAnimationCurve:(UIViewAnimationCurve)[curve intValue]];
 	
 	// set views with new info
+    if(self.captionContainerView.frame.origin.y != containerFrame.origin.y){
+        CGFloat delta = self.captionContainerView.frame.origin.y - containerFrame.origin.y;
+        [self adjustRetailerInfo:delta];
+    }
 	self.captionContainerView.frame = containerFrame;
 	
 	// commit animations
@@ -718,10 +736,10 @@
 	// get a rect for the textView frame
 	CGRect containerFrame = self.captionContainerView.frame;
     if( [UIDevice hasFourInchDisplay] ){
-        containerFrame.origin.y = (containerFrame.size.height > DEFAULT_CONTAINER_VIEW_HEIGHT)?284 - (containerFrame.size.height - DEFAULT_CONTAINER_VIEW_HEIGHT): 284;
+        containerFrame.origin.y = (containerFrame.size.height > DEFAULT_CONTAINER_VIEW_HEIGHT)?TEXT_EDIT_CONTAINER_ORIGIN_Y - (containerFrame.size.height - DEFAULT_CONTAINER_VIEW_HEIGHT): TEXT_EDIT_CONTAINER_ORIGIN_Y;
     }
     else{
-        containerFrame.origin.y = (containerFrame.size.height > DEFAULT_CONTAINER_VIEW_HEIGHT)? 203 - (containerFrame.size.height - DEFAULT_CONTAINER_VIEW_HEIGHT): 203;
+        containerFrame.origin.y = (containerFrame.size.height > DEFAULT_CONTAINER_VIEW_HEIGHT)? TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN - (containerFrame.size.height - DEFAULT_CONTAINER_VIEW_HEIGHT): TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN;
     }
 	
 	// animations settings
@@ -731,6 +749,11 @@
     [UIView setAnimationCurve:(UIViewAnimationCurve)[curve intValue]];
     
 	// set views with new info
+    // set views with new info
+    if(self.captionContainerView.frame.origin.y != containerFrame.origin.y){
+        CGFloat delta = self.captionContainerView.frame.origin.y - containerFrame.origin.y;
+        [self adjustRetailerInfo:delta];
+    }
 	self.captionContainerView.frame = containerFrame;
     [self.view bringSubviewToFront:self.captionContainerView];
 	
@@ -748,6 +771,10 @@
 
 
 - (BOOL)growingTextViewShouldReturn:(HPGrowingTextView *)growingTextView{
+    if( [growingTextView.text compare:NSLocalizedString(@"", nil)] == NSOrderedSame ){
+        growingTextView.text = NSLocalizedString(@"add comment", nil);
+        growingTextView.textColor = UIColorFromRGB(0x9f9f9f);
+    }
     [self resignTextView];
     return YES;
 }
@@ -760,6 +787,7 @@
 	CGRect r = self.captionContainerView.frame;
     r.size.height -= diff;
     r.origin.y += diff;
+    [self adjustRetailerInfo:-diff];
 	self.captionContainerView.frame = r;
 }
 

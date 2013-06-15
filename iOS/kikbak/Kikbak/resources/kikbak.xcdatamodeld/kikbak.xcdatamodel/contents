@@ -42,6 +42,7 @@
         <attribute name="giftDescriptionOptional" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="giftType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="giftValue" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="imageUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="kikbakDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="kikbakDescriptionOptional" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="kikbakValue" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
@@ -58,6 +59,6 @@
         <element name="Gift" positionX="-5807" positionY="-495" width="128" height="225"/>
         <element name="Kikbak" positionX="160" positionY="192" width="128" height="165"/>
         <element name="Location" positionX="-5544" positionY="-567" width="128" height="150"/>
-        <element name="Offer" positionX="-5247" positionY="-585" width="128" height="330"/>
+        <element name="Offer" positionX="-5247" positionY="-585" width="128" height="345"/>
     </elements>
 </model>

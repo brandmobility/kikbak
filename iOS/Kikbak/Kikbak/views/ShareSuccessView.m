@@ -9,17 +9,18 @@
 #import "ShareSuccessView.h"
 #import <QuartzCore/QuartzCore.h>
 #import "UIDevice+Screen.h"
+#import "util.h"
 
 
 @interface ShareSuccessView ()
 
 @property (nonatomic, strong) UIView* backgroundView;
-@property (nonatomic, strong) UILabel* successLabel;
-@property (nonatomic, strong) UILabel* notificationLabel;
-@property (nonatomic, strong) UILabel* rewardLabel;
-@property (nonatomic, strong) UIButton* doneButton;
+@property (nonatomic, strong) UILabel* success;
+@property (nonatomic, strong) UILabel* shared;
+@property (nonatomic, strong) UILabel* notify;
+@property (nonatomic, strong) UIButton* okBtn;
 
--(IBAction)onDone:(id)sender;
+-(IBAction)onOk:(id)sender;
 
 @end
 
@@ -29,7 +30,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor colorWithRed:.35 green:.35 blue:.35 alpha:.3];
+        self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.8];
     }
     return self;
 }
@@ -38,60 +39,59 @@
     
     CGRect frame = self.frame;
     if ([UIDevice hasFourInchDisplay]) {
-        frame.origin.x += 8;
-        frame.origin.y += 170;
-        frame.size.width -= 16;
-        frame.size.height -= 280;
+        frame.origin.x += 22;
+        frame.origin.y += 134;
+        frame.size.width -= 44;
+        frame.size.height -= 342;
     }
     else{
-        frame.origin.x += 8;
-        frame.origin.y += 120;
-        frame.size.width -= 16;
-        frame.size.height -= 200;
+        frame.origin.x += 22;
+        frame.origin.y += 132;
+        frame.size.width -= 44;
+        frame.size.height -= 254;
     }
     
     self.backgroundView = [[UIView alloc]initWithFrame:frame];
-    self.backgroundView.backgroundColor = [UIColor whiteColor];
+    self.backgroundView.backgroundColor = UIColorFromRGB(0xE0E0E0);
+    self.backgroundView.layer.cornerRadius = 10;
     [self addSubview:self.backgroundView];
-    self.backgroundView.layer.borderWidth = 4.0f;
-    self.backgroundView.layer.borderColor = [UIColor grayColor].CGColor;
     
-    self.successLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 10.0, frame.size.width, 40)];
-    self.successLabel.font = [UIFont boldSystemFontOfSize:35];
-    self.successLabel.text = NSLocalizedString(@"Success", nil);
-    self.successLabel.textAlignment = NSTextAlignmentCenter;
-    self.successLabel.textColor = [UIColor grayColor];
-    [self.backgroundView addSubview:self.successLabel];
+    self.success = [[UILabel alloc]initWithFrame:CGRectMake(0, 24, frame.size.width, 32)];
+    self.success.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:31];
+    self.success.text = NSLocalizedString(@"Success", nil);
+    self.success.textAlignment = NSTextAlignmentCenter;
+    self.success.textColor = UIColorFromRGB(0x3a3a3a);
+    self.success.backgroundColor = [UIColor clearColor];
+    [self.backgroundView addSubview:self.success];
     
-    self.notificationLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 100, frame.size.width, 26)];
-    self.notificationLabel.font = [UIFont systemFontOfSize:22];
-    self.notificationLabel.text = NSLocalizedString(@"Shared Gift", nil);
-    self.notificationLabel.textAlignment = NSTextAlignmentCenter;
-    self.notificationLabel.numberOfLines = 1;
-    self.notificationLabel.textColor = [UIColor grayColor];
-    [self.backgroundView addSubview:self.notificationLabel];
+    self.shared = [[UILabel alloc]initWithFrame:CGRectMake(0, 60, frame.size.width, 26)];
+    self.shared.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:21];
+    self.shared.text = NSLocalizedString(@"Shared Gift", nil);
+    self.shared.textAlignment = NSTextAlignmentCenter;
+    self.shared.numberOfLines = 1;
+    self.shared.textColor = UIColorFromRGB(0x3a3a3a);
+    self.shared.backgroundColor = [UIColor clearColor];
+    [self.backgroundView addSubview:self.shared];
     
-    self.rewardLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 150, frame.size.width, 40)];
-    self.rewardLabel.font = [UIFont systemFontOfSize:16];
-    self.rewardLabel.text = NSLocalizedString(@"Gift Notification", nil);
-    self.rewardLabel.textAlignment = NSTextAlignmentCenter;
-    self.rewardLabel.numberOfLines = 2;
-    self.rewardLabel.textColor = [UIColor grayColor];
-    [self.backgroundView addSubview:self.rewardLabel];
+    self.notify = [[UILabel alloc]initWithFrame:CGRectMake(40, 80, frame.size.width-80, 84)];
+    self.notify.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
+    self.notify.text = NSLocalizedString(@"Gift Notification", nil);
+    self.notify.textAlignment = NSTextAlignmentCenter;
+    self.notify.numberOfLines = 3;
+    self.notify.textColor = UIColorFromRGB(0x3a3a3a);
+    self.notify.backgroundColor = [UIColor clearColor];
+    [self.backgroundView addSubview:self.notify];
     
-    self.doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.doneButton.frame = CGRectMake(15,frame.size.height - 60, frame.size.width - 30, 40);
-    self.doneButton.layer.cornerRadius = 3.0;
-    self.doneButton.layer.borderWidth = 3.0;
-    self.doneButton.layer.borderColor = [[UIColor colorWithRed:.81 green:0.81 blue:0.81 alpha:0.9] CGColor];
-    self.doneButton.backgroundColor = [UIColor grayColor];
-    [self.doneButton setTitle:NSLocalizedString(@"Awesome", nil) forState:UIControlStateNormal];
-    self.doneButton.titleLabel.textColor = [UIColor whiteColor];
-    [self.backgroundView addSubview:self.doneButton];
-    [self.doneButton addTarget:self action:@selector(onDone:) forControlEvents:UIControlEventTouchUpInside];
+    self.okBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.okBtn.frame = CGRectMake(14,frame.size.height - 52, frame.size.width - 28, 40);
+    [self.okBtn setBackgroundImage:[UIImage imageNamed:@"btn_give"] forState:UIControlStateNormal];
+    [self.okBtn setTitle:NSLocalizedString(@"Ok", nil) forState:UIControlStateNormal];
+    self.okBtn.titleLabel.textColor = [UIColor whiteColor];
+    [self.backgroundView addSubview:self.okBtn];
+    [self.okBtn addTarget:self action:@selector(onOk:) forControlEvents:UIControlEventTouchUpInside];
 }
 
--(IBAction)onDone:(id)sender{    
+-(IBAction)onOk:(id)sender{
     [self removeFromSuperview];
 }
 
