@@ -28,7 +28,9 @@
 @property (nonatomic, strong) UIImageView* gradient;
 @property (nonatomic, strong) UILabel* recommend;
 
+@property (nonatomic, strong) UIImageView* businessShadow;
 @property (nonatomic, strong) UITextView* business;
+@property (nonatomic, strong) UIImageView* aboutShadow;
 @property (nonatomic, strong) UITextView* about;
 
 @property (nonatomic, strong) UIButton* submit;
@@ -71,6 +73,7 @@
     
     photoTaken = NO;
     [self createSubviews];
+    [self manuallyLayoutSubviews];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -153,16 +156,15 @@
     self.business.layer.cornerRadius = 5;
     self.business.layer.borderWidth = 1;
     self.business.layer.borderColor = [UIColorFromRGB(0xb9b9b9) CGColor];
-    UIImageView* shadow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"bg_textview_suggest_business"]];
-    shadow.frame = CGRectMake(11, 334, 298, 35);
-    [self.scrollView addSubview:shadow];
+    self.businessShadow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"bg_textview_suggest_business"]];
+    self.businessShadow.frame = CGRectMake(11, 334, 298, 35);
+    [self.scrollView addSubview:self.businessShadow];
     [self.scrollView addSubview:self.business];
     
     self.about = [[UITextView alloc]initWithFrame:CGRectMake(11, 379, 298, 55)];
     self.about.delegate = self;
     self.about.text = NSLocalizedString(@"What makes them great", nil);
     self.about.textColor = UIColorFromRGB(0x7F7F7F);
-//    self.about.clearsOnInsertion = YES;
     self.about.returnKeyType = UIReturnKeyDone; 
     self.about.scrollEnabled = NO;
     self.about.contentInset = UIEdgeInsetsMake(0, 5, 0, 5);
@@ -171,9 +173,9 @@
     self.about.layer.cornerRadius = 5;
     self.about.layer.borderWidth = 1;
     self.about.layer.borderColor = [UIColorFromRGB(0xb9b9b9) CGColor];
-    shadow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"bg_textview_suggest_great"]];
-    shadow.frame = CGRectMake(11, 379, 298, 55);
-    [self.scrollView addSubview:shadow];
+    self.aboutShadow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"bg_textview_suggest_great"]];
+    self.aboutShadow.frame = CGRectMake(11, 379, 298, 55);
+    [self.scrollView addSubview:self.aboutShadow];
     [self.scrollView addSubview:self.about];
 
     self.submit = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -187,6 +189,18 @@
 
 -(void)manuallyLayoutSubviews{
     
+    if(![UIDevice hasFourInchDisplay]){
+        self.photoImage.frame = CGRectMake(0, 0, 320, 178);
+        self.gradient.frame = CGRectMake(0, 178, 320, 4);
+        self.takePhoto.frame = CGRectMake(0, 32, 320, 20);
+        self.photoBtn.frame = CGRectMake(112, 56, 95, 95);
+        self.recommend.frame = CGRectMake(11, 190, 298, 55);
+        self.business.frame = CGRectMake(11, 255, 298, 35);
+        self.businessShadow.frame = CGRectMake(11, 255, 298, 35);
+        self.about.frame = CGRectMake(11, 300, 298, 55);
+        self.aboutShadow.frame = CGRectMake(11, 300, 298, 55);
+        self.submit.frame = CGRectMake(11, 365, 298, 40);
+    }
 }
 
 #pragma mark - text view
@@ -230,6 +244,15 @@
 - (void)textViewDidEndEditing:(UITextView *)textView{
     self.scrollView.contentOffset = CGPointMake(0, 0);
 
+    if(textView == self.business && [textView.text compare:@""] == NSOrderedSame){
+        self.business.text = NSLocalizedString(@"Business name", nil);
+        self.business.textColor = UIColorFromRGB(0x7F7F7F);
+    }
+    
+    if(textView == self.about && [textView.text compare:@""] == NSOrderedSame){
+        self.about.text = NSLocalizedString(@"What makes them great", nil);
+        self.about.textColor = UIColorFromRGB(0x7F7F7F);
+    }
 }
 
 
@@ -282,6 +305,38 @@
         return;
     }
     
+    if([self.business.text compare:NSLocalizedString(@"Business name", nil)] == NSOrderedSame
+       || [self.about.text compare:NSLocalizedString(@"What makes them great", nil)] == NSOrderedSame ){
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:nil message:NSLocalizedString(@"suggest required", nil)
+                                                      delegate:self
+                                             cancelButtonTitle:nil
+                                             otherButtonTitles:NSLocalizedString(@"Ok", nil), nil];
+        [alert show];
+        return;
+    }
+    
+    if(! [MFMailComposeViewController canSendMail]){
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:nil message:NSLocalizedString(@"configure mail", nil)
+                                                      delegate:self
+                                             cancelButtonTitle:nil
+                                             otherButtonTitles:NSLocalizedString(@"Ok", nil), nil];
+        [alert show];
+        return;
+    }
+    
+    MFMailComposeViewController* picker = [[MFMailComposeViewController alloc]init];
+    picker.mailComposeDelegate = self;
+    
+    NSArray* toRecipients = [[NSArray alloc]initWithObjects:@"ian.barile@gmail.com", nil];
+    [picker setToRecipients: toRecipients];
+    
+    [picker setSubject:self.business.text];
+    [picker setMessageBody:self.about.text isHTML:NO];
+    
+    [picker addAttachmentData:UIImagePNGRepresentation(self.photoImage.image) mimeType:@"image/png" fileName:@"suggested.png"];
+    
+    [self presentViewController:picker animated:YES completion:nil];
+    
 }
 
 #pragma mark - image picker delegates
@@ -293,6 +348,7 @@
     self.photoImage.image =  [image imageCropToRect:cropRect];
     [self dismissViewControllerAnimated:YES completion:nil];
     photoTaken = YES;
+    
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
@@ -322,6 +378,28 @@
 
 -(IBAction)keyboardWillHide:(NSNotification*)notification{
     
+}
+
+
+#pragma mark - MFMailComposer Delegates
+// Dismisses the email composition interface when users tap Cancel or Send. Proceeds to update the message field with the result of the operation.
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
+{
+	// Notifies users about errors associated with the interface
+	switch (result)
+	{
+		case MFMailComposeResultCancelled:
+			break;
+		case MFMailComposeResultSaved:
+			break;
+		case MFMailComposeResultSent:
+			break;
+		case MFMailComposeResultFailed:
+			break;
+		default:
+			break;
+	}
+	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
 

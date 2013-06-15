@@ -26,6 +26,7 @@
 		3C4A2414174C8D0800B8C5F0 /* SpinnerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C4A2413174C8D0800B8C5F0 /* SpinnerView.m */; };
 		3C4A2417174DDE7400B8C5F0 /* RedeemChooserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C4A2416174DDE7400B8C5F0 /* RedeemChooserView.m */; };
 		3C4A241E1751C6BA00B8C5F0 /* CreditChooserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C4A241D1751C6BA00B8C5F0 /* CreditChooserViewController.m */; };
+		3C727544176C3F3B0029B069 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C727543176C3F3B0029B069 /* MessageUI.framework */; };
 		3C752BDF17113CA10092CFB1 /* kikbak.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3C752BDD17113CA10092CFB1 /* kikbak.xcdatamodeld */; };
 		3C752BEF171145210092CFB1 /* OfferParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C752BEE171145210092CFB1 /* OfferParser.m */; };
 		3C752BF2171145BB0092CFB1 /* LocationParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C752BF1171145BB0092CFB1 /* LocationParser.m */; };
@@ -228,6 +229,7 @@
 		3C4A2418174DFFC700B8C5F0 /* RedeemTypeProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RedeemTypeProtocol.h; sourceTree = "<group>"; };
 		3C4A241C1751C6BA00B8C5F0 /* CreditChooserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreditChooserViewController.h; sourceTree = "<group>"; };
 		3C4A241D1751C6BA00B8C5F0 /* CreditChooserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreditChooserViewController.m; sourceTree = "<group>"; };
+		3C727543176C3F3B0029B069 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		3C752BDE17113CA10092CFB1 /* kikbak.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = kikbak.xcdatamodel; sourceTree = "<group>"; };
 		3C752BED171145210092CFB1 /* OfferParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfferParser.h; sourceTree = "<group>"; };
 		3C752BEE171145210092CFB1 /* OfferParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfferParser.m; sourceTree = "<group>"; };
@@ -444,6 +446,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C727544176C3F3B0029B069 /* MessageUI.framework in Frameworks */,
 				3C752BF4171146130092CFB1 /* CoreData.framework in Frameworks */,
 				C0C974011696BF16001A2A80 /* Security.framework in Frameworks */,
 				3CC6D5AD16A1587300D42AD1 /* FacebookSDK.framework in Frameworks */,
@@ -651,6 +654,7 @@
 				3CA1B3071702CBB7005D2918 /* libFlurry.a */,
 				C0C973981693ADB1001A2A80 /* libiconv.dylib */,
 				C0479A15167D9C5900C2253D /* libsqlite3.dylib */,
+				3C727543176C3F3B0029B069 /* MessageUI.framework */,
 				C0C974001696BF15001A2A80 /* Security.framework */,
 				C0479A1A167D9C8400C2253D /* Social.framework */,
 				C0479A24167D9D5800C2253D /* SystemConfiguration.framework */,

@@ -30,6 +30,8 @@
 "Suggest Photo" = "Share a photo of the business";
 "Business name" = "Business name";
 "What makes them great" = "What makes them great";
+"suggest required" = "Please tell us about the business you want to suggest";
+"configure mail" = "Please configure phone to send email";
 
 "miles away" = "%@ mi";
 "call" = "call";
