@@ -13,24 +13,36 @@
 #import "Location.h"
 #import "ImagePersistor.h"
 #import "RewardCollection.h"
+#import "util.h"
+
+const int CELL_HEIGHT = 147;
 
 @interface RedeemTableViewCell()
 
-@property (nonatomic, strong) UIView* backgroundView;
-@property (nonatomic, strong) UIView* overlayView;
-@property (nonatomic, strong) UIImageView* storeImage;
-@property (nonatomic, strong) UILabel* store;
-@property (nonatomic, strong) UIImageView* map_mark;
-@property (nonatomic, strong) UILabel* distance;
-@property (nonatomic, strong) UIImageView* leftArrow;
-@property (nonatomic, strong) UILabel* leftText;
-@property (nonatomic, strong) UIImageView* rightArrow;
-@property (nonatomic, strong) UILabel* rightText;
+@property (nonatomic,strong) UIImageView* retailerImage;
+@property (nonatomic,strong) UIImageView* imageGradient;
+@property (nonatomic,strong) UIView* rewardBackground;
+@property (nonatomic,strong) UIImageView* horizontalSeparator;
+@property (nonatomic,strong) UIImageView* verticalSeparator;
+@property (nonatomic,strong) UIImageView* drpShadow;
+@property (nonatomic,strong) UILabel* retailerName;
+@property (nonatomic,strong) UIButton* mapBtn;
+@property (nonatomic,strong) UIImageView* mapIcon;
+@property (nonatomic,strong) UILabel* distance;
+@property (nonatomic,strong) UIButton* webBtn;
+@property (nonatomic,strong) UIButton* callBtn;
+@property (nonatomic,strong) UILabel* gift;
+@property (nonatomic,strong) UILabel* giftValue;
+@property (nonatomic,strong) UILabel* credit;
+@property (nonatomic,strong) UILabel* creditValue;
 
 -(void)manuallyLayoutSubview;
 -(void)setupGift;
 -(void)setupKikbak;
 
+-(IBAction)onMap:(id)sender;
+-(IBAction)onWeb:(id)sender;
+-(IBAction)onCall:(id)sender;
 
 @end
 
@@ -41,7 +53,8 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.frame = CGRectMake(0, 0, 320, 155);
+        self.frame = CGRectMake(0, 0, 320, CELL_HEIGHT);
+        self.backgroundColor = [UIColor clearColor];
         [self manuallyLayoutSubview];
     }
     return self;
@@ -55,77 +68,111 @@
 }
 
 -(void)manuallyLayoutSubview{
+    self.retailerImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"img1_tableview"]];
+    self.retailerImage.frame = CGRectMake(0, 0, 320, 90);
+    [self addSubview:self.retailerImage];
     
-    self.backgroundView = [[UIView alloc]initWithFrame:CGRectMake(8, 0, 304, 155)];
-    self.backgroundView.backgroundColor = [UIColor colorWithRed:0.835 green:0.835 blue:0.835 alpha:1];
-    [self addSubview:self.backgroundView];
+    self.imageGradient = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"grd_img_redeem_list"]];
+    self.imageGradient.frame = CGRectMake(0,15,320,75);
+    [self addSubview:self.imageGradient];
+    
+    self.rewardBackground = [[UIView alloc]initWithFrame:CGRectMake(0, 90, 320, 47)];
+    self.rewardBackground.backgroundColor = [UIColor whiteColor];
+    [self addSubview:self.rewardBackground];
+    
+    self.drpShadow = [[UIImageView alloc]initWithFrame:CGRectMake(0, 135, 320, 11)];
+    self.drpShadow.image = [UIImage imageNamed:@"grd_redeem_list_dropshadow"];
+    [self addSubview:self.drpShadow];
     
     
-    self.overlayView = [[UIView alloc]initWithFrame:CGRectMake(8, 0, 304, 155)];
-    self.overlayView.backgroundColor = [UIColor whiteColor];
-    [self addSubview:self.overlayView];
+    self.horizontalSeparator = [[UIImageView alloc]initWithFrame:CGRectMake(0, 88, 320, 2)];
+    self.horizontalSeparator.image = [UIImage imageNamed:@"separator_dots"];
+    [self addSubview:self.horizontalSeparator];
     
-    self.storeImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"logo.png"]];
-    CGRect fr = self.storeImage.frame;
-    fr.origin.x = 16;
-    fr.origin.y = 8;
-    self.storeImage.frame = fr;
-    [self addSubview:self.storeImage];
+    self.verticalSeparator = [[UIImageView alloc]initWithFrame:CGRectMake(159, 90, 2, 47)];
+    self.verticalSeparator.image = [UIImage imageNamed:@"separator_vertical_redeem_list"];
+    [self addSubview:self.verticalSeparator];
     
-    self.store = [[UILabel alloc]initWithFrame:CGRectMake(74, 10, 240, 20)];
-    self.store.font = [UIFont boldSystemFontOfSize:18];
-    self.store.text = @"Kohls";
-    self.store.backgroundColor = [UIColor clearColor];
-    self.store.textColor = [UIColor colorWithRed:0.435 green:0.435 blue:0.435 alpha:1];
-    [self addSubview:self.store];
+    self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(11, 61, 180, 22)];
+    self.retailerName.backgroundColor = [UIColor clearColor];
+    self.retailerName.textColor = [UIColor whiteColor];
+    self.retailerName.font = [UIFont fontWithName:@"HelveticaNeue" size:21];
+    self.retailerName.text = @"Verizon Wireless";
+    [self addSubview:self.retailerName];
     
-    self.map_mark =[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"marker_map"]];
-    fr = self.map_mark.frame;
-    fr.origin.x = 74;
-    fr.origin.y = 32;
-    self.map_mark.frame = fr;
-    [self addSubview:self.map_mark];
+    UIImage* mapIcon = [UIImage imageNamed:@"ic_map"];
+    self.mapIcon = [[UIImageView alloc]initWithImage:mapIcon];
+    self.mapIcon.frame = CGRectMake(202, 67, mapIcon.size.width, mapIcon.size.height);
+    [self addSubview:self.mapIcon];
     
-    self.distance = [[UILabel alloc]initWithFrame:CGRectMake(103, 33, 200, 21)];
-    self.distance.text = @"3.2 miles";
-    self.distance.font = [UIFont systemFontOfSize:12];
+    self.distance = [[UILabel alloc]initWithFrame:CGRectMake(214, 65, 80, 16)];
+    self.distance.font = [UIFont fontWithName:@"HelveticaNeue" size:15];
+    self.distance.text = @"1.7 mi";
+    self.distance.textColor = [UIColor whiteColor];
+    self.distance.textAlignment = NSTextAlignmentLeft;
     self.distance.backgroundColor = [UIColor clearColor];
-    self.distance.textColor = [UIColor colorWithRed:0.435 green:0.435 blue:0.435 alpha:1.0];
     [self addSubview:self.distance];
     
-    self.leftArrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"left_ribbon"]];
-    fr = self.leftArrow.frame;
-    fr.origin.y = 65;
-    fr.origin.x = 1;
-    self.leftArrow.frame = fr;
-    [self addSubview:self.leftArrow];
     
-    self.leftText = [[UILabel alloc]initWithFrame:CGRectMake(12, 72, 183, 21)];
-    self.leftText.font = [UIFont boldSystemFontOfSize:20];
-    self.leftText.textColor = [UIColor whiteColor];
-    self.leftText.text = @"$10 off";
-    self.leftText.backgroundColor = [UIColor clearColor];
-    [self addSubview:self.leftText];
+    self.mapBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.mapBtn.frame = CGRectMake(202, 64, 60, 30);
+    [self.mapBtn addTarget:self action:@selector(onMap:) forControlEvents:UIControlEventTouchUpInside];
+    // self.mapBtn.backgroundColor = [UIColor greenColor];
+    [self addSubview:self.mapBtn];
     
+    self.webBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.webBtn.frame = CGRectMake(264, 57, 26, 30);
+    self.webBtn.contentMode = UIViewContentModeCenter;
+    //self.webBtn.backgroundColor = [UIColor redColor];
+    [self.webBtn setImage:[UIImage imageNamed:@"ic_web"] forState:UIControlStateNormal];
+    [self.webBtn addTarget:self action:@selector(onWeb:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:self.webBtn];
     
-    self.rightArrow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"right_ribbon"]];
-    fr = self.rightArrow.frame;
-    fr.origin.x = 101;
-    fr.origin.y = 105;
-    self.rightArrow.frame = fr;
-    [self addSubview:self.rightArrow];
+    self.callBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.callBtn.frame = CGRectMake(290, 56, 26, 30);
+    self.callBtn.contentMode = UIViewContentModeLeft;
+    //self.callBtn.backgroundColor = [UIColor greenColor];
+    [self.callBtn setImage:[UIImage imageNamed:@"ic_phone"] forState:UIControlStateNormal];
+    [self.callBtn addTarget:self action:@selector(onCall:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:self.callBtn];
     
-    self.rightText = [[UILabel alloc]initWithFrame:CGRectMake(122, 112, 186, 21)];
-    self.rightText.font = [UIFont boldSystemFontOfSize:20];
-    self.rightText.textColor = [UIColor whiteColor];
-    self.rightText.text = @"$10 Credit";
-    self.rightText.textAlignment = NSTextAlignmentRight;
-    self.rightText.backgroundColor = [UIColor clearColor];
-    [self addSubview:self.rightText];
+    self.gift = [[UILabel alloc]initWithFrame:CGRectMake(11, 9, 150, 13)];
+    self.gift.text = NSLocalizedString(@"Received Gift", nil);
+    self.gift.backgroundColor = [UIColor clearColor];
+    self.gift.textColor = UIColorFromRGB(0X3A3A3A);
+    self.gift.font = [UIFont fontWithName:@"HelveticaNeue" size:11];
+    self.gift.textAlignment = NSTextAlignmentLeft;
+    [self.rewardBackground addSubview:self.gift];
+    
+    self.giftValue = [[UILabel alloc]initWithFrame:CGRectMake(11, 21, 150, 18)];
+    self.giftValue.text = [NSString stringWithFormat:NSLocalizedString(@"gift percent", nil),
+                                    [NSNumber numberWithInt:10]];
+    self.giftValue.backgroundColor = [UIColor clearColor];
+    self.giftValue.textColor = UIColorFromRGB(0X767676);
+    self.giftValue.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16];
+    self.giftValue.textAlignment = NSTextAlignmentLeft;
+    [self.rewardBackground addSubview:self.giftValue];
+    
+    self.credit = [[UILabel alloc]initWithFrame:CGRectMake(160, 9, 149, 13)];
+    self.credit.text = NSLocalizedString(@"Earned Credit", nil);
+    self.credit.backgroundColor = [UIColor clearColor];
+    self.credit.textColor = UIColorFromRGB(0X767676);
+    self.credit.font = [UIFont fontWithName:@"HelveticaNeue" size:11];
+    self.credit.textAlignment = NSTextAlignmentRight;
+    [self.rewardBackground addSubview:self.credit];
+    
+    self.creditValue = [[UILabel alloc]initWithFrame:CGRectMake(160, 21, 149, 18)];
+    self.creditValue.text = [NSString stringWithFormat:NSLocalizedString(@"gift percent", nil),
+                           [NSNumber numberWithInt:10]];
+    self.creditValue.backgroundColor = [UIColor clearColor];
+    self.creditValue.textColor = UIColorFromRGB(0X3A3A3A);
+    self.creditValue.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16];
+    self.creditValue.textAlignment = NSTextAlignmentRight;
+    [self.rewardBackground addSubview:self.creditValue];
 }
 
 
--(void)setup{
+-(void)setup:(int)index{
     if( self.rewards.gift){
         [self setupGift];
     }
@@ -133,42 +180,80 @@
     if( self.rewards.credit){
         [self setupKikbak];
     }
+    
+    if(index == 1){
+        self.retailerName.text = @"Fine Arts Optical";
+        [self.creditValue removeFromSuperview];
+        [self.credit removeFromSuperview];
+        [self.verticalSeparator removeFromSuperview];
+    }
+    else if(index == 2){
+        [self.giftValue removeFromSuperview];
+        [self.gift removeFromSuperview];
+        [self.verticalSeparator removeFromSuperview];
+        self.retailerName.text = @"Zen Yoga";
+    }
 }
 
 -(void)setupGift{
-    self.store.text = self.rewards.gift.merchantName;
-    self.leftText.text = self.rewards.gift.desc;
-    self.rightText.text = @"";
-    Location* location = nil;
-    //todo: find closest location
-    if (self.rewards.gift.location.count > 0) {
-        location = [self.rewards.gift.location anyObject];
-    }
-    
-    self.distance.text = [Distance distanceToInMiles:[[CLLocation alloc]initWithLatitude:location.latitude.doubleValue longitude:location.longitude.doubleValue]];
-    
-    NSString* imagePath = [ImagePersistor imageFileExists:self.rewards.gift.merchantId imageType:MERCHANT_IMAGE_TYPE];
-    if(imagePath != nil){
-        self.storeImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
-    }
+//    self.store.text = self.rewards.gift.merchantName;
+//    self.leftText.text = self.rewards.gift.desc;
+//    self.rightText.text = @"";
+//    Location* location = nil;
+//    //todo: find closest location
+//    if (self.rewards.gift.location.count > 0) {
+//        location = [self.rewards.gift.location anyObject];
+//    }
+//    
+//    self.distance.text = [Distance distanceToInMiles:[[CLLocation alloc]initWithLatitude:location.latitude.doubleValue longitude:location.longitude.doubleValue]];
+//    
+//    NSString* imagePath = [ImagePersistor imageFileExists:self.rewards.gift.merchantId imageType:MERCHANT_IMAGE_TYPE];
+//    if(imagePath != nil){
+//        self.storeImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
+//    }
 }
 
 -(void)setupKikbak{
-    self.store.text = self.rewards.credit.merchantName;
-    self.leftText.text = self.rewards.credit.desc;
-    self.rightText.text = @"";
-    Location* location = nil;
-    //todo: find closest location
-    if (self.rewards.credit.location.count > 0) {
-        location = [self.rewards.credit.location anyObject];
-    }
-    
-    self.distance.text = [Distance distanceToInMiles:[[CLLocation alloc]initWithLatitude:location.latitude.doubleValue longitude:location.longitude.doubleValue]];
-    
-    NSString* imagePath = [ImagePersistor imageFileExists:self.rewards.credit.merchantId imageType:MERCHANT_IMAGE_TYPE];
-    if(imagePath != nil){
-        self.storeImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
-    }
+//    self.store.text = self.rewards.credit.merchantName;
+//    self.leftText.text = self.rewards.credit.desc;
+//    self.rightText.text = @"";
+//    Location* location = nil;
+//    //todo: find closest location
+//    if (self.rewards.credit.location.count > 0) {
+//        location = [self.rewards.credit.location anyObject];
+//    }
+//    
+//    self.distance.text = [Distance distanceToInMiles:[[CLLocation alloc]initWithLatitude:location.latitude.doubleValue longitude:location.longitude.doubleValue]];
+//    
+//    NSString* imagePath = [ImagePersistor imageFileExists:self.rewards.credit.merchantId imageType:MERCHANT_IMAGE_TYPE];
+//    if(imagePath != nil){
+//        self.storeImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
+//    }
 }
+
+#pragma mark - button actions
+-(IBAction)onMap:(id)sender{
+//    NSString *stringURL = [NSString stringWithFormat:@"http://maps.apple.com/maps?q=%@,%@",
+//                           self.location.latitude, self.location.longitude];
+//    NSURL *url = [NSURL URLWithString:stringURL];
+//    [[UIApplication sharedApplication] openURL:url];
+}
+
+-(IBAction)onCall:(id)sender{
+//    NSURL* url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"tel:%@",self.location.phoneNumber]];
+//    if(![[UIApplication sharedApplication] canOpenURL:url]){
+//        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:@"You need to be on an iPhone to make a call" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+//        [alert show];
+//    }
+//    else{
+//        [[UIApplication sharedApplication]openURL:url];
+//    }
+}
+
+
+-(IBAction)onWeb:(id)sender{
+//    [[UIApplication sharedApplication]openURL:[[NSURL alloc]initWithString:self.offer.merchantUrl]];
+}
+
 
 @end

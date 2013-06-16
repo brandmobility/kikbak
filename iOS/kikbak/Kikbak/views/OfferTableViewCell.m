@@ -189,6 +189,7 @@
     }
 }
 
+#pragma mark - button actions
 -(IBAction)onMap:(id)sender{
     NSString *stringURL = [NSString stringWithFormat:@"http://maps.apple.com/maps?q=%@,%@",
                            self.location.latitude, self.location.longitude];

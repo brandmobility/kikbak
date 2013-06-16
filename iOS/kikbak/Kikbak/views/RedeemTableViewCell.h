@@ -14,6 +14,6 @@
 
 @property(strong, nonatomic)RewardCollection* rewards;
 
--(void)setup;
+-(void)setup:(int)index;
 
 @end
