@@ -28,33 +28,35 @@
     if( gift == nil){
         gift = [NSEntityDescription insertNewObjectForEntityForName:@"Gift" inManagedObjectContext:context];
         gift.giftId = [dict objectForKey:@"id"];
-    
+    }
         
-        id merchant = [dict objectForKey:@"merchant"];
-        if( merchant != [NSNull null]){
-            gift.merchantId = [merchant objectForKey:@"id"];
-            gift.merchantName = [merchant objectForKey:@"name"];
-            gift.merchantUrl = [merchant objectForKey:@"merchantUrl"];
-            
-            NSArray* locations = [merchant objectForKey:@"locations"];
-            for(id giftLocation in locations){
-                Location* loc = [[[LocationParser alloc]init] parse:giftLocation withContext:gift.managedObjectContext];
-                [gift addLocationObject:loc];
-            }
-        }
-        gift.desc = [dict objectForKey:@"description"];
-        gift.name = [dict objectForKey:@"name"];
-        gift.friendUserId = [dict objectForKey:@"friendUserId"];
-        gift.fbFriendId = [dict objectForKey:@"fbFriendId"];
-        gift.fbImageId = [dict objectForKey:@"fbImageId"];
-        gift.friendName = [dict objectForKey:@"friendName"];
-        gift.caption = [dict objectForKey:@"caption"];
+    id merchant = [dict objectForKey:@"merchant"];
+    if( merchant != [NSNull null]){
+        gift.merchantId = [merchant objectForKey:@"id"];
+        gift.merchantName = [merchant objectForKey:@"name"];
+        gift.merchantUrl = [merchant objectForKey:@"merchantUrl"];
         
-        NSError *error = nil;
-        if (![context save:&error]) {
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        NSArray* locations = [merchant objectForKey:@"locations"];
+        for(id giftLocation in locations){
+            Location* loc = [[[LocationParser alloc]init] parse:giftLocation withContext:gift.managedObjectContext];
+            [gift addLocationObject:loc];
         }
     }
+    gift.desc = [dict objectForKey:@"description"];
+    gift.name = [dict objectForKey:@"name"];
+    gift.friendUserId = [dict objectForKey:@"friendUserId"];
+    gift.fbFriendId = [dict objectForKey:@"fbFriendId"];
+    gift.fbImageId = [dict objectForKey:@"fbImageId"];
+    gift.friendName = [dict objectForKey:@"friendName"];
+    gift.caption = [dict objectForKey:@"caption"];
+    gift.type = [dict objectForKey:@"type"];
+    gift.value = [dict objectForKey:@"value"];
+    
+    NSError *error = nil;
+    if (![context save:&error]) {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+    }
+
     
     if( self.gifts == nil){
         self.gifts = [[NSMutableDictionary alloc]initWithCapacity:1];

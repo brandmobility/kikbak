@@ -28,49 +28,47 @@
     if( offer == nil){
         offer = [NSEntityDescription insertNewObjectForEntityForName:@"Offer" inManagedObjectContext:context];
         offer.offerId = [dict objectForKey:@"id"];
-        
-        offer.name = [dict objectForKey:@"name"];
-        offer.desc = [dict objectForKey:@"description"];
-        offer.defaultText = [dict objectForKey:@"defaultText"];
-        offer.giftDescription = [dict objectForKey:@"giftDesc"];
-        offer.giftDescriptionOptional = [dict objectForKey:@"giftDescOptional"];
-        offer.giftValue = [dict objectForKey:@"giftValue"];
-        offer.giftType = [dict objectForKey:@"giftType"];
-        offer.kikbakDescription = [dict objectForKey:@"kikbakDesc"];
-        offer.kikbakDescriptionOptional = [dict objectForKey:@"kikbakDescOptional"];
-        offer.kikbakValue = [dict objectForKey:@"kikbakValue"];
-        offer.merchantImageUrl = [dict objectForKey:@"merchantImageUrl"];
-        offer.merchantId = [dict objectForKey:@"merchantId"];
-        offer.merchantName = [dict objectForKey:@"merchantName"];
-        offer.merchantUrl = [dict objectForKey:@"merchantUrl"];
-        offer.termsOfService = [dict objectForKey:@"termsOfService"];
-        offer.imageUrl = [dict objectForKey:@"imageUrl"];
-        long date = [dict objectForKey:@"beginDate"];
-        NSTimeInterval timeSince70 = date;
-        offer.beginDate = [NSDate dateWithTimeIntervalSince1970:timeSince70];
-        date = [dict objectForKey:@"endDate"];
-        timeSince70 = date;
-        offer.endDate = [NSDate dateWithTimeIntervalSince1970:timeSince70];
-        
-        NSArray* locations = [dict objectForKey:@"locations"];
-        for(id offerLocation in locations){
-            Location* loc = [[[LocationParser alloc]init] parse:offerLocation withContext:offer.managedObjectContext];
-            [offer addLocationObject:loc];
-        }
-        
-        NSError *error = nil;
-        if (![context save:&error]) {
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        }
+    }
+    offer.name = [dict objectForKey:@"name"];
+    offer.desc = [dict objectForKey:@"description"];
+    offer.defaultText = [dict objectForKey:@"defaultText"];
+    offer.giftDescription = [dict objectForKey:@"giftDesc"];
+    offer.giftDescriptionOptional = [dict objectForKey:@"giftDescOptional"];
+    offer.giftValue = [dict objectForKey:@"giftValue"];
+    offer.giftType = [dict objectForKey:@"giftType"];
+    offer.kikbakDescription = [dict objectForKey:@"kikbakDesc"];
+    offer.kikbakDescriptionOptional = [dict objectForKey:@"kikbakDescOptional"];
+    offer.kikbakValue = [dict objectForKey:@"kikbakValue"];
+    offer.merchantImageUrl = [dict objectForKey:@"merchantImageUrl"];
+    offer.merchantId = [dict objectForKey:@"merchantId"];
+    offer.merchantName = [dict objectForKey:@"merchantName"];
+    offer.merchantUrl = [dict objectForKey:@"merchantUrl"];
+    offer.termsOfService = [dict objectForKey:@"termsOfService"];
+    offer.imageUrl = [dict objectForKey:@"imageUrl"];
+    long date = [dict objectForKey:@"beginDate"];
+    NSTimeInterval timeSince70 = date;
+    offer.beginDate = [NSDate dateWithTimeIntervalSince1970:timeSince70];
+    date = [dict objectForKey:@"endDate"];
+    timeSince70 = date;
+    offer.endDate = [NSDate dateWithTimeIntervalSince1970:timeSince70];
+    
+    NSArray* locations = [dict objectForKey:@"locations"];
+    for(id offerLocation in locations){
+        Location* loc = [[[LocationParser alloc]init] parse:offerLocation withContext:offer.managedObjectContext];
+        [offer addLocationObject:loc];
+    }
+    
+    NSError *error = nil;
+    if (![context save:&error]) {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+    }
 
-        if(![ImagePersistor imageFileExists:offer.merchantId imageType:MERCHANT_IMAGE_TYPE]) {
-            ImageRequest* request = [[ImageRequest alloc]init];
-            request.url = offer.merchantImageUrl;
-            request.fileId = offer.merchantId;
-            request.type = MERCHANT_IMAGE_TYPE;
-            [request requestImage];
-
-        }
+    if(![ImagePersistor imageFileExists:offer.merchantId imageType:MERCHANT_IMAGE_TYPE]) {
+        ImageRequest* request = [[ImageRequest alloc]init];
+        request.url = offer.merchantImageUrl;
+        request.fileId = offer.merchantId;
+        request.type = MERCHANT_IMAGE_TYPE;
+        [request requestImage];
     }
     
     if(self.offers == nil){

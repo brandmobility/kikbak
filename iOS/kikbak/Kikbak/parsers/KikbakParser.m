@@ -27,30 +27,32 @@
     if( kikbak == nil){
         kikbak = [NSEntityDescription insertNewObjectForEntityForName:@"Kikbak" inManagedObjectContext:context];
         kikbak.kikbakId = [dict objectForKey:@"id"];
-    
-        id merchant = [dict objectForKey:@"merchant"];
-        if( merchant != [NSNull null]){
-            kikbak.merchantId = [merchant objectForKey:@"id"];
-            kikbak.merchantName = [merchant objectForKey:@"name"];
-            kikbak.merchantUrl = [merchant objectForKey:@"merchantUrl"];
-            
-            NSArray* locations = [merchant objectForKey:@"locations"];
-            for(id kikbakLocation in locations){
-                Location* loc = [[[LocationParser alloc]init] parse:kikbakLocation withContext:kikbak.managedObjectContext];
-                [kikbak addLocationObject:loc];
-            }
-        }
-        kikbak.desc = [dict objectForKey:@"description"];
-        kikbak.name = [dict objectForKey:@"name"];
-        kikbak.value = [dict objectForKey:@"value"];
-        
-        
-        NSError *error = nil;
-        if (![context save:&error]) {
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        }
     }
     
+    
+    id merchant = [dict objectForKey:@"merchant"];
+    if( merchant != [NSNull null]){
+        kikbak.merchantId = [merchant objectForKey:@"id"];
+        kikbak.merchantName = [merchant objectForKey:@"name"];
+        kikbak.merchantUrl = [merchant objectForKey:@"merchantUrl"];
+        
+        NSArray* locations = [merchant objectForKey:@"locations"];
+        for(id kikbakLocation in locations){
+            Location* loc = [[[LocationParser alloc]init] parse:kikbakLocation withContext:kikbak.managedObjectContext];
+            [kikbak addLocationObject:loc];
+        }
+    }
+    kikbak.desc = [dict objectForKey:@"description"];
+    kikbak.name = [dict objectForKey:@"name"];
+    kikbak.value = [dict objectForKey:@"value"];
+    
+    
+    NSError *error = nil;
+    if (![context save:&error]) {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+    }
+
+
     if(self.kikbaks == nil){
         self.kikbaks = [[NSMutableDictionary alloc]initWithCapacity:1];
     }

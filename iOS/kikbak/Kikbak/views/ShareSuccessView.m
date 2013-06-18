@@ -84,7 +84,7 @@
     
     self.okBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.okBtn.frame = CGRectMake(14,frame.size.height - 52, frame.size.width - 28, 40);
-    [self.okBtn setBackgroundImage:[UIImage imageNamed:@"btn_give"] forState:UIControlStateNormal];
+    [self.okBtn setBackgroundImage:[UIImage imageNamed:@"btn_blue"] forState:UIControlStateNormal];
     [self.okBtn setTitle:NSLocalizedString(@"Ok", nil) forState:UIControlStateNormal];
     self.okBtn.titleLabel.textColor = [UIColor whiteColor];
     [self.backgroundView addSubview:self.okBtn];

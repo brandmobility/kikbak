@@ -13,7 +13,9 @@
 @interface RedeemTableViewCell : UITableViewCell
 
 @property(strong, nonatomic)RewardCollection* rewards;
+@property (nonatomic,strong) UILabel* giftValue;
+@property (nonatomic,strong) UILabel* creditValue;
 
--(void)setup:(int)index;
+-(void)setup;//:(int)index;
 
 @end

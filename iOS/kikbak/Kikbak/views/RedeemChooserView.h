@@ -16,6 +16,9 @@
 @property (nonatomic,strong) id<RedeemTypeProtocol> delegate;
 @property (nonatomic,strong) RewardCollection* collection;
 
+@property (nonatomic,strong) NSString* credit;
+@property (nonatomic,strong) NSString* gift;
+
 -(void)manuallyLayoutSubviews;
 
 @end

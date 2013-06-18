@@ -77,7 +77,6 @@ const int CELL_HEIGHT = 156;
     UIImage *suggestImage = [UIImage imageNamed:@"btn_suggest"];
     UIButton *suggestButton = [UIButton buttonWithType:UIButtonTypeCustom];
     suggestButton.frame = CGRectMake(0, 0, suggestImage.size.width, suggestImage.size.height);
-    
     [suggestButton setBackgroundImage:suggestImage forState:UIControlStateNormal];
     [suggestButton setBackgroundImage:suggestImage forState:UIControlStateHighlighted];
     [suggestButton setTitle:NSLocalizedString(@"Suggest",nil) forState:UIControlStateNormal];
@@ -121,6 +120,7 @@ const int CELL_HEIGHT = 156;
     [self.redeemBtn setBackgroundImage:[UIImage imageNamed:@"btn_highlighted"] forState:UIControlStateDisabled];
     [self.redeemBtn setBackgroundImage:[UIImage imageNamed:@"btn_normal"] forState:UIControlStateNormal];
     [self.redeemBtn addTarget:self action:@selector(onRedeemBtn:) forControlEvents:UIControlEventTouchUpInside];
+    self.redeemBtn.enabled = YES;
     [self.tabBarController.view addSubview:self.redeemBtn];
 }
 
@@ -182,7 +182,7 @@ const int CELL_HEIGHT = 156;
     }
     
     cell.offer = [self.offers objectAtIndex:indexPath.row];
-    [cell setup];
+    [cell setup ];//]:indexPath.row];
     
     return cell;
 }
@@ -233,14 +233,10 @@ const int CELL_HEIGHT = 156;
 
 -(IBAction)onGiveBtn:(id)sender{
     self.tabBarController.selectedIndex = 0;
-    self.redeemBtn.enabled = YES;
-    self.giveBtn.enabled = NO;
 }
 
 -(IBAction)onRedeemBtn:(id)sender{
     self.tabBarController.selectedIndex = 1;
-    self.redeemBtn.enabled = NO;
-    self.giveBtn.enabled = YES;
 }
 
 @end

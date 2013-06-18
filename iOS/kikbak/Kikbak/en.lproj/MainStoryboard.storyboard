@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12D78" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12E55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="2">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
@@ -207,10 +207,6 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="pIj-BH-DNL"/>
-                    <connections>
-                        <segue destination="rf3-yr-rgm" kind="push" identifier="RedeemGiftSegue" id="EbD-Gw-e4v"/>
-                        <segue destination="elB-9R-vZH" kind="push" identifier="RedeemCreditSegue" id="NuC-99-7SK"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kel-2r-eHa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -286,37 +282,6 @@
             </objects>
             <point key="canvasLocation" x="365" y="549"/>
         </scene>
-        <!--Redeem Gift View Controller-->
-        <scene sceneID="H7H-25-WyP">
-            <objects>
-                <viewController storyboardIdentifier="RedeemGiftViewController" id="rf3-yr-rgm" customClass="RedeemGiftViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="center" id="U9c-3I-Kb3">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="OvE-Yz-Ykw"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="blackOpaque" prompted="NO"/>
-                    <nil key="simulatedBottomBarMetrics"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="CEG-qV-cNm" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="34" y="1157"/>
-        </scene>
-        <!--Redeem Credit View Controller-->
-        <scene sceneID="Ua2-8u-KCL">
-            <objects>
-                <viewController id="elB-9R-vZH" customClass="RedeemCreditViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="dwO-ZL-jkP">
-                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="0ru-xy-sYg" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-97" y="1744"/>
-        </scene>
     </scenes>
     <resources>
         <image name="Default.png" width="320" height="480"/>
@@ -338,15 +303,6 @@
         </class>
         <class className="OfferListViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OfferListViewController.h"/>
-        </class>
-        <class className="RedeemCreditViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RedeemCreditViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="onChangeAmount:"/>
-            </relationships>
-        </class>
-        <class className="RedeemGiftViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RedeemGiftViewController.h"/>
         </class>
         <class className="RedeemListViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/RedeemListViewController.h"/>

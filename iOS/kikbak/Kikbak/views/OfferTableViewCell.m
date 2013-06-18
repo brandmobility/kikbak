@@ -49,6 +49,7 @@
         // Initialization code
         self.frame = CGRectMake(0, 0, 320, 156);
         self.backgroundColor = [UIColor clearColor];
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self manuallyLayoutSubview];
     }
     return self;
@@ -67,7 +68,7 @@
     self.topGradient.frame = CGRectMake(0, 0, 320, 16);
     [self addSubview:self.topGradient];
     
-    self.retailerImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"img1_tableview"]];
+    self.retailerImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"img1_offer"]];
     self.retailerImage.frame = CGRectMake(0, 16, 320, 140);
     [self addSubview:self.retailerImage];
 
@@ -164,7 +165,8 @@
 }
 
 
--(void)setup{    
+-(void)setup//:(int)index
+{
     self.retailerName.text = self.offer.merchantName;
     if ([self.offer.giftType compare:@"percentage"] == NSOrderedSame) {
         self.giveDiscount.text = [NSString stringWithFormat:NSLocalizedString(@"precentage format", nil), self.offer.giftValue];

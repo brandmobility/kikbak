@@ -40,11 +40,15 @@
 "Terms and Conditions" = "Terms and Conditions";
 "Learn More" = "Learn more...";
 "Let us know" = "Let us know";
-"redeem choice" = "Please select the offer you want to redeem now.";
 "recommend business" = "Want to recommend a business with a special offer? Tell us and we'll let them know they should join Kikbak.";
 
 "Received Gift" = "RECEIVED GIFT";
 "Earned Credit" = "EARNED CREDIT";
-"gift percent" = "%@%% OFF";
-"gift amount" = "$%@ OFF";
-"credit" = "$%A Credit";
+"gift percent" = "%d%% OFF";
+"gift amount" = "$%d OFF";
+"credit" = "$%@ Credit";
+
+//redeem chooser
+"Select One" = "Please select one";
+"To Redeem" = "to redeem";
+"Or" = "OR";

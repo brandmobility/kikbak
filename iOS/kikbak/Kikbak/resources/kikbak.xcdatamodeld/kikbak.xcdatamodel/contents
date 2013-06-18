@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="12D78" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="12E55" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Gift" representedClassName="Gift" syncable="YES">
         <attribute name="caption" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
@@ -12,10 +12,13 @@
         <attribute name="merchantName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="merchantUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="value" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <relationship name="location" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Location" inverseName="gift" inverseEntity="Location" syncable="YES"/>
     </entity>
     <entity name="Kikbak" representedClassName="Kikbak" syncable="YES">
         <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="imageUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="kikbakId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="merchantId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="merchantName" optional="YES" attributeType="String" syncable="YES"/>
@@ -56,8 +59,8 @@
         <relationship name="location" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Location" inverseName="offer" inverseEntity="Location" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Gift" positionX="-5807" positionY="-495" width="128" height="225"/>
-        <element name="Kikbak" positionX="160" positionY="192" width="128" height="165"/>
+        <element name="Gift" positionX="-5807" positionY="-495" width="128" height="255"/>
+        <element name="Kikbak" positionX="160" positionY="192" width="128" height="180"/>
         <element name="Location" positionX="-5544" positionY="-567" width="128" height="150"/>
         <element name="Offer" positionX="-5247" positionY="-585" width="128" height="345"/>
     </elements>

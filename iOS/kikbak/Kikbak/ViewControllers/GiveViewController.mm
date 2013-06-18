@@ -38,7 +38,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 @property(nonatomic, strong)SpinnerView* spinnerView;
 
 @property(nonatomic, strong) UIImageView* giveImage;
-@property(nonatomic, strong) UIView* imageOverlay;
+@property(nonatomic, strong) UIImageView* imageOverlay;
 @property(nonatomic, strong) UILabel* takePhoto;
 @property(nonatomic, strong) UIButton* takePictureBtn;
 
@@ -167,7 +167,9 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 -(void)manuallyLayoutSubviews{
     if(![UIDevice hasFourInchDisplay]){
         self.giveImage.frame = CGRectMake(0, 0, 320, 218);
-       // self.imageOverlay.frame = CGRectMake(0, 60, 320, 215);
+        self.giveImage.image = [UIImage imageNamed:@"vz"];
+        self.imageOverlay.frame = CGRectMake(0, 0, 320, 218);
+        self.imageOverlay.image = [UIImage imageNamed:@"grd_give_default_photo_gradient"];
         [self.takePhoto removeFromSuperview];
         self.takePictureBtn.frame = CGRectMake(112, 20, 95, 95);
         self.retailerName.frame = CGRectMake(14, 120, 316, 26);
@@ -200,9 +202,9 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     self.giveImage.image = [UIImage imageNamed:@"img"];
     [self.view addSubview:self.giveImage];
     
-//    self.imageOverlay = [[UIView alloc]initWithFrame:CGRectMake(0, 65, 320, 219)];
+    self.imageOverlay = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 292)];
 //    self.imageOverlay.backgroundColor = UIColorFromRGBWithOpacity(0xFFFFFF, .5);
-//    [self.view addSubview:self.imageOverlay];
+    [self.view addSubview:self.imageOverlay];
     
     self.takePhoto = [[UILabel alloc]initWithFrame:CGRectMake(0, 44, 320, 16)];
     self.takePhoto.text = NSLocalizedString(@"Take a photo", nil);
@@ -313,7 +315,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     self.giftDescriptionOptional = [[UILabel alloc]initWithFrame:CGRectMake(0, 338, 320, 15)];
     self.giftDescriptionOptional.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
     self.giftDescriptionOptional.text = self.offer.giftDescriptionOptional;
-    self.giftDescriptionOptional.textColor = UIColorFromRGB(0x3a3a3a);
+    self.giftDescriptionOptional.textColor = UIColorFromRGB(0x898989);
     self.giftDescriptionOptional.textAlignment = NSTextAlignmentCenter;
     self.giftDescriptionOptional.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.giftDescriptionOptional];
@@ -334,7 +336,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     self.rewardDescriptionOptional = [[UILabel alloc]initWithFrame:CGRectMake(0, 401, 320, 15)];
     self.rewardDescriptionOptional.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
     self.rewardDescriptionOptional.text = self.offer.kikbakDescriptionOptional;
-    self.rewardDescriptionOptional.textColor = UIColorFromRGB(0x3a3a3a);
+    self.rewardDescriptionOptional.textColor = UIColorFromRGB(0x898989);
     self.rewardDescriptionOptional.textAlignment = NSTextAlignmentCenter;
     self.rewardDescriptionOptional.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.rewardDescriptionOptional];
@@ -397,23 +399,23 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 
 -(IBAction)onGiveGift:(id)sender{
     
-    if(!photoTaken){
-        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:nil message:@"Gifts should come\n with there own photo" delegate:self cancelButtonTitle:@"Next Time" otherButtonTitles: @"Take Photo", nil];
-        alert.tag = PHOTO_TAG;
-        [alert show];
-        return;
-    }
-    
-    if(!captionAdded){
-        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:nil
-                                                       message:@"Do you want to tell your\n friend abour your photo?"
-                                                      delegate:self
-                                             cancelButtonTitle:@"No"
-                                             otherButtonTitles: @"Yes", nil];
-        alert.tag = CAPTION_TAG;
-        [alert show];
-        return;
-    }
+//    if(!photoTaken){
+//        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:nil message:@"Gifts should come\n with there own photo" delegate:self cancelButtonTitle:@"Next Time" otherButtonTitles: @"Take Photo", nil];
+//        alert.tag = PHOTO_TAG;
+//        [alert show];
+//        return;
+//    }
+//    
+//    if(!captionAdded){
+//        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:nil
+//                                                       message:@"Do you want to tell your\n friend abour your photo?"
+//                                                      delegate:self
+//                                             cancelButtonTitle:@"No"
+//                                             otherButtonTitles: @"Yes", nil];
+//        alert.tag = CAPTION_TAG;
+//        [alert show];
+//        return;
+//    }
     
 
     [self postToFacebook];
@@ -532,10 +534,10 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     
     FBRequest* request = [FBRequest requestForUploadPhoto:[self.giveImage.image imageByScalingAndCroppingForSize:CGSizeMake(300, 300)]];
     if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
-        [request.parameters setObject:[NSString stringWithFormat:@"%@.\n\n To get gift install kikbak, http://en.wikipedia.org/wiki/Cyan", self.captionTextView.text] forKey:@"name"];
+        [request.parameters setObject:[NSString stringWithFormat:@"%@.\n\nVisit getkikbak.com for an exclusive offer shared by your friend", self.captionTextView.text] forKey:@"name"];
     }
     else{
-        [request.parameters setObject:@"To get gift install kikbak, @[http://en.wikipedia.org/wiki/Cyan | test]" forKey:@"name"];
+        [request.parameters setObject:@"Visit getkikbak.com for an exclusive offer shared by your friend" forKey:@"name"];
     }
     
     [connection addRequest:request completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {

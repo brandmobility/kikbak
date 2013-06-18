@@ -19,6 +19,8 @@
 #import "NotificationContstants.h"
 #import "RedeemChooserView.h"
 #import "RedeemCreditViewController.h"
+#import "SuggestViewController.h"
+
 
 const int CELL_HEIGHT = 156;
 
@@ -35,6 +37,8 @@ const int CELL_HEIGHT = 156;
 
 -(void) manuallyLayoutSubviews;
 -(void) createRewardCollection;
+
+-(IBAction)onSuggest:(id)sender;
 
 @end
 
@@ -61,14 +65,14 @@ const int CELL_HEIGHT = 156;
     [self.view addSubview:self.table];
     
     UINavigationBar* bar = self.navigationController.navigationBar;
-    [bar setBackgroundImage:[UIImage imageNamed:@"titlebar_gradient"] forBarMetrics:UIBarMetricsDefault];
+    [bar setBackgroundImage:[UIImage imageNamed:@"grd_navigationbar"] forBarMetrics:UIBarMetricsDefault];
     
     if(((AppDelegate*)[UIApplication sharedApplication].delegate).locationMgr.currentLocation != nil)
         locationResolved = YES;
     else{
         locationResolved = NO;
     }
-    
+        
     UITabBar* tabBar = self.tabBarController.tabBar;
     tabBar.backgroundColor = [UIColor clearColor];
     CGRect tabBarFR = tabBar.frame;
@@ -164,17 +168,17 @@ const int CELL_HEIGHT = 156;
     }
     
     cell.selectionStyle = UITableViewCellSelectionStyleGray;
-//    cell.rewards = [self.rewards objectAtIndex:indexPath.row];
-    [cell setup:indexPath.row];
+    cell.rewards = [self.rewards objectAtIndex:indexPath.row];
+    [cell setup ];//:indexPath.row];
     return cell;
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-//    if (locationResolved) {
-//        return [self.rewards count];
-//    }
-    return 3;
+    if (locationResolved) {
+        return [self.rewards count];
+    }
+    return 0;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -184,23 +188,30 @@ const int CELL_HEIGHT = 156;
 #pragma mark - segue
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
-//    RewardCollection* collection = [self.rewards objectAtIndex:indexPath.row];
-//    if (collection.gift != nil && collection.credit != nil) {
-//        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-//        CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
-//        RedeemChooserView* chooser = [[RedeemChooserView alloc]initWithFrame:frame];
-//        [chooser manuallyLayoutSubviews];
-//        chooser.delegate = self;
-//        [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:chooser];
-//    }
-//    else if(collection.gift != nil){
-//        RewardCollection* collection = [self.rewards objectAtIndex:indexPath.row ];
-//        [self performSegueWithIdentifier:@"RedeemGiftSegue" sender:collection.gift];
-//    }
-//    else if(collection.credit != nil){
-//        RewardCollection* collection = [self.rewards objectAtIndex:indexPath.row ];
-//        [self performSegueWithIdentifier:@"RedeemCreditSegue" sender:collection.credit];
-//    }
+    RewardCollection* collection = [self.rewards objectAtIndex:indexPath.row];
+    if (collection.gift != nil && collection.credit != nil) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        RedeemTableViewCell* redeemCell = (RedeemTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
+        CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+        RedeemChooserView* chooser = [[RedeemChooserView alloc]initWithFrame:frame];
+        chooser.credit = redeemCell.creditValue.text;
+        chooser.gift = redeemCell.giftValue.text;
+        [chooser manuallyLayoutSubviews];
+        chooser.delegate = self;
+        [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:chooser];
+    }
+    else if(collection.gift != nil){
+        RedeemGiftViewController* vc = [[RedeemGiftViewController alloc]init];
+        vc.hidesBottomBarWhenPushed = true;
+        vc.gift = collection.gift;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    else if(collection.credit != nil){
+        RedeemCreditViewController* vc = [[RedeemCreditViewController alloc]init];
+        vc.hidesBottomBarWhenPushed = true;
+        vc.credit = collection.credit;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 
 }
 
@@ -258,24 +269,35 @@ const int CELL_HEIGHT = 156;
     }
 }
 
+#pragma mark - btn actions
+
 -(void)onRedeemCredit:(Kikbak*)credit{
-    [self performSegueWithIdentifier:@"RedeemCreditSegue" sender:credit];
+    RedeemCreditViewController* vc = [[RedeemCreditViewController alloc]init];
+    vc.credit = credit;
+    vc.hidesBottomBarWhenPushed = true;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 -(void)onRedeemGift:(Gift*)gift{
-    [self performSegueWithIdentifier:@"RedeemGiftSegue" sender:gift];
+    RedeemGiftViewController* vc = [[RedeemGiftViewController alloc]init];
+    vc.gift = gift;
+    vc.hidesBottomBarWhenPushed = true;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 -(IBAction)onGiveBtn:(id)sender{
     self.tabBarController.selectedIndex = 0;
-    self.redeemBtn.enabled = NO;
-    self.giveBtn.enabled = YES;
 }
 
 -(IBAction)onRedeemBtn:(id)sender{
     self.tabBarController.selectedIndex = 1;
-    self.redeemBtn.enabled = YES;
-    self.giveBtn.enabled = NO;
+
+}
+
+-(IBAction)onSuggest:(id)sender{
+    SuggestViewController* svc = [[SuggestViewController alloc]init];
+    [svc setHidesBottomBarWhenPushed:YES];
+    [self.navigationController pushViewController:svc animated:YES];
 }
 
 @end

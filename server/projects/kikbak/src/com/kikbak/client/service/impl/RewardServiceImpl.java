@@ -141,6 +141,7 @@ public class RewardServiceImpl implements RewardService{
 			kt.setValue(offer.getKikbakValue());
 			kt.setName(offer.getKikbakName());
 			
+			
 			kts.add(kt);
 		}
 		
@@ -245,7 +246,8 @@ public class RewardServiceImpl implements RewardService{
 		cmt.setId(merchant.getId());
 		cmt.setName(merchant.getName());
 		cmt.setUrl(merchant.getUrl());
-
+		cmt.setImageUrl(merchant.getImageUrl());
+		
 		Collection<Location> locations = roLocationDao.listByMerchant(merchant.getId());
 		for(Location location: locations){
 			ClientLocationType clt = new ClientLocationType();
