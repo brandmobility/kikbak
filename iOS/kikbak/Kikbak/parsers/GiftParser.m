@@ -42,7 +42,8 @@
             [gift addLocationObject:loc];
         }
     }
-    gift.desc = [dict objectForKey:@"description"];
+    gift.desc = [dict objectForKey:@"desc"];
+    gift.descOptional = [dict objectForKey:@"descOptional"];
     gift.name = [dict objectForKey:@"name"];
     gift.friendUserId = [dict objectForKey:@"friendUserId"];
     gift.fbFriendId = [dict objectForKey:@"fbFriendId"];

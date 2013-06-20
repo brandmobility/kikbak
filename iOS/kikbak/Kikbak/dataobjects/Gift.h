@@ -2,7 +2,7 @@
 //  Gift.h
 //  Kikbak
 //
-//  Created by Ian Barile on 6/17/13.
+//  Created by Ian Barile on 6/18/13.
 //  Copyright (c) 2013 Ian Barile. All rights reserved.
 //
 
@@ -26,6 +26,7 @@
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * type;
 @property (nonatomic, retain) NSNumber * value;
+@property (nonatomic, retain) NSString * descOptional;
 @property (nonatomic, retain) NSSet *location;
 @end
 

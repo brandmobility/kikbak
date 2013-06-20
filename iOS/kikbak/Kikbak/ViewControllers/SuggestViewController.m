@@ -110,7 +110,7 @@
 
 -(void)createSubviews{
     self.scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, 320, self.view.frame.size.height)];
-    self.scrollView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_offer"]];
+    self.scrollView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_offwhite_eggshell"]];
     [self.view addSubview:self.scrollView];
     
     self.photoImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 249)];

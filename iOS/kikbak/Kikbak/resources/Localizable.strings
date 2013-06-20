@@ -34,6 +34,7 @@
 "configure mail" = "Please configure phone to send email";
 
 "miles away" = "%@ mi";
+"Your Here" = "Your here";
 "call" = "call";
 "web" = "web";
 "add comment" = "Add Comment...";
@@ -52,3 +53,6 @@
 "Select One" = "Please select one";
 "To Redeem" = "to redeem";
 "Or" = "OR";
+
+//redeem gift
+"Redeem QR Code" = "Scan QR to Redeem";

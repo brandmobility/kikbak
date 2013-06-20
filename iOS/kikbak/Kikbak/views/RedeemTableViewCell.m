@@ -214,8 +214,11 @@ const int CELL_HEIGHT = 147;
         self.location = [self.rewards.gift.location anyObject];
     }
     
-    self.distance.text = [Distance distanceToInMiles:[[CLLocation alloc]initWithLatitude:self.location.latitude.doubleValue
-                                                                               longitude:self.location.longitude.doubleValue]];
+    self.distance.text = [NSString stringWithFormat:NSLocalizedString(@"miles away", nil),
+                                    [Distance distanceToInMiles:
+                                    [[CLLocation alloc]initWithLatitude:
+                                        self.location.latitude.doubleValue
+                                        longitude:self.location.longitude.doubleValue]] ];
     
     NSString* imagePath = [ImagePersistor imageFileExists:self.rewards.gift.merchantId imageType:MERCHANT_IMAGE_TYPE];
     if(imagePath != nil){
@@ -233,8 +236,11 @@ const int CELL_HEIGHT = 147;
         self.location = [self.rewards.credit.location anyObject];
     }
     
-    self.distance.text = [Distance distanceToInMiles:[[CLLocation alloc]initWithLatitude:self.location.latitude.doubleValue
-                                                                               longitude:self.location.longitude.doubleValue]];
+    self.distance.text = [NSString stringWithFormat:NSLocalizedString(@"miles away", nil),
+                          [Distance distanceToInMiles:
+                           [[CLLocation alloc]initWithLatitude:
+                            self.location.latitude.doubleValue
+                             longitude:self.location.longitude.doubleValue]] ];
     
     NSString* imagePath = [ImagePersistor imageFileExists:self.rewards.credit.merchantId imageType:MERCHANT_IMAGE_TYPE];
     if(imagePath != nil){

@@ -45,7 +45,7 @@
     CGRect frame = self.frame;
     if ([UIDevice hasFourInchDisplay]) {
         frame.origin.x += 24;
-        frame.origin.y += 220;
+        frame.origin.y += 165;
         frame.size.width -= 48;
         frame.size.height = 200;
     }

@@ -3,6 +3,7 @@
     <entity name="Gift" representedClassName="Gift" syncable="YES">
         <attribute name="caption" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="descOptional" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="fbFriendId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="fbImageId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="friendName" optional="YES" attributeType="String" syncable="YES"/>
@@ -59,7 +60,7 @@
         <relationship name="location" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Location" inverseName="offer" inverseEntity="Location" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Gift" positionX="-5807" positionY="-495" width="128" height="255"/>
+        <element name="Gift" positionX="-5807" positionY="-495" width="128" height="270"/>
         <element name="Kikbak" positionX="160" positionY="192" width="128" height="180"/>
         <element name="Location" positionX="-5544" positionY="-567" width="128" height="150"/>
         <element name="Offer" positionX="-5247" positionY="-585" width="128" height="345"/>

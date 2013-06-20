@@ -2,7 +2,7 @@
 //  Gift.m
 //  Kikbak
 //
-//  Created by Ian Barile on 6/17/13.
+//  Created by Ian Barile on 6/18/13.
 //  Copyright (c) 2013 Ian Barile. All rights reserved.
 //
 
@@ -25,6 +25,7 @@
 @dynamic name;
 @dynamic type;
 @dynamic value;
+@dynamic descOptional;
 @dynamic location;
 
 @end

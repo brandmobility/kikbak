@@ -61,7 +61,7 @@ const int CELL_HEIGHT = 156;
     self.table = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStylePlain];
     self.table.dataSource = self;
     self.table.delegate = self;
-    self.table.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_offer"]];
+    self.table.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_offwhite_eggshell"]];
     [self.view addSubview:self.table];
     
     UINavigationBar* bar = self.navigationController.navigationBar;

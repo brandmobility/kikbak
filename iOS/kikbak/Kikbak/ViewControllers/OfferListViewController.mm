@@ -61,7 +61,7 @@ const int CELL_HEIGHT = 156;
     self.table.dataSource = self;
     self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.table.delegate = self;
-    self.table.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_offer"]];
+    self.table.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_offwhite_eggshell"]];
     [self.view addSubview:self.table];
     
     
