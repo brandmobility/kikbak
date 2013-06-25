@@ -17,7 +17,7 @@ public class ReadOnlyKikbakDAOImpl extends ReadOnlyGenericDAOImpl<Kikbak, Long> 
 	public Collection<Kikbak> listKikbaksWithValue(Long userId) {
 		return listByCriteria(Restrictions.and(Restrictions.eq("userId", userId), Restrictions.gt("value", 0.0)));
 	}
-
+	
 	@Override
 	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
 	public Collection<Kikbak> listByMerchantId(Long merchantId) {

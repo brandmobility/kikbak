@@ -55,7 +55,7 @@ CREATE TABLE `gift`
     shared_id BIGINT NOT NULL,
     value DOUBLE NOT NULL,
     redemption_date DATETIME,
-    experiration_date DATETIME NOT NULL,
+    expiration_date DATETIME NOT NULL,
     PRIMARY KEY(id)
 )ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 

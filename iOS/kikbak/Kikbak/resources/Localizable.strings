@@ -24,7 +24,7 @@
 
 "dollar format" = "$%@";
 "precentage format" = "%@%%";
-"Take a photo" = "Take a photo";
+"Take a photo" = "Add your own photo";
 "Next Time" = "Next Time";
 
 "Suggest Photo" = "Share a photo of the business";
@@ -55,4 +55,18 @@
 "Or" = "OR";
 
 //redeem gift
+"Redeem" = "Redeem";
 "Redeem QR Code" = "Scan QR to Redeem";
+"Redeemed By Friends" = "Your gift has been redeemed by %d friends";
+"Credit To Apply" = "Credit to be applied to purchase";
+"Change" = "Change";
+"Credit Warning" = "WARNING: If you apply more credit then your purchase total, you will permanenty lose all excess credit applied";
+"Redeem Amount" = "$%.2f";
+
+//credit amount
+"Cancel"="Cancel";
+"Credit Available" = "Credit available";
+"Set amount to user" = "Set amount to use";
+"Currency Symbol"="$";
+"Apply"="Apply";
+"Change Amount" = "Change Amount";

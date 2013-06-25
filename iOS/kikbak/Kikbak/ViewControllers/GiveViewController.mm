@@ -169,7 +169,6 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
         self.giveImage.frame = CGRectMake(0, 0, 320, 218);
         self.giveImage.image = [UIImage imageNamed:@"vz"];
         self.imageOverlay.frame = CGRectMake(0, 0, 320, 218);
-        self.imageOverlay.image = [UIImage imageNamed:@"grd_give_default_photo_gradient"];
         [self.takePhoto removeFromSuperview];
         self.takePictureBtn.frame = CGRectMake(112, 20, 95, 95);
         self.retailerName.frame = CGRectMake(14, 120, 316, 26);
@@ -203,7 +202,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [self.view addSubview:self.giveImage];
     
     self.imageOverlay = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 292)];
-//    self.imageOverlay.backgroundColor = UIColorFromRGBWithOpacity(0xFFFFFF, .5);
+    self.imageOverlay.image = [UIImage imageNamed:@"grd_give_default_photo_gradient"];
     [self.view addSubview:self.imageOverlay];
     
     self.takePhoto = [[UILabel alloc]initWithFrame:CGRectMake(0, 44, 320, 16)];
@@ -263,12 +262,12 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [self.view addSubview:self.webBtn];
     
     
-    self.callIcon = [[UIImageView alloc]initWithFrame:CGRectMake(145, 211, 15, 18)];
+    self.callIcon = [[UIImageView alloc]initWithFrame:CGRectMake(150, 212, 15, 18)];
     self.callIcon.image = [UIImage imageNamed:@"ic_phone_give"];
     [self.view addSubview: self.callIcon];
     
     self.callBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.callBtn.frame = CGRectMake(140, 209, 30, 30);
+    self.callBtn.frame = CGRectMake(145, 209, 30, 30);
     self.callBtn.backgroundColor = [UIColor clearColor];
     [self.callBtn addTarget:self action:@selector(onCallBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.callBtn];
@@ -281,8 +280,6 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     self.captionTextView = [[HPGrowingTextView alloc]initWithFrame:CGRectMake(10, 8, 300, 32)];
     self.captionTextView.text = NSLocalizedString(@"add comment", nil);
     self.captionTextView.contentInset = UIEdgeInsetsMake(9, 0, 8, 0);
-    self.captionTextView.layer.cornerRadius = 5.0;
-    
     self.captionTextView.minNumberOfLines = 1;
 	self.captionTextView.maxNumberOfLines = 2;
 	self.captionTextView.returnKeyType = UIReturnKeyDone; 
@@ -503,8 +500,11 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 #pragma mark - image picker delegates
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     [self.imageOverlay removeFromSuperview];
+    [self.takePhoto removeFromSuperview];
+    self.takePictureBtn.frame = CGRectMake(243, 22, 55, 55);
+    [self.takePictureBtn setImage:[UIImage imageNamed:@"ic_post_give_camera"] forState:UIControlStateNormal];
+    
     CGRect cropRect = CGRectMake(10, 50, 500, 500);
-  
     UIImage* image = [info valueForKey:UIImagePickerControllerOriginalImage];
     image = [image imageByScalingAndCroppingForSize:CGSizeMake(640, 960)];
     self.giveImage.image =  [image imageCropToRect:cropRect];

@@ -2,7 +2,7 @@
 //  Kikbak.h
 //  Kikbak
 //
-//  Created by Ian Barile on 6/16/13.
+//  Created by Ian Barile on 6/23/13.
 //  Copyright (c) 2013 Ian Barile. All rights reserved.
 //
 
@@ -14,13 +14,14 @@
 @interface Kikbak : NSManagedObject
 
 @property (nonatomic, retain) NSString * desc;
+@property (nonatomic, retain) NSString * imageUrl;
 @property (nonatomic, retain) NSNumber * kikbakId;
 @property (nonatomic, retain) NSNumber * merchantId;
 @property (nonatomic, retain) NSString * merchantName;
 @property (nonatomic, retain) NSString * merchantUrl;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSNumber * value;
-@property (nonatomic, retain) NSString * imageUrl;
+@property (nonatomic, retain) NSNumber * redeeemedGiftsCount;
 @property (nonatomic, retain) NSSet *location;
 @end
 

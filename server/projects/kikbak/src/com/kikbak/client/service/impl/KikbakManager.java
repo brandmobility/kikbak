@@ -48,7 +48,7 @@ public class KikbakManager {
 		txn.setLocationId(locationId);
 		txn.setMerchantId(merchantId);
 		txn.setOfferId(offerId);
-		txn.setTransactionType((short)TransactionType.Deposit.ordinal());
+		txn.setTransactionType((short)TransactionType.Credit.ordinal());
 		txn.setVerificationCode("newshare");
 		txn.setUserId(kikbak.getUserId());
 		txn.setDate(new Date());
@@ -74,7 +74,7 @@ public class KikbakManager {
 		txn.setLocationId(locationId);
 		txn.setMerchantId(merchantId);
 		txn.setOfferId(offerId);
-		txn.setTransactionType((short)TransactionType.Deposit.ordinal());
+		txn.setTransactionType((short)TransactionType.Credit.ordinal());
 		txn.setVerificationCode("created");
 		txn.setUserId(userId);
 		txn.setDate(new Date());

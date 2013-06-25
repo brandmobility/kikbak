@@ -51,7 +51,7 @@ public class GiftDAOTest extends KikbakBaseTest {
 	@Test
 	public void testWriteGift(){
 		Gift gift = new Gift();
-		gift.setExperirationDate(new Date());
+		gift.setExpirationDate(new Date());
 		gift.setFriendUserId(12);
 		gift.setMerchantId(13);
 		gift.setOfferId(144);

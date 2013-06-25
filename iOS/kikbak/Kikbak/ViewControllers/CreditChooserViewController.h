@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RedeemCreditViewController.h"
 
-@interface CreditChooserViewController : UIViewController<UIPickerViewDelegate>
+@interface CreditChooserViewController : UIViewController<UITextFieldDelegate>
 
-@property (nonatomic, strong) NSNumber* creditAvailable;
+@property (nonatomic, strong) NSNumber* credit;
+@property (nonatomic, strong) id<UserCreditUpdate> updateDelegate;
 @end

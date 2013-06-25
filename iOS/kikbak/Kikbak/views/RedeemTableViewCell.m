@@ -95,7 +95,7 @@ const int CELL_HEIGHT = 147;
     self.verticalSeparator.image = [UIImage imageNamed:@"separator_vertical_redeem_list"];
     [self addSubview:self.verticalSeparator];
     
-    self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(11, 61, 180, 22)];
+    self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(11, 61, 180, 25)];
     self.retailerName.backgroundColor = [UIColor clearColor];
     self.retailerName.textColor = [UIColor whiteColor];
     self.retailerName.font = [UIFont fontWithName:@"HelveticaNeue" size:21];
@@ -131,7 +131,7 @@ const int CELL_HEIGHT = 147;
     [self addSubview:self.webBtn];
     
     self.callBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.callBtn.frame = CGRectMake(290, 56, 26, 30);
+    self.callBtn.frame = CGRectMake(290, 57, 26, 30);
     self.callBtn.contentMode = UIViewContentModeLeft;
     //self.callBtn.backgroundColor = [UIColor greenColor];
     [self.callBtn setImage:[UIImage imageNamed:@"ic_phone"] forState:UIControlStateNormal];

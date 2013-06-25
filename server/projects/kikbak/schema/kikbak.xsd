@@ -127,6 +127,7 @@
             <xsd:element name="desc" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="descOptional" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="value" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="redeeemedGiftsCount" type="xsd:int" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="terms" type="xsd:string" minOccurs="0" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>

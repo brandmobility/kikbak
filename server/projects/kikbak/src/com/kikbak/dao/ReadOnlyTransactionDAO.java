@@ -13,4 +13,5 @@ public interface ReadOnlyTransactionDAO {
 	public Collection<Transaction> listByMerchantId(Long merchantId);
 	public Collection<Transaction> listByLocationId(long locationId);
 	
+	public Integer countOfGiftsRedeemedByUserByMerchant(Long userId, Long merchantId);
 }

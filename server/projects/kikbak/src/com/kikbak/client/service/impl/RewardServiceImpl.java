@@ -21,6 +21,7 @@ import com.kikbak.dao.ReadOnlyLocationDAO;
 import com.kikbak.dao.ReadOnlyMerchantDAO;
 import com.kikbak.dao.ReadOnlyOfferDAO;
 import com.kikbak.dao.ReadOnlySharedDAO;
+import com.kikbak.dao.ReadOnlyTransactionDAO;
 import com.kikbak.dao.ReadOnlyUserDAO;
 import com.kikbak.dao.ReadWriteGiftDAO;
 import com.kikbak.dao.ReadWriteKikbakDAO;
@@ -67,6 +68,9 @@ public class RewardServiceImpl implements RewardService{
 	ReadOnlyMerchantDAO roMerchantDao;
 	
 	@Autowired
+	ReadOnlyTransactionDAO roTxnDao;
+	
+	@Autowired
 	ReadWriteTransactionDAO rwTxnDao;
 	
 	@Autowired
@@ -110,7 +114,7 @@ public class RewardServiceImpl implements RewardService{
 			User friend = roUserDao.findById(gift.getFriendUserId());
 			gt.setFbFriendId(friend.getFacebookId());
 			gt.setFriendName(friend.getFirstName() + " " + friend.getLastName());
-			Shared shared = roSharedDao.findById(gift.getId());
+			Shared shared = roSharedDao.findById(gift.getSharedId());
 			gt.setCaption(shared.getCaption());
 			gt.setFbImageId(shared.getFbImageId());
 			
@@ -139,8 +143,8 @@ public class RewardServiceImpl implements RewardService{
 			kt.setDesc(offer.getKikbakDesc());
 			kt.setDescOptional(offer.getKikbakOptionalDesc());
 			kt.setValue(offer.getKikbakValue());
-			kt.setName(offer.getKikbakName());
-			
+			kt.setName(offer.getKikbakName());			
+			kt.setRedeeemedGiftsCount(roTxnDao.countOfGiftsRedeemedByUserByMerchant(userId, kikbak.getMerchantId()));
 			
 			kts.add(kt);
 		}
@@ -197,7 +201,7 @@ public class RewardServiceImpl implements RewardService{
 		txn.setMerchantId(kikbak.getMerchantId());
 		txn.setLocationId(txn.getLocationId());
 		txn.setUserId(userId);
-		txn.setTransactionType((short)TransactionType.Credit.ordinal());
+		txn.setTransactionType((short)TransactionType.Debit.ordinal());
 		txn.setOfferId(kikbak.getOfferId());
 		txn.setKikbakId(kikbak.getId());
 		txn.setDate(new Date());
@@ -220,7 +224,7 @@ public class RewardServiceImpl implements RewardService{
 			if(!offerIds.contains(shared.getOfferId())){
 				Offer offer = roOfferDao.findById(shared.getOfferId());
 				Gift gift = new Gift();
-				gift.setExperirationDate(offer.getEndDate());
+				gift.setExpirationDate(offer.getEndDate());
 				gift.setFriendUserId(shared.getUserId());
 				gift.setMerchantId(shared.getMerchantId());
 				gift.setOfferId(shared.getOfferId());

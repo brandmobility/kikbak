@@ -191,8 +191,8 @@
 	 */
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	// If the expected store doesn't exist, copy the default store.
+    NSString *defaultStorePath = [[NSBundle mainBundle] pathForResource:@"kikbak" ofType:@"sqlite"];
 	if (![fileManager fileExistsAtPath:storePath]) {
-		NSString *defaultStorePath = [[NSBundle mainBundle] pathForResource:@"kikbak" ofType:@"sqlite"];
 		if (defaultStorePath) {
 			[fileManager copyItemAtPath:defaultStorePath toPath:storePath error:NULL];
 		}
@@ -203,18 +203,10 @@
 	NSError *error;
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
     if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&error]) {
-		/*
-		 Replace this implementation with code to handle the error appropriately.
-		 
-		 abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. If it is not possible to recover from the error, display an alert panel that instructs the user to quit the application by pressing the Home button.
-		 
-		 Typical reasons for an error here include:
-		 * The persistent store is not accessible
-		 * The schema for the persistent store is incompatible with current managed object model
-		 Check the error message to determine what the actual problem was.
-		 */
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-		abort();
+		[fileManager removeItemAtPath:storePath error:nil];
+        if(![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&error]){
+            NSLog(@"_persistentStoreCoordinator error: %@", error);
+        }
     }
     
     return _persistentStoreCoordinator;

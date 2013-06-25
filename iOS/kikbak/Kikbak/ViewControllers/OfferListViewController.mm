@@ -74,7 +74,7 @@ const int CELL_HEIGHT = 156;
         locationResolved = NO;
     }
     
-    UIImage *suggestImage = [UIImage imageNamed:@"btn_suggest"];
+    UIImage *suggestImage = [UIImage imageNamed:@"btn_navbar_rect"];
     UIButton *suggestButton = [UIButton buttonWithType:UIButtonTypeCustom];
     suggestButton.frame = CGRectMake(0, 0, suggestImage.size.width, suggestImage.size.height);
     [suggestButton setBackgroundImage:suggestImage forState:UIControlStateNormal];

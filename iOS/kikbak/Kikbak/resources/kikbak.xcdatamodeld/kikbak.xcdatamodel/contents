@@ -25,6 +25,7 @@
         <attribute name="merchantName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="merchantUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="redeeemedGiftsCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <relationship name="location" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Location" inverseName="kikbak" inverseEntity="Location" syncable="YES"/>
     </entity>
@@ -61,7 +62,7 @@
     </entity>
     <elements>
         <element name="Gift" positionX="-5807" positionY="-495" width="128" height="270"/>
-        <element name="Kikbak" positionX="160" positionY="192" width="128" height="180"/>
+        <element name="Kikbak" positionX="160" positionY="192" width="128" height="195"/>
         <element name="Location" positionX="-5544" positionY="-567" width="128" height="150"/>
         <element name="Offer" positionX="-5247" positionY="-585" width="128" height="345"/>
     </elements>

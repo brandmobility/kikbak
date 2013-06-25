@@ -45,6 +45,7 @@
     kikbak.desc = [dict objectForKey:@"description"];
     kikbak.name = [dict objectForKey:@"name"];
     kikbak.value = [dict objectForKey:@"value"];
+    kikbak.redeeemedGiftsCount = [dict objectForKey:@"redeeemedGiftsCount"];
     
     
     NSError *error = nil;

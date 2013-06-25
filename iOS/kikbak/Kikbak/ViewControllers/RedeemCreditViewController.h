@@ -8,9 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol UserCreditUpdate <NSObject>
+
+-(void)onUpdateAmount:(NSNumber*)amount;
+
+@end
+
 @class Kikbak;
 
-@interface RedeemCreditViewController : UIViewController
+@interface RedeemCreditViewController : UIViewController<UserCreditUpdate>
 
 @property(nonatomic,strong)Kikbak* credit;
 

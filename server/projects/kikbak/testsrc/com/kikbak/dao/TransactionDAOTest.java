@@ -7,6 +7,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.kikbak.client.service.impl.types.TransactionType;
 import com.kikbak.dto.Transaction;
 
 public class TransactionDAOTest extends KikbakDAOTest {
@@ -62,12 +63,44 @@ public class TransactionDAOTest extends KikbakDAOTest {
 		txn.setDate(new Date());
 		txn.setKikbakId(3);
 		txn.setLocationId(15);
-		txn.setTransactionType((short)1);
+		txn.setTransactionType((short)TransactionType.Credit.ordinal());
 		txn.setUserId(13L);
 		rwDao.makePersistent(txn);
 		
 		Transaction t2 = roDao.findById(txn.getId());
 		assertEquals(txn.getAuthorizationCode(), t2.getAuthorizationCode());
+	}
+	
+	@Test
+	public void testCountOfGifts(){
+		Transaction txn = new Transaction();
+		txn.setAmount(13.42);
+		txn.setAuthorizationCode("4354");
+		txn.setVerificationCode("434231");
+		txn.setDate(new Date());
+		txn.setKikbakId(3);
+		txn.setLocationId(15);
+		txn.setMerchantId(1);
+		txn.setTransactionType((short)TransactionType.Credit.ordinal());
+		txn.setUserId(13L);
+		txn.setOfferId(3);
+		rwDao.makePersistent(txn);
+		
+		Transaction txn2 = new Transaction();
+		txn2.setAmount(13.42);
+		txn2.setAuthorizationCode("4354");
+		txn2.setVerificationCode("434231");
+		txn2.setDate(new Date());
+		txn2.setKikbakId(3);
+		txn2.setLocationId(15);
+		txn2.setMerchantId(1);
+		txn2.setTransactionType((short)TransactionType.Credit.ordinal());
+		txn2.setUserId(13L);
+		txn2.setOfferId(4);
+		rwDao.makePersistent(txn2);
+		
+		int count = roDao.countOfGiftsRedeemedByUserByMerchant(13L, 1L);
+		assertEquals(2, count);
 	}
 }
 
