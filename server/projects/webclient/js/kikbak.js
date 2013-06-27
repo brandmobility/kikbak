@@ -16,6 +16,11 @@ function showError() {
   alert("Service is unavailable. Please try again later.");
 }
 
+function showGpsError(userId) {
+  alert("Cannot locate user");
+  getOffersByLocation(userId, null);
+}
+
 function fbInit() {
   FB.init({
     appId: '135124669870013',
@@ -40,10 +45,8 @@ function connectFb() {
     var userId = localStorage.userId;
     if (typeof userId != 'undefined' && userId != 'undefined' && 
             userId != null && userId != 'null' && userId != '') {
-      var suffix = 'index.html';
-      if (window.location.href.indexOf(suffix, window.location.href.length - suffix.length) !== -1) {
-        window.location.href = 'offer.html';
-      }
+      initPage();
+      return;
     }
   }
   FB.api('/me', function(response) {
@@ -85,17 +88,100 @@ function updateFbFriends(userId) {
         if (typeof Storage != 'undefined') {
           localStorage.userId = userId;
         }
-        var suffix = 'index.html';
-        if (window.location.href.indexOf(suffix, window.location.href.length - suffix.length) !== -1) {
-          window.location.href = 'offer.html';
-        }
+        initPage();
       },
       error: showError
     });
   });
 }
 
+function initPage() {
+  var suffix = 'index.html';
+  if (window.location.href.indexOf(suffix, window.location.href.length - suffix.length) !== -1) {
+    window.location.href = 'offer.html';
+  }
+  suffix = 'offer.html';
+  if (window.location.href.indexOf(suffix, window.location.href.length - suffix.length) !== -1) {
+     getOffers();
+  }
+  suffix = 'redeem.html';
+  if (window.location.href.indexOf(suffix, window.location.href.length - suffix.length) !== -1) {
+     getRedeems();
+  }
+}
+
 function getOffers() {
+  if (typeof Storage != 'undefined') {
+    var userId = localStorage.userId;
+
+    if (typeof userId != 'undefined' && userId != 'undefined' &&
+            userId != 'null' && userId != null && userId != '') {
+      var location = {};
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(p) {
+          getOffersByLocation(userId, p);
+        }, function() {
+          showGpsError(userId);
+        },
+        { enableHighAccuracy:true,maximumAge:600000 });
+      } else {
+        getOffersByLocation(userId, null);
+      }
+    }
+  }
+}
+
+function renderOffer(offer) {
+  var html = '<li>';
+  
+  var json = escape(JSON.stringify(offer));
+  html += '<div class="offer-div"><a href="#" data-object="' + json + '" class="offer-details-btn clearfix">';
+  html += '<img id="offer-background" src="img/offer.png" />';
+  // html += '<img src="' + json.merchantImageUrl + '" />';
+  html += '<img id="offer-label1" src="img/label1_price.png" />';
+  html += '<div id="offer-label1-text">';
+  var gift = "<p>GIVE</p><p>";
+  gift += offer.giftType == 'percentage' ? offer.giftValue + "%</p><p>OFF</p>" :
+          "$" + offer.giftValue + "</p>";
+  html += gift + '</div>';
+  html += '<img id="offer-label2" src="img/label2_price.png" />';
+  html += '<div id="offer-label2-text">';
+  gift = "<p>GET</p><p>";
+  gift += "$" + offer.kikbakValue + "</p>";
+  html += gift + '</div>';
+  html += '</a></div>';
+  html += '</li>';
+  $('#offer-list').append(html);
+}
+
+function getOffersByLocation(userId, position) {
+  var location = {};
+  if (position != null) {
+    location['longitude'] = position.coords.longitude; 
+    location['latitude'] = position.coords.latitude; 
+  }
+  var data = {};
+  data['userLocation'] = location;
+  var req = {};
+  req['GetUserOffersRequest'] = data;      
+  var str = JSON.stringify(req);
+  $.ajax({
+    dataType: 'json',
+    type: 'POST',
+    contentType: 'application/json',
+    data: str,
+    url: 'kikbak/user/offer/' + userId,
+    success: function(json) {
+      var offers = json.getUserOffersResponse.offers;
+      $.each(offers, function(i, offer) {
+        renderOffer(offer);
+      });
+    },
+    error: showError
+  });
+}
+
+function getRedeems() {
   if (typeof Storage != 'undefined') {
     var userId = localStorage.userId;
 
