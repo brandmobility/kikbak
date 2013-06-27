@@ -205,7 +205,8 @@
 
 -(IBAction)onRedeem:(id)sender{
     RedeemCreditSuccessViewController* vc = [[RedeemCreditSuccessViewController alloc] init];
-    vc.credit = self.credit;
+    vc.creditUsed = self.creditToUse;
+    vc.merchantName = self.credit.merchantName;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "Flurry.h"
 #import "FBQuery.h"
+#import "UIDevice+Screen.h"
 
 @interface LoginViewController ()
 
@@ -87,6 +88,10 @@
 }
 
 -(void)manuallyLayoutSubviews{
+    if(![UIDevice hasFourInchDisplay]){
+        self.splash.image = [UIImage imageNamed:@"splash"];
+        self.fbLoginBtn.frame = CGRectMake(11, 403, 298, 40);
+    }
     
 }
 

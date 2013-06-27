@@ -172,10 +172,10 @@
         self.giveDiscount.text = [NSString stringWithFormat:NSLocalizedString(@"precentage format", nil), self.offer.giftValue];
     }
     else{
-        self.giveDiscount.text = [NSString stringWithFormat:NSLocalizedString(@"dollar format", nil), self.offer.giftValue];
+        self.giveDiscount.text = [NSString stringWithFormat:NSLocalizedString(@"currency format", nil), self.offer.giftValue];
     }
 
-    self.getDiscount.text = [NSString stringWithFormat:NSLocalizedString(@"dollar format", nil), self.offer.kikbakValue];
+    self.getDiscount.text = [NSString stringWithFormat:NSLocalizedString(@"currency format", nil), self.offer.kikbakValue];
 
     //todo: find closest location
     if (self.offer.location.count > 0) {

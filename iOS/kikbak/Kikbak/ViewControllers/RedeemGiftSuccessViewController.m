@@ -7,8 +7,10 @@
 //
 
 #import "RedeemGiftSuccessViewController.h"
+#import "UIDevice+Screen.h"
 #import "Gift.h"
 #import "util.h"
+#import "UIButton+Util.h"
 
 @interface RedeemGiftSuccessViewController ()
 
@@ -49,8 +51,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    
+    self.navigationItem.hidesBackButton = YES;
+    self.navigationItem.leftBarButtonItem = [UIButton blackBackBtn:self];
+	
     [self createSubviews];
+    [self manuallyLayoutSubviews];
 }
 
 - (void)didReceiveMemoryWarning
@@ -60,7 +66,23 @@
 }
 
 -(void)manuallyLayoutSubviews{
-    
+    if(![UIDevice hasFourInchDisplay]){
+        self.retailerBG.frame = CGRectMake(0, 0, 320, 59);
+        self.dropShadow.frame = CGRectMake(0, 0, 320, 4);
+        self.retailerName.frame = CGRectMake(0, 17, 320, 34);
+        self.successBG.frame = CGRectMake(0, 59, 320, 79);
+        self.success.frame = CGRectMake(0, 14, 320, 23);
+        self.claimedGift.frame = CGRectMake(0, 40, 320, 15);
+        self.showScreen.frame = CGRectMake(0, 55, 320, 15);
+        self.dottedSeperator.frame = CGRectMake(0, 138, 320, 2);
+        self.offer.frame = CGRectMake(0, 157, 320, 28);
+        self.desc.frame = CGRectMake(0, 185, 320, 48);
+        self.optionalDesc.frame = CGRectMake(0, 225, 320, 26);
+        self.seperator.frame = CGRectMake(11, 265, 298, 1);
+        self.qrCode.frame = CGRectMake(33, 287, 109, 109);
+        self.couponCode.frame = CGRectMake(175, 322, 320, 46);
+        self.couponCode.textAlignment = NSTextAlignmentLeft;
+    }
 }
 
 -(void)createSubviews{
@@ -116,15 +138,15 @@
     [self.view addSubview:self.dottedSeperator];
     
     self.offer = [[UILabel alloc]initWithFrame:CGRectMake(0, 194, 320, 28)];
-    self.offer.text = NSLocalizedString(@"Offer", nil);
+    self.offer.text = NSLocalizedString(@"Gift", nil);
     self.offer.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:26];
     self.offer.textColor = UIColorFromRGB(0x9c9c9c);
     self.offer.textAlignment = NSTextAlignmentCenter;
     self.offer.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.offer];
     
-    self.desc = [[UILabel alloc]initWithFrame:CGRectMake(0, 220, 320, 42)];
-    self.desc.text = @"$50 Off";//self.credit.desc;
+    self.desc = [[UILabel alloc]initWithFrame:CGRectMake(0, 220, 320, 44)];
+    self.desc.text = self.gift.desc;
     self.desc.textAlignment = NSTextAlignmentCenter;
     self.desc.backgroundColor = [UIColor clearColor];
     self.desc.textColor = UIColorFromRGB(0x3a3a3a);
@@ -155,6 +177,11 @@
     self.couponCode.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:41];
     [self.view addSubview:self.couponCode];
     
+}
+
+#pragma mark - on back btn
+-(IBAction)onBackBtn:(id)sender{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 

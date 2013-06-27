@@ -24,7 +24,7 @@
 "Give" = "Give";
 "Get" = "Get";
 
-"dollar format" = "$%@";
+"currency format" = "$%@";
 "precentage format" = "%@%%";
 "Take a photo" = "Add your own photo";
 "Next Time" = "Next Time";
@@ -75,4 +75,6 @@
 "Claimed Credit" = "You have claimed your credit";
 "Claimed Gift" = "You have claimed your gift";
 "Show Screen" = "Please, show this screen to the cashier.";
-"Offer" = "OFFER";
+"Redeem Success Credit Label" = "CREDIT";
+"Your Purchase" = "has been applied to your purchase";
+"Gift" = "GIFT";

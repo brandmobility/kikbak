@@ -9,6 +9,8 @@
 #import "RedeemCreditSuccessViewController.h"
 #import "util.h"
 #import "Kikbak.h"
+#import "UIDevice+Screen.h"
+#import "UIButton+Util.h"
 
 @interface RedeemCreditSuccessViewController ()
 
@@ -49,9 +51,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+
+    self.navigationItem.hidesBackButton = YES;
+    self.navigationItem.leftBarButtonItem = [UIButton blackBackBtn:self];
     
     [self createSubviews];
+    [self manuallyLayoutSubviews];
 }
 
 - (void)didReceiveMemoryWarning
@@ -61,7 +66,23 @@
 }
 
 -(void)manuallyLayoutSubviews{
-    
+    if(![UIDevice hasFourInchDisplay]){
+        self.retailerBG.frame = CGRectMake(0, 0, 320, 59);
+        self.dropShadow.frame = CGRectMake(0, 0, 320, 4);
+        self.retailerName.frame = CGRectMake(0, 17, 320, 34);
+        self.successBG.frame = CGRectMake(0, 59, 320, 79);
+        self.success.frame = CGRectMake(0, 14, 320, 23);
+        self.claimedCredit.frame = CGRectMake(0, 40, 320, 15);
+        self.showScreen.frame = CGRectMake(0, 55, 320, 15);
+        self.dottedSeperator.frame = CGRectMake(0, 138, 320, 2);
+        self.offer.frame = CGRectMake(0, 157, 320, 28);
+        self.desc.frame = CGRectMake(0, 185, 320, 48);
+        self.optionalDesc.frame = CGRectMake(0, 225, 320, 26);
+        self.seperator.frame = CGRectMake(11, 265, 298, 1);
+        self.qrCode.frame = CGRectMake(33, 287, 109, 109);
+        self.couponCode.frame = CGRectMake(175, 322, 320, 46);
+        self.couponCode.textAlignment = NSTextAlignmentLeft;
+    }
 }
 
 -(void)createSubviews{
@@ -80,7 +101,7 @@
     self.retailerName.textAlignment = NSTextAlignmentCenter;
     self.retailerName.textColor = UIColorFromRGB(0x3a3a3a);
     self.retailerName.backgroundColor = [UIColor clearColor];
-    self.retailerName.text = self.credit.merchantName;
+    self.retailerName.text = self.merchantName;
     [self.view addSubview:self.retailerName];
     
     self.successBG = [[UIView alloc]initWithFrame:CGRectMake(0, 88, 320, 86)];
@@ -117,7 +138,7 @@
     [self.view addSubview:self.dottedSeperator];
     
     self.offer = [[UILabel alloc]initWithFrame:CGRectMake(0, 194, 320, 28)];
-    self.offer.text = NSLocalizedString(@"Offer", nil);
+    self.offer.text = NSLocalizedString(@"Redeem Success Credit Label", nil);
     self.offer.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:26];
     self.offer.textColor = UIColorFromRGB(0x9c9c9c);
     self.offer.textAlignment = NSTextAlignmentCenter;
@@ -125,7 +146,7 @@
     [self.view addSubview:self.offer];
     
     self.desc = [[UILabel alloc]initWithFrame:CGRectMake(0, 220, 320, 42)];
-    self.desc.text = @"$50 Off";//self.credit.desc;
+    self.desc.text = [NSString stringWithFormat:NSLocalizedString(@"currency format", nil), self.creditUsed];
     self.desc.textAlignment = NSTextAlignmentCenter;
     self.desc.backgroundColor = [UIColor clearColor];
     self.desc.textColor = UIColorFromRGB(0x3a3a3a);
@@ -133,7 +154,7 @@
     [self.view addSubview:self.desc];
     
     self.optionalDesc = [[UILabel alloc]initWithFrame:CGRectMake(0, 255, 320, 26)];
-    self.optionalDesc.text = self.credit.descOptional;
+    self.optionalDesc.text = NSLocalizedString(@"Your Purchase", nil);
     self.optionalDesc.textAlignment = NSTextAlignmentCenter;
     self.optionalDesc.backgroundColor = [UIColor clearColor];
     self.optionalDesc.textColor = UIColorFromRGB(0x3a3a3a);
@@ -156,5 +177,11 @@
     self.couponCode.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:41];
     [self.view addSubview:self.couponCode];
 }
+
+#pragma mark - on back btn
+-(IBAction)onBackBtn:(id)sender{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 @end

@@ -12,6 +12,7 @@
 
 @interface RedeemCreditSuccessViewController : UIViewController
 
-@property (nonatomic, strong) Kikbak* credit;
+@property(nonatomic,strong)NSNumber* creditUsed;
+@property(nonatomic,strong)NSString* merchantName;
 
 @end
