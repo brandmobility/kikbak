@@ -6,16 +6,28 @@
 <link href="css/kikbak.css" rel="stylesheet">
 </head>
 <body>
-<div id="background">
-<img src="img/welcome.png" />
+<div id="header">
+  <div id="back-btn-div" style="display:none;" >
+    <a id="back-btn" href="#"><img src="img/btn_back.png" /></a>
+  </div>
+  <div id="suggest-btn-div">
+    <a id="suggest-btn" href="#"><img src="img/btn_suggest.png" /></a>
+  </div>
+  <div id="heading">Kikbak</div>
 </div>
-<div id="fb-login-div" align="center">
-<fb:login-button class="fb-login" scope="email,read_friendlists">Login With Facebook</fb:login-button>
+<div id="offer-view" class="wrapper">
+  <div class="scroller">
+    <ul id="offer-list" class="unstyled">
+    </ul>
+  </div>
+</div>
+<div id="footer">
 </div>
 <div id="fb-root"></div>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
 <script src="js/kikbak.js"></script>
+<script type="text/javascript" src="js/iscroll.js"></script>
 <script>
 $('body').scrollTop($(document).height());
 $(document).ready(function() {  
