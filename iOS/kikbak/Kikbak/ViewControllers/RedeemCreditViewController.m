@@ -12,12 +12,14 @@
 #import "util.h"
 #import "Kikbak.h"
 #import "UIDevice+Screen.h"
+#import "RedeemCreditSuccessViewController.h"
 
 @interface RedeemCreditViewController ()
 
 @property(nonatomic,strong)NSNumber* creditToUse;
 
 @property (nonatomic,strong) UIImageView* retailerImage;
+@property (nonatomic,strong) UIImageView* dropShadow;
 @property (nonatomic,strong) UIImageView* imageGradient;
 @property (nonatomic,strong) UILabel* retailerName;
 @property (nonatomic,strong) UILabel* redeemCount;
@@ -112,6 +114,10 @@
     self.retailerImage.frame = CGRectMake(0, 0, 320, 290);
     [self.view addSubview:self.retailerImage];
     
+    self.dropShadow = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 4)];
+    self.dropShadow.image = [UIImage imageNamed:@"grd_credit_amount_navbar_drop_shadow"];
+    [self.view addSubview:self.dropShadow];
+    
     self.imageGradient = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"grd_redeem_credit_img"]];
     self.imageGradient.frame = CGRectMake(0, 140, 320, 150);
     [self.view addSubview:self.imageGradient];
@@ -145,7 +151,7 @@
     [self.view addSubview:self.amountToApply];
     
     self.topAmountSeparator = [[UIImageView alloc]initWithFrame:CGRectMake(11, 326, 298, 1)];
-    self.topAmountSeparator.image = [UIImage imageNamed:@"separator_give"];
+    self.topAmountSeparator.image = [UIImage imageNamed:@"separator_gray_line"];
     [self.view addSubview:self.topAmountSeparator];
 
     self.creditAmount = [[UILabel alloc]initWithFrame:CGRectMake(11, 335, 150, 38)];
@@ -166,7 +172,7 @@
     [self.view addSubview:self.changeAmountBtn];
     
     self.bottomAmountSeparator = [[UIImageView alloc]initWithFrame:CGRectMake(11, 378, 298, 1)];
-    self.bottomAmountSeparator.image = [UIImage imageNamed:@"separator_give"];
+    self.bottomAmountSeparator.image = [UIImage imageNamed:@"separator_gray_line"];
     [self.view addSubview:self.bottomAmountSeparator];
 
     self.warning = [[UILabel alloc]initWithFrame:CGRectMake(22, 395, 276, 30)];
@@ -198,7 +204,9 @@
 }
 
 -(IBAction)onRedeem:(id)sender{
-    
+    RedeemCreditSuccessViewController* vc = [[RedeemCreditSuccessViewController alloc] init];
+    vc.credit = self.credit;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - NSNotification Handlers

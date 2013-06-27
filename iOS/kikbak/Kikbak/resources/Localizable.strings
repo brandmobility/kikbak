@@ -6,10 +6,12 @@
   Copyright (c) 2013 Ian Barile. All rights reserved.
 */
 
+"FB Login" = "Log in with Facebook";
 
 "Kikbak" = "Kikbak";
 "Retake" = "Retake";
-"Caption" = "+ Caption";
+
+
 "Success" = "Success!";
 "Shared Gift" = "You have shared a gift.";
 "Gift Notification" = "We will notify you when a friend uses your gift and you earn a reward.";
@@ -34,7 +36,6 @@
 "configure mail" = "Please configure phone to send email";
 
 "miles away" = "%@ mi";
-"Your Here" = "Your here";
 "call" = "call";
 "web" = "web";
 "add comment" = "Add Comment...";
@@ -70,3 +71,8 @@
 "Currency Symbol"="$";
 "Apply"="Apply";
 "Change Amount" = "Change Amount";
+
+"Claimed Credit" = "You have claimed your credit";
+"Claimed Gift" = "You have claimed your gift";
+"Show Screen" = "Please, show this screen to the cashier.";
+"Offer" = "OFFER";

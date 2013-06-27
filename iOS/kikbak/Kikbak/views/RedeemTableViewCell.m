@@ -214,11 +214,10 @@ const int CELL_HEIGHT = 147;
         self.location = [self.rewards.gift.location anyObject];
     }
     
+    CLLocation* current = [[CLLocation alloc]initWithLatitude:self.location.latitude.doubleValue longitude:self.location.longitude.doubleValue];
     self.distance.text = [NSString stringWithFormat:NSLocalizedString(@"miles away", nil),
-                                    [Distance distanceToInMiles:
-                                    [[CLLocation alloc]initWithLatitude:
-                                        self.location.latitude.doubleValue
-                                        longitude:self.location.longitude.doubleValue]] ];
+                              [Distance distanceToInMiles:current]];
+    
     
     NSString* imagePath = [ImagePersistor imageFileExists:self.rewards.gift.merchantId imageType:MERCHANT_IMAGE_TYPE];
     if(imagePath != nil){

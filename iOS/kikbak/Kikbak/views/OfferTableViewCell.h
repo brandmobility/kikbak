@@ -15,6 +15,6 @@
 
 @property(strong, nonatomic)Offer* offer;
 
--(void)setup;//:(int)index;
+-(void)setup:(int)index;
 
 @end

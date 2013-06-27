@@ -21,6 +21,7 @@
 #import "Util.h"
 #import "KikbakOpenGraphProtocols.h"
 #import "SpinnerView.h"
+#import "NotificationContstants.h"
 #import "UIButton+Util.h"
 
 #define DEFAULT_CONTAINER_VIEW_HEIGHT 50
@@ -85,6 +86,9 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 -(IBAction)onWebBtn:(id)sender;
 -(void)postToFacebook;
 
+-(void) onLocationUpdate:(NSNotification*)notification;
+-(void) updateDisance;
+
 -(IBAction)keyboardWillShow:(NSNotification*)notification;
 -(IBAction)keyboardWillHide:(NSNotification*)notification;
 
@@ -120,7 +124,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     
     [self createSubviews];
     [self manuallyLayoutSubviews];
-    
+    [self updateDisance];
     
     
     self.navigationItem.hidesBackButton = YES;
@@ -146,6 +150,8 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
                                                  name:UIKeyboardWillHideNotification 
                                                object:nil];
     
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onLocationUpdate:) name:kKikbakLocationUpdate object:nil];
+    
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -157,6 +163,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [super viewDidDisappear:animated];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakLocationUpdate object:nil];
 }
 
 -(void)viewDidLayoutSubviews{
@@ -167,7 +174,6 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 -(void)manuallyLayoutSubviews{
     if(![UIDevice hasFourInchDisplay]){
         self.giveImage.frame = CGRectMake(0, 0, 320, 218);
-        self.giveImage.image = [UIImage imageNamed:@"vz"];
         self.imageOverlay.frame = CGRectMake(0, 0, 320, 218);
         [self.takePhoto removeFromSuperview];
         self.takePictureBtn.frame = CGRectMake(112, 20, 95, 95);
@@ -198,8 +204,9 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     self.view.backgroundColor = UIColorFromRGB(0xFFFFFF);
     
     self.giveImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 292)];
-    self.giveImage.image = [UIImage imageNamed:@"img"];
+    self.giveImage.image = [UIImage imageNamed:@"img_vz_photo"];
     [self.view addSubview:self.giveImage];
+    
     
     self.imageOverlay = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 292)];
     self.imageOverlay.image = [UIImage imageNamed:@"grd_give_default_photo_gradient"];
@@ -220,7 +227,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [self.view addSubview:self.takePictureBtn];
     
     
-    self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(14, 183, 316, 26)];
+    self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(14, 194, 316, 26)];
     self.retailerName.font = [UIFont fontWithName:@"HelveticaNeue" size:24];
     self.retailerName.textColor = UIColorFromRGB(0xFFFFFF);
     self.retailerName.text = self.offer.merchantName;
@@ -228,46 +235,42 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     self.retailerName.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.retailerName];
     
-    self.mapIcon = [[UIImageView alloc]initWithFrame:CGRectMake(14, 214, 10, 14)];
+    self.mapIcon = [[UIImageView alloc]initWithFrame:CGRectMake(14, 225, 10, 14)];
     self.mapIcon.image = [UIImage imageNamed:@"ic_map_give"];
     [self.view addSubview:self.mapIcon];
     
-    self.distance = [[UILabel alloc] initWithFrame:CGRectMake(30, 212, 70, 18)];
+    self.distance = [[UILabel alloc] initWithFrame:CGRectMake(30, 223, 70, 18)];
     self.distance.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:18];
     self.distance.textColor = UIColorFromRGB(0xFFFFFF);
-    self.distance.text = [NSString stringWithFormat:NSLocalizedString(@"miles away", nil),
-                          [Distance distanceToInMiles:
-                           [[CLLocation alloc]initWithLatitude:
-                            self.location.latitude.doubleValue
-                                                     longitude:self.location.longitude.doubleValue]]];
     self.distance.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.distance];
     
+    
     self.mapBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.mapBtn.frame = CGRectMake(14, 210, 70, 30);
+    self.mapBtn.frame = CGRectMake(14, 211, 70, 30);
     self.mapBtn.backgroundColor = [UIColor clearColor];
     [self.mapBtn addTarget:self action:@selector(onMapBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.mapBtn];
     
-    self.webIcon = [[UIImageView alloc]initWithFrame:CGRectMake(109, 211, 19, 19)];
+    self.webIcon = [[UIImageView alloc]initWithFrame:CGRectMake(109, 221, 19, 19)];
     self.webIcon.image = [UIImage imageNamed:@"ic_web_give"];
     [self.view addSubview:self.webIcon];
     
 
     self.webBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.webBtn.backgroundColor = [UIColor clearColor];
-    self.webBtn.frame = CGRectMake(99, 209, 30, 30);
+    self.webBtn.frame = CGRectMake(99, 210, 30, 30);
     self.webBtn.backgroundColor = [UIColor clearColor];
     [self.webBtn addTarget:self action:@selector(onWebBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.webBtn];
     
     
-    self.callIcon = [[UIImageView alloc]initWithFrame:CGRectMake(150, 212, 15, 18)];
+    self.callIcon = [[UIImageView alloc]initWithFrame:CGRectMake(150, 221, 15, 19)];
     self.callIcon.image = [UIImage imageNamed:@"ic_phone_give"];
     [self.view addSubview: self.callIcon];
     
     self.callBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.callBtn.frame = CGRectMake(145, 209, 30, 30);
+    self.callBtn.frame = CGRectMake(145, 210, 30, 30);
     self.callBtn.backgroundColor = [UIColor clearColor];
     [self.callBtn addTarget:self action:@selector(onCallBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.callBtn];
@@ -318,7 +321,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [self.view addSubview:self.giftDescriptionOptional];
 
     self.seperator = [[UIImageView alloc]initWithFrame:CGRectMake(11, 364, 298, 1)];
-    self.seperator.image = [UIImage imageNamed:@"separator_give"];
+    self.seperator.image = [UIImage imageNamed:@"separator_gray_line"];
     [self.view addSubview:self.seperator];
 
     self.rewardDescription = [[UILabel alloc]initWithFrame:CGRectMake(0, 370, 320, 30)];
@@ -432,10 +435,10 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
         UIImageView* square = [[UIImageView alloc]initWithFrame:overlay.frame];
         if([UIDevice hasFourInchDisplay]){
             
-            square.image = [UIImage imageNamed:@"camera_area-h568"];
+            square.image = [UIImage imageNamed:@"camera_screen_area-h536"];
         }
         else{
-            square.image = [UIImage imageNamed:@"camera_area"];
+            square.image = [UIImage imageNamed:@"camera_screen_area"];
         }
         [overlay addSubview:square];
         picker.cameraOverlayView = overlay;
@@ -501,7 +504,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     [self.imageOverlay removeFromSuperview];
     [self.takePhoto removeFromSuperview];
-    self.takePictureBtn.frame = CGRectMake(243, 22, 55, 55);
+    self.takePictureBtn.frame = CGRectMake(265, 11, 55, 55);
     [self.takePictureBtn setImage:[UIImage imageNamed:@"ic_post_give_camera"] forState:UIControlStateNormal];
     
     CGRect cropRect = CGRectMake(10, 50, 500, 500);
@@ -800,6 +803,20 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
         growingTextView.textColor = [UIColor blackColor];
     }
     return YES;
+}
+
+
+#pragma mark - NSNotification Center 
+-(void) onLocationUpdate:(NSNotification*)notification{
+    [self updateDisance];
+}
+
+-(void) updateDisance{
+    CLLocation* current = [[CLLocation alloc]initWithLatitude:self.location.latitude.doubleValue longitude:self.location.longitude.doubleValue];
+    self.distance.text = [NSString stringWithFormat:NSLocalizedString(@"miles away", nil),
+                          [Distance distanceToInMiles:current]];
+    
+     
 }
 
 @end

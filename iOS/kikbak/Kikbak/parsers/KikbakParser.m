@@ -42,7 +42,8 @@
             [kikbak addLocationObject:loc];
         }
     }
-    kikbak.desc = [dict objectForKey:@"description"];
+    kikbak.desc = [dict objectForKey:@"desc"];
+    kikbak.descOptional = [dict objectForKey:@"descOptional"];
     kikbak.name = [dict objectForKey:@"name"];
     kikbak.value = [dict objectForKey:@"value"];
     kikbak.redeeemedGiftsCount = [dict objectForKey:@"redeeemedGiftsCount"];

@@ -182,7 +182,7 @@ const int CELL_HEIGHT = 156;
     }
     
     cell.offer = [self.offers objectAtIndex:indexPath.row];
-    [cell setup ];//]:indexPath.row];
+    [cell setup:indexPath.row];
     
     return cell;
 }
