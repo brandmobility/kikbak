@@ -1,0 +1,161 @@
+//
+//  RedeemGiftSuccessViewController.m
+//  Kikbak
+//
+//  Created by Ian Barile on 6/25/13.
+//  Copyright (c) 2013 Ian Barile. All rights reserved.
+//
+
+#import "RedeemGiftSuccessViewController.h"
+#import "Gift.h"
+#import "util.h"
+
+@interface RedeemGiftSuccessViewController ()
+
+@property (nonatomic, strong) UIView* retailerBG;
+@property (nonatomic, strong) UIImageView* dropShadow;
+@property (nonatomic, strong) UILabel* retailerName;
+
+@property (nonatomic, strong) UIView* successBG;
+@property (nonatomic, strong) UILabel* success;
+@property (nonatomic, strong) UILabel* claimedGift;
+@property (nonatomic, strong) UILabel* showScreen;
+@property (nonatomic, strong) UIImageView* dottedSeperator;
+
+@property (nonatomic, strong) UILabel* offer;
+@property (nonatomic, strong) UILabel* desc;
+@property (nonatomic, strong) UILabel* optionalDesc;
+@property (nonatomic, strong) UIImageView* seperator;
+
+@property (nonatomic, strong) UIImageView* qrCode;
+@property (nonatomic, strong) UILabel* couponCode;
+
+-(void)createSubviews;
+-(void)manuallyLayoutSubviews;
+
+@end
+
+@implementation RedeemGiftSuccessViewController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+	// Do any additional setup after loading the view.
+    [self createSubviews];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+-(void)manuallyLayoutSubviews{
+    
+}
+
+-(void)createSubviews{
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    self.retailerBG = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 88)];
+    self.retailerBG.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_offwhite_eggshell"]];
+    [self.view addSubview:self.retailerBG];
+    
+    self.dropShadow = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 4)];
+    self.dropShadow.image = [UIImage imageNamed:@"grd_credit_amount_navbar_drop_shadow"];
+    [self.view addSubview:self.dropShadow];
+    
+    self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(0, 31, 320, 34)];
+    self.retailerName.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:31];
+    self.retailerName.textAlignment = NSTextAlignmentCenter;
+    self.retailerName.textColor = UIColorFromRGB(0x3a3a3a);
+    self.retailerName.backgroundColor = [UIColor clearColor];
+    self.retailerName.text = self.gift.merchantName;
+    [self.view addSubview:self.retailerName];
+    
+    self.successBG = [[UIView alloc]initWithFrame:CGRectMake(0, 88, 320, 86)];
+    self.successBG.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_green"]];
+    [self.view addSubview:self.successBG];
+    
+    self.success = [[UILabel alloc] initWithFrame:CGRectMake(0, 16, 320, 23)];
+    self.success.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:21];
+    self.success.textAlignment = NSTextAlignmentCenter;
+    self.success.textColor = UIColorFromRGB(0x16521b);
+    self.success.text = NSLocalizedString(@"Success", nil);
+    self.success.backgroundColor = [UIColor clearColor];
+    [self.successBG addSubview:self.success];
+    
+    self.claimedGift = [[UILabel alloc] initWithFrame:CGRectMake(0, 46, 320, 15)];
+    self.claimedGift.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
+    self.claimedGift.textAlignment = NSTextAlignmentCenter;
+    self.claimedGift.textColor = UIColorFromRGB(0x16521b);
+    self.claimedGift.text = NSLocalizedString(@"Claimed Gift", nil);
+    self.claimedGift.backgroundColor = [UIColor clearColor];
+    [self.successBG addSubview:self.claimedGift];
+    
+    
+    self.showScreen = [[UILabel alloc]initWithFrame:CGRectMake(0, 62, 320, 15)];
+    self.showScreen.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
+    self.showScreen.textAlignment = NSTextAlignmentCenter;
+    self.showScreen.textColor = UIColorFromRGB(0x16521b);
+    self.showScreen.text = NSLocalizedString(@"Show Screen", nil);
+    self.showScreen.backgroundColor = [UIColor clearColor];
+    [self.successBG addSubview:self.showScreen];
+    
+    self.dottedSeperator = [[UIImageView alloc]initWithFrame:CGRectMake(0, 174, 320, 2)];
+    self.dottedSeperator.image = [UIImage imageNamed:@"separater_dots_gift_success"];
+    [self.view addSubview:self.dottedSeperator];
+    
+    self.offer = [[UILabel alloc]initWithFrame:CGRectMake(0, 194, 320, 28)];
+    self.offer.text = NSLocalizedString(@"Offer", nil);
+    self.offer.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:26];
+    self.offer.textColor = UIColorFromRGB(0x9c9c9c);
+    self.offer.textAlignment = NSTextAlignmentCenter;
+    self.offer.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:self.offer];
+    
+    self.desc = [[UILabel alloc]initWithFrame:CGRectMake(0, 220, 320, 42)];
+    self.desc.text = @"$50 Off";//self.credit.desc;
+    self.desc.textAlignment = NSTextAlignmentCenter;
+    self.desc.backgroundColor = [UIColor clearColor];
+    self.desc.textColor = UIColorFromRGB(0x3a3a3a);
+    self.desc.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:41];
+    [self.view addSubview:self.desc];
+    
+    self.optionalDesc = [[UILabel alloc]initWithFrame:CGRectMake(0, 255, 320, 26)];
+    self.optionalDesc.text = self.gift.descOptional;
+    self.optionalDesc.textAlignment = NSTextAlignmentCenter;
+    self.optionalDesc.backgroundColor = [UIColor clearColor];
+    self.optionalDesc.textColor = UIColorFromRGB(0x3a3a3a);
+    self.optionalDesc.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
+    [self.view addSubview:self.optionalDesc];
+    
+    self.seperator = [[UIImageView alloc]initWithFrame:CGRectMake(11, 298, 298, 1)];
+    self.seperator.image = [UIImage imageNamed:@"separator_gray_line"];
+    [self.view addSubview:self.seperator];
+    
+    self.qrCode = [[UIImageView alloc]initWithFrame:CGRectMake(106, 321, 109, 109)];
+    self.qrCode.image = [UIImage imageNamed:@"img_code"];
+    [self.view addSubview:self.qrCode];
+    
+    self.couponCode = [[UILabel alloc] initWithFrame:CGRectMake(0, 445, 320, 46)];
+    self.couponCode.text = @"XVF7F";
+    self.couponCode.textAlignment = NSTextAlignmentCenter;
+    self.couponCode.backgroundColor = [UIColor clearColor];
+    self.couponCode.textColor = UIColorFromRGB(0x3a3a3a);
+    self.couponCode.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:41];
+    [self.view addSubview:self.couponCode];
+    
+}
+
+
+@end

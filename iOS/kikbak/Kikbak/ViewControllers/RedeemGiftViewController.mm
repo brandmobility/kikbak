@@ -23,6 +23,7 @@
 #import "util.h"
 #import <QuartzCore/QuartzCore.h>
 #import "UIButton+Util.h"
+#import "RedeemGiftSuccessViewController.h"
 
 
 @interface RedeemGiftViewController (){
@@ -61,6 +62,8 @@
 
 -(void)createSubviews;
 -(void)manuallyLayoutSubviews;
+
+-(IBAction)onRedeemBtn:(id)sender;
 
 //-(NSDictionary*)setupKikbakRequest;
 -(NSDictionary*)setupGiftRequest;
@@ -155,7 +158,7 @@
 -(void)createSubviews{
 
     self.giftImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320,250)];
-    self.giftImage.image = [UIImage imageNamed:@"img"];
+    self.giftImage.image = [UIImage imageNamed:@"lg photo"];
     [self.view addSubview:self.giftImage];
     
     self.giftGradient = [[UIImageView alloc]initWithFrame:CGRectMake(0, 124, 320, 126)];
@@ -285,7 +288,7 @@
     [self.redeemBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.redeemBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:15];
     self.redeemBtn.frame = CGRectMake(11, 453, 298, 40);
-    [self.redeemBtn addTarget:self action:@selector(onRedeem:) forControlEvents:UIControlEventTouchUpInside];
+    [self.redeemBtn addTarget:self action:@selector(onRedeemBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.redeemBtn];
 }
 
@@ -314,8 +317,12 @@
     }
 }
 
--(void)onRedeem:(id)sender{
+-(IBAction)onRedeemBtn:(id)sender{
 
+    RedeemGiftSuccessViewController* vc = [[RedeemGiftSuccessViewController alloc]init];
+    vc.gift = self.gift;
+    [self.navigationController pushViewController:vc animated:YES];
+    
 //    ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO];
 //    
 //    NSMutableSet *readers = [[NSMutableSet alloc ] init];
@@ -329,11 +336,11 @@
 //        rkr.kikbak = self.reward.kikbak;
 //        [rkr restRequest:[self setupKikbakRequest]];
 //    }
-    if(self.gift != nil){
-        RedeemGiftRequest *request = [[RedeemGiftRequest alloc]init];
-        request.gift = self.gift;
-        [request restRequest:[self setupGiftRequest]];
-    }
+//    if(self.gift != nil){
+//        RedeemGiftRequest *request = [[RedeemGiftRequest alloc]init];
+//        request.gift = self.gift;
+//        [request restRequest:[self setupGiftRequest]];
+//    }
 }
 
 -(void)onTermsAndConditions:(id)sender{
@@ -430,5 +437,6 @@
 -(IBAction)onBackBtn:(id)sender{
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 
 @end

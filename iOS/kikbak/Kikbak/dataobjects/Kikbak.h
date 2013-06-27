@@ -2,7 +2,7 @@
 //  Kikbak.h
 //  Kikbak
 //
-//  Created by Ian Barile on 6/23/13.
+//  Created by Ian Barile on 6/26/13.
 //  Copyright (c) 2013 Ian Barile. All rights reserved.
 //
 
@@ -20,8 +20,9 @@
 @property (nonatomic, retain) NSString * merchantName;
 @property (nonatomic, retain) NSString * merchantUrl;
 @property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSNumber * value;
 @property (nonatomic, retain) NSNumber * redeeemedGiftsCount;
+@property (nonatomic, retain) NSNumber * value;
+@property (nonatomic, retain) NSString * descOptional;
 @property (nonatomic, retain) NSSet *location;
 @end
 

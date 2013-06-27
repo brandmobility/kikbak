@@ -15,7 +15,16 @@
 
 @property (strong, nonatomic) IBOutlet UIButton *buttonLoginLogout;
 
-- (void)updateView;
+@property (nonatomic,strong) UIImageView* splash;
+@property (nonatomic,strong) UIButton* fbLoginBtn;
+
+-(void)updateView;
+
+-(void)createSubviews;
+-(void)manuallyLayoutSubviews;
+
+-(IBAction)onFaceBookLogin:(id)sender;
+
 @end
 
 
@@ -26,6 +35,8 @@
 {
     [super viewDidLoad];
     [self updateView];
+    [self createSubviews];
+    [self manuallyLayoutSubviews];
   
     AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
     if (!appDelegate.session.isOpen) {
@@ -60,6 +71,26 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)createSubviews{
+    self.splash = [[UIImageView alloc]initWithFrame:self.view.bounds];
+    self.splash.image = [UIImage imageNamed:@"splash-586h"];
+    [self.view addSubview:self.splash];
+    
+    self.fbLoginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.fbLoginBtn.frame = CGRectMake(11, 489, 298, 40);
+    [self.fbLoginBtn addTarget:self action:@selector(onFaceBookLogin:) forControlEvents:UIControlEventTouchUpInside];
+    [self.fbLoginBtn setBackgroundImage:[UIImage imageNamed:@"btn_facebook"] forState:UIControlStateNormal];
+    [self.fbLoginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.fbLoginBtn setTitle:NSLocalizedString(@"FB Login", nil) forState:UIControlStateNormal];
+    self.fbLoginBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15];
+    [self.view addSubview:self.fbLoginBtn];
+}
+
+-(void)manuallyLayoutSubviews{
+    
+}
+
+#pragma mark - BTN actions
 -(IBAction)onFaceBookLogin:(id)sender{
   
     AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];

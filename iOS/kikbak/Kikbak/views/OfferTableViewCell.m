@@ -113,7 +113,7 @@
     [self addSubview:self.webBtn];
     
     self.callBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.callBtn.frame = CGRectMake(109, 126, 26, 30);
+    self.callBtn.frame = CGRectMake(109, 125, 26, 31);
     self.callBtn.contentMode = UIViewContentModeLeft;
     //self.callBtn.backgroundColor = [UIColor greenColor];
     [self.callBtn setImage:[UIImage imageNamed:@"ic_phone"] forState:UIControlStateNormal];
@@ -165,7 +165,7 @@
 }
 
 
--(void)setup//:(int)index
+-(void)setup:(int)index
 {
     self.retailerName.text = self.offer.merchantName;
     if ([self.offer.giftType compare:@"percentage"] == NSOrderedSame) {
@@ -182,12 +182,21 @@
         self.location = [self.offer.location anyObject];
     }
     
+    CLLocation* current = [[CLLocation alloc]initWithLatitude:self.location.latitude.doubleValue longitude:self.location.longitude.doubleValue];
     self.distance.text = [NSString stringWithFormat:NSLocalizedString(@"miles away", nil),
-                          [Distance distanceToInMiles:[[CLLocation alloc]initWithLatitude:self.location.latitude.doubleValue longitude:self.location.longitude.doubleValue]] ];
+                              [Distance distanceToInMiles:current]];
+    
     
     NSString* imagePath = [ImagePersistor imageFileExists:self.offer.merchantId imageType:MERCHANT_IMAGE_TYPE];
     if(imagePath != nil){
         self.retailerImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
+    }
+    
+    if(index == 1){
+        self.retailerImage.image = [UIImage imageNamed:@"img3_offer"];
+    }
+    else if(index == 2){
+        self.retailerImage.image = [UIImage imageNamed:@"img2_offer"];
     }
 }
 

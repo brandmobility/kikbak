@@ -19,6 +19,7 @@
     </entity>
     <entity name="Kikbak" representedClassName="Kikbak" syncable="YES">
         <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="descOptional" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="imageUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="kikbakId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="merchantId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -62,7 +63,7 @@
     </entity>
     <elements>
         <element name="Gift" positionX="-5807" positionY="-495" width="128" height="270"/>
-        <element name="Kikbak" positionX="160" positionY="192" width="128" height="195"/>
+        <element name="Kikbak" positionX="160" positionY="192" width="128" height="210"/>
         <element name="Location" positionX="-5544" positionY="-567" width="128" height="150"/>
         <element name="Offer" positionX="-5247" positionY="-585" width="128" height="345"/>
     </elements>
