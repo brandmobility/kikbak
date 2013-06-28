@@ -100,18 +100,22 @@ function initPage() {
   if (window.location.href.indexOf(suffix, window.location.href.length - suffix.length) !== -1) {
     window.location.href = 'offer.html';
   }
-  suffix = 'offer.html';
-  if (window.location.href.indexOf(suffix, window.location.href.length - suffix.length) !== -1) {
+  if (typeof Storage != 'undefined') {
+    var pageType = localStorage.pageType;
+    if (pageType === 'offer') {
+      getOffers();
+    } else {
+      getOffers();
+      // getRedeems();
+    }
+  } else {
      getOffers();
-  }
-  suffix = 'redeem.html';
-  if (window.location.href.indexOf(suffix, window.location.href.length - suffix.length) !== -1) {
-     getRedeems();
   }
 }
 
 function getOffers() {
   if (typeof Storage != 'undefined') {
+    localStorage.pageType = 'offer';
     var userId = localStorage.userId;
 
     if (typeof userId != 'undefined' && userId != 'undefined' &&
@@ -140,14 +144,14 @@ function renderOffer(offer) {
   // html += '<img src="' + json.merchantImageUrl + '" />';
   html += '<img id="offer-label1" src="img/label1_price.png" />';
   html += '<div id="offer-label1-text">';
-  var gift = "<p>GIVE</p><p>";
-  gift += offer.giftType == 'percentage' ? offer.giftValue + "%</p><p>OFF</p>" :
-          "$" + offer.giftValue + "</p>";
+  var gift = "GIVE<br>";
+  gift += offer.giftType == 'percentage' ? offer.giftValue + "%<br>OFF" :
+          "$" + offer.giftValue;
   html += gift + '</div>';
   html += '<img id="offer-label2" src="img/label2_price.png" />';
   html += '<div id="offer-label2-text">';
-  gift = "<p>GET</p><p>";
-  gift += "$" + offer.kikbakValue + "</p>";
+  gift = "GET<br>";
+  gift += "$" + offer.kikbakValue;
   html += gift + '</div>';
   html += '</a></div>';
   html += '</li>';
@@ -155,6 +159,7 @@ function renderOffer(offer) {
 }
 
 function getOffersByLocation(userId, position) {
+  setWrapperSize();
   var location = {};
   if (position != null) {
     location['longitude'] = position.coords.longitude; 
@@ -176,6 +181,9 @@ function getOffersByLocation(userId, position) {
       $.each(offers, function(i, offer) {
         renderOffer(offer);
       });
+      setTimeout(function(){
+        reload();
+      }, 500);
     },
     error: showError
   });
@@ -183,6 +191,7 @@ function getOffersByLocation(userId, position) {
 
 function getRedeems() {
   if (typeof Storage != 'undefined') {
+    setWrapperSize();
     var userId = localStorage.userId;
 
     if (typeof userId != 'undefined' && userId != 'undefined' &&
@@ -191,5 +200,44 @@ function getRedeems() {
       });
     }
   }
+}
+
+function reload() {
+  if ( typeof getOffersByLocation.ov == 'undefined' ) {
+    getOffersByLocation.ov = new iScroll('offer-view');
+  } else {
+    getOffersByLocation.ov.refresh();
+  }
+
+  if (getBrowserName() == 'Safari') {
+    $('#footer').css('position', 'static');
+  } else {
+    $('#footer').css('position', 'fixed');
+  }
+  window.scrollTo(0, 1);
+}
+
+function getBrowserName() {
+  var nVer = navigator.appVersion;
+  var nAgt = navigator.userAgent;
+
+  if(navigator.platform == 'iPhone' || navigator.platform == 'iPod'){
+    if ((verOffset=nAgt.indexOf('Safari'))!=-1) {
+      return 'Safari';
+    }
+  }
+  return 'other';
+}
+
+function setWrapperSize() {
+  var wrapperSize;
+  if (getBrowserName() == 'Safari') {
+    wrapperSize = getHeight() - 45 - 50 + 60;
+  } else {
+    wrapperSize = getHeight() - 45 - 50;
+  };
+    
+   $('.wrapper').css('min-height', wrapperSize + 'px');
+   $('#footer').css('margin-top', wrapperSize + 50 + 'px');
 }
 
