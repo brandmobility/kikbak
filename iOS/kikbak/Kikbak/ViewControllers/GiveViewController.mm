@@ -93,7 +93,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 -(IBAction)keyboardWillHide:(NSNotification*)notification;
 
 -(id<KikbakOGCoupon>)CouponObject:(NSString*)caption;
--(void)postPhotoThenOpenGraphAction;
+-(void)postPhotoTheOpenGraphAction;
 -(void)postOpenGraphActionWithPhotoURL:(NSString*)photoURL withImageId:(NSNumber*)fbImageId;
 
 @end
@@ -419,7 +419,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     
 
     [self postToFacebook];
-   // [self postPhotoThenOpenGraphAction];
+   // [self postPhotoTheOpenGraphAction];
 }
 
 -(IBAction)onTakePhotoBtn:(id)sender{
@@ -495,7 +495,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
  
     if((alertView.tag == PHOTO_TAG || alertView.tag == CAPTION_TAG) && buttonIndex == 0) {
         [self postToFacebook];
-        //[self postPhotoThenOpenGraphAction];
+        //[self postPhotoTheOpenGraphAction];
     }
 }
 
@@ -537,10 +537,10 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     
     FBRequest* request = [FBRequest requestForUploadPhoto:[self.giveImage.image imageByScalingAndCroppingForSize:CGSizeMake(300, 300)]];
     if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
-        [request.parameters setObject:[NSString stringWithFormat:@"%@.\n\nVisit getkikbak.com for an exclusive offer shared by your friend", self.captionTextView.text] forKey:@"name"];
+        [request.parameters setObject:[NSString stringWithFormat:@"%@.\n\nVisit http://getkikbak.com for an exclusive offer shared by your friend", self.captionTextView.text] forKey:@"name"];
     }
     else{
-        [request.parameters setObject:@"Visit getkikbak.com for an exclusive offer shared by your friend" forKey:@"name"];
+        [request.parameters setObject:@"Visit http://getkikbak.com for an exclusive offer shared by your friend" forKey:@"name"];
     }
     
     [connection addRequest:request completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
@@ -605,7 +605,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     return result;
 }
 
-- (void)postPhotoThenOpenGraphAction{
+- (void)postPhotoTheOpenGraphAction{
     self.giveBtn.enabled = NO;
     
     FBRequestConnection *connection = [[FBRequestConnection alloc] init];
