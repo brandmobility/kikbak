@@ -146,7 +146,12 @@
     [self.view addSubview:self.offer];
     
     self.desc = [[UILabel alloc]initWithFrame:CGRectMake(0, 220, 320, 44)];
-    self.desc.text = self.gift.desc;
+    if ([self.gift.type compare:@"percentage"] == NSOrderedSame) {
+        self.desc.text = [NSString stringWithFormat:NSLocalizedString(@"gift percent", nil), [self.gift.value integerValue]];
+    }
+    else{
+        self.desc.text = [NSString stringWithFormat:NSLocalizedString(@"amount off", nil), [self.gift.value integerValue]];
+    }
     self.desc.textAlignment = NSTextAlignmentCenter;
     self.desc.backgroundColor = [UIColor clearColor];
     self.desc.textColor = UIColorFromRGB(0x3a3a3a);

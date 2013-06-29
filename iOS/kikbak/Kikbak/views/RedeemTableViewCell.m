@@ -205,7 +205,7 @@ const int CELL_HEIGHT = 147;
                                     [self.rewards.gift.value integerValue]];
     }
     else{
-        self.giftValue.text = [NSString stringWithFormat:NSLocalizedString(@"gift amount", nil),
+        self.giftValue.text = [NSString stringWithFormat:NSLocalizedString(@"amount off", nil),
                                     [self.rewards.gift.value integerValue]];
     }
 

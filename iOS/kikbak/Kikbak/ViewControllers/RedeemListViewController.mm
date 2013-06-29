@@ -20,6 +20,8 @@
 #import "RedeemChooserView.h"
 #import "RedeemCreditViewController.h"
 #import "SuggestViewController.h"
+#import "util.h"
+#import "UIDevice+Screen.h"
 
 
 const int CELL_HEIGHT = 156;
@@ -34,11 +36,20 @@ const int CELL_HEIGHT = 156;
 @property (nonatomic, strong) UIButton* redeemBtn;
 @property (nonatomic, strong) UIImageView* seperator;
 
+@property (nonatomic, strong) UIView* emptyListView;
+@property (nonatomic, strong) UILabel* doh;
+@property (nonatomic, strong) UILabel* receivedCredit;
+@property (nonatomic, strong) UILabel* earnCredit;
+@property (nonatomic, strong) UIButton* seeOffersBtn;
 
+
+-(void) createSubviews;
 -(void) manuallyLayoutSubviews;
+-(void) toggleViews;
+
 -(void) createRewardCollection;
 
--(IBAction)onSuggest:(id)sender;
+
 
 @end
 
@@ -56,14 +67,8 @@ const int CELL_HEIGHT = 156;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+
     self.navigationController.navigationBar.topItem.title = NSLocalizedString(@"Kikbak", nil);
-    self.table = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStylePlain];
-    self.table.dataSource = self;
-    self.table.delegate = self;
-    self.table.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_offwhite_eggshell"]];
-    [self.view addSubview:self.table];
-    
     UINavigationBar* bar = self.navigationController.navigationBar;
     [bar setBackgroundImage:[UIImage imageNamed:@"grd_navigationbar"] forBarMetrics:UIBarMetricsDefault];
     
@@ -72,7 +77,55 @@ const int CELL_HEIGHT = 156;
     else{
         locationResolved = NO;
     }
-        
+    [self createRewardCollection];
+    
+    [self createSubviews];
+    [self manuallyLayoutSubviews];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onLocationUpdate:) name:kKikbakLocationUpdate object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onRewaredCollectionUpdate:) name:kKikbakRewardUpdate object:nil];
+    
+    [self.tabBarController.view addSubview:self.redeemBtn];
+    [self.tabBarController.view addSubview:self.seperator];
+    [self.tabBarController.view addSubview:self.giveBtn];
+    
+
+    [self.table reloadData];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [self manuallyLayoutSubviews];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self.redeemBtn removeFromSuperview];
+    [self.seperator removeFromSuperview];
+    [self.giveBtn removeFromSuperview];
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakRewardUpdate object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakLocationUpdate object:nil];
+
+    [super viewDidDisappear:animated];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+-(void)viewDidLayoutSubviews{
+}
+
+-(void) createSubviews{
     UITabBar* tabBar = self.tabBarController.tabBar;
     tabBar.backgroundColor = [UIColor clearColor];
     CGRect tabBarFR = tabBar.frame;
@@ -106,53 +159,76 @@ const int CELL_HEIGHT = 156;
     [self.redeemBtn addTarget:self action:@selector(onRedeemBtn:) forControlEvents:UIControlEventTouchUpInside];
     self.redeemBtn.enabled = NO;
     [self.tabBarController.view addSubview:self.redeemBtn];
-}
-
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
     
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onLocationUpdate:) name:kKikbakLocationUpdate object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onRewaredCollectionUpdate:) name:kKikbakRewardUpdate object:nil];
+    self.table = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStylePlain];
+    self.table.dataSource = self;
+    self.table.delegate = self;
+    self.table.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_offwhite_eggshell"]];
+
+    self.emptyListView = [[UILabel alloc]initWithFrame:self.view.bounds];
+    self.emptyListView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_offwhite_eggshell"]];
+    self.emptyListView.clipsToBounds = YES;
+    self.emptyListView.userInteractionEnabled = YES;
     
-    [self.tabBarController.view addSubview:self.redeemBtn];
-    [self.tabBarController.view addSubview:self.seperator];
-    [self.tabBarController.view addSubview:self.giveBtn];
+    self.doh = [[UILabel alloc]initWithFrame:CGRectMake(0, 88, 320, 62)];
+    self.doh.text = NSLocalizedString(@"Doh", nil);
+    self.doh.textAlignment = NSTextAlignmentCenter;
+    self.doh.textColor = UIColorFromRGB(0x3a3a3a);
+    self.doh.font = [UIFont fontWithName:@"Helvetica-Bold" size:31];
+    self.doh.backgroundColor = [UIColor clearColor];
+    [self.emptyListView addSubview:self.doh];
     
-    [self createRewardCollection];
-    [self.table reloadData];
-}
-
--(void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    [self manuallyLayoutSubviews];
-}
-
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    [self.redeemBtn removeFromSuperview];
-    [self.seperator removeFromSuperview];
-    [self.giveBtn removeFromSuperview];
-}
-
--(void)viewDidDisappear:(BOOL)animated{
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakRewardUpdate object:nil];
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakLocationUpdate object:nil];
-
-    [super viewDidDisappear:animated];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
--(void)viewDidLayoutSubviews{
-    [self manuallyLayoutSubviews];
+    
+    self.receivedCredit = [[UILabel alloc]initWithFrame:CGRectMake(51, 138, 216, 40)];
+    self.receivedCredit.text = NSLocalizedString(@"You haven't received any gifts or earned any credit", nil);
+    self.receivedCredit.textAlignment = NSTextAlignmentCenter;
+    self.receivedCredit.textColor = UIColorFromRGB(0x3a3a3a);
+    self.receivedCredit.font = [UIFont fontWithName:@"Helvetica" size:16];
+    self.receivedCredit.backgroundColor = [UIColor clearColor];
+    self.receivedCredit.numberOfLines = 2;
+    [self.emptyListView addSubview:self.receivedCredit];
+    
+    self.earnCredit = [[UILabel alloc]initWithFrame:CGRectMake(45, 226, 230, 60)];
+    self.earnCredit.text = NSLocalizedString(@"Change empty gifts", nil);
+    self.earnCredit.textAlignment = NSTextAlignmentCenter;
+    self.earnCredit.textColor = UIColorFromRGB(0x3a3a3a);
+    self.earnCredit.font = [UIFont fontWithName:@"Helvetica" size:13];
+    self.earnCredit.backgroundColor = [UIColor clearColor];
+    self.earnCredit.numberOfLines = 3;
+    [self.emptyListView addSubview:self.earnCredit];
+    
+    
+    self.seeOffersBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.seeOffersBtn.frame = CGRectMake(45, 285, 230, 40);
+    [self.seeOffersBtn setBackgroundImage:[UIImage imageNamed:@"btn_blue"] forState:UIControlStateNormal];
+    [self.seeOffersBtn setTitle:NSLocalizedString(@"Share with friends", nil) forState:UIControlStateNormal];
+    [self.seeOffersBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.seeOffersBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15];
+    [self.seeOffersBtn addTarget:self action:@selector(onGiveBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [self.emptyListView addSubview:self.seeOffersBtn];
+    
 }
 
 -(void) manuallyLayoutSubviews{
     self.table.frame = self.view.frame;
+    if(![UIDevice hasFourInchDisplay]){
+        self.doh.frame = CGRectMake(0, 53, 320, 62);
+        self.receivedCredit.frame = CGRectMake(51, 104, 216, 40);
+        self.earnCredit.frame = CGRectMake(45, 195, 230, 60);
+        self.seeOffersBtn.frame = CGRectMake(45, 258, 230, 40);
+    }
+    [self toggleViews];
+}
+
+-(void)toggleViews{
+    if( [self.rewards count] && locationResolved ){
+        [self.emptyListView removeFromSuperview];
+        [self.view addSubview:self.table];
+    }
+    else{
+        [self.table removeFromSuperview];
+        [self.view addSubview:self.emptyListView];
+    }
 }
 
 #pragma mark - table datasource methods
@@ -231,11 +307,13 @@ const int CELL_HEIGHT = 156;
 #pragma mark - NSNotification Handlers
 -(void) onLocationUpdate:(NSNotification*)notification{
     locationResolved = YES;
+    [self toggleViews];
     [self.table reloadData];
 }
 
 -(void) onRewaredCollectionUpdate:(NSNotification*)notification{
     [self createRewardCollection];
+    [self toggleViews];
     [self.table reloadData];
 }
 
@@ -294,10 +372,5 @@ const int CELL_HEIGHT = 156;
 
 }
 
--(IBAction)onSuggest:(id)sender{
-    SuggestViewController* svc = [[SuggestViewController alloc]init];
-    [svc setHidesBottomBarWhenPushed:YES];
-    [self.navigationController pushViewController:svc animated:YES];
-}
 
 @end
