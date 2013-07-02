@@ -2,12 +2,12 @@
 package com.referredlabs.kikbak.data;
 
 public class KikbakType {
-  long id; // optional
-  ClientMerchantType merchant; // optional
-  String name; // optional
-  String desc; // optional
-  String descOptional; // optional
-  double value;
-  int redeeemedGiftsCount;
-  String terms; // optional
+  public long id; // optional
+  public ClientMerchantType merchant; // optional
+  public String name; // optional
+  public String desc; // optional
+  public String descOptional; // optional
+  public double value;
+  public int redeeemedGiftsCount;
+  public String terms; // optional
 }

@@ -55,4 +55,11 @@
     <!-- Share progress -->
     <string name="share_in_progress">Sharing gift</string>
 
+    <!-- Rewards -->
+    <string name="reward_gift_label">Received gift</string>
+    <string name="reward_gift_type_percentage_fmt">%.0f%% OFF</string>
+    <string name="reward_gift_type_amount_fmt">$%.0f OFF</string>
+    <string name="reward_credit_label">Earned creadit</string>
+    <string name="reward_credit_type_amount_fmt">$%.0f OFF</string>
+    
 </resources>
