@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="144dp"
+    android:background="#33777777" >
+
+    <ImageView
+        android:id="@+id/offer_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="13dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/merchant_ex1" />
+
+    <include
+        android:id="@+id/icon_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="8dp"
+        layout="@layout/icons_bar" />
+
+    <TextView
+        android:id="@+id/offer_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/icon_bar"
+        android:paddingLeft="8dp"
+        android:text="Verizon Wireless"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+    <include
+        android:id="@+id/ribbon"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        layout="@layout/ribbon" />
+
+</RelativeLayout>

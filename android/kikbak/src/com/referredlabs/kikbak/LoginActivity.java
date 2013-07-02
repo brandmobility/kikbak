@@ -1,26 +1,37 @@
+
 package com.referredlabs.kikbak;
 
-import java.util.Arrays;
-
-import com.facebook.Session;
-import com.facebook.Session.StatusCallback;
-import com.facebook.model.GraphUser;
-import com.facebook.widget.LoginButton;
-import com.facebook.widget.LoginButton.UserInfoChangedCallback;
-import com.facebook.SessionState;
-import com.facebook.UiLifecycleHelper;
-import com.referredlabs.kikbak.data.User;
-import com.referredlabs.kikbak.http.Http;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.View;
+import android.support.v4.app.FragmentActivity;
 
-public class LoginActivity extends Activity implements StatusCallback, UserInfoChangedCallback {
+import com.facebook.Session;
+import com.facebook.Session.StatusCallback;
+import com.facebook.SessionState;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.model.GraphUser;
+import com.facebook.widget.LoginButton;
+import com.facebook.widget.LoginButton.UserInfoChangedCallback;
+import com.referredlabs.kikbak.data.RegisterUserRequest;
+import com.referredlabs.kikbak.data.RegisterUserResponse;
+import com.referredlabs.kikbak.data.User;
+import com.referredlabs.kikbak.http.Http;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class LoginActivity extends FragmentActivity implements StatusCallback,
+    UserInfoChangedCallback {
+
+  public final static String[] READ_PERMISSIONS = {
+      "email"
+  };
+  public final static String[] PUBLISH_PERMISSIONS = {
+      "publish_actions"
+  };
 
   private UiLifecycleHelper mUiHelper;
 
@@ -34,7 +45,7 @@ public class LoginActivity extends Activity implements StatusCallback, UserInfoC
 
     LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
     loginButton.setUserInfoChangedCallback(this);
-    loginButton.setReadPermissions(Arrays.asList("email"));
+    loginButton.setReadPermissions(Arrays.asList(READ_PERMISSIONS));
   }
 
   @Override
@@ -69,12 +80,15 @@ public class LoginActivity extends Activity implements StatusCallback, UserInfoC
 
   @Override
   public void call(Session session, SessionState state, Exception exception) {
-    android.util.Log.d("MMM", "Session state:" + state);
-    android.util.Log.d("MMM", "exception:" + exception);
     if (session.isOpened()) {
-      findViewById(R.id.login_button).setVisibility(View.INVISIBLE);
+      // findViewById(R.id.login_button).setVisibility(View.INVISIBLE);
+      List<String> permissions = session.getPermissions();
+      if (!permissions.containsAll(Arrays.asList(PUBLISH_PERMISSIONS))) {
+        Session.NewPermissionsRequest newPermissionsRequest = new Session
+            .NewPermissionsRequest(this, Arrays.asList(PUBLISH_PERMISSIONS));
+        session.requestNewPublishPermissions(newPermissionsRequest);
+      }
     }
-
   }
 
   @Override
@@ -85,35 +99,41 @@ public class LoginActivity extends Activity implements StatusCallback, UserInfoC
   }
 
   private void registerUser(GraphUser facebookUser) {
-    User user = User.createFromFacebook(facebookUser);
-    RegisterTask task = new RegisterTask(user);
+    RegisterTask task = new RegisterTask(facebookUser);
     task.execute();
   }
 
   class RegisterTask extends AsyncTask<Void, Void, Void> {
-    User mUser;
+    GraphUser mFacebookUser;
 
-    RegisterTask(User user) {
-      mUser = user;
+    RegisterTask(GraphUser user) {
+      mFacebookUser = user;
     }
 
     @Override
     protected Void doInBackground(Void... arg0) {
-      long id = Http.sendRegisterUserReqest(mUser);
-      if (id > 0) {
-        SharedPreferences pref = getSharedPreferences("login", 0);
-        Editor editor = pref.edit();
-        editor.putLong("user_id", id);
-        editor.commit();
+      try {
+        User user = User.createFromFacebook(mFacebookUser);
+        RegisterUserRequest req = new RegisterUserRequest();
+        req.user = user;
+        String uri = Http.getUri("user/register/fb/");
+        RegisterUserResponse resp = Http.execute(uri, req, RegisterUserResponse.class);
+        long id = resp.userId.userId;
+        if (id > 0) {
+          SharedPreferences pref = getSharedPreferences("login", 0);
+          Editor editor = pref.edit();
+          editor.putLong("user_id", id);
+          editor.commit();
+        }
+      } catch (Exception e) {
+        android.util.Log.d("MMM", "Registration failed.");
       }
       return null;
     }
 
     @Override
     protected void onPostExecute(Void result) {
-      // TODO Auto-generated method stub
-      startActivity(new Intent(LoginActivity.this, OffersActivity.class));
-      finish();
+      // finish();
     }
 
   };

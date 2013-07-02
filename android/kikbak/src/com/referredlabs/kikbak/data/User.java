@@ -115,7 +115,7 @@ public class User {
   public void setVerified(boolean verified) {
     this.verified = verified;
   }
-
+  
   public static User createTestUser(String name) {
     User user = new User();
     user.setEmail(name + "@kikbak.com");
