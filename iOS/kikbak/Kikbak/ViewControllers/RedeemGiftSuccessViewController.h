@@ -12,6 +12,12 @@
 
 @interface RedeemGiftSuccessViewController : UIViewController
 
-@property (nonatomic, strong) Gift* gift;
+
+@property (nonatomic, strong) NSString* merchantName;
+@property (nonatomic, strong) NSNumber* value;
+@property (nonatomic, strong) NSString* giftType;
+@property (nonatomic, strong) NSString* optionalDesc;
+@property (nonatomic, strong) NSString* validationCode;
+
 
 @end

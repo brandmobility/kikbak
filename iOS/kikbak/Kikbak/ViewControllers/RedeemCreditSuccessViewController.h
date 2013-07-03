@@ -14,5 +14,6 @@
 
 @property(nonatomic,strong)NSNumber* creditUsed;
 @property(nonatomic,strong)NSString* merchantName;
+@property (nonatomic,strong) NSString* validationCode;
 
 @end

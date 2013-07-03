@@ -50,10 +50,30 @@ static NSString* resource = @"rewards/redeem/kikbak";
 
 
 -(void)parseResponse:(NSData*)data{
+    NSString* json = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@"RedeemKikbakRequest: %@", json);
 
-    self.kikbak.location = nil;
     NSManagedObjectContext* context = self.kikbak.managedObjectContext;
-    [context deleteObject:self.kikbak];
+
+    NSString* authorizationCode;
+    id dict = [json JSONValue];
+    if( dict) {
+        id kikbakResponse = [dict objectForKey:@"redeemKikbakResponse"];
+        if(kikbakResponse){
+            id response = [kikbakResponse objectForKey:@"response"];
+            if( response ){
+                authorizationCode = [response objectForKey:@"authorizationCode"];
+                NSNumber* balance = [response objectForKey:@"balance"];
+                if( [balance integerValue ] == 0){
+                    self.kikbak.location = nil;
+                    [context deleteObject:self.kikbak];
+                }
+                else{
+                    self.kikbak.value = balance;
+                }
+            }
+        }
+    }
     
     NSError* error;
     [context save:&error];
@@ -61,8 +81,9 @@ static NSString* resource = @"rewards/redeem/kikbak";
     if(error){
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
-    
-    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakRedeemKikbakSuccess object:nil];
+
+
+    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakRedeemKikbakSuccess object:authorizationCode];
 }
 
 -(void)handleError:(NSInteger)statusCode withData:(NSData*)data{

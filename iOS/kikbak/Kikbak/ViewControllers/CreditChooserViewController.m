@@ -186,6 +186,7 @@
         numberFormatter.minimumFractionDigits = 0;
         numberFormatter.decimalSeparator      = decimalSeperator;
         numberFormatter.usesGroupingSeparator = NO;
+        numberFormatter.allowsFloats = YES;
 
         [numberFormatter setMaximum:self.credit];
 //        [numberFormatter setRoundingIncrement:[NSNumber numberWithDouble:0.01]];

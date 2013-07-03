@@ -7,7 +7,11 @@
 //
 
 #import "OfferService.h"
+#import "Offer.h"
+#import "Location.h"
 #import "AppDelegate.h"
+#import "map"
+#import "Distance.h"
 
 @implementation OfferService
 
@@ -59,7 +63,22 @@
 		return nil;
     }
     
-    return array;
+    std::map<double,id> offers;
+    for(int index = 0; index < [array count]; index++){
+        Offer* offer = [array objectAtIndex:index];
+        Location* location = [offer.location anyObject];
+        double distance = [Distance distanceToInFeet:[[CLLocation alloc]initWithLatitude:location.latitude.doubleValue
+                                                             longitude:location.longitude.doubleValue]];
+        offers[distance] = offer;
+        
+    }
+    
+    NSMutableArray* sortedArray = [[NSMutableArray alloc]initWithCapacity:[array count]];
+    for(std::map<double,id>::const_iterator cit = offers.begin(); cit != offers.end(); cit++){
+        [sortedArray addObject:cit->second];
+    }
+    
+    return sortedArray;
 }
 
 +(void)deleteAll{

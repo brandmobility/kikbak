@@ -77,7 +77,7 @@ const int CELL_HEIGHT = 156;
     else{
         locationResolved = NO;
     }
-    [self createRewardCollection];
+
     
     [self createSubviews];
     [self manuallyLayoutSubviews];
@@ -94,6 +94,7 @@ const int CELL_HEIGHT = 156;
     [self.tabBarController.view addSubview:self.giveBtn];
     
 
+    [self createRewardCollection];
     [self.table reloadData];
 }
 

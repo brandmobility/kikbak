@@ -39,6 +39,7 @@ import com.kikbak.jaxb.ClientLocationType;
 import com.kikbak.jaxb.ClientMerchantType;
 import com.kikbak.jaxb.GiftRedemptionType;
 import com.kikbak.jaxb.GiftType;
+import com.kikbak.jaxb.KikbakRedemptionResponseType;
 import com.kikbak.jaxb.KikbakRedemptionType;
 import com.kikbak.jaxb.KikbakType;
 import com.kikbak.push.service.ApsNotifier;
@@ -142,7 +143,6 @@ public class RewardServiceImpl implements RewardService{
 			Offer offer = roOfferDao.findById(kikbak.getOfferId());
 			kt.setDesc(offer.getKikbakDesc());
 			kt.setDescOptional(offer.getKikbakOptionalDesc());
-			kt.setValue(offer.getKikbakValue());
 			kt.setName(offer.getKikbakName());			
 			kt.setRedeeemedGiftsCount(roTxnDao.countOfGiftsRedeemedByUserByMerchant(userId, kikbak.getMerchantId()));
 			
@@ -181,7 +181,7 @@ public class RewardServiceImpl implements RewardService{
 	}
 
 	@Override
-	public String registerKikbakRedemption(final Long userId, KikbakRedemptionType kikbakType) throws Exception {
+	public KikbakRedemptionResponseType registerKikbakRedemption(final Long userId, KikbakRedemptionType kikbakType) throws Exception {
 		
 		Location location = roLocationDao.findById(kikbakType.getLocationId());
 		if( !location.getVerificationCode().equals(kikbakType.getVerificationCode())){
@@ -210,7 +210,10 @@ public class RewardServiceImpl implements RewardService{
 		rwKikbakDao.makePersistent(kikbak);
 		rwTxnDao.makePersistent(txn);
 		
-		return txn.getAuthorizationCode();
+		KikbakRedemptionResponseType response = new KikbakRedemptionResponseType();
+		response.setBalance(kikbak.getValue());
+		response.setAuthorizationCode(txn.getAuthorizationCode());
+		return response;
 	}
 	
 	

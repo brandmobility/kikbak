@@ -15,7 +15,6 @@
 #import "Kikbak.h"
 #import "Location.h"
 #import "RedeemGiftRequest.h"
-#import "RedeemKikbakRequest.h"
 #import "RewardCollection.h"
 #import "Distance.h"
 #import "NotificationContstants.h"
@@ -55,6 +54,9 @@
 @property (nonatomic,strong) UILabel* giftDescription;
 @property (nonatomic,strong) UILabel* giftDetails;
 
+@property (nonatomic,strong) NSNumber* value;
+@property (nonatomic,strong) NSString* giftType;
+
 @property (nonatomic,strong) UIButton* termsBtn;
 
 @property (nonatomic,strong) UIButton* redeemBtn;
@@ -65,7 +67,7 @@
 
 -(IBAction)onRedeemBtn:(id)sender;
 
-//-(NSDictionary*)setupKikbakRequest;
+
 -(NSDictionary*)setupGiftRequest;
 -(void)updateDistance;
 
@@ -319,9 +321,9 @@
 
 -(IBAction)onRedeemBtn:(id)sender{
 
-    RedeemGiftSuccessViewController* vc = [[RedeemGiftSuccessViewController alloc]init];
-    vc.gift = self.gift;
-    [self.navigationController pushViewController:vc animated:YES];
+//    RedeemGiftSuccessViewController* vc = [[RedeemGiftSuccessViewController alloc]init];
+//    vc.gift = self.gift;
+//    [self.navigationController pushViewController:vc animated:YES];
     
 //    ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO];
 //    
@@ -336,11 +338,15 @@
 //        rkr.kikbak = self.reward.kikbak;
 //        [rkr restRequest:[self setupKikbakRequest]];
 //    }
-//    if(self.gift != nil){
-//        RedeemGiftRequest *request = [[RedeemGiftRequest alloc]init];
-//        request.gift = self.gift;
-//        [request restRequest:[self setupGiftRequest]];
-//    }
+    
+    self.value = self.gift.value;
+    self.giftType = self.gift.type;
+    
+    if(self.gift != nil){
+        RedeemGiftRequest *request = [[RedeemGiftRequest alloc]init];
+        request.gift = self.gift;
+        [request restRequest:[self setupGiftRequest]];
+    }
 }
 
 -(void)onTermsAndConditions:(id)sender{
@@ -405,7 +411,7 @@
     Location* location = [self.gift.location anyObject];
     [dict setObject:location.locationId forKey:@"locationId"];
     [dict setObject:self.gift.friendUserId forKey:@"friendUserId"];
-    [dict setObject:@"zdfdw" forKey:@"verificationCode"];
+    [dict setObject:@"fwttt" forKey:@"verificationCode"];
     
     return dict;
 }
@@ -424,7 +430,14 @@
 }
 
 -(void) onRedeemGiftSuccess:(NSNotification*)notification{
-    
+    RedeemGiftSuccessViewController* vc = [[RedeemGiftSuccessViewController alloc]init];
+    vc.validationCode = [notification object];
+    vc.merchantName = self.retailerName.text;
+    vc.value = self.value;
+    vc.giftType = self.giftType;
+    vc.optionalDesc = self.giftDetails.text;
+    [self.navigationController pushViewController:vc animated:YES];
+
 }
 
 -(void) onRedeemGiftError:(NSNotification*)notification{

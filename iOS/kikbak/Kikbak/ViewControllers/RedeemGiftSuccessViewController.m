@@ -26,7 +26,7 @@
 
 @property (nonatomic, strong) UILabel* offer;
 @property (nonatomic, strong) UILabel* desc;
-@property (nonatomic, strong) UILabel* optionalDesc;
+@property (nonatomic, strong) UILabel* details;
 @property (nonatomic, strong) UIImageView* seperator;
 
 @property (nonatomic, strong) UIImageView* qrCode;
@@ -77,7 +77,7 @@
         self.dottedSeperator.frame = CGRectMake(0, 138, 320, 2);
         self.offer.frame = CGRectMake(0, 157, 320, 28);
         self.desc.frame = CGRectMake(0, 185, 320, 48);
-        self.optionalDesc.frame = CGRectMake(0, 225, 320, 26);
+        self.details.frame = CGRectMake(0, 225, 320, 26);
         self.seperator.frame = CGRectMake(11, 265, 298, 1);
         self.qrCode.frame = CGRectMake(33, 287, 109, 109);
         self.couponCode.frame = CGRectMake(175, 322, 320, 46);
@@ -101,7 +101,7 @@
     self.retailerName.textAlignment = NSTextAlignmentCenter;
     self.retailerName.textColor = UIColorFromRGB(0x3a3a3a);
     self.retailerName.backgroundColor = [UIColor clearColor];
-    self.retailerName.text = self.gift.merchantName;
+    self.retailerName.text = self.merchantName;
     [self.view addSubview:self.retailerName];
     
     self.successBG = [[UIView alloc]initWithFrame:CGRectMake(0, 88, 320, 86)];
@@ -146,11 +146,11 @@
     [self.view addSubview:self.offer];
     
     self.desc = [[UILabel alloc]initWithFrame:CGRectMake(0, 220, 320, 44)];
-    if ([self.gift.type compare:@"percentage"] == NSOrderedSame) {
-        self.desc.text = [NSString stringWithFormat:NSLocalizedString(@"gift percent", nil), [self.gift.value integerValue]];
+    if ([self.giftType compare:@"percentage"] == NSOrderedSame) {
+        self.desc.text = [NSString stringWithFormat:NSLocalizedString(@"gift percent", nil), [self.value integerValue]];
     }
     else{
-        self.desc.text = [NSString stringWithFormat:NSLocalizedString(@"amount off", nil), [self.gift.value integerValue]];
+        self.desc.text = [NSString stringWithFormat:NSLocalizedString(@"amount off", nil), [self.value integerValue]];
     }
     self.desc.textAlignment = NSTextAlignmentCenter;
     self.desc.backgroundColor = [UIColor clearColor];
@@ -158,13 +158,13 @@
     self.desc.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:41];
     [self.view addSubview:self.desc];
     
-    self.optionalDesc = [[UILabel alloc]initWithFrame:CGRectMake(0, 255, 320, 26)];
-    self.optionalDesc.text = self.gift.descOptional;
-    self.optionalDesc.textAlignment = NSTextAlignmentCenter;
-    self.optionalDesc.backgroundColor = [UIColor clearColor];
-    self.optionalDesc.textColor = UIColorFromRGB(0x3a3a3a);
-    self.optionalDesc.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
-    [self.view addSubview:self.optionalDesc];
+    self.details = [[UILabel alloc]initWithFrame:CGRectMake(0, 255, 320, 26)];
+    self.details.text = self.optionalDesc;
+    self.details.textAlignment = NSTextAlignmentCenter;
+    self.details.backgroundColor = [UIColor clearColor];
+    self.details.textColor = UIColorFromRGB(0x3a3a3a);
+    self.details.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
+    [self.view addSubview:self.details];
     
     self.seperator = [[UIImageView alloc]initWithFrame:CGRectMake(11, 298, 298, 1)];
     self.seperator.image = [UIImage imageNamed:@"separator_gray_line"];
@@ -175,7 +175,7 @@
     [self.view addSubview:self.qrCode];
     
     self.couponCode = [[UILabel alloc] initWithFrame:CGRectMake(0, 445, 320, 46)];
-    self.couponCode.text = @"XVF7F";
+    self.couponCode.text = self.validationCode;
     self.couponCode.textAlignment = NSTextAlignmentCenter;
     self.couponCode.backgroundColor = [UIColor clearColor];
     self.couponCode.textColor = UIColorFromRGB(0x3a3a3a);
@@ -186,7 +186,7 @@
 
 #pragma mark - on back btn
 -(IBAction)onBackBtn:(id)sender{
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 

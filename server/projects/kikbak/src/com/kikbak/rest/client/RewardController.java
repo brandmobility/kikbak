@@ -63,6 +63,7 @@ public class RewardController {
 		catch(RedemptionException e){
 			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			status.setCode(StatusCode.INVALID_VERIFICATION_CODE_ERROR.ordinal());
+			logger.error(e,e);
 		}
 		catch (Exception e) {
 			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -82,7 +83,7 @@ public class RewardController {
 		status.setCode(StatusCode.OK.ordinal());
 		response.setStatus(status);
 		try {
-			response.setAuthorizationCode(service.registerKikbakRedemption(userId, request.getKikbak()));
+			response.setResponse(service.registerKikbakRedemption(userId, request.getKikbak()));
 		} catch (Exception e) {
 			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			status.setCode(StatusCode.ERROR.ordinal());

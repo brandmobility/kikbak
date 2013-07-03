@@ -12,7 +12,9 @@
 #import "util.h"
 #import "Kikbak.h"
 #import "UIDevice+Screen.h"
+#import "RedeemKikbakRequest.h"
 #import "RedeemCreditSuccessViewController.h"
+#import "Location.h"
 
 @interface RedeemCreditViewController ()
 
@@ -34,6 +36,8 @@
 @property (nonatomic,strong) UILabel* warning;
 
 @property (nonatomic,strong) UIButton* redeemBtn;
+
+-(NSDictionary*)setupKikbakRequest;
 
 -(void)createSubviews;
 -(void)manuallyLayoutSubviews;
@@ -204,14 +208,32 @@
 }
 
 -(IBAction)onRedeem:(id)sender{
-    RedeemCreditSuccessViewController* vc = [[RedeemCreditSuccessViewController alloc] init];
-    vc.creditUsed = self.creditToUse;
-    vc.merchantName = self.credit.merchantName;
-    [self.navigationController pushViewController:vc animated:YES];
+    if(self.credit != nil){
+        RedeemKikbakRequest* rkr = [[RedeemKikbakRequest alloc]init];
+        rkr.kikbak = self.credit;
+        [rkr restRequest:[self setupKikbakRequest]];
+    }
 }
+
+-(NSDictionary*)setupKikbakRequest{
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:3];
+    [dict setObject:self.credit.kikbakId forKey:@"id"];
+    Location* location = [self.credit.location anyObject];
+    [dict setObject:location.locationId forKey:@"locationId"];
+    [dict setObject:self.creditToUse forKey:@"amount"];
+    [dict setObject:@"fwttt" forKey:@"verificationCode"];
+    
+    return dict;
+}
+
 
 #pragma mark - NSNotification Handlers
 -(void) onRedeemKikbakSuccess:(NSNotification*)notification{
+    RedeemCreditSuccessViewController* vc = [[RedeemCreditSuccessViewController alloc] init];
+    vc.creditUsed = self.creditToUse;
+    vc.merchantName = self.retailerName.text;
+    vc.validationCode = [notification object];
+    [self.navigationController pushViewController:vc animated:YES];
     
 }
 

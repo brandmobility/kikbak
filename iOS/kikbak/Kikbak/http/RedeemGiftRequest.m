@@ -62,7 +62,9 @@ static NSString* resource = @"rewards/redeem/gift";
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
 
-    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakRedeemGiftSuccess object:nil];
+    id dict = [json JSONValue];
+    id giftResponse = [dict objectForKey:@"redeemGiftResponse"];
+    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakRedeemGiftSuccess object:[giftResponse objectForKey:@"authorizationCode"]];
 }
 
 -(void)handleError:(NSInteger)statusCode withData:(NSData*)data{

@@ -201,6 +201,7 @@
         </xsd:complexType>
     </xsd:element>
     
+    
     <xsd:element name="RedeemKikbakRequest">
         <xsd:complexType>
                 <xsd:sequence>
@@ -209,11 +210,19 @@
             </xsd:complexType>
     </xsd:element>
     
+   <xsd:complexType name="KikbakRedemptionResponseType">
+        <xsd:sequence>
+            <xsd:element name="id" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="authorizationCode" type="xsd:string" minOccurs="1" maxOccurs="1"/> 
+            <xsd:element name="balance" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
     <xsd:element name="RedeemKikbakResponse">
         <xsd:complexType>
             <xsd:sequence>
                 <xsd:element name="status" type="kikbak:StatusType" minOccurs="1" maxOccurs="1"/>
-                <xsd:element name="authorizationCode" type="xsd:string" minOccurs="1" maxOccurs="1"/> 
+                <xsd:element name="response" type="kikbak:KikbakRedemptionResponseType" minOccurs="1" maxOccurs="1"/> 
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>

@@ -170,7 +170,7 @@
     [self.view addSubview:self.qrCode];
     
     self.couponCode = [[UILabel alloc] initWithFrame:CGRectMake(0, 445, 320, 46)];
-    self.couponCode.text = @"XVF7F";
+    self.couponCode.text = self.validationCode;
     self.couponCode.textAlignment = NSTextAlignmentCenter;
     self.couponCode.backgroundColor = [UIColor clearColor];
     self.couponCode.textColor = UIColorFromRGB(0x3a3a3a);
@@ -180,7 +180,7 @@
 
 #pragma mark - on back btn
 -(IBAction)onBackBtn:(id)sender{
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 
