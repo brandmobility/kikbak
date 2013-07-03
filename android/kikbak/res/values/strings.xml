@@ -61,5 +61,23 @@
     <string name="reward_gift_type_amount_fmt">$%.0f OFF</string>
     <string name="reward_credit_label">Earned creadit</string>
     <string name="reward_credit_type_amount_fmt">$%.0f OFF</string>
-    
+
+    <!-- Redeem -->
+    <string name="credit_label">Credit to be applied to purchase</string>
+    <string name="credit_change">Change</string>
+    <string name="credit_warning">WARNING: If you apply more credit then your purchase total, you will pernamently lose all execess credit applied.</string>
+    <string name="scan_code">Scan QR code to Redeem</string>
+
+    <!-- Change amount -->
+    <string name="change_amount_title">Change amount</string>
+    <string name="credit_avaiable_label">Credit avaiable</string>
+    <string name="credit_to_use_label">Set amount to use</string>
+    <string name="apply">Apply</string>
+    <string name="credit_amount_fmt">$%.2f</string>
+
+    <!-- Confirmation dialogs -->
+    <string name="redeem_gift_confirmation">You must be at the register to redeem.\n\nAre you ready to redeem this offer?</string>
+    <string name="redeem_not_in_store">Oops! You have to be in the store to redeem.\n\nLooks like you might not be there yet. Try again?</string>
+    <string name="redeem_credit_confirmation">If you use more credit then your purchase total, you woll lose all excess credit.\n\nYou have chosen to redeem $15.00 credit. Is this right?</string>
+
 </resources>
