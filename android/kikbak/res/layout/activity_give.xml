@@ -1,0 +1,22 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".GiveActivity" >
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        layout="@layout/give_photo_frame" />
+
+    <include layout="@layout/give_details" />
+
+    <Button
+        android:id="@+id/give"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/give" />
+
+</LinearLayout>

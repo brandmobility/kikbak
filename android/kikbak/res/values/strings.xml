@@ -2,7 +2,64 @@
 <resources>
 
     <string name="app_name">Kikbak</string>
-    <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <!-- Main menu -->
+    <string name="action_settings">Settings</string>
+    <string name="action_login">Login</string>
 
+    <!-- Main activity -->
+    <string name="title_offers">Give</string>
+    <string name="title_redeem">Redeem</string>
+
+    <!-- Redeem list empty -->
+
+    <string name="redeem_empty_doh">Doh!</string>
+    <string name="redeem_empty_note">"You haven't received any gifts or earned any credit."</string>
+    <string name="redeem_empty_advise">"You can change that by giving an offer to your friends. You'll earn credit for every friend that redeems."</string>
+    <string name="redeem_empty_button">See offers to give to friends</string>
+
+    <!-- Give Activity -->
+
+    <string name="give">Give to friends</string>
+    <string name="give_gift_optional_note">Optional text, you can put 40 characters here.</string>
+    <string name="give_get_optional_note">For every friend that redeems your gift</string>
+    <string name="terms">Terms and Conditions</string>
+    <string name="learn_more">Learn more</string>
+    <string name="hint_add_comment">Add comment</string>
+    <string name="take_photo">Take a photo</string>
+
+    <!-- terms and condtionds, learn more -->
+    <string name="terms_title">Terms and conditions for offer</string>
+    <string name="learn_more_title">Learn more</string>
+    <string name="terms_example">You own all of the content and information you post on Facebook, and
+        you can control how it is shared through your privacy and application settings. In addition:
+        For content that is covered by intellectual property rights, like photos and videos (IP content),
+        you specifically give us the following permission, subject to you privacy and application settings:
+        you grant us a non-exclusive, transferable, sub-licensable, rayalty-free, worldwide license to use 
+        any IP content that you post on or in connection with Facebook (IP License).
+        This IP License ends when you delete your IP content or your account unless your content has been
+        shared with others, and they have not deleted it. When you delete IP Content, it is deleted in 
+        a anner similar to emptying the recycle bin on a computer. However, you understand that removed 
+        content may persist in backup copies for a reasonable period of time (but will not be available 
+        to others).</string>
+    <string name="done">Done</string>
+
+    <!-- Share options -->
+    <string name="share_options_title">How would you like to share?</string>
+    <string name="share_option_email_header">Email</string>
+    <string name="share_option_email_send_to_friends">Send to selected friends</string>
+    <string name="share_option_facebook_header">Facebook</string>
+    <string name="share_option_facebook_post_on_timeline">Post on my Timeline</string>
+    <string name="share_option_facebook_send_to_friends">Send to selected friends</string>
+
+    <!-- Share progress -->
+    <string name="share_in_progress">Sharing gift</string>
+
+    <!-- Rewards -->
+    <string name="reward_gift_label">Received gift</string>
+    <string name="reward_gift_type_percentage_fmt">%.0f%% OFF</string>
+    <string name="reward_gift_type_amount_fmt">$%.0f OFF</string>
+    <string name="reward_credit_label">Earned creadit</string>
+    <string name="reward_credit_type_amount_fmt">$%.0f OFF</string>
+    
 </resources>
