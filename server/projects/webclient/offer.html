@@ -10,18 +10,49 @@
   <div id="back-btn-div" style="display:none;" >
     <a id="back-btn" href="#"><img src="img/btn_back.png" /></a>
   </div>
-  <div id="suggest-btn-div">
+  <div id="suggest-btn-div" style="display:none" >
     <a id="suggest-btn" href="#"><img src="img/btn_suggest.png" /></a>
   </div>
   <div id="heading">Kikbak</div>
 </div>
-<div id="offer-view" class="wrapper">
+<div id="offer-view" class="wrapper" style="dispaly:none;">
   <div class="scroller">
     <ul id="offer-list" class="unstyled">
     </ul>
   </div>
 </div>
+<div id="offer-details-view" class="details" style="display:none;">
+</div>
+<div id="redeem-view" class="wrapper" style="display:none;">
+  <div class="scroller">
+    <ul id="redeem-list" class="unstyled">
+    </ul>
+  </div>
+</div>
+<div id="redeem-details-view" class="details" style="display:none;">
+</div>
+<div id="suggest-view" style="display:none;">
+  <div class="add-photo">
+
+  </div>
+  <div id="suggest-form-view">
+    <form id="suggest-form" class="form-view" method="POST" onsubmit="doSuggest(); return false;">
+      <p>Want to recommend a business with 
+      a special offer? Tell us and we'll let 
+      them know that they should join Kikbak.</p>
+      <input name="name" type="text" placeholder="Business name" />
+      <input name="reason" type="textarea" placeholder="What makes them great" />
+      <input name="suggest" class="btn" type="submit" value="Let us know" disabled />
+    </form>
+  </div>
+</div>
 <div id="footer">
+  <div id="offer-btn-div">
+    <a id="offer-btn" href="#">Give</a>
+  </div>
+  <div id="redeem-btn-div">
+    <a id="redeem-btn" href="#">Redeem</a>
+  </div>
 </div>
 <div id="fb-root"></div>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
@@ -35,6 +66,41 @@ $(document).ready(function() {
   $.getScript('//connect.facebook.net/en_US/all.js', function(){
     window.fbAsyncInit = fbInit;
   });
+  $('#offer-btn').click(function(){
+    if (typeof Storage != 'undefined') {
+      localStorage.pageType = 'offer';
+      initPage();
+    }
+  });
+  $('#redeem-btn').click(function(){
+    if (typeof Storage != 'undefined') {
+      localStorage.pageType = 'redeem';
+      initPage();
+    }
+  });
+  $('#suggest-btn').click(function(){
+    if (typeof Storage != 'undefined') {
+      localStorage.pageType = 'suggest';
+      initPage();
+    }
+  });
+  setWrapperSize();
+
+  $('#suggest-form input[name="name"]').bind('keyup', adjustSuggest);
+  $('#suggest-form input[name="reason"]').bind('keyup', adjustSuggest);
+
+
+  if (getBrowserName() == 'Safari') {
+    $('#footer').css('position', 'static');
+  } else {
+    $('#footer').css('position', 'fixed');
+  }
+
+  function updateOrientation() {
+    window.scrollTo(0, 1);
+  }
+  window.addEventListener('orientationchange', updateOrientation);
+
 });
 </script>
 
