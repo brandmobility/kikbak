@@ -93,6 +93,7 @@
 
 -(IBAction)onOk:(id)sender{
     [self removeFromSuperview];
+    [self.delegate onShareSuccess];
 }
 
 @end

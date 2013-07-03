@@ -106,7 +106,7 @@
         self.amountToApply.frame = CGRectMake(11, 236, 298, 14);
         self.topAmountSeparator.frame = CGRectMake(11, 255, 298, 1);
         self.creditAmount.frame = CGRectMake(11, 265, 150, 38);
-        self.changeAmountBtn.frame = CGRectMake(241, 269, 68, 30);
+        self.changeAmountBtn.frame = CGRectMake(241, 268, 68, 30);
         self.bottomAmountSeparator.frame = CGRectMake(11, 308, 298, 1);
         self.warning.frame = CGRectMake(22, 325, 276, 30);
         self.redeemBtn.frame = CGRectMake(11, 366, 298, 40);
@@ -171,7 +171,7 @@
     [self.changeAmountBtn setBackgroundImage:[UIImage imageNamed:@"btn_change"] forState:UIControlStateNormal];
     [self.changeAmountBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.changeAmountBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:12];
-    self.changeAmountBtn.frame = CGRectMake(241, 339, 68, 30);
+    self.changeAmountBtn.frame = CGRectMake(241, 338, 68, 30);
     [self.changeAmountBtn addTarget:self action:@selector(onChangeAmount:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.changeAmountBtn];
     

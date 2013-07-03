@@ -9,6 +9,7 @@
 #import "CreditChooserViewController.h"
 #import "RedeemCreditViewController.h"
 #import "util.h"
+#import "UIDevice+Screen.h"
 
 
 @interface CreditChooserViewController ()
@@ -62,6 +63,7 @@
     self.navigationItem.leftBarButtonItem = backBarButtonItem;
     
     [self createViews];
+    [self manuallyLayoutSubiews];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -141,7 +143,18 @@
 }
 
 -(void) manuallyLayoutSubiews{
-    
+    if( ![UIDevice hasFourInchDisplay]){
+        self.available.frame = CGRectMake(11, 19, 149, 18);
+        self.available.font = [UIFont fontWithName:@"HelveticaNeue" size:16];
+        self.totalCredit.frame = CGRectMake(11,49,150,38);
+        
+        self.amountToUse.frame = CGRectMake(160, 19, 149, 18);
+        self.amountToUse.font = [UIFont fontWithName:@"HelveticaNeue" size:16];
+        self.unit.frame = CGRectMake(160, 49, 26, 38);
+        self.textField.frame = CGRectMake(186, 43, 123, 50);
+        
+        self.apply.frame = CGRectMake(11, 147, 298, 40);
+    }
 }
 
 

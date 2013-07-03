@@ -29,7 +29,7 @@
 #define CAPTION_TAG  1001
 #define CALL_URL_TAG 1002
 
-const double TEXT_EDIT_CONTAINER_ORIGIN_Y = 241.0;
+const double TEXT_EDIT_CONTAINER_ORIGIN_Y = 243.0;
 const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 
 @interface GiveViewController ()
@@ -55,6 +55,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 
 
 @property(nonatomic, strong) UIView* captionContainerView;
+@property(nonatomic, strong) UIImageView* captionGradient;
 @property(nonatomic, strong) HPGrowingTextView* captionTextView;
 
 @property(nonatomic, strong) UIImageView* dottedSeperator;
@@ -177,13 +178,13 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
         self.imageOverlay.frame = CGRectMake(0, 0, 320, 218);
         [self.takePhoto removeFromSuperview];
         self.takePictureBtn.frame = CGRectMake(112, 20, 95, 95);
-        self.retailerName.frame = CGRectMake(14, 120, 316, 26);
+        self.retailerName.frame = CGRectMake(14, 123, 316, 26);
         self.mapIcon.frame = CGRectMake(14, 152, 10, 14);
         self.distance.frame = CGRectMake(30, 151, 70, 18);
         self.mapBtn.frame = CGRectMake(14, 149, 70, 30);
-        self.webIcon.frame = CGRectMake(109, 150, 19, 19);
+        self.webIcon.frame = CGRectMake(109, 148, 19, 19);
         self.webBtn.frame = CGRectMake(99, 148, 30, 30);
-        self.callIcon.frame = CGRectMake(145, 150, 15, 18);
+        self.callIcon.frame = CGRectMake(145, 148, 15, 18);
         self.callBtn.frame = CGRectMake(140, 148, 30, 30);
         self.captionContainerView.frame = CGRectMake(0, TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN, 320, 48);
         self.captionTextView.frame = CGRectMake(10, 8, 300, 32);
@@ -277,8 +278,11 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     
     
     self.captionContainerView = [[UIView alloc]initWithFrame:CGRectMake(0, TEXT_EDIT_CONTAINER_ORIGIN_Y, 320, 48)];
-    self.captionContainerView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1];
     [self.view addSubview:self.captionContainerView];
+    
+    self.captionGradient = [[UIImageView alloc]initWithFrame:self.captionContainerView.frame];
+    self.captionGradient.image = [UIImage imageNamed:@"grd_give_caption"];
+    [self.captionContainerView addSubview:self.captionGradient];
     
     self.captionTextView = [[HPGrowingTextView alloc]initWithFrame:CGRectMake(10, 8, 300, 32)];
     self.captionTextView.text = NSLocalizedString(@"add comment", nil);
@@ -383,12 +387,20 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     fr.origin.y -= delta;
     self.retailerName.frame = fr;
     
+    if( photoTaken ){
+        CGRect frOverlay = self.imageOverlay.frame;
+        frOverlay.origin.y = fr.origin.y - 20;
+        frOverlay.size.height = self.giveImage.frame.size.height - frOverlay.origin.y;
+        self.imageOverlay.frame = frOverlay;
+    }
+    
     fr = self.callIcon.frame;
     fr.origin.y -= delta;
     self.callIcon.frame = fr;
     fr = self.callBtn.frame;
     fr.origin.y -= delta;
     self.callBtn.frame = fr;
+    
 }
 
 #pragma mark - btn actions
@@ -502,7 +514,13 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 
 #pragma mark - image picker delegates
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
-    [self.imageOverlay removeFromSuperview];
+    UIImage* grd = [UIImage imageNamed:@"grd_give_img"];
+    self.imageOverlay.image = grd;
+    CGRect fr = self.imageOverlay.frame;
+    fr.origin.y =  self.retailerName.frame.origin.y - 20;//self.captionContainerView.frame.origin.y - grd.size.height;
+    fr.size.height = self.imageOverlay.frame.size.height - fr.origin.y;
+    self.imageOverlay.frame = fr;
+
     [self.takePhoto removeFromSuperview];
     self.takePictureBtn.frame = CGRectMake(265, 11, 55, 55);
     [self.takePictureBtn setImage:[UIImage imageNamed:@"ic_post_give_camera"] forState:UIControlStateNormal];
@@ -537,10 +555,10 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     
     FBRequest* request = [FBRequest requestForUploadPhoto:[self.giveImage.image imageByScalingAndCroppingForSize:CGSizeMake(300, 300)]];
     if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
-        [request.parameters setObject:[NSString stringWithFormat:@"%@.\n\nVisit http://getkikbak.com for an exclusive offer shared by your friend", self.captionTextView.text] forKey:@"name"];
+        [request.parameters setObject:@"Visit http://getkikbak.com for an exclusive offer shared by your friend" forKey:@"name"];
     }
     else{
-        [request.parameters setObject:@"Visit http://getkikbak.com for an exclusive offer shared by your friend" forKey:@"name"];
+        [request.parameters setObject:[NSString stringWithFormat:@"%@.\n\nVisit http://getkikbak.com for an exclusive offer shared by your friend", self.captionTextView.text] forKey:@"name"];
     }
     
     [connection addRequest:request completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
@@ -549,6 +567,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 
             [self.spinnerView removeFromSuperview];
             ShareSuccessView* shareView = [[ShareSuccessView alloc]initWithFrame:frame];
+            shareView.delegate = self;
             [shareView manuallyLayoutSubviews];
             [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:shareView];
             ShareExperienceRequest* request = [[ShareExperienceRequest alloc]init];
@@ -674,6 +693,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
          if (!error) {
              CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
              ShareSuccessView* shareView = [[ShareSuccessView alloc]initWithFrame:frame];
+             shareView.delegate = self;
              [shareView manuallyLayoutSubviews];
              [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:shareView];
              ShareExperienceRequest* request = [[ShareExperienceRequest alloc]init];
@@ -794,6 +814,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     r.origin.y += diff;
     [self adjustRetailerInfo:-diff];
 	self.captionContainerView.frame = r;
+    self.captionGradient.frame = r;
 }
 
 - (BOOL)growingTextViewShouldBeginEditing:(HPGrowingTextView *)growingTextView{
@@ -817,6 +838,11 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
                           [Distance distanceToInMiles:current]];
     
      
+}
+
+#pragma mark - ShareComplete Delegate
+-(void) onShareSuccess{
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 @end

@@ -164,7 +164,7 @@
     [self.view addSubview:self.giftImage];
     
     self.giftGradient = [[UIImageView alloc]initWithFrame:CGRectMake(0, 124, 320, 126)];
-    self.giftGradient.image = [UIImage imageNamed:@"grd_redeem_gift_img"];
+    self.giftGradient.image = [UIImage imageNamed:@"grd_bottom_img"];
     [self.view addSubview:self.giftGradient];
 
     

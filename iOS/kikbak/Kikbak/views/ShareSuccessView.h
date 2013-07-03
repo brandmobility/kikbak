@@ -8,7 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ShareSuccessView : UIView
+@protocol ShareCompleteDelegate <NSObject>
+
+-(void)onShareSuccess;
+
+@end
+
+
+@interface ShareSuccessView : UIView{
+}
+
+@property (nonatomic,strong) id<ShareCompleteDelegate> delegate;
 
 -(void) manuallyLayoutSubviews;
 

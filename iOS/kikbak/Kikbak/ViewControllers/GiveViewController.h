@@ -8,12 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "HPGrowingTextView.h"
+#import "ShareSuccessView.h"
 
 @class Offer;
 
 @interface GiveViewController : UIViewController<UIImagePickerControllerDelegate,
                                         UINavigationControllerDelegate, UIAlertViewDelegate,
-                                        HPGrowingTextViewDelegate>{
+                                        HPGrowingTextViewDelegate, ShareCompleteDelegate>{
     bool photoTaken;
     bool captionAdded;
 }
