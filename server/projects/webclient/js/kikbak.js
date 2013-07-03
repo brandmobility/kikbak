@@ -115,29 +115,34 @@ function initPage() {
   $('#offer-view').hide();
   $('#offer-details-view').hide();
   $('#redeem-view').hide();
-  $('#redeem-details-view').hide();
+  $('#redeem-detaile-view').hide();
   $('#back-btn-div').hide();
   $('#suggest-btn-div').hide();
-  $('#footer').hide();
   $('#suggest-view').hide();
+  $('#offer-btn-div').css('background', 'url("img/btn_normal.png")');
+  $('#redeem-btn-div').css('background', 'url("img/btn_normal.png")');
   window.scrollTo(0, 1);
   if (typeof Storage != 'undefined') {
     var pageType = localStorage.pageType;
     if (pageType === 'redeem') {
       $('#redeem-view').show('');
+      $('#redeem-btn-div').css('background', 'url("img/btn_highlighted.png")');
       $('#footer').show('');
       getRedeems();
     } else if (pageType === 'offer-detail') {
       $('#offer-details-view').show('');
       $('#back-btn-div').show('');
+      $('#footer').hide();
       getOfferDetail();
     } else if (pageType === 'redeem-detail') {
       $('#redeem-details-view').show('');
       $('#back-btn-div').show('');
+      $('#footer').hide();
       getRedeemDetail();
     } else if (pageType === 'suggest') {
       $('#suggest-view').show('');
       $('#back-btn-div').show('');
+      $('#footer').hide();
       $('#back-btn').click(function(e){
         e.preventDefault();
         localStorage.pageType = 'offer';
@@ -146,6 +151,7 @@ function initPage() {
       // offer page is the default page
       $('#offer-view').show('');
       $('#suggest-btn-div').show('');
+      $('#offer-btn-div').css('background', 'url("img/btn_highlighted.png")');
       $('#footer').show('');
       getOffers();
     }
@@ -227,7 +233,7 @@ function computeDistance(local) {
   }
 
   if (typeof initPage.p === 'undefined') {
-    return 'Unknown';
+    return '';
   }
 
   var lat1 = parseFloat(local.latitude);
@@ -296,11 +302,72 @@ function getRedeems() {
 
     if (typeof userId != 'undefined' && userId != 'undefined' &&
             userId != 'null' && userId != null && userId != '') {
+      var data = {};
+      var req = {};
+      req['RewardsRequest'] = data;      
+      var str = JSON.stringify(req);
+
       $.ajax({
-        // TODO
+        dataType: 'json',
+        type: 'POST',
+        contentType: 'application/json',
+        data: str,
+        url: 'kikbak/rewards/request/' + userId,
+        success: function(json) {
+          var gifts = json.rewardsResponse.gifts;
+          $('#redeem-list').html('');
+          $.each(gifts, function(i, gift) {
+            renderRedeem(gift);
+          });
+          $('.redeem-details-btn').click(function(e) {
+            e.preventDefault();
+            if (Storage != 'undefined') {
+              localStorage.offerDetail = $(this).attr('data-object');
+              localStorage.pageType = 'redeem-detail';
+            }
+            initPage();
+          });
+          setTimeout(function(){
+            resizeScroll();
+          }, 500);
+        },
+        error: showError
       });
     }
   }
+}
+
+function renderRedeem(redeem) {
+  var html = '<li>';
+  
+  var json = escape(JSON.stringify(redeem));
+  html += '<div class="offer-div">';
+  html += '<a href="#" data-object="' + json + '" class="offer-details-btn clearfix">';
+  html += '<img class="redeem-background" src="img/offer.png" />';
+  // TODO
+  // html += '<img class="redeem-background" src="' + json.merchantImageUrl + '" />';
+  html += '<div class="redeem-background-grad" />';
+  html += '</a>';
+  html += '<div class="redeem-desc-div>' + redeem.desc + '</div>';
+  html += '<div class="redeem-desc-detail-div>' + redeem.descOptional + '</div>';
+  html += '<div class="brand">';
+  html += redeem.merchant.name;
+  html += '</div><div class="website">';
+  html += '<a href="' + redeem.merchant.url + '"><img class="website-img" src="img/ic_web.png" /></a>';
+  html += '</div>';
+
+  local = getDisplayLocation(redeem.merchant.locations);
+  if (local != 'undefined') {
+    html += '<div class="phone">';
+    html += '<a href="tel:' + local.phoneNumber + '"><img class="website-img" src="img/ic_phone.png" /></a>';
+    html += '</div><div class="map">';
+    html += '<a href="' + generateMapUrl(redeem.merchant.name, local) + '"><img class="website-img" src="img/ic_map.png" />' + '&nbsp;' + computeDistance(local) + '</a>';
+    html += '</div>';
+  }
+  html += '</div>';
+  html += '</li>';
+  $('#redeem-list').append(html);
+
 }
 
 function getOfferDetail() {

@@ -63,6 +63,7 @@ html,body {
 }
 
 #header #heading {
+    margin-top: 3px;
 	display: inline;
 	line-height: 34px;
 	font-size: 18px;
@@ -89,16 +90,16 @@ html,body {
     margin-bottom: 0px;
 }
 
-#offer-list li {
+li {
     position: relative;
     border-top: 20px solid #FFFFFF;
 }
 
-#offer-list li a:hover {
+li a:hover {
     text-decoration: none;
 }
  
-#offer-list li a:active {
+li a:active {
     background: #EAEAEA;
 }
 
@@ -311,4 +312,42 @@ html,body {
 	padding: 0;
 }
 
+#footer-div {
+    position: relative;
+}
+
+#offer-btn-div {
+    background: url('../img/btn_normal.png');
+    background-size: 100%, 100%;
+    background-repeat:no-repeat;
+    border: none;
+    height: 45px;
+    width: 50%;
+    left: 0;
+    top: 0;
+    text-align: center;
+    position: absolute;
+}
+
+#redeem-btn-div {
+    background: url('../img/btn_normal.png');
+    background-size: 100%, 100%;
+    background-repeat:no-repeat;
+    border: none;
+    height: 45px;
+    width: 50%;
+    margin-left: 50%;
+    top: 0;
+    text-align: center;
+    position: absolute;
+}
+
+.footer-btn {
+    margin-top: 10px;
+    color: #FFFFFF;
+    text-decoration: none;
+	font-size: 22px;
+	font-weight: bold;
+    height: 45px;
+}
 
