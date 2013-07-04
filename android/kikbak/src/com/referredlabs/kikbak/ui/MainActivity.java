@@ -13,7 +13,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.referredlabs.kikbak.LoginActivity;
 import com.referredlabs.kikbak.R;
@@ -22,10 +21,11 @@ import com.referredlabs.kikbak.data.GetUserOffersRequest;
 import com.referredlabs.kikbak.data.GetUserOffersResponse;
 import com.referredlabs.kikbak.http.Http;
 import com.referredlabs.kikbak.ui.OfferListFragment.OnOfferClickedListener;
+import com.referredlabs.kikbak.ui.RedeemChooserDialog.OnRedeemOptionSelectedListener;
 import com.referredlabs.kikbak.ui.RewardListFragment.OnRewardClickedListener;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener,
-    OnOfferClickedListener, OnRewardClickedListener {
+    OnOfferClickedListener, OnRewardClickedListener, OnRedeemOptionSelectedListener {
 
   SectionsPagerAdapter mSectionsPagerAdapter;
   ViewPager mViewPager;
@@ -138,7 +138,27 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
   @Override
   public void onRewardClicked(Reward offer) {
-    Intent intent = new Intent(this, RedeemActivity.class);
+    if (offer.gift != null && offer.kikbak != null) {
+      String gift = offer.getGiftValueString();
+      String credit = offer.getCreditValueString();
+      RedeemChooserDialog dialog = RedeemChooserDialog.newInstance(gift, credit);
+      dialog.show(getSupportFragmentManager(), "");
+    } else if (offer.gift != null) {
+      onRedeemGiftSelected();
+    } else if (offer.kikbak != null) {
+      onRedeemCreditSelected();
+    }
+  }
+
+  @Override
+  public void onRedeemGiftSelected() {
+    Intent intent = new Intent(this, RedeemGiftActivity.class);
+    startActivity(intent);
+  }
+
+  @Override
+  public void onRedeemCreditSelected() {
+    Intent intent = new Intent(this, RedeemCreditActivity.class);
     startActivity(intent);
   }
 }

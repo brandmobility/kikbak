@@ -1,6 +1,8 @@
 
 package com.referredlabs.kikbak.ui;
 
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,11 +13,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.referredlabs.kikbak.R;
+import com.referredlabs.kikbak.data.KikbakRedemptionType;
+import com.referredlabs.kikbak.data.RedeemKikbakRequest;
+import com.referredlabs.kikbak.data.RedeemKikbakResponse;
+import com.referredlabs.kikbak.data.StatusType;
+import com.referredlabs.kikbak.http.Http;
+import com.referredlabs.kikbak.ui.BarcodeScannerFragment.OnBarcodeScanningListener;
 import com.referredlabs.kikbak.ui.ChangeAmountDialog.OnCreditChangedListener;
 import com.referredlabs.kikbak.ui.ConfirmationDialog.ConfirmationListener;
 
+import java.io.IOException;
+
 public class RedeemCreditFragment extends Fragment implements OnClickListener,
-    OnCreditChangedListener, ConfirmationListener {
+    OnCreditChangedListener, ConfirmationListener, OnBarcodeScanningListener {
 
   private TextView mRedeemCount;
   private TextView mCreditValue;
@@ -69,11 +79,64 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
 
   @Override
   public void onYesClick() {
-    Toast.makeText(getActivity(), "scan not implemented", Toast.LENGTH_SHORT).show();
+    BarcodeScannerFragment scanner = new BarcodeScannerFragment();
+    scanner.setTargetFragment(this, 0);
+    scanner.show(getFragmentManager(), "");
   }
 
   @Override
   public void onNoClick() {
     // do nothing
+  }
+
+  public void onRegstrationSuccess(String code) {
+    Intent intent = new Intent(getActivity(), SuccessActivity.class);
+    startActivity(intent);
+  }
+
+  private class RequestTask extends AsyncTask<RedeemKikbakRequest, Void, RedeemKikbakResponse> {
+
+    @Override
+    protected RedeemKikbakResponse doInBackground(RedeemKikbakRequest... params) {
+      try {
+        RedeemKikbakRequest req = params[0];
+        String uri = Http.getUri(RedeemKikbakRequest.PATH + "1");
+        RedeemKikbakResponse resp = Http.execute(uri, req, RedeemKikbakResponse.class);
+        return resp;
+      } catch (IOException e) {
+        android.util.Log.d("MMM", "exception:" + e);
+      }
+      return null;
+    }
+
+    @Override
+    protected void onPostExecute(RedeemKikbakResponse result) {
+      if (result == null || result.status.code != StatusType.OK) {
+        Toast.makeText(getActivity(), "failed to report to kikbak", Toast.LENGTH_SHORT).show();
+        return;
+      }
+
+      // TODO: update balance!
+      onRegstrationSuccess(result.response.authorizationCode);
+    }
+
+  }
+
+  @Override
+  public void onBarcodeScanned(String code) {
+    RedeemKikbakRequest req = new RedeemKikbakRequest();
+    req.kikbak = new KikbakRedemptionType();
+    req.kikbak.id = 0;
+    req.kikbak.locationId = 0;
+    req.kikbak.amount = 20.0;
+    req.kikbak.verificationCode = code;
+    RequestTask task = new RequestTask();
+    task.execute(req);
+  }
+
+  @Override
+  public void onScanningCancelled() {
+    // TODO Auto-generated method stub
+
   }
 }

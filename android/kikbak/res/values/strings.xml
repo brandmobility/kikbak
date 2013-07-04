@@ -80,4 +80,16 @@
     <string name="redeem_not_in_store">Oops! You have to be in the store to redeem.\n\nLooks like you might not be there yet. Try again?</string>
     <string name="redeem_credit_confirmation">If you use more credit then your purchase total, you woll lose all excess credit.\n\nYou have chosen to redeem $15.00 credit. Is this right?</string>
 
+    <!-- Redeem success -->
+    <string name="redeem_success_title">Success!</string>
+    <string name="redeem_success_gift_note">You have claimed your gift.\nPlease show this screen to the cashier.</string>
+    <string name="redeem_success_credit_note">You have claimed your credit.\nPlease show this screen to the cashier.</string>
+    <string name="redeem_success_offer">OFFER</string>
+    <string name="redeem_success_credit">CREDIT</string>
+    <string name="redeem_success_share_note">Share the same offer with our friends.\nYou earn for every friend that redeems.</string>
+
+    <!-- Redeem chooser -->
+    <string name="redeem_chooser_title">Please select one to redeem</string>
+    <string name="or">OR</string>
+
 </resources>

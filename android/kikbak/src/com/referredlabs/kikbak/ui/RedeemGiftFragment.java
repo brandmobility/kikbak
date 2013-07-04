@@ -1,6 +1,7 @@
 
 package com.referredlabs.kikbak.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,12 +10,13 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.referredlabs.kikbak.R;
+import com.referredlabs.kikbak.ui.BarcodeScannerFragment.OnBarcodeScanningListener;
 import com.referredlabs.kikbak.ui.ConfirmationDialog.ConfirmationListener;
 
-public class RedeemGiftFragment extends Fragment implements OnClickListener, ConfirmationListener {
+public class RedeemGiftFragment extends Fragment implements OnClickListener, ConfirmationListener,
+    OnBarcodeScanningListener {
 
   private ImageView mFriendPhoto;
   private TextView mFriendName;
@@ -79,7 +81,9 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
 
   @Override
   public void onYesClick() {
-    Toast.makeText(getActivity(), "Not implemented", Toast.LENGTH_SHORT).show();
+    BarcodeScannerFragment scanner = new BarcodeScannerFragment();
+    scanner.setTargetFragment(this, 0);
+    scanner.show(getFragmentManager(), "");
   }
 
   @Override
@@ -87,4 +91,15 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
     // do nothing
   }
 
+  @Override
+  public void onBarcodeScanned(String code) {
+    Intent intent = new Intent(getActivity(), SuccessActivity.class);
+    startActivity(intent);
+  }
+
+  @Override
+  public void onScanningCancelled() {
+    // TODO Auto-generated method stub
+
+  }
 }
