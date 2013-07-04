@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/merchant_ex1" />
+
+    <TextView
+        android:id="@+id/redeem_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="8dp"
+        android:text="Your gift has been redeemed by 3 friends"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/redeem_count"
+        android:layout_marginLeft="8dp"
+        android:text="Zen Yoga"
+        android:textColor="@android:color/white"
+        android:textSize="24sp" />
+
+</RelativeLayout>

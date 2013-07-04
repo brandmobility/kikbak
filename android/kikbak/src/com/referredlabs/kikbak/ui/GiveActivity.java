@@ -120,14 +120,14 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
     String title = getString(R.string.terms_title);
     String msg = getString(R.string.terms_example);
     NoteDialog dialog = NoteDialog.newInstance(title, msg);
-    dialog.show(getFragmentManager(), null);
+    dialog.show(getSupportFragmentManager(), null);
   }
 
   protected void onLearnMoreClicked() {
     String title = getString(R.string.learn_more_title);
     String msg = getString(R.string.terms_example);
     NoteDialog dialog = NoteDialog.newInstance(title, msg);
-    dialog.show(getFragmentManager(), null);
+    dialog.show(getSupportFragmentManager(), null);
   }
 
   @Override

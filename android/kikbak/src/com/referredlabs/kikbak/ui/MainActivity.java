@@ -138,6 +138,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
   @Override
   public void onRewardClicked(Reward offer) {
-    Toast.makeText(this, "Not implemented", Toast.LENGTH_SHORT).show();
+    Intent intent = new Intent(this, RedeemActivity.class);
+    startActivity(intent);
   }
 }
