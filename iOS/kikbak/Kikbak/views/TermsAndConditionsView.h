@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TermsAndConditionsView : UIView
+@interface TermsAndConditionsView : UIView<UIWebViewDelegate>
+
+@property (nonatomic,strong) NSString* tosUrl;
+
+-(void) manuallyLayoutSubviews;
 
 @end

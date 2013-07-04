@@ -65,7 +65,6 @@
 		3C329C5D170178F70007345E /* ShareSuccessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C329C5C170178F70007345E /* ShareSuccessView.m */; };
 		3C4068991751D0110001C724 /* RedeemCreditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C4068971751D0110001C724 /* RedeemCreditViewController.m */; };
 		3C40689C17532E090001C724 /* LearnMoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C40689B17532E090001C724 /* LearnMoreView.m */; };
-		3C40689F17532E240001C724 /* TermOfServiceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C40689E17532E240001C724 /* TermOfServiceView.m */; };
 		3C4A2414174C8D0800B8C5F0 /* SpinnerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C4A2413174C8D0800B8C5F0 /* SpinnerView.m */; };
 		3C4A2417174DDE7400B8C5F0 /* RedeemChooserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C4A2416174DDE7400B8C5F0 /* RedeemChooserView.m */; };
 		3C4A241E1751C6BA00B8C5F0 /* CreditChooserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C4A241D1751C6BA00B8C5F0 /* CreditChooserViewController.m */; };
@@ -331,8 +330,6 @@
 		3C4068981751D0110001C724 /* RedeemCreditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedeemCreditViewController.h; sourceTree = "<group>"; };
 		3C40689A17532E090001C724 /* LearnMoreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LearnMoreView.h; sourceTree = "<group>"; };
 		3C40689B17532E090001C724 /* LearnMoreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LearnMoreView.m; sourceTree = "<group>"; };
-		3C40689D17532E240001C724 /* TermOfServiceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TermOfServiceView.h; sourceTree = "<group>"; };
-		3C40689E17532E240001C724 /* TermOfServiceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TermOfServiceView.m; sourceTree = "<group>"; };
 		3C4A2410174B3C5000B8C5F0 /* KikbakOpenGraphProtocols.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KikbakOpenGraphProtocols.h; sourceTree = "<group>"; };
 		3C4A2412174C8D0800B8C5F0 /* SpinnerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpinnerView.h; sourceTree = "<group>"; };
 		3C4A2413174C8D0800B8C5F0 /* SpinnerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpinnerView.m; sourceTree = "<group>"; };
@@ -732,8 +729,6 @@
 				3C329C5C170178F70007345E /* ShareSuccessView.m */,
 				3C4A2412174C8D0800B8C5F0 /* SpinnerView.h */,
 				3C4A2413174C8D0800B8C5F0 /* SpinnerView.m */,
-				3C40689D17532E240001C724 /* TermOfServiceView.h */,
-				3C40689E17532E240001C724 /* TermOfServiceView.m */,
 				3CCCBCF516F2E59500FA71A2 /* TermsAndConditionsView.h */,
 				3CCCBCF616F2E59500FA71A2 /* TermsAndConditionsView.m */,
 			);
@@ -1376,7 +1371,6 @@
 				3C4A241E1751C6BA00B8C5F0 /* CreditChooserViewController.m in Sources */,
 				3C4068991751D0110001C724 /* RedeemCreditViewController.m in Sources */,
 				3C40689C17532E090001C724 /* LearnMoreView.m in Sources */,
-				3C40689F17532E240001C724 /* TermOfServiceView.m in Sources */,
 				3C8097BC17644F860028CC5C /* Offer.m in Sources */,
 				3C052BFC17698568003B9429 /* SuggestViewController.m in Sources */,
 				3C052BFF176986A9003B9429 /* UIButton+Util.m in Sources */,

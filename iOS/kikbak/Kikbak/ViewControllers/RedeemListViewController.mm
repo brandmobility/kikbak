@@ -22,7 +22,9 @@
 #import "SuggestViewController.h"
 #import "util.h"
 #import "UIDevice+Screen.h"
-
+#import <map>
+#import "Distance.h"
+#import "Location.h"
 
 const int CELL_HEIGHT = 156;
 
@@ -342,9 +344,23 @@ const int CELL_HEIGHT = 156;
         }
     }
     
-    self.rewards = [[NSMutableArray alloc]init];
+    std::map<double, id> ordered;
     for(RewardCollection* collection in [dict allValues]){
-        [self.rewards addObject:collection];
+        Location* location;
+        if( collection.gift ){
+            location = [collection.gift.location anyObject];
+        }
+        else{
+            location = [collection.credit.location anyObject];
+        }
+        double distance = [Distance distanceToInFeet:[[CLLocation alloc]initWithLatitude:location.latitude.doubleValue
+                                                                               longitude:location.longitude.doubleValue]];
+        ordered[distance] = collection;
+    }
+
+    self.rewards = [[NSMutableArray alloc]init];
+    for (std::map<double, id>::const_iterator cit = ordered.begin(); cit != ordered.end(); ++cit) {
+        [self.rewards addObject:cit->second];
     }
 }
 

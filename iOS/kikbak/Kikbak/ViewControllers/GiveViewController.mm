@@ -22,6 +22,7 @@
 #import "KikbakOpenGraphProtocols.h"
 #import "SpinnerView.h"
 #import "NotificationContstants.h"
+#import "TermsAndConditionsView.h"
 #import "UIButton+Util.h"
 
 #define DEFAULT_CONTAINER_VIEW_HEIGHT 50
@@ -78,7 +79,6 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 
 -(IBAction)onTakePhotoBtn:(id)sender;
 -(IBAction)onGiveGift:(id)sender;
--(IBAction)onLearnMore:(id)sender;
 -(IBAction)onTerms:(id)sender;
 
 -(IBAction)onBackBtn:(id)sender;
@@ -351,6 +351,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     self.termsBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
     [self.termsBtn setTitleColor:UIColorFromRGB(0x686868) forState:UIControlStateNormal];
     self.termsBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
+    [self.termsBtn addTarget:self action:@selector(onTerms:) forControlEvents:UIControlEventTouchUpInside];
     self.termsBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [self.view addSubview:self.termsBtn];
 
@@ -470,12 +471,12 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     }
 }
 
--(IBAction)onLearnMore:(id)sender{
-    
-}
-
 -(IBAction)onTerms:(id)sender{
-    
+    CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+    TermsAndConditionsView* view = [[TermsAndConditionsView alloc]initWithFrame:frame];
+    view.tosUrl = self.offer.termsOfService;
+    [view manuallyLayoutSubviews];
+    [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:view];
 }
 
 -(IBAction)onMapBtn:(id)sender{

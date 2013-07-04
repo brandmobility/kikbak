@@ -92,3 +92,10 @@
 "You haven't received any gifts or earned any credit" = "You haven't received any gifts or earned any credit";
 "Change empty gifts" = "You can change that by giving an offer to your friends. You'll earn credit for every friend that redeems.";
 "See Offers" = "See offers to give to friends";
+
+//terms screen
+"Done" = "Done";
+"Terms for offer" = "Terms and conditions for offer";
+"Loading" = "Loading...";
+"Error" = "Unable to load TOS";
+"TOS timeout" = "The request to the server has timed out";
