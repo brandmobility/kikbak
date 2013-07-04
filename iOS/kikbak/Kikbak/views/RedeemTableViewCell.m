@@ -123,7 +123,7 @@ const int CELL_HEIGHT = 147;
     [self addSubview:self.mapBtn];
     
     self.webBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.webBtn.frame = CGRectMake(264, 57, 26, 30);
+    self.webBtn.frame = CGRectMake(264, 58, 26, 30);
     self.webBtn.contentMode = UIViewContentModeCenter;
     //self.webBtn.backgroundColor = [UIColor redColor];
     [self.webBtn setImage:[UIImage imageNamed:@"ic_web"] forState:UIControlStateNormal];
