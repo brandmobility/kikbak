@@ -23,7 +23,7 @@ function showGpsError(userId) {
 
 function fbInit() {
   FB.init({
-    appId: '135124669870013',
+    appId: '493383324061333',
     channelUrl: '/m/channel.html',
     status: true,
     cookie: true,
@@ -51,8 +51,21 @@ function connectFb(accessToken) {
     }
   }
   FB.api('/me', function(response) {
+    var user = {};
+    user['id'] = response.id;
+    user['first_name'] = response.first_name;
+    user['last_name'] = response.last_name;
+    user['name'] = response.name;
+    user['username'] = response.username;
+    user['link'] = response.link;
+    user['gender'] = response.gender;
+    user['locale'] = response.locale;
+    user['verified'] = response.verified;
+    user['timezone'] = response.timezone;
+    user['updated_time'] = response.updated_time;
+    user['email'] = response.email
     var data = {};
-    data['user'] = response;
+    data['user'] = user;
     var req = {};
     req['RegisterUserRequest'] = data;
     var str = JSON.stringify(req);
