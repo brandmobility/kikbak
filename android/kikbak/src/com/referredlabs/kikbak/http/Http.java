@@ -33,23 +33,25 @@ public class Http {
     String data = writeRequest(request);
 
     AndroidHttpClient client = AndroidHttpClient.newInstance(USER_AGENT);
-    HttpPost post = new HttpPost(uri);
-    StringEntity reqEntity = new StringEntity(data);
-    reqEntity.setContentType("application/json");
-    post.setEntity(reqEntity);
-    AndroidHttpClient.modifyRequestToAcceptGzipResponse(post);
+    try {
+      HttpPost post = new HttpPost(uri);
+      StringEntity reqEntity = new StringEntity(data);
+      reqEntity.setContentType("application/json");
+      post.setEntity(reqEntity);
+      AndroidHttpClient.modifyRequestToAcceptGzipResponse(post);
 
-    HttpResponse resp = client.execute(post);
-    int code = resp.getStatusLine().getStatusCode();
-    if (code == 200) {
-      V response = getResponse(resp.getEntity(), responseType);
+      HttpResponse resp = client.execute(post);
+      int code = resp.getStatusLine().getStatusCode();
+      if (code == 200) {
+        V response = getResponse(resp.getEntity(), responseType);
+        return response;
+      }
+
+      String content = getContent(resp.getEntity());
+      throw new HttpStatusException(code, content);
+    } finally {
       client.close();
-      return response;
     }
-
-    String content = getContent(resp.getEntity());
-    client.close();
-    throw new HttpStatusException(code, content);
   }
 
   private static <V> V getResponse(HttpEntity entity, Class<V> responseType) throws IOException {

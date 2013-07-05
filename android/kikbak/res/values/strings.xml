@@ -11,6 +11,14 @@
     <string name="title_offers">Give</string>
     <string name="title_redeem">Redeem</string>
 
+    <!-- OfferFragemnt -->
+    <string name="ribbon_give">GIVE</string>
+    <string name="ribbon_get">GET</string>
+    <string name="ribbon_give_amount_fmt">$%.0f</string>
+    <string name="ribbon_give_percentage_fmt">%.0f%%\nOFF</string>
+    <string name="ribbon_get_fmt">$%.0f</string>
+    
+    
     <!-- Redeem list empty -->
 
     <string name="redeem_empty_doh">Doh!</string>

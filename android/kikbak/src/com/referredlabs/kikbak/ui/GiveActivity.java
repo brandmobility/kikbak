@@ -10,11 +10,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.referredlabs.kikbak.C;
 import com.referredlabs.kikbak.R;
+import com.referredlabs.kikbak.data.ClientOfferType;
 import com.referredlabs.kikbak.ui.PublishFragment.ShareStatusListener;
 import com.referredlabs.kikbak.ui.ShareOptionsFragment.OnShareMethodSelectedListener;
+import com.referredlabs.kikbak.utils.Nearest;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +35,7 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
   private static final int REQUEST_TAKE_PHOTO = 1;
   private static final int REQUEST_CROP_PHOTO = 2;
 
+  private ClientOfferType mOffer;
   private ImageView mImage;
   private View mTakePhoto;
   private EditText mComment;
@@ -47,6 +54,27 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
     findViewById(R.id.give).setOnClickListener(this);
     findViewById(R.id.terms).setOnClickListener(this);
     findViewById(R.id.learn_more).setOnClickListener(this);
+    String data = getIntent().getStringExtra("data");
+    mOffer = new Gson().fromJson(data, ClientOfferType.class);
+    setupViews();
+  }
+
+  private void setupViews() {
+    Uri uri = Uri.parse(mOffer.imageUrl);
+    Picasso.with(this).load(uri).into(mImage);
+    ((TextView) findViewById(R.id.name)).setText(mOffer.merchantName);
+    ((TextView) findViewById(R.id.gift_desc)).setText(mOffer.giftDesc);
+    ((TextView) findViewById(R.id.gift_desc_opt)).setText(mOffer.giftDescOptional);
+    ((TextView) findViewById(R.id.reward_desc)).setText(mOffer.kikbakDesc);
+    ((TextView) findViewById(R.id.reward_desc_opt)).setText(mOffer.kikbakDescOptional);
+
+    IconBarHelper iconBar = new IconBarHelper(findViewById(R.id.icon_bar),
+        new IconBarActionHandler(this));
+    iconBar.setLink(mOffer.merchantUrl);
+    Nearest nearest = new Nearest(mOffer.locations);
+    nearest.determineNearestLocation(C.LATITUDE, C.LONGITUDE);
+    iconBar.setPhone(Long.toString(nearest.getPhoneNumber()));
+    iconBar.setLocation(nearest);
   }
 
   @Override
@@ -118,7 +146,7 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
 
   protected void onTermsClicked() {
     String title = getString(R.string.terms_title);
-    String msg = getString(R.string.terms_example);
+    String msg = mOffer.termsOfService;
     NoteDialog dialog = NoteDialog.newInstance(title, msg);
     dialog.show(getSupportFragmentManager(), null);
   }

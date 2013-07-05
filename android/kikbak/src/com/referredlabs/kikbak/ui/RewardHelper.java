@@ -17,8 +17,8 @@ public class RewardHelper extends IconBarHelper {
   private TextView mCreditValue;
   private View mSeparator;
 
-  public RewardHelper(View root) {
-    super(root);
+  public RewardHelper(View root, IconBarListener listener) {
+    super(root, listener);
     mImage = (ImageView) root.findViewById(R.id.reward_image);
     mMerchantName = (TextView) root.findViewById(R.id.name);
     mGiftLabel = (TextView) root.findViewById(R.id.gift_label);

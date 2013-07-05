@@ -14,6 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.gson.Gson;
 import com.referredlabs.kikbak.LoginActivity;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ClientOfferType;
@@ -133,6 +134,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
   @Override
   public void onOfferClicked(ClientOfferType offer) {
     Intent intent = new Intent(this, GiveActivity.class);
+    Gson gson = new Gson();
+    String data = gson.toJson(offer);
+    intent.putExtra("data", data);
     startActivity(intent);
   }
 

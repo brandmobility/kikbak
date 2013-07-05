@@ -8,15 +8,18 @@ import com.referredlabs.kikbak.data.ClientOfferType;
 import com.referredlabs.kikbak.data.GetUserOffersRequest;
 import com.referredlabs.kikbak.data.GetUserOffersResponse;
 import com.referredlabs.kikbak.http.Http;
+import com.referredlabs.kikbak.utils.Nearest;
 import com.referredlabs.kikbak.utils.OffersLocationComparator;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class RefreshOfferTask extends AsyncTask<Void, Void, Void> {
 
   private long mUserId;
   private OfferAdapter mAdapter;
   private ClientOfferType[] mOffers;
+  private HashMap<ClientOfferType, Nearest> mLocationMap;
 
   RefreshOfferTask(long userId, OfferAdapter adapter) {
     mUserId = userId;
@@ -31,7 +34,15 @@ public class RefreshOfferTask extends AsyncTask<Void, Void, Void> {
       GetUserOffersResponse resp = Http.execute(uri, req, GetUserOffersResponse.class);
 
       mOffers = resp.offers;
-      Arrays.sort(mOffers, new OffersLocationComparator(C.LATITUDE, C.LONGITUDE));
+      mLocationMap = new HashMap<ClientOfferType, Nearest>();
+      for (ClientOfferType offer : mOffers) {
+        Nearest n = new Nearest(offer.locations);
+        n.determineNearestLocation(C.LATITUDE, C.LONGITUDE);
+        mLocationMap.put(offer, n);
+        offer.mCurrentDistance = n.getDistance();
+      }
+
+      Arrays.sort(mOffers, new OffersLocationComparator(mLocationMap));
     } catch (Exception e) {
       android.util.Log.d("MMM", "Exception while fetching a offer list:" + e);
     }
@@ -40,7 +51,7 @@ public class RefreshOfferTask extends AsyncTask<Void, Void, Void> {
 
   @Override
   protected void onPostExecute(Void result) {
-    mAdapter.swap(mOffers);
+    mAdapter.swap(mOffers, mLocationMap);
   }
 
 }

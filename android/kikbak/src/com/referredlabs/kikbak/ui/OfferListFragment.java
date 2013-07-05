@@ -40,7 +40,7 @@ public class OfferListFragment extends Fragment implements OnItemClickListener {
     View view = inflater.inflate(R.layout.fragment_offer_list, container, false);
     mListView = (ListView) view.findViewById(R.id.list);
     mListView.setOnItemClickListener(this);
-    mAdapter = new OfferAdapter(getActivity());
+    mAdapter = new OfferAdapter(getActivity(), new IconBarActionHandler(getActivity()));
     mListView.setAdapter(mAdapter);
     new RefreshOfferTask(1, mAdapter).execute();
     return view;

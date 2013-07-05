@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="148dp"
+    android:layout_height="248dp"
     android:background="@drawable/blue_ribbon"
     android:orientation="vertical" >
 
@@ -12,12 +12,12 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="2dp"
         android:orientation="vertical"
-        android:text="GIVE"
+        android:text="@string/ribbon_give"
         android:textColor="@android:color/white"
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/ribbon_gift"
+        android:id="@+id/ribbon_give_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -35,12 +35,12 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="1dp"
         android:orientation="vertical"
-        android:text="GET"
+        android:text="@string/ribbon_get"
         android:textColor="@android:color/white"
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/ribbon_redeem"
+        android:id="@+id/ribbon_get_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"

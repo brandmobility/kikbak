@@ -44,7 +44,7 @@ public class RewardAdapter extends BaseAdapter {
     RewardHelper helper;
     if (view == null) {
       view = mInflater.inflate(R.layout.reward, parent, false);
-      helper = new RewardHelper(view);
+      helper = new RewardHelper(view, null);
       view.setTag(helper);
     } else {
       helper = (RewardHelper) view.getTag();

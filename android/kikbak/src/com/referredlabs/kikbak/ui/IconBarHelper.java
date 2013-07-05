@@ -7,8 +7,18 @@ import android.widget.TextView;
 
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.utils.Distance;
+import com.referredlabs.kikbak.utils.Nearest;
 
 public class IconBarHelper implements OnClickListener {
+
+  public interface IconBarListener {
+    void onMapIconClicked(Nearest location);
+
+    void onPhoneIconClicked(String phone);
+
+    void onWebIconClicked(String url);
+
+  }
 
   protected View mRootView;
   protected TextView mDistance;
@@ -16,9 +26,12 @@ public class IconBarHelper implements OnClickListener {
   protected View mWebIcon;
   protected String mUrl;
   protected String mPhone;
+  protected Nearest mLocation;
+  protected IconBarListener mListener;
 
-  public IconBarHelper(View root) {
+  public IconBarHelper(View root, IconBarListener listener) {
     mRootView = root;
+    mListener = listener;
 
     mDistance = (TextView) root.findViewById(R.id.distance);
     mDistance.setOnClickListener(this);
@@ -43,27 +56,28 @@ public class IconBarHelper implements OnClickListener {
     mDistance.setText(txt);
   }
 
+  public void setLocation(Nearest location) {
+    mLocation = location;
+    float distance = location.getDistance();
+    String txt = Distance.getLocalizedDistance(mRootView.getContext(), distance);
+    mDistance.setText(txt);
+  }
+
   @Override
   public void onClick(View v) {
     switch (v.getId()) {
       case R.id.web_icon:
-        onWebIconClicked();
+        if (mListener != null)
+          mListener.onWebIconClicked(mUrl);
         break;
       case R.id.phone_icon:
-        onPhoneIconClicked();
+        if (mListener != null)
+          mListener.onPhoneIconClicked(mPhone);
         break;
       case R.id.distance:
-        onMapIconClicked();
+        if (mListener != null)
+          mListener.onMapIconClicked(mLocation);
         break;
     }
-  }
-
-  protected void onMapIconClicked() {
-  }
-
-  protected void onPhoneIconClicked() {
-  }
-
-  protected void onWebIconClicked() {
   }
 }

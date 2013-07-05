@@ -8,28 +8,31 @@ import android.widget.TextView;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.utils.Distance;
 
-public class OfferHelper {
-
-  private View mRootView;
+public class OfferHelper extends IconBarHelper {
 
   private TextView mName;
-  private TextView mDistance;
   public ImageView mImage;
+  private TextView mGiveValue;
+  private TextView mGetValue;
 
-  public OfferHelper(View view) {
-    mRootView = view;
+  public OfferHelper(View view, IconBarListener listener) {
+    super(view, listener);
     mName = (TextView) view.findViewById(R.id.offer_name);
-    mDistance = (TextView) view.findViewById(R.id.distance);
     mImage = (ImageView) view.findViewById(R.id.offer_image);
+    mGiveValue = (TextView) view.findViewById(R.id.ribbon_give_value);
+    mGetValue = (TextView) view.findViewById(R.id.ribbon_get_value);
   }
 
-  void setName(String name) {
+  public void setName(String name) {
     mName.setText(name);
   }
 
-  void setDistance(float distance) {
-    String txt = Distance.getLocalizedDistance(mRootView.getContext(), distance);
-    mDistance.setText(txt);
+  public void setGiveValue(String text) {
+    mGiveValue.setText(text);
+  }
+
+  public void setGetValue(String text) {
+    mGetValue.setText(text);
   }
 
 }
