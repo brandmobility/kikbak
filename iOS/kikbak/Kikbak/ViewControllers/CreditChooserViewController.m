@@ -81,7 +81,7 @@
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_credit_choice"]];
     
     self.dropShadow = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 4)];
-    self.dropShadow.image = [UIImage imageNamed:@"grd_credit_amount_navbar_drop_shadow"];
+    self.dropShadow.image = [UIImage imageNamed:@"grd_navbar_drop_shadow"];
     [self.view addSubview:self.dropShadow];
     
     self.available = [[UILabel alloc]initWithFrame:CGRectMake(11, 15, 298, 23)];

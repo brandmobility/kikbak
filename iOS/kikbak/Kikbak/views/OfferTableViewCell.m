@@ -33,7 +33,7 @@
 @property (nonatomic,strong) UILabel* getDiscount;
 @property (nonatomic,strong) Location* location;
 
--(void)manuallyLayoutSubview;
+-(void)createSubviews;
 -(IBAction)onMap:(id)sender;
 -(IBAction)onWeb:(id)sender;
 -(IBAction)onCall:(id)sender;
@@ -50,7 +50,7 @@
         self.frame = CGRectMake(0, 0, 320, 156);
         self.backgroundColor = [UIColor clearColor];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        [self manuallyLayoutSubview];
+        [self createSubviews];
     }
     return self;
 }
@@ -62,9 +62,9 @@
     // Configure the view for the selected state
 }
 
--(void)manuallyLayoutSubview{
+-(void)createSubviews{
 
-    self.topGradient = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"grd_btw-labels"]];
+    self.topGradient = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"grd_offer_cell_top_bottom"]];
     self.topGradient.frame = CGRectMake(0, 0, 320, 16);
     [self addSubview:self.topGradient];
     
@@ -167,6 +167,10 @@
 
 -(void)setup:(int)index
 {
+    if( index == 0){
+        self.topGradient.image = [UIImage imageNamed:@"grd_offer_cell_bottom"];
+    }
+    
     self.retailerName.text = self.offer.merchantName;
     if ([self.offer.giftType compare:@"percentage"] == NSOrderedSame) {
         self.giveDiscount.text = [NSString stringWithFormat:NSLocalizedString(@"precentage format", nil), self.offer.giftValue];

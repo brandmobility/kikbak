@@ -34,7 +34,7 @@
     if( merchant != [NSNull null]){
         kikbak.merchantId = [merchant objectForKey:@"id"];
         kikbak.merchantName = [merchant objectForKey:@"name"];
-        kikbak.merchantUrl = [merchant objectForKey:@"merchantUrl"];
+        kikbak.merchantUrl = [merchant objectForKey:@"url"];
         
         NSArray* locations = [merchant objectForKey:@"locations"];
         for(id kikbakLocation in locations){

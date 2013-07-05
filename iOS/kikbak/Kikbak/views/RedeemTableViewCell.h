@@ -7,11 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "RedeemTypeProtocol.h"
 
 @class RewardCollection;
 
 @interface RedeemTableViewCell : UITableViewCell
 
+@property (nonatomic,strong) id<RedeemTypeProtocol> delegate;
 @property(strong, nonatomic)RewardCollection* rewards;
 @property (nonatomic,strong) UILabel* giftValue;
 @property (nonatomic,strong) UILabel* creditValue;

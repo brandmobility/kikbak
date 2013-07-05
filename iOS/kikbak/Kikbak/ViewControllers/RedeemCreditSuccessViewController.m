@@ -93,7 +93,7 @@
     [self.view addSubview:self.retailerBG];
     
     self.dropShadow = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 4)];
-    self.dropShadow.image = [UIImage imageNamed:@"grd_credit_amount_navbar_drop_shadow"];
+    self.dropShadow.image = [UIImage imageNamed:@"grd_navbar_drop_shadow"];
     [self.view addSubview:self.dropShadow];
     
     self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(0, 31, 320, 34)];

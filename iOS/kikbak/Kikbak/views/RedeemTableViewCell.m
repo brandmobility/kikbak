@@ -34,16 +34,22 @@ const int CELL_HEIGHT = 147;
 @property (nonatomic,strong) UIButton* webBtn;
 @property (nonatomic,strong) UIButton* callBtn;
 @property (nonatomic,strong) UILabel* gift;
+@property (nonatomic,strong) UIButton* giftBtn;
 @property (nonatomic,strong) UILabel* credit;
+@property (nonatomic,strong) UIButton* creditBtn;
 
 
 -(void)manuallyLayoutSubview;
 -(void)setupGift;
 -(void)setupKikbak;
+-(void)setupRedeemButtons;
 
 -(IBAction)onMap:(id)sender;
 -(IBAction)onWeb:(id)sender;
 -(IBAction)onCall:(id)sender;
+
+-(IBAction)onGiftBtn:(id)sender;
+-(IBAction)onCreditBtn:(id)sender;
 
 @end
 
@@ -145,6 +151,9 @@ const int CELL_HEIGHT = 147;
     self.gift.font = [UIFont fontWithName:@"HelveticaNeue" size:11];
     self.gift.textAlignment = NSTextAlignmentLeft;
     
+    self.giftBtn =  [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.giftBtn addTarget:self action:@selector(onGiftBtn:) forControlEvents:UIControlEventTouchUpInside];
+    
     self.giftValue = [[UILabel alloc]initWithFrame:CGRectMake(11, 21, 150, 18)];
     self.giftValue.text = [NSString stringWithFormat:NSLocalizedString(@"gift percent", nil),
                                     [NSNumber numberWithInt:10]];
@@ -161,6 +170,8 @@ const int CELL_HEIGHT = 147;
     self.credit.font = [UIFont fontWithName:@"HelveticaNeue" size:11];
     self.credit.textAlignment = NSTextAlignmentRight;
 
+    self.creditBtn =  [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.creditBtn addTarget:self action:@selector(onCreditBtn:) forControlEvents:UIControlEventTouchUpInside];
     
     self.creditValue = [[UILabel alloc]initWithFrame:CGRectMake(160, 21, 149, 18)];
     self.creditValue.text = [NSString stringWithFormat:NSLocalizedString(@"gift percent", nil),
@@ -175,10 +186,14 @@ const int CELL_HEIGHT = 147;
 
 -(void)setup//:(int)index
 {
+    [self addSubview:self.verticalSeparator];
+    
     [self.credit removeFromSuperview];
     [self.creditValue removeFromSuperview];
     [self.gift removeFromSuperview];
     [self.giftValue removeFromSuperview];
+    
+    [self setupRedeemButtons];
     
     if( self.rewards.gift){
         [self.rewardBackground addSubview:self.gift];
@@ -247,6 +262,25 @@ const int CELL_HEIGHT = 147;
     }
 }
 
+-(void)setupRedeemButtons{
+    [self.giftBtn removeFromSuperview];
+    [self.creditBtn removeFromSuperview];
+    if( self.rewards.credit && self.rewards.gift){
+        self.giftBtn.frame = CGRectMake(0, 90, 159, 47);
+        self.creditBtn.frame = CGRectMake(161, 90, 159, 47);
+        [self addSubview:self.giftBtn];
+        [self addSubview:self.creditBtn];
+    }
+    else if( self.rewards.credit){
+        self.creditBtn.frame = CGRectMake(0, 90, 320, 47);
+        [self addSubview:self.creditBtn];
+    }
+    else{
+        self.giftBtn.frame = CGRectMake(0, 90, 320, 47);
+        [self addSubview:self.giftBtn];
+    }
+}
+
 #pragma mark - button actions
 -(IBAction)onMap:(id)sender{
     NSString *stringURL = [NSString stringWithFormat:@"http://maps.apple.com/maps?q=%@,%@",
@@ -276,5 +310,12 @@ const int CELL_HEIGHT = 147;
     }
 }
 
+-(IBAction)onGiftBtn:(id)sender{
+    [self.delegate onRedeemGift:self.rewards.gift];
+}
+
+-(IBAction)onCreditBtn:(id)sender{
+    [self.delegate onRedeemCredit:self.rewards.credit];
+}
 
 @end

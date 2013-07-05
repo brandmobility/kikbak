@@ -244,6 +244,7 @@ const int CELL_HEIGHT = 156;
     RedeemTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"redeemCell"];
     if( cell == nil){
         cell = [[RedeemTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"redeemCell"];
+        cell.delegate = self;
     }
     
     cell.selectionStyle = UITableViewCellSelectionStyleGray;

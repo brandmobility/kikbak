@@ -25,6 +25,8 @@ const int CELL_HEIGHT = 156;
     bool locationResolved;
 }
 
+@property (nonatomic, strong) UIImageView* navbarDropShadow;
+
 @property (nonatomic, strong) UITableView* table;
 @property (nonatomic, strong) NSArray* offers;
 @property (nonatomic, strong) UIButton* giveBtn;
@@ -151,6 +153,10 @@ const int CELL_HEIGHT = 156;
     UITabBar* tabBar = self.tabBarController.tabBar;
     tabBar.backgroundColor = [UIColor clearColor];
     CGRect tabBarFR = tabBar.frame;
+    
+    self.navbarDropShadow = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 4)];
+    self.navbarDropShadow.image = [UIImage imageNamed:@"grd_navbar_drop_shadow"];
+    [self.view addSubview:self.navbarDropShadow];
     
     self.giveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.giveBtn.frame = CGRectMake(0, tabBarFR.origin.y, 159, tabBarFR.size.height);
