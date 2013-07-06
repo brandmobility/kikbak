@@ -128,7 +128,7 @@ function initPage() {
   $('#offer-view').hide();
   $('#offer-details-view').hide();
   $('#redeem-view').hide();
-  $('#redeem-detaile-view').hide();
+  $('#redeem-details-view').hide();
   $('#back-btn-div').hide();
   $('#suggest-btn-div').hide();
   $('#suggest-view').hide();
@@ -159,6 +159,7 @@ function initPage() {
       $('#back-btn').click(function(e){
         e.preventDefault();
         localStorage.pageType = 'offer';
+        initPage();
       });
     }else {
       // offer page is the default page
@@ -293,6 +294,11 @@ function getOffersByLocation(userId, position) {
       $.each(offers, function(i, offer) {
         renderOffer(offer);
       });
+      if (offers.length == 0) {
+        $("#no-offer-list").show();
+      } else {
+        $("#no-offer-list").hide();
+      }
       $('.offer-details-btn').click(function(e) {
         e.preventDefault();
         if (Storage != 'undefined') {
@@ -335,7 +341,7 @@ function getRedeems() {
           $('.redeem-details-btn').click(function(e) {
             e.preventDefault();
             if (Storage != 'undefined') {
-              localStorage.offerDetail = $(this).attr('data-object');
+              localStorage.redeemDetail = $(this).attr('data-object');
               localStorage.pageType = 'redeem-detail';
             }
             initPage();
@@ -355,14 +361,12 @@ function renderRedeem(redeem) {
   
   var json = escape(JSON.stringify(redeem));
   html += '<div class="offer-div">';
-  html += '<a href="#" data-object="' + json + '" class="offer-details-btn clearfix">';
-  html += '<img class="redeem-background" src="img/offer.png" />';
+  html += '<a href="#" data-object="' + json + '" class="redeem-details-btn clearfix">';
+  html += '<img class="offer-background" src="img/offer.png" />';
   // TODO
   // html += '<img class="redeem-background" src="' + json.merchantImageUrl + '" />';
-  html += '<div class="redeem-background-grad" />';
+  html += '<div class="offer-background-grad" />';
   html += '</a>';
-  html += '<div class="redeem-desc-div>' + redeem.desc + '</div>';
-  html += '<div class="redeem-desc-detail-div>' + redeem.descOptional + '</div>';
   html += '<div class="brand">';
   html += redeem.merchant.name;
   html += '</div><div class="website">';
@@ -377,6 +381,9 @@ function renderRedeem(redeem) {
     html += '<a href="' + generateMapUrl(redeem.merchant.name, local) + '"><img class="website-img" src="img/ic_map.png" />' + '&nbsp;' + computeDistance(local) + '</a>';
     html += '</div>';
   }
+  html += '<div class="seperator"></div>';
+  html += '<div class="redeem-desc-div">' + redeem.desc + '</div>';
+  html += '<div class="redeem-desc-detail-div">' + redeem.descOptional + '</div>';
   html += '</div>';
   html += '</li>';
   $('#redeem-list').append(html);
@@ -489,7 +496,7 @@ function renderOfferDetail(offer) {
   html += '<div id="give-detail-detail">';
   html += '<p>' + offer.giftDescOptional + '</p>'; 
   html += '</div>';
-  html += '<a href="#" id="terms">Terms and Conditions</a>'
+  html += '<a href="#" id="terms">Terms and Conditions</a>';
   html += '<input name="share" type="submit" class="btn" value="Give To Friends" disabled />';
   html += '</div>';
   html += '</form>';
@@ -570,14 +577,54 @@ function showShareSuccessful() {
 }
 
 function renderRedeemDetail(redeem) {
+  var html = '';
+  html += '<div class="add-photo"><img src="img/offer.png" class="add-photo" alt="" id="show-picture" /></div>';
   // TODO
+  // html += '<div class="add-photo"><img src="' + redeem.imageUrl + '" class="add-photo" alt="" id="show-picture"></div>';
+  html += '<div class="brand">';
+  html += redeem.merchant.name;
+  html += '</div><div class="website">';
+  html += '<a href="' + redeem.merchant.url + '"><img class="website-img" src="img/ic_web.png" /></a>';
+  html += '</div>';
+  local = getDisplayLocation(redeem.merchant.locations);
+  if (local != 'undefined') {
+    html += '<div class="phone">';
+    html += '<a href="tel:' + local.phoneNumber + '"><img class="website-img" src="img/ic_phone.png" /></a>';
+    html += '</div><div class="map">';
+    html += '<a href="' + generateMapUrl(redeem.merchant.name, local) + '"><img class="website-img" src="img/ic_map.png" />' + '&nbsp;' + computeDistance(local) + '</a>';
+    html += '</div>';
+  }
+  html += '</div>';
+  html += '<div class="form-view">';
+  html += '<div id="share-detail-div">';
+  html += '<div id="friend-name">' + redeem.friendName + '</div>';
+  html += '<div id="friend-image">';
+  html += '<img src="https://graph.facebook.com/' + redeem.fbFriendId + '/picture" />';
+  html += '</div>';
+  html += '<div id="friend-comment">';
+  html += redeem.caption;
+  html += '</div>';
+  html += '<div id="give-detail">';
+  html += '<div id="give-detail-summary">';
+  html += '<p>' + redeem.desc + '</p>';
+  html += '</div>';
+  html += '<div id="give-detail-detail">';
+  html += '<p>' + redeem.descOptional + '</p>'; 
+  html += '</div>';
+  html += '<a href="#" id="terms">Terms and Conditions</a>';
+  html += '<a href="#" id="redeem-btn" class="btn btn-large btn-success">Redeem</a>';
+  html += '</div>';
+  html += '</div>';
+  $('#redeem-details-view').html(html);
 }
 
 function resizeScroll() {
   if ( typeof getOffersByLocation.ov == 'undefined' ) {
     getOffersByLocation.ov = new iScroll('offer-view');
+    getRedeems.rv = new iScroll('redeem-view');
   } else {
     getOffersByLocation.ov.refresh();
+    getRedeems.rv.refresh();
   }
 }
 
