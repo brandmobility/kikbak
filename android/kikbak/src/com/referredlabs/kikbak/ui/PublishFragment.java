@@ -13,9 +13,8 @@ import com.facebook.Session;
 import com.facebook.Session.StatusCallback;
 import com.facebook.SessionDefaultAudience;
 import com.facebook.SessionState;
-import com.referredlabs.kikbak.LoginActivity;
 import com.referredlabs.kikbak.R;
-import com.referredlabs.kikbak.fb.Facebook;
+import com.referredlabs.kikbak.fb.Fb;
 
 import java.util.Arrays;
 import java.util.List;
@@ -67,7 +66,7 @@ public class PublishFragment extends DialogFragment {
   private void onSessionStateChange(final Session session, SessionState state, Exception exception) {
     if (session.isOpened()) {
       List<String> permissions = session.getPermissions();
-      if (!permissions.containsAll(Arrays.asList(LoginActivity.PUBLISH_PERMISSIONS))) {
+      if (!permissions.containsAll(Arrays.asList(Fb.PUBLISH_PERMISSIONS))) {
         if (!mPermissionRequested) {
           requestPublishPermissions(session);
           mPermissionRequested = true;
@@ -110,7 +109,7 @@ public class PublishFragment extends DialogFragment {
   private void requestPublishPermissions(Session session) {
     if (session != null) {
       Session.NewPermissionsRequest newPermissionsRequest = new Session.NewPermissionsRequest(this,
-          Arrays.asList(LoginActivity.PUBLISH_PERMISSIONS))
+          Arrays.asList(Fb.PUBLISH_PERMISSIONS))
           .setDefaultAudience(SessionDefaultAudience.FRIENDS)
           .setRequestCode(REQUEST_FB_AUTH);
       session.requestNewPublishPermissions(newPermissionsRequest);
@@ -125,7 +124,7 @@ public class PublishFragment extends DialogFragment {
       String comment = getArguments().getString(ARG_COMMENT);
       String photoPath = getArguments().getString(ARG_PHOTO_PATH);
       try {
-        Facebook.publishGift(session, comment, photoPath);
+        Fb.publishGift(session, comment, photoPath);
       } catch (Exception e) {
         android.util.Log.d("MMM", "exception " + e);
       }

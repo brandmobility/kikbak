@@ -15,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.gson.Gson;
-import com.referredlabs.kikbak.LoginActivity;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ClientOfferType;
 import com.referredlabs.kikbak.data.GetUserOffersRequest;
@@ -24,6 +23,7 @@ import com.referredlabs.kikbak.http.Http;
 import com.referredlabs.kikbak.ui.OfferListFragment.OnOfferClickedListener;
 import com.referredlabs.kikbak.ui.RedeemChooserDialog.OnRedeemOptionSelectedListener;
 import com.referredlabs.kikbak.ui.RewardListFragment.OnRewardClickedListener;
+import com.referredlabs.kikbak.utils.Register;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener,
     OnOfferClickedListener, OnRewardClickedListener, OnRedeemOptionSelectedListener {
@@ -34,6 +34,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    if (!Register.getInstance().isRegistered()) {
+      startActivity(new Intent(this, LoginActivity.class));
+      finish();
+      return;
+    }
+
     setContentView(R.layout.activity_main);
 
     final ActionBar actionBar = getActionBar();

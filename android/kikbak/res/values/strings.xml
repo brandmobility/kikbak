@@ -7,6 +7,9 @@
     <string name="action_settings">Settings</string>
     <string name="action_login">Login</string>
 
+    <!-- Login -->
+    <string name="registration_failed">Registration failed. Try again.</string>
+
     <!-- Main activity -->
     <string name="title_offers">Give</string>
     <string name="title_redeem">Redeem</string>
@@ -17,8 +20,7 @@
     <string name="ribbon_give_amount_fmt">$%.0f</string>
     <string name="ribbon_give_percentage_fmt">%.0f%%\nOFF</string>
     <string name="ribbon_get_fmt">$%.0f</string>
-    
-    
+
     <!-- Redeem list empty -->
 
     <string name="redeem_empty_doh">Doh!</string>

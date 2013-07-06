@@ -71,7 +71,7 @@ public class OfferAdapter extends BaseAdapter {
     helper.setPhone(Long.toString(nearest.getPhoneNumber()));
     
     String text = DataUtils.getRibbonGiveString(offer.giftType, offer.giftValue);
-    helper.setGetValue(text);
+    helper.setGiveValue(text);
 
     text = DataUtils.getRibbonGetString(offer.kikbakValue);
     helper.setGetValue(text);

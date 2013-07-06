@@ -216,6 +216,7 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
   public void onPostOnFacebook() {
     android.util.Log.d("MMM", "post on timeline");
     if (mCroppedPhotoUri == null) {
+      //TODO: extract original photo
       Toast.makeText(this, "Take photo first!", Toast.LENGTH_LONG).show();
       return;
     }
