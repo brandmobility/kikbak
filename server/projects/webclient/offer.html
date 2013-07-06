@@ -45,18 +45,22 @@
 <div id="redeem-details-view" class="details" style="display:none;">
 </div>
 <div id="suggest-view" style="display:none;">
+  <form id="suggest-form" class="form-view" onsubmit="doSuggest(); return false;">
   <div class="add-photo">
+    <img src="" class="add-photo show-picture" id="show-picture-suggest" alt="" />
+  </div>
+  <div class="add-photo-btn">
+    <input name="source" type="file" id="take-picture-suggest" class="take-picture" accept="image/*" />
   </div>
   <div id="suggest-form-view">
-    <form id="suggest-form" class="form-view" onsubmit="doSuggest(); return false;">
       <p>Want to recommend a business with 
       a special offer? Tell us and we'll let 
       them know that they should join Kikbak.</p>
       <input name="name" type="text" placeholder="Business name" />
       <input name="reason" type="text" placeholder="What makes them great" />
       <input name="suggest" class="btn" type="submit" value="Let us know" disabled />
-    </form>
   </div>
+  </form>
 </div>
 <div id="footer">
   <div id="footer-div">
@@ -103,12 +107,38 @@ $(document).ready(function() {
   $('#suggest-form input[name="name"]').bind('keyup', adjustSuggest);
   $('#suggest-form input[name="reason"]').bind('keyup', adjustSuggest);
 
-
   if (getBrowserName() == 'Safari') {
     $('#footer').css('position', 'static');
   } else {
     $('#footer').css('position', 'fixed');
   }
+
+  $('.take-picture').change(function(e) {
+    var files = e.target.files;
+    var file;
+    if (files && files.length > 0) {
+      file = files[0];
+      try {
+        var URL = window.webkitURL || window.URL;
+        var imgUrl = URL.createObjectURL(file);
+        $('.show-picture').load(function(e){
+          URL.revokeObjectURL(this.src);
+        });
+        $('.show-picture').attr('src', imgUrl);
+      } catch (e) {
+        try {
+          var fileReader = new FileReader();
+          fileReader.onload = function (e) {
+            $('.show-picture').src = e.target.result;
+          }
+          fileReader.readAsDataUrl(file);
+        } catch (e) {
+          alert('Unsupported browser');
+        }
+      }
+    }
+    adjustSuggest();
+  });
 
   function updateOrientation() {
     window.scrollTo(0, 1);

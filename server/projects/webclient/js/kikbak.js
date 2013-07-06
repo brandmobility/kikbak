@@ -464,11 +464,11 @@ function getRedeemDetail() {
 
 function renderOfferDetail(offer) {
   var html = '<form id="share-form" type="POST" enctype="multipart/form-data" onsubmit="shareOffer(); return false;" >';
-  html += '<div class="add-photo"><img src="img/offer.png" class="add-photo" alt="" id="show-picture" /></div>';
+  html += '<div class="add-photo"><img src="img/offer.png" class="add-photo show-picture" alt="" id="show-picture" /></div>';
   // TODO
-  // html += '<div class="add-photo"><img src="' + offer.imageUrl + '" class="add-photo" alt="" id="show-picture"></div>';
+  // html += '<div class="add-photo"><img src="' + offer.imageUrl + '" class="add-photo show-picture" alt="" id="show-picture"></div>';
   html += '<div class="add-photo-btn">';
-  html += '<input name="source" type="file" id="take-picture" accept="image/*" />';
+  html += '<input name="source" type="file" id="take-picture" class="take-picture" accept="image/*" />';
   html += '</div>';
   html += '<div class="brand">';
   html += offer.merchantName;
@@ -502,6 +502,39 @@ function renderOfferDetail(offer) {
   html += '</form>';
   html += '</div>';
   $('#offer-details-view').html(html);
+}
+
+function doSuggest() {
+  if (typeof Storage != 'undefined') {
+    var userId = localStorage.userId;
+    $('#share-form input[name="share"]').attr('disabled', 'disabled');
+    if (typeof userId != 'undefined' && userId != 'undefined' &&
+          userId != 'null' && userId != null && userId != '') {
+      var req = new FormData();
+      var file =  $('#take-picture-suggest')[0].files[0];
+      req.append('source', file);
+      var url='https://graph.facebook.com/photos?access_token=' + localStorage.accessToken;
+      $.ajax({
+        url: url,
+        data: req,
+        cache: false,
+        contentType: false,
+        processData: false,
+        type: 'POST',
+        success: onSuggestResponse,
+        error: showError
+      });
+    }
+  }
+}
+
+function onSuggestResponse() {
+  if (response && response.post_id) {
+    // TODO
+  } else {
+    $('#share-form input[name="suggest"]').removeAttr('disabled');
+    alert(response.error.message);
+  }
 }
 
 function shareOffer() {
@@ -661,7 +694,8 @@ function setWrapperSize() {
 
 function adjustSuggest() {
   if ($('#suggest-form input[name="name"]').val().replace(/^\s+|\s+$/g, '') != '' &&
-      $('#suggest-form input[name="reason"]').val().replace(/^\s+|\s+$/g, '') != '') {
+      $('#suggest-form input[name="reason"]').val().replace(/^\s+|\s+$/g, '') != '' &&
+      $('#take-picture-suggest')[0].files && $('#take-picture-suggest')[0].files.length > 0) {
     $('#suggest-form input[name="suggest"]').removeAttr('disabled');
   } else {
     $('#suggest-form input[name="suggest"]').attr('disabled', 'disabled');

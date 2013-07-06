@@ -349,7 +349,7 @@ html,body {
     z-index: -2;
 }
 
-#show-picture {
+.show-picture {
     position: absolute;
     top: 0;
     left: 0;
@@ -367,7 +367,7 @@ html,body {
     border: none;
 }
 
-#take-picture {
+.take-picture {
     opacity: 0;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
