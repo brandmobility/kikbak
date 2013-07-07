@@ -60,17 +60,19 @@
   FBRequest* request = [FBRequest requestForMyFriends];
   [connection addRequest:request completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
     if(error == nil){
-      AppDelegate* delegate =[UIApplication sharedApplication].delegate;
-      delegate.userInfo.friends = result;
-      SubmitFriendsRequest* request = [[SubmitFriendsRequest alloc]init];
-      [request restRequest:[result objectForKey:@"data"]];
-      
-      [Flurry logEvent:@"FriendRequestEvent" timed:YES];
+        AppDelegate* delegate =[UIApplication sharedApplication].delegate;
+        delegate.userInfo.friends = result;
+
+       // NSLog(@"friend result %@", result);
+        SubmitFriendsRequest* request = [[SubmitFriendsRequest alloc]init];
+        [request restRequest:[result objectForKey:@"data"]];
+
+        [Flurry logEvent:@"FriendRequestEvent" timed:YES];
     }
     else{
       [Flurry logEvent:@"FriendFailedRequestEvent" timed:YES];
       NSLog(@"Submit Error: %@", error);
-    }
+}
   }];
   
   [connection start];
