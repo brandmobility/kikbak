@@ -1,5 +1,3 @@
 #allow *.jar and *.so
 !*.jar
 !*.so
-#
-.settings
