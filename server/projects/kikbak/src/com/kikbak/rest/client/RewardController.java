@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.oned.UPCAWriter;
 import com.kikbak.client.service.RedemptionException;
 import com.kikbak.client.service.RewardService;
 import com.kikbak.jaxb.RedeemGiftRequest;
@@ -91,4 +95,18 @@ public class RewardController {
 		}
 		return response;
 	}
+    
+    @RequestMapping(value="/generateBarcode/{userId}/{code}/{height}/{width}/", method = RequestMethod.GET)
+    public void generateBarcode(@PathVariable("userId") Long userId,
+            @PathVariable("code") String code, @PathVariable("height") Integer height,
+            @PathVariable("width") Integer width, final HttpServletResponse response) {
+        try {
+            BitMatrix result = new UPCAWriter().encode("485963095124", BarcodeFormat.UPC_A, width, height);
+            response.setContentType("image/png");
+            MatrixToImageWriter.writeToStream(result, "png", response.getOutputStream());
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            logger.error("cannot generate barcode", e);
+        }
+    }
 }

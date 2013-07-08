@@ -6,7 +6,7 @@ import com.referredlabs.kikbak.R;
 
 public class DataUtils {
 
-  public static final String GIFT_TYPE_AMOUNT = "amonut";
+  public static final String GIFT_TYPE_AMOUNT = "amount";
   public static final String GIFT_TYPE_PERCENTAGE = "percentage";
   public static final String GIFT_TYPE_PURCHASE = "purchase";
 

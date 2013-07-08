@@ -10,7 +10,10 @@ import com.facebook.FacebookRequestError;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Request.Callback;
+import com.facebook.model.GraphMultiResult;
 import com.facebook.model.GraphObject;
+import com.facebook.model.GraphObjectList;
+import com.facebook.model.GraphUser;
 import com.facebook.RequestAsyncTask;
 import com.facebook.Response;
 import com.facebook.Session;
@@ -21,8 +24,15 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 
-public class Facebook {
+public class Fb {
+  public final static String[] READ_PERMISSIONS = {
+      "email"
+  };
+  public final static String[] PUBLISH_PERMISSIONS = {
+      "publish_actions"
+  };
 
   public static void publishGift(Session session, String comment, String photoPath)
       throws FileNotFoundException {
@@ -160,6 +170,35 @@ public class Facebook {
       RequestAsyncTask task = new RequestAsyncTask(request);
       task.execute();
     }
+  }
+
+  public static List<GraphUser> getFriends() {
+    Session activeSession = Session.getActiveSession();
+    if (activeSession.getState().isOpened()) {
+      Request friendRequest = Request.newMyFriendsRequest(activeSession, null);
+      Bundle params = new Bundle();
+      params.putString("fields", "id, name, username, first_name, last_name");
+      friendRequest.setParameters(params);
+      Response response = friendRequest.executeAndWait();
+      List<GraphUser> users = Fb.typedListFromResponse(response, GraphUser.class);
+      return users;
+    }
+    return null;
+  }
+
+  private static <T extends GraphObject> List<T> typedListFromResponse(Response response,
+      Class<T> clazz) {
+    GraphMultiResult multiResult = response.getGraphObjectAs(GraphMultiResult.class);
+    if (multiResult == null) {
+      return null;
+    }
+
+    GraphObjectList<GraphObject> data = multiResult.getData();
+    if (data == null) {
+      return null;
+    }
+
+    return data.castToListOf(clazz);
   }
 
 }
