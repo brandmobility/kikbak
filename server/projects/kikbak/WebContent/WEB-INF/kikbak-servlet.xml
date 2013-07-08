@@ -17,9 +17,12 @@
                 <ref bean="stringHttpMessageConverter" />
                 <ref bean="jaxbHttpMessageConverter" />
                 <ref bean="jsonMessageConverter" />
+                <ref bean="byteArrayMessageConverter" />
             </list>
         </property>
     </bean>
+    
+    <bean id="byteArrayMessageConverter" class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
 
     <bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
         <property name="writeAcceptCharset" value="false" />
