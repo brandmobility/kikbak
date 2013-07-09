@@ -2,12 +2,12 @@ package com.kikbak.client.service;
 
 import java.util.Collection;
 
-import com.kikbak.jaxb.ClientOfferType;
-import com.kikbak.jaxb.DeviceTokenType;
-import com.kikbak.jaxb.FriendType;
-import com.kikbak.jaxb.UserIdType;
-import com.kikbak.jaxb.UserLocationType;
-import com.kikbak.jaxb.UserType;
+import com.kikbak.jaxb.devicetoken.DeviceTokenType;
+import com.kikbak.jaxb.friends.FriendType;
+import com.kikbak.jaxb.offer.ClientOfferType;
+import com.kikbak.jaxb.offer.UserLocationType;
+import com.kikbak.jaxb.register.UserIdType;
+import com.kikbak.jaxb.register.UserType;
 
 public interface UserService {
 		

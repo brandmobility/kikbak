@@ -18,6 +18,7 @@
 #import "SuggestViewController.h"
 #import "util.h"
 #import "UIDevice+Screen.h"
+#import "FBQuery.h"
 
 const int CELL_HEIGHT = 156;
 
@@ -38,12 +39,9 @@ const int CELL_HEIGHT = 156;
 @property (nonatomic, strong) UILabel* bummer;
 @property (nonatomic, strong) UILabel* bummerDetails;
 
-@property (nonatomic, strong) UILabel* shareBusiness;
-@property (nonatomic, strong) UIButton* shareBusinessBtn;
-
 @property (nonatomic, strong) UILabel* suggestBusiness;
 @property (nonatomic, strong) UIButton* suggestBusinessBtn;
-
+@property (nonatomic, strong) UIButton* fbRequestBtn;
 
 -(void) createSubviews;
 -(void) manuallyLayoutSubviews;
@@ -56,8 +54,6 @@ const int CELL_HEIGHT = 156;
 -(IBAction)onSuggest:(id)sender;
 -(IBAction)onGiveBtn:(id)sender;
 -(IBAction)onRedeemBtn:(id)sender;
-
--(IBAction)onShare:(id)sender;
 
 @end
 
@@ -218,24 +214,6 @@ const int CELL_HEIGHT = 156;
     self.bummerDetails.numberOfLines = 2;
     [self.emptyListView addSubview:self.bummerDetails];
     
-    self.shareBusiness = [[UILabel alloc]initWithFrame:CGRectMake(60, 226, 200, 40)];
-    self.shareBusiness.text = NSLocalizedString(@"Share the business", nil);
-    self.shareBusiness.textAlignment = NSTextAlignmentCenter;
-    self.shareBusiness.textColor = UIColorFromRGB(0x3a3a3a);
-    self.shareBusiness.font = [UIFont fontWithName:@"Helvetica" size:13];
-    self.shareBusiness.backgroundColor = [UIColor clearColor];
-    self.shareBusiness.numberOfLines = 2;
-    [self.emptyListView addSubview:self.shareBusiness];
-    
-    
-    self.shareBusinessBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.shareBusinessBtn.frame = CGRectMake(50, 267, 220, 40);
-    [self.shareBusinessBtn setBackgroundImage:[UIImage imageNamed:@"btn_blue"] forState:UIControlStateNormal];
-    [self.shareBusinessBtn setTitle:NSLocalizedString(@"Share with friends", nil) forState:UIControlStateNormal];
-    [self.shareBusinessBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.shareBusinessBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15];
-    [self.shareBusinessBtn addTarget:self action:@selector(onShare:) forControlEvents:UIControlEventTouchUpInside];
-    [self.emptyListView addSubview:self.shareBusinessBtn];
     
     self.suggestBusiness = [[UILabel alloc]initWithFrame:CGRectMake(31, 336, 258, 40)];
     self.suggestBusiness.text = NSLocalizedString(@"Tell Us", nil);
@@ -256,9 +234,6 @@ const int CELL_HEIGHT = 156;
     [self.suggestBusinessBtn addTarget:self action:@selector(onSuggest:) forControlEvents:UIControlEventTouchUpInside];
     [self.emptyListView addSubview:self.suggestBusinessBtn];
 
-    
-
-    
 }
 
 -(void) manuallyLayoutSubviews{
@@ -266,8 +241,6 @@ const int CELL_HEIGHT = 156;
     if( ![UIDevice hasFourInchDisplay]){
         self.bummer.frame = CGRectMake(0, 35, 320, 62);
         self.bummerDetails.frame = CGRectMake(65, 86, 190, 40);
-        self.shareBusiness.frame = CGRectMake(60, 154, 200, 40);
-        self.shareBusinessBtn.frame = CGRectMake(50, 199, 220, 40);
         self.suggestBusiness.frame = CGRectMake(31, 259, 258, 40);
         self.suggestBusinessBtn.frame = CGRectMake(50, 304, 220, 40);
     }
@@ -358,7 +331,5 @@ const int CELL_HEIGHT = 156;
     self.tabBarController.selectedIndex = 1;
 }
 
--(IBAction)onShare:(id)sender{
-    
-}
+
 @end

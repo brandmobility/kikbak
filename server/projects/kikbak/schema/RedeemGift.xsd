@@ -1,0 +1,43 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="com:kikbak:jaxb:RedeemGift"
+    xmlns:kikbak="com:kikbak:jaxb:RedeemGift" 
+    xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+    xmlns:st="com:kikbak:jaxb:statustype"
+    jaxb:version="1.0">
+
+    <xsd:annotation>
+        <xsd:appinfo>
+            <jaxb:schemaBindings>
+                <jaxb:package name="com.kikbak.jaxb.redeemgift" />
+            </jaxb:schemaBindings>
+        </xsd:appinfo>
+    </xsd:annotation>
+    
+    <xsd:import namespace="com:kikbak:jaxb:statustype" schemaLocation="./StatusType.xsd" />
+    
+    <xsd:complexType name="GiftRedemptionType">
+        <xsd:sequence>
+            <xsd:element name="id" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="locationId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="verificationCode" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="friendUserId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+        <xsd:element name="RedeemGiftRequest">
+        <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="gift" type="kikbak:GiftRedemptionType" minOccurs="1" maxOccurs="1"/>  
+                </xsd:sequence>
+            </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:element name="RedeemGiftResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="authorizationCode" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+                <xsd:element name="status" type="st:StatusType" minOccurs="1" maxOccurs="1"/> 
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    
+</xsd:schema>

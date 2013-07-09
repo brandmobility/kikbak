@@ -16,13 +16,13 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.oned.UPCAWriter;
 import com.kikbak.client.service.RedemptionException;
 import com.kikbak.client.service.RewardService;
-import com.kikbak.jaxb.RedeemGiftRequest;
-import com.kikbak.jaxb.RedeemGiftResponse;
-import com.kikbak.jaxb.RedeemKikbakRequest;
-import com.kikbak.jaxb.RedeemKikbakResponse;
-import com.kikbak.jaxb.RewardsRequest;
-import com.kikbak.jaxb.RewardsResponse;
-import com.kikbak.jaxb.StatusType;
+import com.kikbak.jaxb.redeemgift.RedeemGiftRequest;
+import com.kikbak.jaxb.redeemgift.RedeemGiftResponse;
+import com.kikbak.jaxb.redeemkikbak.RedeemKikbakRequest;
+import com.kikbak.jaxb.redeemkikbak.RedeemKikbakResponse;
+import com.kikbak.jaxb.rewards.RewardsRequest;
+import com.kikbak.jaxb.rewards.RewardsResponse;
+import com.kikbak.jaxb.statustype.StatusType;
 import com.kikbak.rest.StatusCode;
 
 @Controller

@@ -1,11 +1,12 @@
 package com.kikbak.admin.service;
 
+import static org.junit.Assert.fail;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import static org.junit.Assert.*;
 
 import com.kikbak.KikbakBaseTest;
-import com.kikbak.jaxb.TokenType;
+import com.kikbak.jaxb.admin.TokenType;
 
 public class AuthenticationServiceTest extends KikbakBaseTest{
 

@@ -1,0 +1,25 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    targetNamespace="com:kikbak:jaxb:statustype" xmlns:kikbak="com:kikbak:jaxb:statustype" 
+    xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+    jaxb:version="1.0">
+
+    <xsd:annotation>
+        <xsd:appinfo>
+            <jaxb:schemaBindings>
+                <jaxb:package name="com.kikbak.jaxb.statustype" />
+            </jaxb:schemaBindings>
+        </xsd:appinfo>
+    </xsd:annotation>
+
+        <!-- Status of response. The element optionally contains a message. -->
+    <xsd:complexType name="StatusType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <!-- Response status code: 0 = OK; 1 = Error -->
+                <xsd:attribute name="code" type="xsd:int" />
+                <xsd:attribute name="version" type="xsd:string" />
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    
+</xsd:schema>

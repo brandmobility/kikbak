@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.kikbak.jaxb.TokenType;
+import com.kikbak.jaxb.admin.TokenType;
 
 public class AuthTokenManager {
 

@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.kikbak.client.service.UserService;
-import com.kikbak.jaxb.DeviceTokenUpdateRequest;
-import com.kikbak.jaxb.DeviceTokenUpdateResponse;
-import com.kikbak.jaxb.GetUserOffersRequest;
-import com.kikbak.jaxb.GetUserOffersResponse;
-import com.kikbak.jaxb.RegisterUserRequest;
-import com.kikbak.jaxb.RegisterUserResponse;
-import com.kikbak.jaxb.StatusType;
-import com.kikbak.jaxb.UpdateFriendResponse;
-import com.kikbak.jaxb.UpdateFriendsRequest;
+import com.kikbak.jaxb.devicetoken.DeviceTokenUpdateRequest;
+import com.kikbak.jaxb.devicetoken.DeviceTokenUpdateResponse;
+import com.kikbak.jaxb.friends.UpdateFriendResponse;
+import com.kikbak.jaxb.friends.UpdateFriendsRequest;
+import com.kikbak.jaxb.offer.GetUserOffersRequest;
+import com.kikbak.jaxb.offer.GetUserOffersResponse;
+import com.kikbak.jaxb.register.RegisterUserRequest;
+import com.kikbak.jaxb.register.RegisterUserResponse;
+import com.kikbak.jaxb.statustype.StatusType;
 import com.kikbak.rest.StatusCode;
 
 @Controller
@@ -64,7 +64,7 @@ public class UserController {
 			logger.error(e,e);
 		}
 		
-		return new UpdateFriendResponse();
+		return response;
 	}
 	
 	@RequestMapping( value = "/offer/{userId}", method = RequestMethod.POST)

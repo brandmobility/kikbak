@@ -35,13 +35,13 @@ import com.kikbak.dto.Offer;
 import com.kikbak.dto.Shared;
 import com.kikbak.dto.Transaction;
 import com.kikbak.dto.User;
-import com.kikbak.jaxb.ClientLocationType;
-import com.kikbak.jaxb.ClientMerchantType;
-import com.kikbak.jaxb.GiftRedemptionType;
-import com.kikbak.jaxb.GiftType;
-import com.kikbak.jaxb.KikbakRedemptionResponseType;
-import com.kikbak.jaxb.KikbakRedemptionType;
-import com.kikbak.jaxb.KikbakType;
+import com.kikbak.jaxb.redeemgift.GiftRedemptionType;
+import com.kikbak.jaxb.redeemkikbak.KikbakRedemptionResponseType;
+import com.kikbak.jaxb.redeemkikbak.KikbakRedemptionType;
+import com.kikbak.jaxb.rewards.ClientLocationType;
+import com.kikbak.jaxb.rewards.ClientMerchantType;
+import com.kikbak.jaxb.rewards.GiftType;
+import com.kikbak.jaxb.rewards.KikbakType;
 import com.kikbak.push.service.ApsNotifier;
 
 @Service

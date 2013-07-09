@@ -1,15 +1,16 @@
 package com.kikbak.client.service;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Collection;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.kikbak.KikbakBaseTest;
 import com.kikbak.dao.ReadOnlySharedDAO;
 import com.kikbak.dto.Shared;
-import com.kikbak.jaxb.SharedType;
+import com.kikbak.jaxb.share.SharedType;
 
 public class SharedExperienceServiceTest extends KikbakBaseTest{
 

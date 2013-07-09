@@ -9,8 +9,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.junit.Test;
 
-import com.kikbak.jaxb.AppleNotificationPayload;
-import com.kikbak.jaxb.ApsType;
+import com.kikbak.jaxb.applepushnotification.AppleNotificationPayload;
+import com.kikbak.jaxb.applepushnotification.ApsType;
 
 public class JsonPaserTest {
 

@@ -1,0 +1,43 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="com:kikbak:jaxb:share"
+    xmlns:kikbak="com:kikbak:jaxb:share" 
+    xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+    xmlns:st="com:kikbak:jaxb:statustype"
+    jaxb:version="1.0">
+
+    <xsd:annotation>
+        <xsd:appinfo>
+            <jaxb:schemaBindings>
+                <jaxb:package name="com.kikbak.jaxb.share" />
+            </jaxb:schemaBindings>
+        </xsd:appinfo>
+    </xsd:annotation>
+    
+    <xsd:import namespace="com:kikbak:jaxb:statustype" schemaLocation="./StatusType.xsd" />
+    
+    <xsd:complexType name="sharedType">
+        <xsd:sequence>
+            <xsd:element name="locationId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="merchantId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="offerId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="fbImageId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="caption" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="ShareExperienceRequest">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="experience" type="kikbak:sharedType" minOccurs="1" maxOccurs="1"/> 
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:element name="ShareExperienceResponse">
+        <xsd:complexType>
+           <xsd:sequence>
+               <xsd:element name="status" type="st:StatusType" minOccurs="1" maxOccurs="1"/>
+           </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+  
+</xsd:schema>

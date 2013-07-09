@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.kikbak.client.service.SharedExperienceService;
-import com.kikbak.jaxb.ShareExperienceRequest;
-import com.kikbak.jaxb.ShareExperienceResponse;
-import com.kikbak.jaxb.StatusType;
+import com.kikbak.jaxb.share.ShareExperienceRequest;
+import com.kikbak.jaxb.share.ShareExperienceResponse;
+import com.kikbak.jaxb.statustype.StatusType;
 import com.kikbak.rest.StatusCode;
 
 @Controller

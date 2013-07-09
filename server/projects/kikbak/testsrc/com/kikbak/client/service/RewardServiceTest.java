@@ -1,13 +1,9 @@
 package com.kikbak.client.service;
 
-import static org.junit.Assert.*;
-
-import java.util.Collection;
-import java.util.Date;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
 
 import com.kikbak.KikbakBaseTest;
 import com.kikbak.dao.ReadOnlyGiftDAO;
@@ -18,13 +14,8 @@ import com.kikbak.dao.ReadWriteOfferDAO;
 import com.kikbak.dao.ReadWriteSharedDAO;
 import com.kikbak.dao.ReadWriteUser2FriendDAO;
 import com.kikbak.dao.ReadWriteUserDAO;
-import com.kikbak.dto.Gift;
-import com.kikbak.jaxb.ClientLocationType;
-import com.kikbak.jaxb.GiftRedemptionType;
-import com.kikbak.jaxb.GiftType;
-import com.kikbak.jaxb.KikbakRedemptionType;
-import com.kikbak.jaxb.KikbakType;
-import com.kikbak.service.helper.DataPopulator;
+import com.kikbak.jaxb.redeemgift.GiftRedemptionType;
+import com.kikbak.jaxb.redeemkikbak.KikbakRedemptionType;
 
 public class RewardServiceTest extends KikbakBaseTest{
 	

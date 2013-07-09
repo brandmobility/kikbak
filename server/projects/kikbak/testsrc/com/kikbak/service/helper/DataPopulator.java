@@ -86,7 +86,6 @@ public class DataPopulator {
 			user.setGender((byte)0);
 			//user.setId(baseUserId + i);
 			user.setLastName("last");
-			user.setUsername("test");
 			
 			rwUserDao.makePersistent(user);
 			if( i == 0){

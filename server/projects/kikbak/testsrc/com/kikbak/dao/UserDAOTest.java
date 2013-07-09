@@ -1,7 +1,7 @@
 package com.kikbak.dao;
 
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Date;
 
@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.kikbak.KikbakBaseTest;
-import com.kikbak.dao.ReadOnlyUserDAO;
 import com.kikbak.dto.User;
 
 public class UserDAOTest extends KikbakBaseTest{
@@ -46,7 +45,6 @@ public class UserDAOTest extends KikbakBaseTest{
 		user.setFacebookId(123424L);
 		user.setLastName("t");
 		user.setCreateDate(new Date());
-		user.setUsername("tt");
 		
 		rwDAO.makePersistent(user);
 		

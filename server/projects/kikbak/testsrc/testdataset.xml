@@ -1,5 +1,5 @@
 <dataset>
- <User id="1" first_name="fn1" last_name="ln1" email="e@e.com" facebook_id="1234" gender="0" username="123" create_date="2012-11-13 22:00:00"/>
+ <User id="1" first_name="fn1" last_name="ln1" email="e@e.com" facebook_id="1234" gender="0" create_date="2012-11-13 22:00:00"/>
  <AccountType id="1" type="admin"/>
  <Account id="1" first_name="fn1" last_name="ln1" email="test@kikbak.com" phone_number="1234" verified="0" password="1234" account_type_id="1" create_date="2012-11-13 22:00:00"/>
  <Merchant id="1" name="Pied Piper" description="23" />

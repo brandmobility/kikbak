@@ -2,11 +2,11 @@ package com.kikbak.client.service;
 
 import java.util.Collection;
 
-import com.kikbak.jaxb.GiftRedemptionType;
-import com.kikbak.jaxb.GiftType;
-import com.kikbak.jaxb.KikbakRedemptionResponseType;
-import com.kikbak.jaxb.KikbakRedemptionType;
-import com.kikbak.jaxb.KikbakType;
+import com.kikbak.jaxb.redeemgift.GiftRedemptionType;
+import com.kikbak.jaxb.redeemkikbak.KikbakRedemptionResponseType;
+import com.kikbak.jaxb.redeemkikbak.KikbakRedemptionType;
+import com.kikbak.jaxb.rewards.GiftType;
+import com.kikbak.jaxb.rewards.KikbakType;
 
 public interface RewardService {
 

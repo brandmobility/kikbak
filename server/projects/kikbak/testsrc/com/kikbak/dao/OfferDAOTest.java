@@ -1,18 +1,18 @@
 package com.kikbak.dao;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Collection;
 import java.util.Date;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.junit.Assert.*;
-
 import com.kikbak.KikbakBaseTest;
-import com.kikbak.dao.ReadOnlyOfferDAO;
 import com.kikbak.dto.Merchant;
 import com.kikbak.dto.Offer;
-import com.kikbak.jaxb.UserLocationType;
+import com.kikbak.jaxb.offer.UserLocationType;
 import com.kikbak.location.Coordinate;
 import com.kikbak.location.GeoBoundaries;
 import com.kikbak.location.GeoFence;

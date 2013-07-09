@@ -63,7 +63,7 @@
         AppDelegate* delegate =[UIApplication sharedApplication].delegate;
         delegate.userInfo.friends = result;
 
-       // NSLog(@"friend result %@", result);
+        NSLog(@"friend result %@", result);
         SubmitFriendsRequest* request = [[SubmitFriendsRequest alloc]init];
         [request restRequest:[result objectForKey:@"data"]];
 
@@ -103,7 +103,7 @@
             [dict setObject:[result objectForKey:@"name"] forKey:@"name"];
             [dict setObject:[result objectForKey:@"timezone"] forKey:@"timezone"];
             [dict setObject:[result objectForKey:@"updated_time"] forKey:@"updated_time"];
-            [dict setObject:[result objectForKey:@"username"] forKey:@"username"];
+            
             [dict setObject:[result objectForKey:@"verified"] forKey:@"verified"];
             [dict setObject:[result objectForKey:@"gender"] forKey:@"gender"];
             [request restRequest:dict];
@@ -177,5 +177,24 @@
     
 }
 
++(void)appRequest{
+    NSMutableDictionary* params =   [NSMutableDictionary dictionaryWithObjectsAndKeys:nil];
+    [FBWebDialogs presentRequestsDialogModallyWithSession:nil
+                                                  message:[NSString stringWithFormat:@"Brian, I wanted to share this awesome deal with you"]
+                                                    title:nil
+                                               parameters:params
+                                                  handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
+                                                      if (error) {
+                                                          // Case A: Error launching the dialog or sending request.
+                                                          NSLog(@"Error sending request.");
+                                                      } else {
+                                                          if (result == FBWebDialogResultDialogNotCompleted) {
+                                                              // Case B: User clicked the "x" icon
+                                                              NSLog(@"User canceled request.");
+                                                          } else {
+                                                              NSLog(@"Request Sent.");
+                                                          }
+                                                      }}];
+}
 
 @end

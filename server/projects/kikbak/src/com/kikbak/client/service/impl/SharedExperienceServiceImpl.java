@@ -12,7 +12,7 @@ import com.kikbak.dao.ReadOnlySharedDAO;
 import com.kikbak.dao.ReadOnlyUser2FriendDAO;
 import com.kikbak.dao.ReadWriteSharedDAO;
 import com.kikbak.dto.Shared;
-import com.kikbak.jaxb.SharedType;
+import com.kikbak.jaxb.share.SharedType;
 
 
 @Service

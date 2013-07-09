@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.kikbak.config.ContextUtil;
 import com.kikbak.dto.Devicetoken;
-import com.kikbak.jaxb.AppleNotificationPayload;
-import com.kikbak.jaxb.ApsType;
+import com.kikbak.jaxb.applepushnotification.AppleNotificationPayload;
+import com.kikbak.jaxb.applepushnotification.ApsType;
 import com.kikbak.push.service.ApsNotifier;
 
 @Service

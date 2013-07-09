@@ -1,11 +1,14 @@
 package com.kikbak.client.service;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.kikbak.KikbakBaseTest;
@@ -15,15 +18,15 @@ import com.kikbak.dao.ReadOnlyUser2FriendDAO;
 import com.kikbak.dao.ReadOnlyUserDAO;
 import com.kikbak.dto.Devicetoken;
 import com.kikbak.dto.User;
-import com.kikbak.jaxb.ClientOfferType;
-import com.kikbak.jaxb.DeviceTokenType;
-import com.kikbak.jaxb.FriendType;
-import com.kikbak.jaxb.LocationType;
-import com.kikbak.jaxb.MerchantType;
-import com.kikbak.jaxb.OfferType;
-import com.kikbak.jaxb.UserIdType;
-import com.kikbak.jaxb.UserLocationType;
-import com.kikbak.jaxb.UserType;
+import com.kikbak.jaxb.admin.LocationType;
+import com.kikbak.jaxb.admin.MerchantType;
+import com.kikbak.jaxb.admin.OfferType;
+import com.kikbak.jaxb.devicetoken.DeviceTokenType;
+import com.kikbak.jaxb.friends.FriendType;
+import com.kikbak.jaxb.offer.ClientOfferType;
+import com.kikbak.jaxb.offer.UserLocationType;
+import com.kikbak.jaxb.register.UserIdType;
+import com.kikbak.jaxb.register.UserType;
 
 public class UserServiceTest extends KikbakBaseTest{
 
@@ -201,7 +204,6 @@ public class UserServiceTest extends KikbakBaseTest{
 		ut.setGender("male");
 		ut.setLastName("last");
 		ut.setName("first last");
-		ut.setUsername("username");
 		ut.setId(12345);
 		ut.setVerified(true);
 		

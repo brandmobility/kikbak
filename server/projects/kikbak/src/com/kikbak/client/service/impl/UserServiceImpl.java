@@ -30,13 +30,13 @@ import com.kikbak.dto.Merchant;
 import com.kikbak.dto.Offer;
 import com.kikbak.dto.User;
 import com.kikbak.dto.User2friend;
-import com.kikbak.jaxb.ClientOfferType;
-import com.kikbak.jaxb.DeviceTokenType;
-import com.kikbak.jaxb.FriendType;
-import com.kikbak.jaxb.OfferLocationType;
-import com.kikbak.jaxb.UserIdType;
-import com.kikbak.jaxb.UserLocationType;
-import com.kikbak.jaxb.UserType;
+import com.kikbak.jaxb.devicetoken.DeviceTokenType;
+import com.kikbak.jaxb.friends.FriendType;
+import com.kikbak.jaxb.offer.ClientOfferType;
+import com.kikbak.jaxb.offer.OfferLocationType;
+import com.kikbak.jaxb.offer.UserLocationType;
+import com.kikbak.jaxb.register.UserIdType;
+import com.kikbak.jaxb.register.UserType;
 import com.kikbak.location.Coordinate;
 import com.kikbak.location.GeoBoundaries;
 import com.kikbak.location.GeoFence;
@@ -89,7 +89,6 @@ public class UserServiceImpl implements UserService {
 		user.setGender(gender);
 		user.setLastName(userType.getLastName());
 		user.setUpdateDate(null);
-		user.setUsername(userType.getUsername());
 		user.setFacebookId(userType.getId());
 		
 		

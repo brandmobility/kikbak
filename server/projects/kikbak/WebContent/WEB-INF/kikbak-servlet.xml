@@ -36,7 +36,16 @@
     <bean id="jaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
         <property name="contextPaths">
             <list>
-                <value>com.kikbak.jaxb</value>
+                <value>com.kikbak.jaxb.admin</value>
+                <value>com.kikbak.jaxb.applepushnotification</value>
+                <value>com.kikbak.jaxb.devicetoken</value>
+                <value>com.kikbak.jaxb.friends</value>
+                <value>com.kikbak.jaxb.offer</value>
+                <value>com.kikbak.jaxb.redeemgift</value>
+                <value>com.kikbak.jaxb.redeemkikbak</value>
+                <value>com.kikbak.jaxb.register</value>
+                <value>com.kikbak.jaxb.rewards</value>
+                <value>com.kikbak.jaxb.share</value>
             </list>
         </property>
     </bean>

@@ -1,16 +1,19 @@
 package com.kikbak.admin.service;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.util.Collection;
 import java.util.Date;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.kikbak.KikbakBaseTest;
-import com.kikbak.jaxb.LocationType;
-import com.kikbak.jaxb.MerchantType;
-import com.kikbak.jaxb.OfferType;
+import com.kikbak.jaxb.admin.LocationType;
+import com.kikbak.jaxb.admin.MerchantType;
+import com.kikbak.jaxb.admin.OfferType;
 
 public class MerchantServiceTest extends KikbakBaseTest{
 	

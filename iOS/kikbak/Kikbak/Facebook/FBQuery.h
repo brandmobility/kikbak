@@ -16,5 +16,6 @@
 +(void)resolveImageUrl:(NSNumber*)fbPictureId;
 +(void)requestProfileImage:(NSNumber*)fbUserId;
 +(NSArray*)FBPermissions;
++(void)appRequest;
 
 @end
