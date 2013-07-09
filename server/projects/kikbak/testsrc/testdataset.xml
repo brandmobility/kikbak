@@ -6,11 +6,11 @@
  <Location id="1" verification_code="4343" address_1="332 test" city="SF" state="CA" zipcode="43231" phone_number="6505551212" merchant_id="1" latitude="37.42706140" longitude="-122.1444120"/>
  <!-- <Offer id="1" merchant_id="1" name="kikit" description="testing" default_text="1234"  gift_value="3.24" gift_name="gift" gift_description="gift desc" kikbak_value="1.24" kikbak_name="kik" kikbak_description="kik desc" begin_date="2012-11-13 22:00:00" kikbak_notification_text="kikbak test" gift_notification_text="gift test" end_date="2014-11-13 22:00:00"/>  -->
  <Friend id="1" first_name="test" last_name="bob" facebook_id="12" username="testbob" />
- <Gift id="1" offer_id="1" user_id="12" friend_user_id="13" merchant_id="1" value="12.21" shared_id="1" experiration_date="2013-11-13 22:00:00"/>
- <Gift id="2" offer_id="13" user_id="11" friend_user_id="13" merchant_id="3" value="0.21" shared_id="1" redemption_date="2012-11-13 22:00:00" experiration_date="2013-11-13 22:00:00"/>
- <Gift id="3" offer_id="14" user_id="14" friend_user_id="15" merchant_id="3" value="0.21" shared_id="1" redemption_date="2012-11-13 22:00:00" experiration_date="2013-11-13 22:00:00"/>
- <Kikbak id="1" merchant_id="3" location_id="14" user_id="2" offer_id="4" begin_date="2012-11-13 22:00:00" end_date="2013-11-13 22:00:00" value="12.23"/>
- <Kikbak id="2" merchant_id="3" location_id="12" user_id="4" offer_id="4" begin_date="2012-11-13 22:00:00" end_date="2013-11-13 22:00:00" value="12.23"/>
+ <AllocatedGift id="1" offer_id="1" user_id="12" friend_user_id="13" merchant_id="1" value="12.21" shared_id="1" experiration_date="2013-11-13 22:00:00"/>
+ <AllocatedGift id="2" offer_id="13" user_id="11" friend_user_id="13" merchant_id="3" value="0.21" shared_id="1" redemption_date="2012-11-13 22:00:00" experiration_date="2013-11-13 22:00:00"/>
+ <AllocatedGift id="3" offer_id="14" user_id="14" friend_user_id="15" merchant_id="3" value="0.21" shared_id="1" redemption_date="2012-11-13 22:00:00" experiration_date="2013-11-13 22:00:00"/>
+ <Credit id="1" merchant_id="3" location_id="14" user_id="2" offer_id="4" begin_date="2012-11-13 22:00:00" end_date="2013-11-13 22:00:00" value="12.23"/>
+ <Credit id="2" merchant_id="3" location_id="12" user_id="4" offer_id="4" begin_date="2012-11-13 22:00:00" end_date="2013-11-13 22:00:00" value="12.23"/>
  <Shared id="1" user_id="1" location_id="13" offer_id="1" merchant_id="2" fb_image_id="2" shared_date="2012-11-13 22:00:00"/>
  <Shared id="2" user_id="6" location_id="13" offer_id="3" merchant_id="2" fb_image_id="2" shared_date="2012-11-13 22:00:00"/>
  <Transaction id="1" offer_id="12" user_id="1" kikbak_id="12" transaction_type="2" amount="12.2" date="2012-11-13 22:00:00" merchant_id="12" location_id="12" verification_code="1231" authorization_code="1231"/>

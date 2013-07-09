@@ -34,7 +34,7 @@ public class ReadOnlyTransactionDAOImpl extends ReadOnlyGenericDAOImpl<Transacti
 	@Override
 	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
 	public Collection<Transaction> listByKikbakId(Long kikbakId) {
-		return listByCriteria(Restrictions.eq("kikbakId", kikbakId));
+		return listByCriteria(Restrictions.eq("creditId", kikbakId));
 	}
 
 	@Override

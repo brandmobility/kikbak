@@ -44,7 +44,7 @@ public class RewardController {
 		response.setStatus(status);
 		try {
 			response.getGifts().addAll(service.getGifts(userId));
-			response.getKikbaks().addAll(service.getKikbaks(userId));
+			response.getKikbaks().addAll(service.getCredits(userId));
 		} catch (Exception e) {
 			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			status.setCode(StatusCode.ERROR.ordinal());

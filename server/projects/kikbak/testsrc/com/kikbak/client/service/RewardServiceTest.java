@@ -6,8 +6,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.kikbak.KikbakBaseTest;
-import com.kikbak.dao.ReadOnlyGiftDAO;
-import com.kikbak.dao.ReadWriteGiftDAO;
+import com.kikbak.dao.ReadOnlyAllocatedGiftDAO;
+import com.kikbak.dao.ReadWriteAllocatedGiftDAO;
 import com.kikbak.dao.ReadWriteLocationDAO;
 import com.kikbak.dao.ReadWriteMerchantDAO;
 import com.kikbak.dao.ReadWriteOfferDAO;
@@ -35,13 +35,13 @@ public class RewardServiceTest extends KikbakBaseTest{
 	ReadWriteSharedDAO rwSharedDao;
 	
 	@Autowired
-	ReadWriteGiftDAO rwGiftDao;
+	ReadWriteAllocatedGiftDAO rwGiftDao;
 	
 	@Autowired
 	ReadWriteLocationDAO rwLocationDao;
 	
 	@Autowired
-	ReadOnlyGiftDAO roGiftDao;
+	ReadOnlyAllocatedGiftDAO roGiftDao;
 	
 	@Autowired
 	ReadWriteUserDAO rwUserDao;

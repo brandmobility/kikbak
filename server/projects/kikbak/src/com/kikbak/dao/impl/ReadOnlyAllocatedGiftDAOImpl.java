@@ -7,29 +7,29 @@ import org.hibernate.type.StandardBasicTypes;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kikbak.dao.ReadOnlyGiftDAO;
+import com.kikbak.dao.ReadOnlyAllocatedGiftDAO;
 import com.kikbak.dao.generic.ReadOnlyGenericDAOImpl;
-import com.kikbak.dto.Gift;
+import com.kikbak.dto.Allocatedgift;
 
-public class ReadOnlyGiftDAOImpl extends ReadOnlyGenericDAOImpl<Gift, Long> implements ReadOnlyGiftDAO {
+public class ReadOnlyAllocatedGiftDAOImpl extends ReadOnlyGenericDAOImpl<Allocatedgift, Long> implements ReadOnlyAllocatedGiftDAO {
 
-	private static final String gift_offer_ids = "select offer_id from gift where user_id=?";
+	private static final String gift_offer_ids = "select offer_id from allocatedgift where user_id=?";
 	
 	@Override
 	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
-	public Collection<Gift> listValidByUserId(Long userId) {
+	public Collection<Allocatedgift> listValidByUserId(Long userId) {
 		return listByCriteria(Restrictions.and(Restrictions.eq("userId", userId), Restrictions.isNull("redemptionDate")));
 	}
 
 	@Override
 	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
-	public Collection<Gift> listByMerchantId(Long merchantId) {
+	public Collection<Allocatedgift> listByMerchantId(Long merchantId) {
 		return listByCriteria(Restrictions.eq("merchantId", merchantId));
 	}
 
 	@Override
 	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
-	public Collection<Gift> listByOfferId(Long offerId) {
+	public Collection<Allocatedgift> listByOfferId(Long offerId) {
 		return listByCriteria(Restrictions.eq("offerId", offerId));
 	}
 
@@ -42,7 +42,7 @@ public class ReadOnlyGiftDAOImpl extends ReadOnlyGenericDAOImpl<Gift, Long> impl
 
 	@Override
 	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
-	public Collection<Gift> listByFriendUserId(Long friendId) {
+	public Collection<Allocatedgift> listByFriendUserId(Long friendId) {
 		return listByCriteria(Restrictions.eq("friendUserId", friendId));
 	}
 

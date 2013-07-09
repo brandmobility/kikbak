@@ -45,20 +45,6 @@ CREATE TABLE `friend`
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 
-CREATE TABLE `gift`
-(
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    offer_id BIGINT NOT NULL,
-    user_id BIGINT NOT NULL,
-    friend_user_id BIGINT NOT NULL,
-    merchant_id BIGINT NOT NULL,
-    shared_id BIGINT NOT NULL,
-    value DOUBLE NOT NULL,
-    redemption_date DATETIME,
-    expiration_date DATETIME NOT NULL,
-    PRIMARY KEY(id)
-)ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-
 CREATE TABLE `location`
 (
     id BIGINT NOT NULL AUTO_INCREMENT,
@@ -77,7 +63,7 @@ CREATE TABLE `location`
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 
-CREATE TABLE `kikbak`
+CREATE TABLE `credit`
 (
 	id BIGINT NOT NULL UNIQUE AUTO_INCREMENT,
 	merchant_id BIGINT NOT NULL,
@@ -89,6 +75,20 @@ CREATE TABLE `kikbak`
 	value DOUBLE NOT NULL,
 	PRIMARY KEY (id)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+CREATE TABLE `allocatedgift`
+(
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    offer_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
+    friend_user_id BIGINT NOT NULL,
+    merchant_id BIGINT NOT NULL,
+    shared_id BIGINT NOT NULL,
+    value DOUBLE NOT NULL,
+    redemption_date DATETIME,
+    expiration_date DATETIME NOT NULL,
+    PRIMARY KEY(id)
+)ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 
 CREATE TABLE `merchant`
@@ -145,7 +145,7 @@ CREATE TABLE `transaction`
     id BIGINT NOT NULL AUTO_INCREMENT,
     user_id BIGINT NOT NULL,
     offer_id BIGINT NOT NULL,
-    kikbak_id BIGINT NOT NULL,
+    credit_id BIGINT NOT NULL,
     transaction_type SMALLINT NOT NULL,
     amount DOUBLE NOT NULL,
     date DATETIME NOT NULL,
@@ -192,18 +192,18 @@ CREATE INDEX last_failed_delivery_key USING BTREE on `devicetoken` (last_failed_
 
 CREATE INDEX facebook_id_key USING BTREE ON `friend` (facebook_id ASC);
 
-CREATE INDEX offer_id_key ON `gift` (offer_id ASC);
-CREATE INDEX user_id_key ON `gift` (user_id ASC);
-CREATE INDEX friend_user_id_key ON `gift` (friend_user_id ASC);
-CREATE INDEX merchant_id_key ON `gift` (merchant_id ASC);
-CREATE INDEX shared_id_key on `gift` (shared_id ASC);
+CREATE INDEX offer_id_key ON `allocatedgift` (offer_id ASC);
+CREATE INDEX user_id_key ON `allocatedgift` (user_id ASC);
+CREATE INDEX friend_user_id_key ON `allocatedgift` (friend_user_id ASC);
+CREATE INDEX merchant_id_key ON `allocatedgift` (merchant_id ASC);
+CREATE INDEX shared_id_key on `allocatedgift` (shared_id ASC);
 
 
-CREATE INDEX date_range_key USING BTREE ON `kikbak` (begin_date ASC, end_date ASC);
-CREATE INDEX merchant_id_key ON `kikbak` (merchant_id ASC);
-CREATE INDEX location_id_key ON `kikbak` (location_id ASC);
-CREATE INDEX offer_id_key ON `kikbak` (offer_id ASC);
-CREATE INDEX user_id_key ON `kikbak` (user_id ASC);
+CREATE INDEX date_range_key USING BTREE ON `credit` (begin_date ASC, end_date ASC);
+CREATE INDEX merchant_id_key ON `credit` (merchant_id ASC);
+CREATE INDEX location_id_key ON `credit` (location_id ASC);
+CREATE INDEX offer_id_key ON `credit` (offer_id ASC);
+CREATE INDEX user_id_key ON `credit` (user_id ASC);
 
 
 CREATE INDEX merchant_id_key ON `location` (merchant_id ASC);
@@ -225,7 +225,7 @@ CREATE INDEX user_id_offer_id_key USING BTREE ON `shared` (user_id ASC, offer_id
 
 CREATE INDEX user_id_key ON `transaction` (user_id ASC);
 CREATE INDEX offer_id_key ON `transaction` (offer_id ASC);
-CREATE INDEX kikbak_id_key ON `transaction` (kikbak_id ASC);
+CREATE INDEX credit_id_key ON `transaction` (credit_id ASC);
 CREATE INDEX merchant_id_key ON `transaction` (merchant_id ASC);
 CREATE INDEX location_id_key ON `transaction` (location_id ASC);
 

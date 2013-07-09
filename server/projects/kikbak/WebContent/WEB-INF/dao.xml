@@ -55,19 +55,19 @@
         <property name="sessionFactory" ref="rwSessionFactory"/>
     </bean>
     
-    <bean id="ReadOnlyGiftDAO" class="com.kikbak.dao.impl.ReadOnlyGiftDAOImpl">
+    <bean id="ReadOnlyAllocatedGiftDAO" class="com.kikbak.dao.impl.ReadOnlyAllocatedGiftDAOImpl">
         <property name="sessionFactory" ref="roSessionFactory"/>
     </bean>
     
-    <bean id="ReadWriteGiftDAO" class="com.kikbak.dao.impl.ReadWriteGiftDAOImpl">
+    <bean id="ReadWriteAllocatedGiftDAO" class="com.kikbak.dao.impl.ReadWriteAllocatedGiftDAOImpl">
         <property name="sessionFactory" ref="rwSessionFactory"/>
     </bean>
     
-    <bean id="ReadOnlyKikbakDAO" class="com.kikbak.dao.impl.ReadOnlyKikbakDAOImpl">
+    <bean id="ReadOnlyCreditDAO" class="com.kikbak.dao.impl.ReadOnlyCreditDAOImpl">
         <property name="sessionFactory" ref="roSessionFactory"/>
     </bean>
     
-    <bean id="ReadWriteKikbakDAO" class="com.kikbak.dao.impl.ReadWriteKikbakDAOImpl">
+    <bean id="ReadWriteCreditDAO" class="com.kikbak.dao.impl.ReadWriteCreditDAOImpl">
         <property name="sessionFactory" ref="rwSessionFactory"/>
     </bean>
     

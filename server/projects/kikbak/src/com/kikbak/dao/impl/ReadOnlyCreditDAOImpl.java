@@ -6,33 +6,33 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kikbak.dao.ReadOnlyKikbakDAO;
+import com.kikbak.dao.ReadOnlyCreditDAO;
 import com.kikbak.dao.generic.ReadOnlyGenericDAOImpl;
-import com.kikbak.dto.Kikbak;
+import com.kikbak.dto.Credit;
 
-public class ReadOnlyKikbakDAOImpl extends ReadOnlyGenericDAOImpl<Kikbak, Long> implements ReadOnlyKikbakDAO{
+public class ReadOnlyCreditDAOImpl extends ReadOnlyGenericDAOImpl<Credit, Long> implements ReadOnlyCreditDAO{
 
 	@Override
 	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
-	public Collection<Kikbak> listKikbaksWithValue(Long userId) {
+	public Collection<Credit> listCreditsWithBalance(Long userId) {
 		return listByCriteria(Restrictions.and(Restrictions.eq("userId", userId), Restrictions.gt("value", 0.0)));
 	}
 	
 	@Override
 	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
-	public Collection<Kikbak> listByMerchantId(Long merchantId) {
+	public Collection<Credit> listByMerchantId(Long merchantId) {
 		return listByCriteria(Restrictions.eq("merchantId", merchantId));
 	}
 
 	@Override
 	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
-	public Collection<Kikbak> listByOfferId(Long offerId) {
+	public Collection<Credit> listByOfferId(Long offerId) {
 		return listByCriteria(Restrictions.eq("offerId", offerId));
 	}
 
 	@Override
 	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
-	public Kikbak findByUserIdAndOfferId(Long userId, Long offerId) {
+	public Credit findByUserIdAndOfferId(Long userId, Long offerId) {
 		return findByCriteria(Restrictions.and(Restrictions.eq("userId", userId), Restrictions.eq("offerId", offerId)));
 	}
 

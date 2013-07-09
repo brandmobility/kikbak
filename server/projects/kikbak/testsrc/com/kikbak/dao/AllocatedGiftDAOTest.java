@@ -1,39 +1,40 @@
 package com.kikbak.dao;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Collection;
 import java.util.Date;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.kikbak.KikbakBaseTest;
-import com.kikbak.dto.Gift;
+import com.kikbak.dto.Allocatedgift;
 
-public class GiftDAOTest extends KikbakBaseTest {
+public class AllocatedGiftDAOTest extends KikbakBaseTest {
 
 	@Autowired
-	ReadOnlyGiftDAO roDao;
+	ReadOnlyAllocatedGiftDAO roDao;
 	
 	@Autowired
-	ReadWriteGiftDAO rwDao;
+	ReadWriteAllocatedGiftDAO rwDao;
 
 	
 	@Test
 	public void testListByUserId(){
-		Collection<Gift> gifts = roDao.listValidByUserId(12L);
+		Collection<Allocatedgift> gifts = roDao.listValidByUserId(12L);
 		assertEquals(1, gifts.size());
 	}
 	
 	@Test
 	public void testListByMerchantId(){
-		Collection<Gift> gifts = roDao.listByMerchantId(3L);
+		Collection<Allocatedgift> gifts = roDao.listByMerchantId(3L);
 		assertEquals(2, gifts.size());
 	}
 	
 	@Test
 	public void testListByOfferId(){
-		Collection<Gift> gifts = roDao.listByOfferId(13L);
+		Collection<Allocatedgift> gifts = roDao.listByOfferId(13L);
 		assertEquals(1, gifts.size());
 	}
 	
@@ -45,12 +46,12 @@ public class GiftDAOTest extends KikbakBaseTest {
 	
 	@Test
 	public void testListByFriendUserId(){
-		Collection<Gift> gifts = roDao.listByFriendUserId(13L);
+		Collection<Allocatedgift> gifts = roDao.listByFriendUserId(13L);
 		assertEquals(2, gifts.size());
 	}
 	@Test
 	public void testWriteGift(){
-		Gift gift = new Gift();
+		Allocatedgift gift = new Allocatedgift();
 		gift.setExpirationDate(new Date());
 		gift.setFriendUserId(12);
 		gift.setMerchantId(13);
@@ -59,9 +60,9 @@ public class GiftDAOTest extends KikbakBaseTest {
 		gift.setValue(43.54);
 		rwDao.makePersistent(gift);
 		
-		Collection<Gift> gifts = roDao.listValidByUserId(6363L);
+		Collection<Allocatedgift> gifts = roDao.listValidByUserId(6363L);
 		assertEquals(1, gifts.size());
-		Gift g = (Gift) gifts.toArray()[0];
+		Allocatedgift g = (Allocatedgift) gifts.toArray()[0];
 		assertEquals(144, g.getOfferId());
 	}
 }
