@@ -2,6 +2,7 @@
 package com.referredlabs.kikbak.ui;
 
 import android.content.Intent;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,6 +18,7 @@ import com.google.gson.Gson;
 import com.referredlabs.kikbak.C;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ClientOfferType;
+import com.referredlabs.kikbak.service.LocationFinder;
 import com.referredlabs.kikbak.ui.PublishFragment.ShareStatusListener;
 import com.referredlabs.kikbak.ui.ShareOptionsFragment.OnShareMethodSelectedListener;
 import com.referredlabs.kikbak.utils.Nearest;
@@ -71,8 +73,12 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
     IconBarHelper iconBar = new IconBarHelper(findViewById(R.id.icon_bar),
         new IconBarActionHandler(this));
     iconBar.setLink(mOffer.merchantUrl);
+
+    Location location = LocationFinder.getLastLocation();
+    double latitude = location.getLatitude();
+    double longitude = location.getLongitude();
     Nearest nearest = new Nearest(mOffer.locations);
-    nearest.determineNearestLocation(C.LATITUDE, C.LONGITUDE);
+    nearest.determineNearestLocation(latitude, longitude);
     iconBar.setPhone(Long.toString(nearest.getPhoneNumber()));
     iconBar.setLocation(nearest);
   }
@@ -216,7 +222,7 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
   public void onPostOnFacebook() {
     android.util.Log.d("MMM", "post on timeline");
     if (mCroppedPhotoUri == null) {
-      //TODO: extract original photo
+      // TODO: extract original photo
       Toast.makeText(this, "Take photo first!", Toast.LENGTH_LONG).show();
       return;
     }

@@ -4,32 +4,45 @@ package com.referredlabs.kikbak.ui;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ViewFlipper;
 
 import com.google.gson.Gson;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ClientOfferType;
-import com.referredlabs.kikbak.data.GetUserOffersRequest;
-import com.referredlabs.kikbak.data.GetUserOffersResponse;
-import com.referredlabs.kikbak.http.Http;
+import com.referredlabs.kikbak.service.LocationFinder;
+import com.referredlabs.kikbak.service.LocationFinder.LocationFinderListener;
 import com.referredlabs.kikbak.ui.OfferListFragment.OnOfferClickedListener;
 import com.referredlabs.kikbak.ui.RedeemChooserDialog.OnRedeemOptionSelectedListener;
 import com.referredlabs.kikbak.ui.RewardListFragment.OnRewardClickedListener;
 import com.referredlabs.kikbak.utils.Register;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener,
-    OnOfferClickedListener, OnRewardClickedListener, OnRedeemOptionSelectedListener {
+    OnOfferClickedListener, OnRewardClickedListener, OnRedeemOptionSelectedListener,
+    LocationFinderListener {
 
   SectionsPagerAdapter mSectionsPagerAdapter;
+  ViewFlipper mViewFlipper;
   ViewPager mViewPager;
+  LocationFinder mLocationFinder;
+
+  BroadcastReceiver mNetworkStateReceiver;
+  boolean mIsConnected;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -40,16 +53,28 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
       finish();
       return;
     }
-
     setContentView(R.layout.activity_main);
 
-    final ActionBar actionBar = getActionBar();
-    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+    mLocationFinder = new LocationFinder(this);
+    setupViews();
+  }
 
+  void setupViews() {
     mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
     mViewPager = (ViewPager) findViewById(R.id.pager);
     mViewPager.setAdapter(mSectionsPagerAdapter);
+
+    mViewFlipper = (ViewFlipper) findViewById(R.id.flipper);
+    if (!isConnected()) {
+      mViewFlipper.setDisplayedChild(1);
+    }
+    setupActionBar();
+  }
+
+  void setupActionBar() {
+    final ActionBar actionBar = getActionBar();
+    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
     mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
       @Override
       public void onPageSelected(int position) {
@@ -66,6 +91,20 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
   }
 
   @Override
+  protected void onResume() {
+    super.onResume();
+    registerNetworkStateReceiver();
+    mLocationFinder.startLocating();
+  }
+
+  @Override
+  protected void onPause() {
+    super.onPause();
+    unregisterNetworkStateReceiver();
+    mLocationFinder.stopLocating();
+  }
+
+  @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.main, menu);
     return true;
@@ -74,19 +113,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     if (item.getItemId() == R.id.action_settings) {
-      new Thread() {
-        @Override
-        public void run() {
-          try {
-            String uri = Http.getUri("/user/offer/1");
-            GetUserOffersRequest req = GetUserOffersRequest.create(37.44, -122.17);
-            GetUserOffersResponse resp = Http.execute(uri, req, GetUserOffersResponse.class);
-            android.util.Log.d("MMM", "number of offers:" + resp.offers.length);
-          } catch (Exception e) {
-            // TODO: handle exception
-          }
-        }
-      }.start();
+
     }
     if (item.getItemId() == R.id.action_login) {
       startActivity(new Intent(this, LoginActivity.class));
@@ -105,37 +132,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
   @Override
   public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-  }
-
-  public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-    public SectionsPagerAdapter(FragmentManager fm) {
-      super(fm);
-    }
-
-    @Override
-    public int getCount() {
-      return 2;
-    }
-
-    @Override
-    public Fragment getItem(int position) {
-      if (position == 0)
-        return new OfferListFragment();
-      if (position == 1)
-        return new RewardListFragment();
-
-      throw new IllegalArgumentException();
-    }
-
-    @Override
-    public CharSequence getPageTitle(int position) {
-      if (position == 0)
-        return getString(R.string.title_offers);
-      if (position == 1)
-        return getString(R.string.title_redeem);
-      throw new IllegalArgumentException();
-    }
   }
 
   @Override
@@ -172,4 +168,92 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     Intent intent = new Intent(this, RedeemCreditActivity.class);
     startActivity(intent);
   }
+
+  boolean isConnected() {
+    ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+    NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+    boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    return isConnected;
+  }
+
+  void unregisterNetworkStateReceiver() {
+    if (mNetworkStateReceiver != null) {
+      unregisterReceiver(mNetworkStateReceiver);
+      mNetworkStateReceiver = null;
+    }
+  }
+
+  void registerNetworkStateReceiver() {
+    mNetworkStateReceiver = new BroadcastReceiver() {
+      @Override
+      public void onReceive(Context context, Intent intent) {
+        boolean isConnected = isConnected();
+        // if (isConnected != mIsConnected) {
+        // mIsConnected = isConnected;
+        // mViewFlipper.setDisplayedChild(isConnected ? 0 : 1);
+        // }
+        Log.w("MMM", "connected:" + isConnected);
+      }
+    };
+
+    IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+    registerReceiver(mNetworkStateReceiver, filter);
+    mIsConnected = isConnected();
+    mViewFlipper.setDisplayedChild(mIsConnected ? 0 : 1);
+  }
+
+  @Override
+  public void onLocationUpdated(Location location) {
+    OfferListFragment frag = mSectionsPagerAdapter.getOfferFragment();
+    if (frag != null)
+      frag.setUserLocation(location);
+  }
+
+  // ------------------------------------------------------
+
+  private class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+    public SectionsPagerAdapter(FragmentManager fm) {
+      super(fm);
+    }
+
+    @Override
+    public int getCount() {
+      return 2;
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+      if (position == 0)
+        return new OfferListFragment();
+      if (position == 1)
+        return new RewardListFragment();
+
+      throw new IllegalArgumentException();
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+      if (position == 0)
+        return getString(R.string.title_offers);
+      if (position == 1)
+        return getString(R.string.title_redeem);
+      throw new IllegalArgumentException();
+    }
+
+    public Fragment getFragmentByPosition(int position) {
+      return getSupportFragmentManager().findFragmentByTag(
+          "android:switcher:" + mViewPager.getId() + ":" + getItemId(position));
+    }
+
+    public OfferListFragment getOfferFragment() {
+      return (OfferListFragment) getFragmentByPosition(0);
+    }
+
+    public RewardListFragment getRewardFragment() {
+      return (RewardListFragment) getFragmentByPosition(1);
+    }
+
+  }
+
 }

@@ -25,7 +25,7 @@ public class OfferAdapter extends BaseAdapter {
   private ClientOfferType[] mOffers;
   Map<ClientOfferType, Nearest> mNearestMap;
   IconBarListener mIconBarListener;
-  
+
   public OfferAdapter(Context context, IconBarListener listener) {
     mContext = context;
     mInflater = LayoutInflater.from(context);
@@ -69,7 +69,7 @@ public class OfferAdapter extends BaseAdapter {
     Nearest nearest = mNearestMap.get(offer);
     helper.setLocation(nearest);
     helper.setPhone(Long.toString(nearest.getPhoneNumber()));
-    
+
     String text = DataUtils.getRibbonGiveString(offer.giftType, offer.giftValue);
     helper.setGiveValue(text);
 
@@ -79,9 +79,14 @@ public class OfferAdapter extends BaseAdapter {
     return view;
   }
 
-  public void swap(ClientOfferType[] offers, HashMap<ClientOfferType, Nearest> mLocationMap) {
+  public void swap(ClientOfferType[] offers, HashMap<ClientOfferType, Nearest> locationMap) {
     mOffers = offers;
-    mNearestMap = mLocationMap;
+    mNearestMap = locationMap;
+    notifyDataSetChanged();
+  }
+
+  public void updateDistanceMap(HashMap<ClientOfferType, Nearest> locationMap) {
+    mNearestMap = locationMap;
     notifyDataSetChanged();
   }
 

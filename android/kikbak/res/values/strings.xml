@@ -21,6 +21,13 @@
     <string name="ribbon_give_percentage_fmt">%.0f%%\nOFF</string>
     <string name="ribbon_get_fmt">$%.0f</string>
 
+    <!-- Offer list empty -->
+    <string name="bummer">Bummer!</string>
+    <string name="no_offers">There are no Kikbak offers avaiable in your area</string>
+    <string name="tell_about">"Tell us aabout a business that you'd like to recommend to friends with a special offer"</string>
+    <string name="suggest_btn">Suggest a business</string>
+    <string name="location_disabled">Location services are disabled, please enable them in device settings.</string>
+
     <!-- Redeem list empty -->
 
     <string name="redeem_empty_doh">Doh!</string>
