@@ -80,6 +80,11 @@
     <string name="reward_credit_type_amount_fmt">$%.0f OFF</string>
 
     <!-- Redeem -->
+    <plurals name="credit_redeem_count">
+        <item quantity="one">Your gift has been redeemed by one friend</item>
+        <item quantity="other">Your gift has been redeemed by %d friends</item>
+    </plurals>
+
     <string name="credit_label">Credit to be applied to purchase</string>
     <string name="credit_change">Change</string>
     <string name="credit_warning">WARNING: If you apply more credit then your purchase total, you will pernamently lose all execess credit applied.</string>

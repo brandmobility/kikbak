@@ -83,7 +83,7 @@ public class Http {
     return data;
   }
 
-  private static <T> String writeRequest(T request) throws IOException {
+  public static <T> String writeRequest(T request) throws IOException {
     Gson gson = new Gson();
     StringWriter out = new StringWriter();
     JsonWriter writer = new JsonWriter(out);

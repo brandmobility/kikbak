@@ -14,8 +14,14 @@ import com.facebook.Session.StatusCallback;
 import com.facebook.SessionDefaultAudience;
 import com.facebook.SessionState;
 import com.referredlabs.kikbak.R;
+import com.referredlabs.kikbak.data.ShareExperienceRequest;
+import com.referredlabs.kikbak.data.ShareExperienceResponse;
+import com.referredlabs.kikbak.data.sharedType;
 import com.referredlabs.kikbak.fb.Fb;
+import com.referredlabs.kikbak.http.Http;
+import com.referredlabs.kikbak.utils.Register;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,8 +31,13 @@ public class PublishFragment extends DialogFragment {
     void onShareFinished(boolean success);
   }
 
+  final long userId = Register.getInstance().getUserId();
+
   private static final String ARG_COMMENT = "comment";
   private static final String ARG_PHOTO_PATH = "photo_uri";
+  private static final String ARG_LOCATION_ID = "location_id";
+  private static final String ARG_MERCHANT_ID = "merchant_id";
+  private static final String ARG_OFFER_ID = "offer_id";
 
   private static final int REQUEST_FB_AUTH = 1;
 
@@ -41,11 +52,15 @@ public class PublishFragment extends DialogFragment {
     }
   };
 
-  public static PublishFragment newInstance(String comment, String photoPath) {
+  public static PublishFragment newInstance(String comment, String photoPath, long offerId,
+      long merchantId, long locationId) {
     PublishFragment fragment = new PublishFragment();
     Bundle args = new Bundle();
     args.putString(ARG_COMMENT, comment);
     args.putString(ARG_PHOTO_PATH, photoPath);
+    args.putLong(ARG_OFFER_ID, offerId);
+    args.putLong(ARG_MERCHANT_ID, merchantId);
+    args.putLong(ARG_LOCATION_ID, locationId);
     fragment.setArguments(args);
     fragment.setRetainInstance(true);
     return fragment;
@@ -118,17 +133,44 @@ public class PublishFragment extends DialogFragment {
 
   private class PublishTask extends AsyncTask<Void, Void, Void> {
 
+    private boolean mFbSuccess = false;
+    private boolean mKikbakSuccess = false;
+
     @Override
     protected Void doInBackground(Void... params) {
+      Bundle args = getArguments();
       Session session = Session.getActiveSession();
-      String comment = getArguments().getString(ARG_COMMENT);
-      String photoPath = getArguments().getString(ARG_PHOTO_PATH);
+      String comment = args.getString(ARG_COMMENT);
+      String photoPath = args.getString(ARG_PHOTO_PATH);
+
       try {
-        Fb.publishGift(session, comment, photoPath);
+        long imageId = Fb.publishGift(session, comment, photoPath);
+        mFbSuccess = true;
+        reportToKikbak(imageId);
+        mKikbakSuccess = true;
       } catch (Exception e) {
         android.util.Log.d("MMM", "exception " + e);
       }
       return null;
+    }
+
+    private void reportToKikbak(long imageId) {
+      final long userId = Register.getInstance().getUserId();
+      Bundle args = getArguments();
+      ShareExperienceRequest req = new ShareExperienceRequest();
+      req.experience = new sharedType();
+      req.experience.caption = args.getString(ARG_COMMENT);
+      req.experience.fbImageId = imageId;
+      req.experience.locationId = args.getLong(ARG_LOCATION_ID);
+      req.experience.merchantId = args.getLong(ARG_MERCHANT_ID);
+      req.experience.offerId = args.getLong(ARG_OFFER_ID);
+
+      String uri = Http.getUri(ShareExperienceRequest.PATH + userId);
+      try {
+        ShareExperienceResponse resp = Http.execute(uri, req, ShareExperienceResponse.class);
+      } catch (IOException e) {
+        android.util.Log.d("MMM", "Exception: " + e);
+      }
     }
 
     @Override

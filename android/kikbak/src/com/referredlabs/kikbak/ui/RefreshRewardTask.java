@@ -9,6 +9,7 @@ import com.referredlabs.kikbak.data.KikbakType;
 import com.referredlabs.kikbak.data.RewardsRequest;
 import com.referredlabs.kikbak.data.RewardsResponse;
 import com.referredlabs.kikbak.http.Http;
+import com.referredlabs.kikbak.utils.Register;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,13 +17,17 @@ import java.util.List;
 
 public class RefreshRewardTask extends AsyncTask<Void, Void, Void> {
 
+  public interface RefreshRewardListener {
+    void onNewReward(List<Reward> rewards);
+  }
+
   private long mUserId;
   List<Reward> mRewards;
-  private RewardAdapter mAdapter;
+  RefreshRewardListener mListener;
 
-  RefreshRewardTask(long userId, RewardAdapter adapter) {
-    mUserId = userId;
-    mAdapter = adapter;
+  RefreshRewardTask(RefreshRewardListener listener) {
+    mListener = listener;
+    mUserId = Register.getInstance().getUserId();
   }
 
   @Override
@@ -69,8 +74,7 @@ public class RefreshRewardTask extends AsyncTask<Void, Void, Void> {
 
   @Override
   protected void onPostExecute(Void result) {
-    android.util.Log.d("MMM", "Redeem fetched");
-    mAdapter.swap(mRewards);
+    mListener.onNewReward(mRewards);
   }
 
 }

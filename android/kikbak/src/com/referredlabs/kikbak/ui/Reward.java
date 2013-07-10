@@ -26,7 +26,7 @@ public class Reward {
     mDistance = 1.1f; // TODO
   }
 
-  String getGiftValueString() {
+  public static String getGiftValueString(GiftType gift) {
     if (gift == null)
       return null;
     double value = gift.value;
@@ -37,6 +37,10 @@ public class Reward {
       result = Kikbak.getInstance().getString(R.string.reward_gift_type_amount_fmt, value);
     }
     return result;
+  }
+
+  String getGiftValueString() {
+    return getGiftValueString(gift);
   }
 
   String getCreditValueString() {

@@ -2,6 +2,7 @@
 package com.referredlabs.kikbak.ui;
 
 import android.content.Context;
+import android.location.Location;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.referredlabs.kikbak.R;
+import com.referredlabs.kikbak.service.LocationFinder;
+import com.referredlabs.kikbak.ui.IconBarHelper.IconBarListener;
+import com.referredlabs.kikbak.utils.Nearest;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -18,10 +22,12 @@ public class RewardAdapter extends BaseAdapter {
   private Context mContext;
   private LayoutInflater mInflater;
   private List<Reward> mRewards;
+  IconBarListener mIconBarListener;
 
-  public RewardAdapter(Context context) {
+  public RewardAdapter(Context context, IconBarListener iconBarListener) {
     mContext = context;
     mInflater = LayoutInflater.from(context);
+    mIconBarListener = iconBarListener;
   }
 
   @Override
@@ -44,7 +50,7 @@ public class RewardAdapter extends BaseAdapter {
     RewardHelper helper;
     if (view == null) {
       view = mInflater.inflate(R.layout.reward, parent, false);
-      helper = new RewardHelper(view, null);
+      helper = new RewardHelper(view, mIconBarListener);
       view.setTag(helper);
     } else {
       helper = (RewardHelper) view.getTag();
@@ -52,9 +58,12 @@ public class RewardAdapter extends BaseAdapter {
 
     Reward reward = getItem(position);
 
+    Location location = LocationFinder.getLastLocation();
+    Nearest nearest = new Nearest(reward.mMerchant.locations);
+    nearest.determineNearestLocation(location.getLatitude(), location.getLongitude());
+    helper.setLocation(nearest);
+    helper.setPhone(Long.toString(nearest.getPhoneNumber()));
     helper.setLink(reward.mMerchant.url);
-    helper.setPhone(Long.toString(reward.mNearestLocation.phoneNumber));
-    helper.setDistance(reward.mDistance, null); // TODO:
 
     helper.setMerchantName(reward.mMerchant.name);
 

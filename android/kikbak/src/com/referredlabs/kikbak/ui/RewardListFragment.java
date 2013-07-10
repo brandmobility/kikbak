@@ -12,8 +12,12 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.referredlabs.kikbak.R;
+import com.referredlabs.kikbak.ui.RefreshRewardTask.RefreshRewardListener;
 
-public class RewardListFragment extends Fragment implements OnItemClickListener {
+import java.util.List;
+
+public class RewardListFragment extends Fragment implements OnItemClickListener,
+    RefreshRewardListener {
 
   public interface OnRewardClickedListener {
     void onRewardClicked(Reward offer);
@@ -39,9 +43,9 @@ public class RewardListFragment extends Fragment implements OnItemClickListener 
     View view = inflater.inflate(R.layout.fragment_reward_list, container, false);
     mListView = (ListView) view.findViewById(R.id.list);
     mListView.setOnItemClickListener(this);
-    mAdapter = new RewardAdapter(getActivity());
+    mAdapter = new RewardAdapter(getActivity(), new IconBarActionHandler(getActivity()));
     mListView.setAdapter(mAdapter);
-    new RefreshRewardTask(1, mAdapter).execute();
+    new RefreshRewardTask(this).execute();
     return view;
   }
 
@@ -49,6 +53,11 @@ public class RewardListFragment extends Fragment implements OnItemClickListener 
   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
     Reward reward = (Reward) mListView.getItemAtPosition(position);
     mListener.onRewardClicked(reward);
+  }
+
+  @Override
+  public void onNewReward(List<Reward> rewards) {
+    mAdapter.swap(rewards);
   }
 
 }

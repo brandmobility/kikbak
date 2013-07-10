@@ -17,7 +17,7 @@ import com.facebook.widget.LoginButton.UserInfoChangedCallback;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.RegisterUserRequest;
 import com.referredlabs.kikbak.data.RegisterUserResponse;
-import com.referredlabs.kikbak.data.User;
+import com.referredlabs.kikbak.data.UserType;
 import com.referredlabs.kikbak.fb.Fb;
 import com.referredlabs.kikbak.http.Http;
 import com.referredlabs.kikbak.tasks.UpdateFriends;
@@ -117,7 +117,7 @@ public class LoginActivity extends FragmentActivity implements StatusCallback,
     @Override
     protected Void doInBackground(Void... arg0) {
       try {
-        User user = User.createFromFacebook(mFacebookUser);
+        UserType user = UserType.createFromFacebook(mFacebookUser);
         RegisterUserRequest req = new RegisterUserRequest();
         req.user = user;
         String uri = Http.getUri("/user/register/fb/");

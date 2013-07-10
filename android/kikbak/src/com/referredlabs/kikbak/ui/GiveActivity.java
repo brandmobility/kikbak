@@ -4,6 +4,7 @@ package com.referredlabs.kikbak.ui;
 import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
@@ -15,13 +16,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.referredlabs.kikbak.C;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ClientOfferType;
+import com.referredlabs.kikbak.data.ShareExperienceRequest;
+import com.referredlabs.kikbak.data.ShareExperienceResponse;
+import com.referredlabs.kikbak.data.sharedType;
+import com.referredlabs.kikbak.http.Http;
 import com.referredlabs.kikbak.service.LocationFinder;
 import com.referredlabs.kikbak.ui.PublishFragment.ShareStatusListener;
 import com.referredlabs.kikbak.ui.ShareOptionsFragment.OnShareMethodSelectedListener;
 import com.referredlabs.kikbak.utils.Nearest;
+import com.referredlabs.kikbak.utils.Register;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -210,7 +215,29 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
 
   @Override
   public void onSendViaEmail() {
-    Toast.makeText(this, "Not implemented", Toast.LENGTH_SHORT).show();
+    Toast.makeText(this, "Not implemented, just sharing", Toast.LENGTH_SHORT).show();
+    final ShareExperienceRequest req = new ShareExperienceRequest();
+    req.experience = new sharedType();
+    req.experience.caption = mComment.getText().toString();
+    req.experience.fbImageId = 123131231;
+    req.experience.locationId = mOffer.locations[0].locationId;
+    req.experience.merchantId = mOffer.merchantId;
+    req.experience.offerId = mOffer.id;
+    final long userId = Register.getInstance().getUserId();
+
+    class X extends AsyncTask<Void, Void, Void> {
+      @Override
+      protected Void doInBackground(Void... params) {
+        String uri = Http.getUri(ShareExperienceRequest.PATH + userId);
+        try {
+          Http.execute(uri, req, ShareExperienceResponse.class);
+        } catch (IOException e) {
+          android.util.Log.d("MMM", "Exception: " + e);
+        }
+        return null;
+      }
+    }
+    new X().execute();
   }
 
   @Override
@@ -229,7 +256,9 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
 
     String path = mCroppedPhotoUri.getPath();
     String comment = mComment.getText().toString();
-    PublishFragment publish = PublishFragment.newInstance(comment, path);
+    long locationId = mOffer.locations[0].locationId;
+    PublishFragment publish = PublishFragment.newInstance(comment, path, mOffer.id,
+        mOffer.merchantId, locationId);
     publish.show(getSupportFragmentManager(), "");
   }
 

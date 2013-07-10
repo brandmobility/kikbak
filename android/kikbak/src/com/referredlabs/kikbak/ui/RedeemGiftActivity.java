@@ -8,6 +8,8 @@ import com.referredlabs.kikbak.R;
 
 public class RedeemGiftActivity extends FragmentActivity {
 
+  public static final String EXTRA_GIFT = "gift";
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

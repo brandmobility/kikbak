@@ -2,6 +2,7 @@
 package com.referredlabs.kikbak.fb;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -34,11 +35,14 @@ public class Fb {
       "publish_actions"
   };
 
-  public static void publishGift(Session session, String comment, String photoPath)
+  public static long publishGift(Session session, String comment, String photoPath)
       throws FileNotFoundException {
     String photoId = uploadPhoto(session, photoPath);
     String url = getPhotoUrl(session, photoId);
     publishStory(session, comment, url);
+
+    long id = getIdFromString(photoId);
+    return id;
   }
 
   private static String uploadPhoto(Session session, String path) throws FileNotFoundException {
@@ -186,6 +190,10 @@ public class Fb {
     return null;
   }
 
+  public static Uri getFriendPhotoUri(long friendId) {
+    return Uri.parse("https://graph.facebook.com/" + friendId + "/picture?type=square");
+  }
+
   private static <T extends GraphObject> List<T> typedListFromResponse(Response response,
       Class<T> clazz) {
     GraphMultiResult multiResult = response.getGraphObjectAs(GraphMultiResult.class);
@@ -199,6 +207,16 @@ public class Fb {
     }
 
     return data.castToListOf(clazz);
+  }
+
+  private static long getIdFromString(String id) {
+    long result = 0;
+    try {
+      result = Long.parseLong(id);
+    } catch (NumberFormatException e) {
+      // ignore
+    }
+    return result;
   }
 
 }

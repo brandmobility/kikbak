@@ -3,7 +3,7 @@ package com.referredlabs.kikbak.data;
 
 import com.facebook.model.GraphUser;
 
-public class User {
+public class UserType {
 
   public String email;
   public String first_name;
@@ -15,11 +15,10 @@ public class User {
   public String name;
   public int timezone;
   public String updated_time;
-  public String username;
   public boolean verified;
 
-  public static User createFromFacebook(GraphUser fb) {
-    User user = new User();
+  public static UserType createFromFacebook(GraphUser fb) {
+    UserType user = new UserType();
     user.email = ((String) fb.getProperty("email"));
     user.name = (fb.getName());
     user.first_name = (fb.getFirstName());
@@ -30,7 +29,6 @@ public class User {
     user.timezone = ((Integer) fb.getProperty("timezone"));
     user.updated_time = ((String) fb.getProperty("updated_time"));
     user.verified = ((Boolean) fb.getProperty("verified"));
-    user.username = (fb.getUsername() == null ? "" : fb.getUsername());
     user.id = Long.valueOf(fb.getId());
     return user;
   }

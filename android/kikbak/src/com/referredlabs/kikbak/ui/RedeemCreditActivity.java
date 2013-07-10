@@ -8,6 +8,8 @@ import com.referredlabs.kikbak.R;
 
 public class RedeemCreditActivity extends FragmentActivity {
 
+  public static final String EXTRA_KIKBAK = "kikbak";
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

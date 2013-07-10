@@ -25,6 +25,8 @@ import android.widget.ViewFlipper;
 import com.google.gson.Gson;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ClientOfferType;
+import com.referredlabs.kikbak.data.GiftType;
+import com.referredlabs.kikbak.data.KikbakType;
 import com.referredlabs.kikbak.service.LocationFinder;
 import com.referredlabs.kikbak.service.LocationFinder.LocationFinderListener;
 import com.referredlabs.kikbak.ui.OfferListFragment.OnOfferClickedListener;
@@ -40,6 +42,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
   ViewFlipper mViewFlipper;
   ViewPager mViewPager;
   LocationFinder mLocationFinder;
+  Reward mSelectedReward;
 
   BroadcastReceiver mNetworkStateReceiver;
   boolean mIsConnected;
@@ -144,28 +147,47 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
   }
 
   @Override
-  public void onRewardClicked(Reward offer) {
-    if (offer.gift != null && offer.kikbak != null) {
-      String gift = offer.getGiftValueString();
-      String credit = offer.getCreditValueString();
+  public void onRewardClicked(Reward reward) {
+    if (reward.gift != null && reward.kikbak != null) {
+      mSelectedReward = reward;
+      String gift = reward.getGiftValueString();
+      String credit = reward.getCreditValueString();
       RedeemChooserDialog dialog = RedeemChooserDialog.newInstance(gift, credit);
       dialog.show(getSupportFragmentManager(), "");
-    } else if (offer.gift != null) {
-      onRedeemGiftSelected();
-    } else if (offer.kikbak != null) {
-      onRedeemCreditSelected();
+    } else if (reward.gift != null) {
+      redeemGift(reward.gift);
+    } else if (reward.kikbak != null) {
+      redeemCredit(reward.kikbak);
     }
   }
 
   @Override
   public void onRedeemGiftSelected() {
-    Intent intent = new Intent(this, RedeemGiftActivity.class);
-    startActivity(intent);
+    if (mSelectedReward != null) {
+      redeemGift(mSelectedReward.gift);
+      mSelectedReward = null;
+    }
   }
 
   @Override
   public void onRedeemCreditSelected() {
+    if (mSelectedReward != null) {
+      redeemCredit(mSelectedReward.kikbak);
+      mSelectedReward = null;
+    }
+  }
+
+  private void redeemGift(GiftType gift) {
+    Intent intent = new Intent(this, RedeemGiftActivity.class);
+    String data = new Gson().toJson(gift);
+    intent.putExtra(RedeemGiftActivity.EXTRA_GIFT, data);
+    startActivity(intent);
+  }
+
+  private void redeemCredit(KikbakType kikbak) {
     Intent intent = new Intent(this, RedeemCreditActivity.class);
+    String data = new Gson().toJson(kikbak);
+    intent.putExtra(RedeemCreditActivity.EXTRA_KIKBAK, data);
     startActivity(intent);
   }
 

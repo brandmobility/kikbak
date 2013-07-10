@@ -68,7 +68,7 @@ public class BarcodeScannerFragment extends DialogFragment {
         SymbolSet syms = mScanner.getResults();
         for (Symbol sym : syms) {
           // TODO: check how many and what kind of symbols may be in syms
-          mListener.onBarcodeScanned("barcode result: " + sym.getData());
+          mListener.onBarcodeScanned(sym.getData());
         }
       }
     }

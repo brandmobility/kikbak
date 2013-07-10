@@ -99,8 +99,11 @@ public class ChangeAmountDialog extends DialogFragment implements OnClickListene
   }
 
   protected void onApplyClicked() {
-    double value = Double.parseDouble(mCreditToUse.getText().toString());
-    mListener.onCreditChanged(value);
+    String txt = mCreditToUse.getText().toString();
+    if (!txt.isEmpty()) {
+      double value = Double.parseDouble(txt);
+      mListener.onCreditChanged(value);
+    }
     dismiss();
   }
 
