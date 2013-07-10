@@ -8,7 +8,7 @@
 
 #import "RedeemCreditSuccessViewController.h"
 #import "util.h"
-#import "Kikbak.h"
+#import "Credit.h"
 #import "UIDevice+Screen.h"
 #import "UIButton+Util.h"
 

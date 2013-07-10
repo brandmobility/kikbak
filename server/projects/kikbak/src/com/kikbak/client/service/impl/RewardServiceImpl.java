@@ -17,6 +17,8 @@ import com.kikbak.client.service.impl.types.TransactionType;
 import com.kikbak.dao.ReadOnlyAllocatedGiftDAO;
 import com.kikbak.dao.ReadOnlyCreditDAO;
 import com.kikbak.dao.ReadOnlyDeviceTokenDAO;
+import com.kikbak.dao.ReadOnlyGiftDAO;
+import com.kikbak.dao.ReadOnlyKikbakDAO;
 import com.kikbak.dao.ReadOnlyLocationDAO;
 import com.kikbak.dao.ReadOnlyMerchantDAO;
 import com.kikbak.dao.ReadOnlyOfferDAO;
@@ -29,26 +31,34 @@ import com.kikbak.dao.ReadWriteTransactionDAO;
 import com.kikbak.dto.Allocatedgift;
 import com.kikbak.dto.Credit;
 import com.kikbak.dto.Devicetoken;
+import com.kikbak.dto.Gift;
+import com.kikbak.dto.Kikbak;
 import com.kikbak.dto.Location;
 import com.kikbak.dto.Merchant;
 import com.kikbak.dto.Offer;
 import com.kikbak.dto.Shared;
 import com.kikbak.dto.Transaction;
 import com.kikbak.dto.User;
+import com.kikbak.jaxb.redeemcredit.CreditRedemptionResponseType;
+import com.kikbak.jaxb.redeemcredit.CreditRedemptionType;
 import com.kikbak.jaxb.redeemgift.GiftRedemptionType;
-import com.kikbak.jaxb.redeemkikbak.KikbakRedemptionResponseType;
-import com.kikbak.jaxb.redeemkikbak.KikbakRedemptionType;
+import com.kikbak.jaxb.rewards.AvailableCreditType;
 import com.kikbak.jaxb.rewards.ClientLocationType;
 import com.kikbak.jaxb.rewards.ClientMerchantType;
 import com.kikbak.jaxb.rewards.GiftType;
-import com.kikbak.jaxb.rewards.KikbakType;
 import com.kikbak.push.service.ApsNotifier;
 
 @Service
 public class RewardServiceImpl implements RewardService{
 
+    @Autowired
+    ReadOnlyKikbakDAO roKikbakDAO;
+    
 	@Autowired
-	ReadOnlyAllocatedGiftDAO roGiftDao;
+	ReadOnlyAllocatedGiftDAO roAllocatedGiftDao;
+	
+	@Autowired
+	ReadOnlyGiftDAO roGiftDao;
 	
 	@Autowired
 	ReadWriteAllocatedGiftDAO rwGiftDao;
@@ -94,28 +104,27 @@ public class RewardServiceImpl implements RewardService{
 	public Collection<GiftType> getGifts(Long userId) {
 		createGifts(userId);
 		Collection<Allocatedgift> gifts = new ArrayList<Allocatedgift>();
-		gifts.addAll(roGiftDao.listValidByUserId(userId));
+		gifts.addAll(roAllocatedGiftDao.listValidByUserId(userId));
 		Collection<GiftType> gts = new ArrayList<GiftType>();
 		
-		for( Allocatedgift gift: gifts){
+		for( Allocatedgift ag: gifts){
 			GiftType gt = new GiftType();
-			gt.setId(gift.getId());
+			gt.setId(ag.getId());
 			
-			Merchant merchant = roMerchantDao.findById(gift.getMerchantId());
+			Merchant merchant = roMerchantDao.findById(ag.getMerchantId());
 			ClientMerchantType cmt = fillClientMerchantType(merchant);
 			gt.setMerchant(cmt);
 			
-			Offer offer = roOfferDao.findById(gift.getOfferId());
-			gt.setDesc(offer.getGiftDesc());
-			gt.setDescOptional(offer.getGiftOptionalDesc());
-			gt.setValue(offer.getGiftValue());
-			gt.setType(offer.getGiftType());
-			gt.setName(offer.getGiftName());
-			gt.setFriendUserId(gift.getFriendUserId());
-			User friend = roUserDao.findById(gift.getFriendUserId());
+			Gift gift = roGiftDao.findById(ag.getGiftId());
+			gt.setDesc(gift.getDescription());
+			gt.setDetailedDesc(gift.getDetailedDesc());
+			gt.setValue(gift.getValue());
+			gt.setType(gift.getDiscountType());
+			gt.setFriendUserId(ag.getFriendUserId());
+			User friend = roUserDao.findById(ag.getFriendUserId());
 			gt.setFbFriendId(friend.getFacebookId());
 			gt.setFriendName(friend.getFirstName() + " " + friend.getLastName());
-			Shared shared = roSharedDao.findById(gift.getSharedId());
+			Shared shared = roSharedDao.findById(ag.getSharedId());
 			gt.setCaption(shared.getCaption());
 			gt.setFbImageId(shared.getFbImageId());
 			
@@ -127,29 +136,28 @@ public class RewardServiceImpl implements RewardService{
 
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	public Collection<KikbakType> getCredits(Long userId) {
+	public Collection<AvailableCreditType> getCredits(Long userId) {
 		Collection<Credit> credits = roCreditDao.listCreditsWithBalance(userId);
-		Collection<KikbakType> kts = new ArrayList<KikbakType>();
+		Collection<AvailableCreditType> acts = new ArrayList<AvailableCreditType>();
 		
 		for( Credit credit : credits){
-		    KikbakType kt = new KikbakType();
-			kt.setValue(credit.getValue());
-			kt.setId(credit.getId());
+		    AvailableCreditType ac = new AvailableCreditType();
+			ac.setValue(credit.getValue());
+			ac.setId(credit.getId());
 			
 			Merchant merchant = roMerchantDao.findById(credit.getMerchantId());
 			ClientMerchantType cmt = fillClientMerchantType(merchant);
-			kt.setMerchant(cmt);
+			ac.setMerchant(cmt);
 			
-			Offer offer = roOfferDao.findById(credit.getOfferId());
-			kt.setDesc(offer.getKikbakDesc());
-			kt.setDescOptional(offer.getKikbakOptionalDesc());
-			kt.setName(offer.getKikbakName());			
-			kt.setRedeeemedGiftsCount(roTxnDao.countOfGiftsRedeemedByUserByMerchant(userId, credit.getMerchantId()));
+			Kikbak kikbak = roKikbakDAO.findByOfferId(credit.getOfferId());
+			ac.setDesc(kikbak.getDescription());
+			ac.setDetailedDesc(kikbak.getDetailedDesc());
+			ac.setRedeeemedGiftsCount(roTxnDao.countOfGiftsRedeemedByUserByMerchant(userId, credit.getMerchantId()));
 			
-			kts.add(kt);
+			acts.add(ac);
 		}
 		
-		return kts;
+		return acts;
 	}
 
 	@Override
@@ -161,43 +169,43 @@ public class RewardServiceImpl implements RewardService{
 			throw new RedemptionException("Invalid verifcation code");
 		}
 		
-		Allocatedgift gift = roGiftDao.findById(giftType.getId());
+		Allocatedgift gift = roAllocatedGiftDao.findById(giftType.getId());
 		gift.setRedemptionDate(new Date());
 		gift.setValue(0.0);
 		
 		rwGiftDao.makePersistent(gift);
 		
-		CreditManager km = new CreditManager(roOfferDao, roCreditDao, rwKikbakDao, rwTxnDao);
+		CreditManager km = new CreditManager(roOfferDao, roKikbakDAO, roCreditDao, rwKikbakDao, rwTxnDao);
 		km.manageCredit(giftType.getFriendUserId(), gift.getOfferId(), gift.getMerchantId(), giftType.getLocationId());
 		
 		//send notification for kikbak when gift is redeemed
 		Devicetoken token = roDeviceToken.findByUserId(userId);
 		if( token != null){
-			Offer offer = roOfferDao.findById(gift.getOfferId());
-			apsNotifier.sendNotification(token, offer.getKikbakNotificationText());
+			Kikbak kikbak = roKikbakDAO.findByOfferId(gift.getOfferId());
+			apsNotifier.sendNotification(token, kikbak.getNotificationText());
 		}
 		
 		return generateAuthorizationCode();
 	}
 
 	@Override
-	public KikbakRedemptionResponseType registerKikbakRedemption(final Long userId, KikbakRedemptionType kikbakType) throws Exception {
+	public CreditRedemptionResponseType redeemCredit(final Long userId, CreditRedemptionType creditType) throws Exception {
 		
-		Location location = roLocationDao.findById(kikbakType.getLocationId());
-		if( !location.getVerificationCode().equals(kikbakType.getVerificationCode())){
+		Location location = roLocationDao.findById(creditType.getLocationId());
+		if( !location.getVerificationCode().equals(creditType.getVerificationCode())){
 			throw new RedemptionException("Invalid verifcation code");
 		}
 		
-		Credit credit = roCreditDao.findById(kikbakType.getId());
-		if( kikbakType.getAmount() > credit.getValue() ){
+		Credit credit = roCreditDao.findById(creditType.getId());
+		if( creditType.getAmount() > credit.getValue() ){
 			throw new RedemptionException("Value of attempted redemption is greater then remaining value");
 		}
 		
-		credit.setValue(credit.getValue() - kikbakType.getAmount());
+		credit.setValue(credit.getValue() - creditType.getAmount());
 		
 		Transaction txn = new Transaction();
-		txn.setAmount(kikbakType.getAmount());
-		txn.setVerificationCode(kikbakType.getVerificationCode());
+		txn.setAmount(creditType.getAmount());
+		txn.setVerificationCode(creditType.getVerificationCode());
 		txn.setMerchantId(credit.getMerchantId());
 		txn.setLocationId(txn.getLocationId());
 		txn.setUserId(userId);
@@ -210,7 +218,7 @@ public class RewardServiceImpl implements RewardService{
 		rwKikbakDao.makePersistent(credit);
 		rwTxnDao.makePersistent(txn);
 		
-		KikbakRedemptionResponseType response = new KikbakRedemptionResponseType();
+		CreditRedemptionResponseType response = new CreditRedemptionResponseType();
 		response.setBalance(credit.getValue());
 		response.setAuthorizationCode(txn.getAuthorizationCode());
 		return response;
@@ -219,24 +227,26 @@ public class RewardServiceImpl implements RewardService{
 	
 	protected void createGifts(Long userId){
 
-		Collection<Long> offerIds = roGiftDao.listOfferIdsForUser(userId);
+		Collection<Long> offerIds = roAllocatedGiftDao.listOfferIdsForUser(userId);
 		User user = roUserDao.findById(userId);
 		Collection<Shared> shareds = roSharedDao.listAvailableForGifting(user.getFacebookId());
 		Collection<Allocatedgift> newGifts = new ArrayList<Allocatedgift>();
 		for(Shared shared : shareds){
 			if(!offerIds.contains(shared.getOfferId())){
 				Offer offer = roOfferDao.findById(shared.getOfferId());
-				Allocatedgift gift = new Allocatedgift();
-				gift.setExpirationDate(offer.getEndDate());
-				gift.setFriendUserId(shared.getUserId());
-				gift.setMerchantId(shared.getMerchantId());
-				gift.setOfferId(shared.getOfferId());
-				gift.setUserId(userId);
-				gift.setSharedId(shared.getId());
-				gift.setValue(offer.getGiftValue());
+				Gift gift = roGiftDao.findByOfferId(shared.getOfferId());
+				Allocatedgift ag = new Allocatedgift();
+				ag.setExpirationDate(offer.getEndDate());
+				ag.setFriendUserId(shared.getUserId());
+				ag.setMerchantId(shared.getMerchantId());
+				ag.setOfferId(shared.getOfferId());
+				ag.setUserId(userId);
+				ag.setGiftId(gift.getId());
+				ag.setSharedId(shared.getId());
+				ag.setValue(gift.getValue());
 
-				rwGiftDao.makePersistent(gift);
-				newGifts.add(gift);
+				rwGiftDao.makePersistent(ag);
+				newGifts.add(ag);
 				
 				offerIds.add(shared.getOfferId());
 			}
@@ -253,7 +263,6 @@ public class RewardServiceImpl implements RewardService{
 		cmt.setId(merchant.getId());
 		cmt.setName(merchant.getName());
 		cmt.setUrl(merchant.getUrl());
-		cmt.setImageUrl(merchant.getImageUrl());
 		
 		Collection<Location> locations = roLocationDao.listByMerchant(merchant.getId());
 		for(Location location: locations){

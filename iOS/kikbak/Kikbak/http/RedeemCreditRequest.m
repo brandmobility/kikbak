@@ -6,19 +6,19 @@
 //  Copyright (c) 2012 Ian Barile. All rights reserved.
 //
 
-#import "RedeemKikbakRequest.h"
+#import "RedeemCreditRequest.h"
 #import "KikbakConstants.h"
 #import "SBJson.h"
 #import "NotificationContstants.h"
-#import "Kikbak.h"
+#import "Credit.h"
 
-static NSString* resource = @"rewards/redeem/kikbak";
+static NSString* resource = @"rewards/redeem/credit";
 
-@interface RedeemKikbakRequest()
+@interface RedeemCreditRequest()
 -(NSDictionary*)formatRequest:(id)requestData;
 @end
 
-@implementation RedeemKikbakRequest
+@implementation RedeemCreditRequest
 
 -(void)restRequest:(NSDictionary*)requestData{
   
@@ -43,33 +43,33 @@ static NSString* resource = @"rewards/redeem/kikbak";
   NSMutableDictionary* result = [[NSMutableDictionary alloc]initWithCapacity:1];
   NSMutableDictionary* user =[[NSMutableDictionary alloc]initWithCapacity:1];
   
-  [user setObject:requestData forKey:@"kikbak"];
-  [result setObject:user forKey:@"RedeemKikbakRequest"];
+  [user setObject:requestData forKey:@"credit"];
+  [result setObject:user forKey:@"RedeemCreditRequest"];
   return result;
 }
 
 
 -(void)parseResponse:(NSData*)data{
     NSString* json = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"RedeemKikbakRequest: %@", json);
+    NSLog(@"RedeemCreditRequest: %@", json);
 
-    NSManagedObjectContext* context = self.kikbak.managedObjectContext;
+    NSManagedObjectContext* context = self.credit.managedObjectContext;
 
     NSString* authorizationCode;
     id dict = [json JSONValue];
     if( dict) {
-        id kikbakResponse = [dict objectForKey:@"redeemKikbakResponse"];
+        id kikbakResponse = [dict objectForKey:@"redeemCreditResponse"];
         if(kikbakResponse){
             id response = [kikbakResponse objectForKey:@"response"];
             if( response ){
                 authorizationCode = [response objectForKey:@"authorizationCode"];
                 NSNumber* balance = [response objectForKey:@"balance"];
                 if( [balance integerValue ] == 0){
-                    self.kikbak.location = nil;
-                    [context deleteObject:self.kikbak];
+                    self.credit.location = nil;
+                    [context deleteObject:self.credit];
                 }
                 else{
-                    self.kikbak.value = balance;
+                    self.credit.value = balance;
                 }
             }
         }

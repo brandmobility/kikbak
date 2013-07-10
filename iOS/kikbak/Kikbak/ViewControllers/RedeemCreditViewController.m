@@ -10,9 +10,9 @@
 #import "CreditChooserViewController.h"
 #import "NotificationContstants.h"
 #import "util.h"
-#import "Kikbak.h"
+#import "Credit.h"
 #import "UIDevice+Screen.h"
-#import "RedeemKikbakRequest.h"
+#import "RedeemCreditRequest.h"
 #import "RedeemCreditSuccessViewController.h"
 #import "Location.h"
 
@@ -209,15 +209,15 @@
 
 -(IBAction)onRedeem:(id)sender{
     if(self.credit != nil){
-        RedeemKikbakRequest* rkr = [[RedeemKikbakRequest alloc]init];
-        rkr.kikbak = self.credit;
-        [rkr restRequest:[self setupKikbakRequest]];
+        RedeemCreditRequest* rcr = [[RedeemCreditRequest alloc]init];
+        rcr.credit = self.credit;
+        [rcr restRequest:[self setupKikbakRequest]];
     }
 }
 
 -(NSDictionary*)setupKikbakRequest{
     NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:3];
-    [dict setObject:self.credit.kikbakId forKey:@"id"];
+    [dict setObject:self.credit.creditId forKey:@"id"];
     Location* location = [self.credit.location anyObject];
     [dict setObject:location.locationId forKey:@"locationId"];
     [dict setObject:self.creditToUse forKey:@"amount"];

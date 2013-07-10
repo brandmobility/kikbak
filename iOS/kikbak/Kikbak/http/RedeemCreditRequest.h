@@ -11,12 +11,12 @@
 #import "ResponseHandlerProtocol.h"
 #import "RestProtocol.h"
 
-@class Kikbak;
+@class Credit;
 
-@interface RedeemKikbakRequest : NSObject<RestProtocol, ResponseHandlerProtocol>{
+@interface RedeemCreditRequest : NSObject<RestProtocol, ResponseHandlerProtocol>{
   HttpRequest* request;
 }
 
-@property (nonatomic, strong) Kikbak* kikbak;
+@property (nonatomic, strong) Credit* credit;
 
 @end

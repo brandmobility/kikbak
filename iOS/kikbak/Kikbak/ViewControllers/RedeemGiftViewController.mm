@@ -12,7 +12,7 @@
 #import "AppDelegate.h"
 #import "QRCodeReader.h"
 #import "Gift.h"
-#import "Kikbak.h"
+#import "Credit.h"
 #import "Location.h"
 #import "RedeemGiftRequest.h"
 #import "RewardCollection.h"
@@ -271,7 +271,7 @@
     self.giftDetails.textAlignment = NSTextAlignmentCenter;
     self.giftDetails.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
     self.giftDetails.textColor = UIColorFromRGB(0x3a3a3a);
-    self.giftDetails.text = self.gift.descOptional;
+    self.giftDetails.text = self.gift.detailedDesc;
     [self.view addSubview:self.giftDetails];
     
     self.termsBtn = [UIButton buttonWithType:UIButtonTypeCustom];

@@ -43,7 +43,7 @@
         }
     }
     gift.desc = [dict objectForKey:@"desc"];
-    gift.descOptional = [dict objectForKey:@"descOptional"];
+    gift.detailedDesc = [dict objectForKey:@"detailedDesc"];
     gift.name = [dict objectForKey:@"name"];
     gift.friendUserId = [dict objectForKey:@"friendUserId"];
     gift.fbFriendId = [dict objectForKey:@"fbFriendId"];

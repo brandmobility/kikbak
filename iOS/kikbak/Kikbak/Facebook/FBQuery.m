@@ -63,7 +63,7 @@
         AppDelegate* delegate =[UIApplication sharedApplication].delegate;
         delegate.userInfo.friends = result;
 
-        NSLog(@"friend result %@", result);
+//        NSLog(@"friend result %@", result);
         SubmitFriendsRequest* request = [[SubmitFriendsRequest alloc]init];
         [request restRequest:[result objectForKey:@"data"]];
 

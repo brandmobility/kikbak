@@ -2,13 +2,13 @@
 //  Location.m
 //  Kikbak
 //
-//  Created by Ian Barile on 5/19/13.
+//  Created by Ian Barile on 7/10/13.
 //  Copyright (c) 2013 Ian Barile. All rights reserved.
 //
 
 #import "Location.h"
+#import "Credit.h"
 #import "Gift.h"
-#import "Kikbak.h"
 #import "Offer.h"
 
 
@@ -19,7 +19,7 @@
 @dynamic longitude;
 @dynamic phoneNumber;
 @dynamic gift;
-@dynamic kikbak;
+@dynamic credit;
 @dynamic offer;
 
 @end

@@ -7,14 +7,14 @@
     <xsd:annotation>
         <xsd:appinfo>
             <jaxb:schemaBindings>
-                <jaxb:package name="com.kikbak.jaxb.redeemkikbak" />
+                <jaxb:package name="com.kikbak.jaxb.redeemcredit" />
             </jaxb:schemaBindings>
         </xsd:appinfo>
     </xsd:annotation>
     
     <xsd:import namespace="com:kikbak:jaxb:statustype" schemaLocation="./StatusType.xsd" />
         
-    <xsd:complexType name="KikbakRedemptionType">
+    <xsd:complexType name="CreditRedemptionType">
         <xsd:sequence>
             <xsd:element name="id" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="locationId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
@@ -23,15 +23,15 @@
         </xsd:sequence>
     </xsd:complexType>
 
-    <xsd:element name="RedeemKikbakRequest">
+    <xsd:element name="RedeemCreditRequest">
         <xsd:complexType>
                 <xsd:sequence>
-                    <xsd:element name="kikbak" type="kikbak:KikbakRedemptionType" minOccurs="1" maxOccurs="1"/>  
+                    <xsd:element name="credit" type="kikbak:CreditRedemptionType" minOccurs="1" maxOccurs="1"/>  
                 </xsd:sequence>
             </xsd:complexType>
     </xsd:element>
     
-   <xsd:complexType name="KikbakRedemptionResponseType">
+   <xsd:complexType name="CreditRedemptionResponseType">
         <xsd:sequence>
             <xsd:element name="id" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="authorizationCode" type="xsd:string" minOccurs="1" maxOccurs="1"/> 
@@ -39,10 +39,10 @@
         </xsd:sequence>
     </xsd:complexType>
     
-    <xsd:element name="RedeemKikbakResponse">
+    <xsd:element name="RedeemCreditResponse">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="response" type="kikbak:KikbakRedemptionResponseType" minOccurs="1" maxOccurs="1"/>
+                <xsd:element name="response" type="kikbak:CreditRedemptionResponseType" minOccurs="1" maxOccurs="1"/>
                 <xsd:element name="status" type="st:StatusType" minOccurs="1" maxOccurs="1"/> 
             </xsd:sequence>
         </xsd:complexType>

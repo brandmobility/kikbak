@@ -1,27 +1,27 @@
 //
-//  Kikbak.m
+//  Credit.m
 //  Kikbak
 //
-//  Created by Ian Barile on 6/26/13.
+//  Created by Ian Barile on 7/10/13.
 //  Copyright (c) 2013 Ian Barile. All rights reserved.
 //
 
-#import "Kikbak.h"
+#import "Credit.h"
 #import "Location.h"
 
 
-@implementation Kikbak
+@implementation Credit
 
 @dynamic desc;
+@dynamic detailedDesc;
 @dynamic imageUrl;
-@dynamic kikbakId;
+@dynamic creditId;
 @dynamic merchantId;
 @dynamic merchantName;
 @dynamic merchantUrl;
 @dynamic name;
 @dynamic redeeemedGiftsCount;
 @dynamic value;
-@dynamic descOptional;
 @dynamic location;
 
 @end

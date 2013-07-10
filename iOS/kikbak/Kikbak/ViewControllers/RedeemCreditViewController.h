@@ -14,10 +14,10 @@
 
 @end
 
-@class Kikbak;
+@class Credit;
 
 @interface RedeemCreditViewController : UIViewController<UserCreditUpdate>
 
-@property(nonatomic,strong)Kikbak* credit;
+@property(nonatomic,strong)Credit* credit;
 
 @end

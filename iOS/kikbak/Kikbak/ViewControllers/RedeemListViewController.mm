@@ -9,9 +9,9 @@
 #import "RedeemListViewController.h"
 #import "RedeemTableViewCell.h"
 #import "Gift.h"
-#import "Kikbak.h"
+#import "Credit.h"
 #import "GiftService.h"
-#import "KikbakService.h"
+#import "CreditService.h"
 #import "AppDelegate.h"
 #import "LocationManager.h"
 #import "RedeemGiftViewController.h"
@@ -324,7 +324,7 @@ const int CELL_HEIGHT = 156;
 -(void) createRewardCollection{
     
     NSArray* gifts = [GiftService getGifts];
-    NSArray* kikbaks = [KikbakService getKikbaks];
+    NSArray* credits = [CreditService getCredits];
     
     NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:[gifts count]];
     
@@ -334,14 +334,14 @@ const int CELL_HEIGHT = 156;
         [dict setObject:collection forKey:gift.merchantId];
     }
     
-    for(Kikbak* kikbak in kikbaks){
-        if([dict objectForKey:kikbak.merchantId]){
-            ((RewardCollection*)[dict objectForKey:kikbak.merchantId]).credit = kikbak;
+    for(Credit* credit in credits){
+        if([dict objectForKey:credit.merchantId]){
+            ((RewardCollection*)[dict objectForKey:credit.merchantId]).credit = credit;
         }
         else{
             RewardCollection* collection = [[RewardCollection alloc]init];
-            collection.credit = kikbak;
-            [dict setObject:collection forKey:kikbak.merchantId];
+            collection.credit = credit;
+            [dict setObject:collection forKey:credit.merchantId];
         }
     }
     
@@ -367,7 +367,7 @@ const int CELL_HEIGHT = 156;
 
 #pragma mark - btn actions
 
--(void)onRedeemCredit:(Kikbak*)credit{
+-(void)onRedeemCredit:(Credit*)credit{
     RedeemCreditViewController* vc = [[RedeemCreditViewController alloc]init];
     vc.credit = credit;
     vc.hidesBottomBarWhenPushed = true;

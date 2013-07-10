@@ -3,6 +3,7 @@ package com.kikbak.dao.impl;
 import java.util.Collection;
 
 import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,6 +11,7 @@ import com.kikbak.dao.ReadOnlyCreditDAO;
 import com.kikbak.dao.generic.ReadOnlyGenericDAOImpl;
 import com.kikbak.dto.Credit;
 
+@Repository
 public class ReadOnlyCreditDAOImpl extends ReadOnlyGenericDAOImpl<Credit, Long> implements ReadOnlyCreditDAO{
 
 	@Override

@@ -28,19 +28,17 @@
             <xsd:element name="id" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="url" type="xsd:string" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="imageUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="locations" type="kikbak:ClientLocationType" minOccurs="1" maxOccurs="unbounded"/>
         </xsd:sequence>
     </xsd:complexType>
 
     
-    <xsd:complexType name="KikbakType">
+    <xsd:complexType name="AvailableCreditType">
         <xsd:sequence>
             <xsd:element name="id" type="xsd:long" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="merchant" type="kikbak:ClientMerchantType" minOccurs="0" maxOccurs="1"/>
-            <xsd:element name="name" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="desc" type="xsd:string" minOccurs="0" maxOccurs="1"/>
-            <xsd:element name="descOptional" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="detailedDesc" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="value" type="xsd:double" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="redeeemedGiftsCount" type="xsd:int" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="terms" type="xsd:string" minOccurs="0" maxOccurs="1"/>
@@ -51,10 +49,9 @@
         <xsd:sequence>
             <xsd:element name="id" type="xsd:long" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="merchant" type="kikbak:ClientMerchantType" minOccurs="0" maxOccurs="1"/>
-            <xsd:element name="name" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="friendUserId" type="xsd:long" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="desc" type="xsd:string" minOccurs="0" maxOccurs="1"/>
-            <xsd:element name="descOptional" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="detailedDesc" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="value" type="xsd:double" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="type" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="terms" type="xsd:string" minOccurs="0" maxOccurs="1"/>
@@ -74,7 +71,7 @@
     <xsd:element name="RewardsResponse">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="kikbaks" type="kikbak:KikbakType" minOccurs="0" maxOccurs="unbounded"/>
+                <xsd:element name="credits" type="kikbak:AvailableCreditType" minOccurs="0" maxOccurs="unbounded"/>
                 <xsd:element name="gifts" type="kikbak:GiftType" minOccurs="0" maxOccurs="unbounded"/>
                 <xsd:element name="status" type="st:StatusType" minOccurs="1" maxOccurs="1"/>
             </xsd:sequence>

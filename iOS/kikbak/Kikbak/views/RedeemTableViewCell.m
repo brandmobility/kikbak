@@ -8,7 +8,7 @@
 
 #import "RedeemTableViewCell.h"
 #import "Gift.h"
-#import "Kikbak.h"
+#import "Credit.h"
 #import "Distance.h"
 #import "Location.h"
 #import "ImagePersistor.h"

@@ -16,10 +16,10 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.oned.UPCAWriter;
 import com.kikbak.client.service.RedemptionException;
 import com.kikbak.client.service.RewardService;
+import com.kikbak.jaxb.redeemcredit.RedeemCreditRequest;
+import com.kikbak.jaxb.redeemcredit.RedeemCreditResponse;
 import com.kikbak.jaxb.redeemgift.RedeemGiftRequest;
 import com.kikbak.jaxb.redeemgift.RedeemGiftResponse;
-import com.kikbak.jaxb.redeemkikbak.RedeemKikbakRequest;
-import com.kikbak.jaxb.redeemkikbak.RedeemKikbakResponse;
 import com.kikbak.jaxb.rewards.RewardsRequest;
 import com.kikbak.jaxb.rewards.RewardsResponse;
 import com.kikbak.jaxb.statustype.StatusType;
@@ -44,7 +44,7 @@ public class RewardController {
 		response.setStatus(status);
 		try {
 			response.getGifts().addAll(service.getGifts(userId));
-			response.getKikbaks().addAll(service.getCredits(userId));
+			response.getCredits().addAll(service.getCredits(userId));
 		} catch (Exception e) {
 			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			status.setCode(StatusCode.ERROR.ordinal());
@@ -78,16 +78,16 @@ public class RewardController {
 		return response;
 	}
 	
-	@RequestMapping(value="/redeem/kikbak/{userId}", method = RequestMethod.POST)
-	public RedeemKikbakResponse redeemKikbak(@PathVariable("userId") Long userId,
-						@RequestBody RedeemKikbakRequest request, final HttpServletResponse httpResponse){
+	@RequestMapping(value="/redeem/credit/{userId}", method = RequestMethod.POST)
+	public RedeemCreditResponse redeemKikbak(@PathVariable("userId") Long userId,
+						@RequestBody RedeemCreditRequest request, final HttpServletResponse httpResponse){
 		
-		RedeemKikbakResponse response = new RedeemKikbakResponse();
+	    RedeemCreditResponse response = new RedeemCreditResponse();
 		StatusType status = new StatusType();
 		status.setCode(StatusCode.OK.ordinal());
 		response.setStatus(status);
 		try {
-			response.setResponse(service.registerKikbakRedemption(userId, request.getKikbak()));
+			response.setResponse(service.redeemCredit(userId, request.getCredit()));
 		} catch (Exception e) {
 			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			status.setCode(StatusCode.ERROR.ordinal());

@@ -9,11 +9,11 @@
 #import <Foundation/Foundation.h>
 
 @class Gift;
-@class Kikbak;
+@class Credit;
 
 @interface RewardCollection : NSObject
 
 @property (nonatomic, strong) Gift* gift;
-@property (nonatomic, strong) Kikbak* credit;
+@property (nonatomic, strong) Credit* credit;
 
 @end

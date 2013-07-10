@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface KikbakParser : NSObject
+@interface CreditParser : NSObject
 
 -(void)parse:(NSDictionary*)dict;
 -(void)resolveDiff;

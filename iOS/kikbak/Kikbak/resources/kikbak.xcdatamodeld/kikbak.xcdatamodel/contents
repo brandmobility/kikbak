@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="12E55" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Credit" representedClassName="Credit" syncable="YES">
+        <attribute name="creditId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="detailedDesc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="imageUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="merchantId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="merchantName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="merchantUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="redeeemedGiftsCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="value" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <relationship name="location" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Location" inverseName="credit" inverseEntity="Location" syncable="YES"/>
+    </entity>
     <entity name="Gift" representedClassName="Gift" syncable="YES">
         <attribute name="caption" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="descOptional" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="detailedDesc" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="fbFriendId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="fbImageId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="friendName" optional="YES" attributeType="String" syncable="YES"/>
@@ -17,26 +30,13 @@
         <attribute name="value" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <relationship name="location" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Location" inverseName="gift" inverseEntity="Location" syncable="YES"/>
     </entity>
-    <entity name="Kikbak" representedClassName="Kikbak" syncable="YES">
-        <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="descOptional" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="imageUrl" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="kikbakId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="merchantId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="merchantName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="merchantUrl" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="redeeemedGiftsCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="value" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
-        <relationship name="location" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Location" inverseName="kikbak" inverseEntity="Location" syncable="YES"/>
-    </entity>
     <entity name="Location" representedClassName="Location" syncable="YES">
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="locationId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="phoneNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="credit" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Credit" inverseName="location" inverseEntity="Credit" syncable="YES"/>
         <relationship name="gift" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Gift" inverseName="location" inverseEntity="Gift" syncable="YES"/>
-        <relationship name="kikbak" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Kikbak" inverseName="location" inverseEntity="Kikbak" syncable="YES"/>
         <relationship name="offer" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Offer" inverseName="location" inverseEntity="Offer" syncable="YES"/>
     </entity>
     <entity name="Offer" representedClassName="Offer" syncable="YES">
@@ -63,7 +63,7 @@
     </entity>
     <elements>
         <element name="Gift" positionX="-5807" positionY="-495" width="128" height="270"/>
-        <element name="Kikbak" positionX="160" positionY="192" width="128" height="210"/>
+        <element name="Credit" positionX="160" positionY="192" width="128" height="210"/>
         <element name="Location" positionX="-5544" positionY="-567" width="128" height="150"/>
         <element name="Offer" positionX="-5247" positionY="-585" width="128" height="345"/>
     </elements>

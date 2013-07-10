@@ -71,6 +71,7 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
 		shared.setFbImageId(experience.getFbImageId());
 		shared.setUserId(userId);
 		shared.setCaption(experience.getCaption());
+		shared.setType(experience.getType());
 		shared.setSharedDate(new Date());
 		
 		rwSharedDao.makePersistent(shared);

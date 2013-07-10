@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.kikbak.client.service.impl.types.TransactionType;
 import com.kikbak.dto.Transaction;
 
-public class TransactionDAOTest extends KikbakDAOTest {
+public class TransactionDAOTest extends CreditDAOTest {
 	
 	@Autowired
 	ReadOnlyTransactionDAO roDao;
@@ -61,7 +61,7 @@ public class TransactionDAOTest extends KikbakDAOTest {
 		txn.setAuthorizationCode("4354");
 		txn.setVerificationCode("434231");
 		txn.setDate(new Date());
-		txn.setKikbakId(3);
+		txn.setCreditId(3);
 		txn.setLocationId(15);
 		txn.setTransactionType((short)TransactionType.Credit.ordinal());
 		txn.setUserId(13L);
@@ -78,7 +78,7 @@ public class TransactionDAOTest extends KikbakDAOTest {
 		txn.setAuthorizationCode("4354");
 		txn.setVerificationCode("434231");
 		txn.setDate(new Date());
-		txn.setKikbakId(3);
+		txn.setCreditId(3);
 		txn.setLocationId(15);
 		txn.setMerchantId(1);
 		txn.setTransactionType((short)TransactionType.Credit.ordinal());
@@ -91,7 +91,7 @@ public class TransactionDAOTest extends KikbakDAOTest {
 		txn2.setAuthorizationCode("4354");
 		txn2.setVerificationCode("434231");
 		txn2.setDate(new Date());
-		txn2.setKikbakId(3);
+		txn2.setCreditId(3);
 		txn2.setLocationId(15);
 		txn2.setMerchantId(1);
 		txn2.setTransactionType((short)TransactionType.Credit.ordinal());

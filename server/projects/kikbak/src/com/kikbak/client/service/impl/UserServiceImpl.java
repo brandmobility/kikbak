@@ -16,6 +16,8 @@ import com.kikbak.client.service.impl.types.GenderType;
 import com.kikbak.client.service.impl.types.PlatformType;
 import com.kikbak.config.ContextUtil;
 import com.kikbak.dao.ReadOnlyDeviceTokenDAO;
+import com.kikbak.dao.ReadOnlyGiftDAO;
+import com.kikbak.dao.ReadOnlyKikbakDAO;
 import com.kikbak.dao.ReadOnlyLocationDAO;
 import com.kikbak.dao.ReadOnlyMerchantDAO;
 import com.kikbak.dao.ReadOnlyOfferDAO;
@@ -25,6 +27,8 @@ import com.kikbak.dao.ReadWriteDeviceTokenDAO;
 import com.kikbak.dao.ReadWriteUser2FriendDAO;
 import com.kikbak.dao.ReadWriteUserDAO;
 import com.kikbak.dto.Devicetoken;
+import com.kikbak.dto.Gift;
+import com.kikbak.dto.Kikbak;
 import com.kikbak.dto.Location;
 import com.kikbak.dto.Merchant;
 import com.kikbak.dto.Offer;
@@ -59,6 +63,12 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	ReadWriteUser2FriendDAO rwU2FDao;
+	
+	@Autowired
+	ReadOnlyGiftDAO roGiftDao;
+	
+	@Autowired
+	ReadOnlyKikbakDAO roKikbakDao;
 	
 	@Autowired
 	ReadOnlyOfferDAO roOfferDao;
@@ -141,24 +151,26 @@ public class UserServiceImpl implements UserService {
 		Collection<Offer> offers = roOfferDao.listValidOffersInGeoFence(fence);
 		Collection<ClientOfferType> ots = new ArrayList<ClientOfferType>();
 		for(Offer offer : offers){
+		    Gift gift = roGiftDao.findByOfferId(offer.getId());
+		    Kikbak kikbak = roKikbakDao.findByOfferId(offer.getId());
 			ClientOfferType ot = new ClientOfferType();
 			ot.setBeginDate(offer.getBeginDate().getTime());
 			ot.setEndDate(offer.getEndDate().getTime());
 			ot.setId(offer.getId());
 			ot.setName(offer.getName());
-			ot.setTermsOfService(offer.getTermsOfService());
-			ot.setGiftDesc(offer.getGiftDesc());
-			ot.setGiftDescOptional(offer.getGiftOptionalDesc());
-			ot.setGiftValue(offer.getGiftValue());
-			ot.setGiftType(offer.getGiftType());
-			ot.setKikbakDesc(offer.getKikbakDesc());
-			ot.setKikbakDescOptional(offer.getKikbakOptionalDesc());
-			ot.setKikbakValue(offer.getKikbakValue());
-			ot.setImageUrl(offer.getImageUrl());
+			ot.setTosUrl(offer.getTosUrl());
+			ot.setGiftDesc(gift.getDescription());
+			ot.setGiftDetailedDesc(gift.getDetailedDesc());
+			ot.setGiftValue(gift.getValue());
+			ot.setGiftType(gift.getDiscountType());
+			ot.setKikbakDesc(kikbak.getDescription());
+			ot.setKikbakDetailedDesc(kikbak.getDetailedDesc());
+			ot.setKikbakValue(kikbak.getValue());
+			ot.setOfferImageUrl(offer.getImageUrl());
 			ot.setMerchantId(offer.getMerchantId());
+			ot.setGiveImageUrl(gift.getImageUrl());
 			
 			Merchant merchant = roMerchantDao.findById(offer.getMerchantId());
-			ot.setMerchantImageUrl(merchant.getImageUrl());
 			ot.setMerchantName(merchant.getName());
 			ot.setMerchantUrl(merchant.getUrl());
 			

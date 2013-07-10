@@ -5,10 +5,12 @@ import java.util.Date;
 
 import com.kikbak.client.service.impl.types.TransactionType;
 import com.kikbak.dao.ReadOnlyCreditDAO;
+import com.kikbak.dao.ReadOnlyKikbakDAO;
 import com.kikbak.dao.ReadOnlyOfferDAO;
 import com.kikbak.dao.ReadWriteCreditDAO;
 import com.kikbak.dao.ReadWriteTransactionDAO;
 import com.kikbak.dto.Credit;
+import com.kikbak.dto.Kikbak;
 import com.kikbak.dto.Offer;
 import com.kikbak.dto.Transaction;
 
@@ -17,13 +19,15 @@ public class CreditManager {
 	private final ReadOnlyCreditDAO roCreditDao;
 	private final ReadWriteCreditDAO rwCreditDao;
 	private final ReadWriteTransactionDAO rwTransactionDao;
+	private final ReadOnlyKikbakDAO roKikbakDao;
 	private final ReadOnlyOfferDAO roOfferDao;
 	
-	public CreditManager(ReadOnlyOfferDAO roOfferDao, ReadOnlyCreditDAO roCreditDao, 
+	public CreditManager(ReadOnlyOfferDAO roOfferDao, ReadOnlyKikbakDAO roKikbakDao, ReadOnlyCreditDAO roCreditDao, 
 						ReadWriteCreditDAO rwCreditDao, ReadWriteTransactionDAO rwTransactionDao){
 		
 		this.roCreditDao = roCreditDao;
 		this.roOfferDao = roOfferDao;
+		this.roKikbakDao = roKikbakDao;
 		this.rwCreditDao = rwCreditDao;
 		this.rwTransactionDao = rwTransactionDao;
 	}
@@ -39,11 +43,11 @@ public class CreditManager {
 	}
 	
 	protected void updateCreditAvailable(Credit credit, final Long offerId, final Long merchantId, final Long locationId){
-		Offer offer = roOfferDao.findById(offerId);
-		credit.setValue(offer.getKikbakValue() + credit.getValue());
+		Kikbak kikbak = roKikbakDao.findByOfferId(offerId);
+		credit.setValue(kikbak.getValue() + credit.getValue());
 		
 		Transaction txn = new Transaction();
-		txn.setAmount(offer.getKikbakValue());
+		txn.setAmount(kikbak.getValue());
 		txn.setAuthorizationCode("newshare");
 		txn.setLocationId(locationId);
 		txn.setMerchantId(merchantId);
@@ -58,15 +62,16 @@ public class CreditManager {
 	}
 	
 	protected void createCredit(final Long userId, final Long offerId, final Long merchantId, final Long locationId){
-		Offer offer = roOfferDao.findById(offerId);
-		Credit credit = new Credit();
+	    Kikbak kikbak = roKikbakDao.findByOfferId(offerId);
+	    Offer offer = roOfferDao.findById(offerId);
+	    Credit credit = new Credit();
 		credit.setBeginDate(offer.getBeginDate());
 		credit.setEndDate(offer.getEndDate());
 		credit.setLocationId(locationId);
 		credit.setMerchantId(offer.getMerchantId());
 		credit.setOfferId(offerId);
 		credit.setUserId(userId);
-		credit.setValue(offer.getKikbakValue());
+		credit.setValue(kikbak.getValue());
 		
 		Transaction txn = new Transaction();
 		txn.setAmount(credit.getValue());

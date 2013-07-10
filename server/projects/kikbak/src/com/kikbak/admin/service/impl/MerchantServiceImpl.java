@@ -55,7 +55,6 @@ public class MerchantServiceImpl implements MerchantService{
 			MerchantType mt = new MerchantType();
 			mt.setDescription(merchant.getDescription());
 			mt.setUrl(merchant.getUrl());
-			mt.setImageUrl(merchant.getImageUrl());
 			mt.setName(merchant.getName());
 			mt.setId(merchant.getId());
 			
@@ -130,7 +129,6 @@ public class MerchantServiceImpl implements MerchantService{
 		merchant.setDescription(mt.getDescription());
 		merchant.setName(mt.getName());
 		merchant.setUrl(mt.getUrl());
-		merchant.setImageUrl(mt.getImageUrl());
 		rwMerchantDao.makePersistent(merchant);
 		
 		for(LocationType lt : mt.getLocations() ){
@@ -159,21 +157,22 @@ public class MerchantServiceImpl implements MerchantService{
 	public OfferType addOrUpdateOffer(OfferType ot) {
 		Offer offer = getOfferFromOfferType(ot);
 		offer.setMerchantId(ot.getMerchantId());
-		offer.setGiftName(ot.getGiftName());
-		offer.setGiftDesc(ot.getGiftDesc());
-		offer.setGiftOptionalDesc(ot.getGiftDescOptional());
-		offer.setGiftValue(ot.getGiftValue());
-		offer.setGiftType(ot.getGiftType());
-		offer.setGiftNotificationText(ot.getGiftNotificationText());
-		offer.setKikbakNotificationText(ot.getKikbakNotificationText());
-		offer.setKikbakName(ot.getKikbakName());
-		offer.setKikbakDesc(ot.getKikbakDesc());
-		offer.setKikbakOptionalDesc(ot.getKikbakDescOptional());
-		offer.setKikbakValue(ot.getKikbakValue());
-		offer.setKikbakNotificationText(ot.getKikbakNotificationText());
+//		offer.setGiftName(ot.getGiftName());
+//		offer.setGiftDesc(ot.getGiftDesc());
+//		offer.setGiftOptionalDesc(ot.getGiftDescOptional());
+//		offer.setGiftValue(ot.getGiftValue());
+//		offer.setGiftType(ot.getGiftType());
+//		offer.setGiftNotificationText(ot.getGiftNotificationText());
+//		offer.setKikbakNotificationText(ot.getKikbakNotificationText());
+//		offer.setKikbakName(ot.getKikbakName());
+//		offer.setKikbakDesc(ot.getKikbakDesc());
+//		offer.setKikbakOptionalDesc(ot.getKikbakDescOptional());
+//		offer.setKikbakValue(ot.getKikbakValue());
+//		offer.setKikbakNotificationText(ot.getKikbakNotificationText());
 		offer.setName(ot.getName());
 		offer.setBeginDate(new Date(ot.getBeginDate()));
 		offer.setEndDate(new Date(ot.getEndDate()));
+//		offer.setImageUrl(ot.get)
 		
 		rwOfferDao.makePersistent(offer);
 		ot.setId(offer.getId());
@@ -189,29 +188,29 @@ public class MerchantServiceImpl implements MerchantService{
 			throw new InvalidRequestException("Invalid or no merchant specified");
 		}
 		
-		Collection<Offer> offers = roOfferDao.listOffers(merchant);
+//		Collection<Offer> offers = roOfferDao.listOffers(merchant);
 		Collection<OfferType> ots = new ArrayList<OfferType>();
-		for(Offer offer: offers){
-			OfferType ot = new OfferType();
-			ot.setBeginDate(offer.getBeginDate().getTime());
-			ot.setKikbakName(offer.getKikbakName());
-			ot.setKikbakDesc(offer.getKikbakDesc());
-			ot.setKikbakDescOptional(offer.getKikbakOptionalDesc());
-			ot.setKikbakValue(offer.getKikbakValue());
-			ot.setKikbakName(offer.getKikbakName());
-			ot.setKikbakNotificationText(offer.getKikbakNotificationText());
-			ot.setGiftDesc(offer.getGiftDesc());
-			ot.setGiftDescOptional(offer.getGiftOptionalDesc());
-			ot.setGiftValue(offer.getGiftValue());
-			ot.setGiftType(offer.getGiftType());
-			ot.setGiftNotificationText(offer.getGiftNotificationText());
-			ot.setEndDate(offer.getEndDate().getTime());
-			ot.setId(offer.getId());
-			ot.setMerchantId(offer.getMerchantId());
-			ot.setName(offer.getName());
-			
-			ots.add(ot);
-		}
+//		for(Offer offer: offers){
+//			OfferType ot = new OfferType();
+//			ot.setBeginDate(offer.getBeginDate().getTime());
+//			ot.setKikbakName(offer.getKikbakName());
+//			ot.setKikbakDesc(offer.getKikbakDesc());
+//			ot.setKikbakDescOptional(offer.getKikbakOptionalDesc());
+//			ot.setKikbakValue(offer.getKikbakValue());
+//			ot.setKikbakName(offer.getKikbakName());
+//			ot.setKikbakNotificationText(offer.getKikbakNotificationText());
+//			ot.setGiftDesc(offer.getGiftDesc());
+//			ot.setGiftDescOptional(offer.getGiftOptionalDesc());
+//			ot.setGiftValue(offer.getGiftValue());
+//			ot.setGiftType(offer.getGiftType());
+//			ot.setGiftNotificationText(offer.getGiftNotificationText());
+//			ot.setEndDate(offer.getEndDate().getTime());
+//			ot.setId(offer.getId());
+//			ot.setMerchantId(offer.getMerchantId());
+//			ot.setName(offer.getName());
+//			
+//			ots.add(ot);
+//		}
 		return ots;
 	}
 

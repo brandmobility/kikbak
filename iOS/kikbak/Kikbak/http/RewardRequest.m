@@ -10,10 +10,10 @@
 #import "SBJson.h"
 #import "KikbakConstants.h"
 #import "GiftParser.h"
-#import "KikbakParser.h"
+#import "CreditParser.h"
 #import "AppDelegate.h"
 #import "GiftService.h"
-#import "KikbakService.h"
+#import "CreditService.h"
 #import "NotificationContstants.h"
 
 static NSString* resource = @"rewards/request";
@@ -52,9 +52,9 @@ static NSString* resource = @"rewards/request";
 
 -(void)parseResponse:(NSData*)data{
     NSString* json = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-//    NSLog(@"Reward Request: %@", json);
+    NSLog(@"Reward Request: %@", json);
     id dict = [json JSONValue];
-    KikbakParser* kikbakParser = [[KikbakParser alloc]init];
+    CreditParser* creditParser = [[CreditParser alloc]init];
     GiftParser* giftParser = [[GiftParser alloc]init];
     if( dict != [NSNull null] ){
         id rewardsResponse = [dict objectForKey:@"rewardsResponse"];
@@ -63,14 +63,14 @@ static NSString* resource = @"rewards/request";
             for(id gift in gifts){
                 [giftParser parse:gift];
             }
-            NSArray* kikbaks = [rewardsResponse objectForKey:@"kikbaks"];
-            for(id kikbak in kikbaks){
-                [kikbakParser parse:kikbak];
+            NSArray* credits = [rewardsResponse objectForKey:@"credits"];
+            for(id credit in credits){
+                [creditParser parse:credit];
             }
         }
     }
     
-    [kikbakParser resolveDiff];
+    [creditParser resolveDiff];
     [giftParser resolveDiff];
     
     [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakRewardUpdate object:nil];

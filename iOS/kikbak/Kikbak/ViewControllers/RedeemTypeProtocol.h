@@ -8,13 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-@class Kikbak;
+@class Credit;
 @class Gift;
 
 @protocol RedeemTypeProtocol <NSObject>
 
 @required
 -(void)onRedeemGift:(Gift*)gift;
--(void)onRedeemCredit:(Kikbak*)credi;
+-(void)onRedeemCredit:(Credit*)credi;
 
 @end

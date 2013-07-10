@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.type.StandardBasicTypes;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +12,7 @@ import com.kikbak.dao.ReadOnlyAllocatedGiftDAO;
 import com.kikbak.dao.generic.ReadOnlyGenericDAOImpl;
 import com.kikbak.dto.Allocatedgift;
 
+@Repository
 public class ReadOnlyAllocatedGiftDAOImpl extends ReadOnlyGenericDAOImpl<Allocatedgift, Long> implements ReadOnlyAllocatedGiftDAO {
 
 	private static final String gift_offer_ids = "select offer_id from allocatedgift where user_id=?";

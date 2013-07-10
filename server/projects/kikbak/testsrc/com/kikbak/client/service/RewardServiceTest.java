@@ -14,8 +14,8 @@ import com.kikbak.dao.ReadWriteOfferDAO;
 import com.kikbak.dao.ReadWriteSharedDAO;
 import com.kikbak.dao.ReadWriteUser2FriendDAO;
 import com.kikbak.dao.ReadWriteUserDAO;
+import com.kikbak.jaxb.redeemcredit.CreditRedemptionType;
 import com.kikbak.jaxb.redeemgift.GiftRedemptionType;
-import com.kikbak.jaxb.redeemkikbak.KikbakRedemptionType;
 
 public class RewardServiceTest extends KikbakBaseTest{
 	
@@ -118,14 +118,14 @@ public class RewardServiceTest extends KikbakBaseTest{
 
 	@Test
 	public void testRegisterKikbakRedemption(){
-		KikbakRedemptionType krt = new KikbakRedemptionType();
+		CreditRedemptionType krt = new CreditRedemptionType();
 		krt.setLocationId(1);
 		krt.setVerificationCode("4343");
 		krt.setAmount(5);
 		krt.setId(1);
 		
 		try {
-			service.registerKikbakRedemption(1L, krt);
+			service.redeemCredit(1L, krt);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();

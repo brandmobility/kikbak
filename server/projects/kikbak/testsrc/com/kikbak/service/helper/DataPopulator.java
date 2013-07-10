@@ -57,12 +57,6 @@ public class DataPopulator {
 			Offer offer = new Offer();
 			offer.setBeginDate(new Date(now.getTime() - 999999999));
 			offer.setEndDate(new Date(now.getTime() + 999999999));
-			offer.setGiftName("gn");
-			offer.setGiftValue(12.21);
-			offer.setGiftNotificationText("notification");
-			offer.setKikbakName("kn");
-			offer.setKikbakValue(32.32);
-			offer.setKikbakNotificationText("notification");
 			offer.setName("name");
 			offer.setMerchantId(i + merchantBaseId);
 			rwOfferDao.makePersistent(offer);
@@ -100,7 +94,6 @@ public class DataPopulator {
 		for(int i = 0; i < count; i++ ){
 			Merchant merchant = new Merchant();
 			merchant.setDescription("desc");
-			merchant.setImageUrl("url");
 			merchant.setName("name");
 			merchant.setUrl("url");
 

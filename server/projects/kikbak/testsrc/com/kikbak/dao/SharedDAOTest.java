@@ -45,6 +45,7 @@ public class SharedDAOTest extends KikbakBaseTest{
 		shared.setLocationId(1234);
 		shared.setUserId(12342);
 		shared.setSharedDate(new Date());
+		shared.setType("email");
 		
 		rwDao.makePersistent(shared);
 		Shared s = roDao.findById(shared.getId());

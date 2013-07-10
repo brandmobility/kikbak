@@ -8,12 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-@class Kikbak;
+@class Credit;
 
-@interface KikbakService : NSObject
+@interface CreditService : NSObject
 
-+(Kikbak*)findKikbaktById:(NSNumber*)kikbakId;
-+(NSArray*)getKikbaks;
++(Credit*)findKikbaktById:(NSNumber*)creditId;
++(NSArray*)getCredits;
 +(void)deleteAll;
 
 @end

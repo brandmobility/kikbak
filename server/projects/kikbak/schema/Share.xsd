@@ -14,20 +14,21 @@
     
     <xsd:import namespace="com:kikbak:jaxb:statustype" schemaLocation="./StatusType.xsd" />
     
-    <xsd:complexType name="sharedType">
+    <xsd:complexType name="SharedType">
         <xsd:sequence>
             <xsd:element name="locationId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="merchantId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="offerId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="fbImageId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="caption" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="type" type="xsd:string" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
 
     <xsd:element name="ShareExperienceRequest">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="experience" type="kikbak:sharedType" minOccurs="1" maxOccurs="1"/> 
+                <xsd:element name="experience" type="kikbak:SharedType" minOccurs="1" maxOccurs="1"/> 
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>

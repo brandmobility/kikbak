@@ -80,6 +80,7 @@ CREATE TABLE `allocatedgift`
 (
     id BIGINT NOT NULL AUTO_INCREMENT,
     offer_id BIGINT NOT NULL,
+    gift_id BIGINT NOT NULL,
     user_id BIGINT NOT NULL,
     friend_user_id BIGINT NOT NULL,
     merchant_id BIGINT NOT NULL,
@@ -97,34 +98,87 @@ CREATE TABLE `merchant`
     name VARCHAR(64) NOT NULL,
     description VARCHAR(4096),
     url VARCHAR(256),
-    image_url VARCHAR(512),
     PRIMARY KEY (id)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+
+CREATE TABLE `gift`
+(
+    id BIGINT NOT NULL UNIQUE AUTO_INCREMENT,
+    offer_id BIGINT NOT NULL,
+    description VARCHAR(20) NOT NULL,
+    detailed_desc VARCHAR(40) NOT NULL,
+    value DOUBLE NOT NULL,
+    discount_type VARCHAR (16) NOT NULL,
+    redemption_location_type VARCHAR(16) NOT NULL,
+    validation_type VARCHAR(16) NOT NULL,
+    image_url VARCHAR(256) NOT NULL,
+    notification_text VARCHAR(200) NOT NULL,
+    PRIMARY KEY (id)
+)ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+
+CREATE TABLE `kikbak`
+(
+    id BIGINT NOT NULL UNIQUE AUTO_INCREMENT,
+    offer_id BIGINT NOT NULL,
+    description VARCHAR(20) NOT NULL,
+    detailed_desc VARCHAR(40) NOT NULL,
+    value DOUBLE NOT NULL,
+    reward_type VARCHAR (16) NOT NULL,
+    image_url VARCHAR(256) NOT NULL,
+    notification_text VARCHAR(200) NOT NULL,
+    PRIMARY KEY (id)
+)ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 CREATE TABLE `offer`
 (
     id BIGINT NOT NULL UNIQUE AUTO_INCREMENT,
     merchant_id BIGINT NOT NULL,
     name VARCHAR(64) NOT NULL,
-    kikbak_name VARCHAR(64) NOT NULL,
-    kikbak_desc VARCHAR(32) NOT NULL,
-    kikbak_optional_desc VARCHAR(64) NOT NULL,
-    kikbak_value DOUBLE NOT NULL,
-    kikbak_notification_text VARCHAR(200) NOT NULL,
-    gift_name VARCHAR(64) NOT NULL,
-    gift_desc VARCHAR(20) NOT NULL,
-    gift_optional_desc VARCHAR(40) NOT NULL,
-    gift_value DOUBLE NOT NULL,
-    gift_type VARCHAR (16) NULL,
-    gift_notification_text VARCHAR(200) NOT NULL,
     image_url VARCHAR(256) NOT NULL,
-    terms_of_service VARCHAR(2048) NOT NULL,
+    tos_url VARCHAR(2048) NOT NULL,
     begin_date DATETIME NOT NULL,
     end_date DATETIME NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+CREATE TABLE `barcode`
+(
+    id BIGINT NOT NULL UNIQUE AUTO_INCREMENT,
+    merchant_id BIGINT NOT NULL,
+    code VARCHAR(16) NOT NULL,
+    allocatedgift_id BIGINT,
+    association_date DATETIME NOT NULL,
+    begin_date DATETIME NOT NULL,
+    expiration_date DATETIME NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+create TABLE `claim`
+(
+    id BIGINT NOT NULL UNIQUE AUTO_INCREMENT,
+    user_id BIGINT NOT NULL,
+    kikbak_id BIGINT NOT NULL,
+    offer_id BIGINT NOT NULL,
+    phone_number VARCHAR(24) NOT NULL,
+    name VARCHAR(32) NOT NULL,
+    street VARCHAR(32) NOT NULL,
+    apt VARCHAR(8),
+    city VARCHAR(24) NOT NULL,
+    state VARCHAR(16) NOT NULL,
+    zipcode VARCHAR(6) NOT NULL,
+    request_date DATETIME NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+create TABLE `referralcode`
+(
+    id BIGINT NOT NULL UNIQUE AUTO_INCREMENT,
+    code VARCHAR(12) NOT NULL,
+    shared_id BIGINT NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 CREATE TABLE `shared`
 (
@@ -133,9 +187,11 @@ CREATE TABLE `shared`
     merchant_id BIGINT NOT NULL,
     location_id BIGINT NOT NULL,
     offer_id BIGINT NOT NULL,
-    fb_image_id BIGINT NOT NULL,
+    type VARCHAR(16) NOT NULL,
+    fb_image_id BIGINT,
+    image_url VARCHAR(256),
     shared_date DATETIME NOT NULL,
-    caption VARCHAR(4096),
+    caption VARCHAR(1024),
     PRIMARY KEY (id)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
@@ -193,11 +249,11 @@ CREATE INDEX last_failed_delivery_key USING BTREE on `devicetoken` (last_failed_
 CREATE INDEX facebook_id_key USING BTREE ON `friend` (facebook_id ASC);
 
 CREATE INDEX offer_id_key ON `allocatedgift` (offer_id ASC);
+CREATE INDEX gift_id_key ON `allocatedgift` (gift_id ASC);
 CREATE INDEX user_id_key ON `allocatedgift` (user_id ASC);
 CREATE INDEX friend_user_id_key ON `allocatedgift` (friend_user_id ASC);
 CREATE INDEX merchant_id_key ON `allocatedgift` (merchant_id ASC);
 CREATE INDEX shared_id_key on `allocatedgift` (shared_id ASC);
-
 
 CREATE INDEX date_range_key USING BTREE ON `credit` (begin_date ASC, end_date ASC);
 CREATE INDEX merchant_id_key ON `credit` (merchant_id ASC);
@@ -205,6 +261,18 @@ CREATE INDEX location_id_key ON `credit` (location_id ASC);
 CREATE INDEX offer_id_key ON `credit` (offer_id ASC);
 CREATE INDEX user_id_key ON `credit` (user_id ASC);
 
+CREATE INDEX offer_id_key ON `gift` (offer_id ASC);
+CREATE INDEX offer_id_key ON `kikbak` (offer_id ASC);
+
+CREATE INDEX code_key ON `barcode` (code ASC);
+CREATE INDEX merchant_id_ley ON `barcode` (merchant_id ASC);
+
+CREATE INDEX shared_id_key ON `referralcode` (shared_id ASC);
+CREATE INDEX code_key ON `referralcode` (code ASC);
+
+CREATE INDEX user_id_key ON `claim` (user_id ASC);
+CREATE INDEX offer_id_key ON `claim` (offer_id ASC);
+CREATE INDEX kikbak_id_key ON `claim` (kikbak_id ASC);
 
 CREATE INDEX merchant_id_key ON `location` (merchant_id ASC);
 CREATE INDEX geo_key ON `location` (latitude ASC, longitude ASC);

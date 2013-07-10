@@ -6,26 +6,26 @@
 //  Copyright (c) 2013 Ian Barile. All rights reserved.
 //
 
-#import "KikbakService.h"
+#import "CreditService.h"
 #import "AppDelegate.h"
-#import "Kikbak.h"
+#import "Credit.h"
 
-@implementation KikbakService
+@implementation CreditService
 
 
 
-+(Kikbak*)findKikbaktById:(NSNumber*)kikbakId{
++(Credit*)findKikbaktById:(NSNumber*)kikbakId{
     NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
     
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Kikbak" inManagedObjectContext:context];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Credit" inManagedObjectContext:context];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDescription];
     
     // Set example predicate and sort orderings...
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(kikbakId = %@)", kikbakId];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(creditId = %@)", kikbakId];
     [request setPredicate:predicate];
     
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"kikbakId" ascending:YES];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"creditId" ascending:YES];
     [request setSortDescriptors:@[sortDescriptor]];
     
     NSError *error;
@@ -44,14 +44,14 @@
     }
 }
 
-+(NSArray*)getKikbaks{
++(NSArray*)getCredits{
     NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
     
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Kikbak" inManagedObjectContext:context];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Credit" inManagedObjectContext:context];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDescription];
     
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"kikbakId" ascending:YES];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"creditId" ascending:YES];
     [request setSortDescriptors:@[sortDescriptor]];
     
     NSError *error;
@@ -67,9 +67,9 @@
 
 +(void)deleteAll{
     NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
-    NSArray* kikbaks = [self getKikbaks];
-    for(id kikbak in kikbaks){
-        [context deleteObject:kikbak];
+    NSArray* credits = [self getCredits];
+    for(id credit in credits){
+        [context deleteObject:credit];
     }
     
     NSError* error = nil;

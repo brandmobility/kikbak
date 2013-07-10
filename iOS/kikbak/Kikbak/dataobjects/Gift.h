@@ -2,7 +2,7 @@
 //  Gift.h
 //  Kikbak
 //
-//  Created by Ian Barile on 6/21/13.
+//  Created by Ian Barile on 7/10/13.
 //  Copyright (c) 2013 Ian Barile. All rights reserved.
 //
 
@@ -15,7 +15,7 @@
 
 @property (nonatomic, retain) NSString * caption;
 @property (nonatomic, retain) NSString * desc;
-@property (nonatomic, retain) NSString * descOptional;
+@property (nonatomic, retain) NSString * detailedDesc;
 @property (nonatomic, retain) NSNumber * fbFriendId;
 @property (nonatomic, retain) NSNumber * fbImageId;
 @property (nonatomic, retain) NSString * friendName;

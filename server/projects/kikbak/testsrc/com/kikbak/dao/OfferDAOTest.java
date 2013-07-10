@@ -46,13 +46,9 @@ public class OfferDAOTest extends KikbakBaseTest{
 		offer.setBeginDate(now);
 		offer.setEndDate(now);
 		offer.setMerchantId(1);
-		offer.setGiftName("gift");
-		offer.setGiftNotificationText("notification");
-		offer.setKikbakName("kname");
-		offer.setKikbakNotificationText("notification");
 		offer.setName("test");
-		offer.setGiftValue(3.25);
-		offer.setKikbakValue(2.25);
+		offer.setImageUrl("url");
+		offer.setTosUrl("tos");
 		
 		rwDao.makePersistent(offer);
 		
@@ -67,13 +63,9 @@ public class OfferDAOTest extends KikbakBaseTest{
 		Date now = new Date();
 		offer.setBeginDate(new Date(now.getTime() - 999999999));
 		offer.setEndDate(new Date(now.getTime() + 999999999));
-		offer.setGiftName("gn");
-		offer.setGiftValue(12.21);
-		offer.setGiftNotificationText("notification");
-		offer.setKikbakName("kn");
-		offer.setKikbakValue(32.32);
-		offer.setKikbakNotificationText("notification");
 		offer.setName("name");
+		offer.setImageUrl("url");
+		offer.setTosUrl("tos");
 		rwDao.makePersistent(offer);
 		
 		Collection<Offer> offers = roDao.listValidOffers();
