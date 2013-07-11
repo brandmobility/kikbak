@@ -5,9 +5,9 @@ import java.util.Collection;
 import com.kikbak.jaxb.devicetoken.DeviceTokenType;
 import com.kikbak.jaxb.friends.FriendType;
 import com.kikbak.jaxb.offer.ClientOfferType;
-import com.kikbak.jaxb.offer.UserLocationType;
 import com.kikbak.jaxb.register.UserIdType;
 import com.kikbak.jaxb.register.UserType;
+import com.kikbak.jaxb.userlocation.UserLocationType;
 
 public interface UserService {
 		

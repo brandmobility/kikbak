@@ -1,6 +1,7 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="com:kikbak:jaxb:offer"
     xmlns:kikbak="com:kikbak:jaxb:offer" 
     xmlns:st="com:kikbak:jaxb:statustype"
+    xmlns:ul="com:kikbak:jaxb:userlocation"
     xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
     jaxb:version="1.0">
 
@@ -13,18 +14,13 @@
     </xsd:annotation>
     
     <xsd:import namespace="com:kikbak:jaxb:statustype" schemaLocation="./StatusType.xsd" />
+    <xsd:import namespace="com:kikbak:jaxb:userlocation" schemaLocation="./UserLocation.xsd" />
 
-    <xsd:complexType name="UserLocationType">
-        <xsd:sequence>
-            <xsd:element name="longitude" type="xsd:double" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="latitude" type="xsd:double" minOccurs="1" maxOccurs="1"/>
-        </xsd:sequence>
-    </xsd:complexType>
     
     <xsd:element name="GetUserOffersRequest">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="userLocation" type="kikbak:UserLocationType" minOccurs="1" maxOccurs="1"/>
+                <xsd:element name="userLocation" type="ul:UserLocationType" minOccurs="1" maxOccurs="1"/>
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>

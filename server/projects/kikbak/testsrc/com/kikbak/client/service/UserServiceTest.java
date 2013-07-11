@@ -2,7 +2,6 @@ package com.kikbak.client.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,8 +22,6 @@ import com.kikbak.jaxb.admin.MerchantType;
 import com.kikbak.jaxb.admin.OfferType;
 import com.kikbak.jaxb.devicetoken.DeviceTokenType;
 import com.kikbak.jaxb.friends.FriendType;
-import com.kikbak.jaxb.offer.ClientOfferType;
-import com.kikbak.jaxb.offer.UserLocationType;
 import com.kikbak.jaxb.register.UserIdType;
 import com.kikbak.jaxb.register.UserType;
 

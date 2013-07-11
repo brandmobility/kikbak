@@ -43,9 +43,9 @@ import com.kikbak.jaxb.redeemcredit.CreditRedemptionResponseType;
 import com.kikbak.jaxb.redeemcredit.CreditRedemptionType;
 import com.kikbak.jaxb.redeemgift.GiftRedemptionType;
 import com.kikbak.jaxb.rewards.AvailableCreditType;
-import com.kikbak.jaxb.rewards.ClientLocationType;
 import com.kikbak.jaxb.rewards.ClientMerchantType;
 import com.kikbak.jaxb.rewards.GiftType;
+import com.kikbak.jaxb.userlocation.UserLocationType;
 import com.kikbak.push.service.ApsNotifier;
 
 @Service
@@ -266,7 +266,7 @@ public class RewardServiceImpl implements RewardService{
 		
 		Collection<Location> locations = roLocationDao.listByMerchant(merchant.getId());
 		for(Location location: locations){
-			ClientLocationType clt = new ClientLocationType();
+			UserLocationType clt = new UserLocationType();
 			clt.setLocationId(location.getId());
 			clt.setLatitude(location.getLatitude());
 			clt.setLongitude(location.getLongitude());
