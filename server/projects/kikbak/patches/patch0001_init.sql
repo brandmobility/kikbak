@@ -172,14 +172,6 @@ create TABLE `claim`
     PRIMARY KEY (id)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-create TABLE `referralcode`
-(
-    id BIGINT NOT NULL UNIQUE AUTO_INCREMENT,
-    code VARCHAR(12) NOT NULL,
-    shared_id BIGINT NOT NULL,
-    PRIMARY KEY (id)
-) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-
 CREATE TABLE `shared`
 (
     id BIGINT NOT NULL UNIQUE AUTO_INCREMENT,
@@ -191,6 +183,7 @@ CREATE TABLE `shared`
     fb_image_id BIGINT,
     image_url VARCHAR(256),
     shared_date DATETIME NOT NULL,
+    referral_code VARCHAR(12),
     caption VARCHAR(1024),
     PRIMARY KEY (id)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
@@ -266,9 +259,6 @@ CREATE INDEX offer_id_key ON `kikbak` (offer_id ASC);
 
 CREATE INDEX code_key ON `barcode` (code ASC);
 CREATE INDEX merchant_id_ley ON `barcode` (merchant_id ASC);
-
-CREATE INDEX shared_id_key ON `referralcode` (shared_id ASC);
-CREATE INDEX code_key ON `referralcode` (code ASC);
 
 CREATE INDEX user_id_key ON `claim` (user_id ASC);
 CREATE INDEX offer_id_key ON `claim` (offer_id ASC);
