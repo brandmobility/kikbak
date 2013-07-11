@@ -24,6 +24,7 @@ public class KikbakDAOTest extends KikbakBaseTest{
         kikbak.setNotificationText("notification");
         kikbak.setOfferId(30);
         kikbak.setRewardType("claim");
+        kikbak.setValidationType("pos");
         kikbak.setValue(32.42);
         
         rwKikbak.makePersistent(kikbak);

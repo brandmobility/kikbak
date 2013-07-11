@@ -72,6 +72,8 @@ public class CreditManager {
 		credit.setOfferId(offerId);
 		credit.setUserId(userId);
 		credit.setValue(kikbak.getValue());
+		credit.setRewardType(kikbak.getRewardType());
+		credit.setKikbakId(kikbak.getId());
 		
 		Transaction txn = new Transaction();
 		txn.setAmount(credit.getValue());

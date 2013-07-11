@@ -44,13 +44,14 @@ public class CreditDAOTest extends KikbakBaseTest {
 	}
 	
 	@Test
-	public void testWriteKikbak(){
+	public void testWriteCredit(){
 		Credit credit = new Credit();
 		credit.setBeginDate(new Date());
 		credit.setEndDate(new Date());
 		credit.setLocationId(1234);
 		credit.setMerchantId(1234);
 		credit.setOfferId(1234);
+		credit.setRewardType("credit");
 		
 		rwDao.makePersistent(credit);
 		

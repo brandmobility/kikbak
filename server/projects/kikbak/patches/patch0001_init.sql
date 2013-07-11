@@ -70,6 +70,8 @@ CREATE TABLE `credit`
 	location_id BIGINT NOT NULL,
 	user_id BIGINT NOT NULL,
 	offer_id BIGINT NOT NULL,
+	kikbak_id BIGINT NOT NULL,
+	reward_type VARCHAR (16) NOT NULL,
 	begin_date DATETIME NOT NULL,
 	end_date DATETIME NOT NULL,
 	value DOUBLE NOT NULL,
@@ -113,6 +115,7 @@ CREATE TABLE `gift`
     redemption_location_type VARCHAR(16) NOT NULL,
     validation_type VARCHAR(16) NOT NULL,
     image_url VARCHAR(256) NOT NULL,
+    default_give_image_url VARCHAR(256) NOT NULL,
     notification_text VARCHAR(200) NOT NULL,
     PRIMARY KEY (id)
 )ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
@@ -126,6 +129,7 @@ CREATE TABLE `kikbak`
     detailed_desc VARCHAR(40) NOT NULL,
     value DOUBLE NOT NULL,
     reward_type VARCHAR (16) NOT NULL,
+    validation_type VARCHAR(16) NOT NULL,
     image_url VARCHAR(256) NOT NULL,
     notification_text VARCHAR(200) NOT NULL,
     PRIMARY KEY (id)
@@ -253,6 +257,7 @@ CREATE INDEX merchant_id_key ON `credit` (merchant_id ASC);
 CREATE INDEX location_id_key ON `credit` (location_id ASC);
 CREATE INDEX offer_id_key ON `credit` (offer_id ASC);
 CREATE INDEX user_id_key ON `credit` (user_id ASC);
+CREATE INDEX kikbak_id_key ON `credit` (kikbak_id ASC);
 
 CREATE INDEX offer_id_key ON `gift` (offer_id ASC);
 CREATE INDEX offer_id_key ON `kikbak` (offer_id ASC);

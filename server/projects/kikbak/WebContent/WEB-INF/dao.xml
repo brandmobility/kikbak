@@ -127,14 +127,6 @@
         <property name="sessionFactory" ref="rwSessionFactory"/>
     </bean>
     
-    <bean id="ReadOnlyReferralCodeDAO" class="com.kikbak.dao.impl.ReadOnlyReferralCodeDAOImpl">
-        <property name="sessionFactory" ref="roSessionFactory"/>
-    </bean>
-    
-    <bean id="ReadWriteReferralCodeDAO" class="com.kikbak.dao.impl.ReadWriteReferralCodeDAOImpl">
-        <property name="sessionFactory" ref="rwSessionFactory"/>
-    </bean>
-
     <bean id="ReadOnlySharedDAO" class="com.kikbak.dao.impl.ReadOnlySharedDAOImpl">
         <property name="sessionFactory" ref="roSessionFactory"/>
     </bean>

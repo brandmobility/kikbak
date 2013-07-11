@@ -23,10 +23,11 @@ public class GiftDAOTest extends KikbakBaseTest{
         gift.setDiscountType("amount");
         gift.setImageUrl("image");
         gift.setNotificationText("notification");
-        gift.setOfferId(12);
+        gift.setOfferId(133);
         gift.setRedemptionLocationType("store");
         gift.setValidationType("qr");
         gift.setValue(12.3);
+        gift.setDefaultGiveImageUrl("image");
         
         rwGift.makePersistent(gift);
         
