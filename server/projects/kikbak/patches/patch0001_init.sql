@@ -151,9 +151,13 @@ CREATE TABLE `barcode`
 (
     id BIGINT NOT NULL UNIQUE AUTO_INCREMENT,
     merchant_id BIGINT NOT NULL,
+    offer_id BIGINT NOT NULL,
+    gift_id BIGINT NOT NULL,
+    user_id BIGINT,
+    allocated_gift_id BIGINT,
     code VARCHAR(16) NOT NULL,
-    allocatedgift_id BIGINT,
-    association_date DATETIME NOT NULL,
+    value DOUBLE NOT NULL,
+    association_date DATETIME,
     begin_date DATETIME NOT NULL,
     expiration_date DATETIME NOT NULL,
     PRIMARY KEY (id)
@@ -263,7 +267,11 @@ CREATE INDEX offer_id_key ON `gift` (offer_id ASC);
 CREATE INDEX offer_id_key ON `kikbak` (offer_id ASC);
 
 CREATE INDEX code_key ON `barcode` (code ASC);
-CREATE INDEX merchant_id_ley ON `barcode` (merchant_id ASC);
+CREATE INDEX offer_key ON `barcode` (offer_id ASC);
+CREATE INDEX user_key ON `barcode` (user_id ASC);
+CREATE INDEX merchant_gift_id_Key ON `barcode` (merchant_id ASC, gift_id ASC);
+CREATE INDEX gift_allocated_gift_key ON `barcode` (gift_id ASC, allocated_gift_id ASC, begin_date ASC, expiration_date ASC);
+create unique index compound_index on `barcode` (merchant_id ASC, code);
 
 CREATE INDEX user_id_key ON `claim` (user_id ASC);
 CREATE INDEX offer_id_key ON `claim` (offer_id ASC);

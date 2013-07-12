@@ -172,7 +172,7 @@
     }
     
     self.retailerName.text = self.offer.merchantName;
-    if ([self.offer.giftType compare:@"percentage"] == NSOrderedSame) {
+    if ([self.offer.giftDiscountType compare:@"percentage"] == NSOrderedSame) {
         self.giveDiscount.text = [NSString stringWithFormat:NSLocalizedString(@"precentage format", nil), self.offer.giftValue];
     }
     else{

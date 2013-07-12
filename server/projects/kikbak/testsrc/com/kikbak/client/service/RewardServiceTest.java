@@ -1,6 +1,6 @@
 package com.kikbak.client.service;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,4 +131,27 @@ public class RewardServiceTest extends KikbakBaseTest{
 			fail();
 		}
 	}
+	
+	@Test
+	public void testAllocateBarcode() {
+	    try {
+            String code = service.getBarcode(52L, 4L);
+            assertTrue(code != null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+	}
+	
+	@Test
+    public void testAllocateBarcodeOnePerUser() {
+        try {
+            String code = service.getBarcode(52L, 4L);
+            String code2 = service.getBarcode(52L, 4L);
+            assertTrue(code.equals(code2));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
 }

@@ -18,4 +18,10 @@ public class ReadOnlyBarcodeDAOImpl extends ReadOnlyGenericDAOImpl<Barcode, Long
         return findByCriteria(Restrictions.eq("code", code));
     }
 
+    @Override
+    @Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
+    public Barcode findByUserIdAndAllocatedGift(Long userId, Long allocatedGiftId) {
+        return findByCriteria(Restrictions.and(Restrictions.eq("userId", userId), Restrictions.eq("allocatedGiftId", allocatedGiftId)));
+    }
+
 }

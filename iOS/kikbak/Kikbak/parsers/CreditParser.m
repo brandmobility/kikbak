@@ -47,6 +47,10 @@
     credit.name = [dict objectForKey:@"name"];
     credit.value = [dict objectForKey:@"value"];
     credit.redeeemedGiftsCount = [dict objectForKey:@"redeeemedGiftsCount"];
+    credit.tosUrl = [dict objectForKey:@"tosUrl"];
+    credit.validationType = [dict objectForKey:@"validationType"];
+    credit.rewardType = [dict objectForKey:@"rewardType"];
+    credit.imageUrl = [dict objectForKey:@"imageUrl"];
     
     
     NSError *error = nil;

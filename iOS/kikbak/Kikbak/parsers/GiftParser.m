@@ -50,7 +50,12 @@
     gift.fbImageId = [dict objectForKey:@"fbImageId"];
     gift.friendName = [dict objectForKey:@"friendName"];
     gift.caption = [dict objectForKey:@"caption"];
-    gift.type = [dict objectForKey:@"type"];
+    gift.discountType = [dict objectForKey:@"discountType"];
+    gift.validationType = [dict objectForKey:@"validationType"];
+    gift.redemptionLocationType = [dict objectForKey:@"redemptionLocationType"];
+    gift.tosUrl = [dict objectForKey:@"tosUrl"];
+    gift.defaultGiveImageUrl = [dict objectForKey:@"defaultGiveImageUrl"];
+    gift.imageUrl = [dict objectForKey:@"defaultGiveImageUrl"];
     gift.value = [dict objectForKey:@"value"];
     
     NSError *error = nil;

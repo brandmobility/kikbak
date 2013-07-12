@@ -25,34 +25,26 @@
         </xsd:complexType>
     </xsd:element>
     
-        <xsd:complexType name="OfferLocationType">
-        <xsd:sequence>
-            <xsd:element name="locationId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="latitude" type="xsd:double" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="longitude" type="xsd:double" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="phoneNumber" type="xsd:long" minOccurs="1" maxOccurs="1"/>
-        </xsd:sequence>
-    </xsd:complexType>
-    
     
     <xsd:complexType name="ClientOfferType">
         <xsd:sequence>
-            <xsd:element name="id" type="xsd:long" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="id" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="merchantName" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="giftDesc" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="giftDetailedDesc" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="giftValue" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+            <!-- Discount Type, either "amount" ($50 off) or "percentage" (20% off) --> 
             <xsd:element name="giftDiscountType" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="kikbakDesc" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="kikbakDetailedDesc" type="xsd:string" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="kikbakValue" type="xsd:double" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="kikbakValue" type="xsd:double" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="merchantId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="merchantUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="offerImageUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="giveImageUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="tosUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="locations" type="kikbak:OfferLocationType" minOccurs="1" maxOccurs="unbounded"/>
+            <xsd:element name="locations" type="ul:UserLocationType" minOccurs="1" maxOccurs="unbounded"/>
             <xsd:element name="beginDate" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="endDate" type="xsd:long" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>

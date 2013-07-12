@@ -16,6 +16,8 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.oned.UPCAWriter;
 import com.kikbak.client.service.RedemptionException;
 import com.kikbak.client.service.RewardService;
+import com.kikbak.jaxb.claim.ClaimCreditRequest;
+import com.kikbak.jaxb.claim.ClaimCreditResponse;
 import com.kikbak.jaxb.redeemcredit.RedeemCreditRequest;
 import com.kikbak.jaxb.redeemcredit.RedeemCreditResponse;
 import com.kikbak.jaxb.redeemgift.RedeemGiftRequest;
@@ -96,9 +98,9 @@ public class RewardController {
 		return response;
 	}
     
-    @RequestMapping(value="/generateBarcode/{userId}/{code}/{height}/{width}/", method = RequestMethod.GET)
+    @RequestMapping(value="/generateBarcode/{userId}/{allocatedGiftId}/{height}/{width}/", method = RequestMethod.GET)
     public void generateBarcode(@PathVariable("userId") Long userId,
-            @PathVariable("code") String code, @PathVariable("height") Integer height,
+            @PathVariable("allocatedGiftId") String allocatedGiftId, @PathVariable("height") Integer height,
             @PathVariable("width") Integer width, final HttpServletResponse response) {
         try {
             BitMatrix result = new UPCAWriter().encode("485963095124", BarcodeFormat.UPC_A, width, height);
@@ -108,5 +110,26 @@ public class RewardController {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             logger.error("cannot generate barcode", e);
         }
+    }
+    
+    @RequestMapping(value="/claim/{userid}/", method = RequestMethod.POST)
+    public ClaimCreditResponse claimCredit(@PathVariable("userId") Long userId, 
+            @RequestBody ClaimCreditRequest request, 
+            final HttpServletResponse httpResponse){
+     
+        ClaimCreditResponse response = new ClaimCreditResponse();
+        StatusType status = new StatusType();
+        status.setCode(StatusCode.OK.ordinal());
+        response.setStatus(status);
+        try {
+            service.claimCredit(userId, request.getClaim());
+        }
+        catch(Exception e) {
+            httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            status.setCode(StatusCode.ERROR.ordinal());
+            logger.error(e, e);
+        }
+        
+        return response;
     }
 }

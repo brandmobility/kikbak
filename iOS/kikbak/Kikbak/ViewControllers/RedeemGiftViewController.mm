@@ -340,7 +340,7 @@
 //    }
     
     self.value = self.gift.value;
-    self.giftType = self.gift.type;
+    self.giftType = self.gift.discountType;
     
     if(self.gift != nil){
         RedeemGiftRequest *request = [[RedeemGiftRequest alloc]init];

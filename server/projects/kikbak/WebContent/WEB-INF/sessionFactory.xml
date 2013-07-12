@@ -24,7 +24,7 @@
                 <prop key="hibernate.cache.use_second_level_cache">false</prop>
                 <prop key="hibernate.order_updates">true</prop>
                 <prop key="hibernate.connection.zeroDateTimeBehavior">convertToNull</prop>
-                <prop key="hibernate.generate_statistics">true</prop>
+                <prop key="hibernate.generate_statistics">false</prop>
             </props>
 
         </property>
@@ -50,7 +50,7 @@
                 <prop key="hibernate.cache.use_second_level_cache">false</prop>
                 <prop key="hibernate.order_updates">true</prop>
                 <prop key="hibernate.connection.zeroDateTimeBehavior">convertToNull</prop>
-                <prop key="hibernate.generate_statistics">true</prop>
+                <prop key="hibernate.generate_statistics">false</prop>
             </props>
         </property>
     </bean>
