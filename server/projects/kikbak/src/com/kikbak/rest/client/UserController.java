@@ -1,7 +1,11 @@
 package com.kikbak.rest.client;
 
+import java.io.IOException;
+
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,11 +30,36 @@ import com.kikbak.rest.StatusCode;
 @RequestMapping("/user")
 public class UserController {
 	
-	private static final Logger logger = Logger.getLogger(UserController.class);
-	
 	@Autowired
-	UserService service;
+	private UserService service;
 
+	@Autowired
+	private PropertiesConfiguration config;
+    
+    static final String REFERRAL_CODE_KEY = "rc";
+	
+	private static final String WEB_CLIENT_LOGIN_URL = "web.client.login.page";
+	
+	private static final int COOKIE_EXPIRE_TIME = 10 * 365 * 24 * 60 * 60;
+
+    private static final Logger logger = Logger.getLogger(UserController.class);
+	
+	@RequestMapping(value = "/claim/{referralCode}", method = RequestMethod.GET)
+	public void claimGiftLogin(@PathVariable("referralCode") String referralCode, HttpServletResponse httpResponse) {
+        Cookie cookie = new Cookie(REFERRAL_CODE_KEY, referralCode);
+        cookie.setSecure(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(COOKIE_EXPIRE_TIME);
+    
+        httpResponse.addCookie(cookie);
+        try {
+            String url = config.getString(WEB_CLIENT_LOGIN_URL);
+            httpResponse.sendRedirect(url);
+        } catch (IOException e) {
+            logger.error("failed to redirect user", e); 
+        } 
+	}
+	
 	@RequestMapping(value = "/register/fb/",  method = RequestMethod.POST)
 	public RegisterUserResponse registerFacebookUser(@RequestBody RegisterUserRequest request, final HttpServletResponse httpResponse){
 		RegisterUserResponse response = new RegisterUserResponse();

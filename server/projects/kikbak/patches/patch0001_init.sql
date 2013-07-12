@@ -142,6 +142,7 @@ CREATE TABLE `offer`
     name VARCHAR(64) NOT NULL,
     image_url VARCHAR(256) NOT NULL,
     tos_url VARCHAR(2048) NOT NULL,
+    redeem_limit INT DEFAULT 0,
     begin_date DATETIME NOT NULL,
     end_date DATETIME NOT NULL,
     PRIMARY KEY (id)
@@ -187,8 +188,9 @@ CREATE TABLE `shared`
     fb_image_id BIGINT,
     image_url VARCHAR(256),
     shared_date DATETIME NOT NULL,
-    referral_code VARCHAR(12),
+    referral_code VARCHAR(12) NOT NULL,
     caption VARCHAR(1024),
+    redeem_count INT DEFAULT 0,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
@@ -284,7 +286,7 @@ CREATE INDEX merchant_id_key USING BTREE ON `shared` (merchant_id ASC);
 CREATE INDEX location_id_key USING BTREE ON `shared` (location_id ASC);
 CREATE INDEX offer_id_key USING BTREE ON `shared` (offer_id ASC);
 CREATE INDEX user_id_offer_id_key USING BTREE ON `shared` (user_id ASC, offer_id ASC);
-
+CREATE INDEX referral_code_key USING BTREE ON `shared` (referral_code);
 
 CREATE INDEX user_id_key ON `transaction` (user_id ASC);
 CREATE INDEX offer_id_key ON `transaction` (offer_id ASC);

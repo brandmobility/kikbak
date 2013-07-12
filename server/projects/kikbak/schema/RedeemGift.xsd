@@ -30,11 +30,20 @@
                 </xsd:sequence>
             </xsd:complexType>
     </xsd:element>
+
+    <xsd:simpleType name="RedeemGiftStatus">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="OK"/>
+            <xsd:enumeration value="LIMIT_REACH"/>
+            <xsd:enumeration value="INVALID_CODE"/>
+        </xsd:restriction>
+    </xsd:simpleType>
     
     <xsd:element name="RedeemGiftResponse">
         <xsd:complexType>
             <xsd:sequence>
                 <xsd:element name="authorizationCode" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+                <xsd:element name="redeemGiftStatus" type="kikbak:RedeemGiftStatus" minOccurs="1" maxOccurs="1"/>
                 <xsd:element name="status" type="st:StatusType" minOccurs="1" maxOccurs="1"/> 
             </xsd:sequence>
         </xsd:complexType>
