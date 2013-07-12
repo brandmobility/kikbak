@@ -43,13 +43,13 @@ public class Nearest {
   public double getLongitude() {
     return mNearestLocation.longitude;
   }
-  
+
   public long getPhoneNumber() {
     return mNearestLocation.phoneNumber;
   }
 
-//  public OfferLocationType getLocation() {
-//    return mNearestLocation;
-//  }
+  // public OfferLocationType getLocation() {
+  // return mNearestLocation;
+  // }
 
 }

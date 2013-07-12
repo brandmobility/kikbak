@@ -67,8 +67,12 @@ public class RewardAdapter extends BaseAdapter {
 
     helper.setMerchantName(reward.mMerchant.name);
 
-    Uri url = Uri.parse(reward.mMerchant.imageUrl);
-    Picasso.with(mContext).load(url).into(helper.mImage);
+    if (false && reward.hasFacebookImage()) {
+      // TODO: handle loading image from facebook
+    } else {
+      Uri url = Uri.parse(reward.getImageUrl());
+      Picasso.with(mContext).load(url).into(helper.mImage);
+    }
 
     helper.setGiftValue(reward.getGiftValueString());
     helper.setCreditValue(reward.getCreditValueString());

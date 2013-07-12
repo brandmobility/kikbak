@@ -16,7 +16,7 @@ import com.facebook.SessionState;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ShareExperienceRequest;
 import com.referredlabs.kikbak.data.ShareExperienceResponse;
-import com.referredlabs.kikbak.data.sharedType;
+import com.referredlabs.kikbak.data.SharedType;
 import com.referredlabs.kikbak.fb.Fb;
 import com.referredlabs.kikbak.http.Http;
 import com.referredlabs.kikbak.utils.Register;
@@ -158,12 +158,13 @@ public class PublishFragment extends DialogFragment {
       final long userId = Register.getInstance().getUserId();
       Bundle args = getArguments();
       ShareExperienceRequest req = new ShareExperienceRequest();
-      req.experience = new sharedType();
+      req.experience = new SharedType();
       req.experience.caption = args.getString(ARG_COMMENT);
       req.experience.fbImageId = imageId;
       req.experience.locationId = args.getLong(ARG_LOCATION_ID);
       req.experience.merchantId = args.getLong(ARG_MERCHANT_ID);
       req.experience.offerId = args.getLong(ARG_OFFER_ID);
+      req.experience.type = SharedType.SHARE_MODE_FACEBOOK;
 
       String uri = Http.getUri(ShareExperienceRequest.PATH + userId);
       try {
