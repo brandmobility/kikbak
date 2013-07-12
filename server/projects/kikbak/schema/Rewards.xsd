@@ -30,11 +30,14 @@
         <xsd:sequence>
             <xsd:element name="id" type="xsd:long" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="merchant" type="kikbak:ClientMerchantType" minOccurs="0" maxOccurs="1"/>
-            <xsd:element name="desc" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="desc" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="detailedDesc" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="value" type="xsd:double" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="redeeemedGiftsCount" type="xsd:int" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="terms" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="tosUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="validationType" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="rewardType" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="imageUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
     
@@ -43,11 +46,15 @@
             <xsd:element name="id" type="xsd:long" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="merchant" type="kikbak:ClientMerchantType" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="friendUserId" type="xsd:long" minOccurs="0" maxOccurs="1"/>
-            <xsd:element name="desc" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="desc" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="detailedDesc" type="xsd:string" minOccurs="0" maxOccurs="1"/>
-            <xsd:element name="value" type="xsd:double" minOccurs="0" maxOccurs="1"/>
-            <xsd:element name="type" type="xsd:string" minOccurs="0" maxOccurs="1"/>
-            <xsd:element name="terms" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="value" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="discountType" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="validationType" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="redemptionLocationType" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="imageUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="defaultGiveImageUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="tosUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="fbImageId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="fbFriendId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="friendName" type="xsd:string" minOccurs="1" maxOccurs="1"/>
