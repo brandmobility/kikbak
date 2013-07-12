@@ -114,13 +114,21 @@ public class RewardServiceImpl implements RewardService{
 			Merchant merchant = roMerchantDao.findById(ag.getMerchantId());
 			ClientMerchantType cmt = fillClientMerchantType(merchant);
 			gt.setMerchant(cmt);
+			gt.setFriendUserId(ag.getFriendUserId());
 			
 			Gift gift = roGiftDao.findById(ag.getGiftId());
 			gt.setDesc(gift.getDescription());
 			gt.setDetailedDesc(gift.getDetailedDesc());
 			gt.setValue(gift.getValue());
-			gt.setType(gift.getDiscountType());
-			gt.setFriendUserId(ag.getFriendUserId());
+			gt.setDiscountType(gift.getDiscountType());
+			gt.setValidationType(gift.getValidationType());
+			gt.setRedemptionLocationType(gift.getRedemptionLocationType());
+			gt.setImageUrl(gift.getDefaultGiveImageUrl());
+			gt.setDefaultGiveImageUrl(gift.getDefaultGiveImageUrl());
+			
+			Offer offer = roOfferDao.findById(gift.getOfferId());
+			gt.setTosUrl(offer.getTosUrl());
+			
 			User friend = roUserDao.findById(ag.getFriendUserId());
 			gt.setFbFriendId(friend.getFacebookId());
 			gt.setFriendName(friend.getFirstName() + " " + friend.getLastName());
@@ -150,8 +158,13 @@ public class RewardServiceImpl implements RewardService{
 			ac.setMerchant(cmt);
 			
 			Kikbak kikbak = roKikbakDAO.findByOfferId(credit.getOfferId());
+			Offer offer = roOfferDao.findById(credit.getOfferId());
 			ac.setDesc(kikbak.getDescription());
 			ac.setDetailedDesc(kikbak.getDetailedDesc());
+			ac.setRewardType(kikbak.getRewardType());
+			ac.setValidationType(kikbak.getValidationType());
+			ac.setTosUrl(offer.getTosUrl());
+			ac.setImageUrl(kikbak.getImageUrl());
 			ac.setRedeeemedGiftsCount(roTxnDao.countOfGiftsRedeemedByUserByMerchant(userId, credit.getMerchantId()));
 			
 			acts.add(ac);

@@ -42,15 +42,15 @@
             <xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="giftDesc" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="giftDetailedDesc" type="xsd:string" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="giftValue" type="xsd:double" minOccurs="0" maxOccurs="1"/>
-            <xsd:element name="giftType" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="giftValue" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="giftDiscountType" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="kikbakDesc" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="kikbakDetailedDesc" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="kikbakValue" type="xsd:double" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="merchantId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="merchantUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="offerImageUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="giveImageUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="merchantUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="tosUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="locations" type="kikbak:OfferLocationType" minOccurs="1" maxOccurs="unbounded"/>
             <xsd:element name="beginDate" type="xsd:long" minOccurs="1" maxOccurs="1"/>

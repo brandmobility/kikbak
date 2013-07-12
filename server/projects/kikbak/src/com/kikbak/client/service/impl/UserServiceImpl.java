@@ -162,7 +162,7 @@ public class UserServiceImpl implements UserService {
 			ot.setGiftDesc(gift.getDescription());
 			ot.setGiftDetailedDesc(gift.getDetailedDesc());
 			ot.setGiftValue(gift.getValue());
-			ot.setGiftType(gift.getDiscountType());
+			ot.setGiftDiscountType(gift.getDiscountType());
 			ot.setKikbakDesc(kikbak.getDescription());
 			ot.setKikbakDetailedDesc(kikbak.getDetailedDesc());
 			ot.setKikbakValue(kikbak.getValue());
