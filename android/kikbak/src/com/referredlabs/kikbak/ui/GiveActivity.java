@@ -4,7 +4,6 @@ package com.referredlabs.kikbak.ui;
 import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
@@ -18,15 +17,10 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ClientOfferType;
-import com.referredlabs.kikbak.data.ShareExperienceRequest;
-import com.referredlabs.kikbak.data.ShareExperienceResponse;
-import com.referredlabs.kikbak.data.SharedType;
-import com.referredlabs.kikbak.http.Http;
 import com.referredlabs.kikbak.service.LocationFinder;
 import com.referredlabs.kikbak.ui.PublishFragment.ShareStatusListener;
 import com.referredlabs.kikbak.ui.ShareOptionsFragment.OnShareMethodSelectedListener;
 import com.referredlabs.kikbak.utils.Nearest;
-import com.referredlabs.kikbak.utils.Register;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -203,30 +197,12 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
 
   @Override
   public void onSendViaEmail() {
-    Toast.makeText(this, "Not implemented, just sharing", Toast.LENGTH_SHORT).show();
-    final ShareExperienceRequest req = new ShareExperienceRequest();
-    req.experience = new SharedType();
-    req.experience.caption = mComment.getText().toString();
-    req.experience.fbImageId = 123131231;
-    req.experience.locationId = mOffer.locations[0].locationId;
-    req.experience.merchantId = mOffer.merchantId;
-    req.experience.offerId = mOffer.id;
-    req.experience.type = SharedType.SHARE_MODE_EMAIL;
-    final long userId = Register.getInstance().getUserId();
-
-    class X extends AsyncTask<Void, Void, Void> {
-      @Override
-      protected Void doInBackground(Void... params) {
-        String uri = Http.getUri(ShareExperienceRequest.PATH + userId);
-        try {
-          Http.execute(uri, req, ShareExperienceResponse.class);
-        } catch (IOException e) {
-          android.util.Log.d("MMM", "Exception: " + e);
-        }
-        return null;
-      }
-    }
-    new X().execute();
+    Intent intent = new Intent(this, ShareViaEmailActivity.class);
+    intent.putExtra(ShareViaEmailActivity.ARG_COMMENT, mComment.getText().toString());
+    intent.putExtra(ShareViaEmailActivity.ARG_OFFER_ID, mOffer.id);
+    intent.putExtra(ShareViaEmailActivity.ARG_MERCHANT_ID, mOffer.merchantId);
+    intent.putExtra(ShareViaEmailActivity.ARG_LOCATION_ID, mOffer.locations[0].locationId); // FIXME
+    startActivity(intent);
   }
 
   @Override

@@ -44,6 +44,10 @@
     <string name="hint_add_comment">Add comment</string>
     <string name="take_photo">Take a photo</string>
 
+    <!-- Share via email -->
+    <string name="send_gift">Send</string>
+    <string name="addressbook_empty">"You don't have any contacts with email"</string>
+    
     <!-- terms and condtionds -->
     <string name="terms_title">Terms and conditions for offer</string>
     <string name="terms_example">You own all of the content and information you post on Facebook, and
