@@ -3,9 +3,9 @@ package com.referredlabs.kikbak.ui;
 
 import android.os.AsyncTask;
 
+import com.referredlabs.kikbak.data.AvailableCreditType;
 import com.referredlabs.kikbak.data.ClientMerchantType;
 import com.referredlabs.kikbak.data.GiftType;
-import com.referredlabs.kikbak.data.KikbakType;
 import com.referredlabs.kikbak.data.RewardsRequest;
 import com.referredlabs.kikbak.data.RewardsResponse;
 import com.referredlabs.kikbak.http.Http;
@@ -36,7 +36,7 @@ public class RefreshRewardTask extends AsyncTask<Void, Void, Void> {
       String uri = Http.getUri(RewardsRequest.PATH + mUserId);
       RewardsRequest req = new RewardsRequest();
       RewardsResponse resp = Http.execute(uri, req, RewardsResponse.class);
-      mRewards = getRewards(resp.gifts, resp.kikbaks);
+      mRewards = getRewards(resp.gifts, resp.credits);
 
     } catch (Exception e) {
       android.util.Log.d("MMM", "Exception while fetching a redeem list:" + e);
@@ -44,7 +44,7 @@ public class RefreshRewardTask extends AsyncTask<Void, Void, Void> {
     return null;
   }
 
-  private List<Reward> getRewards(GiftType[] gifts, KikbakType[] kikbaks) {
+  private List<Reward> getRewards(GiftType[] gifts, AvailableCreditType[] credits) {
     HashMap<Long, Reward> map = new HashMap<Long, Reward>();
 
     for (GiftType gift : gifts) {
@@ -56,15 +56,15 @@ public class RefreshRewardTask extends AsyncTask<Void, Void, Void> {
       }
     }
 
-    for (KikbakType kikbak : kikbaks) {
-      ClientMerchantType merchant = kikbak.merchant;
+    for (AvailableCreditType credit : credits) {
+      ClientMerchantType merchant = credit.merchant;
       if (merchant != null) {
         Reward entry = map.get(merchant.id);
         if (entry == null) {
           entry = new Reward(merchant);
           map.put(merchant.id, entry);
         }
-        entry.kikbak = kikbak;
+        entry.credit = credit;
       }
     }
 

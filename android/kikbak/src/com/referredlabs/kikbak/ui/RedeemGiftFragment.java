@@ -22,8 +22,6 @@ import com.referredlabs.kikbak.data.GiftRedemptionType;
 import com.referredlabs.kikbak.data.GiftType;
 import com.referredlabs.kikbak.data.RedeemGiftRequest;
 import com.referredlabs.kikbak.data.RedeemGiftResponse;
-import com.referredlabs.kikbak.data.RedeemKikbakRequest;
-import com.referredlabs.kikbak.data.RedeemKikbakResponse;
 import com.referredlabs.kikbak.data.StatusType;
 import com.referredlabs.kikbak.fb.Fb;
 import com.referredlabs.kikbak.http.Http;
@@ -62,7 +60,6 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
 
     root.findViewById(R.id.scan).setOnClickListener(this);
     root.findViewById(R.id.terms).setOnClickListener(this);
-    root.findViewById(R.id.learn_more).setOnClickListener(this);
 
     mName = (TextView) root.findViewById(R.id.name);
     mImage = (ImageView) root.findViewById(R.id.image);
@@ -88,9 +85,13 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
   }
 
   private void setupViews() {
-    mName.setText(mGift.name);
-    Uri uri = Uri.parse(mGift.merchant.imageUrl); // switch to facebook image id if present
-    Picasso.with(getActivity()).load(uri).into(mImage);
+    mName.setText(mGift.merchant.name);
+    if (false && mGift.fbImageId > 0) {
+      // TODO: show image from facebook
+    } else {
+      Uri uri = Uri.parse(mGift.imageUrl);
+      Picasso.with(getActivity()).load(uri).into(mImage);
+    }
 
     Uri friendUri = Fb.getFriendPhotoUri(mGift.fbFriendId);
     Picasso.with(getActivity()).load(friendUri).into(mFriendPhoto);
@@ -111,9 +112,6 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
       case R.id.terms:
         onTermsClicked();
         break;
-      case R.id.learn_more:
-        onLearnMoreClicked();
-        break;
     }
   }
 
@@ -126,15 +124,8 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
 
   private void onTermsClicked() {
     String title = getString(R.string.terms_title);
-    String msg = mGift.terms;
-    NoteDialog dialog = NoteDialog.newInstance(title, msg);
-    dialog.show(getFragmentManager(), null);
-  }
-
-  private void onLearnMoreClicked() {
-    String title = getString(R.string.learn_more_title);
-    String msg = getString(R.string.terms_example);
-    NoteDialog dialog = NoteDialog.newInstance(title, msg);
+    String url = mGift.tosUrl;
+    NoteDialog dialog = NoteDialog.newInstance(title, url);
     dialog.show(getFragmentManager(), null);
   }
 

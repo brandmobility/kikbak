@@ -48,24 +48,15 @@
         android:layout_below="@id/reward_desc"
         android:layout_centerHorizontal="true"
         android:text="@string/give_get_optional_note" />
-    
-    <TextView
-        android:textSize="12sp"
-        android:id="@+id/terms"
-        android:layout_marginTop="4dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/reward_desc_opt"
-        android:layout_alignParentLeft="true"
-        android:text="@string/terms" />
 
     <TextView
-        android:textSize="12sp"
-        android:id="@+id/learn_more"
+        android:id="@+id/terms"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/terms"
-        android:layout_alignParentRight="true"
-        android:text="@string/learn_more" />
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/reward_desc_opt"
+        android:layout_marginTop="4dp"
+        android:text="@string/terms"
+        android:textSize="12sp" />
 
 </RelativeLayout>

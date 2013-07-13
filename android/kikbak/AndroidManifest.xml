@@ -15,7 +15,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    
+    <uses-permission android:name="android.permission.READ_CONTACTS" /> <!-- To get contacts with email to send gift -->
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature
@@ -40,6 +40,9 @@
         </activity>
         <activity
             android:name="com.referredlabs.kikbak.ui.GiveActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.referredlabs.kikbak.ui.ShareViaEmailActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.referredlabs.kikbak.ui.RedeemGiftActivity"

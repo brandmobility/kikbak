@@ -1,5 +1,7 @@
 package com.kikbak.client.service.impl;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,9 @@ import com.kikbak.jaxb.share.SharedType;
 @Service
 public class SharedExperienceServiceImpl implements SharedExperienceService {
 
-	@Autowired
+	private static final int RANDOM_SECRET_LENGTH = 6;
+
+    @Autowired
 	ReadOnlySharedDAO roSharedDao;
 	
 	@Autowired
@@ -30,9 +34,11 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
 	
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public void registerSharing(final Long userId, SharedType experience) {
+	public String registerSharing(final Long userId, SharedType experience) {
 		//persist share
-		persistExperience(userId, experience);
+	    String referralCode = generateReferralCode(userId, experience);
+		persistExperience(userId, experience, referralCode);
+		return referralCode;
 		
 		//TODO: De we award for sharing
 //		//award the latest friend who shared the award with you.
@@ -63,7 +69,19 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
 //		}
 	}
 
-	protected void persistExperience(final Long userId, SharedType experience){
+	private String generateReferralCode(Long userId, SharedType experience) {
+        String randomStr = new BigInteger(30, new SecureRandom()).toString(Character.MAX_RADIX);
+        if (randomStr.length() < RANDOM_SECRET_LENGTH) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < RANDOM_SECRET_LENGTH - randomStr.length(); i++) {
+                sb.append("0");
+            }
+            randomStr = sb.toString() + randomStr;
+        }
+        return randomStr;
+    }
+
+    protected void persistExperience(final Long userId, SharedType experience, String referralCode){
 		Shared shared = new Shared();
 		shared.setLocationId(experience.getLocationId());
 		shared.setMerchantId(experience.getMerchantId());
@@ -73,6 +91,7 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
 		shared.setCaption(experience.getCaption());
 		shared.setType(experience.getType());
 		shared.setSharedDate(new Date());
+		shared.setReferralCode(referralCode);
 		
 		rwSharedDao.makePersistent(shared);
 	}

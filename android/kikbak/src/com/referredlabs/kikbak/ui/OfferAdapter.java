@@ -59,18 +59,18 @@ public class OfferAdapter extends BaseAdapter {
     }
 
     ClientOfferType offer = getItem(position);
-    Uri url = Uri.parse(offer.merchantImageUrl);
+    Uri url = Uri.parse(offer.offerImageUrl);
 
     Picasso.with(mContext).load(url).into(helper.mImage);
     helper.setName(offer.merchantName);
-    helper.setGetValue(offer.giftType);
+    helper.setGetValue(offer.giftDiscountType);
 
     helper.setLink(offer.merchantUrl);
     Nearest nearest = mNearestMap.get(offer);
     helper.setLocation(nearest);
     helper.setPhone(Long.toString(nearest.getPhoneNumber()));
 
-    String text = DataUtils.getRibbonGiveString(offer.giftType, offer.giftValue);
+    String text = DataUtils.getRibbonGiveString(offer.giftDiscountType, offer.giftValue);
     helper.setGiveValue(text);
 
     text = DataUtils.getRibbonGetString(offer.kikbakValue);

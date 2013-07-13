@@ -17,7 +17,7 @@ public class ReadOnlySharedDAOImpl extends ReadOnlyGenericDAOImpl<Shared, Long> 
 			"and offer.id=shared.offer_id and offer.id in ( select offer_id from shared where user_id in " +
 			"(select user_id from user2friend where facebook_friend_id=?) group by offer_id) " +
 			"and user_id in (select user_id from user2friend where facebook_friend_id=?)";
-	
+
 	@Override
 	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
 	public Collection<Shared> listByUserId(Long userId) {
@@ -44,5 +44,11 @@ public class ReadOnlySharedDAOImpl extends ReadOnlyGenericDAOImpl<Shared, Long> 
 		Collection<Shared> shared = session.createSQLQuery(find_gifts).addEntity(Shared.class).setLong(0, userId).setLong(1, userId).list();
 		return shared;
 	}
+
+    @Override
+    @Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
+    public Collection<Shared> listAvailableForGiftingByReferralCode(String referralCode) {
+        return listByCriteria(Restrictions.eq("referralCode", referralCode));
+    }
 
 }

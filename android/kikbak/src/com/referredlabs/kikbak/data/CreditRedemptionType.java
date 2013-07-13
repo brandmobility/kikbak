@@ -1,7 +1,7 @@
 
 package com.referredlabs.kikbak.data;
 
-public class KikbakRedemptionType {
+public class CreditRedemptionType {
   public long id;
   public long locationId;
   public double amount;

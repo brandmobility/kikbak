@@ -11,4 +11,10 @@
         android:showAsAction="ifRoom"
         android:title="@string/action_login"/>
 
+    <item
+        android:id="@+id/action_clear_registration"
+        android:orderInCategory="101"
+        android:showAsAction="never"
+        android:title="clear registration"/>
+
 </menu>

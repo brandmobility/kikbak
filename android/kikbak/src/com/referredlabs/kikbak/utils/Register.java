@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
+import com.facebook.Session;
 import com.referredlabs.kikbak.Kikbak;
 
 public class Register {
@@ -40,7 +41,7 @@ public class Register {
   public long getUserId() {
     return mUserId;
   }
-  
+
   public void registerUser(long userId) {
     Editor editor = mPref.edit();
     editor.putBoolean(KEY_IS_REGISTERED, true);
@@ -48,5 +49,22 @@ public class Register {
     editor.apply();
     mUserId = userId;
     mIsRegistered = true;
+  }
+
+  public void clear() {
+    Editor editor = mPref.edit();
+    editor.remove(KEY_IS_REGISTERED);
+    editor.remove(KEY_USER_ID);
+    editor.apply();
+    mUserId = 0;
+    mIsRegistered = false;
+    clearFbSession();
+  }
+
+  private void clearFbSession() {
+    Session s = Session.openActiveSessionFromCache(Kikbak.getInstance());
+    if (s != null) {
+      s.closeAndClearTokenInformation();
+    }
   }
 }

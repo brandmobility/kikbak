@@ -37,7 +37,9 @@
         <xsd:complexType>
            <xsd:sequence>
                <xsd:element name="status" type="st:StatusType" minOccurs="1" maxOccurs="1"/>
+               <xsd:element name="referrerCode" type="xsd:string" minOccurs="1" maxOccurs="1"/>
            </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
+  
 </xsd:schema>

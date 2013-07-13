@@ -3,6 +3,8 @@ package com.referredlabs.kikbak.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.location.Location;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,30 +12,35 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.referredlabs.kikbak.R;
-import com.referredlabs.kikbak.data.KikbakRedemptionType;
-import com.referredlabs.kikbak.data.KikbakType;
-import com.referredlabs.kikbak.data.RedeemKikbakRequest;
-import com.referredlabs.kikbak.data.RedeemKikbakResponse;
+import com.referredlabs.kikbak.data.AvailableCreditType;
+import com.referredlabs.kikbak.data.CreditRedemptionType;
+import com.referredlabs.kikbak.data.RedeemCreditRequest;
+import com.referredlabs.kikbak.data.RedeemCreditResponse;
 import com.referredlabs.kikbak.data.StatusType;
 import com.referredlabs.kikbak.http.Http;
+import com.referredlabs.kikbak.service.LocationFinder;
 import com.referredlabs.kikbak.ui.BarcodeScannerFragment.OnBarcodeScanningListener;
 import com.referredlabs.kikbak.ui.ChangeAmountDialog.OnCreditChangedListener;
 import com.referredlabs.kikbak.ui.ConfirmationDialog.ConfirmationListener;
+import com.referredlabs.kikbak.utils.Nearest;
 import com.referredlabs.kikbak.utils.Register;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 
 public class RedeemCreditFragment extends Fragment implements OnClickListener,
     OnCreditChangedListener, ConfirmationListener, OnBarcodeScanningListener {
 
-  private KikbakType mKikbak;
+  private AvailableCreditType mCredit;
   private double mCreditToUse;
   private TextView mName;
+  private ImageView mImage;
   private TextView mRedeemCount;
   private TextView mCreditValue;
 
@@ -41,8 +48,8 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
   public void onAttach(Activity activity) {
     super.onAttach(activity);
     String data = activity.getIntent().getStringExtra(RedeemCreditActivity.EXTRA_KIKBAK);
-    mKikbak = new Gson().fromJson(data, KikbakType.class);
-    mCreditToUse = mKikbak.value;
+    mCredit = new Gson().fromJson(data, AvailableCreditType.class);
+    mCreditToUse = mCredit.value;
   }
 
   @Override
@@ -53,17 +60,29 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
     root.findViewById(R.id.change).setOnClickListener(this);
 
     mName = (TextView) root.findViewById(R.id.name);
+    mImage = (ImageView) root.findViewById(R.id.image);
     mCreditValue = (TextView) root.findViewById(R.id.credit_value);
     mRedeemCount = (TextView) root.findViewById(R.id.redeem_count);
+
+    Location loc = LocationFinder.getLastLocation();
+
+    IconBarHelper ih = new IconBarHelper(root, new IconBarActionHandler(getActivity()));
+    Nearest location = new Nearest(mCredit.merchant.locations);
+    location.determineNearestLocation(loc.getLatitude(), loc.getLongitude());
+    ih.setLink(mCredit.merchant.url);
+    ih.setLocation(location);
+    ih.setPhone(Long.toString(location.getPhoneNumber()));
 
     setupViews();
     return root;
   }
 
   private void setupViews() {
-    mName.setText(mKikbak.merchant.name);
-    setCreditAmount(mKikbak.value);
-    setRedeemCount(mKikbak.redeeemedGiftsCount);
+    mName.setText(mCredit.merchant.name);
+    Uri uri = Uri.parse(mCredit.imageUrl);
+    Picasso.with(getActivity()).load(uri).into(mImage);
+    setCreditAmount(mCredit.value);
+    setRedeemCount(mCredit.redeeemedGiftsCount);
   }
 
   private void setCreditAmount(double value) {
@@ -96,7 +115,7 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
   }
 
   private void onChangeAmountClicked() {
-    ChangeAmountDialog dialog = ChangeAmountDialog.newInstance(mKikbak.value);
+    ChangeAmountDialog dialog = ChangeAmountDialog.newInstance(mCredit.value);
     dialog.setTargetFragment(this, 0);
     dialog.show(getFragmentManager(), "");
   }
@@ -126,13 +145,13 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
 
   @Override
   public void onBarcodeScanned(String code) {
-    RedeemKikbakRequest req = new RedeemKikbakRequest();
-    req.kikbak = new KikbakRedemptionType();
-    req.kikbak.id = mKikbak.id;
-    req.kikbak.locationId = mKikbak.merchant.locations[0].locationId; //TODO: location
-    req.kikbak.amount = mCreditToUse;
-    req.kikbak.verificationCode = code;
-    req.kikbak.verificationCode = code.substring(0, Math.min(8, code.length()));
+    RedeemCreditRequest req = new RedeemCreditRequest();
+    req.credit = new CreditRedemptionType();
+    req.credit.id = mCredit.id;
+    req.credit.locationId = mCredit.merchant.locations[0].locationId; // TODO: location
+    req.credit.amount = mCreditToUse;
+    req.credit.verificationCode = code;
+    req.credit.verificationCode = code.substring(0, Math.min(8, code.length()));
     long userId = Register.getInstance().getUserId();
     RequestTask task = new RequestTask(userId);
     task.execute(req);
@@ -144,7 +163,7 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
 
   }
 
-  private class RequestTask extends AsyncTask<RedeemKikbakRequest, Void, RedeemKikbakResponse> {
+  private class RequestTask extends AsyncTask<RedeemCreditRequest, Void, RedeemCreditResponse> {
 
     private long mUserId;
 
@@ -153,11 +172,11 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
     }
 
     @Override
-    protected RedeemKikbakResponse doInBackground(RedeemKikbakRequest... params) {
+    protected RedeemCreditResponse doInBackground(RedeemCreditRequest... params) {
       try {
-        RedeemKikbakRequest req = params[0];
-        String uri = Http.getUri(RedeemKikbakRequest.PATH + mUserId);
-        RedeemKikbakResponse resp = Http.execute(uri, req, RedeemKikbakResponse.class);
+        RedeemCreditRequest req = params[0];
+        String uri = Http.getUri(RedeemCreditRequest.PATH + mUserId);
+        RedeemCreditResponse resp = Http.execute(uri, req, RedeemCreditResponse.class);
         return resp;
       } catch (IOException e) {
         android.util.Log.d("MMM", "exception:" + e);
@@ -166,7 +185,7 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
     }
 
     @Override
-    protected void onPostExecute(RedeemKikbakResponse result) {
+    protected void onPostExecute(RedeemCreditResponse result) {
       if (result == null || result.status.code != StatusType.OK) {
         Toast.makeText(getActivity(), "failed to report to kikbak", Toast.LENGTH_SHORT).show();
         return;

@@ -6,17 +6,17 @@ public class ClientOfferType {
   public String merchantName;
   public String name;
   public String giftDesc;
-  public String giftDescOptional;
+  public String giftDetailedDesc;
   public double giftValue; // optional
-  public String giftType;
+  public String giftDiscountType;
   public String kikbakDesc;
-  public String kikbakDescOptional;
+  public String kikbakDetailedDesc;
   public double kikbakValue; // optional
   public long merchantId;
-  public String merchantImageUrl;
   public String merchantUrl;
-  public String imageUrl;
-  public String termsOfService;
+  public String offerImageUrl;
+  public String giveImageUrl;
+  public String tosUrl;
   public OfferLocationType[] locations;
   public long beginDate;
   public long endDate;
