@@ -20,14 +20,15 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
-import com.facebook.Session;
 import com.google.gson.Gson;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.AvailableCreditType;
 import com.referredlabs.kikbak.data.ClientOfferType;
 import com.referredlabs.kikbak.data.GiftType;
+import com.referredlabs.kikbak.gcm.GcmHelper;
 import com.referredlabs.kikbak.service.LocationFinder;
 import com.referredlabs.kikbak.service.LocationFinder.LocationFinderListener;
 import com.referredlabs.kikbak.ui.OfferListFragment.OnOfferClickedListener;
@@ -58,7 +59,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
       return;
     }
     setContentView(R.layout.activity_main);
-
+    GcmHelper.getInstance().registerIfNeeded();
     mLocationFinder = new LocationFinder(this);
     setupViews();
   }
@@ -127,6 +128,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
       case R.id.action_clear_registration:
         Register.getInstance().clear();
         finish();
+        return true;
+
+      case R.id.action_gcm:
+        actionGcm();
         return true;
     }
     return super.onOptionsItemSelected(item);
@@ -237,6 +242,16 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     OfferListFragment frag = mSectionsPagerAdapter.getOfferFragment();
     if (frag != null)
       frag.setUserLocation(location);
+  }
+
+  private void actionGcm() {
+    GcmHelper helper = GcmHelper.getInstance();
+    String regId = helper.getRegistrationId();
+    if (regId != null) {
+      Toast.makeText(this, regId, Toast.LENGTH_LONG).show();
+    } else {
+      Toast.makeText(this, "Not yet registered!", Toast.LENGTH_SHORT).show();
+    }
   }
 
   // ------------------------------------------------------
