@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Date;
 
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,12 @@ import com.kikbak.jaxb.share.SharedType;
 @Service
 public class SharedExperienceServiceImpl implements SharedExperienceService {
 
-	private static final int RANDOM_SECRET_LENGTH = 6;
+	private static final int DEFAULT_RANDOM_SECRET_LENGTH = 6;
+
+    private static final String RANDOM_SECRET_LENGTH = "gift.redeem.code.length";
+
+    @Autowired
+    private PropertiesConfiguration config;
 
     @Autowired
     @Qualifier("ReadOnlySharedDAO")
@@ -74,9 +80,10 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
 
 	private String generateReferralCode(Long userId, SharedType experience) {
         String randomStr = new BigInteger(30, new SecureRandom()).toString(Character.MAX_RADIX);
-        if (randomStr.length() < RANDOM_SECRET_LENGTH) {
+        int maxLength = config.getInt(RANDOM_SECRET_LENGTH, DEFAULT_RANDOM_SECRET_LENGTH);
+        if (randomStr.length() < maxLength) {
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < RANDOM_SECRET_LENGTH - randomStr.length(); i++) {
+            for (int i = 0; i < maxLength - randomStr.length(); i++) {
                 sb.append("0");
             }
             randomStr = sb.toString() + randomStr;
