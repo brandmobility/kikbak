@@ -43,7 +43,13 @@ public class CreditManager {
 	}
 	
 	protected void updateCreditAvailable(Credit credit, final Long offerId, final Long merchantId, final Long locationId){
-		Kikbak kikbak = roKikbakDao.findByOfferId(offerId);
+        Offer offer = roOfferDao.findById(offerId);
+		if (credit.getRedeemCount() + 1 > offer.getRedeemLimit()) {
+		    // exceed limit, no transaction and credit update
+		    return;
+		}
+	    
+	    Kikbak kikbak = roKikbakDao.findByOfferId(offerId);
 		credit.setValue(kikbak.getValue() + credit.getValue());
 		
 		Transaction txn = new Transaction();
@@ -74,6 +80,7 @@ public class CreditManager {
 		credit.setValue(kikbak.getValue());
 		credit.setRewardType(kikbak.getRewardType());
 		credit.setKikbakId(kikbak.getId());
+		credit.setRedeemCount(1);
 		
 		Transaction txn = new Transaction();
 		txn.setAmount(credit.getValue());

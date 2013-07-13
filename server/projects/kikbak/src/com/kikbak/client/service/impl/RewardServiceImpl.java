@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -91,9 +92,11 @@ public class RewardServiceImpl implements RewardService{
     ReadWriteTransactionDAO rwTxnDao;
 
     @Autowired
+    @Qualifier("ReadOnlySharedDAO")
     ReadOnlySharedDAO roSharedDao;
 
     @Autowired
+    @Qualifier("ReadWriteSharedDAO")
     ReadWriteSharedDAO rwSharedDao;
 
     @Autowired
@@ -178,20 +181,15 @@ public class RewardServiceImpl implements RewardService{
 
     rwGiftDao.makePersistent(gift);
 
-    Shared shared = rwSharedDao.findById(gift.getSharedId());
+    Shared shared = roSharedDao.findById(gift.getSharedId());
     if (shared == null) {
         throw new RedemptionException("Invalid verifcation code");
     }
-    shared.setRedeemCount(shared.getRedeemCount() + 1);
     Offer offer = roOfferDao.findById(gift.getOfferId());
     if (offer == null) {
         throw new RedemptionException("Invalid verifcation code");
     }
-
-    if (offer.getRedeemLimit() < shared.getRedeemCount()) {
-        throw new RateLimitException("The item reaches its redeem limit");
-    }
-
+    
     CreditManager km = new CreditManager(roOfferDao, roKikbakDAO, roCreditDao, rwKikbakDao, rwTxnDao);
     km.manageCredit(giftType.getFriendUserId(), gift.getOfferId(), gift.getMerchantId(), giftType.getLocationId());
 
@@ -269,9 +267,6 @@ public class RewardServiceImpl implements RewardService{
                 Date now = new Date();
                 if (now.before(offer.getBeginDate()) || now.after(offer.getEndDate())) {
                     status = ClaimStatusType.EXPIRED;
-                    continue;
-                } else if (offer.getRedeemLimit() <= shared.getRedeemCount()) {
-                    status = ClaimStatusType.LIMIT_REACH;
                     continue;
                 } else {
                     Allocatedgift ag = createAllocateOffer(userId, shared, offer);

@@ -75,6 +75,7 @@ CREATE TABLE `credit`
 	begin_date DATETIME NOT NULL,
 	end_date DATETIME NOT NULL,
 	value DOUBLE NOT NULL,
+    redeem_count INT DEFAULT 0,
 	PRIMARY KEY (id)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
@@ -190,7 +191,6 @@ CREATE TABLE `shared`
     shared_date DATETIME NOT NULL,
     referral_code VARCHAR(12) NOT NULL,
     caption VARCHAR(1024),
-    redeem_count INT DEFAULT 0,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 

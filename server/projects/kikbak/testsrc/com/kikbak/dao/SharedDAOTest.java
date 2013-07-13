@@ -6,6 +6,7 @@ import java.util.Date;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.kikbak.KikbakBaseTest;
 import com.kikbak.dto.Shared;
@@ -13,9 +14,11 @@ import com.kikbak.dto.Shared;
 public class SharedDAOTest extends KikbakBaseTest{
 
 	@Autowired
+    @Qualifier("ReadOnlySharedDAO")
 	ReadOnlySharedDAO roDao;
 	
 	@Autowired
+    @Qualifier("ReadWriteSharedDAO")
 	ReadWriteSharedDAO rwDao;
 	
 	@Test

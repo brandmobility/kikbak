@@ -5,6 +5,7 @@ import java.security.SecureRandom;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,9 +24,11 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
 	private static final int RANDOM_SECRET_LENGTH = 6;
 
     @Autowired
+    @Qualifier("ReadOnlySharedDAO")
 	ReadOnlySharedDAO roSharedDao;
 	
 	@Autowired
+	@Qualifier("ReadWriteSharedDAO")
 	ReadWriteSharedDAO rwSharedDao;
 	
 	

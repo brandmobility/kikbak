@@ -6,6 +6,7 @@ import java.util.Collection;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.kikbak.KikbakBaseTest;
 import com.kikbak.dao.ReadOnlySharedDAO;
@@ -18,6 +19,7 @@ public class SharedExperienceServiceTest extends KikbakBaseTest{
 	SharedExperienceService service;
 	
 	@Autowired
+    @Qualifier("ReadOnlySharedDAO")
 	ReadOnlySharedDAO roSharedDao;
 	
 	@Test
