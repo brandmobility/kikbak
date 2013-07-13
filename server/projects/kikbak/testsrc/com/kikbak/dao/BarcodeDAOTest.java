@@ -20,12 +20,15 @@ public class BarcodeDAOTest extends KikbakBaseTest {
     @Test
     public void testBarcodeRW(){
         Barcode barcode = new Barcode();
-        barcode.setAllocatedgiftId(12L);
+        barcode.setAllocatedGiftId(12L);
         barcode.setAssociationDate(new Date());
         barcode.setCode("1232");
         barcode.setExpirationDate(new Date());
         barcode.setBeginDate(new Date());
         barcode.setMerchantId(12L);
+        barcode.setOfferId(13);
+        barcode.setGiftId(13);
+        barcode.setValue(13.43);
         
         rwBarcode.makePersistent(barcode);
         

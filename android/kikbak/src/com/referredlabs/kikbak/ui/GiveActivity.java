@@ -4,7 +4,6 @@ package com.referredlabs.kikbak.ui;
 import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
@@ -18,15 +17,10 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ClientOfferType;
-import com.referredlabs.kikbak.data.ShareExperienceRequest;
-import com.referredlabs.kikbak.data.ShareExperienceResponse;
-import com.referredlabs.kikbak.data.sharedType;
-import com.referredlabs.kikbak.http.Http;
 import com.referredlabs.kikbak.service.LocationFinder;
 import com.referredlabs.kikbak.ui.PublishFragment.ShareStatusListener;
 import com.referredlabs.kikbak.ui.ShareOptionsFragment.OnShareMethodSelectedListener;
 import com.referredlabs.kikbak.utils.Nearest;
-import com.referredlabs.kikbak.utils.Register;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -60,20 +54,19 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
 
     findViewById(R.id.give).setOnClickListener(this);
     findViewById(R.id.terms).setOnClickListener(this);
-    findViewById(R.id.learn_more).setOnClickListener(this);
     String data = getIntent().getStringExtra("data");
     mOffer = new Gson().fromJson(data, ClientOfferType.class);
     setupViews();
   }
 
   private void setupViews() {
-    Uri uri = Uri.parse(mOffer.imageUrl);
+    Uri uri = Uri.parse(mOffer.giveImageUrl);
     Picasso.with(this).load(uri).into(mImage);
     ((TextView) findViewById(R.id.name)).setText(mOffer.merchantName);
     ((TextView) findViewById(R.id.gift_desc)).setText(mOffer.giftDesc);
-    ((TextView) findViewById(R.id.gift_desc_opt)).setText(mOffer.giftDescOptional);
+    ((TextView) findViewById(R.id.gift_desc_opt)).setText(mOffer.giftDetailedDesc);
     ((TextView) findViewById(R.id.reward_desc)).setText(mOffer.kikbakDesc);
-    ((TextView) findViewById(R.id.reward_desc_opt)).setText(mOffer.kikbakDescOptional);
+    ((TextView) findViewById(R.id.reward_desc_opt)).setText(mOffer.kikbakDetailedDesc);
 
     IconBarHelper iconBar = new IconBarHelper(findViewById(R.id.icon_bar),
         new IconBarActionHandler(this));
@@ -101,10 +94,6 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
 
       case R.id.terms:
         onTermsClicked();
-        break;
-
-      case R.id.learn_more:
-        onLearnMoreClicked();
         break;
     }
   }
@@ -157,15 +146,8 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
 
   protected void onTermsClicked() {
     String title = getString(R.string.terms_title);
-    String msg = mOffer.termsOfService;
-    NoteDialog dialog = NoteDialog.newInstance(title, msg);
-    dialog.show(getSupportFragmentManager(), null);
-  }
-
-  protected void onLearnMoreClicked() {
-    String title = getString(R.string.learn_more_title);
-    String msg = getString(R.string.terms_example);
-    NoteDialog dialog = NoteDialog.newInstance(title, msg);
+    String url = mOffer.tosUrl;
+    NoteDialog dialog = NoteDialog.newInstance(title, url);
     dialog.show(getSupportFragmentManager(), null);
   }
 
@@ -215,29 +197,12 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
 
   @Override
   public void onSendViaEmail() {
-    Toast.makeText(this, "Not implemented, just sharing", Toast.LENGTH_SHORT).show();
-    final ShareExperienceRequest req = new ShareExperienceRequest();
-    req.experience = new sharedType();
-    req.experience.caption = mComment.getText().toString();
-    req.experience.fbImageId = 123131231;
-    req.experience.locationId = mOffer.locations[0].locationId;
-    req.experience.merchantId = mOffer.merchantId;
-    req.experience.offerId = mOffer.id;
-    final long userId = Register.getInstance().getUserId();
-
-    class X extends AsyncTask<Void, Void, Void> {
-      @Override
-      protected Void doInBackground(Void... params) {
-        String uri = Http.getUri(ShareExperienceRequest.PATH + userId);
-        try {
-          Http.execute(uri, req, ShareExperienceResponse.class);
-        } catch (IOException e) {
-          android.util.Log.d("MMM", "Exception: " + e);
-        }
-        return null;
-      }
-    }
-    new X().execute();
+    Intent intent = new Intent(this, ShareViaEmailActivity.class);
+    intent.putExtra(ShareViaEmailActivity.ARG_COMMENT, mComment.getText().toString());
+    intent.putExtra(ShareViaEmailActivity.ARG_OFFER_ID, mOffer.id);
+    intent.putExtra(ShareViaEmailActivity.ARG_MERCHANT_ID, mOffer.merchantId);
+    intent.putExtra(ShareViaEmailActivity.ARG_LOCATION_ID, mOffer.locations[0].locationId); // FIXME
+    startActivity(intent);
   }
 
   @Override

@@ -37,7 +37,6 @@ import com.kikbak.dto.User2friend;
 import com.kikbak.jaxb.devicetoken.DeviceTokenType;
 import com.kikbak.jaxb.friends.FriendType;
 import com.kikbak.jaxb.offer.ClientOfferType;
-import com.kikbak.jaxb.offer.OfferLocationType;
 import com.kikbak.jaxb.register.UserIdType;
 import com.kikbak.jaxb.register.UserType;
 import com.kikbak.jaxb.userlocation.UserLocationType;
@@ -176,12 +175,12 @@ public class UserServiceImpl implements UserService {
 			
 			Collection<Location> locations = roLocationDao.listByMerchant(offer.getMerchantId());
 			for( Location location: locations){
-				OfferLocationType otl = new OfferLocationType();
-				otl.setLocationId(location.getId());
-				otl.setLatitude(location.getLatitude());
-				otl.setLongitude(location.getLongitude());
-				otl.setPhoneNumber(location.getPhoneNumber());
-				ot.getLocations().add(otl);
+				UserLocationType utl = new UserLocationType();
+				utl.setLocationId(location.getId());
+				utl.setLatitude(location.getLatitude());
+				utl.setLongitude(location.getLongitude());
+				utl.setPhoneNumber(location.getPhoneNumber());
+				ot.getLocations().add(utl);
 			}
 			
 			ots.add(ot);

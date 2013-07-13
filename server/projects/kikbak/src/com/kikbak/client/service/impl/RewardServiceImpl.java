@@ -20,6 +20,7 @@ import com.kikbak.client.service.RewardException;
 import com.kikbak.client.service.RewardService;
 import com.kikbak.client.service.impl.types.TransactionType;
 import com.kikbak.dao.ReadOnlyAllocatedGiftDAO;
+import com.kikbak.dao.ReadOnlyBarcodeDAO;
 import com.kikbak.dao.ReadOnlyCreditDAO;
 import com.kikbak.dao.ReadOnlyDeviceTokenDAO;
 import com.kikbak.dao.ReadOnlyGiftDAO;
@@ -31,10 +32,14 @@ import com.kikbak.dao.ReadOnlySharedDAO;
 import com.kikbak.dao.ReadOnlyTransactionDAO;
 import com.kikbak.dao.ReadOnlyUserDAO;
 import com.kikbak.dao.ReadWriteAllocatedGiftDAO;
+import com.kikbak.dao.ReadWriteBarcodeDao;
+import com.kikbak.dao.ReadWriteClaimDAO;
 import com.kikbak.dao.ReadWriteCreditDAO;
 import com.kikbak.dao.ReadWriteSharedDAO;
 import com.kikbak.dao.ReadWriteTransactionDAO;
 import com.kikbak.dto.Allocatedgift;
+import com.kikbak.dto.Barcode;
+import com.kikbak.dto.Claim;
 import com.kikbak.dto.Credit;
 import com.kikbak.dto.Devicetoken;
 import com.kikbak.dto.Gift;
@@ -45,6 +50,7 @@ import com.kikbak.dto.Offer;
 import com.kikbak.dto.Shared;
 import com.kikbak.dto.Transaction;
 import com.kikbak.dto.User;
+import com.kikbak.jaxb.claim.ClaimType;
 import com.kikbak.jaxb.redeemcredit.CreditRedemptionResponseType;
 import com.kikbak.jaxb.redeemcredit.CreditRedemptionType;
 import com.kikbak.jaxb.redeemgift.GiftRedemptionType;
@@ -107,6 +113,15 @@ public class RewardServiceImpl implements RewardService{
 
     @Autowired
     ReadOnlyDeviceTokenDAO roDeviceToken;
+    
+    @Autowired
+    ReadWriteClaimDAO rwClaimDao;
+    
+    @Autowired
+    ReadOnlyBarcodeDAO roBarcodeDao;
+    
+    @Autowired
+    ReadWriteBarcodeDao rwBarcodeDao;
 
 
     private final SecureRandom random = new SecureRandom();
@@ -370,5 +385,43 @@ public class RewardServiceImpl implements RewardService{
             cmt.getLocations().add(clt);
         }
         return cmt;
+    }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void claimCredit(Long userId, ClaimType ct) throws Exception {
+        Credit credit = roCreditDao.findById(ct.getCreditId());
+        Claim claim = new Claim();
+        claim.setKikbakId(credit.getKikbakId());
+        claim.setOfferId(credit.getOfferId());
+        claim.setApt(ct.getApt());
+        claim.setCity(ct.getCity());
+        claim.setState(ct.getState());
+        claim.setPhoneNumber(ct.getPhoneNumber());
+        claim.setZipcode(ct.getZipcode());
+        claim.setUserId(userId);
+        
+        rwClaimDao.makePersistent(claim);
+    }
+
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public String getBarcode(Long userId, Long allocatedGiftId) throws Exception {
+
+        Barcode barcode = roBarcodeDao.findByUserIdAndAllocatedGift(userId, allocatedGiftId);
+        boolean generateBarcode = true;
+        Date now = new Date();
+        if( barcode != null) {
+            Long hrs =  (((now.getTime() - barcode.getAssociationDate().getTime()) / (1000*60*60)) % 24);
+            if(hrs < 72) {
+                generateBarcode = false;
+            }
+        }
+        
+        if(generateBarcode) {
+            Allocatedgift ag = roAllocatedGiftDao.findById(allocatedGiftId);
+            return rwBarcodeDao.allocateBarcode(userId, ag.getGiftId(), allocatedGiftId).getCode();
+        }
+        return barcode.getCode();
     }
 }

@@ -7,5 +7,6 @@ public interface ReadOnlyBarcodeDAO {
 
     public Barcode findById(Long id);
     public Barcode findByCode(String code);
+    public Barcode findByUserIdAndAllocatedGift(final Long userId, final Long allocatedGiftId);
     
 }

@@ -22,11 +22,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ViewFlipper;
 
+import com.facebook.Session;
 import com.google.gson.Gson;
 import com.referredlabs.kikbak.R;
+import com.referredlabs.kikbak.data.AvailableCreditType;
 import com.referredlabs.kikbak.data.ClientOfferType;
 import com.referredlabs.kikbak.data.GiftType;
-import com.referredlabs.kikbak.data.KikbakType;
 import com.referredlabs.kikbak.service.LocationFinder;
 import com.referredlabs.kikbak.service.LocationFinder.LocationFinderListener;
 import com.referredlabs.kikbak.ui.OfferListFragment.OnOfferClickedListener;
@@ -115,11 +116,18 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    if (item.getItemId() == R.id.action_settings) {
+    switch (item.getItemId()) {
+      case R.id.action_settings:
+        break;
 
-    }
-    if (item.getItemId() == R.id.action_login) {
-      startActivity(new Intent(this, LoginActivity.class));
+      case R.id.action_login:
+        startActivity(new Intent(this, LoginActivity.class));
+        return true;
+
+      case R.id.action_clear_registration:
+        Register.getInstance().clear();
+        finish();
+        return true;
     }
     return super.onOptionsItemSelected(item);
   }
@@ -148,7 +156,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
   @Override
   public void onRewardClicked(Reward reward) {
-    if (reward.gift != null && reward.kikbak != null) {
+    if (reward.gift != null && reward.credit != null) {
       mSelectedReward = reward;
       String gift = reward.getGiftValueString();
       String credit = reward.getCreditValueString();
@@ -156,8 +164,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
       dialog.show(getSupportFragmentManager(), "");
     } else if (reward.gift != null) {
       redeemGift(reward.gift);
-    } else if (reward.kikbak != null) {
-      redeemCredit(reward.kikbak);
+    } else if (reward.credit != null) {
+      redeemCredit(reward.credit);
     }
   }
 
@@ -172,7 +180,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
   @Override
   public void onRedeemCreditSelected() {
     if (mSelectedReward != null) {
-      redeemCredit(mSelectedReward.kikbak);
+      redeemCredit(mSelectedReward.credit);
       mSelectedReward = null;
     }
   }
@@ -184,9 +192,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     startActivity(intent);
   }
 
-  private void redeemCredit(KikbakType kikbak) {
+  private void redeemCredit(AvailableCreditType credit) {
     Intent intent = new Intent(this, RedeemCreditActivity.class);
-    String data = new Gson().toJson(kikbak);
+    String data = new Gson().toJson(credit);
     intent.putExtra(RedeemCreditActivity.EXTRA_KIKBAK, data);
     startActivity(intent);
   }

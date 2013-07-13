@@ -215,7 +215,7 @@ const int CELL_HEIGHT = 147;
 -(void)setupGift{
     self.retailerName.text = self.rewards.gift.merchantName;
 
-    if ([self.rewards.gift.type compare:@"percentage"] == NSOrderedSame) {
+    if ([self.rewards.gift.discountType compare:@"percentage"] == NSOrderedSame) {
         self.giftValue.text = [NSString stringWithFormat:NSLocalizedString(@"gift percent", nil),
                                     [self.rewards.gift.value integerValue]];
     }

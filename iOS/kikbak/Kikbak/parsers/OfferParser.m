@@ -35,7 +35,7 @@
     offer.giftDescription = [dict objectForKey:@"giftDesc"];
     offer.giftDescriptionOptional = [dict objectForKey:@"giftDescOptional"];
     offer.giftValue = [dict objectForKey:@"giftValue"];
-    offer.giftType = [dict objectForKey:@"giftType"];
+    offer.giftDiscountType = [dict objectForKey:@"giftDiscountType"];
     offer.kikbakDescription = [dict objectForKey:@"kikbakDesc"];
     offer.kikbakDescriptionOptional = [dict objectForKey:@"kikbakDescOptional"];
     offer.kikbakValue = [dict objectForKey:@"kikbakValue"];
@@ -43,7 +43,7 @@
     offer.merchantId = [dict objectForKey:@"merchantId"];
     offer.merchantName = [dict objectForKey:@"merchantName"];
     offer.merchantUrl = [dict objectForKey:@"merchantUrl"];
-    offer.termsOfService = [dict objectForKey:@"termsOfService"];
+    offer.termsOfService = [dict objectForKey:@"tosUrl"];
     offer.imageUrl = [dict objectForKey:@"imageUrl"];
     long date = [dict objectForKey:@"beginDate"];
     NSTimeInterval timeSince70 = date;
