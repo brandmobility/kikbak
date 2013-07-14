@@ -3,6 +3,7 @@ package com.kikbak.service.helper;
 import java.util.Date;
 
 
+import com.kikbak.client.service.ReferralCodeUniqueException;
 import com.kikbak.dao.ReadWriteLocationDAO;
 import com.kikbak.dao.ReadWriteMerchantDAO;
 import com.kikbak.dao.ReadWriteOfferDAO;
@@ -38,7 +39,7 @@ public class DataPopulator {
 		this.rwLocationDao = rwLocationDao;
 	}
 	
-	public long pupulateDataForGiftTest(int count){
+	public long pupulateDataForGiftTest(int count) throws ReferralCodeUniqueException {
 		long userId = createUser(count);
 		long merchantBaseId = createMerchants(count);
 		createLocations(count, merchantBaseId);
@@ -115,7 +116,7 @@ public class DataPopulator {
 		}
 	}
 	
-	protected void createShared(int count, long userId, long merchantIdBase, long offerBaseId){
+	protected void createShared(int count, long userId, long merchantIdBase, long offerBaseId) throws ReferralCodeUniqueException {
 		for(long i = 0; i < count; i ++){
 			Shared shared = new Shared();
 			shared.setLocationId(12);
@@ -124,7 +125,7 @@ public class DataPopulator {
 			shared.setUserId(userId);
 			shared.setSharedDate(new Date());
 			
-			rwSharedDao.makePersistent(shared);
+			rwSharedDao.saveShared(shared);
 		}
 	}
 	

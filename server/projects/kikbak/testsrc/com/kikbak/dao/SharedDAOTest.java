@@ -7,8 +7,11 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kikbak.KikbakBaseTest;
+import com.kikbak.client.service.ReferralCodeUniqueException;
 import com.kikbak.dto.Shared;
 
 public class SharedDAOTest extends KikbakBaseTest{
@@ -41,7 +44,8 @@ public class SharedDAOTest extends KikbakBaseTest{
 	}
 	
 	@Test
-	public void testWriteShared(){
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public void testWriteShared() throws Exception {
 		Shared shared = new Shared();
 		shared.setMerchantId(12);
 		shared.setOfferId(13);
@@ -49,11 +53,18 @@ public class SharedDAOTest extends KikbakBaseTest{
 		shared.setUserId(12342);
 		shared.setSharedDate(new Date());
 		shared.setType("email");
-		shared.setReferralCode("code");
+		shared.setReferralCode("code1");
 		
-		rwDao.makePersistent(shared);
+		try {
+		    rwDao.saveShared(shared);
+		} catch (ReferralCodeUniqueException e) {
+	        shared.setReferralCode("code3");
+            rwDao.saveShared(shared);
+		}
+		
 		Shared s = roDao.findById(shared.getId());
 		assertEquals(1234, s.getLocationId());
+        assertEquals("code3", s.getReferralCode());
 	}
 	
 	@Test

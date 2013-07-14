@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kikbak.client.service.ReferralCodeUniqueException;
 import com.kikbak.client.service.SharedExperienceService;
 import com.kikbak.dao.ReadOnlySharedDAO;
 import com.kikbak.dao.ReadOnlyUser2FriendDAO;
@@ -45,8 +46,20 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public String registerSharing(final Long userId, SharedType experience) {
 		//persist share
-	    String referralCode = generateReferralCode(userId, experience);
-		persistExperience(userId, experience, referralCode);
+        int maxLength = config.getInt(RANDOM_SECRET_LENGTH, DEFAULT_RANDOM_SECRET_LENGTH);
+        String referralCode = null;
+        while (true) {
+            try {
+                referralCode = generateReferralCode(userId, experience, maxLength);
+                persistExperience(userId, experience, referralCode);
+                break;
+            } catch (ReferralCodeUniqueException e) {
+                ++maxLength;
+            }
+            if (maxLength > 64) {
+                throw new RuntimeException("cannot find a unique referral code");
+            }
+        }
 		return referralCode;
 		
 		//TODO: De we award for sharing
@@ -78,9 +91,8 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
 //		}
 	}
 
-	private String generateReferralCode(Long userId, SharedType experience) {
+	private String generateReferralCode(Long userId, SharedType experience, int maxLength) {
         String randomStr = new BigInteger(30, new SecureRandom()).toString(Character.MAX_RADIX);
-        int maxLength = config.getInt(RANDOM_SECRET_LENGTH, DEFAULT_RANDOM_SECRET_LENGTH);
         if (randomStr.length() < maxLength) {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < maxLength - randomStr.length(); i++) {
@@ -91,7 +103,8 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
         return randomStr;
     }
 
-    protected void persistExperience(final Long userId, SharedType experience, String referralCode){
+    protected void persistExperience(final Long userId, SharedType experience, String referralCode) 
+            throws ReferralCodeUniqueException {
 		Shared shared = new Shared();
 		shared.setLocationId(experience.getLocationId());
 		shared.setMerchantId(experience.getMerchantId());
@@ -103,7 +116,7 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
 		shared.setSharedDate(new Date());
 		shared.setReferralCode(referralCode);
 		
-		rwSharedDao.makePersistent(shared);
+		rwSharedDao.saveShared(shared);
 	}
 	
 	

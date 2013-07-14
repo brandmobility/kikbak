@@ -5,9 +5,11 @@ import java.util.Collection;
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kikbak.client.service.ReferralCodeUniqueException;
 import com.kikbak.dao.ReadWriteSharedDAO;
 import com.kikbak.dao.generic.GenericDAOImpl;
 import com.kikbak.dto.Shared;
@@ -53,4 +55,15 @@ public class ReadWriteSharedDAOImpl extends GenericDAOImpl<Shared, Long> impleme
         return listByCriteria(Restrictions.eq("referralCode", referralCode));
     }
 
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    public void saveShared(Shared shared) throws ReferralCodeUniqueException {
+        Session session = getSessionFactory().getCurrentSession();
+        try {
+            session.saveOrUpdate(shared);
+        } catch (ConstraintViolationException e) {
+            session.clear();
+            throw new ReferralCodeUniqueException("violite unique constraint");
+        }
+    }
 }
