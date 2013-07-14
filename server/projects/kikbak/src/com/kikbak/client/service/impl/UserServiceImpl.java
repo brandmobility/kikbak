@@ -173,7 +173,7 @@ public class UserServiceImpl implements UserService {
 			ot.setMerchantName(merchant.getName());
 			ot.setMerchantUrl(merchant.getUrl());
 			
-			Collection<Location> locations = roLocationDao.listByMerchant(offer.getMerchantId());
+			Collection<Location> locations = roLocationDao.listForMerchantInGeoFence(offer.getMerchantId(), fence);
 			for( Location location: locations){
 				UserLocationType utl = new UserLocationType();
 				utl.setLocationId(location.getId());

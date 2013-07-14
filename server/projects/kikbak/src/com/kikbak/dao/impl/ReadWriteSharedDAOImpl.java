@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.hibernate.classic.Session;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +12,7 @@ import com.kikbak.dao.ReadWriteSharedDAO;
 import com.kikbak.dao.generic.GenericDAOImpl;
 import com.kikbak.dto.Shared;
 
+@Repository
 public class ReadWriteSharedDAOImpl extends GenericDAOImpl<Shared, Long> implements ReadWriteSharedDAO {
 
     private static final String find_gifts="select shared.* from offer, shared where begin_date < now() and end_date > now() " + 

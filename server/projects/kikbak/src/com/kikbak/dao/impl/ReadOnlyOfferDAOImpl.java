@@ -21,9 +21,9 @@ import com.kikbak.location.GeoFenceCoordinateType;
 @Repository
 public class ReadOnlyOfferDAOImpl extends ReadOnlyGenericDAOImpl<Offer, Long> implements ReadOnlyOfferDAO {
 
-	private static final String list_offers_in_geo_fence = "select offer.* from offer, location where offer.merchant_id=location.merchant_id " +
-														" and offer.begin_date <= ? and offer.end_date >= ? and location.latitude > ? " +
-														" and location.latitude < ? and location.longitude > ? and location.longitude < ?"; 
+	private static final String list_offers_in_geo_fence = "select * from offer where offer.begin_date <= ? and offer.end_date >= ? and merchant_id in" +
+														" (select merchant_id from location where location.latitude > ? " +
+														" and location.latitude < ? and location.longitude > ? and location.longitude < ?)"; 
 	
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)

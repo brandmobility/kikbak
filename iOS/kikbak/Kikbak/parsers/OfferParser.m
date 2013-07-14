@@ -39,12 +39,12 @@
     offer.kikbakDescription = [dict objectForKey:@"kikbakDesc"];
     offer.kikbakDescriptionOptional = [dict objectForKey:@"kikbakDescOptional"];
     offer.kikbakValue = [dict objectForKey:@"kikbakValue"];
-    offer.merchantImageUrl = [dict objectForKey:@"merchantImageUrl"];
     offer.merchantId = [dict objectForKey:@"merchantId"];
     offer.merchantName = [dict objectForKey:@"merchantName"];
     offer.merchantUrl = [dict objectForKey:@"merchantUrl"];
     offer.termsOfService = [dict objectForKey:@"tosUrl"];
-    offer.imageUrl = [dict objectForKey:@"imageUrl"];
+    offer.offerImageUrl = [dict objectForKey:@"offerImageUrl"];
+    offer.giveImageUrl = [dict objectForKey:@"giveImageUrl"];
     long date = [dict objectForKey:@"beginDate"];
     NSTimeInterval timeSince70 = date;
     offer.beginDate = [NSDate dateWithTimeIntervalSince1970:timeSince70];
@@ -65,7 +65,7 @@
 
     if(![ImagePersistor imageFileExists:offer.merchantId imageType:MERCHANT_IMAGE_TYPE]) {
         ImageRequest* request = [[ImageRequest alloc]init];
-        request.url = offer.merchantImageUrl;
+        request.url = offer.offerImageUrl;
         request.fileId = offer.merchantId;
         request.type = MERCHANT_IMAGE_TYPE;
         [request requestImage];
