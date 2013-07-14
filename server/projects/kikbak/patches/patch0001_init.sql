@@ -294,7 +294,7 @@ CREATE INDEX merchant_id_key USING BTREE ON `shared` (merchant_id ASC);
 CREATE INDEX location_id_key USING BTREE ON `shared` (location_id ASC);
 CREATE INDEX offer_id_key USING BTREE ON `shared` (offer_id ASC);
 CREATE INDEX user_id_offer_id_key USING BTREE ON `shared` (user_id ASC, offer_id ASC);
-CREATE INDEX referral_code_key USING BTREE ON `shared` (referral_code);
+CREATE UNIQUE INDEX referral_code_key USING BTREE ON `shared` (referral_code);
 
 CREATE INDEX user_id_key ON `transaction` (user_id ASC);
 CREATE INDEX offer_id_key ON `transaction` (offer_id ASC);
