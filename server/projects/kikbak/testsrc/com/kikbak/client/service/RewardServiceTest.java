@@ -14,6 +14,7 @@ import com.kikbak.dao.ReadWriteOfferDAO;
 import com.kikbak.dao.ReadWriteSharedDAO;
 import com.kikbak.dao.ReadWriteUser2FriendDAO;
 import com.kikbak.dao.ReadWriteUserDAO;
+import com.kikbak.jaxb.claim.ClaimType;
 import com.kikbak.jaxb.redeemcredit.CreditRedemptionType;
 import com.kikbak.jaxb.redeemgift.GiftRedemptionType;
 
@@ -154,4 +155,26 @@ public class RewardServiceTest extends KikbakBaseTest{
             fail();
         }
     }
+	
+	@Test
+	public void testCreateClaim() {
+	    ClaimType ct = new ClaimType();
+	    ct.setName("foo");
+	    ct.setApt("1");
+	    ct.setCity("bar");
+	    ct.setCreditId(1);
+	    ct.setPhoneNumber("1234");
+	    ct.setState("ca");
+	    ct.setStreet("oak");
+	    ct.setZipcode("code");
+	    
+	    try {
+            service.claimCredit(12L, ct);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
+	}
+	
 }

@@ -394,12 +394,15 @@ public class RewardServiceImpl implements RewardService{
         Claim claim = new Claim();
         claim.setKikbakId(credit.getKikbakId());
         claim.setOfferId(credit.getOfferId());
+        claim.setName(ct.getName());
+        claim.setStreet(ct.getStreet());
         claim.setApt(ct.getApt());
         claim.setCity(ct.getCity());
         claim.setState(ct.getState());
         claim.setPhoneNumber(ct.getPhoneNumber());
         claim.setZipcode(ct.getZipcode());
         claim.setUserId(userId);
+        claim.setRequestDate(new Date());
         
         rwClaimDao.makePersistent(claim);
     }
