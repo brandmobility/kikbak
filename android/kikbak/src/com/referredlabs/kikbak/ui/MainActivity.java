@@ -200,7 +200,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
   private void redeemCredit(AvailableCreditType credit) {
     Intent intent = new Intent(this, RedeemCreditActivity.class);
     String data = new Gson().toJson(credit);
-    intent.putExtra(RedeemCreditActivity.EXTRA_KIKBAK, data);
+    intent.putExtra(RedeemCreditActivity.EXTRA_CREDIT, data);
     startActivity(intent);
   }
 

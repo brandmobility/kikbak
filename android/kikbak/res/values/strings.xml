@@ -91,7 +91,10 @@
     <string name="credit_change">Change</string>
     <string name="credit_warning">WARNING: If you apply more credit then your purchase total, you will pernamently lose all execess credit applied.</string>
     <string name="scan_code">Scan QR code to Redeem</string>
-
+    <string name="redeem_card_ready">You have a reward ready to be claimed!</string>
+    <string name="gift_card">Gift Card</string>
+    <string name="claim_reward">Claim reward now</string>
+    
     <!-- Change amount -->
     <string name="change_amount_title">Change amount</string>
     <string name="credit_avaiable_label">Credit avaiable</string>
