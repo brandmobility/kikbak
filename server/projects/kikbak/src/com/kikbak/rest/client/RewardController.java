@@ -170,7 +170,7 @@ public class RewardController {
         }
     }
     
-    @RequestMapping(value="/claim/{userid}/", method = RequestMethod.POST)
+    @RequestMapping(value="/claim/{userId}/", method = RequestMethod.POST)
     public ClaimCreditResponse claimCredit(@PathVariable("userId") Long userId, 
             @RequestBody ClaimCreditRequest request, 
             final HttpServletResponse httpResponse){

@@ -1,4 +1,4 @@
-
+  
 package com.referredlabs.kikbak.ui;
 
 import android.app.Activity;
@@ -47,7 +47,7 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
   @Override
   public void onAttach(Activity activity) {
     super.onAttach(activity);
-    String data = activity.getIntent().getStringExtra(RedeemCreditActivity.EXTRA_KIKBAK);
+    String data = activity.getIntent().getStringExtra(RedeemCreditActivity.EXTRA_CREDIT);
     mCredit = new Gson().fromJson(data, AvailableCreditType.class);
     mCreditToUse = mCredit.value;
   }
