@@ -34,7 +34,7 @@ public class SharedController {
 		status.setCode(StatusCode.OK.ordinal());
 		response.setStatus(status);
 		try {
-			service.registerSharing(userId, experienceRequest.getExperience());
+			response.setReferrerCode(service.registerSharing(userId, experienceRequest.getExperience()));
 		} catch (Exception e) {
 			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			status.setCode(StatusCode.ERROR.ordinal());
