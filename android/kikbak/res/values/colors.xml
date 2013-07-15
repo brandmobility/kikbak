@@ -3,5 +3,6 @@
 
     <color name="success_gift_background">#ff99cc00</color>
     <color name="success_credit_background">#ff33b5e5</color>
+    <color name="scanner_point">#c0ffbd21</color>
 
 </resources>

@@ -7,7 +7,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import com.google.gson.Gson;
 import com.referredlabs.kikbak.R;
+import com.referredlabs.kikbak.data.AvailableCreditType;
+import com.referredlabs.kikbak.data.RewardType;
 
 public class RedeemCreditActivity extends FragmentActivity {
 
@@ -28,7 +31,9 @@ public class RedeemCreditActivity extends FragmentActivity {
 
   Fragment getFragment() {
     Bundle args = getIntent().getExtras();
-    boolean isGiftCard = true;
+    String data = args.getString(RedeemCreditActivity.EXTRA_CREDIT);
+    AvailableCreditType credit = new Gson().fromJson(data, AvailableCreditType.class);
+    boolean isGiftCard = RewardType.GIFT_CARD.equals(credit.rewardType);
     Fragment fragment = isGiftCard ? new RedeemGiftCardFragment() : new RedeemCreditFragment();
     fragment.setArguments(args);
     return fragment;

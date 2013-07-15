@@ -47,7 +47,7 @@
     <!-- Share via email -->
     <string name="send_gift">Send</string>
     <string name="addressbook_empty">"You don't have any contacts with email"</string>
-    
+
     <!-- terms and condtionds -->
     <string name="terms_title">Terms and conditions for offer</string>
     <string name="terms_example">You own all of the content and information you post on Facebook, and
@@ -94,7 +94,7 @@
     <string name="redeem_card_ready">You have a reward ready to be claimed!</string>
     <string name="gift_card">Gift Card</string>
     <string name="claim_reward">Claim reward now</string>
-    
+
     <!-- Change amount -->
     <string name="change_amount_title">Change amount</string>
     <string name="credit_avaiable_label">Credit avaiable</string>
@@ -118,5 +118,21 @@
     <!-- Redeem chooser -->
     <string name="redeem_chooser_title">Please select one to redeem</string>
     <string name="or">OR</string>
+
+    <!-- Scanner -->
+    <string name="scan_now">Scan now</string>
+    <string name="scan_desc">To redeem now, scan the Kikbak QR code held by the cashier</string>
+    <string name="scan_tip">Hold still for scan</string>
+
+    <!-- Claim credit card -->
+    <string name="claim_card_instruction">Please provide the following to redeem</string>
+    <string name="claim_card_phone_hint">Verizon phone number</string>
+    <string name="claim_card_name_hint">First Last Name</string>
+    <string name="claim_card_street_hint">Street</string>
+    <string name="claim_card_city_hint">City</string>
+    <string name="claim_card_state_hint">State</string>
+    <string name="claim_card_zip_hint">Zip</string>
+    <string name="claim_card_arrival">Your reward should arrive in 2 to 4 weeks.</string>
+    <string name="claim_card_submit">Submit</string>
 
 </resources>

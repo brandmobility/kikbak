@@ -1,9 +1,8 @@
-  
+
 package com.referredlabs.kikbak.ui;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,11 +23,9 @@ import com.referredlabs.kikbak.data.RedeemCreditRequest;
 import com.referredlabs.kikbak.data.RedeemCreditResponse;
 import com.referredlabs.kikbak.data.StatusType;
 import com.referredlabs.kikbak.http.Http;
-import com.referredlabs.kikbak.service.LocationFinder;
 import com.referredlabs.kikbak.ui.BarcodeScannerFragment.OnBarcodeScanningListener;
 import com.referredlabs.kikbak.ui.ChangeAmountDialog.OnCreditChangedListener;
 import com.referredlabs.kikbak.ui.ConfirmationDialog.ConfirmationListener;
-import com.referredlabs.kikbak.utils.Nearest;
 import com.referredlabs.kikbak.utils.Register;
 import com.squareup.picasso.Picasso;
 
@@ -63,15 +60,6 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
     mImage = (ImageView) root.findViewById(R.id.image);
     mCreditValue = (TextView) root.findViewById(R.id.credit_value);
     mRedeemCount = (TextView) root.findViewById(R.id.redeem_count);
-
-    Location loc = LocationFinder.getLastLocation();
-
-    IconBarHelper ih = new IconBarHelper(root, new IconBarActionHandler(getActivity()));
-    Nearest location = new Nearest(mCredit.merchant.locations);
-    location.determineNearestLocation(loc.getLatitude(), loc.getLongitude());
-    ih.setLink(mCredit.merchant.url);
-    ih.setLocation(location);
-    ih.setPhone(Long.toString(location.getPhoneNumber()));
 
     setupViews();
     return root;
@@ -154,7 +142,7 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
     req.credit.verificationCode = code.substring(0, Math.min(8, code.length()));
     long userId = Register.getInstance().getUserId();
     RequestTask task = new RequestTask(userId);
-    task.execute(req);
+    // task.execute(req);
   }
 
   @Override
