@@ -8,7 +8,7 @@ function full_url_path()
   $port = ($_SERVER["SERVER_PORT"] == "80") ? "" : (":".$_SERVER["SERVER_PORT"]);
   $last_index = strrpos($_SERVER['REQUEST_URI'], '/');
   return $protocol . "://" . $_SERVER['SERVER_NAME'] . $port . 
-      $last_index === FALSE ? $_SERVER['REQUEST_URI'] . '/' :  substr($_SERVER['REQUEST_URI'], 0, last_index);
+      ($last_index === FALSE ? $_SERVER['REQUEST_URI'] :  substr($_SERVER['REQUEST_URI'], 0, $last_index)) . '/';
 }
 
 $dangerous_words = array(" ", '"', "'", "&", "\\", "?", "#", "..");
@@ -37,7 +37,7 @@ if (!move_uploaded_file($_FILES['file']['tmp_name'], $target_path)) {
 }
 
 $url_path = full_url_path();
-echo '{"url":' . '"' . $full_url_path . '"}';
+echo '{"url":' . '"' . $url_path . $target_path . '"}';
 
 ?>
 
