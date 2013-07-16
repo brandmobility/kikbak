@@ -15,9 +15,9 @@ public class ConfirmationDialog extends DialogFragment implements OnClickListene
   public static final String ARG_MSG = "msg";
 
   public interface ConfirmationListener {
-    public void onYesClick();
+    public void onYesClick(int requestCode);
 
-    public void onNoClick();
+    public void onNoClick(int requestCode);
   }
 
   private ConfirmationListener mListener;
@@ -60,10 +60,10 @@ public class ConfirmationDialog extends DialogFragment implements OnClickListene
   public void onClick(DialogInterface dialog, int which) {
     switch (which) {
       case DialogInterface.BUTTON_POSITIVE:
-        mListener.onYesClick();
+        mListener.onYesClick(getTargetRequestCode());
         break;
       case DialogInterface.BUTTON_NEGATIVE:
-        mListener.onNoClick();
+        mListener.onNoClick(getTargetRequestCode());
     }
   }
 }

@@ -1,6 +1,9 @@
 
 package com.referredlabs.kikbak.http;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapShader;
 import android.net.http.AndroidHttpClient;
 
 import com.google.common.io.CharStreams;
@@ -8,9 +11,11 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.referredlabs.kikbak.C;
+import com.referredlabs.kikbak.Kikbak;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 
@@ -123,6 +128,47 @@ public class Http {
         // ignore
       }
     }
+  }
+
+  public static Bitmap fetchBarcode(long userId, long giftId) throws IOException {
+    AndroidHttpClient client = AndroidHttpClient.newInstance(USER_AGENT);
+    try {
+      String uri = getUri("/rewards/generateBarcode/" + userId + "/" + giftId + "/300/300/");
+      HttpGet get = new HttpGet(uri);
+      AndroidHttpClient.modifyRequestToAcceptGzipResponse(get);
+
+      HttpResponse resp = client.execute(get);
+      int code = resp.getStatusLine().getStatusCode();
+      if (code == 200) {
+        Bitmap bitmap = getContentAsBitmap(resp.getEntity());
+        return bitmap;
+      }
+
+      String content = getContent(resp.getEntity());
+      throw new HttpStatusException(code, content);
+    } finally {
+      client.close();
+    }
+  }
+
+  private static Bitmap getContentAsBitmap(HttpEntity entity)
+  {
+    Bitmap bitmap = null;
+    if (entity != null) {
+      try {
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        opts.inDensity = 300;
+        opts.inTargetDensity = (int) (Kikbak.getInstance().getResources().getDisplayMetrics().density * 160);
+        opts.inScaled = true;
+        InputStream in = AndroidHttpClient.getUngzippedContent(entity);
+        bitmap = BitmapFactory.decodeStream(in, null, opts);
+      } catch (Exception e) {
+        // ignore
+      } finally {
+        closeHttpEntity(entity);
+      }
+    }
+    return bitmap;
   }
 
 }

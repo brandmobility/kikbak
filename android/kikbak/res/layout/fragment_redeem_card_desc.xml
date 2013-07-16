@@ -16,22 +16,23 @@
 
     <TextView
         android:id="@+id/credit_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$15"
         android:textSize="28sp"
-        android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="$15" />
+        android:textStyle="bold" />
 
     <TextView
-        android:textSize="22sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/gift_card" />
+        android:text="@string/gift_card"
+        android:textSize="22sp" />
 
     <TextView
+        android:id="@+id/terms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="@string/terms" />
 
 </LinearLayout>

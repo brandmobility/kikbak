@@ -3,27 +3,33 @@ package com.referredlabs.kikbak.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.referredlabs.kikbak.C;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.GiftRedemptionType;
 import com.referredlabs.kikbak.data.GiftType;
 import com.referredlabs.kikbak.data.RedeemGiftRequest;
 import com.referredlabs.kikbak.data.RedeemGiftResponse;
 import com.referredlabs.kikbak.data.StatusType;
+import com.referredlabs.kikbak.data.ValidationType;
 import com.referredlabs.kikbak.fb.Fb;
+import com.referredlabs.kikbak.fb.PicassoFb;
 import com.referredlabs.kikbak.http.Http;
 import com.referredlabs.kikbak.service.LocationFinder;
 import com.referredlabs.kikbak.ui.BarcodeScannerFragment.OnBarcodeScanningListener;
@@ -37,6 +43,9 @@ import java.io.IOException;
 public class RedeemGiftFragment extends Fragment implements OnClickListener, ConfirmationListener,
     OnBarcodeScanningListener {
 
+  private static final int REQUEST_NOT_IN_STORE = 1;
+  private static final int REQUEST_SCAN_CONFIRMATION = 2;
+
   private GiftType mGift;
   private TextView mName;
   private ImageView mImage;
@@ -46,6 +55,7 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
 
   private TextView mGiftValue;
   private TextView mGiftDesc;
+  private Button mRedeemInStore;
 
   @Override
   public void onAttach(Activity activity) {
@@ -58,7 +68,6 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View root = inflater.inflate(R.layout.fragment_redeem_gift, container, false);
 
-    root.findViewById(R.id.scan).setOnClickListener(this);
     root.findViewById(R.id.terms).setOnClickListener(this);
 
     mName = (TextView) root.findViewById(R.id.name);
@@ -70,6 +79,8 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
 
     mGiftValue = (TextView) root.findViewById(R.id.gift_value);
     mGiftDesc = (TextView) root.findViewById(R.id.gift_desc);
+    mRedeemInStore = (Button) root.findViewById(R.id.redeem_store);
+    mRedeemInStore.setOnClickListener(this);
 
     Location loc = LocationFinder.getLastLocation();
 
@@ -86,8 +97,9 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
 
   private void setupViews() {
     mName.setText(mGift.merchant.name);
-    if (false && mGift.fbImageId > 0) {
-      // TODO: show image from facebook
+    if (mGift.fbImageId > 0) {
+      Uri uri = Uri.parse("fb://image/" + mGift.fbImageId);
+      PicassoFb.with(getActivity()).load(uri).into(mImage);
     } else {
       Uri uri = Uri.parse(mGift.imageUrl);
       Picasso.with(getActivity()).load(uri).into(mImage);
@@ -106,20 +118,13 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
   @Override
   public void onClick(View v) {
     switch (v.getId()) {
-      case R.id.scan:
-        onScanClicked();
-        break;
       case R.id.terms:
         onTermsClicked();
         break;
+      case R.id.redeem_store:
+        onRedeemInStoreClicked();
+        break;
     }
-  }
-
-  private void onScanClicked() {
-    String msg = getString(R.string.redeem_gift_confirmation);
-    ConfirmationDialog dialog = ConfirmationDialog.newInstance(msg);
-    dialog.setTargetFragment(this, 0);
-    dialog.show(getFragmentManager(), null);
   }
 
   private void onTermsClicked() {
@@ -129,16 +134,65 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
     dialog.show(getFragmentManager(), null);
   }
 
-  @Override
-  public void onYesClick() {
-    BarcodeScannerFragment scanner = new BarcodeScannerFragment();
-    scanner.setTargetFragment(this, 0);
-    scanner.show(getFragmentManager(), "");
+  private void onRedeemInStoreClicked() {
+    if (!isInStore()) {
+      showNotInStore();
+      return;
+    }
+
+    if (ValidationType.QR.equals(mGift.validationType)) {
+      // scanning QR code
+      showScanConfirmation();
+    } else if (ValidationType.POS.equals(mGift.validationType)) {
+      // barcode generation
+      mRedeemInStore.setEnabled(false);
+      new BarcodeTask().execute();
+    }
+  }
+
+  private boolean isInStore() {
+    Location loc = LocationFinder.getLastLocation();
+    Nearest nearest = new Nearest(mGift.merchant.locations);
+    nearest.determineNearestLocation(loc.getLatitude(), loc.getLongitude());
+    return C.BYPASS_STORE_CHECK || nearest.getDistance() < C.IN_STORE_DISTANCE;
+  }
+
+  private void showNotInStore() {
+    String msg = getString(R.string.redeem_not_in_store);
+    ConfirmationDialog dialog = ConfirmationDialog.newInstance(msg);
+    dialog.setTargetFragment(this, REQUEST_NOT_IN_STORE);
+    dialog.show(getFragmentManager(), null);
+  }
+
+  private void showScanConfirmation() {
+    String msg = getString(R.string.redeem_gift_confirmation);
+    ConfirmationDialog dialog = ConfirmationDialog.newInstance(msg);
+    dialog.setTargetFragment(this, REQUEST_SCAN_CONFIRMATION);
+    dialog.show(getFragmentManager(), null);
   }
 
   @Override
-  public void onNoClick() {
+  public void onYesClick(int requestCode) {
+    switch (requestCode) {
+      case REQUEST_NOT_IN_STORE:
+        onRedeemInStoreClicked();
+        break;
+      case REQUEST_SCAN_CONFIRMATION:
+        showScanner();
+        break;
+    }
+  }
+
+  @Override
+  public void onNoClick(int requestCode) {
     // do nothing
+  }
+
+  private void showScanner() {
+    BarcodeScannerFragment scanner = new BarcodeScannerFragment();
+    scanner.setTargetFragment(this, 0);
+    scanner.show(getFragmentManager(), null);
+    mRedeemInStore.setEnabled(false);
   }
 
   @Override
@@ -151,25 +205,47 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
     req.gift.verificationCode = code;
     req.gift.verificationCode = code.substring(0, Math.min(8, code.length()));
     long userId = Register.getInstance().getUserId();
-    new RequestTask(userId).execute(req);
+    new RedeemTask(userId).execute(req);
   }
 
   @Override
   public void onScanningCancelled() {
-    // TODO Auto-generated method stub
-
+    // do nothing
+    mRedeemInStore.setEnabled(true);
   }
 
-  public void onRegstrationSuccess(String code) {
+  public void onBarcodeFetched(Bitmap bitmap) {
     Intent intent = new Intent(getActivity(), SuccessActivity.class);
+    intent.putExtra(SuccessActivity.ARG_BARCODE_BITMAP, bitmap);
+    intent.putExtra(SuccessActivity.ARG_BARCODE, "4443452234"); // FIXME:
+    intent.putExtra(SuccessActivity.ARG_GIFT,
+        getActivity().getIntent().getStringExtra(RedeemGiftActivity.EXTRA_GIFT));
     startActivity(intent);
   }
 
-  private class RequestTask extends AsyncTask<RedeemGiftRequest, Void, RedeemGiftResponse> {
+  public void onBarcodeFetchFailed() {
+    mRedeemInStore.setEnabled(true);
+    Toast.makeText(getActivity(), "Please try again", Toast.LENGTH_SHORT).show();
+  }
+
+  public void onRegistrationSuccess(String code) {
+    Intent intent = new Intent(getActivity(), SuccessActivity.class);
+    intent.putExtra(SuccessActivity.ARG_GIFT,
+        getActivity().getIntent().getStringExtra(RedeemGiftActivity.EXTRA_GIFT));
+    intent.putExtra(SuccessActivity.ARG_BARCODE, code);
+    startActivity(intent);
+  }
+
+  public void onRegistrationFailed() {
+    mRedeemInStore.setEnabled(true);
+    Toast.makeText(getActivity(), "failed to report to kikbak", Toast.LENGTH_SHORT).show();
+  }
+
+  private class RedeemTask extends AsyncTask<RedeemGiftRequest, Void, RedeemGiftResponse> {
 
     private long mUserId;
 
-    public RequestTask(long userId) {
+    public RedeemTask(long userId) {
       mUserId = userId;
     }
 
@@ -189,12 +265,44 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
     @Override
     protected void onPostExecute(RedeemGiftResponse result) {
       if (result == null || result.status.code != StatusType.OK) {
-        Toast.makeText(getActivity(), "failed to report to kikbak", Toast.LENGTH_SHORT).show();
+        onRegistrationFailed();
         return;
       }
-      onRegstrationSuccess(result.authorizationCode);
+      onRegistrationSuccess(result.authorizationCode);
     }
 
+  }
+
+  private class BarcodeTask extends AsyncTask<Void, Void, Void> {
+
+    private long mUserId;
+    private long mGiftId;
+    private Bitmap mBitmap;
+
+    @Override
+    protected void onPreExecute() {
+      mUserId = Register.getInstance().getUserId();
+      mGiftId = mGift.id;
+    }
+
+    @Override
+    protected Void doInBackground(Void... params) {
+      try {
+        mBitmap = Http.fetchBarcode(mUserId, mGiftId);
+      } catch (Exception e) {
+        Log.e("MMM", "Exception: " + e);
+      }
+      return null;
+    }
+
+    @Override
+    protected void onPostExecute(Void result) {
+      if (mBitmap != null) {
+        onBarcodeFetched(mBitmap);
+      } else {
+        onBarcodeFetchFailed();
+      }
+    }
   }
 
 }

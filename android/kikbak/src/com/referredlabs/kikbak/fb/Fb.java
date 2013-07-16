@@ -55,7 +55,7 @@ public class Fb {
     return id;
   }
 
-  private static String getPhotoUrl(Session session, String photoId) {
+  public static String getPhotoUrl(Session session, String photoId) {
     Request req = Request.newGraphPathRequest(session, photoId, null);
     Response resp = req.executeAndWait();
     // TODO: handle errors

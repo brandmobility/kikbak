@@ -24,7 +24,7 @@ import com.referredlabs.kikbak.data.ClaimType;
 import com.referredlabs.kikbak.http.Http;
 import com.referredlabs.kikbak.utils.Register;
 
-public class ClaimRewardFragment extends Fragment implements OnClickListener {
+public class ClaimInputFragment extends Fragment implements OnClickListener {
   private static final String TAG_INVALID_INFO = "tag_invalid_info";
   private static final String TAG_CLAIM_SUBMITTED = "tag_claim_submitted";
 
@@ -52,8 +52,7 @@ public class ClaimRewardFragment extends Fragment implements OnClickListener {
   }
 
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
+  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View root = inflater.inflate(R.layout.fragment_claim_reward, container, false);
 
     root.findViewById(R.id.button_submit).setOnClickListener(this);

@@ -39,6 +39,7 @@ public class RedeemGiftCardFragment extends Fragment implements OnClickListener 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View root = inflater.inflate(R.layout.fragment_redeem_gift_card, container, false);
 
+    root.findViewById(R.id.terms).setOnClickListener(this);
     root.findViewById(R.id.claim).setOnClickListener(this);
 
     mName = (TextView) root.findViewById(R.id.name);
@@ -70,13 +71,27 @@ public class RedeemGiftCardFragment extends Fragment implements OnClickListener 
 
   @Override
   public void onClick(View v) {
-    onClaimClicked();
+    switch (v.getId()) {
+      case R.id.terms:
+        onTermsClicked();
+        break;
+      case R.id.claim:
+        onClaimClicked();
+        break;
+    }
+  }
+
+  private void onTermsClicked() {
+    String title = getString(R.string.terms_title);
+    String url = mCredit.tosUrl;
+    NoteDialog dialog = NoteDialog.newInstance(title, url);
+    dialog.show(getFragmentManager(), null);
   }
 
   private void onClaimClicked() {
     FragmentManager mgr = getFragmentManager();
     FragmentTransaction t = mgr.beginTransaction();
-    t.replace(getId(), new ClaimRewardFragment());
+    t.replace(getId(), new ClaimInputFragment());
     t.addToBackStack(null);
     t.commit();
   }
