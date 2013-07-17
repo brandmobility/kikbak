@@ -1,4 +1,5 @@
 var config = {
+  backend: ''
 }
 
 function getHeight() {
@@ -44,8 +45,7 @@ function connectFb(accessToken) {
   if (typeof Storage != 'undefined') {
     localStorage.accessToken = accessToken;
     var userId = localStorage.userId;
-    if (typeof userId != 'undefined' && userId != 'undefined' && 
-            userId != null && userId != 'null' && userId != '') {
+    if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
       initPosition(initPage);
       return;
     }
@@ -70,12 +70,16 @@ function connectFb(accessToken) {
     req['RegisterUserRequest'] = data;
     var str = JSON.stringify(req);
 
+    if (typeof Storage != 'undefined') {
+      localStorage.userName = response.first_name + ' ' + response.last_name;
+    }
+
     $.ajax({
       dataType: 'json',
       type: 'POST',
       contentType: 'application/json',
       data: str,
-      url: 'kikbak/user/register/fb/',
+      url: config.backend + 'kikbak/user/register/fb/',
       success: function(json) {
         updateFbFriends(json.registerUserResponse.userId.userId);
       },
@@ -97,7 +101,7 @@ function updateFbFriends(userId) {
       type: 'POST',
       contentType: 'application/json',
       data: str,
-      url: 'kikbak/user/friends/fb/' + userId,
+      url: config.backend + 'kikbak/user/friends/fb/' + userId,
       success: function(json) {
         if (typeof Storage != 'undefined') {
           localStorage.userId = userId;
@@ -181,8 +185,7 @@ function getOffers() {
     localStorage.pageType = 'offer';
     var userId = localStorage.userId;
 
-    if (typeof userId != 'undefined' && userId != 'undefined' &&
-            userId != 'null' && userId != null && userId != '') {
+    if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
       if (typeof initPage.p !== 'undefined') {
         getOffersByLocation(userId, initPage.p);
       } else {
@@ -287,7 +290,7 @@ function getOffersByLocation(userId, position) {
     type: 'POST',
     contentType: 'application/json',
     data: str,
-    url: 'kikbak/user/offer/' + userId,
+    url: config.backend + 'kikbak/user/offer/' + userId,
     success: function(json) {
       var offers = json.getUserOffersResponse.offers;
       $('#offer-list').html('');
@@ -319,8 +322,7 @@ function getRedeems() {
   if (typeof Storage != 'undefined') {
     var userId = localStorage.userId;
 
-    if (typeof userId != 'undefined' && userId != 'undefined' &&
-            userId != 'null' && userId != null && userId != '') {
+    if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
       var data = {};
       var req = {};
       req['RewardsRequest'] = data;      
@@ -331,7 +333,7 @@ function getRedeems() {
         type: 'POST',
         contentType: 'application/json',
         data: str,
-        url: 'kikbak/rewards/request/' + userId,
+        url: config.backend + 'kikbak/rewards/request/' + userId,
         success: function(json) {
           var gifts = json.rewardsResponse.gifts;
           $('#redeem-list').html('');
@@ -393,8 +395,7 @@ function renderRedeem(redeem) {
 function getOfferDetail() {
   if (typeof Storage != 'undefined') {
     var userId = localStorage.userId;
-    if (typeof userId != 'undefined' && userId != 'undefined' &&
-            userId != 'null' && userId != null && userId != '') {
+    if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
       var offer = jQuery.parseJSON(unescape(localStorage.offerDetail));
       renderOfferDetail(offer);
 
@@ -449,8 +450,7 @@ function getOfferDetail() {
 function getRedeemDetail() {
   if (typeof Storage != 'undefined') {
     var userId = localStorage.userId;
-    if (typeof userId != 'undefined' && userId != 'undefined' &&
-            userId != 'null' && userId != null && userId != '') {
+    if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
       var redeem = jQuery.parseJSON(unescape(localStorage.redeemDetail));
       renderRedeemDetail(redeem);
       $('#back-btn').click(function(e){
@@ -508,8 +508,7 @@ function doSuggest() {
   if (typeof Storage != 'undefined') {
     var userId = localStorage.userId;
     $('#share-form input[name="share"]').attr('disabled', 'disabled');
-    if (typeof userId != 'undefined' && userId != 'undefined' &&
-          userId != 'null' && userId != null && userId != '') {
+    if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
       var req = new FormData();
       var file =  $('#take-picture-suggest')[0].files[0];
       req.append('source', file);
@@ -519,7 +518,7 @@ function doSuggest() {
         data: req,
         cache: false,
         contentType: false,
-        processData: false,
+        dataType: 'json',
         type: 'POST',
         success: onSuggestResponse,
         error: showError
@@ -541,30 +540,29 @@ function shareOffer() {
   if (typeof Storage != 'undefined') {
     var userId = localStorage.userId;
     $('#share-form input[name="share"]').attr('disabled', 'disabled');
-    if (typeof userId != 'undefined' && userId != 'undefined' &&
-          userId != 'null' && userId != null && userId != '') {
+    if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
       var message = $('#share-form input[name="comment"]').val(); 
       var msg = 'Visit getkikbak.com for an exclusive offer shared by your friend';
       if (!$('#take-picture')[0].files || $('#take-picture')[0].files.length == 0) {
         // TODO 
-        var req = {};
-        req['url'] = 'http://54.244.124.116/m/img/offer.png';
-        req['message'] = msg;
-        FB.api('/photos', 'post', req, onShareResponse);
+        onShareResponse('http://54.244.124.116/m/img/offer.png');
       } else {
         var req = new FormData();
         var file =  $('#take-picture')[0].files[0];
-        req.append('source', file);
-        req.append('message', msg);
-        var url='https://graph.facebook.com/photos?access_token=' + localStorage.accessToken + "&message=" + msg;
+        req.append('file', file);
+        req.append('userId', userId);
         $.ajax({
-          url: url,
+          url: config.backend + '/s/upload.php',
           data: req,
           cache: false,
           contentType: false,
-          processData: false,
+          dataType: 'json',
           type: 'POST',
-          success: onShareResponse,
+          success: function(response) {
+            if (response && response.url) {
+              onShareResponse(response.url);
+            }
+          },
           error: showError
         });
       }
@@ -572,41 +570,56 @@ function shareOffer() {
   }
 }
 
-function onShareResponse(response) {
-  if (response && response.post_id) {
-    var offer = jQuery.parseJSON(unescape(localStorage.offerDetail));
-    var exp = {};
-    local = getDisplayLocation(offer.locations);
-    exp['locationId'] = local.locationId;
-    exp['merchantId'] = offer.merchantId;
-    exp['offerId'] = offer.id;
-    // TODO
-    exp['fbImageId'] = response.id;
-    var message = $('#share-form input[name="comment"]').val(); 
-    exp['caption'] = message;
-    var data = {};
-    data['experience'] = exp;
-    var req = {};
-    req['ShareExperienceRequest'] = data;
-    var str = JSON.stringify(req);
-    $.ajax({
-      dataType: 'json',
-      type: 'POST',
-      contentType: 'application/json',
-      data: str,
-      url: 'kikbak/ShareExperience/' + userId,
-      success: function(json) {
-        showShareSuccessful();
-      },
-      error: showError
-    });
-  } else {
-    $('#share-form input[name="share"]').removeAttr('disabled');
-    alert(response.error.message);
-  }
+function onShareResponse(url) {
+  var offer = jQuery.parseJSON(unescape(localStorage.offerDetail));
+  var exp = {};
+  local = getDisplayLocation(offer.locations);
+  exp['locationId'] = local.locationId;
+  exp['merchantId'] = offer.merchantId;
+  exp['offerId'] = offer.id;
+  exp['fbImageId'] = 0;
+  //exp['imageUrl'] = url;
+  var message = $('#share-form input[name="comment"]').val(); 
+  exp['caption'] = message;
+  var data = {};
+  data['experience'] = exp;
+  var req = {};
+  req['ShareExperienceRequest'] = data;
+  var str = JSON.stringify(req);
+  $.ajax({
+    dataType: 'json',
+    type: 'POST',
+    contentType: 'application/json',
+    data: str,
+    url: config.backend + 'kikbak/ShareExperience/' + localStorage.userId,
+    success: function(json) {
+      if (json && json.ShareExperienceResponse && json.ShareExperienceResponse.referrerCode) {
+        showShareSuccessful(json.ShareExperienceResponse.referrerCode, message, url);
+      } else {
+        showError();
+      }
+    },
+    error: showError
+  });
 }
 
-function showShareSuccessful() {
+function showShareSuccessful(code, msg, url) {
+  var data = {
+    'name': localStorage.userName,
+    'code': code,
+    'desc': msg,
+    'url': url
+  };
+  $.ajax({
+    type: 'GET',
+    data: data,
+    dataType: 'json',
+    url: '/s/email.php',
+    success: function(json) {
+      window.location.href = 'mailto:?content-type=text/html&subject=' + json.title + '&body=' + json.body;
+    },
+    error: showError
+  });
 }
 
 function renderRedeemDetail(redeem) {

@@ -20,6 +20,7 @@
             <xsd:element name="merchantId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="offerId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="fbImageId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="imageUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="caption" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="type" type="xsd:string" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
