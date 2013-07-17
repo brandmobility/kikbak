@@ -161,6 +161,7 @@ public class PublishFragment extends DialogFragment {
       req.experience = new SharedType();
       req.experience.caption = args.getString(ARG_COMMENT);
       req.experience.fbImageId = imageId;
+      req.experience.imageUrl = ""; // FIXME
       req.experience.locationId = args.getLong(ARG_LOCATION_ID);
       req.experience.merchantId = args.getLong(ARG_MERCHANT_ID);
       req.experience.offerId = args.getLong(ARG_OFFER_ID);

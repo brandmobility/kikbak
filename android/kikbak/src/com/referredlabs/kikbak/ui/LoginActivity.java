@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.facebook.Session;
@@ -133,7 +134,11 @@ public class LoginActivity extends FragmentActivity implements StatusCallback,
     @Override
     protected void onPostExecute(Void result) {
       if (mSuccess) {
-        Register.getInstance().registerUser(mUserId);
+        String userName = mFacebookUser.getUsername();
+        if (TextUtils.isEmpty(userName)) {
+          userName = mFacebookUser.getFirstName() + " " + mFacebookUser.getLastName();
+        }
+        Register.getInstance().registerUser(mUserId, userName);
         startActivity(new Intent(LoginActivity.this, MainActivity.class));
         finish();
         UpdateFriends task = new UpdateFriends();

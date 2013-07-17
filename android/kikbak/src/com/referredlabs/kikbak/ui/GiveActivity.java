@@ -202,6 +202,10 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
     intent.putExtra(ShareViaEmailActivity.ARG_OFFER_ID, mOffer.id);
     intent.putExtra(ShareViaEmailActivity.ARG_MERCHANT_ID, mOffer.merchantId);
     intent.putExtra(ShareViaEmailActivity.ARG_LOCATION_ID, mOffer.locations[0].locationId); // FIXME
+    intent.putExtra(ShareViaEmailActivity.ARG_DEFAULT_PHOTO, mOffer.giveImageUrl);
+    if (mCroppedPhotoUri != null) {
+      intent.putExtra(ShareViaEmailActivity.ARG_USER_PHOTO, mCroppedPhotoUri.getPath());
+    }
     startActivity(intent);
   }
 
