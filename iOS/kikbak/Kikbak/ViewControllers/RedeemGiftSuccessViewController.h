@@ -18,6 +18,7 @@
 @property (nonatomic, strong) NSString* giftType;
 @property (nonatomic, strong) NSString* optionalDesc;
 @property (nonatomic, strong) NSString* validationCode;
+@property (nonatomic, strong) NSString* imagePath;
 
 
 @end

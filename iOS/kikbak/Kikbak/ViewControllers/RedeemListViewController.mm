@@ -15,6 +15,7 @@
 #import "AppDelegate.h"
 #import "LocationManager.h"
 #import "RedeemGiftViewController.h"
+#import "ClaimCreditViewController.h"
 #import "RewardCollection.h"
 #import "NotificationContstants.h"
 #import "RedeemChooserView.h"
@@ -287,9 +288,11 @@ const int CELL_HEIGHT = 156;
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if(collection.credit != nil){
-        RedeemCreditViewController* vc = [[RedeemCreditViewController alloc]init];
+//        RedeemCreditViewController* vc = [[RedeemCreditViewController alloc]init];
+//        vc.hidesBottomBarWhenPushed = true;
+//        vc.credit = collection.credit;
+        ClaimCreditViewController* vc = [[ClaimCreditViewController alloc]init];
         vc.hidesBottomBarWhenPushed = true;
-        vc.credit = collection.credit;
         [self.navigationController pushViewController:vc animated:YES];
     }
 
@@ -301,8 +304,8 @@ const int CELL_HEIGHT = 156;
         vc.gift = sender;
     }
     else{
-        RedeemCreditViewController* vc = (RedeemCreditViewController*)segue.destinationViewController;
-        vc.credit = sender;
+//        RedeemCreditViewController* vc = (RedeemCreditViewController*)segue.destinationViewController;
+//        vc.credit = sender;
     }
     [segue.destinationViewController setHidesBottomBarWhenPushed:YES];
 }
@@ -368,8 +371,9 @@ const int CELL_HEIGHT = 156;
 #pragma mark - btn actions
 
 -(void)onRedeemCredit:(Credit*)credit{
-    RedeemCreditViewController* vc = [[RedeemCreditViewController alloc]init];
-    vc.credit = credit;
+//    RedeemCreditViewController* vc = [[RedeemCreditViewController alloc]init];
+//    vc.credit = credit;
+    ClaimCreditViewController* vc = [[ClaimCreditViewController alloc]init];
     vc.hidesBottomBarWhenPushed = true;
     [self.navigationController pushViewController:vc animated:YES];
 }

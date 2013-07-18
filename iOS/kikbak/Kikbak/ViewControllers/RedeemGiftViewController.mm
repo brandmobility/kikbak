@@ -23,6 +23,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UIButton+Util.h"
 #import "RedeemGiftSuccessViewController.h"
+#import "BarcodeImageRequest.h"
 
 
 @interface RedeemGiftViewController (){
@@ -75,6 +76,10 @@
 -(void) onRedeemGiftSuccess:(NSNotification*)notification;
 -(void) onRedeemGiftError:(NSNotification*)notification;
 
+-(void) onBarcodeGeneratedSuccess:(NSNotification*)notification;
+-(void) onBarcodeGeneratedError:(NSNotification*)notification;
+
+
 @end
 
 @implementation RedeemGiftViewController
@@ -116,12 +121,14 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onRedeemGiftSuccess:) name:kKikbakRedeemGiftSuccess object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onRedeemGiftError:) name:kKikbakRedeemGiftError object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onOfferUpdate:) name:kKikbakImageDownloaded object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onBarcodeGeneratedError:) name:kKikbakBarcodeError object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onBarcodeGeneratedSuccess:) name:kKikbakBarcodeSuccess object:nil];
     
     [self updateDistance];
 
     
     if(self.gift){
-        NSString* imagePath = [ImagePersistor imageFileExists:self.gift.fbImageId imageType:GIVE_IMAGE_TYPE];
+        NSString* imagePath = [ImagePersistor imageFileExists:self.gift.fbImageId imageType:UGC_GIVE_IMAGE_TYPE];
         if(imagePath != nil){
             self.giftImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
         }
@@ -149,6 +156,8 @@
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakLocationUpdate object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakRedeemGiftSuccess object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakRedeemGiftError object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakBarcodeSuccess object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakBarcodeError object:nil];
     [super viewDidDisappear:animated];
 }
 
@@ -343,9 +352,12 @@
     self.giftType = self.gift.discountType;
     
     if(self.gift != nil){
-        RedeemGiftRequest *request = [[RedeemGiftRequest alloc]init];
-        request.gift = self.gift;
-        [request restRequest:[self setupGiftRequest]];
+//        RedeemGiftRequest *request = [[RedeemGiftRequest alloc]init];
+//        request.gift = self.gift;
+//        [request restRequest:[self setupGiftRequest]];
+        BarcodeImageRequest* request = [[BarcodeImageRequest alloc]init];
+        request.allocatedGiftId = self.gift.giftId;
+        [request requestBarcode];
     }
 }
 
@@ -444,6 +456,20 @@
     
 }
 
+-(void) onBarcodeGeneratedSuccess:(NSNotification*)notification{
+    RedeemGiftSuccessViewController* vc = [[RedeemGiftSuccessViewController alloc]init];
+    vc.merchantName = self.retailerName.text;
+    vc.value = self.value;
+    vc.giftType = self.giftType;
+    vc.optionalDesc = self.giftDetails.text;
+    vc.imagePath = [notification object];
+    [self.navigationController pushViewController:vc animated:YES];
+    
+}
+
+-(void) onBarcodeGeneratedError:(NSNotification*)notification{
+    
+}
 
 
 #pragma mark - on back btn

@@ -25,6 +25,7 @@
 #import "TermsAndConditionsView.h"
 #import "UIButton+Util.h"
 
+
 #define DEFAULT_CONTAINER_VIEW_HEIGHT 50
 #define PHOTO_TAG  1000
 #define CAPTION_TAG  1001
@@ -33,7 +34,10 @@
 const double TEXT_EDIT_CONTAINER_ORIGIN_Y = 243.0;
 const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 
-@interface GiveViewController ()
+@interface GiveViewController (){
+    BOOL shareViaEmail;
+    BOOL photoTaken;
+}
 
 @property (nonatomic, strong) Location* location;
 
@@ -85,9 +89,13 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 -(IBAction)onMapBtn:(id)sender;
 -(IBAction)onCallBtn:(id)sender;
 -(IBAction)onWebBtn:(id)sender;
+
 -(void)postToFacebook;
 
+-(void) onShareSuccess:(NSNotification*)notification;
+-(void) onShareError:(NSNotification*)notification;
 -(void) onLocationUpdate:(NSNotification*)notification;
+
 -(void) updateDisance;
 
 -(IBAction)keyboardWillShow:(NSNotification*)notification;
@@ -115,8 +123,8 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [super viewDidLoad];
     self.title = NSLocalizedString(@"Give", nil);
 	// Do any additional setup after loading the view.
+    shareViaEmail = NO;
     photoTaken = NO;
-    captionAdded = NO;
     
     if (self.offer.location.count > 0) {
         self.location = [self.offer.location anyObject];
@@ -152,7 +160,8 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onLocationUpdate:) name:kKikbakLocationUpdate object:nil];
-    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onShareSuccess:) name:kKikbakShareSuccess object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onShareError:) name:kKikbakShareError object:nil];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -165,6 +174,8 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakLocationUpdate object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakShareSuccess object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakShareError object:nil];
 }
 
 -(void)viewDidLayoutSubviews{
@@ -412,26 +423,13 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 
 -(IBAction)onGiveGift:(id)sender{
     
-//    if(!photoTaken){
-//        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:nil message:@"Gifts should come\n with there own photo" delegate:self cancelButtonTitle:@"Next Time" otherButtonTitles: @"Take Photo", nil];
-//        alert.tag = PHOTO_TAG;
-//        [alert show];
-//        return;
-//    }
-//    
-//    if(!captionAdded){
-//        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:nil
-//                                                       message:@"Do you want to tell your\n friend abour your photo?"
-//                                                      delegate:self
-//                                             cancelButtonTitle:@"No"
-//                                             otherButtonTitles: @"Yes", nil];
-//        alert.tag = CAPTION_TAG;
-//        [alert show];
-//        return;
-//    }
-    
+    CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+    ShareChannelSelectorView* view = [[ShareChannelSelectorView alloc]initWithFrame:frame];
+    [view createsubviews];
+    view.delegate = self;
+    [self.view addSubview:view];
 
-    [self postToFacebook];
+//    [self postToFacebook];
    // [self postPhotoTheOpenGraphAction];
 }
 
@@ -550,10 +548,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:self.spinnerView];
 
     
-    self.giveBtn.enabled = NO;
     FBRequestConnection* connection = [[FBRequestConnection alloc]initWithTimeout:30];
-    
-    
     FBRequest* request = [FBRequest requestForUploadPhoto:[self.giveImage.image imageByScalingAndCroppingForSize:CGSizeMake(300, 300)]];
     if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
         [request.parameters setObject:@"Visit http://getkikbak.com for an exclusive offer shared by your friend" forKey:@"name"];
@@ -592,8 +587,6 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
             [Flurry logEvent:@"FailedShareEvent" timed:YES];
             NSLog(@"Submit Error: %@", error);
         }
-        //for testing
-        //self.giveBtn.enabled = YES;
     }];
     
     
@@ -792,7 +785,6 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 #pragma mark - HPGrowingTextView delegate methods
 -(void)resignTextView
 {
-    captionAdded = true;
 	[self.captionTextView resignFirstResponder];
 }
 
@@ -830,6 +822,28 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 
 
 #pragma mark - NSNotification Center 
+-(void) onShareSuccess:(NSNotification*)notification{
+    if( shareViaEmail ){
+        MFMailComposeViewController* picker = [[MFMailComposeViewController alloc]init];
+        picker.mailComposeDelegate = self;
+        
+        
+        //    [picker setSubject:self.business.text];
+        //    [picker setMessageBody:self.about.text isHTML:NO];
+        
+        
+        [self presentViewController:picker animated:YES completion:nil];
+    }
+    
+}
+
+-(void) onShareError:(NSNotification*)notification{
+    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:@"Wasn't able to reach kikbak servers. Try again later." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    alert.tag = CALL_URL_TAG;
+    [alert show];
+
+}
+
 -(void) onLocationUpdate:(NSNotification*)notification{
     [self updateDisance];
 }
@@ -843,8 +857,55 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 }
 
 #pragma mark - ShareComplete Delegate
--(void) onShareSuccess{
+-(void) onShareFinished{
     [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+#pragma mark - ShareChannelSelector
+-(void)onEmailSelected{
+    //todo: upload email
+    shareViaEmail = YES;
+    ShareExperienceRequest* request = [[ShareExperienceRequest alloc]init];
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:5];
+    
+    [dict setObject:self.offer.merchantId forKey:@"merchantId"];
+    [dict setObject:self.location.locationId forKey:@"locationId"];
+    [dict setObject:self.offer.offerId forKey:@"offerId"];
+    [dict setObject:@"fb" forKey:@"type"];
+    if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
+        [dict setObject:@"" forKey:@"caption"];
+    }
+    else{
+        [dict setObject:self.captionTextView.text forKey:@"caption"];
+    }
+    [request restRequest:dict];
+
+}
+
+-(void)onTimelineSelected{
+    shareViaEmail = NO;
+    [self postToFacebook];
+}
+
+#pragma mark - MFMailComposer Delegates
+// Dismisses the email composition interface when users tap Cancel or Send. Proceeds to update the message field with the result of the operation.
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
+{
+	// Notifies users about errors associated with the interface
+	switch (result)
+	{
+		case MFMailComposeResultCancelled:
+			break;
+		case MFMailComposeResultSaved:
+			break;
+		case MFMailComposeResultSent:
+			break;
+		case MFMailComposeResultFailed:
+			break;
+		default:
+			break;
+	}
+	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

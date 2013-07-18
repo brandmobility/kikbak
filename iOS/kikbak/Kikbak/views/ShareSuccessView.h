@@ -10,7 +10,7 @@
 
 @protocol ShareCompleteDelegate <NSObject>
 
--(void)onShareSuccess;
+-(void)onShareFinished;
 
 @end
 

@@ -191,7 +191,7 @@
                               [Distance distanceToInMiles:current]];
     
     
-    NSString* imagePath = [ImagePersistor imageFileExists:self.offer.merchantId imageType:MERCHANT_IMAGE_TYPE];
+    NSString* imagePath = [ImagePersistor imageFileExists:self.offer.merchantId imageType:OFFER_LIST_IMAGE_TYPE];
     if(imagePath != nil){
         self.retailerImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
     }

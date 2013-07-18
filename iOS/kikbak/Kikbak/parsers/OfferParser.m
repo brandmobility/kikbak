@@ -63,11 +63,11 @@
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
 
-    if(![ImagePersistor imageFileExists:offer.merchantId imageType:MERCHANT_IMAGE_TYPE]) {
+    if(![ImagePersistor imageFileExists:offer.merchantId imageType:OFFER_LIST_IMAGE_TYPE]) {
         ImageRequest* request = [[ImageRequest alloc]init];
         request.url = offer.offerImageUrl;
         request.fileId = offer.merchantId;
-        request.type = MERCHANT_IMAGE_TYPE;
+        request.type = OFFER_LIST_IMAGE_TYPE;
         [request requestImage];
     }
     

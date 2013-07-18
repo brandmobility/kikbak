@@ -29,11 +29,13 @@
 "Take a photo" = "Add your own photo";
 "Next Time" = "Next Time";
 
+//give screen
 "Suggest Photo" = "Share a photo of the business";
 "Business name" = "Business name";
 "What makes them great" = "What makes them great";
 "suggest required" = "Please tell us about the business you want to suggest";
 "configure mail" = "Please configure phone to send email";
+"Wasn't able to reach kikbak servers. Try again later." = "Wasn't able to reach kikbak servers. Try again later.";
 
 "miles away" = "%@ mi";
 "call" = "call";
@@ -97,3 +99,10 @@
 "Loading" = "Loading...";
 "Error" = "Unable to load TOS";
 "TOS timeout" = "The request to the server has timed out";
+
+//share channel
+"Share type" = "How would you like to share?";
+"Email" = "Email";
+"Send to select friends" = "Send to select friends";
+"Facebook" = "Facebook";
+"Post on my timeline" = "Post on my Timeline";

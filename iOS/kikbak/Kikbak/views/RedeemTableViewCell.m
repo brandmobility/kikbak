@@ -234,7 +234,7 @@ const int CELL_HEIGHT = 147;
                               [Distance distanceToInMiles:current]];
     
     
-    NSString* imagePath = [ImagePersistor imageFileExists:self.rewards.gift.merchantId imageType:MERCHANT_IMAGE_TYPE];
+    NSString* imagePath = [ImagePersistor imageFileExists:self.rewards.gift.merchantId imageType:OFFER_LIST_IMAGE_TYPE];
     if(imagePath != nil){
         self.retailerImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
     }
@@ -256,7 +256,7 @@ const int CELL_HEIGHT = 147;
                             self.location.latitude.doubleValue
                              longitude:self.location.longitude.doubleValue]] ];
     
-    NSString* imagePath = [ImagePersistor imageFileExists:self.rewards.credit.merchantId imageType:MERCHANT_IMAGE_TYPE];
+    NSString* imagePath = [ImagePersistor imageFileExists:self.rewards.credit.merchantId imageType:OFFER_LIST_IMAGE_TYPE];
     if(imagePath != nil){
         self.retailerImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
     }

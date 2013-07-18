@@ -16,14 +16,17 @@
 +(NSString*)getDirectory:(ImageType)type;
 @end
 
-const char* GIVE_IMAGE_PATH = "give";
-const char* MERCHANT_PATH = "merchant";
+const char* UGC_GIVE_IMAGE_PATH = "ugc_give";
+const char* DEFAULT_GIVE_IMAGE_PATH = "default_give";
+const char* OFFER_LIST_IMAGE_PATH = "merchant";
+const char* BARCODE_IMAGE_PATH = "barcode";
+const char* REDEEM_LIST_IMAGE_PATH = "redeem";
 const char* FRIEND_PATH = "friend";
 const char* IMAGE_PNG = "image.png";
 
 @implementation ImagePersistor
 
-+(void)persisttImage:(NSData*)imageData fileId:(NSNumber*)fileId imageType:(ImageType)type
++(NSString*)persisttImage:(NSData*)imageData fileId:(NSNumber*)fileId imageType:(ImageType)type
 {
     NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString* fullPath = [NSString stringWithFormat:@"%@/%@/%@",[paths objectAtIndex:0],[ImagePersistor getDirectory:type], fileId];
@@ -33,6 +36,7 @@ const char* IMAGE_PNG = "image.png";
     
     NSString* file = [NSString stringWithFormat:@"%@/%s", fullPath, IMAGE_PNG];
     [imageData writeToFile:file atomically:YES];
+    return file;
 }
 
 +(void)setBackUpAttribute:(NSString*)directory{
@@ -79,11 +83,14 @@ const char* IMAGE_PNG = "image.png";
 }
 
 +(NSString*)getDirectory:(ImageType)type{
-    if(type == MERCHANT_IMAGE_TYPE){
-        return @(MERCHANT_PATH);
+    if(type == OFFER_LIST_IMAGE_TYPE){
+        return @(OFFER_LIST_IMAGE_PATH);
     }
-    else if(type == GIVE_IMAGE_TYPE){
-        return @(GIVE_IMAGE_PATH);
+    else if(type == UGC_GIVE_IMAGE_TYPE){
+        return @(UGC_GIVE_IMAGE_PATH);
+    }
+    else if(type == BARCODE_IMAGE_TYPE){
+        return @(BARCODE_IMAGE_PATH);
     }
 
     return @(FRIEND_PATH);

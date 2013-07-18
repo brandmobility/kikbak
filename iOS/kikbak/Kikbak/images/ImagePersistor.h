@@ -11,7 +11,7 @@
 
 @interface ImagePersistor : NSObject
 
-+(void)persisttImage:(NSData*)imageData fileId:(NSNumber*)fileId imageType:(ImageType)type;
++(NSString*)persisttImage:(NSData*)imageData fileId:(NSNumber*)fileId imageType:(ImageType)type;
 +(NSString*)imageFileExists:(NSNumber*)fileId imageType:(ImageType)type;
 
 @end

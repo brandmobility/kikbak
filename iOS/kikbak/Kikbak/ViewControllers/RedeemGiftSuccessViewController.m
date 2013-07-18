@@ -29,7 +29,7 @@
 @property (nonatomic, strong) UILabel* details;
 @property (nonatomic, strong) UIImageView* seperator;
 
-@property (nonatomic, strong) UIImageView* qrCode;
+@property (nonatomic, strong) UIImageView* validationImage;
 @property (nonatomic, strong) UILabel* couponCode;
 
 -(void)createSubviews;
@@ -79,7 +79,7 @@
         self.desc.frame = CGRectMake(0, 185, 320, 48);
         self.details.frame = CGRectMake(0, 225, 320, 26);
         self.seperator.frame = CGRectMake(11, 265, 298, 1);
-        self.qrCode.frame = CGRectMake(33, 287, 109, 109);
+        self.validationImage.frame = CGRectMake(33, 287, 109, 109);
         self.couponCode.frame = CGRectMake(175, 322, 320, 46);
         self.couponCode.textAlignment = NSTextAlignmentLeft;
     }
@@ -170,9 +170,9 @@
     self.seperator.image = [UIImage imageNamed:@"separator_gray_line"];
     [self.view addSubview:self.seperator];
     
-    self.qrCode = [[UIImageView alloc]initWithFrame:CGRectMake(106, 321, 109, 109)];
-    self.qrCode.image = [UIImage imageNamed:@"img_code"];
-    [self.view addSubview:self.qrCode];
+    self.validationImage = [[UIImageView alloc]initWithFrame:CGRectMake(60, 321, 200, 75)];
+    self.validationImage.image = [UIImage imageWithContentsOfFile:self.imagePath];
+    [self.view addSubview:self.validationImage];
     
     self.couponCode = [[UILabel alloc] initWithFrame:CGRectMake(0, 445, 320, 46)];
     self.couponCode.text = self.validationCode;

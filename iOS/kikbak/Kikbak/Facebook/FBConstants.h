@@ -11,4 +11,5 @@
 
 const char* FB_USER_ID_KEY = "id";
 const char* FB_USERNAME_KEY = "username";
+const char* FB_NAME_KEY = "name";
 #endif

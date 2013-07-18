@@ -27,7 +27,6 @@ static NSString* resource = @"user/offer";
 -(void)restRequest:(NSDictionary*)requestData{
   
     NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
-
     NSString* userId = [prefs objectForKey:KIKBAK_USER_ID];
     assert(userId != nil);
     if( userId == nil){
