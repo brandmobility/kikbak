@@ -13,7 +13,7 @@ $name = urldecode($_GET['name']);
 $code = $_GET['code'];
 $desc = urldecode($_GET['desc']);
 $image_url = urldecode($_GET['url']);
-$login_url = host() . 'm/claim.php?code=' . $code;
+$login_url = host() . '/m/claim.php?code=' . $code;
 
 $body = $name . ' used Kikbak to give you an exclusive offer. Check it out here ' . $login_url;
 
