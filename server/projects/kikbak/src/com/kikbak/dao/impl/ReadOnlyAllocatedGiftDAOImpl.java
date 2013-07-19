@@ -15,6 +15,7 @@ import com.kikbak.dto.Allocatedgift;
 @Repository
 public class ReadOnlyAllocatedGiftDAOImpl extends ReadOnlyGenericDAOImpl<Allocatedgift, Long> implements ReadOnlyAllocatedGiftDAO {
 
+	private static final String gift_shared_ids = "select shared_id from allocatedgift where user_id=?";
 	private static final String gift_offer_ids = "select offer_id from allocatedgift where user_id=?";
 	
 	@Override
@@ -38,8 +39,15 @@ public class ReadOnlyAllocatedGiftDAOImpl extends ReadOnlyGenericDAOImpl<Allocat
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
-	public Collection<Long> listOfferIdsForUser(Long userId) {
-		return sessionFactory.getCurrentSession().createSQLQuery(gift_offer_ids).addScalar("offer_id",  StandardBasicTypes.LONG ).setLong(0, userId).list();
+	public Collection<Long> listSharedIdsForUser(Long userId) {
+		return sessionFactory.getCurrentSession().createSQLQuery(gift_shared_ids).addScalar("offer_id",  StandardBasicTypes.LONG ).setLong(0, userId).list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+    @Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
+	public Collection<Long> listOfferIdsForUser(Long userId){
+	    return sessionFactory.getCurrentSession().createSQLQuery(gift_offer_ids).addScalar("offer_id",  StandardBasicTypes.LONG ).setLong(0, userId).list();
 	}
 
 	@Override

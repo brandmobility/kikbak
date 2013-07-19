@@ -353,15 +353,15 @@ public class RewardServiceImpl implements RewardService{
         }
         Collection<Shared> shareds = roSharedDao.listAvailableForGifting(user.getFacebookId());
 
-//        Collection<Long> offerIds = roAllocatedGiftDao.listOfferIdsForUser(userId);
+        Collection<Long> sharedIds = roAllocatedGiftDao.listSharedIdsForUser(userId);
         Collection<Allocatedgift> newGifts = new ArrayList<Allocatedgift>();
         for(Shared shared : shareds){
-//            if(!offerIds.contains(shared.getOfferId())){
+            if(!sharedIds.contains(shared.getOfferId())){
                 Offer offer = roOfferDao.findById(shared.getOfferId());
                 Allocatedgift ag = createAllocateOffer(userId, shared, offer);
                 newGifts.add(ag);
-//                offerIds.add(shared.getOfferId());
-//            }
+                sharedIds.add(shared.getOfferId());
+            }
         }
     }
 

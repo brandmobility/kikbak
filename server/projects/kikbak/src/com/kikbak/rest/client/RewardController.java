@@ -158,16 +158,21 @@ public class RewardController {
     
     @RequestMapping(value="/generateBarcode/{userId}/{allocatedGiftId}/{height}/{width}/", method = RequestMethod.GET)
     public void generateBarcode(@PathVariable("userId") Long userId,
-            @PathVariable("allocatedGiftId") String allocatedGiftId, @PathVariable("height") Integer height,
+            @PathVariable("allocatedGiftId") Long allocatedGiftId, @PathVariable("height") Integer height,
             @PathVariable("width") Integer width, final HttpServletResponse response) {
         try {
+            String barcode = service.getBarcode(userId, allocatedGiftId);
             BitMatrix result = new UPCAWriter().encode("485963095124", BarcodeFormat.UPC_A, width, height);
             response.setContentType("image/png");
+            response.addHeader("barcode", barcode);
+            
             MatrixToImageWriter.writeToStream(result, "png", response.getOutputStream());
+            
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             logger.error("cannot generate barcode", e);
         }
+        String header = response.getHeader("barcode");
     }
     
     @RequestMapping(value="/claim/{userId}/", method = RequestMethod.POST)
