@@ -15,9 +15,8 @@ $desc = urldecode($_GET['desc']);
 $image_url = urldecode($_GET['url']);
 $login_url = host() . '/m/claim.php?code=' . $code;
 
-$title = $name . ' used Kikbak to give you an exclusive offer';
-$body = "<html><body><div><span id='content'>" . $desc . "</div><div><a href='" . $login_url . "'>" . $login_url . "</a></span></div><div><img src='" . $image_url . "'></img></div></body></html>";
+$body = $name . ' used Kikbak to give you an exclusive offer. Check it out here ' . $login_url;
 
-echo '{"title" : "' . $title . '", "body" : "' . $body . '"}'
+echo '{"body" : "' . $body . '"}'
 
 ?>
