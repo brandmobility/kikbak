@@ -571,21 +571,22 @@ function shareOffer() {
 }
 
 function onShareResponse(url) {
-  var offer = jQuery.parseJSON(unescape(localStorage.offerDetail));
-  var exp = {};
+  var offer = jQuery.parseJSON(unescape(localStorage.offerDetail)),
+    exp = {},
+    message = $('#share-form input[name="comment"]').val(),
+    data = {},
+    req = {},
+    str;
   local = getDisplayLocation(offer.locations);
   exp['locationId'] = local.locationId;
   exp['merchantId'] = offer.merchantId;
   exp['offerId'] = offer.id;
   exp['fbImageId'] = 0;
-  //exp['imageUrl'] = url;
-  var message = $('#share-form input[name="comment"]').val(); 
+  //exp['imageUrl'] = url; 
   exp['caption'] = message;
-  var data = {};
   data['experience'] = exp;
-  var req = {};
   req['ShareExperienceRequest'] = data;
-  var str = JSON.stringify(req);
+  str = JSON.stringify(req);
   $.ajax({
     dataType: 'json',
     type: 'POST',
@@ -610,16 +611,28 @@ function showShareSuccessful(code, msg, url) {
     'desc': msg,
     'url': url
   };
-  $.ajax({
-    type: 'GET',
-    data: data,
-    dataType: 'json',
-    url: '/s/email.php',
-    success: function(json) {
-      window.location.href = 'mailto:?content-type=text/html&subject=' + json.title + '&body=' + json.body;
-    },
-    error: showError
-  });
+  if (getBrowserName() == 'Safari') {
+    $.ajax({
+      type: 'GET',
+      data: data,
+      dataType: 'json',
+      url: '/s/email.php',
+      success: function(json) {
+        window.location.href = 'mailto:?content-type=text/html&subject=' + json.title + '&body=' + json.body;
+      },
+      error: showError
+    });
+  } else {
+    $.ajax({
+      type: 'GET',
+      data: data,
+      dataType: 'json',
+      url: '/s/sms.php',
+      success: function(json) {
+        window.location.href = 'sms://?&body=' + json.body;
+      },
+      error: showError
+  }
 }
 
 function renderRedeemDetail(redeem) {
