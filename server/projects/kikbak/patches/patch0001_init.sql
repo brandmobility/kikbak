@@ -189,6 +189,7 @@ CREATE TABLE `shared`
     merchant_id BIGINT NOT NULL,
     location_id BIGINT NOT NULL,
     offer_id BIGINT NOT NULL,
+    employee_id VARCHAR(32),
     type VARCHAR(16) NOT NULL,
     fb_image_id BIGINT,
     image_url VARCHAR(256),

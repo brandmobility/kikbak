@@ -309,6 +309,7 @@ public class RewardServiceImpl implements RewardService{
         gt.setId(ag.getId());
         ClientMerchantType cmt = fillClientMerchantType(merchant);
         gt.setMerchant(cmt);
+        gt.setOfferId(shared.getOfferId());
         gt.setDesc(gift.getDescription());
         gt.setDetailedDesc(gift.getDetailedDesc());
         gt.setValue(gift.getValue());
@@ -346,21 +347,21 @@ public class RewardServiceImpl implements RewardService{
 
     protected void createGifts(Long userId) throws RewardException {
 
-        Collection<Long> offerIds = roAllocatedGiftDao.listOfferIdsForUser(userId);
         User user = roUserDao.findById(userId);
         if (user == null) {
             throw new RewardException("user id " + userId + " doesn't exist");
         }
         Collection<Shared> shareds = roSharedDao.listAvailableForGifting(user.getFacebookId());
 
+//        Collection<Long> offerIds = roAllocatedGiftDao.listOfferIdsForUser(userId);
         Collection<Allocatedgift> newGifts = new ArrayList<Allocatedgift>();
         for(Shared shared : shareds){
-            if(!offerIds.contains(shared.getOfferId())){
+//            if(!offerIds.contains(shared.getOfferId())){
                 Offer offer = roOfferDao.findById(shared.getOfferId());
                 Allocatedgift ag = createAllocateOffer(userId, shared, offer);
                 newGifts.add(ag);
-                offerIds.add(shared.getOfferId());
-            }
+//                offerIds.add(shared.getOfferId());
+//            }
         }
     }
 

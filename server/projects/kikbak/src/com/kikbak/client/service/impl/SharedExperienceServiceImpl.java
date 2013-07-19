@@ -109,6 +109,7 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
 		shared.setLocationId(experience.getLocationId());
 		shared.setMerchantId(experience.getMerchantId());
 		shared.setOfferId(experience.getOfferId());
+		shared.setEmployeeId(experience.getEmployeeId());
 		shared.setFbImageId(experience.getFbImageId());
 		shared.setImageUrl(experience.getImageUrl());
 		shared.setUserId(userId);
