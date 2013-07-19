@@ -2,7 +2,6 @@
 package com.referredlabs.kikbak.ui;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
@@ -57,11 +56,15 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
   private TextView mGiftDesc;
   private Button mRedeemInStore;
 
+  RedeemSuccessCallback mCallback;
+
   @Override
   public void onAttach(Activity activity) {
     super.onAttach(activity);
     String data = getActivity().getIntent().getStringExtra(RedeemGiftActivity.EXTRA_GIFT);
     mGift = new Gson().fromJson(data, GiftType.class);
+
+    mCallback = (RedeemSuccessCallback) activity;
   }
 
   @Override
@@ -215,12 +218,8 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
   }
 
   public void onBarcodeFetched(Bitmap bitmap) {
-    Intent intent = new Intent(getActivity(), SuccessActivity.class);
-    intent.putExtra(SuccessActivity.ARG_BARCODE_BITMAP, bitmap);
-    intent.putExtra(SuccessActivity.ARG_BARCODE, "4443452234"); // FIXME:
-    intent.putExtra(SuccessActivity.ARG_GIFT,
-        getActivity().getIntent().getStringExtra(RedeemGiftActivity.EXTRA_GIFT));
-    startActivity(intent);
+    String barcode = "123456"; // FIXME
+    mCallback.success(barcode, bitmap);
   }
 
   public void onBarcodeFetchFailed() {
@@ -229,11 +228,7 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
   }
 
   public void onRegistrationSuccess(String code) {
-    Intent intent = new Intent(getActivity(), SuccessActivity.class);
-    intent.putExtra(SuccessActivity.ARG_GIFT,
-        getActivity().getIntent().getStringExtra(RedeemGiftActivity.EXTRA_GIFT));
-    intent.putExtra(SuccessActivity.ARG_BARCODE, code);
-    startActivity(intent);
+    mCallback.success(code, null);
   }
 
   public void onRegistrationFailed() {

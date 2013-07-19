@@ -38,6 +38,7 @@ public class PublishFragment extends DialogFragment {
   private static final String ARG_LOCATION_ID = "location_id";
   private static final String ARG_MERCHANT_ID = "merchant_id";
   private static final String ARG_OFFER_ID = "offer_id";
+  private static final String ARG_VERIZON_ID = "verizon_id";
 
   private static final int REQUEST_FB_AUTH = 1;
 
@@ -53,7 +54,7 @@ public class PublishFragment extends DialogFragment {
   };
 
   public static PublishFragment newInstance(String comment, String photoPath, long offerId,
-      long merchantId, long locationId) {
+      long merchantId, long locationId, String verizonId) {
     PublishFragment fragment = new PublishFragment();
     Bundle args = new Bundle();
     args.putString(ARG_COMMENT, comment);
@@ -61,6 +62,7 @@ public class PublishFragment extends DialogFragment {
     args.putLong(ARG_OFFER_ID, offerId);
     args.putLong(ARG_MERCHANT_ID, merchantId);
     args.putLong(ARG_LOCATION_ID, locationId);
+    args.putString(ARG_VERIZON_ID, verizonId);
     fragment.setArguments(args);
     fragment.setRetainInstance(true);
     return fragment;
@@ -161,7 +163,8 @@ public class PublishFragment extends DialogFragment {
       req.experience = new SharedType();
       req.experience.caption = args.getString(ARG_COMMENT);
       req.experience.fbImageId = imageId;
-      req.experience.imageUrl = ""; // FIXME
+      req.experience.employeeId = args.getString(ARG_VERIZON_ID);
+      req.experience.imageUrl = ""; // FIXME shared via facebook, do we upload as well?
       req.experience.locationId = args.getLong(ARG_LOCATION_ID);
       req.experience.merchantId = args.getLong(ARG_MERCHANT_ID);
       req.experience.offerId = args.getLong(ARG_OFFER_ID);

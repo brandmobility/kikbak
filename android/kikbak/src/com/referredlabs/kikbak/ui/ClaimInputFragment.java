@@ -4,6 +4,8 @@ package com.referredlabs.kikbak.ui;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -123,12 +125,25 @@ public class ClaimInputFragment extends Fragment implements OnClickListener {
 
   public static class ClaimSubmittedPopup extends DialogFragment {
     String message = "Your reward claim has been submitted.";
+    RedeemSuccessCallback mCallback;
+
+    @Override
+    public void onAttach(Activity activity) {
+      super.onAttach(activity);
+      mCallback = (RedeemSuccessCallback) activity;
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
       return new AlertDialog.Builder(getActivity())
           .setTitle("Success!")
           .setMessage(message)
+          .setOnDismissListener(new OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+              mCallback.finished();
+            }
+          })
           .setPositiveButton(android.R.string.ok, null)
           .create();
     }

@@ -71,6 +71,10 @@
     <string name="share_option_facebook_post_on_timeline">Post on my Timeline</string>
     <string name="share_option_facebook_send_to_friends">Send to selected friends</string>
 
+    <!-- Verizon -->
+    <string name="share_verizon_label">Did a Verizon associate help you?</string>
+    <string name="share_verizon_employee_hint">Enter ID #</string>
+
     <!-- Share progress -->
     <string name="share_in_progress">Sharing gift</string>
 
@@ -94,7 +98,6 @@
     <string name="redeem_card_ready">You have a reward ready to be claimed!</string>
     <string name="gift_card">Gift Card</string>
     <string name="claim_reward">Claim reward now</string>
-    
     <string name="redeem_store">Redeem now in store</string>
 
     <!-- Change amount -->

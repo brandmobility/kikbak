@@ -2,10 +2,11 @@
 package com.referredlabs.kikbak.data;
 
 public class AvailableCreditType {
-  public long id; // optional
-  public ClientMerchantType merchant; // optional
+  public long id;
+  public long offerId;
+  public ClientMerchantType merchant;
   public String desc;
-  public String detailedDesc; // optional
+  public String detailedDesc;
   public double value;
   public int redeeemedGiftsCount;
   public String tosUrl;

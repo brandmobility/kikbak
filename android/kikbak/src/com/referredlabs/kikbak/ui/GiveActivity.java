@@ -35,6 +35,7 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
 
   private static final int REQUEST_TAKE_PHOTO = 1;
   private static final int REQUEST_CROP_PHOTO = 2;
+  private static final int REQUEST_SHARE_EMAIL = 3;
 
   private ClientOfferType mOffer;
   private ImageView mImage;
@@ -131,12 +132,13 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
   }
 
   protected void onPhotoTakenAsync() {
-    mImage.post(new Runnable() {
+    mImage.postDelayed(new Runnable() {
       @Override
       public void run() {
         onPhotoTaken();
+        mComment.requestFocus();
       }
-    });
+    }, 500);
   }
 
   protected void onPhotoTaken() {
@@ -174,11 +176,16 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
       removeFile(mPhotoUri);
       mPhotoUri = null;
       onPhotoTakenAsync();
+      return;
+    }
+
+    if (requestCode == REQUEST_SHARE_EMAIL && resultCode == RESULT_OK) {
+      finish();
     }
   }
 
   protected void onShareClicked() {
-    ShareOptionsFragment dialog = ShareOptionsFragment.newInstance();
+    ShareOptionsFragment dialog = ShareOptionsFragment.newInstance(mOffer.merchantName);
     dialog.show(getFragmentManager(), "");
   }
 
@@ -196,26 +203,27 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
   }
 
   @Override
-  public void onSendViaEmail() {
+  public void onSendViaEmail(String id) {
     Intent intent = new Intent(this, ShareViaEmailActivity.class);
     intent.putExtra(ShareViaEmailActivity.ARG_COMMENT, mComment.getText().toString());
     intent.putExtra(ShareViaEmailActivity.ARG_OFFER_ID, mOffer.id);
     intent.putExtra(ShareViaEmailActivity.ARG_MERCHANT_ID, mOffer.merchantId);
+    intent.putExtra(ShareViaEmailActivity.ARG_VERIZON_ID, id);
     intent.putExtra(ShareViaEmailActivity.ARG_LOCATION_ID, mOffer.locations[0].locationId); // FIXME
     intent.putExtra(ShareViaEmailActivity.ARG_DEFAULT_PHOTO, mOffer.giveImageUrl);
     if (mCroppedPhotoUri != null) {
       intent.putExtra(ShareViaEmailActivity.ARG_USER_PHOTO, mCroppedPhotoUri.getPath());
     }
-    startActivity(intent);
+    startActivityForResult(intent, REQUEST_SHARE_EMAIL);
   }
 
   @Override
-  public void onSendViaFacebook() {
+  public void onSendViaFacebook(String id) {
     Toast.makeText(this, "Not implemented", Toast.LENGTH_SHORT).show();
   }
 
   @Override
-  public void onPostOnFacebook() {
+  public void onPostOnFacebook(String id) {
     android.util.Log.d("MMM", "post on timeline");
     if (mCroppedPhotoUri == null) {
       // TODO: extract original photo
@@ -227,7 +235,7 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
     String comment = mComment.getText().toString();
     long locationId = mOffer.locations[0].locationId;
     PublishFragment publish = PublishFragment.newInstance(comment, path, mOffer.id,
-        mOffer.merchantId, locationId);
+        mOffer.merchantId, locationId, id);
     publish.show(getSupportFragmentManager(), "");
   }
 

@@ -2,11 +2,12 @@
 package com.referredlabs.kikbak.data;
 
 public class GiftType {
-  public long id; // optional
-  public ClientMerchantType merchant; // optional
-  public long friendUserId; // optional
+  public long id;
+  public long offerId;
+  public ClientMerchantType merchant;
+  public long friendUserId;
   public String desc;
-  public String detailedDesc; // optional
+  public String detailedDesc;
   public double value;
   public String discountType;
   public String validationType;

@@ -49,6 +49,7 @@ public class ShareViaEmailActivity extends FragmentActivity
   public static final String ARG_OFFER_ID = "offer_id";
   public static final String ARG_USER_PHOTO = "user_photo";
   public static final String ARG_DEFAULT_PHOTO = "default_photo";
+  public static final String ARG_VERIZON_ID = "verizon_id";
 
   private ListView mList;
   private Button mShareButton;
@@ -143,6 +144,7 @@ public class ShareViaEmailActivity extends FragmentActivity
     req.experience = new SharedType();
     req.experience.caption = args.getString(ARG_COMMENT);
     req.experience.fbImageId = 0;
+    req.experience.employeeId = args.getString(ARG_VERIZON_ID);
     req.experience.imageUrl = mPhotoUri;
     req.experience.locationId = args.getLong(ARG_LOCATION_ID);
     req.experience.merchantId = args.getLong(ARG_MERCHANT_ID);
@@ -163,6 +165,10 @@ public class ShareViaEmailActivity extends FragmentActivity
     intent.putExtra(Intent.EXTRA_TEXT, text);
     intent.putExtra(Intent.EXTRA_HTML_TEXT, body);
     startActivity(intent);
+
+    // finish ourselfs regardless of result
+    setResult(RESULT_OK);
+    finish();
   }
 
   protected void onShareFailed() {

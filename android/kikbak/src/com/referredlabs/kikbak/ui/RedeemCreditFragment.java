@@ -2,7 +2,6 @@
 package com.referredlabs.kikbak.ui;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
@@ -55,6 +54,7 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
   private TextView mCreditValue;
   private Button mRedeemInStore;
   private boolean mCreditConfirmed;
+  private RedeemSuccessCallback mCallback;
 
   @Override
   public void onAttach(Activity activity) {
@@ -62,6 +62,7 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
     String data = activity.getIntent().getStringExtra(RedeemCreditActivity.EXTRA_CREDIT);
     mCredit = new Gson().fromJson(data, AvailableCreditType.class);
     mCreditToUse = mCredit.value;
+    mCallback = (RedeemSuccessCallback) activity;
   }
 
   @Override
@@ -203,12 +204,8 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
 
   @Override
   public void onBarcodeFetched(Bitmap bitmap) {
-    Intent intent = new Intent(getActivity(), SuccessActivity.class);
-    intent.putExtra(SuccessActivity.ARG_BARCODE_BITMAP, bitmap);
-    intent.putExtra(SuccessActivity.ARG_BARCODE, "4443452234"); // FIXME:
-    intent.putExtra(SuccessActivity.ARG_CREDIT,
-        getActivity().getIntent().getStringExtra(RedeemCreditActivity.EXTRA_CREDIT));
-    startActivity(intent);
+    String barcode = "12345"; // FIXME
+    mCallback.success(barcode, bitmap);
   }
 
   @Override
@@ -237,11 +234,7 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
   }
 
   public void onRegistrationSuccess(String code) {
-    Intent intent = new Intent(getActivity(), SuccessActivity.class);
-    intent.putExtra(SuccessActivity.ARG_BARCODE, code);
-    intent.putExtra(SuccessActivity.ARG_CREDIT,
-        getActivity().getIntent().getStringExtra(SuccessActivity.ARG_CREDIT));
-    startActivity(intent);
+    mCallback.success(code, null);
   }
 
   public void onRegistrationFailed() {

@@ -10,6 +10,7 @@ public class SharedType {
   public long merchantId;
   public long offerId;
   public long fbImageId;
+  public String employeeId;
   public String imageUrl;
   public String caption;
   public String type;
