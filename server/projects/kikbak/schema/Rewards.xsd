@@ -29,6 +29,7 @@
     <xsd:complexType name="AvailableCreditType">
         <xsd:sequence>
             <xsd:element name="id" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="offerId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="merchant" type="kikbak:ClientMerchantType" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="desc" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="detailedDesc" type="xsd:string" minOccurs="1" maxOccurs="1"/>
@@ -46,6 +47,7 @@
     <xsd:complexType name="GiftType">
         <xsd:sequence>
             <xsd:element name="id" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="offerId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="merchant" type="kikbak:ClientMerchantType" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="friendUserId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="desc" type="xsd:string" minOccurs="1" maxOccurs="1"/>

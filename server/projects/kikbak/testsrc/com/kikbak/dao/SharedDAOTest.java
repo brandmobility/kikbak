@@ -53,7 +53,7 @@ public class SharedDAOTest extends KikbakBaseTest{
 		shared.setUserId(12342);
 		shared.setSharedDate(new Date());
 		shared.setType("email");
-		shared.setReferralCode("code1");
+		shared.setReferralCode("code4");
 		
 		try {
 		    rwDao.saveShared(shared);
