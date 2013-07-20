@@ -21,6 +21,7 @@
 #import "RedeemChooserView.h"
 #import "RedeemCreditViewController.h"
 #import "SuggestViewController.h"
+#import "TermsAndConditionsView.h"
 #import "util.h"
 #import "UIDevice+Screen.h"
 #import <map>

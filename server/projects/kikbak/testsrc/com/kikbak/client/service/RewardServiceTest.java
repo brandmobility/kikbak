@@ -1,10 +1,13 @@
 package com.kikbak.client.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.oned.UPCAWriter;
 import com.kikbak.KikbakBaseTest;
 import com.kikbak.dao.ReadOnlyAllocatedGiftDAO;
 import com.kikbak.dao.ReadWriteAllocatedGiftDAO;
@@ -177,4 +180,38 @@ public class RewardServiceTest extends KikbakBaseTest{
         }
 	}
 	
+	
+	@Test
+	public void testValidBarcode() {
+	    try {
+	        new UPCAWriter().encode("485963095124", BarcodeFormat.UPC_A, 150, 150);
+	    }catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
+	}
+	
+	@Test
+    public void testInvalidBarcode() {
+        try {
+            new UPCAWriter().encode("222222222222", BarcodeFormat.UPC_A, 150, 150);
+        }catch (Exception e) {
+            // TODO Auto-generated catch block
+            return;     
+        }
+        fail();
+    }
+	
+	@Test
+	public void testAllocateAndValidateBarcode() {
+	    try {
+	        String code = service.getBarcode(12L, 5L);
+            new UPCAWriter().encode(code, BarcodeFormat.UPC_A, 150, 150);
+        }catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            fail();
+        }
+	}
 }

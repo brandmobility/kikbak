@@ -161,10 +161,10 @@ public class RewardController {
             @PathVariable("allocatedGiftId") Long allocatedGiftId, @PathVariable("height") Integer height,
             @PathVariable("width") Integer width, final HttpServletResponse response) {
         try {
-         //   String barcode = service.getBarcode(userId, allocatedGiftId);
-            BitMatrix result = new UPCAWriter().encode("485963095124", BarcodeFormat.UPC_A, width, height);
+            String barcode = service.getBarcode(userId, allocatedGiftId);
+            BitMatrix result = new UPCAWriter().encode(barcode, BarcodeFormat.UPC_A, width, height);
             response.setContentType("image/png");
-       //     response.addHeader("barcode", barcode);
+            response.addHeader("barcode", barcode);
             
             MatrixToImageWriter.writeToStream(result, "png", response.getOutputStream());
             

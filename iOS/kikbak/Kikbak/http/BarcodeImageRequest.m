@@ -37,7 +37,10 @@ static NSString* resource = @"rewards/generateBarcode";
 
 -(void)parseResponse:(NSData*)data{
     NSString* imagePath = [ImagePersistor persisttImage:data fileId:self.allocatedGiftId imageType:BARCODE_IMAGE_TYPE];
-    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakBarcodeSuccess object:imagePath];
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:2];
+    [dict setObject:[request.responseHeaders objectForKey:@"barcode"] forKey:@"barcode"];
+    [dict setObject:imagePath forKey:@"imagePath"];
+    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakBarcodeSuccess object:dict];
 }
 
 -(void)handleError:(NSInteger)statusCode withData:(NSData*)data{

@@ -40,7 +40,7 @@ public class ReadOnlyAllocatedGiftDAOImpl extends ReadOnlyGenericDAOImpl<Allocat
 	@Override
 	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
 	public Collection<Long> listSharedIdsForUser(Long userId) {
-		return sessionFactory.getCurrentSession().createSQLQuery(gift_shared_ids).addScalar("offer_id",  StandardBasicTypes.LONG ).setLong(0, userId).list();
+		return sessionFactory.getCurrentSession().createSQLQuery(gift_shared_ids).addScalar("shared_id",  StandardBasicTypes.LONG ).setLong(0, userId).list();
 	}
 	
 	@SuppressWarnings("unchecked")

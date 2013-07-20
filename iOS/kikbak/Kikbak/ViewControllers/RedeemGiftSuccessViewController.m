@@ -79,9 +79,9 @@
         self.desc.frame = CGRectMake(0, 185, 320, 48);
         self.details.frame = CGRectMake(0, 225, 320, 26);
         self.seperator.frame = CGRectMake(11, 265, 298, 1);
-        self.validationImage.frame = CGRectMake(33, 287, 109, 109);
-        self.couponCode.frame = CGRectMake(175, 322, 320, 46);
-        self.couponCode.textAlignment = NSTextAlignmentLeft;
+        self.validationImage.frame = CGRectMake(60, 275, 200, 75);
+        self.couponCode.frame = CGRectMake(0, 352, 320, 12);
+//        self.couponCode.textAlignment = NSTextAlignmentLeft;
     }
 }
 
@@ -174,12 +174,12 @@
     self.validationImage.image = [UIImage imageWithContentsOfFile:self.imagePath];
     [self.view addSubview:self.validationImage];
     
-    self.couponCode = [[UILabel alloc] initWithFrame:CGRectMake(0, 445, 320, 46)];
+    self.couponCode = [[UILabel alloc] initWithFrame:CGRectMake(0, 397, 320, 12)];
     self.couponCode.text = self.validationCode;
     self.couponCode.textAlignment = NSTextAlignmentCenter;
     self.couponCode.backgroundColor = [UIColor clearColor];
     self.couponCode.textColor = UIColorFromRGB(0x3a3a3a);
-    self.couponCode.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:41];
+    self.couponCode.font = [UIFont fontWithName:@"HelveticaNeue" size:11];
     [self.view addSubview:self.couponCode];
     
 }

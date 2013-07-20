@@ -62,6 +62,7 @@
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
     if( [response class] == [ NSHTTPURLResponse class]){
         NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+        self.responseHeaders = [httpResponse allHeaderFields];
         statusCode = [httpResponse statusCode];
     }
 }

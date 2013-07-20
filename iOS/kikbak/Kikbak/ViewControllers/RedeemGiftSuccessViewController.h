@@ -19,6 +19,6 @@
 @property (nonatomic, strong) NSString* optionalDesc;
 @property (nonatomic, strong) NSString* validationCode;
 @property (nonatomic, strong) NSString* imagePath;
-
+@property (nonatomic, strong) NSString* validationType;
 
 @end

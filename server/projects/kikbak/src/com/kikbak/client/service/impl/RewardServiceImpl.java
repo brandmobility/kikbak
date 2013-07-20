@@ -424,8 +424,34 @@ public class RewardServiceImpl implements RewardService{
         
         if(generateBarcode) {
             Allocatedgift ag = roAllocatedGiftDao.findById(allocatedGiftId);
-            return rwBarcodeDao.allocateBarcode(userId, ag.getGiftId(), allocatedGiftId).getCode();
+            String code = rwBarcodeDao.allocateBarcode(userId, ag.getGiftId(), allocatedGiftId).getCode();
+            return validateAndUpdateChecksum(code);
         }
-        return barcode.getCode();
+        return validateAndUpdateChecksum(barcode.getCode());
+    }
+    
+    protected String validateAndUpdateChecksum(String code){
+        
+        int odd = 0;
+        int even = 0;
+        String[] split = code.split("(?<=\\d)"); 
+        for(int i =0; i < split.length-1; ++i) {
+            if( (i%2) == 0) {
+                odd += Integer.parseInt(split[i]);
+            }
+            else{
+                even += Integer.parseInt(split[i]);
+            }
+        }
+        
+        int checkdigit = (odd*3)+even;
+        checkdigit = (checkdigit%10);
+        if(checkdigit != 0) {
+            checkdigit = 10 - checkdigit;
+        }
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(code.substring(0, code.length()-1));
+        buffer.append(String.valueOf(checkdigit));
+        return buffer.toString();
     }
 }

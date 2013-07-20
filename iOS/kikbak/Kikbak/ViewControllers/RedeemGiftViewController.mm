@@ -24,6 +24,7 @@
 #import "UIButton+Util.h"
 #import "RedeemGiftSuccessViewController.h"
 #import "BarcodeImageRequest.h"
+#import "TermsAndConditionsView.h"
 
 
 @interface RedeemGiftViewController (){
@@ -362,7 +363,11 @@
 }
 
 -(void)onTermsAndConditions:(id)sender{
-    
+    CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+    TermsAndConditionsView* view = [[TermsAndConditionsView alloc]initWithFrame:frame];
+    view.tosUrl = self.gift.tosUrl;
+    [view manuallyLayoutSubviews];
+    [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:view];
 }
 
 
@@ -461,8 +466,10 @@
     vc.merchantName = self.retailerName.text;
     vc.value = self.value;
     vc.giftType = self.giftType;
+    vc.validationType = self.gift.validationType;
     vc.optionalDesc = self.giftDetails.text;
-    vc.imagePath = [notification object];
+    vc.imagePath = [[notification object] objectForKey:@"imagePath"];
+    vc.validationCode = [[notification object] objectForKey:@"barcode"];
     [self.navigationController pushViewController:vc animated:YES];
     
 }
