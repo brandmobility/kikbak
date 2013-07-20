@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:kikbak="http://schemas.android.com/apk/res/com.referredlabs.kikbak"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:foreground="@drawable/grd_img" >
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/merchant_ex1" />
+        </FrameLayout>
+
+        <View
+            android:id="@+id/black_bar"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_alignParentBottom="true"
+            android:background="#000000" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="#000000"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/paper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <com.referredlabs.kikbak.widget.TtfEditText
+        android:id="@+id/comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp"
+        android:background="@drawable/textfield_addcomment"
+        android:hint="@string/hint_add_comment"
+        android:maxLength="40"
+        android:maxLines="2"
+        android:textSize="16dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
+    <!-- android:background="@android:drawable/editbox_background" -->
+
+    <include
+        android:id="@+id/icon_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/comment"
+        android:layout_marginLeft="13dp"
+        layout="@layout/icons_bar" />
+
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/icon_bar"
+        android:layout_marginLeft="13dp"
+        android:text="Zen Yoga"
+        android:textColor="@android:color/white"
+        android:textSize="24dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
+
+    <ImageButton
+        android:id="@+id/take_photo"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:src="@drawable/ic_camera" />
+
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/take_photo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:text="@string/take_photo"
+        android:textColor="@android:color/white"
+        android:textSize="16dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
+
+</RelativeLayout>
