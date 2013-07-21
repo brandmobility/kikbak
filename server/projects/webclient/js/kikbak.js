@@ -582,8 +582,9 @@ function onShareResponse(url) {
   exp['merchantId'] = offer.merchantId;
   exp['offerId'] = offer.id;
   exp['fbImageId'] = 0;
-  //exp['imageUrl'] = url; 
+  exp['imageUrl'] = url; 
   exp['caption'] = message;
+  exp['type'] = 'email';
   data['experience'] = exp;
   req['ShareExperienceRequest'] = data;
   str = JSON.stringify(req);
@@ -594,8 +595,8 @@ function onShareResponse(url) {
     data: str,
     url: config.backend + 'kikbak/ShareExperience/' + localStorage.userId,
     success: function(json) {
-      if (json && json.ShareExperienceResponse && json.ShareExperienceResponse.referrerCode) {
-        showShareSuccessful(json.ShareExperienceResponse.referrerCode, message, url);
+      if (json && json.shareExperienceResponse && json.shareExperienceResponse.referrerCode) {
+        showShareSuccessful(json.shareExperienceResponse.referrerCode, message, url);
       } else {
         showError();
       }
@@ -632,6 +633,7 @@ function showShareSuccessful(code, msg, url) {
         window.location.href = 'sms://?&body=' + json.body;
       },
       error: showError
+    });
   }
 }
 
