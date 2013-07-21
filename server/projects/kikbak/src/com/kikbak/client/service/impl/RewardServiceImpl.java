@@ -356,7 +356,7 @@ public class RewardServiceImpl implements RewardService{
         Collection<Long> sharedIds = roAllocatedGiftDao.listSharedIdsForUser(userId);
         Collection<Allocatedgift> newGifts = new ArrayList<Allocatedgift>();
         for(Shared shared : shareds){
-            if(!sharedIds.contains(shared.getOfferId())){
+            if(!sharedIds.contains(shared.getId())){
                 Offer offer = roOfferDao.findById(shared.getOfferId());
                 Allocatedgift ag = createAllocateOffer(userId, shared, offer);
                 newGifts.add(ag);

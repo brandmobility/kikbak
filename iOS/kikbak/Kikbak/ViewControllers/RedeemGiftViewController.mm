@@ -74,6 +74,7 @@
 -(void)updateDistance;
 
 -(void) onLocationUpdate:(NSNotification*)notification;
+-(void) onImageDownloaded:(NSNotification*)notification;
 -(void) onRedeemGiftSuccess:(NSNotification*)notification;
 -(void) onRedeemGiftError:(NSNotification*)notification;
 
@@ -121,7 +122,7 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onLocationUpdate:) name:kKikbakLocationUpdate object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onRedeemGiftSuccess:) name:kKikbakRedeemGiftSuccess object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onRedeemGiftError:) name:kKikbakRedeemGiftError object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onOfferUpdate:) name:kKikbakImageDownloaded object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onImageDownloaded:) name:kKikbakImageDownloaded object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onBarcodeGeneratedError:) name:kKikbakBarcodeError object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onBarcodeGeneratedSuccess:) name:kKikbakBarcodeSuccess object:nil];
     
@@ -290,13 +291,13 @@
     self.termsBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
     [self.termsBtn setTitleColor:UIColorFromRGB(0x686868) forState:UIControlStateNormal];
     self.termsBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [self.termsBtn addTarget:self action:@selector(onTermsAndConditions:) forControlEvents:UIControlEventTouchUpInside];
+    [self.termsBtn addTarget:self action:@selector(onTermsBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.termsBtn];
     
     
     self.redeemBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.redeemBtn setBackgroundImage:[UIImage imageNamed:@"btn_blue"] forState:UIControlStateNormal];
-    [self.redeemBtn setTitle:NSLocalizedString(@"Redeem QR Code", nil) forState:UIControlStateNormal];
+    [self.redeemBtn setTitle:NSLocalizedString(@"Redeem in Store", nil) forState:UIControlStateNormal];
     [self.redeemBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.redeemBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:15];
     self.redeemBtn.frame = CGRectMake(11, 453, 298, 40);
@@ -362,7 +363,7 @@
     }
 }
 
--(void)onTermsAndConditions:(id)sender{
+-(void)onTermsBtn:(id)sender{
     CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
     TermsAndConditionsView* view = [[TermsAndConditionsView alloc]initWithFrame:frame];
     view.tosUrl = self.gift.tosUrl;
@@ -443,6 +444,10 @@
 
 #pragma mark - NSNotification
 -(void) onLocationUpdate:(NSNotification*)notification{
+    
+}
+
+-(void) onImageDownloaded:(NSNotification*)notification{
     
 }
 

@@ -64,7 +64,7 @@
     self.success.backgroundColor = [UIColor clearColor];
     [self.backgroundView addSubview:self.success];
     
-    self.shared = [[UILabel alloc]initWithFrame:CGRectMake(0, 60, frame.size.width, 26)];
+    self.shared = [[UILabel alloc]initWithFrame:CGRectMake(0, 55, frame.size.width, 26)];
     self.shared.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:21];
     self.shared.text = NSLocalizedString(@"Shared Gift", nil);
     self.shared.textAlignment = NSTextAlignmentCenter;
@@ -73,17 +73,17 @@
     self.shared.backgroundColor = [UIColor clearColor];
     [self.backgroundView addSubview:self.shared];
     
-    self.notify = [[UILabel alloc]initWithFrame:CGRectMake(40, 80, frame.size.width-80, 84)];
+    self.notify = [[UILabel alloc]initWithFrame:CGRectMake(11, 110, frame.size.width-22, 40)];
     self.notify.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
     self.notify.text = NSLocalizedString(@"Gift Notification", nil);
     self.notify.textAlignment = NSTextAlignmentCenter;
-    self.notify.numberOfLines = 3;
+    self.notify.numberOfLines = 2;
     self.notify.textColor = UIColorFromRGB(0x3a3a3a);
     self.notify.backgroundColor = [UIColor clearColor];
     [self.backgroundView addSubview:self.notify];
     
     self.okBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.okBtn.frame = CGRectMake(14,frame.size.height - 52, frame.size.width - 28, 40);
+    self.okBtn.frame = CGRectMake(11,frame.size.height - 52, frame.size.width - 22, 40);
     [self.okBtn setBackgroundImage:[UIImage imageNamed:@"btn_blue"] forState:UIControlStateNormal];
     [self.okBtn setTitle:NSLocalizedString(@"Ok", nil) forState:UIControlStateNormal];
     self.okBtn.titleLabel.textColor = [UIColor whiteColor];

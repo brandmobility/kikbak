@@ -36,7 +36,7 @@
             <xsd:element name="value" type="xsd:double" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="redeeemedGiftsCount" type="xsd:int" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="tosUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
-            <!-- validationType: options are "barcode", "pos" -->
+            <!-- validationType: options are "barcode", "qrcode" -->
             <xsd:element name="validationType" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <!-- rewardType: options are "purchase", "gift_card" -->
             <xsd:element name="rewardType" type="xsd:string" minOccurs="1" maxOccurs="1"/>
@@ -55,7 +55,7 @@
             <xsd:element name="value" type="xsd:double" minOccurs="1" maxOccurs="1"/>
             <!-- Discount Type, either "amount" ($50 off) or "percentage" (20% off) -->
             <xsd:element name="discountType" type="xsd:string" minOccurs="1" maxOccurs="1"/>
-            <!-- validationType: options are "barcode", "pos" -->
+            <!-- validationType: options are "barcode", "qrcode" -->
             <xsd:element name="validationType" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <!-- redemptionLocationType: options are "store", "all" -->
             <xsd:element name="redemptionLocationType" type="xsd:string" minOccurs="1" maxOccurs="1"/>

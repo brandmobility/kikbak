@@ -289,12 +289,17 @@ const int CELL_HEIGHT = 156;
         [self.navigationController pushViewController:vc animated:YES];
     }
     else if(collection.credit != nil){
-//        RedeemCreditViewController* vc = [[RedeemCreditViewController alloc]init];
-//        vc.hidesBottomBarWhenPushed = true;
-//        vc.credit = collection.credit;
-        ClaimCreditViewController* vc = [[ClaimCreditViewController alloc]init];
-        vc.hidesBottomBarWhenPushed = true;
-        [self.navigationController pushViewController:vc animated:YES];
+        if( [collection.credit.rewardType compare:@"gift_card"] != NSOrderedSame){
+            RedeemCreditViewController* vc = [[RedeemCreditViewController alloc]init];
+            vc.hidesBottomBarWhenPushed = true;
+            vc.credit = collection.credit;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        else{
+            ClaimCreditViewController* vc = [[ClaimCreditViewController alloc]init];
+            vc.hidesBottomBarWhenPushed = true;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
     }
 
 }
@@ -372,9 +377,14 @@ const int CELL_HEIGHT = 156;
 #pragma mark - btn actions
 
 -(void)onRedeemCredit:(Credit*)credit{
-//    RedeemCreditViewController* vc = [[RedeemCreditViewController alloc]init];
-//    vc.credit = credit;
-    ClaimCreditViewController* vc = [[ClaimCreditViewController alloc]init];
+    UIViewController* vc;
+    if( [credit.rewardType compare:@"gift_card"] != NSOrderedSame){
+        vc = [[RedeemCreditViewController alloc]init];
+        ((RedeemCreditViewController* )vc).credit = credit;
+    }
+    else{
+        vc = [[ClaimCreditViewController alloc]init];
+    }
     vc.hidesBottomBarWhenPushed = true;
     [self.navigationController pushViewController:vc animated:YES];
 }

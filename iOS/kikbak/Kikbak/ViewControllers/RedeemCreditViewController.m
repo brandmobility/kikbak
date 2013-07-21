@@ -15,6 +15,8 @@
 #import "RedeemCreditRequest.h"
 #import "RedeemCreditSuccessViewController.h"
 #import "Location.h"
+#import "TermsAndConditionsView.h"
+#import "AppDelegate.h"
 
 @interface RedeemCreditViewController ()
 
@@ -35,6 +37,7 @@
 
 @property (nonatomic,strong) UILabel* warning;
 
+@property (nonatomic,strong) UIButton* termsBtn;
 @property (nonatomic,strong) UIButton* redeemBtn;
 
 -(NSDictionary*)setupKikbakRequest;
@@ -108,7 +111,8 @@
         self.creditAmount.frame = CGRectMake(11, 265, 150, 38);
         self.changeAmountBtn.frame = CGRectMake(241, 268, 68, 30);
         self.bottomAmountSeparator.frame = CGRectMake(11, 308, 298, 1);
-        self.warning.frame = CGRectMake(22, 325, 276, 30);
+        self.warning.frame = CGRectMake(22, 315, 276, 28);
+        self.termsBtn.frame = CGRectMake(11, 347, 150, 14);
         self.redeemBtn.frame = CGRectMake(11, 366, 298, 40);
     }
 }
@@ -179,7 +183,7 @@
     self.bottomAmountSeparator.image = [UIImage imageNamed:@"separator_gray_line"];
     [self.view addSubview:self.bottomAmountSeparator];
 
-    self.warning = [[UILabel alloc]initWithFrame:CGRectMake(22, 395, 276, 30)];
+    self.warning = [[UILabel alloc]initWithFrame:CGRectMake(22, 395, 276, 28)];
     self.warning.backgroundColor = [UIColor clearColor];
     self.warning.textColor = UIColorFromRGB(0x898989);
     self.warning.font = [UIFont fontWithName:@"HelveticaNeue" size:11];
@@ -187,6 +191,16 @@
     self.warning.text = NSLocalizedString(@"Credit Warning", nil);
     self.warning.textAlignment = NSTextAlignmentLeft;
     [self.view addSubview:self.warning];
+    
+    self.termsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.termsBtn.frame = CGRectMake(11, 434, 150, 14);
+    [self.termsBtn setTitle:NSLocalizedString(@"Terms and Conditions", nil) forState:UIControlStateNormal];
+    self.termsBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
+    [self.termsBtn setTitleColor:UIColorFromRGB(0x686868) forState:UIControlStateNormal];
+    self.termsBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [self.termsBtn addTarget:self action:@selector(onTermsBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.termsBtn];
+    
     
     self.redeemBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.redeemBtn.frame = CGRectMake(11, 453, 298, 40);
@@ -213,6 +227,14 @@
         rcr.credit = self.credit;
         [rcr restRequest:[self setupKikbakRequest]];
     }
+}
+
+-(void)onTermsBtn:(id)sender{
+    CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+    TermsAndConditionsView* view = [[TermsAndConditionsView alloc]initWithFrame:frame];
+    view.tosUrl = self.credit.tosUrl;
+    [view manuallyLayoutSubviews];
+    [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:view];
 }
 
 -(NSDictionary*)setupKikbakRequest{

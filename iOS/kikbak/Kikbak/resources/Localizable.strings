@@ -11,11 +11,13 @@
 "Kikbak" = "Kikbak";
 "Retake" = "Retake";
 
-
+//share success
 "Success" = "Success!";
-"Shared Gift" = "You have shared a gift.";
-"Gift Notification" = "We will notify you when a friend uses your gift and you earn a reward.";
+"Shared Gift" = "You have shared a gift";
+"Gift Notification" = "We will notify you when a friend uses your gift and you earn a reward";
 "Ok" = "Ok";
+
+
 "Give" = "Give";
 "give to friends" = "Give To Friends";
 "Redeem" = "Redeem";
@@ -59,7 +61,7 @@
 
 //redeem gift
 "Redeem" = "Redeem";
-"Redeem QR Code" = "Scan QR to Redeem";
+"Redeem in Store" = "Redeem now in store";
 "Redeemed By Friends" = "Your gift has been redeemed by %d friends";
 "Credit To Apply" = "Credit to be applied to purchase";
 "Change" = "Change";

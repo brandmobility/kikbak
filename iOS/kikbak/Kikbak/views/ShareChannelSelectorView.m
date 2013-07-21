@@ -89,7 +89,7 @@
     self.timelineBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.timelineBtn.frame = CGRectMake(12, 172, self.backgroundView.frame.size.width - 24, 40);
     [self.timelineBtn setBackgroundImage:[UIImage imageNamed:@"btn_blue"] forState:UIControlStateNormal];
-    [self.timelineBtn setTitle:NSLocalizedString(@"Send to select friends", nil) forState:UIControlStateNormal];
+    [self.timelineBtn setTitle:NSLocalizedString(@"Post on my timeline", nil) forState:UIControlStateNormal];
     self.timelineBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16];
     self.timelineBtn.titleLabel.textColor = [UIColor whiteColor];
     [self.timelineBtn addTarget:self action:@selector(onTimeline:) forControlEvents:UIControlEventTouchUpInside];
