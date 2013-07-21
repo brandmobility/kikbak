@@ -56,7 +56,6 @@ function connectFb(accessToken) {
     user['first_name'] = response.first_name;
     user['last_name'] = response.last_name;
     user['name'] = response.name;
-    user['username'] = response.username;
     user['link'] = response.link;
     user['gender'] = response.gender;
     user['locale'] = response.locale;
@@ -140,6 +139,12 @@ function initPage() {
   $('#redeem-btn-div').css('background', 'url("img/btn_normal.png")');
   window.scrollTo(0, 1);
   if (typeof Storage != 'undefined') {
+    var code = localStorage.code;
+    if (typeof code !== 'undefined' && code !== 'null' && code !== '') {
+      claimGift(code);
+      return;
+    }
+    
     var pageType = localStorage.pageType;
     if (pageType === 'redeem') {
       $('#redeem-view').show('');
@@ -178,6 +183,23 @@ function initPage() {
   setTimeout(function(){
     reload();
   }, 500);
+}
+
+function claimGift(code) {
+  var userId = localStorage.userId,
+      url = config.backend + 'kikbak/rewards/claim/' + userId + '/' + code;
+  $.ajax({
+    dataType: 'json',
+    type: 'GET',
+    contentType: 'application/json',
+    url: url,
+    success: function(json) {
+      localStorage.pageType = 'redeem';
+      localStorage.code = null;
+      initPage();
+    },
+    error: showError
+  });
 }
 
 function getOffers() {
