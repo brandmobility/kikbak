@@ -30,10 +30,19 @@ $(document).ready(function() {
 
   $('#suggest-form input[name="name"]').bind('keyup', adjustSuggest);
   $('#suggest-form input[name="reason"]').bind('keyup', adjustSuggest);
+  
+  $('#share-facebook').click(shareViaFacebook);
+  $('#share-email').click(shareViaEmail);
+  $('#share-sms').click(shareViaSms);
+
+  $(".popup-close-btn").click(function() {
+    $('.popup').hide();
+  });
 
   $('.take-picture').change(function(e) {
     var files = e.target.files;
     var file;
+    
     if (files && files.length > 0) {
       file = files[0];
       try {
@@ -482,8 +491,10 @@ function getOfferDetail() {
 
       $('#take-picture').change(function(e) {
         // TODO
+        var icon = $('.camicon');
         var files = e.target.files;
         var file;
+        
         if (files && files.length > 0) {
            file = files[0];
            try {
@@ -493,6 +504,9 @@ function getOfferDetail() {
                URL.revokeObjectURL(this.src);
              });
              $('#show-picture').attr('src', imgUrl);
+             icon.removeClass('camicon');
+             icon.addClass('smallcamicon');
+             $('#take-photo-header').hide();
            } catch (e) {
              try {
                var fileReader = new FileReader();
@@ -544,7 +558,7 @@ function renderOfferDetail(offer) {
   // html += '<div class="image-add"><img src="' + offer.imageUrl + '" class="addimg add-photo show-picture" id="show-picture">>';
   html += '<span class="imgshado"></span>';
   html += '<div class="add-photo-btn">';
-  html += '<h2>Add your own photo</h2>';
+  html += '<h2 id="take-photo-header">Add your own photo</h2>';
   html += '<div class="camicon"><img src="images/camicon.png">';
   html += '<input name="source" type="file" id="take-picture" class="camicon take-picture" style="height:100px;margin-left:40%;width:20%;opacity:0;" accept="image/*" /></div>';
   html += '</div>';
@@ -559,7 +573,7 @@ function renderOfferDetail(offer) {
     html += '<a href="' + offer.merchantUrl + '"><img class="website-img" src="images/ic_web@2x.png" /></a>';
   }
   html += '</div>';
-  html += '<input name="comment" type="text" placeholder="Add Comment..." class="addcmt" />';
+  html += '<input name="comment" placeholder="Add Comment..." class="addcmt" />';
   html += '<input name="message" type="hidden" value="Visit getkikbak.com for an exclusive offer shared by your friend" />';
   html += '</div>';
   html += '<div class="img-botm-patrn"></div>';
@@ -573,8 +587,8 @@ function renderOfferDetail(offer) {
   html += '<h4>' + offer.kikbakDetailedDesc + '</h4>';
   html += '</div>';
   html += '<div class="crt">';
-  html += '<a href="#" id="terms" class="trm" >Terms and Conditions</a>';
-  html += '<a href="#" id="learns" class="lrn-mor" >Learn more</a>';
+  html += '<a href="#" class="trm" onclick="$(\'#terms\').show();" >Terms and Conditions</a>';
+  html += '<a href="#" class="lrn-mor" onclick="$(\'#learn\').show();" >Learn more</a>';
   html += '</div>';
   html += '<input name="share" type="submit" class="btn grd3" value="Give To Friends" disabled />';
   html += '</form>';
@@ -620,6 +634,9 @@ function shareOffer() {
     if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
       var message = $('#share-form input[name="comment"]').val(); 
       var msg = 'Visit getkikbak.com for an exclusive offer shared by your friend';
+      
+      $('#share-form input[name="comment"]').val(''); 
+      
       if (!$('#take-picture')[0].files || $('#take-picture')[0].files.length == 0) {
         // TODO 
         onShareResponse('http://54.244.124.116/m/img/offer.png');
@@ -648,13 +665,19 @@ function shareOffer() {
 }
 
 function onShareResponse(url) {
+  $('#share-help-form input[name="url"]').val(url);
+  $('#share-popup').show();
+}
+  
+function doShare(cb) {
   var offer = jQuery.parseJSON(unescape(localStorage.offerDetail)),
     exp = {},
     message = $('#share-form input[name="comment"]').val(),
     data = {},
     req = {},
+    url = $('#share-help-form input[name="url"]').val(),
+    local = getDisplayLocation(offer.locations),
     str;
-  local = getDisplayLocation(offer.locations);
   exp['locationId'] = local.locationId;
   exp['merchantId'] = offer.merchantId;
   exp['offerId'] = offer.id;
@@ -662,9 +685,15 @@ function onShareResponse(url) {
   exp['imageUrl'] = url; 
   exp['caption'] = message;
   exp['type'] = 'email';
+  exp['locationId'] = $('#share-help-form input[name="storeId"]').val();
+  exp['employeeId'] = $('#share-help-form input[name="associateName"]').val();
   data['experience'] = exp;
   req['ShareExperienceRequest'] = data;
   str = JSON.stringify(req);
+  
+  $('#share-help-form input[name="storeId"]').val('');
+  $('#share-help-form input[name="associateName"]').val('');
+  
   $.ajax({
     dataType: 'json',
     type: 'POST',
@@ -673,7 +702,7 @@ function onShareResponse(url) {
     url: config.backend + 'kikbak/ShareExperience/' + localStorage.userId,
     success: function(json) {
       if (json && json.shareExperienceResponse && json.shareExperienceResponse.referrerCode) {
-        showShareSuccessful(json.shareExperienceResponse.referrerCode, message, url);
+        cb(json.shareExperienceResponse.referrerCode, message, url);
       } else {
         showError();
       }
@@ -682,36 +711,94 @@ function onShareResponse(url) {
   });
 }
 
-function showShareSuccessful(code, msg, url) {
-  var data = {
-    'name': localStorage.userName,
-    'code': code,
-    'desc': msg,
-    'url': url
-  };
-  if (getBrowserName() == 'Safari') {
-    $.ajax({
-      type: 'GET',
-      data: data,
-      dataType: 'json',
-      url: '/s/email.php',
-      success: function(json) {
-        window.location.href = 'mailto:?content-type=text/html&subject=' + json.title + '&body=' + json.body;
-      },
-      error: showError
-    });
-  } else {
+function shareViaSms() {
+  doShare(function(code, msg, url) {
+    var data = {
+      'name': localStorage.userName,
+      'code': code,
+      'desc': msg,
+      'url' : url
+    };
+    if (getBrowserName() !== 'Safari') {
+      $.ajax({
+        type: 'GET',
+        data: data,
+        dataType: 'json',
+        url: '/s/sms.php',
+        success: function(json) {
+          $('.popup').hide();
+          window.location.href = 'sms://?&body=' + json.body;
+        },
+        error: showError
+      });
+    }
+  });
+}
+
+function shareViaEmail() {
+  doShare(function(code, msg, url) {
+    var data = {
+      'name': localStorage.userName,
+      'code': code,
+      'desc': msg,
+      'url' : url
+    };
+    if (getBrowserName() == 'Safari') {
+      $.ajax({
+        type: 'GET',
+        data: data,
+        dataType: 'json',
+        url: '/s/email.php',
+        success: function(json) {
+          $('.popup').hide();
+          window.location.href = 'mailto:?content-type=text/html&subject=' + json.title + '&body=' + json.body;
+        },
+        error: showError
+      });
+    } else {
+      $.ajax({
+        type: 'GET',
+        data: data,
+        dataType: 'json',
+        url: '/s/sms.php',
+        success: function(json) {
+          $('.popup').hide();
+          window.location.href = 'mailto:?content-type=text/html&subject=' + json.title + '&body=' + json.body;
+        },
+        error: showError
+      });
+    }
+  });
+}
+
+function shareViaFacebook() {
+  doShare(function(code, msg, url) {
+    var data = {
+      'name': localStorage.userName,
+      'code': code,
+      'desc': msg,
+      'url' : url
+    };
     $.ajax({
       type: 'GET',
       data: data,
       dataType: 'json',
       url: '/s/sms.php',
       success: function(json) {
-        window.location.href = 'sms://?&body=' + json.body;
+        FB.ui({
+          method: 'feed',
+          link: json.url,
+          picture: url,
+          name: json.title,
+          caption: msg,
+          description: json.body
+        }, function(response){
+          $('.popup').hide();        
+        });
       },
       error: showError
     });
-  }
+  });
 }
 
 function renderRedeemDetail(redeem) {
@@ -777,6 +864,7 @@ function setWrapperSize() {
   var wrapperSize;
   if (getBrowserName() == 'Safari') {
     wrapperSize = getHeight() - 45 - 45 + 60;
+    $('#share-sms-div').hide();
   } else {
     wrapperSize = getHeight() - 45 - 45;
   };
