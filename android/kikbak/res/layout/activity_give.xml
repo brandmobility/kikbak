@@ -1,5 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:kikbak="http://schemas.android.com/apk/res/com.referredlabs.kikbak"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -13,10 +14,18 @@
 
     <include layout="@layout/give_details" />
 
-    <Button
+    <com.referredlabs.kikbak.widget.TtfButton
         android:id="@+id/give"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/give" />
+        android:layout_marginBottom="13dp"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp"
+        android:layout_marginTop="13dp"
+        android:background="@drawable/btn_blue"
+        android:text="@string/give"
+        android:textColor="@android:color/white"
+        android:textSize="15dp"
+        kikbak:typeface="Roboto-Medium.ttf" />
 
 </LinearLayout>

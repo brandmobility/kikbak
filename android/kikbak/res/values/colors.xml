@@ -4,5 +4,8 @@
     <color name="success_gift_background">#ff99cc00</color>
     <color name="success_credit_background">#ff33b5e5</color>
     <color name="scanner_point">#c0ffbd21</color>
+    
+    <!-- Offer list item -->
+    <color name="offer_item_bg">#e5e5e5</color>
 
 </resources>

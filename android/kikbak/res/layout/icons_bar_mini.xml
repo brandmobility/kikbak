@@ -10,27 +10,29 @@
     <com.referredlabs.kikbak.widget.TtfButton
         android:id="@+id/distance"
         style="?android:attr/borderlessButtonStyle"
-        android:layout_width="90dp"
-        android:layout_height="40dp"
-        android:drawableLeft="@drawable/ic_map"
-        android:drawablePadding="8dp"
+        android:layout_width="70dp"
+        android:layout_height="28dp"
+        android:drawableLeft="@drawable/ic_map_mini"
+        android:drawablePadding="4dp"
         android:maxLines="1"
         android:text="1.7 mi"
+        android:gravity="left|center_vertical"
         android:textColor="@android:color/white"
+        android:textSize="14dp"
         kikbak:typeface="Roboto-Regular.ttf" />
 
     <ImageButton
         android:id="@+id/web_icon"
         style="?android:attr/borderlessButtonStyle"
-        android:layout_width="48dp"
-        android:layout_height="40dp"
-        android:src="@drawable/ic_web" />
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:src="@drawable/ic_web_mini" />
 
     <ImageButton
         android:id="@+id/phone_icon"
         style="?android:attr/borderlessButtonStyle"
-        android:layout_width="48dp"
-        android:layout_height="40dp"
-        android:src="@drawable/ic_phone" />
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:src="@drawable/ic_phone_mini" />
 
 </LinearLayout>

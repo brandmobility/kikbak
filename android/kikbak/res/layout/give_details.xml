@@ -1,62 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:kikbak="http://schemas.android.com/apk/res/com.referredlabs.kikbak"
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
 
-    <TextView
+    <com.referredlabs.kikbak.widget.TtfTextView
         android:id="@+id/gift_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:drawableLeft="@drawable/ic_gift"
-        android:drawablePadding="4dp"
+        android:layout_marginTop="11dp"
+        android:drawableLeft="@drawable/ic_give"
+        android:drawablePadding="8dp"
         android:gravity="center_vertical"
-        android:text="Get $10 credit"
-        android:textSize="24sp" />
+        android:includeFontPadding="false"
+        android:text="Give $10 off $50"
+        android:textColor="#2419E9"
+        android:textSize="26dp"
+        kikbak:typeface="Roboto-Bold.ttf" />
 
-    <TextView
+    <com.referredlabs.kikbak.widget.TtfTextView
         android:id="@+id/gift_desc_opt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/gift_desc"
         android:layout_centerHorizontal="true"
-        android:text="@string/give_gift_optional_note" />
+        android:includeFontPadding="false"
+        android:text="@string/give_gift_optional_note"
+        android:textColor="#686868"
+        android:textSize="13dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
 
     <View
         android:id="@+id/separator"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/gift_desc_opt"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp"
+        android:layout_marginTop="7dp"
         android:background="#999999" />
 
-    <TextView
+    <com.referredlabs.kikbak.widget.TtfTextView
         android:id="@+id/reward_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/separator"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="2dp"
         android:gravity="center_vertical"
+        android:includeFontPadding="false"
         android:text="Give $10 off $50"
-        android:textSize="24sp" />
+        android:textColor="#3a3a3a"
+        android:textSize="26dp"
+        kikbak:typeface="Roboto-Bold.ttf" />
 
-    <TextView
+    <com.referredlabs.kikbak.widget.TtfTextView
         android:id="@+id/reward_desc_opt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/reward_desc"
         android:layout_centerHorizontal="true"
-        android:text="@string/give_get_optional_note" />
+        android:includeFontPadding="false"
+        android:text="@string/give_get_optional_note"
+        android:textColor="#686868"
+        android:textSize="13dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
 
-    <TextView
+    <com.referredlabs.kikbak.widget.TtfTextView
         android:id="@+id/terms"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/reward_desc_opt"
-        android:layout_marginTop="4dp"
+        android:layout_marginLeft="13dp"
+        android:layout_marginTop="11dp"
+        android:includeFontPadding="false"
         android:text="@string/terms"
-        android:textSize="12sp" />
+        android:textColor="#686868"
+        android:textSize="13dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
 
 </RelativeLayout>

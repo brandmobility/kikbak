@@ -2,6 +2,10 @@
 package com.referredlabs.kikbak.ui;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -80,6 +84,14 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
     nearest.determineNearestLocation(latitude, longitude);
     iconBar.setPhone(Long.toString(nearest.getPhoneNumber()));
     iconBar.setLocation(nearest);
+    tile();
+  }
+
+  void tile() {
+    Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.doted_line);
+    BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), bmp);
+    bitmapDrawable.setTileModeX(Shader.TileMode.REPEAT);
+    findViewById(R.id.paper).setBackground(bitmapDrawable);
   }
 
   @Override

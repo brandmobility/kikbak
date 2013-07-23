@@ -12,7 +12,7 @@ public class C {
 
   public static final double LATITUDE = 50.01250;
   public static final double LONGITUDE = 20.98833;
-  public static final String SERVER = "192.168.1.105";
+  public static final String SERVER = "192.168.0.101";
 
   public static final short PORT = 8080;
 

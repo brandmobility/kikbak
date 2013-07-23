@@ -17,6 +17,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.text.Html;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
@@ -53,21 +54,25 @@ public class ShareViaEmailActivity extends FragmentActivity
 
   private ListView mList;
   private Button mShareButton;
-  private SimpleCursorAdapter mAdapter;
+  DataChooserHelper mHelper;
+  private ContactDataAdapter mAdapter;
   private String mPhotoUri;
   private boolean mWaitingForUpload;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    mHelper = new EmailChooserHelper();
     setContentView(R.layout.activity_share_gift_via_email);
     mList = (ListView) findViewById(R.id.list);
-    mAdapter = new SimpleCursorAdapter(this, R.layout.checkable_contact_row, null,
-        new String[] {
-            CONTACT_NAME, CONTACT_EMAIL
-        }, new int[] {
-            R.id.name, R.id.email
-        }, 0);
+    // mAdapter = new SimpleCursorAdapter(this, R.layout.checkable_contact_row, null,
+    // new String[] {
+    // CONTACT_NAME, CONTACT_EMAIL
+    // }, new int[] {
+    // R.id.name, R.id.email
+    // }, 0);
+    mAdapter = mHelper.getCursorAdapter(this);
     mList.setAdapter(mAdapter);
     mList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
     mList.setItemsCanFocus(false);
@@ -94,7 +99,9 @@ public class ShareViaEmailActivity extends FragmentActivity
 
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-    return new ContactsWithEmailsLoader(this);
+    CursorLoader loader = mHelper.getCursorLoader(this);
+    mHelper.configureLoader(loader, null);
+    return loader;
   }
 
   @Override
@@ -125,8 +132,9 @@ public class ShareViaEmailActivity extends FragmentActivity
     int size = selectedPos.size();
     for (int pos = 0; pos < size; pos++) {
       if (selectedPos.valueAt(pos)) {
-        Cursor c = (Cursor) mList.getItemAtPosition(selectedPos.keyAt(pos));
-        String email = c.getString(ContactsWithEmailsLoader.EMAIL_COLUMN);
+        // Cursor c = (Cursor) mList.getItemAtPosition(selectedPos.keyAt(pos));
+        // String email = c.getString(ContactsWithEmailsLoader.EMAIL_COLUMN);
+        String email = mAdapter.getDataAtPosition(selectedPos.keyAt(pos));
         emails.add(email);
       }
     }
@@ -293,4 +301,135 @@ public class ShareViaEmailActivity extends FragmentActivity
       super(context, URI, PROJECTION, SELECTION, null, ORDER);
     }
   }
+
+  private static abstract class DataChooserHelper {
+
+    public static String COL_CONTACT_NAME = Contacts.DISPLAY_NAME;
+
+    protected abstract String getColDataName();
+
+    protected abstract Uri getEmptySearchUri();
+
+    protected abstract Uri getFilledSearchUri();
+
+    protected abstract String getNoContactsWithDataMsg(Context context);
+
+    private String[] getProjection() {
+      String[] projection = new String[] {
+          ContactsContract.RawContacts._ID, COL_CONTACT_NAME, getColDataName()
+      };
+      return projection;
+    }
+
+    private String getSelection() {
+      String selection = getColDataName() + " NOT LIKE ''"
+          + " AND " + Contacts.IN_VISIBLE_GROUP + " = '1'";
+      return selection;
+    }
+
+    private String getOrder() {
+      return COL_CONTACT_NAME;
+    }
+
+    public CursorLoader getCursorLoader(Context context) {
+      return new CursorLoader(context, getEmptySearchUri(),
+          getProjection(), getSelection(), null, getOrder());
+    }
+
+    public void configureLoader(CursorLoader loader, String queryString) {
+      Uri uri;
+      if (TextUtils.isEmpty(queryString)) {
+        uri = getEmptySearchUri();
+      } else {
+        uri = Uri.withAppendedPath(getFilledSearchUri(), Uri.encode(queryString));
+      }
+      loader.setUri(uri);
+    }
+
+    public ContactDataAdapter getCursorAdapter(Context context) {
+      return new ContactDataAdapter(context,
+          R.layout.checkable_contact_row, null,
+          new String[] {
+              COL_CONTACT_NAME, getColDataName()
+          },
+          new int[] {
+              R.id.name, R.id.dataItem
+          }, 0, 1);
+    }
+  }
+
+  private static class EmailChooserHelper extends DataChooserHelper {
+    public static final String COL_CONTACT_DATA = CommonDataKinds.Email.DATA;
+    public static final Uri EMPTY_SEARCH_URI =
+        ContactsContract.CommonDataKinds.Email.CONTENT_URI;
+    public static final Uri FILLED_SEARCH_URI =
+        ContactsContract.CommonDataKinds.Email.CONTENT_FILTER_URI;
+
+    @Override
+    protected String getColDataName() {
+      return COL_CONTACT_DATA;
+    }
+
+    @Override
+    protected Uri getEmptySearchUri() {
+      return EMPTY_SEARCH_URI;
+    }
+
+    @Override
+    protected Uri getFilledSearchUri() {
+      return FILLED_SEARCH_URI;
+    }
+
+    @Override
+    public String getNoContactsWithDataMsg(Context context) {
+      // TODO move this to resources
+      return "You don't have any contacts with email addresses.";
+    }
+  }
+
+  private static class PhoneChooserHelper extends DataChooserHelper {
+    public static final String COL_CONTACT_DATA = CommonDataKinds.Phone.DATA;
+    public static final Uri EMPTY_SEARCH_URI =
+        ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+    public static final Uri FILLED_SEARCH_URI =
+        ContactsContract.CommonDataKinds.Phone.CONTENT_FILTER_URI;
+
+    @Override
+    protected String getColDataName() {
+      return COL_CONTACT_DATA;
+    }
+
+    @Override
+    protected Uri getEmptySearchUri() {
+      return EMPTY_SEARCH_URI;
+    }
+
+    @Override
+    protected Uri getFilledSearchUri() {
+      return FILLED_SEARCH_URI;
+    }
+
+    @Override
+    public String getNoContactsWithDataMsg(Context context) {
+      // TODO move this to resources
+      return "You don't have any contacts with phone numbers.";
+    }
+  }
+
+  private static class ContactDataAdapter extends SimpleCursorAdapter {
+    private int mDataColIndex;
+
+    public ContactDataAdapter(Context context, int layout, Cursor c,
+        String[] from, int[] to, int flags, int dataColIndex) {
+      super(context, layout, c, from, to, flags);
+      mDataColIndex = dataColIndex;
+    }
+
+    public String getDataAtPosition(int position) {
+      Cursor cursor = (Cursor) super.getItem(position);
+      String dataItem = cursor.getString(mDataColIndex);
+      return dataItem;
+    }
+  }
+
 }

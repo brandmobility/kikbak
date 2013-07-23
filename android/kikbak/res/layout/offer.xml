@@ -1,43 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:kikbak="http://schemas.android.com/apk/res/com.referredlabs.kikbak"
     android:layout_width="match_parent"
-    android:layout_height="144dp"
-    android:background="#33777777" >
+    android:layout_height="146dp" >
 
-    <ImageView
-        android:id="@+id/offer_image"
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="21dp"
+        android:background="@color/offer_item_bg" />
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="13dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/merchant_ex1" />
+        android:layout_marginTop="21dp"
+        android:foreground="@drawable/grd_offer" >
+
+        <ImageView
+            android:id="@+id/offer_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/merchant_ex1" />
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/bg_ribbon" >
+
+        <com.referredlabs.kikbak.widget.TtfTextView
+            android:id="@+id/ribbon_give"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            android:paddingLeft="7dp"
+            android:text="@string/ribbon_give"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            kikbak:typeface="Roboto-Bold.ttf" />
+
+        <com.referredlabs.kikbak.widget.TtfTextView
+            android:id="@+id/ribbon_give_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ribbon_give"
+            android:layout_centerHorizontal="true"
+            android:maxLines="1"
+            android:paddingLeft="7dp"
+            android:text="20%\nOFF"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            kikbak:typeface="Roboto-Bold.ttf" />
+
+        <com.referredlabs.kikbak.widget.TtfTextView
+            android:id="@+id/ribbon_get_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="11dp"
+            android:maxLines="1"
+            android:paddingLeft="7dp"
+            android:text="$10"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            kikbak:typeface="Roboto-Bold.ttf" />
+
+        <com.referredlabs.kikbak.widget.TtfTextView
+            android:id="@+id/ribbon_get"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/ribbon_get_value"
+            android:layout_centerHorizontal="true"
+            android:maxLines="1"
+            android:paddingLeft="7dp"
+            android:text="@string/ribbon_get"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            kikbak:typeface="Roboto-Bold.ttf" />
+    </RelativeLayout>
 
     <include
         android:id="@+id/icon_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_margin="8dp"
-        layout="@layout/icons_bar" />
+        android:layout_marginLeft="13dp"
+        layout="@layout/icons_bar_mini" />
 
-    <TextView
+    <com.referredlabs.kikbak.widget.TtfTextView
         android:id="@+id/offer_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/icon_bar"
-        android:paddingLeft="8dp"
+        android:layout_marginLeft="13dp"
         android:text="Verizon Wireless"
         android:textColor="@android:color/white"
-        android:textSize="18sp" />
-
-    <include
-        android:id="@+id/ribbon"
-        android:layout_width="100dp"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="8dp"
-        layout="@layout/ribbon" />
+        android:textSize="26dp"
+        kikbak:typeface="Roboto-Light.ttf" />
 
 </RelativeLayout>
