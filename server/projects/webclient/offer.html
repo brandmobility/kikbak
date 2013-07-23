@@ -1,20 +1,21 @@
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
 <link href="css/kikbak.css" rel="stylesheet">
+<link href='http://fonts.googleapis.com/css?family=Raleway:400,900,800,700,600,500,300,200,100' rel='stylesheet' type='text/css'>
 <title>Kikbak</title>
 </head>
 <body>
-<div id="header">
-  <div id="back-btn-div" style="display:none;" >
-    <a id="back-btn" class="back-btn" href="#">Back</a>
+  <div class="header graden1">
+  <div id="back-btn-div">
+    <a id="back-btn" href="#" class="back1"><span class="back2">Back</span><span class="back3"></span></a>
   </div>
-  <div id="suggest-btn-div" style="display:none" >
-    <a id="suggest-btn" class="suggest-btn" href="#">Suggest</a>
+  <span id="heading" class="head-titel">Give</span>
+  <div id="suggest-btn-div">
+    <a id="suggest-btn" href="#" class="back1 ritbtn"><span class="back2">Suggest</span><span class="back3"></span></a>
   </div>
-  <div id="heading">Kikbak</div>
+</div>
 </div>
 <div id="offer-view" class="wrapper" style="dispaly:none;">
   <div class="scroller">
@@ -62,91 +63,10 @@
   </div>
   </form>
 </div>
-<div id="footer">
-  <div id="footer-div">
-    <div id="offer-btn-div">
-      <div id="offer-btn" class="footer-btn offer-btn">Give</div>
-    </div>
-    <div id="redeem-btn-div">
-      <div id="redeem-btn" class="footer-btn redeem-btn">Redeem</div>
-    </div>
-  </div>
-</div>
 <div id="fb-root"></div>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
 <script src="js/kikbak.js"></script>
-<script type="text/javascript" src="js/iscroll.js"></script>
-<script>
-$('body').scrollTop($(document).height());
-$(document).ready(function() {  
-  $.ajaxSetup({ cache: true });
-  $.getScript('//connect.facebook.net/en_US/all.js', function(){
-    window.fbAsyncInit = fbInit;
-  });
-  $('.offer-btn').click(function(){
-    if (typeof Storage != 'undefined') {
-      localStorage.pageType = 'offer';
-      initPage();
-    }
-  });
-  $('.redeem-btn').click(function(){
-    if (typeof Storage != 'undefined') {
-      localStorage.pageType = 'redeem';
-      initPage();
-    }
-  });
-  $('.suggest-btn').click(function(){
-    if (typeof Storage != 'undefined') {
-      localStorage.pageType = 'suggest';
-      initPage();
-    }
-  });
-  setWrapperSize();
-
-  $('#suggest-form input[name="name"]').bind('keyup', adjustSuggest);
-  $('#suggest-form input[name="reason"]').bind('keyup', adjustSuggest);
-
-  if (getBrowserName() == 'Safari') {
-    $('#footer').css('position', 'static');
-  } else {
-    $('#footer').css('position', 'fixed');
-  }
-
-  $('.take-picture').change(function(e) {
-    var files = e.target.files;
-    var file;
-    if (files && files.length > 0) {
-      file = files[0];
-      try {
-        var URL = window.webkitURL || window.URL;
-        var imgUrl = URL.createObjectURL(file);
-        $('.show-picture').load(function(e){
-          URL.revokeObjectURL(this.src);
-        });
-        $('.show-picture').attr('src', imgUrl);
-      } catch (e) {
-        try {
-          var fileReader = new FileReader();
-          fileReader.onload = function (e) {
-            $('.show-picture').src = e.target.result;
-          }
-          fileReader.readAsDataUrl(file);
-        } catch (e) {
-          alert('Unsupported browser');
-        }
-      }
-    }
-    adjustSuggest();
-  });
-
-  function updateOrientation() {
-    window.scrollTo(0, 1);
-  }
-  window.addEventListener('orientationchange', updateOrientation);
-
-});
-</script>
 
 </body>
 </html>

@@ -2,6 +2,69 @@ var config = {
   backend: ''
 }
 
+$(document).ready(function() {  
+  $('body').scrollTop($(document).height());
+  $.ajaxSetup({ cache: true });
+  $.getScript('//connect.facebook.net/en_US/all.js', function(){
+    window.fbAsyncInit = fbInit;
+  });
+  $('.offer-btn').click(function(){
+    if (typeof Storage != 'undefined') {
+      localStorage.pageType = 'offer';
+      initPage();
+    }
+  });
+  $('.redeem-btn').click(function(){
+    if (typeof Storage != 'undefined') {
+      localStorage.pageType = 'redeem';
+      initPage();
+    }
+  });
+  $('.suggest-btn').click(function(){
+    if (typeof Storage != 'undefined') {
+      localStorage.pageType = 'suggest';
+      initPage();
+    }
+  });
+  setWrapperSize();
+
+  $('#suggest-form input[name="name"]').bind('keyup', adjustSuggest);
+  $('#suggest-form input[name="reason"]').bind('keyup', adjustSuggest);
+
+  $('.take-picture').change(function(e) {
+    var files = e.target.files;
+    var file;
+    if (files && files.length > 0) {
+      file = files[0];
+      try {
+        var URL = window.webkitURL || window.URL;
+        var imgUrl = URL.createObjectURL(file);
+        $('.show-picture').load(function(e){
+          URL.revokeObjectURL(this.src);
+        });
+        $('.show-picture').attr('src', imgUrl);
+      } catch (e) {
+        try {
+          var fileReader = new FileReader();
+          fileReader.onload = function (e) {
+            $('.show-picture').src = e.target.result;
+          }
+          fileReader.readAsDataUrl(file);
+        } catch (e) {
+          alert('Unsupported browser');
+        }
+      }
+    }
+    adjustSuggest();
+  });
+
+  function updateOrientation() {
+    window.scrollTo(0, 1);
+  }
+  window.addEventListener('orientationchange', updateOrientation);
+
+});
+
 function getHeight() {
   xHeight = null;
   if(window.screen != null)
@@ -149,34 +212,30 @@ function initPage() {
     if (pageType === 'redeem') {
       $('#redeem-view').show('');
       $('#redeem-btn-div').css('background', 'url("img/btn_highlighted.png")');
-      $('#footer').show('');
       getRedeems();
-    } else if (pageType === 'offer-detail') {
-      $('#offer-details-view').show('');
-      $('#back-btn-div').show('');
-      $('#footer').hide();
-      getOfferDetail();
     } else if (pageType === 'redeem-detail') {
       $('#redeem-details-view').show('');
       $('#back-btn-div').show('');
-      $('#footer').hide();
       getRedeemDetail();
     } else if (pageType === 'suggest') {
       $('#suggest-view').show('');
       $('#back-btn-div').show('');
-      $('#footer').hide();
       $('#back-btn').click(function(e){
         e.preventDefault();
         localStorage.pageType = 'offer';
         initPage();
       });
-    }else {
-      // offer page is the default page
+    } else if (pageType === 'offer') {
       $('#offer-view').show('');
       $('#suggest-btn-div').show('');
       $('#offer-btn-div').css('background', 'url("img/btn_highlighted.png")');
-      $('#footer').show('');
       getOffers();
+    } else { //if (pageType === 'offer-detail') {
+      $('#offer-details-view').show('');
+      $('#back-btn-div').hide('');
+      // TODO
+      //$('#back-btn-div').show('');
+      getOfferDetail();
     }
   }
   setWrapperSize();
@@ -332,9 +391,6 @@ function getOffersByLocation(userId, position) {
         }
         initPage();
       });
-      setTimeout(function(){
-        resizeScroll();
-      }, 500);
     },
     error: showError
   });
@@ -370,9 +426,6 @@ function getRedeems() {
             }
             initPage();
           });
-          setTimeout(function(){
-            resizeScroll();
-          }, 500);
         },
         error: showError
       });
@@ -486,43 +539,45 @@ function getRedeemDetail() {
 
 function renderOfferDetail(offer) {
   var html = '<form id="share-form" type="POST" enctype="multipart/form-data" onsubmit="shareOffer(); return false;" >';
-  html += '<div class="add-photo"><img src="img/offer.png" class="add-photo show-picture" alt="" id="show-picture" /></div>';
+  html += '<div class="image-add"><img src="img/offer.png" class="addimg add-photo show-picture" id="show-picture" />';
   // TODO
-  // html += '<div class="add-photo"><img src="' + offer.imageUrl + '" class="add-photo show-picture" alt="" id="show-picture"></div>';
+  // html += '<div class="image-add"><img src="' + offer.imageUrl + '" class="addimg add-photo show-picture" id="show-picture">>';
+  html += '<span class="imgshado"></span>';
   html += '<div class="add-photo-btn">';
-  html += '<input name="source" type="file" id="take-picture" class="take-picture" accept="image/*" />';
+  html += '<h2>Add your own photo</h2>';
+  html += '<div class="camicon"><img src="images/camicon.png">';
+  html += '<input name="source" type="file" id="take-picture" class="camicon take-picture" style="height:100px;margin-left:40%;width:20%;opacity:0;" accept="image/*" /></div>';
   html += '</div>';
-  html += '<div class="brand">';
-  html += offer.merchantName;
-  html += '</div><div class="website">';
-  html += '<a href="' + offer.merchantUrl + '"><img class="website-img" src="img/ic_web.png" /></a>';
-  html += '</div>';
+  html += '<h3>' + offer.merchantName + '</h3>';
+  html += '<div class="opt-icon">';
   local = getDisplayLocation(offer.locations);
   if (local != 'undefined') {
-    html += '<div class="phone">';
-    html += '<a href="tel:' + local.phoneNumber + '"><img class="website-img" src="img/ic_phone.png" /></a>';
-    html += '</div><div class="map">';
-    html += '<a href="' + generateMapUrl(offer.merchantName, local) + '"><img class="website-img" src="img/ic_map.png" />' + '&nbsp;' + computeDistance(local) + '</a>';
-    html += '</div>';
+    html += '<a href="' + generateMapUrl(offer.merchantName, local) + '"><img class="website-img" src="images/ic_map@2x.png" />' + '&nbsp;' + computeDistance(local) + '</a>';
+    html += '<a href="' + offer.merchantUrl + '"><img class="website-img" src="images/ic_web@2x.png" /></a>';
+    html += '<a href="tel:' + local.phoneNumber + '"><img class="website-img" src="images/ic_phone@2x.png" /></a>';
+  } else {
+    html += '<a href="' + offer.merchantUrl + '"><img class="website-img" src="images/ic_web@2x.png" /></a>';
   }
   html += '</div>';
-  html += '<div id="share-div" class="form-view">';
-  html += '<input name="comment" type="textarea" placeholder="Add Comment..." />';
+  html += '<input name="comment" type="text" placeholder="Add Comment..." class="addcmt" />';
   html += '<input name="message" type="hidden" value="Visit getkikbak.com for an exclusive offer shared by your friend" />';
-  html += '<div id="share-detail-div">';
-  html += '<div id="give-detail">';
-  html += '<div id="give-detail-summary">';
-  html += '<img src="img/ic_gift.png" />';
-  html += '<p>' + offer.giftDesc + '</p>';
   html += '</div>';
-  html += '<div id="give-detail-detail">';
-  html += '<p>' + offer.giftDescOptional + '</p>'; 
+  html += '<div class="img-botm-patrn"></div>';
+  html += '<div class="gv">';
+  html += '<h2><img src="images/ic_gift@2x.png" />';
+  html += offer.giftDesc + '</h2>';
+  html += '<h4>' + offer.giftDetailedDesc + '</h4>';
   html += '</div>';
-  html += '<a href="#" id="terms">Terms and Conditions</a>';
-  html += '<input name="share" type="submit" class="btn" value="Give To Friends" disabled />';
+  html += '<div class="crt">';
+  html += '<h2>' + offer.kikbakDesc + '</h2>';
+  html += '<h4>' + offer.kikbakDetailedDesc + '</h4>';
   html += '</div>';
+  html += '<div class="crt">';
+  html += '<a href="#" id="terms" class="trm" >Terms and Conditions</a>';
+  html += '<a href="#" id="learns" class="lrn-mor" >Learn more</a>';
+  html += '</div>';
+  html += '<input name="share" type="submit" class="btn grd3" value="Give To Friends" disabled />';
   html += '</form>';
-  html += '</div>';
   $('#offer-details-view').html(html);
 }
 
@@ -701,16 +756,6 @@ function renderRedeemDetail(redeem) {
   $('#redeem-details-view').html(html);
 }
 
-function resizeScroll() {
-  if ( typeof getOffersByLocation.ov == 'undefined' ) {
-    getOffersByLocation.ov = new iScroll('offer-view');
-    getRedeems.rv = new iScroll('redeem-view');
-  } else {
-    getOffersByLocation.ov.refresh();
-    getRedeems.rv.refresh();
-  }
-}
-
 function reload() {
   adjustAddPhoto();
   window.scrollTo(0, 1);
@@ -739,7 +784,6 @@ function setWrapperSize() {
   $('.add-photo').css('height', wrapperSize - 200 + 45 + 'px');
   $('#show-picture').css('max-height', wrapperSize - 200 + 45 + 'px');
   $('.wrapper').css('min-height', wrapperSize + 'px');
-  $('#footer').css('margin-top', wrapperSize + 45 + 'px');
 }
 
 function adjustSuggest() {
