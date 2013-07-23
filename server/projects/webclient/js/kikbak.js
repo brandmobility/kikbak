@@ -593,6 +593,16 @@ function renderOfferDetail(offer) {
   html += '<input name="share" type="submit" class="btn grd3" value="Give To Friends" disabled />';
   html += '</form>';
   $('#offer-details-view').html(html);
+  
+  var options = '';
+  $.each(offer.locations, function(i, l) {
+    var selected = '';
+    if (i === 0) {
+      selected = ' selected';
+    }
+    options += '<option value="' + l.locationId + '" ' + selected + '>' + l.latitude + '</option>';
+  });
+  $('#location-sel').html(options);
 }
 
 function doSuggest() {
@@ -677,7 +687,13 @@ function doShare(cb) {
     req = {},
     url = $('#share-help-form input[name="url"]').val(),
     local = getDisplayLocation(offer.locations),
+    locationId = $('#location-sel'),
     str;
+  
+  if (typeof locationId === 'undefined') {
+    locationId = 0;
+  }
+    
   exp['locationId'] = local.locationId;
   exp['merchantId'] = offer.merchantId;
   exp['offerId'] = offer.id;
@@ -685,14 +701,13 @@ function doShare(cb) {
   exp['imageUrl'] = url; 
   exp['caption'] = message;
   exp['type'] = 'email';
-  exp['locationId'] = $('#share-help-form input[name="storeId"]').val();
+  exp['locationId'] = locationId;
   exp['employeeId'] = $('#share-help-form input[name="associateName"]').val();
   data['experience'] = exp;
   req['ShareExperienceRequest'] = data;
   str = JSON.stringify(req);
   
   $('#share-help-form input[name="storeId"]').val('');
-  $('#share-help-form input[name="associateName"]').val('');
   
   $.ajax({
     dataType: 'json',

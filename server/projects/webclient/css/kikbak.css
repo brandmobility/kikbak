@@ -611,3 +611,9 @@ box-shadow: 0 2px 3px 0 #000; position:relative;
 .rdme h3 {
     bottom: 20%;}.gvrdm { padding: 1% 2%}
 }
+
+.location-sel {
+    width:300px;
+    height:50px;
+    font-size:24;
+}
