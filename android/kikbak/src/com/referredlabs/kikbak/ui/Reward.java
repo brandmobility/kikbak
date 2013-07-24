@@ -4,9 +4,9 @@ package com.referredlabs.kikbak.ui;
 import com.referredlabs.kikbak.Kikbak;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.AvailableCreditType;
-import com.referredlabs.kikbak.data.ClientLocationType;
 import com.referredlabs.kikbak.data.ClientMerchantType;
 import com.referredlabs.kikbak.data.GiftType;
+import com.referredlabs.kikbak.data.MerchantLocationType;
 
 public class Reward {
 
@@ -17,7 +17,7 @@ public class Reward {
   public GiftType gift;
   public AvailableCreditType credit;
   public final ClientMerchantType mMerchant;
-  public ClientLocationType mNearestLocation;
+  public MerchantLocationType mNearestLocation;
   public float mDistance;
 
   Reward(ClientMerchantType merchant) {

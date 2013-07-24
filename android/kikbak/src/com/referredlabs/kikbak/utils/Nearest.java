@@ -3,24 +3,24 @@ package com.referredlabs.kikbak.utils;
 
 import android.location.Location;
 
-import com.referredlabs.kikbak.data.OfferLocationType;
+import com.referredlabs.kikbak.data.MerchantLocationType;
 
 public class Nearest {
   private static float[] sResult = new float[1];
-  private OfferLocationType[] mLocations;
-  private OfferLocationType mNearestLocation;
+  private MerchantLocationType[] mLocations;
+  private MerchantLocationType mNearestLocation;
   private float mDistanceToNearest;
 
-  public Nearest(OfferLocationType[] locations) {
+  public Nearest(MerchantLocationType[] locations) {
     mLocations = locations;
   }
 
   public void determineNearestLocation(double latitude, double longitude) {
     float[] results = sResult;
     float distance = Float.MAX_VALUE;
-    OfferLocationType nearest = null;
+    MerchantLocationType nearest = null;
 
-    for (OfferLocationType loc : mLocations) {
+    for (MerchantLocationType loc : mLocations) {
       Location.distanceBetween(latitude, longitude, loc.latitude, loc.longitude, results);
       if (results[0] < distance) {
         distance = results[0];

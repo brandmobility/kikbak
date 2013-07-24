@@ -5,5 +5,5 @@ public class ClientMerchantType {
   public long id;
   public String name;
   public String url;
-  public ClientLocationType[] locations;
+  public MerchantLocationType[] locations;
 }

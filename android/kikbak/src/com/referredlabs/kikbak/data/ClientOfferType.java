@@ -17,7 +17,7 @@ public class ClientOfferType {
   public String offerImageUrl;
   public String giveImageUrl;
   public String tosUrl;
-  public OfferLocationType[] locations;
+  public MerchantLocationType[] locations;
   public long beginDate;
   public long endDate;
 
