@@ -2,10 +2,6 @@
 package com.referredlabs.kikbak.ui;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Shader;
-import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -234,10 +230,6 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
     String path = mCroppedPhotoUri == null ? null : mCroppedPhotoUri.getPath();
     PublishFragment publish = PublishFragment.newInstance(mOffer, comment, path, id);
     publish.show(getSupportFragmentManager(), null);
-  }
-
-  @Override
-  public void onPostOnFacebook(String id) {
   }
 
   @Override

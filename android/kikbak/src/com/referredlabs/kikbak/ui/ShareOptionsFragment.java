@@ -24,8 +24,6 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
 
     public void onSendViaFacebook(String id);
 
-    public void onPostOnFacebook(String id);
-
     public void onSendViaSms(String id);
   }
 
@@ -77,15 +75,10 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
 
     switch (v.getId()) {
       case R.id.via_email:
-      case R.id.email_send_to_friends:
         mListener.onSendViaEmail(id);
         break;
       case R.id.via_facebook:
-      case R.id.facebook_send_to_friends:
         mListener.onSendViaFacebook(id);
-        break;
-      case R.id.facebook_post_on_timeline:
-        mListener.onPostOnFacebook(id);
         break;
       case R.id.via_sms:
         mListener.onSendViaSms(id);
