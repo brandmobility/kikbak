@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -217,8 +218,7 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
     mRedeemInStore.setEnabled(true);
   }
 
-  public void onBarcodeFetched(Bitmap bitmap) {
-    String barcode = "123456"; // FIXME
+  public void onBarcodeFetched(String barcode, Bitmap bitmap) {
     mCallback.success(barcode, bitmap);
   }
 
@@ -272,6 +272,7 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
 
     private long mUserId;
     private long mGiftId;
+    private String mBarcode;
     private Bitmap mBitmap;
 
     @Override
@@ -283,7 +284,9 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
     @Override
     protected Void doInBackground(Void... params) {
       try {
-        mBitmap = Http.fetchBarcode(mUserId, mGiftId);
+        Pair<String, Bitmap> result = Http.fetchBarcode(mUserId, mGiftId);
+        mBarcode = result.first;
+        mBitmap = result.second;
       } catch (Exception e) {
         Log.e("MMM", "Exception: " + e);
       }
@@ -293,7 +296,7 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
     @Override
     protected void onPostExecute(Void result) {
       if (mBitmap != null) {
-        onBarcodeFetched(mBitmap);
+        onBarcodeFetched(mBarcode, mBitmap);
       } else {
         onBarcodeFetchFailed();
       }

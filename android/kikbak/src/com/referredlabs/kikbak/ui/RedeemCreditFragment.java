@@ -203,8 +203,7 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
   }
 
   @Override
-  public void onBarcodeFetched(Bitmap bitmap) {
-    String barcode = "12345"; // FIXME
+  public void onBarcodeFetched(String barcode, Bitmap bitmap) {
     mCallback.success(barcode, bitmap);
   }
 

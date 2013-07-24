@@ -4,6 +4,7 @@ package com.referredlabs.kikbak.http;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.http.AndroidHttpClient;
+import android.util.Pair;
 
 import com.google.common.io.CharStreams;
 import com.google.gson.Gson;
@@ -160,7 +161,7 @@ public class Http {
     }
   }
 
-  public static Bitmap fetchBarcode(long userId, long giftId) throws IOException {
+  public static Pair<String, Bitmap> fetchBarcode(long userId, long giftId) throws IOException {
     AndroidHttpClient client = AndroidHttpClient.newInstance(USER_AGENT);
     try {
       String uri = getUri("/rewards/generateBarcode/" + userId + "/" + giftId + "/300/300/");
@@ -170,8 +171,9 @@ public class Http {
       HttpResponse resp = client.execute(get);
       int code = resp.getStatusLine().getStatusCode();
       if (code == 200) {
+        String barcode = resp.getFirstHeader("barcode").getValue();
         Bitmap bitmap = getContentAsBitmap(resp.getEntity());
-        return bitmap;
+        return new Pair<String, Bitmap>(barcode, bitmap);
       }
 
       String content = getContent(resp.getEntity());
