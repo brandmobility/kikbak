@@ -658,6 +658,7 @@ function shareOffer() {
         $.ajax({
           url: config.backend + '/s/upload.php',
           data: req,
+          processData: false,
           cache: false,
           contentType: false,
           dataType: 'json',
@@ -686,15 +687,13 @@ function doShare(cb) {
     data = {},
     req = {},
     url = $('#share-help-form input[name="url"]').val(),
-    local = getDisplayLocation(offer.locations),
-    locationId = $('#location-sel'),
+    locationId = $('#location-sel').val(),
     str;
   
   if (typeof locationId === 'undefined') {
     locationId = 0;
   }
     
-  exp['locationId'] = local.locationId;
   exp['merchantId'] = offer.merchantId;
   exp['offerId'] = offer.id;
   exp['fbImageId'] = 0;
