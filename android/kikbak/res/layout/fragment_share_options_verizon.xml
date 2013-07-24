@@ -1,53 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:kikbak="http://schemas.android.com/apk/res/com.referredlabs.kikbak"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="24dp" >
+    android:padding="24dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp" >
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/share_verizon_label" />
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:text="@string/share_verizon_title"
+        android:textColor="@android:color/black"
+        android:textSize="19dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
 
-    <EditText
-        android:id="@+id/verizon_employee_id"
-        android:layout_width="wrap_content"
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/share_verizon_employee_hint" />
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:text="@string/share_verizon_note"
+        android:textColor="#3a3a3a"
+        android:textSize="13dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.referredlabs.kikbak.widget.TtfEditText
+        android:id="@+id/verizon_employee_name"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/share_options_title" />
+        android:hint="@string/share_verizon_employee_name_hint"
+        android:textSize="17dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.referredlabs.kikbak.widget.TtfEditText
+        android:id="@+id/verizon_employee_name"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/share_option_email_header" />
+        android:hint="@string/share_verizon_store_id_hint"
+        android:textSize="17dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
 
-    <Button
-        android:id="@+id/email_send_to_friends"
-        android:layout_width="wrap_content"
+    <com.referredlabs.kikbak.widget.TtfButton
+        android:id="@+id/via_facebook"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/share_option_email_send_to_friends" />
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_blue"
+        android:text="@string/share_option_via_facebook"
+        android:textColor="@android:color/white"
+        android:textSize="21dp"
+        kikbak:typeface="Roboto-Light.ttf" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.referredlabs.kikbak.widget.TtfButton
+        android:id="@+id/via_email"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/share_option_facebook_header" />
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_blue"
+        android:text="@string/share_option_via_email"
+        android:textColor="@android:color/white"
+        android:textSize="21dp"
+        kikbak:typeface="Roboto-Light.ttf" />
 
-    <Button
-        android:id="@+id/facebook_send_to_friends"
-        android:layout_width="wrap_content"
+    <com.referredlabs.kikbak.widget.TtfButton
+        android:id="@+id/via_sms"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/share_option_facebook_send_to_friends" />
-
-    <Button
-        android:id="@+id/facebook_post_on_timeline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/share_option_facebook_post_on_timeline" />
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_blue"
+        android:text="@string/share_option_via_sms"
+        android:textColor="@android:color/white"
+        android:textSize="21dp"
+        kikbak:typeface="Roboto-Light.ttf" />
 
 </LinearLayout>

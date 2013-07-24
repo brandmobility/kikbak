@@ -34,6 +34,8 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
     OnShareMethodSelectedListener,
     ShareStatusListener {
 
+  public static final String ARG_OFFER = "offer";
+
   private static final String STATE_PHOTO_URI = "photo_uri";
   private static final String STATE_CROP_URI = "crop_uri";
 
@@ -59,7 +61,7 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
 
     findViewById(R.id.give).setOnClickListener(this);
     findViewById(R.id.terms).setOnClickListener(this);
-    String data = getIntent().getStringExtra("data");
+    String data = getIntent().getStringExtra(ARG_OFFER);
     mOffer = new Gson().fromJson(data, ClientOfferType.class);
     setupViews();
   }
@@ -230,25 +232,20 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
   }
 
   @Override
-  public void onSendViaFacebook(String id) {
+  public void onSendViaSms(String id) {
     Toast.makeText(this, "Not implemented", Toast.LENGTH_SHORT).show();
   }
 
   @Override
-  public void onPostOnFacebook(String id) {
-    android.util.Log.d("MMM", "post on timeline");
-    if (mCroppedPhotoUri == null) {
-      // TODO: extract original photo
-      Toast.makeText(this, "Take photo first!", Toast.LENGTH_LONG).show();
-      return;
-    }
-
-    String path = mCroppedPhotoUri.getPath();
+  public void onSendViaFacebook(String id) {
     String comment = mComment.getText().toString();
-    long locationId = mOffer.locations[0].locationId;
-    PublishFragment publish = PublishFragment.newInstance(comment, path, mOffer.id,
-        mOffer.merchantId, locationId, id);
-    publish.show(getSupportFragmentManager(), "");
+    String path = mCroppedPhotoUri == null ? null : mCroppedPhotoUri.getPath();
+    PublishFragment publish = PublishFragment.newInstance(mOffer, comment, path, id);
+    publish.show(getSupportFragmentManager(), null);
+  }
+
+  @Override
+  public void onPostOnFacebook(String id) {
   }
 
   @Override

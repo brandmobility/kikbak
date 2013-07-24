@@ -2,6 +2,6 @@
 package com.referredlabs.kikbak.data;
 
 public interface ValidationType {
-  static String QR = "qr";
-  static String POS = "pos";
+  static String QRCODE = "qrcode";
+  static String BARCODE = "barcode";
 }

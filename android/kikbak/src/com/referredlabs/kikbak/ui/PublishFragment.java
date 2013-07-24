@@ -13,11 +13,14 @@ import com.facebook.Session;
 import com.facebook.Session.StatusCallback;
 import com.facebook.SessionDefaultAudience;
 import com.facebook.SessionState;
+import com.google.gson.Gson;
 import com.referredlabs.kikbak.R;
+import com.referredlabs.kikbak.data.ClientOfferType;
 import com.referredlabs.kikbak.data.ShareExperienceRequest;
 import com.referredlabs.kikbak.data.ShareExperienceResponse;
 import com.referredlabs.kikbak.data.SharedType;
 import com.referredlabs.kikbak.fb.Fb;
+import com.referredlabs.kikbak.fb.FbObjectApi;
 import com.referredlabs.kikbak.http.Http;
 import com.referredlabs.kikbak.utils.Register;
 
@@ -33,6 +36,7 @@ public class PublishFragment extends DialogFragment {
 
   final long userId = Register.getInstance().getUserId();
 
+  private static final String ARG_OFFER = "offer";
   private static final String ARG_COMMENT = "comment";
   private static final String ARG_PHOTO_PATH = "photo_uri";
   private static final String ARG_LOCATION_ID = "location_id";
@@ -53,15 +57,13 @@ public class PublishFragment extends DialogFragment {
     }
   };
 
-  public static PublishFragment newInstance(String comment, String photoPath, long offerId,
-      long merchantId, long locationId, String verizonId) {
+  public static PublishFragment newInstance(ClientOfferType offer, String comment,
+      String photoPath, String verizonId) {
     PublishFragment fragment = new PublishFragment();
     Bundle args = new Bundle();
+    args.putString(ARG_OFFER, new Gson().toJson(offer));
     args.putString(ARG_COMMENT, comment);
     args.putString(ARG_PHOTO_PATH, photoPath);
-    args.putLong(ARG_OFFER_ID, offerId);
-    args.putLong(ARG_MERCHANT_ID, merchantId);
-    args.putLong(ARG_LOCATION_ID, locationId);
     args.putString(ARG_VERIZON_ID, verizonId);
     fragment.setArguments(args);
     fragment.setRetainInstance(true);
@@ -144,11 +146,17 @@ public class PublishFragment extends DialogFragment {
       Session session = Session.getActiveSession();
       String comment = args.getString(ARG_COMMENT);
       String photoPath = args.getString(ARG_PHOTO_PATH);
+      ClientOfferType offer = new Gson().fromJson(args.getString(ARG_OFFER), ClientOfferType.class);
 
       try {
-        long imageId = Fb.publishGift(session, comment, photoPath);
+        String imageUrl = offer.giveImageUrl;
+        if (photoPath != null) {
+          long userId = Register.getInstance().getUserId();
+          imageUrl = Http.uploadImage(userId, photoPath);
+        }
+        FbObjectApi.publishStory(session, offer.giveImageUrl, comment);
         mFbSuccess = true;
-        reportToKikbak(imageId);
+        reportToKikbak(imageUrl);
         mKikbakSuccess = true;
       } catch (Exception e) {
         android.util.Log.d("MMM", "exception " + e);
@@ -156,33 +164,30 @@ public class PublishFragment extends DialogFragment {
       return null;
     }
 
-    private void reportToKikbak(long imageId) {
+    private void reportToKikbak(String imageUrl) throws IOException {
       final long userId = Register.getInstance().getUserId();
       Bundle args = getArguments();
       ShareExperienceRequest req = new ShareExperienceRequest();
       req.experience = new SharedType();
       req.experience.caption = args.getString(ARG_COMMENT);
-      req.experience.fbImageId = imageId;
+      req.experience.fbImageId = -1; // FIXME
       req.experience.employeeId = args.getString(ARG_VERIZON_ID);
-      req.experience.imageUrl = ""; // FIXME shared via facebook, do we upload as well?
+      req.experience.imageUrl = imageUrl;
       req.experience.locationId = args.getLong(ARG_LOCATION_ID);
       req.experience.merchantId = args.getLong(ARG_MERCHANT_ID);
       req.experience.offerId = args.getLong(ARG_OFFER_ID);
       req.experience.type = SharedType.SHARE_MODE_FACEBOOK;
 
       String uri = Http.getUri(ShareExperienceRequest.PATH + userId);
-      try {
-        ShareExperienceResponse resp = Http.execute(uri, req, ShareExperienceResponse.class);
-      } catch (IOException e) {
-        android.util.Log.d("MMM", "Exception: " + e);
-      }
+      ShareExperienceResponse resp = Http.execute(uri, req, ShareExperienceResponse.class);
+      // check response status ?
     }
 
     @Override
     protected void onPostExecute(Void result) {
       dismiss();
       if (mListener != null)
-        mListener.onShareFinished(true);
+        mListener.onShareFinished(mFbSuccess && mKikbakSuccess);
     }
   }
 

@@ -143,10 +143,10 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
       return;
     }
 
-    if (ValidationType.QR.equals(mGift.validationType)) {
+    if (ValidationType.QRCODE.equals(mGift.validationType)) {
       // scanning QR code
       showScanConfirmation();
-    } else if (ValidationType.POS.equals(mGift.validationType)) {
+    } else if (ValidationType.BARCODE.equals(mGift.validationType)) {
       // barcode generation
       mRedeemInStore.setEnabled(false);
       new BarcodeTask().execute();

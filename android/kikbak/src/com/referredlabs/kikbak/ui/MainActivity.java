@@ -155,7 +155,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     Intent intent = new Intent(this, GiveActivity.class);
     Gson gson = new Gson();
     String data = gson.toJson(offer);
-    intent.putExtra("data", data);
+    intent.putExtra(GiveActivity.ARG_OFFER, data);
     startActivity(intent);
   }
 
