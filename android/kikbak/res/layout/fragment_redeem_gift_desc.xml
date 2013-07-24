@@ -1,33 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:kikbak="http://schemas.android.com/apk/res/com.referredlabs.kikbak"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:paddingLeft="14dp"
+    android:paddingRight="14dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="13dp" >
 
-    <TextView
+    <com.referredlabs.kikbak.widget.TtfTextView
         android:id="@+id/gift_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:gravity="center_vertical"
-        android:text="$50 OFF"
-        android:textSize="24sp" />
+        android:text="$50 off"
+        kikbak:typeface="Roboto-Bold.ttf"
+        android:textColor="@color/redeem_text_dark"
+        android:textSize="36dp" />
 
-    <TextView
+    <com.referredlabs.kikbak.widget.TtfTextView
         android:id="@+id/gift_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/gift_value"
         android:layout_centerHorizontal="true"
-        android:text="with new 1-year contract" />
+        android:layout_marginBottom="12dp"
+        android:text="with new 1-year contract"
+        kikbak:typeface="Roboto-Regular.ttf"
+        android:textColor="@color/redeem_text_dark"
+        android:textSize="14dp" />
 
-    <TextView
+    <com.referredlabs.kikbak.widget.TtfTextView
         android:id="@+id/terms"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/gift_desc"
-        android:layout_marginTop="4dp"
         android:text="@string/terms"
-        android:textSize="12sp" />
+        kikbak:typeface="Roboto-Regular.ttf"
+        android:textColor="@color/redeem_text_more_info_light"
+        android:textSize="13dp" />
 
 </RelativeLayout>

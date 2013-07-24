@@ -42,6 +42,7 @@ public class ClaimInputFragment extends Fragment implements OnClickListener {
   private TextView mPhoneTv;
   private TextView mNameTv;
   private TextView mStreetTv;
+  private TextView mAptTv;
   private TextView mCityTv;
   private TextView mStateTv;
   private TextView mZipTv;
@@ -66,6 +67,7 @@ public class ClaimInputFragment extends Fragment implements OnClickListener {
     mPhoneTv = (TextView) root.findViewById(R.id.phone_number);
     mNameTv = (TextView) root.findViewById(R.id.first_last_name);
     mStreetTv = (TextView) root.findViewById(R.id.address_street);
+    mAptTv = (TextView) root.findViewById(R.id.address_apartment);
     mCityTv = (TextView) root.findViewById(R.id.address_city);
     mStateTv = (TextView) root.findViewById(R.id.address_state);
     mZipTv = (TextView) root.findViewById(R.id.address_zip);
@@ -163,7 +165,7 @@ public class ClaimInputFragment extends Fragment implements OnClickListener {
       mRequest.claim.PhoneNumber = mPhoneTv.getText().toString();
       mRequest.claim.name = mNameTv.getText().toString();
       mRequest.claim.street = mStreetTv.getText().toString();
-      mRequest.claim.apt = "(missing)";
+      mRequest.claim.apt = mAptTv.getText().toString();;
       mRequest.claim.city = mCityTv.getText().toString();
       mRequest.claim.state = mStateTv.getText().toString();
       mRequest.claim.zipcode = mZipTv.getText().toString();

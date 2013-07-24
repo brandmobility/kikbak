@@ -74,13 +74,13 @@
     <string name="share_option_via_email">Share via email</string>
     <string name="share_option_via_sms">Share via SMS</string>
     <string name="share_option_via_facebook">Post on Facebook</string>
-
+    
     <!-- Verizon -->
     <string name="share_verizon_title">Helped by a Verizon associate?</string>
     <string name="share_verizon_note">Let your nearby friends know who to ask for when they visit the store.</string>
     <string name="share_verizon_employee_name_hint">Asociate name</string>
     <string name="share_verizon_store_id_hint">Store ID</string>
-
+    
     <!-- Share progress -->
     <string name="share_in_progress">Sharing gift</string>
 
@@ -136,10 +136,11 @@
     <string name="scan_tip">Hold still for scan</string>
 
     <!-- Claim credit card -->
-    <string name="claim_card_instruction">Please provide the following to redeem</string>
+    <string name="claim_card_instruction">Please provide the following to redeem:</string>
     <string name="claim_card_phone_hint">Verizon phone number</string>
     <string name="claim_card_name_hint">First Last Name</string>
     <string name="claim_card_street_hint">Street</string>
+    <string name="claim_card_apt_hint">Apartment or Unit #</string>
     <string name="claim_card_city_hint">City</string>
     <string name="claim_card_state_hint">State</string>
     <string name="claim_card_zip_hint">Zip</string>

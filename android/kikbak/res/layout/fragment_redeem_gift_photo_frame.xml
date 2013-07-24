@@ -10,13 +10,21 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:src="@drawable/merchant_ex1" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignLeft="@id/image"
+        android:layout_alignRight="@id/image"
+        android:layout_alignTop="@id/image"
+        android:layout_alignBottom="@id/image"
+        android:background="@drawable/grd_imgredeem" />
 
     <include
         android:id="@+id/icon_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="8dp"
+        android:layout_marginLeft="14dp"
         layout="@layout/icons_bar" />
 
     <com.referredlabs.kikbak.widget.TtfTextView
@@ -24,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/icon_bar"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="14dp"
         android:text="Zen Yoga"
         kikbak:typeface="Roboto-Regular.ttf"
         android:textColor="@android:color/white"

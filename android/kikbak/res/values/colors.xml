@@ -9,8 +9,11 @@
     <color name="offer_item_bg">#e5e5e5</color>
     
     <!-- Redeem screen colors -->
-    <color name="reward_gift_label">#717171</color>
-    <color name="reward_credit_label">#3a3a3a</color>
+    <color name="reward_gift_label">#717171</color>    
     <color name="redeem_list_background">#e6e6e6</color>
+    <color name="redeem_text_dark">#3a3a3a</color>
+    
+    <color name="redeem_text_desc_light">#8e8e8e</color>
+    <color name="redeem_text_more_info_light">#686868</color>
 
 </resources>
