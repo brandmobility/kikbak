@@ -58,7 +58,10 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
     v.findViewById(R.id.via_email).setOnClickListener(this);
     v.findViewById(R.id.via_sms).setOnClickListener(this);
     v.findViewById(R.id.via_facebook).setOnClickListener(this);
-    mVerizonEmplName = (EditText) v.findViewById(R.id.verizon_employee_name);
+
+    if (isVerizon) {
+      mVerizonEmplName = (EditText) v.findViewById(R.id.verizon_employee_name);
+    }
     return v;
   }
 

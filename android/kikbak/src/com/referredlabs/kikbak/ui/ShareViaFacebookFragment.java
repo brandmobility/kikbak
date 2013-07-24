@@ -28,11 +28,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public class PublishFragment extends DialogFragment {
-
-  public interface ShareStatusListener {
-    void onShareFinished(boolean success);
-  }
+public class ShareViaFacebookFragment extends DialogFragment {
 
   final long userId = Register.getInstance().getUserId();
 
@@ -57,9 +53,9 @@ public class PublishFragment extends DialogFragment {
     }
   };
 
-  public static PublishFragment newInstance(ClientOfferType offer, String comment,
+  public static ShareViaFacebookFragment newInstance(ClientOfferType offer, String comment,
       String photoPath, String verizonId) {
-    PublishFragment fragment = new PublishFragment();
+    ShareViaFacebookFragment fragment = new ShareViaFacebookFragment();
     Bundle args = new Bundle();
     args.putString(ARG_OFFER, new Gson().toJson(offer));
     args.putString(ARG_COMMENT, comment);

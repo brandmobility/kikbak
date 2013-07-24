@@ -18,7 +18,6 @@ import com.google.gson.Gson;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ClientOfferType;
 import com.referredlabs.kikbak.service.LocationFinder;
-import com.referredlabs.kikbak.ui.PublishFragment.ShareStatusListener;
 import com.referredlabs.kikbak.ui.ShareOptionsFragment.OnShareMethodSelectedListener;
 import com.referredlabs.kikbak.utils.Nearest;
 import com.squareup.picasso.Picasso;
@@ -37,7 +36,6 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
 
   private static final int REQUEST_TAKE_PHOTO = 1;
   private static final int REQUEST_CROP_PHOTO = 2;
-  private static final int REQUEST_SHARE_EMAIL = 3;
 
   private ClientOfferType mOffer;
   private ImageView mImage;
@@ -181,9 +179,6 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
       return;
     }
 
-    if (requestCode == REQUEST_SHARE_EMAIL && resultCode == RESULT_OK) {
-      finish();
-    }
   }
 
   protected void onShareClicked() {
@@ -206,36 +201,36 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
 
   @Override
   public void onSendViaEmail(String id) {
-    Intent intent = new Intent(this, ShareViaEmailActivity.class);
-    intent.putExtra(ShareViaEmailActivity.ARG_COMMENT, mComment.getText().toString());
-    intent.putExtra(ShareViaEmailActivity.ARG_OFFER_ID, mOffer.id);
-    intent.putExtra(ShareViaEmailActivity.ARG_MERCHANT_ID, mOffer.merchantId);
-    intent.putExtra(ShareViaEmailActivity.ARG_VERIZON_ID, id);
-    intent.putExtra(ShareViaEmailActivity.ARG_LOCATION_ID, mOffer.locations[0].locationId); // FIXME
-    intent.putExtra(ShareViaEmailActivity.ARG_DEFAULT_PHOTO, mOffer.giveImageUrl);
-    if (mCroppedPhotoUri != null) {
-      intent.putExtra(ShareViaEmailActivity.ARG_USER_PHOTO, mCroppedPhotoUri.getPath());
-    }
-    startActivityForResult(intent, REQUEST_SHARE_EMAIL);
+    String comment = mComment.getText().toString();
+    String path = mCroppedPhotoUri == null ? null : mCroppedPhotoUri.getPath();
+    ShareViaEmailFragment shareFrag = ShareViaEmailFragment.newInstance(mOffer, comment, path);
+    shareFrag.show(getSupportFragmentManager(), null);
   }
 
   @Override
   public void onSendViaSms(String id) {
-    Toast.makeText(this, "Not implemented", Toast.LENGTH_SHORT).show();
+    String comment = mComment.getText().toString();
+    String path = mCroppedPhotoUri == null ? null : mCroppedPhotoUri.getPath();
+    ShareViaSmsFragment shareFrag = ShareViaSmsFragment.newInstance(mOffer, comment, path);
+    shareFrag.show(getSupportFragmentManager(), null);
   }
 
   @Override
   public void onSendViaFacebook(String id) {
     String comment = mComment.getText().toString();
     String path = mCroppedPhotoUri == null ? null : mCroppedPhotoUri.getPath();
-    PublishFragment publish = PublishFragment.newInstance(mOffer, comment, path, id);
+    ShareViaFacebookFragment publish = ShareViaFacebookFragment.newInstance(mOffer, comment, path,
+        id);
     publish.show(getSupportFragmentManager(), null);
   }
 
   @Override
   public void onShareFinished(boolean success) {
+    if (success) {
+      finish();
+    }
+
     String txt = "You have shared a gift " + (success ? "succesfully" : "unsuccesfully");
     Toast.makeText(this, txt, Toast.LENGTH_LONG).show();
-    finish();
   }
 }

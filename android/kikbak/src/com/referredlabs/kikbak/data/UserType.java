@@ -26,7 +26,9 @@ public class UserType {
     user.gender = ((String) fb.getProperty("gender"));
     user.link = (fb.getLink());
     user.locale = ((String) fb.getProperty("locale"));
-    user.timezone = ((Integer) fb.getProperty("timezone"));
+    // Object tz = ((Double) fb.getProperty("timezone"));
+    // tz may be a Integer or Double
+    user.timezone = 0; // TODO: fixme
     user.updated_time = ((String) fb.getProperty("updated_time"));
     user.verified = ((Boolean) fb.getProperty("verified"));
     user.id = Long.valueOf(fb.getId());
