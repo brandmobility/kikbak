@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:kikbak="http://schemas.android.com/apk/res/com.referredlabs.kikbak"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
@@ -18,14 +19,15 @@
         android:layout_margin="8dp"
         layout="@layout/icons_bar" />
 
-    <TextView
+    <com.referredlabs.kikbak.widget.TtfTextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/icon_bar"
         android:layout_marginLeft="8dp"
         android:text="Zen Yoga"
+        kikbak:typeface="Roboto-Regular.ttf"
         android:textColor="@android:color/white"
-        android:textSize="24sp" />
+        android:textSize="24dp" />
 
 </RelativeLayout>

@@ -27,17 +27,15 @@
             android:id="@+id/black_bar"
             android:layout_width="match_parent"
             android:layout_height="8dp"
-            android:layout_alignParentBottom="true"
             android:background="#000000" />
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:background="#000000"
             android:orientation="horizontal" >
 
-            <ImageView
+            <com.referredlabs.kikbak.widget.DottedLineView
                 android:id="@+id/paper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

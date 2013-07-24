@@ -1,81 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:kikbak="http://schemas.android.com/apk/res/com.referredlabs.kikbak"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp" >
-
+        android:layout_height="140dp" >
+        
         <ImageView
             android:id="@+id/reward_image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="140dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
             android:scaleType="centerCrop"
             android:src="@drawable/merchant_ex1" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:layout_alignTop="@id/reward_image"
+            android:layout_alignLeft="@id/reward_image"
+            android:layout_alignRight="@id/reward_image"
+            android:layout_alignBottom="@id/reward_image"
+            android:background="@drawable/grd_imgredeem" />
 
-        <TextView
+        <com.referredlabs.kikbak.widget.TtfTextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:text="Verizon Wireless"
-            android:textColor="@android:color/white"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+	        android:textColor="@android:color/white"
+	        android:textSize="26dp"
+	        kikbak:typeface="Roboto-Light.ttf"
+            android:layout_marginLeft="13dp"
+            android:layout_marginBottom="6dp" />
 
         <include
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            layout="@layout/icons_bar" />
+            android:layout_marginRight="13dp"
+            android:layout_marginBottom="4dp"
+            layout="@layout/icons_bar_mini" />
+
     </RelativeLayout>
+    
+    <com.referredlabs.kikbak.widget.DottedLineView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/black" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="61dp"
+        android:paddingLeft="11dp"
+        android:paddingRight="11dp" >
 
-        <TextView
+        <com.referredlabs.kikbak.widget.TtfTextView
             android:id="@+id/gift_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:text="@string/reward_gift_label" />
+            android:text="@string/reward_gift_label"
+            android:textColor="@color/reward_gift_label"
+	        android:textSize="13dp"
+	        kikbak:typeface="Roboto-Light.ttf" />
 
-        <TextView
+        <com.referredlabs.kikbak.widget.TtfTextView
             android:id="@+id/gift_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/gift_label"
             android:layout_below="@id/gift_label"
-            android:text="20% OFF" />
+            android:text="$20 OFF"
+            android:textColor="@color/reward_gift_label"
+	        android:textSize="21dp"
+	        kikbak:typeface="Roboto-Light.ttf"
+	        android:layout_marginBottom="10dp" />
+        
+        <ImageView 
+            android:id="@+id/reward_giver_image_frame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/reward_giver_image_frame"
+            android:layout_toLeftOf="@+id/separator"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="15dp"        
+            android:layout_marginRight="8dp" />
 
-        <TextView
+        <com.referredlabs.kikbak.widget.TtfTextView
             android:id="@+id/credit_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:text="@string/reward_credit_label" />
+            android:text="@string/reward_credit_label"
+            android:textColor="@color/reward_credit_label"
+	        android:textSize="13dp"
+	        kikbak:typeface="Roboto-Light.ttf" />
 
-        <TextView
+        <com.referredlabs.kikbak.widget.TtfTextView
             android:id="@+id/credit_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/credit_label"
+            android:layout_alignParentRight="true"
             android:layout_below="@id/credit_label"
-            android:text="10$ Credit" />
+            android:text="$10"
+            android:textColor="@color/reward_credit_label"
+	        android:textSize="21dp"
+	        kikbak:typeface="Roboto-Light.ttf"
+	        android:layout_marginBottom="10dp" />
 
         <View
             android:id="@+id/separator"
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
-            android:background="#999999" />
+            android:background="@drawable/vertical_dots" />
     </RelativeLayout>
-
+    
+    <View
+		android:layout_width="match_parent"
+		android:layout_height="20dp"
+		android:background="@drawable/reward_row_separator_bg" />
 </LinearLayout>

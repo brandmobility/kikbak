@@ -86,14 +86,6 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
     nearest.determineNearestLocation(latitude, longitude);
     iconBar.setPhone(Long.toString(nearest.getPhoneNumber()));
     iconBar.setLocation(nearest);
-    tile();
-  }
-
-  void tile() {
-    Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.doted_line);
-    BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), bmp);
-    bitmapDrawable.setTileModeX(Shader.TileMode.REPEAT);
-    findViewById(R.id.paper).setBackground(bitmapDrawable);
   }
 
   @Override
