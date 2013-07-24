@@ -2,6 +2,7 @@
     xmlns:kikbak="com:kikbak:jaxb:offer" 
     xmlns:st="com:kikbak:jaxb:statustype"
     xmlns:ul="com:kikbak:jaxb:userlocation"
+    xmlns:ml="com:kikbak:jaxb:merchantlocation"
     xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
     jaxb:version="1.0">
 
@@ -15,6 +16,7 @@
     
     <xsd:import namespace="com:kikbak:jaxb:statustype" schemaLocation="./StatusType.xsd" />
     <xsd:import namespace="com:kikbak:jaxb:userlocation" schemaLocation="./UserLocation.xsd" />
+    <xsd:import namespace="com:kikbak:jaxb:merchantlocation" schemaLocation="./MerchantLocation.xsd" />
 
     
     <xsd:element name="GetUserOffersRequest">
@@ -44,7 +46,7 @@
             <xsd:element name="offerImageUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="giveImageUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="tosUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="locations" type="ul:UserLocationType" minOccurs="1" maxOccurs="unbounded"/>
+            <xsd:element name="locations" type="ml:MerchantLocationType" minOccurs="1" maxOccurs="unbounded"/>
             <xsd:element name="beginDate" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="endDate" type="xsd:long" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>

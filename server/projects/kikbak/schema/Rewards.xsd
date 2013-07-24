@@ -2,7 +2,7 @@
     xmlns:kikbak="com:kikbak:jaxb:rewards" 
     xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
     xmlns:st="com:kikbak:jaxb:statustype"
-    xmlns:ul="com:kikbak:jaxb:userlocation"
+    xmlns:ml="com:kikbak:jaxb:merchantlocation"
     jaxb:version="1.0">
 
     <xsd:annotation>
@@ -14,14 +14,14 @@
     </xsd:annotation>
     
     <xsd:import namespace="com:kikbak:jaxb:statustype" schemaLocation="./StatusType.xsd" />
-    <xsd:import namespace="com:kikbak:jaxb:userlocation" schemaLocation="./UserLocation.xsd" />
+    <xsd:import namespace="com:kikbak:jaxb:merchantlocation" schemaLocation="./MerchantLocation.xsd" />
     
     <xsd:complexType name="ClientMerchantType">
         <xsd:sequence>
             <xsd:element name="id" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="url" type="xsd:string" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="locations" type="ul:UserLocationType" minOccurs="1" maxOccurs="unbounded"/>
+            <xsd:element name="locations" type="ml:MerchantLocationType" minOccurs="1" maxOccurs="unbounded"/>
         </xsd:sequence>
     </xsd:complexType>
 

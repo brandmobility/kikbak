@@ -13,10 +13,8 @@
 
     <xsd:complexType name="UserLocationType">
         <xsd:sequence>
-            <xsd:element name="locationId" type="xsd:long" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="latitude" type="xsd:double" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="longitude" type="xsd:double" minOccurs="1" maxOccurs="1"/>
-            <xsd:element name="phoneNumber" type="xsd:long" minOccurs="0" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
     

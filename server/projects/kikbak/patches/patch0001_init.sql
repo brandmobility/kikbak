@@ -48,8 +48,9 @@ CREATE TABLE `friend`
 CREATE TABLE `location`
 (
     id BIGINT NOT NULL AUTO_INCREMENT,
-    address_1 VARCHAR(256) CHARACTER SET utf8 NOT NULL,
-    address_2 VARCHAR(256) CHARACTER SET utf8,
+    site_name VARCHAR(32) CHARACTER SET utf8,
+    address_1 VARCHAR(128) CHARACTER SET utf8 NOT NULL,
+    address_2 VARCHAR(128) CHARACTER SET utf8,
     city VARCHAR(128) CHARACTER SET utf8 NOT NULL,
     state VARCHAR(24) CHARACTER SET utf8 NOT NULL,
     zipcode INT NOT NULL,
@@ -59,6 +60,7 @@ CREATE TABLE `location`
     merchant_id BIGINT NOT NULL,
     latitude DOUBLE NOT NULL,
     longitude DOUBLE NOT NULL,
+    status varchar(16) NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET latin1 COLLATE latin1_bin;
 

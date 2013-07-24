@@ -51,6 +51,7 @@ import com.kikbak.dto.Shared;
 import com.kikbak.dto.Transaction;
 import com.kikbak.dto.User;
 import com.kikbak.jaxb.claim.ClaimType;
+import com.kikbak.jaxb.merchantlocation.MerchantLocationType;
 import com.kikbak.jaxb.redeemcredit.CreditRedemptionResponseType;
 import com.kikbak.jaxb.redeemcredit.CreditRedemptionType;
 import com.kikbak.jaxb.redeemgift.GiftRedemptionType;
@@ -58,7 +59,6 @@ import com.kikbak.jaxb.rewards.AvailableCreditType;
 import com.kikbak.jaxb.rewards.ClaimStatusType;
 import com.kikbak.jaxb.rewards.ClientMerchantType;
 import com.kikbak.jaxb.rewards.GiftType;
-import com.kikbak.jaxb.userlocation.UserLocationType;
 import com.kikbak.push.service.ApsNotifier;
 
 @Service
@@ -378,8 +378,15 @@ public class RewardServiceImpl implements RewardService{
 
         Collection<Location> locations = roLocationDao.listByMerchant(merchant.getId());
         for(Location location: locations){
-            UserLocationType clt = new UserLocationType();
+            MerchantLocationType clt = new MerchantLocationType();
             clt.setLocationId(location.getId());
+            clt.setSiteName(location.getSiteName());
+            clt.setAddress1(location.getAddress1());
+            clt.setAddress2(location.getAddress2());
+            clt.setCity(location.getCity());
+            clt.setState(location.getState());
+            clt.setZipcode(String.valueOf(location.getZipcode()));
+            clt.setZip4(location.getZipPlusFour());
             clt.setLatitude(location.getLatitude());
             clt.setLongitude(location.getLongitude());
             clt.setPhoneNumber(location.getPhoneNumber());

@@ -29,7 +29,7 @@ public class AllocatedGiftDAOTest extends KikbakBaseTest {
 	@Test
 	public void testListByMerchantId(){
 		Collection<Allocatedgift> gifts = roDao.listByMerchantId(3L);
-		assertEquals(3, gifts.size());
+		assertEquals(4, gifts.size());
 	}
 	
 	@Test

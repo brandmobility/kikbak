@@ -43,6 +43,7 @@ public class LocationDAOTest extends AccountDAOTest {
 		location.setState("CA");
 		location.setVerificationCode("3241");
 		location.setZipcode(12343);
+		location.setStatus("participating");
 		
 		rwDao.makePersistent(location);
 		

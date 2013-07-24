@@ -36,6 +36,7 @@ import com.kikbak.dto.User;
 import com.kikbak.dto.User2friend;
 import com.kikbak.jaxb.devicetoken.DeviceTokenType;
 import com.kikbak.jaxb.friends.FriendType;
+import com.kikbak.jaxb.merchantlocation.MerchantLocationType;
 import com.kikbak.jaxb.offer.ClientOfferType;
 import com.kikbak.jaxb.register.UserIdType;
 import com.kikbak.jaxb.register.UserType;
@@ -175,12 +176,19 @@ public class UserServiceImpl implements UserService {
 			
 			Collection<Location> locations = roLocationDao.listForMerchantInGeoFence(offer.getMerchantId(), fence);
 			for( Location location: locations){
-				UserLocationType utl = new UserLocationType();
-				utl.setLocationId(location.getId());
-				utl.setLatitude(location.getLatitude());
-				utl.setLongitude(location.getLongitude());
-				utl.setPhoneNumber(location.getPhoneNumber());
-				ot.getLocations().add(utl);
+			    MerchantLocationType ml = new MerchantLocationType();
+				ml.setLocationId(location.getId());
+				ml.setSiteName(location.getSiteName());
+				ml.setAddress1(location.getAddress1());
+				ml.setAddress2(location.getAddress2());
+				ml.setCity(location.getCity());
+				ml.setState(location.getState());
+				ml.setZipcode(String.valueOf(location.getZipcode()));
+				ml.setZip4(location.getZipPlusFour());
+				ml.setLatitude(location.getLatitude());
+				ml.setLongitude(location.getLongitude());
+				ml.setPhoneNumber(location.getPhoneNumber());
+				ot.getLocations().add(ml);
 			}
 			
 			ots.add(ot);

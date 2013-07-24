@@ -64,7 +64,7 @@ public class SharedDAOTest extends KikbakBaseTest{
 		
 		Shared s = roDao.findById(shared.getId());
 		assertEquals(1234, s.getLocationId());
-        assertEquals("code3", s.getReferralCode());
+        assertEquals("code4", s.getReferralCode());
 	}
 	
 	@Test
