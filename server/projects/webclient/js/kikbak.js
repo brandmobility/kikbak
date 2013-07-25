@@ -600,7 +600,7 @@ function renderOfferDetail(offer) {
     if (i === 0) {
       selected = ' selected';
     }
-    options += '<option value="' + l.locationId + '" ' + selected + '>' + l.latitude + '</option>';
+    options += '<option value="' + l.locationId + '" ' + selected + '>' + l.address1 + ' ' + l.address2 + ', ' + l.city + '</option>';
   });
   $('#location-sel').html(options);
 }
