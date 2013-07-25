@@ -4,6 +4,7 @@
     <string name="app_name">Kikbak</string>
     <string name="hello_world">Hello world!</string>
     <!-- Main menu -->
+    <string name="action_suggest">+ SUGGEST</string>
     <string name="action_settings">Settings</string>
     <string name="action_login">Login</string>
 
@@ -74,13 +75,13 @@
     <string name="share_option_via_email">Share via email</string>
     <string name="share_option_via_sms">Share via SMS</string>
     <string name="share_option_via_facebook">Post on Facebook</string>
-    
+
     <!-- Verizon -->
     <string name="share_verizon_title">Helped by a Verizon associate?</string>
     <string name="share_verizon_note">Let your nearby friends know who to ask for when they visit the store.</string>
     <string name="share_verizon_employee_name_hint">Asociate name</string>
     <string name="share_verizon_store_id_hint">Store ID</string>
-    
+
     <!-- Share progress -->
     <string name="share_in_progress">Sharing gift</string>
 
@@ -146,5 +147,12 @@
     <string name="claim_card_zip_hint">Zip</string>
     <string name="claim_card_arrival">Your reward should arrive in 2 to 4 weeks.</string>
     <string name="claim_card_submit">Submit</string>
+
+    <!-- Suggest business -->
+    <string name="activity_suggest">Suggest</string>
+    <string name="suggest_desc">"Want to recommend a business with a special offer? Tell us and we'll let them know that they should join Kikbak."</string>
+    <string name="businnes_name_hint">Business name</string>
+    <string name="businnes_why_hint">What makes them great</string>
+    <string name="suggest_send">Let us know</string>
 
 </resources>

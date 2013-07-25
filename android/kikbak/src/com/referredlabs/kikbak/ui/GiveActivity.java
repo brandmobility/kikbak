@@ -143,6 +143,7 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
 
   protected void onPhotoTaken() {
     mTakePhoto.setVisibility(View.INVISIBLE);
+    findViewById(R.id.take_photo_label).setVisibility(View.INVISIBLE);
     mImage.setImageURI(mCroppedPhotoUri);
   }
 
@@ -183,7 +184,7 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
 
   protected void onShareClicked() {
     ShareOptionsFragment dialog = ShareOptionsFragment.newInstance(mOffer.merchantName);
-    dialog.show(getFragmentManager(), "");
+    dialog.show(getSupportFragmentManager(), null);
   }
 
   private File getTempFile() throws IOException {

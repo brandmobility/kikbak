@@ -10,12 +10,12 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="11dp"
-        android:drawableLeft="@drawable/ic_give"
+        android:drawableLeft="@drawable/ic_gift"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:includeFontPadding="false"
         android:text="Give $10 off $50"
-        android:textColor="#2419E9"
+        android:textColor="#247de9"
         android:textSize="26dp"
         kikbak:typeface="Roboto-Bold.ttf" />
 
@@ -48,9 +48,11 @@
         android:layout_below="@id/separator"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="2dp"
+        android:drawableLeft="@drawable/ic_cup"
+        android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:includeFontPadding="false"
-        android:text="Give $10 off $50"
+        android:text="Get $10 credit"
         android:textColor="#3a3a3a"
         android:textSize="26dp"
         kikbak:typeface="Roboto-Bold.ttf" />

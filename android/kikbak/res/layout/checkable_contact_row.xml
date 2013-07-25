@@ -12,14 +12,14 @@
             android:id="@+id/check"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:paddingLeft="6dip" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:layout_toStartOf="@id/check" >
 
             <TextView

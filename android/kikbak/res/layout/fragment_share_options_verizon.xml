@@ -38,7 +38,7 @@
         kikbak:typeface="Roboto-Regular.ttf" />
 
     <com.referredlabs.kikbak.widget.TtfEditText
-        android:id="@+id/verizon_employee_name"
+        android:id="@+id/verizon_sotre_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/share_verizon_store_id_hint"

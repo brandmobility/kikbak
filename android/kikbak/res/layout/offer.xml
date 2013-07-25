@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="21dp"
-        android:foreground="@drawable/grd_give" >
+        android:foreground="@drawable/grd_offer" >
 
         <ImageView
             android:id="@+id/offer_image"

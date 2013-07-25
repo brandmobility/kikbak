@@ -118,6 +118,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
+      case R.id.action_suggest:
+        onSuggestClicked();
+        break;
       case R.id.action_settings:
         break;
 
@@ -135,6 +138,11 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         return true;
     }
     return super.onOptionsItemSelected(item);
+  }
+
+  private void onSuggestClicked() {
+    Intent intent = new Intent(this, SuggestBusinessActivity.class);
+    startActivity(intent);
   }
 
   @Override
