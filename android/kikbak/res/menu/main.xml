@@ -7,6 +7,12 @@
         android:title="@string/action_suggest"
         compat:showAsAction="always|withText"/>
     <item
+        android:id="@+id/action_fixed_location"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:checkable="true"
+        android:title="use fixed location"/>
+    <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:showAsAction="never"

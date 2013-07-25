@@ -25,6 +25,8 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOError;
+import java.io.IOException;
 import java.util.List;
 
 public class Fb {
@@ -36,7 +38,7 @@ public class Fb {
   };
 
   public static long publishGift(Session session, String comment, String photoPath)
-      throws FileNotFoundException {
+      throws FileNotFoundException, IOException {
     String photoId = uploadPhoto(session, photoPath);
     String url = getPhotoUrl(session, photoId);
     publishStory(session, comment, url);
@@ -55,10 +57,12 @@ public class Fb {
     return id;
   }
 
-  public static String getPhotoUrl(Session session, String photoId) {
+  public static String getPhotoUrl(Session session, String photoId) throws IOException {
     Request req = Request.newGraphPathRequest(session, photoId, null);
     Response resp = req.executeAndWait();
-    // TODO: handle errors
+
+    if (resp.getError() != null)
+      throw new IOException("Fb: can not get photo url for id:" + photoId);
     String url = (String) resp.getGraphObject().getProperty("source");
     return url;
   }
