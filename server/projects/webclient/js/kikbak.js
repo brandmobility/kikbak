@@ -1,5 +1,6 @@
 var config = {
-  backend: ''
+  backend: '',
+  appId: 493383324061333
 }
 
 $(document).ready(function() {  
@@ -681,6 +682,9 @@ function onShareResponse(url) {
 }
   
 function doShare(cb) {
+  $('.popup').hide();
+  $('#spinner').show();
+  
   var offer = jQuery.parseJSON(unescape(localStorage.offerDetail)),
     exp = {},
     message = $('#share-form input[name="comment"]').val(),
@@ -740,10 +744,13 @@ function shareViaSms() {
         dataType: 'json',
         url: '/s/sms.php',
         success: function(json) {
-          $('.popup').hide();
+          $('#spinner').hide();
           window.location.href = 'sms://?&body=' + json.body;
         },
-        error: showError
+        error: function() {
+          $('#spinner').hide();
+          showError();
+        }
       });
     }
   });
@@ -764,10 +771,13 @@ function shareViaEmail() {
         dataType: 'json',
         url: '/s/email.php',
         success: function(json) {
-          $('.popup').hide();
+          $('#spinner').hide();
           window.location.href = 'mailto:?content-type=text/html&subject=' + json.title + '&body=' + json.body;
         },
-        error: showError
+        error: function() {
+          $('#spinner').hide();
+          showError();
+        }
       });
     } else {
       $.ajax({
@@ -776,41 +786,100 @@ function shareViaEmail() {
         dataType: 'json',
         url: '/s/sms.php',
         success: function(json) {
-          $('.popup').hide();
+          $('#spinner').hide();
           window.location.href = 'mailto:?content-type=text/html&subject=' + json.title + '&body=' + json.body;
         },
-        error: showError
+        error: function() {
+          $('#spinner').hide();
+          showError();
+        }
       });
     }
   });
 }
 
 function shareViaFacebook() {
-  doShare(function(code, msg, url) {
+  doShare(function(code, msg, imageUrl) {
     var data = {
       'name': localStorage.userName,
       'code': code,
       'desc': msg,
-      'url' : url
+      'url' : imageUrl
     };
     $.ajax({
       type: 'GET',
       data: data,
       dataType: 'json',
-      url: '/s/sms.php',
+      url: '/s/fb.php',
       success: function(json) {
-        FB.ui({
-          method: 'feed',
-          link: json.url,
-          picture: url,
-          name: json.title,
-          caption: msg,
-          description: json.body
-        }, function(response){
-          $('.popup').hide();        
+        var o = {
+          'app_id': config.appId,
+          'url': 'http://young-springs-3453.herokuapp.com/'.replace(/\//g, '\/'),
+          //'url': json.url.replace(/\//g, '\/'),
+          'image': imageUrl.replace(/\//g, '\/'),
+          'title': '\"' + encodeURIComponent(json.title) + '\"',
+          'description': '\"' + encodeURIComponent(json.body) + '\"',
+          'location': {
+            'longitude': initPage.p.longitude,
+            'latitude': initPage.p.latitude,
+          }
+        };
+        var req = {
+          'access_token': localStorage.accessToken,
+          //'privacy': '{"value":"all_friends"}',
+          'object': JSON.stringify(o),
+          'method': 'POST',
+          'format': 'json'
+        };
+        var url = 'https://graph.facebook.com/me/objects/referredlabs:coupon';
+        $.ajax({
+          url : url,
+          data : req,
+          cache : false,
+          contentType : false,
+          dataType: 'json',
+          type : 'GET',
+          success : function(response) {
+            if (response && response.id) {
+              var req = {
+                'access_token': localStorage.accessToken,
+                'method': 'POST',
+                'coupon': 'http://samples.ogp.me/514693968596935'.replace(/\//g, '\/'),
+                //'coupon': json.url.replace(/\//g, '\/'),
+                'format': 'json'
+              };
+              var url = 'https://graph.facebook.com/me/referredlabs:share';
+              $.ajax({
+                url : url,
+                data : req,
+                cache : false,
+                contentType : false,
+                dataType: 'json',
+                type : 'GET',
+                success : function(response) {
+                  $('#spinner').hide();
+                  $('#share-success-popup').show();
+                },
+                error : function() {
+                  $('#spinner').hide();
+                  showError();
+                }
+              });
+            } else {
+              $('#spinner').hide();
+              showError();
+            }
+          },
+          error : function() {
+            $('#spinner').hide();
+            showError();
+          }
         });
       },
-      error: showError
+      error: function() {
+        $('#spinner').hide();
+        showError();
+      }
     });
   });
 }

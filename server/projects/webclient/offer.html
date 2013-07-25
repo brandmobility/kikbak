@@ -8,14 +8,13 @@
 </head>
 <body>
   <div class="header graden1">
-  <div id="back-btn-div">
+  <div id="back-btn-div" style="display:none;">
     <a id="back-btn" href="#" class="back1"><span class="back2">Back</span><span class="back3"></span></a>
   </div>
   <span id="heading" class="head-titel">Give</span>
-  <div id="suggest-btn-div">
+  <div id="suggest-btn-div" style="display:none;">
     <a id="suggest-btn" href="#" class="back1 ritbtn"><span class="back2">Suggest</span><span class="back3"></span></a>
   </div>
-</div>
 </div>
 <div id="offer-view" class="wrapper" style="dispaly:none;">
   <div class="scroller">
@@ -45,6 +44,11 @@ We always appreciate your feedback or other suggestions about Facebook, but you 
   <button class="popup-close-btn btn grd3">Done</button>
 </div>
 </span>
+<span id="spinner" class="popup" style="display:none;">
+<div class="popin" style="margin-top:20%;height:30%"><h2>Sharing Gift</h2>
+<p class="spinner">Waiting...</p>
+</div>
+</span>
 <span id="learn" class="popup" style="display:none;">
 <div class="popin"><h2>Learn more</h2>
 <div class="cntnt">
@@ -56,6 +60,14 @@ When you publish content or information using the Public setting, it means that 
 We always appreciate your feedback or other suggestions about Facebook, but you understand that we may use them without any obligation to compensate you for them (just as you have no obligation to offer them).</p>
 </div>
   <button class="popup-close-btn btn grd3">Done</button>
+</div>
+</span>
+<span class="popup" id="share-success-popup" style="display:none;">
+<div class="cls-popup">
+<h1>Success!</h1>
+<h3>You have shared a gift </h3>
+<p>We will notify you when a friend uses your gift and you earn a reward</p>
+ <button class="popup-close-btn btn grd3">OK</button>
 </div>
 </span>
 <span id="share-popup" class="popup" style="display:none;">
