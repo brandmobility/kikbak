@@ -1,9 +1,6 @@
 
 package com.referredlabs.kikbak.ui;
 
-import android.app.ActionBar;
-import android.app.ActionBar.Tab;
-import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,10 +10,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBar.Tab;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,7 +36,7 @@ import com.referredlabs.kikbak.ui.RedeemChooserDialog.OnRedeemOptionSelectedList
 import com.referredlabs.kikbak.ui.RewardListFragment.OnRewardClickedListener;
 import com.referredlabs.kikbak.utils.Register;
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener,
+public class MainActivity extends ActionBarActivity implements ActionBar.TabListener,
     OnOfferClickedListener, OnRewardClickedListener, OnRedeemOptionSelectedListener,
     LocationFinderListener {
 
@@ -78,7 +78,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
   }
 
   void setupActionBar() {
-    final ActionBar actionBar = getActionBar();
+    final ActionBar actionBar = getSupportActionBar();
     actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
     mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
       @Override
@@ -300,5 +300,4 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     }
 
   }
-
 }
