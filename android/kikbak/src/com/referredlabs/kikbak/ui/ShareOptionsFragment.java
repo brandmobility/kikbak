@@ -2,8 +2,8 @@
 package com.referredlabs.kikbak.ui;
 
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.referredlabs.kikbak.R;
+
+import java.util.Locale;
 
 public class ShareOptionsFragment extends DialogFragment implements OnClickListener {
 
@@ -67,7 +69,7 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
 
   private boolean isVerizon() {
     String name = getArguments().getString(ARG_MERCHANT_NAME);
-    if (name != null && name.toLowerCase().contains(SPECIAL_VERIZON))
+    if (name != null && name.toLowerCase(Locale.getDefault()).contains(SPECIAL_VERIZON))
       return true;
     return false;
   }

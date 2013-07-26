@@ -5,104 +5,109 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".SuggestBusinessActivity" >
-    
+
     <RelativeLayout
         android:id="@+id/suggest_photo_frame"
-	    android:layout_width="match_parent"
-	    android:layout_height="0dp"
-	    android:layout_weight="1" >
-	    <ImageView
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:scaleType="centerCrop"
-	        android:background="@drawable/overlay_pattern" />
-	    
-	    <ImageView
-	        android:id="@+id/retake_photo"
-			android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentTop="true"
-	        android:layout_alignParentEnd="true"
-	        android:layout_marginTop="5dp"
-	        android:layout_marginEnd="5dp"
-	        android:scaleType="centerCrop"
-	        android:src="@drawable/ic_camera_retake_small"
-	        android:visibility="invisible" />
-	
-	    <com.referredlabs.kikbak.widget.TtfTextView
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_above="@+id/take_photo"
-	        android:layout_centerInParent="true"
-	        android:gravity="center"
-	        android:text="Take a photo"
-	        kikbak:typeface="Roboto-Regular.ttf" 
-	        android:textSize="18dp"
-	        android:textColor="@android:color/white" />
-	    
-	    <ImageView
-	        android:id="@+id/take_photo"
-			android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_centerInParent="true"
-	        android:layout_marginTop="10dp"
-	        android:src="@drawable/ic_camera" />
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <ImageView
+            android:id="@id/image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/overlay_pattern"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:id="@+id/retake_photo"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="5dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_camera_retake_small"
+            android:visibility="invisible" />
+
+        <com.referredlabs.kikbak.widget.TtfTextView
+            android:id="@+id/take_photo_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/take_photo"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/take_photo"
+            android:textColor="@android:color/white"
+            android:textSize="18dp"
+            kikbak:typeface="Roboto-Regular.ttf" />
+
+        <ImageButton
+            android:id="@+id/take_photo"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_camera" />
     </RelativeLayout>
 
     <LinearLayout
-        	android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:orientation="vertical"
-	        android:gravity="center_horizontal"
-	        android:paddingLeft="14dp"
-	        android:paddingRight="14dp"
-	        android:paddingTop="14dp"
-	        android:paddingBottom="28dp"
-	        android:background="#e5e5e5" >
-	    
-	    <com.referredlabs.kikbak.widget.TtfTextView
-	        android:id="@+id/info"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_marginLeft="7dp"
-	        android:layout_marginRight="2dp"
-	        android:text="Want to recommend a business with a special offer? Tell us and we'll let them know that they should join Kikbak."
-	        kikbak:typeface="Roboto-Regular.ttf" 
-	        android:textSize="17dp"
-	        android:textColor="#3a3a3a" />
-	    
-	    <com.referredlabs.kikbak.widget.TtfEditText 
-	        android:id="@+id/business_name"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_marginTop="10dp"
-	        android:maxLines="3"
-	        android:hint="Business name"
-  	        kikbak:typeface="Roboto-Regular.ttf" 
-	        android:textSize="17dp"
-	        android:background="@drawable/text_field" />
-	    
-	    <com.referredlabs.kikbak.widget.TtfEditText 
-	        android:id="@+id/business_greatness"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_marginTop="10dp"
-	        android:maxLines="3"
-	        android:hint="What makes them great"
-  	        kikbak:typeface="Roboto-Regular.ttf" 
-	        android:textSize="17dp"
-	        android:background="@drawable/text_field" />
-	    
-	    <com.referredlabs.kikbak.widget.TtfButton 
-	        android:id="@+id/button_let_us_know"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_marginTop="16dp"
-	        android:text="Let us know"
-	        kikbak:typeface="Roboto-Light.ttf" 
-	        android:textSize="21dp"
-	        android:textColor="@android:color/white"
-	        android:background="@drawable/btn_blue" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#e5e5e5"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="28dp"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp"
+        android:paddingTop="14dp" >
+
+        <com.referredlabs.kikbak.widget.TtfTextView
+            android:id="@+id/info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="2dp"
+            android:text="@string/suggest_desc"
+            android:textColor="#3a3a3a"
+            android:textSize="17dp"
+            kikbak:typeface="Roboto-Regular.ttf" />
+
+        <com.referredlabs.kikbak.widget.TtfEditText
+            android:id="@+id/business_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/text_field"
+            android:hint="@string/businnes_name_hint"
+            android:maxLines="3"
+            android:textSize="17dp"
+            kikbak:typeface="Roboto-Regular.ttf" />
+
+        <com.referredlabs.kikbak.widget.TtfEditText
+            android:id="@+id/business_greatness"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/text_field"
+            android:hint="@string/businnes_why_hint"
+            android:maxLines="3"
+            android:textSize="17dp"
+            kikbak:typeface="Roboto-Regular.ttf" />
+
+        <com.referredlabs.kikbak.widget.TtfButton
+            android:id="@+id/send"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/btn_blue"
+            android:text="@string/suggest_send"
+            android:textColor="@android:color/white"
+            android:textSize="21dp"
+            kikbak:typeface="Roboto-Light.ttf" />
     </LinearLayout>
 
 </LinearLayout>

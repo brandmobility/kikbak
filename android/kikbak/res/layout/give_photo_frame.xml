@@ -20,7 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/merchant_ex1" />
+                android:src="@color/no_image" />
         </FrameLayout>
 
         <View
@@ -35,12 +35,11 @@
             android:background="#000000"
             android:orientation="horizontal" >
 
-	    <ImageView
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:scaleType="fitXY"
-	        android:src="@drawable/dotted_line_pattern" />
-	    
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:src="@drawable/dotted_line_pattern" />
         </FrameLayout>
     </LinearLayout>
 
@@ -90,6 +89,7 @@
         android:src="@drawable/ic_camera" />
 
     <com.referredlabs.kikbak.widget.TtfTextView
+        android:id="@+id/take_photo_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/take_photo"

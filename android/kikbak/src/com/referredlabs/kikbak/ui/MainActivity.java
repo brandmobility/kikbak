@@ -24,6 +24,7 @@ import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.google.gson.Gson;
+import com.referredlabs.kikbak.C;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.AvailableCreditType;
 import com.referredlabs.kikbak.data.ClientOfferType;
@@ -116,8 +117,18 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
   }
 
   @Override
+  public boolean onPrepareOptionsMenu(Menu menu) {
+    MenuItem item = menu.findItem(R.id.action_fixed_location);
+    item.setChecked(C.USE_FIXED_LOCATION);
+    return super.onPrepareOptionsMenu(menu);
+  }
+
+  @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
+      case R.id.action_suggest:
+        onSuggestClicked();
+        break;
       case R.id.action_settings:
         break;
 
@@ -133,8 +144,18 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
       case R.id.action_gcm:
         actionGcm();
         return true;
+
+      case R.id.action_fixed_location:
+        C.USE_FIXED_LOCATION = !C.USE_FIXED_LOCATION;
+        item.setChecked(C.USE_FIXED_LOCATION);
+        return true;
     }
     return super.onOptionsItemSelected(item);
+  }
+
+  private void onSuggestClicked() {
+    Intent intent = new Intent(this, SuggestBusinessActivity.class);
+    startActivity(intent);
   }
 
   @Override

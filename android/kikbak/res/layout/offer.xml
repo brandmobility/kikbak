@@ -13,14 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="21dp"
-        android:foreground="@drawable/grd_give" >
+        android:foreground="@drawable/grd_offer" >
 
         <ImageView
             android:id="@+id/offer_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/merchant_ex1" />
+            android:src="@color/no_image" />
     </FrameLayout>
 
     <RelativeLayout

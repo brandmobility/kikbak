@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="17" />
+        android:targetSdkVersion="18" />
 
     <!-- <uses-permission android:name="android.permission.CALL_PHONE" /> -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -32,6 +32,7 @@
         android:name=".Kikbak"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
+        android:logo="@drawable/ic_logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
@@ -63,6 +64,18 @@
         <activity
             android:name="com.facebook.LoginActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.referredlabs.kikbak.ui.SuggestBusinessActivity"
+            android:label="@string/activity_suggest"
+            android:parentActivityName="com.referredlabs.kikbak.ui.MainActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait" >
+
+            <!-- Parent activity meta-data to support API level 7+ -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.referredlabs.kikbak.ui.MainActivity" />
+        </activity>
         <activity
             android:name="com.referredlabs.kikbak.ui.PickContactsActivity"
             android:screenOrientation="portrait" />
