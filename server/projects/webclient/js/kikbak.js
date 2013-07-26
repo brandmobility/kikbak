@@ -841,11 +841,20 @@ function shareViaFacebook() {
           type : 'GET',
           success : function(response) {
             if (response && response.id) {
+              var getData = {
+                'fb:app_id': config.appId,
+                'og:type': 'referredlabs:coupon',
+                //'og:url': json.url,
+                'og:image': imageUrl,
+                'og:title': json.title,
+                'og:description': json.body,
+              }
+              var getUrl = 'http://young-springs-3453.herokuapp.com/repeater.php?' + encodeQueryData(getData);
               var req = {
                 'access_token': localStorage.accessToken,
                 'method': 'POST',
-                'coupon': 'http://samples.ogp.me/514693968596935'.replace(/\//g, '\/'),
-                //'coupon': json.url.replace(/\//g, '\/'),
+                'coupon': getUrl,
+                'fb:explicitly_shared': 'true',
                 'format': 'json'
               };
               var url = 'https://graph.facebook.com/me/referredlabs:share';
@@ -882,6 +891,14 @@ function shareViaFacebook() {
       }
     });
   });
+}
+
+function encodeQueryData(data)
+{
+   var ret = [];
+   for (var d in data)
+    ret.push(encodeURIComponent(d) + "=" + encodeURIComponent(data[d]));
+   return ret.join("&");
 }
 
 function renderRedeemDetail(redeem) {
