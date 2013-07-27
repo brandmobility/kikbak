@@ -3,7 +3,14 @@ var config = {
   appId: 493383324061333
 }
 
-$(document).ready(function() {  
+$(document).ready(function() {
+  $(document).ajaxStart(function (){
+    $('#spinner').show();
+  });
+  $(document).ajaxComplete(function (){
+    $('#spinner').hide();
+    $('#spinner h2').html('Waiting');
+  });
   $('body').scrollTop($(document).height());
   $.ajaxSetup({ cache: true });
   $.getScript('//connect.facebook.net/en_US/all.js', function(){
@@ -424,10 +431,38 @@ function getRedeems() {
         url: config.backend + 'kikbak/rewards/request/' + userId,
         success: function(json) {
           var gifts = json.rewardsResponse.gifts;
+          var credits = json.rewardsResponse.credits;
+          var giftCollection = {};
+          var creditCollection = {};
           $('#redeem-list').html('');
           $.each(gifts, function(i, gift) {
-            renderRedeem(gift);
+            var mid = gift.merchant.id;
+            if (giftCollection[mid]) {
+              giftCollection[mid].push(gift);
+            } else {
+              giftCollection[mid] = [gift];
+            }
           });
+          $.each(credits, function(i, credit) {
+            var mid = credit.merchant.id;
+            if (creditCollection[mid]) {
+              creditCollection[mid].push(credit);
+            } else {
+              creditCollection[mid] = [credit];
+            }
+          });
+          
+          var mark = {};
+          for (var mid in giftCollection) {
+            // renderRedeem(giftCollection[mid], creditCollection[mid]);
+            mark[mid] = 1;
+          }
+          for (var mid in creditCollection) {
+            if (!mark[mid]) {
+              // renderRedeem(giftCollection[mid], creditCollection[mid]);
+            }
+          }
+          
           $('.redeem-details-btn').click(function(e) {
             e.preventDefault();
             if (Storage != 'undefined') {
@@ -443,7 +478,9 @@ function getRedeems() {
   }
 }
 
-function renderRedeem(redeem) {
+function renderRedeem(gifts, credits) {
+  var m = gifts ? gifts[0].merchant : credits[0].merchant; 
+  
   var html = '<li>';
   
   var json = escape(JSON.stringify(redeem));
@@ -681,8 +718,9 @@ function onShareResponse(url) {
   $('#share-popup').show();
 }
   
-function doShare(cb) {
+function doShare(cb, type) {
   $('.popup').hide();
+  $('#spinner h2').html('Sharing Gift');
   $('#spinner').show();
   
   var offer = jQuery.parseJSON(unescape(localStorage.offerDetail)),
@@ -703,7 +741,7 @@ function doShare(cb) {
   exp['fbImageId'] = 0;
   exp['imageUrl'] = url; 
   exp['caption'] = message;
-  exp['type'] = 'email';
+  exp['type'] = type;
   exp['locationId'] = locationId;
   exp['employeeId'] = $('#share-help-form input[name="associateName"]').val();
   data['experience'] = exp;
@@ -744,16 +782,14 @@ function shareViaSms() {
         dataType: 'json',
         url: '/s/sms.php',
         success: function(json) {
-          $('#spinner').hide();
           window.location.href = 'sms://?&body=' + json.body;
         },
         error: function() {
-          $('#spinner').hide();
           showError();
         }
       });
     }
-  });
+  }, 'sms');
 }
 
 function shareViaEmail() {
@@ -771,11 +807,9 @@ function shareViaEmail() {
         dataType: 'json',
         url: '/s/email.php',
         success: function(json) {
-          $('#spinner').hide();
           window.location.href = 'mailto:?content-type=text/html&subject=' + json.title + '&body=' + json.body;
         },
         error: function() {
-          $('#spinner').hide();
           showError();
         }
       });
@@ -786,16 +820,14 @@ function shareViaEmail() {
         dataType: 'json',
         url: '/s/sms.php',
         success: function(json) {
-          $('#spinner').hide();
           window.location.href = 'mailto:?content-type=text/html&subject=' + json.title + '&body=' + json.body;
         },
         error: function() {
-          $('#spinner').hide();
           showError();
         }
       });
     }
-  });
+  }, 'email');
 }
 
 function shareViaFacebook() {
@@ -866,31 +898,26 @@ function shareViaFacebook() {
                 dataType: 'json',
                 type : 'GET',
                 success : function(response) {
-                  $('#spinner').hide();
                   $('#share-success-popup').show();
                 },
                 error : function() {
-                  $('#spinner').hide();
                   showError();
                 }
               });
             } else {
-              $('#spinner').hide();
               showError();
             }
           },
           error : function() {
-            $('#spinner').hide();
             showError();
           }
         });
       },
       error: function() {
-        $('#spinner').hide();
         showError();
       }
     });
-  });
+  }, 'fb');
 }
 
 function encodeQueryData(data)
