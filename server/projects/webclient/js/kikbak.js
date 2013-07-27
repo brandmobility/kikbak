@@ -9,7 +9,6 @@ $(document).ready(function() {
   });
   $(document).ajaxComplete(function (){
     $('#spinner').hide();
-    $('#spinner h2').html('Waiting');
   });
   $('body').scrollTop($(document).height());
   $.ajaxSetup({ cache: true });
@@ -94,6 +93,7 @@ function getHeight() {
 }
 
 function showError() {
+  $('#spinner h2').html('Waiting');
   alert("Service is unavailable. Please try again later.");
 }
 
@@ -768,6 +768,7 @@ function doShare(cb, type) {
 }
 
 function shareViaSms() {
+  $('#spinner h2').html('Sharing gift');
   doShare(function(code, msg, url) {
     var data = {
       'name': localStorage.userName,
@@ -782,6 +783,7 @@ function shareViaSms() {
         dataType: 'json',
         url: '/s/sms.php',
         success: function(json) {
+          $('#spinner h2').html('Waiting');
           window.location.href = 'sms://?&body=' + json.body;
         },
         error: function() {
@@ -793,6 +795,7 @@ function shareViaSms() {
 }
 
 function shareViaEmail() {
+  $('#spinner h2').html('Sharing gift');
   doShare(function(code, msg, url) {
     var data = {
       'name': localStorage.userName,
@@ -807,6 +810,7 @@ function shareViaEmail() {
         dataType: 'json',
         url: '/s/email.php',
         success: function(json) {
+          $('#spinner h2').html('Waiting');
           window.location.href = 'mailto:?content-type=text/html&subject=' + json.title + '&body=' + json.body;
         },
         error: function() {
@@ -820,6 +824,7 @@ function shareViaEmail() {
         dataType: 'json',
         url: '/s/sms.php',
         success: function(json) {
+          $('#spinner h2').html('Waiting');
           window.location.href = 'mailto:?content-type=text/html&subject=' + json.title + '&body=' + json.body;
         },
         error: function() {
@@ -831,6 +836,7 @@ function shareViaEmail() {
 }
 
 function shareViaFacebook() {
+  $('#spinner h2').html('Sharing gift');
   doShare(function(code, msg, imageUrl) {
     var data = {
       'name': localStorage.userName,
@@ -898,6 +904,7 @@ function shareViaFacebook() {
                 dataType: 'json',
                 type : 'GET',
                 success : function(response) {
+                  $('#spinner h2').html('Waiting');
                   $('#share-success-popup').show();
                 },
                 error : function() {
