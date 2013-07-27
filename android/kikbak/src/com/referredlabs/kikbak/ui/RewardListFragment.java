@@ -4,6 +4,8 @@ package com.referredlabs.kikbak.ui;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,15 +14,16 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.referredlabs.kikbak.R;
-import com.referredlabs.kikbak.ui.RefreshRewardTask.RefreshRewardListener;
+import com.referredlabs.kikbak.store.RewardsLoader;
+import com.referredlabs.kikbak.store.TheReward;
 
 import java.util.List;
 
 public class RewardListFragment extends Fragment implements OnItemClickListener,
-    RefreshRewardListener {
+    LoaderCallbacks<List<TheReward>> {
 
   public interface OnRewardClickedListener {
-    void onRewardClicked(Reward offer);
+    void onRewardClicked(TheReward offer);
   }
 
   private ListView mListView;
@@ -45,19 +48,35 @@ public class RewardListFragment extends Fragment implements OnItemClickListener,
     mListView.setOnItemClickListener(this);
     mAdapter = new RewardAdapter(getActivity(), new IconBarActionHandler(getActivity()));
     mListView.setAdapter(mAdapter);
-    new RefreshRewardTask(this).execute();
     return view;
   }
 
   @Override
+  public void onActivityCreated(Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+    getLoaderManager().initLoader(0, null, this);
+  }
+
+  @Override
   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-    Reward reward = (Reward) mListView.getItemAtPosition(position);
+    TheReward reward = (TheReward) mListView.getItemAtPosition(position);
     mListener.onRewardClicked(reward);
   }
 
   @Override
-  public void onNewReward(List<Reward> rewards) {
-    mAdapter.swap(rewards);
+  public Loader<List<TheReward>> onCreateLoader(int id, Bundle args) {
+    RewardsLoader loader = new RewardsLoader(getActivity());
+    return loader;
+  }
+
+  @Override
+  public void onLoadFinished(Loader<List<TheReward>> loader, List<TheReward> result) {
+    mAdapter.swap(result);
+  }
+
+  @Override
+  public void onLoaderReset(Loader<List<TheReward>> laoder) {
+    // ???
   }
 
 }

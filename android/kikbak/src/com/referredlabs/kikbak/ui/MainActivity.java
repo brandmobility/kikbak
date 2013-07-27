@@ -27,14 +27,17 @@ import com.google.gson.Gson;
 import com.referredlabs.kikbak.C;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.AvailableCreditType;
-import com.referredlabs.kikbak.data.ClientOfferType;
 import com.referredlabs.kikbak.data.GiftType;
 import com.referredlabs.kikbak.gcm.GcmHelper;
 import com.referredlabs.kikbak.service.LocationFinder;
 import com.referredlabs.kikbak.service.LocationFinder.LocationFinderListener;
+import com.referredlabs.kikbak.store.DataService;
+import com.referredlabs.kikbak.store.TheOffer;
+import com.referredlabs.kikbak.store.TheReward;
 import com.referredlabs.kikbak.ui.OfferListFragment.OnOfferClickedListener;
 import com.referredlabs.kikbak.ui.RedeemChooserDialog.OnRedeemOptionSelectedListener;
 import com.referredlabs.kikbak.ui.RewardListFragment.OnRewardClickedListener;
+import com.referredlabs.kikbak.utils.LocaleUtils;
 import com.referredlabs.kikbak.utils.Register;
 
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener,
@@ -45,7 +48,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
   ViewFlipper mViewFlipper;
   ViewPager mViewPager;
   LocationFinder mLocationFinder;
-  Reward mSelectedReward;
+  TheReward mSelectedReward;
 
   BroadcastReceiver mNetworkStateReceiver;
   boolean mIsConnected;
@@ -148,6 +151,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
       case R.id.action_fixed_location:
         C.USE_FIXED_LOCATION = !C.USE_FIXED_LOCATION;
         item.setChecked(C.USE_FIXED_LOCATION);
+        DataService.getInstance().refreshOffers(true);
         return true;
     }
     return super.onOptionsItemSelected(item);
@@ -172,33 +176,36 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
   }
 
   @Override
-  public void onOfferClicked(ClientOfferType offer) {
+  public void onOfferClicked(TheOffer theOffer) {
     Intent intent = new Intent(this, GiveActivity.class);
     Gson gson = new Gson();
-    String data = gson.toJson(offer);
+    String data = gson.toJson(theOffer.getOffer());
     intent.putExtra(GiveActivity.ARG_OFFER, data);
     startActivity(intent);
   }
 
   @Override
-  public void onRewardClicked(Reward reward) {
-    if (reward.gift != null && reward.credit != null) {
+  public void onRewardClicked(TheReward reward) {
+    if (reward.hasGifts() && reward.hasCredit()) {
       mSelectedReward = reward;
-      String gift = reward.getGiftValueString();
-      String credit = reward.getCreditValueString();
+      String gift = LocaleUtils.getGiftValueString(this, reward);
+      String credit = LocaleUtils.getCreditValueString(this, reward);
       RedeemChooserDialog dialog = RedeemChooserDialog.newInstance(gift, credit);
       dialog.show(getSupportFragmentManager(), "");
-    } else if (reward.gift != null) {
-      redeemGift(reward.gift);
-    } else if (reward.credit != null) {
-      redeemCredit(reward.credit);
+    } else if (reward.hasGifts()) {
+      // TODO: picker dialog!
+      GiftType gift = reward.getGifts().get(0);
+      redeemGift(gift);
+    } else if (reward.hasCredit()) {
+      redeemCredit(reward.getCredit());
     }
   }
 
   @Override
   public void onRedeemGiftSelected() {
     if (mSelectedReward != null) {
-      redeemGift(mSelectedReward.gift);
+      GiftType gift = mSelectedReward.getGifts().get(0);
+      redeemGift(gift);
       mSelectedReward = null;
     }
   }
@@ -206,7 +213,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
   @Override
   public void onRedeemCreditSelected() {
     if (mSelectedReward != null) {
-      redeemCredit(mSelectedReward.credit);
+      redeemCredit(mSelectedReward.getCredit());
       mSelectedReward = null;
     }
   }

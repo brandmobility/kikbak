@@ -6,7 +6,7 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import com.referredlabs.kikbak.R;
-import com.referredlabs.kikbak.utils.Distance;
+import com.referredlabs.kikbak.utils.LocaleUtils;
 import com.referredlabs.kikbak.utils.Nearest;
 
 public class IconBarHelper implements OnClickListener {
@@ -52,14 +52,14 @@ public class IconBarHelper implements OnClickListener {
   }
 
   public void setDistance(float distance, Object location) {
-    String txt = Distance.getLocalizedDistance(mRootView.getContext(), distance);
+    String txt = LocaleUtils.getLocalizedDistance(mRootView.getContext(), distance);
     mDistance.setText(txt);
   }
 
   public void setLocation(Nearest location) {
     mLocation = location;
     float distance = location.getDistance();
-    String txt = Distance.getLocalizedDistance(mRootView.getContext(), distance);
+    String txt = LocaleUtils.getLocalizedDistance(mRootView.getContext(), distance);
     mDistance.setText(txt);
   }
 

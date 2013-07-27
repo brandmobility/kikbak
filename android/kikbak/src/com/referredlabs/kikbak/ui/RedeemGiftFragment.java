@@ -34,6 +34,7 @@ import com.referredlabs.kikbak.http.Http;
 import com.referredlabs.kikbak.service.LocationFinder;
 import com.referredlabs.kikbak.ui.BarcodeScannerFragment.OnBarcodeScanningListener;
 import com.referredlabs.kikbak.ui.ConfirmationDialog.ConfirmationListener;
+import com.referredlabs.kikbak.utils.LocaleUtils;
 import com.referredlabs.kikbak.utils.Nearest;
 import com.referredlabs.kikbak.utils.Register;
 import com.squareup.picasso.Picasso;
@@ -114,7 +115,7 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
     mFriendName.setText(mGift.friendName);
     mFriendComment.setText(mGift.caption);
 
-    mGiftValue.setText(Reward.getGiftValueString(mGift));
+    mGiftValue.setText(LocaleUtils.getGiftValueString(getActivity(), mGift));
     mGiftDesc.setText(mGift.desc);
 
   }

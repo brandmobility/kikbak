@@ -5,28 +5,31 @@ import android.app.Activity;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Toast;
-import android.widget.ViewFlipper;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
+import android.widget.ViewFlipper;
 
+import com.referredlabs.kikbak.C;
 import com.referredlabs.kikbak.R;
-import com.referredlabs.kikbak.data.ClientOfferType;
 import com.referredlabs.kikbak.service.LocationFinder;
-import com.referredlabs.kikbak.ui.RefreshOfferTask.RefreshOfferListener;
-import com.referredlabs.kikbak.utils.Nearest;
+import com.referredlabs.kikbak.store.DataService;
+import com.referredlabs.kikbak.store.OffersLoader;
+import com.referredlabs.kikbak.store.TheOffer;
 
-import java.util.HashMap;
+import java.util.List;
 
 public class OfferListFragment extends Fragment implements OnItemClickListener,
-    RefreshOfferListener {
+    LoaderCallbacks<List<TheOffer>> {
 
   public interface OnOfferClickedListener {
-    void onOfferClicked(ClientOfferType offer);
+    void onOfferClicked(TheOffer theOffer);
   }
 
   private ViewFlipper mFlipper;
@@ -73,7 +76,7 @@ public class OfferListFragment extends Fragment implements OnItemClickListener,
   }
 
   private void showLocationDisabledNotification() {
-    if(!mLocationDisabledShown) {
+    if (!mLocationDisabledShown) {
       mLocationDisabledShown = true;
       Toast.makeText(getActivity(), R.string.location_disabled, Toast.LENGTH_LONG).show();
     }
@@ -81,19 +84,27 @@ public class OfferListFragment extends Fragment implements OnItemClickListener,
 
   @Override
   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-    ClientOfferType offer = (ClientOfferType) mListView.getItemAtPosition(position);
+    TheOffer offer = (TheOffer) mListView.getItemAtPosition(position);
     mListener.onOfferClicked(offer);
   }
 
   public void setUserLocation(Location location) {
     assert (location != null);
-    // if location is significantly better then fetch new list from server
-    if (mLastLocation == null || location.distanceTo(mLastLocation) > 1000) {
-      mLastLocation = location;
-      new RefreshOfferTask(this, location).execute();
+    if (mLastLocation == null) {
+      getLoaderManager().initLoader(0, null, this);
     } else {
+      // if location is significantly better then fetch new list from server
+      if (C.REFETCH_DISTANCE < mLastLocation.distanceTo(location)) {
+        DataService.getInstance().refreshOffers(true);
+      }
+      if (C.RECALCULATE_DISTANCE < mLastLocation.distanceTo(location)) {
+        Loader<Object> l = getLoaderManager().getLoader(0);
+        l.onContentChanged();
+      }
       // just recalculate distance map
+
     }
+    mLastLocation = location;
   }
 
   public void showList() {
@@ -105,12 +116,24 @@ public class OfferListFragment extends Fragment implements OnItemClickListener,
   }
 
   @Override
-  public void onNewOffer(ClientOfferType[] offers, HashMap<ClientOfferType, Nearest> locationMap) {
-    if (offers != null && offers.length > 0) {
-      mAdapter.swap(offers, locationMap);
-      showList();
-    } else {
+  public Loader<List<TheOffer>> onCreateLoader(int id, Bundle args) {
+    OffersLoader loader = new OffersLoader(getActivity());
+    return loader;
+  }
+
+  @Override
+  public void onLoadFinished(Loader<List<TheOffer>> loader, List<TheOffer> result) {
+    OffersLoader myLoader = (OffersLoader) loader;
+    if (!myLoader.isPending() && result.isEmpty()) {
       showEmpty();
+    } else {
+      mAdapter.swap(result);
+      showList();
     }
+  }
+
+  @Override
+  public void onLoaderReset(Loader<List<TheOffer>> loader) {
+    // ???
   }
 }

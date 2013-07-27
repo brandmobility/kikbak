@@ -66,6 +66,18 @@ public class Http {
     }
   }
 
+  public static <T, V> SafeResponse<T, V> executeSafe(String uri, T request, Class<V> responseType) {
+    long startTime = System.currentTimeMillis();
+    try {
+      V response = execute(uri, request, responseType);
+      long endTime = System.currentTimeMillis();
+      return new SafeResponse<T, V>(request, startTime, endTime, response);
+    } catch (Exception exception) {
+      long endTime = System.currentTimeMillis();
+      return new SafeResponse<T, V>(request, startTime, endTime, exception);
+    }
+  }
+
   public static <T, V> V execute(String uri, Class<V> responseType) throws IOException {
     AndroidHttpClient client = AndroidHttpClient.newInstance(USER_AGENT);
     try {

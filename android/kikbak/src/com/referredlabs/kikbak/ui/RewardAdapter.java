@@ -2,7 +2,6 @@
 package com.referredlabs.kikbak.ui;
 
 import android.content.Context;
-import android.location.Location;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +9,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.referredlabs.kikbak.R;
-import com.referredlabs.kikbak.service.LocationFinder;
+import com.referredlabs.kikbak.data.ClientMerchantType;
+import com.referredlabs.kikbak.store.TheReward;
 import com.referredlabs.kikbak.ui.IconBarHelper.IconBarListener;
+import com.referredlabs.kikbak.utils.LocaleUtils;
 import com.referredlabs.kikbak.utils.Nearest;
 import com.squareup.picasso.Picasso;
 
@@ -21,7 +22,7 @@ public class RewardAdapter extends BaseAdapter {
 
   private Context mContext;
   private LayoutInflater mInflater;
-  private List<Reward> mRewards;
+  private List<TheReward> mRewards;
   IconBarListener mIconBarListener;
 
   public RewardAdapter(Context context, IconBarListener iconBarListener) {
@@ -30,13 +31,18 @@ public class RewardAdapter extends BaseAdapter {
     mIconBarListener = iconBarListener;
   }
 
+  public void swap(List<TheReward> result) {
+    mRewards = result;
+    notifyDataSetChanged();
+  }
+
   @Override
   public int getCount() {
     return mRewards == null ? 0 : mRewards.size();
   }
 
   @Override
-  public Reward getItem(int position) {
+  public TheReward getItem(int position) {
     return mRewards.get(position);
   }
 
@@ -56,33 +62,22 @@ public class RewardAdapter extends BaseAdapter {
       helper = (RewardHelper) view.getTag();
     }
 
-    Reward reward = getItem(position);
+    TheReward reward = getItem(position);
 
-    Location location = LocationFinder.getLastLocation();
-    Nearest nearest = new Nearest(reward.mMerchant.locations);
-    nearest.determineNearestLocation(location.getLatitude(), location.getLongitude());
+    Nearest nearest = reward.getNearest();
+    ClientMerchantType merchant = reward.getMerchant();
+
     helper.setLocation(nearest);
     helper.setPhone(Long.toString(nearest.getPhoneNumber()));
-    helper.setLink(reward.mMerchant.url);
+    helper.setLink(merchant.url);
+    helper.setMerchantName(merchant.name);
 
-    helper.setMerchantName(reward.mMerchant.name);
+    Uri url = Uri.parse(reward.getImageUrl());
+    Picasso.with(mContext).load(url).into(helper.mImage);
 
-    if (false && reward.hasFacebookImage()) {
-      // TODO: handle loading image from facebook
-    } else {
-      Uri url = Uri.parse(reward.getImageUrl());
-      Picasso.with(mContext).load(url).into(helper.mImage);
-    }
-
-    helper.setGiftValue(reward.getGiftValueString());
-    helper.setCreditValue(reward.getCreditValueString());
+    helper.setGiftValue(LocaleUtils.getGiftValueString(mContext, reward));
+    helper.setCreditValue(LocaleUtils.getCreditValueString(mContext, reward));
 
     return view;
   }
-
-  public void swap(List<Reward> rewards) {
-    mRewards = rewards;
-    notifyDataSetChanged();
-  }
-
 }

@@ -6,7 +6,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.referredlabs.kikbak.R;
-import com.referredlabs.kikbak.utils.Distance;
 
 public class OfferHelper extends IconBarHelper {
 

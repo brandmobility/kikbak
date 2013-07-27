@@ -10,20 +10,19 @@ import android.widget.BaseAdapter;
 
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ClientOfferType;
+import com.referredlabs.kikbak.store.TheOffer;
 import com.referredlabs.kikbak.ui.IconBarHelper.IconBarListener;
-import com.referredlabs.kikbak.utils.DataUtils;
+import com.referredlabs.kikbak.utils.LocaleUtils;
 import com.referredlabs.kikbak.utils.Nearest;
 import com.squareup.picasso.Picasso;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 public class OfferAdapter extends BaseAdapter {
 
   private Context mContext;
   private LayoutInflater mInflater;
-  private ClientOfferType[] mOffers;
-  Map<ClientOfferType, Nearest> mNearestMap;
+  private List<TheOffer> mOffers;
   IconBarListener mIconBarListener;
 
   public OfferAdapter(Context context, IconBarListener listener) {
@@ -34,17 +33,17 @@ public class OfferAdapter extends BaseAdapter {
 
   @Override
   public int getCount() {
-    return mOffers == null ? 0 : mOffers.length;
+    return mOffers == null ? 0 : mOffers.size();
   }
 
   @Override
-  public ClientOfferType getItem(int position) {
-    return mOffers[position];
+  public TheOffer getItem(int position) {
+    return mOffers.get(position);
   }
 
   @Override
   public long getItemId(int position) {
-    return mOffers[position].id;
+    return mOffers.get(position).getOffer().id;
   }
 
   @Override
@@ -58,7 +57,8 @@ public class OfferAdapter extends BaseAdapter {
       helper = (OfferHelper) view.getTag();
     }
 
-    ClientOfferType offer = getItem(position);
+    TheOffer theOffer = getItem(position);
+    ClientOfferType offer = theOffer.getOffer();
     Uri url = Uri.parse(offer.offerImageUrl);
 
     Picasso.with(mContext).load(url).into(helper.mImage);
@@ -66,28 +66,21 @@ public class OfferAdapter extends BaseAdapter {
     helper.setGetValue(offer.giftDiscountType);
 
     helper.setLink(offer.merchantUrl);
-    Nearest nearest = mNearestMap.get(offer);
+    Nearest nearest = theOffer.getNearest();
     helper.setLocation(nearest);
     helper.setPhone(Long.toString(nearest.getPhoneNumber()));
 
-    String text = DataUtils.getRibbonGiveString(offer.giftDiscountType, offer.giftValue);
+    String text = LocaleUtils.getRibbonGiveString(mContext, offer);
     helper.setGiveValue(text);
 
-    text = DataUtils.getRibbonGetString(offer.kikbakValue);
+    text = LocaleUtils.getRibbonGetString(mContext, offer);
     helper.setGetValue(text);
 
     return view;
   }
 
-  public void swap(ClientOfferType[] offers, HashMap<ClientOfferType, Nearest> locationMap) {
+  public void swap(List<TheOffer> offers) {
     mOffers = offers;
-    mNearestMap = locationMap;
     notifyDataSetChanged();
   }
-
-  public void updateDistanceMap(HashMap<ClientOfferType, Nearest> locationMap) {
-    mNearestMap = locationMap;
-    notifyDataSetChanged();
-  }
-
 }
