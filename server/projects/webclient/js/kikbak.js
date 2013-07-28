@@ -73,6 +73,49 @@ $(document).ready(function() {
     }
     adjustSuggest();
   });
+  
+  
+  $('#claim-credit-form input').bind('keyup', function() {
+    var form = $('#claim-credit-form');
+    var valid = true;
+    $.each(form.serializeArray(), function() { 
+      if (this.value.replace(/^\s+|\s+$/g, '') == '') {
+        valid = false;
+      }
+    });
+    if (valid) {
+      $('#claim-credit-btn').removeAttr('disabled');
+    } else {
+      $('#claim-credit-btn').attr('disabled', 'disabled');
+    }
+  });
+  
+  $('#claim-credit-btn').click(function() {
+    var o = {};
+    var form = $('#claim-credit-form');
+    $.each(form.serializeArray(), function() { 
+      o[this.name] = this.value;
+    });
+    var claim = {};
+    claim['claim'] = o;
+    var req = {};
+    req['ClaimCreditRequest'] = claim;
+    var str = JSON.stringify(req);
+    $.ajax({
+      dataType: 'json',
+      type: 'POST',
+      contentType: 'application/json',
+      data: str,
+      url: config.backend + 'kikbak/rewards/claim/' + localStorage.userId + '/',
+      success: function(json) {
+        $('#success-popup h3').html('Your reward claim has been submitted');
+        $('#success-popup p').html('');
+        $('#success-popup').show();
+      },
+      error: showError
+    });
+    return false;
+  });
 
   function updateOrientation() {
     window.scrollTo(0, 1);
@@ -231,20 +274,21 @@ function initPage() {
       $('#redeem-btn-div').css('background', 'url("img/btn_highlighted.png")');
       $('#heading').html('Kikbak');
       getRedeems();
-    } else if (pageType === 'redeem-gift-etail') {
+    } else if (pageType === 'redeem-gift-detail') {
       $('#redeem-details-view').show('');
       $('#back-btn-div').show('');
-      $('#heading').html('Kikbak');
+      $('#heading').html('Redeem');
       getRedeemGiftDetail();
     } else if (pageType === 'redeem-credit-detail') {
       $('#redeem-details-view').show('');
       $('#back-btn-div').show('');
-      $('#heading').html('Kikbak');
+      $('#heading').html('Redeem');
       getRedeemCreditDetail();
     } else if (pageType === 'suggest') {
       $('#suggest-view').show('');
       $('#back-btn-div').show('');
       $('#heading').html('Gift');
+      $('#back-btn').unbind();
       $('#back-btn').click(function(e){
         e.preventDefault();
         localStorage.pageType = 'offer';
@@ -476,7 +520,8 @@ function getRedeems() {
           $('.redeem-gift-btn').click(function(e) {
             e.preventDefault();
             if (Storage != 'undefined') {
-              localStorage.giftDetail = $(this).attr('data-object');
+              var gifts = jQuery.parseJSON(unescape($(this).attr('data-object')));
+              localStorage.giftDetail = escape(JSON.stringify(gifts[0]));
               localStorage.pageType = 'redeem-gift-detail';
             }
             initPage();
@@ -484,7 +529,8 @@ function getRedeems() {
           $('.redeem-credit-btn').click(function(e) {
             e.preventDefault();
             if (Storage != 'undefined') {
-              localStorage.creditDetail = $(this).attr('data-object');
+              var credits = jQuery.parseJSON(unescape($(this).attr('data-object')));
+              localStorage.creditDetail = escape(JSON.stringify(credits[0]));
               localStorage.pageType = 'redeem-credit-detail';
             }
             initPage();
@@ -517,15 +563,16 @@ function renderRedeem(gifts, credits) {
   if (gifts) {
     var g = gifts[0];
     var json = escape(JSON.stringify(gifts));
+    var style = credits ? ' lft-bdr' : '';
     html += '<a href="#" data-object="' + json + '" class="redeem-gift-btn clearfix">';
-    html += '<div class="lft-dtl"><span> received GIFT </span><h2>' + g.desc + '</h2></div>';
+    html += '<div class="lft-dtl' + style + '"><span> received GIFT </span><h2>' + g.desc + '</h2></div>';
     html += '</a>'; 
   }
   if (credits) {
     var c = credits[0];
     var json = escape(JSON.stringify(credits));
     html += '<a href="#" data-object="' + json + '" class="redeem-credit-btn clearfix">';
-    html += '<div class="lft-dtl"><span> earned credit </span><h2>' + c.desc + '</h2></div>';
+    html += '<div class="rit-dtl"><span> earned credit </span><h2>' + c.desc + '</h2></div>';
     html += '</a>'; 
   }
   html += '</div>';
@@ -541,6 +588,7 @@ function getOfferDetail() {
       var offer = jQuery.parseJSON(unescape(localStorage.offerDetail));
       renderOfferDetail(offer);
 
+      $('#back-btn').unbind();
       $('#back-btn').click(function(e) {
         e.preventDefault();
         localStorage.pageType = 'offer';
@@ -598,8 +646,9 @@ function getRedeemGiftDetail() {
   if (typeof Storage != 'undefined') {
     var userId = localStorage.userId;
     if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
-      var gifts = jQuery.parseJSON(unescape(localStorage.redeemGiftDetail));
+      var gifts = jQuery.parseJSON(unescape(localStorage.giftDetail));
       renderRedeemGiftDetail(gifts);
+      $('#back-btn').unbind();
       $('#back-btn').click(function(e){
         e.preventDefault();
         localStorage.pageType = 'redeem';
@@ -613,8 +662,9 @@ function getRedeemCreditDetail() {
   if (typeof Storage != 'undefined') {
     var userId = localStorage.userId;
     if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
-      var credit = jQuery.parseJSON(unescape(localStorage.redeemCreditDetail));
+      var credit = jQuery.parseJSON(unescape(localStorage.creditDetail));
       renderRedeemCreditDetail(credit);
+      $('#back-btn').unbind();
       $('#back-btn').click(function(e){
         e.preventDefault();
         localStorage.pageType = 'redeem';
@@ -940,7 +990,9 @@ function shareViaFacebook() {
                 type : 'GET',
                 success : function(response) {
                   $('#spinner h2').html('Waiting');
-                  $('#share-success-popup').show();
+                  $('#success-popup h3').html('You have shared a gift');
+                  $('#success-popup p').html('We will notify you when a friend uses your gift and you earn a reward');
+                  $('#success-popup').show();
                 },
                 error : function() {
                   showError();
@@ -969,88 +1021,89 @@ function encodeQueryData(data) {
    return ret.join("&");
 }
 
-function renderRedeemGiftDetail(gifts) {
+function renderRedeemGiftDetail(gift) {
   var html = '';
-  html += '<div class="add-photo"><img src="img/offer.png" class="add-photo" alt="" id="show-picture" /></div>';
+  html += '<div class="image-add rdme"><img src="images/addedimg.png"  class="addimg"><span class="imgshado"></span>';
   // TODO
-  // html += '<div class="add-photo"><img src="' + redeem.imageUrl + '" class="add-photo" alt="" id="show-picture"></div>';
-  html += '<div class="brand">';
-  html += redeem.merchant.name;
-  html += '</div><div class="website">';
-  html += '<a href="' + redeem.merchant.url + '"><img class="website-img" src="img/ic_web.png" /></a>';
-  html += '</div>';
-  local = getDisplayLocation(redeem.merchant.locations);
+  // html += '<div class="image-add rdme"><img src="' + gift.imageUrl + '" class="addimge"><span class="imgshado"></span>';
+  html += '<h3>' + gift.merchant.name + '</h3>';
+  html += '<div class="opt-icon">';
+  local = getDisplayLocation(gift.merchant.locations);
   if (local != 'undefined') {
-    html += '<div class="phone">';
-    html += '<a href="tel:' + local.phoneNumber + '"><img class="website-img" src="img/ic_phone.png" /></a>';
-    html += '</div><div class="map">';
-    html += '<a href="' + generateMapUrl(redeem.merchant.name, local) + '"><img class="website-img" src="img/ic_map.png" />' + '&nbsp;' + computeDistance(local) + '</a>';
-    html += '</div>';
+    html += '<a href="' + generateMapUrl(gift.merchant.name, local) + '"><img src="images/ic_map@2x.png" />' + '&nbsp;' + computeDistance(local) + '</a>';
+    html += '<a href="' + gift.merchant.url + '"><img src="images/ic_web@2x.png" /></a>';
+    html += '<a href="tel:' + local.phoneNumber + '"><img src="images/ic_phone@2x.png" /></a>';
+  } else {
+    html += '<a href="' + gift.merchant.url + '"><img src="images/ic_web@2x.png" /></a>';
   }
+  html += '</div></div>';
+  html += '<div class="gvrdm">';
+  html += '<img src="images/awtraimg.png">';
+  // TODO real avatar
+  html += '<div class="avtr-cmnt">';
+  html += '<h2>' + gift.friendName + '</h2>';
+  html += '<h2>' + gift.caption + '</h2>';
+  html += '</div></div>';
+  html += '<div class="gvrdm-botm-patrn"></div>';
+  html += '<div class="crt">';
+  html += '<h2>' + gift.desc + '</h2>';
+  html += '<h4>' + gift.detailedDesc + '</h4>';
+  html += '<div class="crt">';
+  html += '<a href="#" class="trm" onclick="$(\'#terms\').show();" >Terms and Conditions</a>';
+  html += '<a href="#" class="lrn-mor" onclick="$(\'#learn\').show();" >Learn more</a>';
   html += '</div>';
-  html += '<div class="form-view">';
-  html += '<div id="share-detail-div">';
-  html += '<div id="friend-name">' + redeem.friendName + '</div>';
-  html += '<div id="friend-image">';
-  html += '<img src="https://graph.facebook.com/' + redeem.fbFriendId + '/picture" />';
-  html += '</div>';
-  html += '<div id="friend-comment">';
-  html += redeem.caption;
-  html += '</div>';
-  html += '<div id="give-detail">';
-  html += '<div id="give-detail-summary">';
-  html += '<p>' + redeem.desc + '</p>';
-  html += '</div>';
-  html += '<div id="give-detail-detail">';
-  html += '<p>' + redeem.descOptional + '</p>'; 
-  html += '</div>';
-  html += '<a href="#" id="terms">Terms and Conditions</a>';
-  html += '<a href="#" id="redeem-btn" class="btn btn-large btn-success">Redeem</a>';
-  html += '</div>';
-  html += '</div>';
+  html += '<button id="redeem-gift-btn" class="btn grd3">Redeem now in store</button>';
+  
   $('#redeem-details-view').html(html);
 }
 
 function renderRedeemCreditDetail(credit) {
   var html = '';
-  html += '<div class="add-photo"><img src="img/offer.png" class="add-photo" alt="" id="show-picture" /></div>';
+  html += '<div class="image-add rdme"><img src="images/addedimg.png"  class="addimg"><span class="imgshado"></span>';
   // TODO
-  // html += '<div class="add-photo"><img src="' + redeem.imageUrl + '" class="add-photo" alt="" id="show-picture"></div>';
-  html += '<div class="brand">';
-  html += redeem.merchant.name;
-  html += '</div><div class="website">';
-  html += '<a href="' + redeem.merchant.url + '"><img class="website-img" src="img/ic_web.png" /></a>';
+  // html += '<div class="image-add rdme"><img src="' + gift.imageUrl + '" class="addimge"><span class="imgshado"></span>';
+  html += '<h3>' + credit.merchant.name + '</h3>';
+  html += '<div class="msgg">Your gift has been redeemed by ' + credit.redeeemedGiftsCount + ' friend' + credit.redeeemedGiftsCount > 1 ? 's' : '' + '</div>';
   html += '</div>';
-  local = getDisplayLocation(redeem.merchant.locations);
-  if (local != 'undefined') {
-    html += '<div class="phone">';
-    html += '<a href="tel:' + local.phoneNumber + '"><img class="website-img" src="img/ic_phone.png" /></a>';
-    html += '</div><div class="map">';
-    html += '<a href="' + generateMapUrl(redeem.merchant.name, local) + '"><img class="website-img" src="img/ic_map.png" />' + '&nbsp;' + computeDistance(local) + '</a>';
-    html += '</div>';
-  }
+  html += '<div class="gv">';
+  html += '<p>You have a reward ready to be claimed!</p>';
   html += '</div>';
-  html += '<div class="form-view">';
-  html += '<div id="share-detail-div">';
-  html += '<div id="friend-name">' + redeem.friendName + '</div>';
-  html += '<div id="friend-image">';
-  html += '<img src="https://graph.facebook.com/' + redeem.fbFriendId + '/picture" />';
+  html += '<div class="crt">';
+  html += '<h1>$' + credit.value.toFixed(2) + '</h1>';
+  html += '<h5>' + credit.rewardType + '</h5>';
+  html += '<a href="#" class="trm" onclick="$(\'#terms\').show();">Terms and Conditions</a>';
   html += '</div>';
-  html += '<div id="friend-comment">';
-  html += redeem.caption;
-  html += '</div>';
-  html += '<div id="give-detail">';
-  html += '<div id="give-detail-summary">';
-  html += '<p>' + redeem.desc + '</p>';
-  html += '</div>';
-  html += '<div id="give-detail-detail">';
-  html += '<p>' + redeem.descOptional + '</p>'; 
-  html += '</div>';
-  html += '<a href="#" id="terms">Terms and Conditions</a>';
-  html += '<a href="#" id="redeem-btn" class="btn btn-large btn-success">Redeem</a>';
-  html += '</div>';
-  html += '</div>';
+  html += '<button id="claim-credit-form-btn" class="btn grd3">Claim reward now</button>';
+  
   $('#redeem-details-view').html(html);
+  
+  $("#claim-credit-form-btn").click(function() {
+    claimCreditForm(credit);
+  });
+}
+
+function claimCreditForm(credit) {
+  $('#redeem-details-view').hide();
+  
+  $('#claim-credit-form .pg-hedng').html(credit.merchant.name);
+  $('#claim-credit-form .hedng h1').html('$' + credit.value.toFixed(2));
+  $('#claim-credit-form .hedng h3').html(credit.rewardType);
+  $('#claim-credit-form input[name="creditId"]').val(credit.id);
+  $('#claim-credit-btn').attr('disabled', 'disabled');
+  
+  $('#claim-credit-div').show();
+  
+  $('#back-btn').unbind();
+  $('#back-btn').click(function() {
+    $('#claim-credit-div').hide();
+    $('#redeem-details-view').show();
+    $('#back-btn').unbind();
+    $('#back-btn').click(function(e){
+      e.preventDefault();
+      localStorage.pageType = 'redeem';
+      initPage();
+    });
+  })
 }
 
 function reload() {

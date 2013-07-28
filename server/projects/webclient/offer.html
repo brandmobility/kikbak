@@ -62,11 +62,11 @@ We always appreciate your feedback or other suggestions about Facebook, but you 
   <button class="popup-close-btn btn grd3">Done</button>
 </div>
 </span>
-<span class="popup" id="share-success-popup" style="display:none;">
+<span class="popup" id="success-popup" style="display:none;">
 <div class="cls-popup">
 <h1>Success!</h1>
-<h3>You have shared a gift </h3>
-<p>We will notify you when a friend uses your gift and you earn a reward</p>
+<h3></h3>
+<p></p>
  <button class="popup-close-btn btn grd3">OK</button>
 </div>
 </span>
@@ -108,6 +108,29 @@ We always appreciate your feedback or other suggestions about Facebook, but you 
     <p>You can change that by giving an offer to your friends. You'll earn credit for every friend that redeems.</p>
     <a class="offer-btn btn btn-large btn-success" href="#">See offers to give to friends</a>
   </div>
+</div>
+<div id="claim-credit-div" style="display:none;">
+<form id="claim-credit-form">
+  <h1 class="pg-hedng"></h1>
+  <div class="hedng hedbk">
+    <h1></h1>
+    <h3></h3>
+  </div>
+  <div></div>
+  <div class="frm-fed">
+    <h3>Please provide the following to redeem:</h3>
+    <input type="hidden" name="creditId" class="bsnm">
+    <input type="number" name="phoneNumber" placeholder="Verizon phone number (number only)" class="bsnm">
+    <input type="text" name="name" placeholder="First Last Name" class="bsnm">
+    <input type="text" name="street" placeholder="Street" class="bsnm">
+    <input type="number" name="apt" placeholder="Apartment or Unit # (number only)" class="bsnm">
+    <input type="text" name="city" placeholder="City" class="bsnm">
+    <input type="text" name="state" placeholder="State" class="bsnm">
+    <input type="number" name="zipcode" placeholder="Zip (number only)" class="bsnm">
+    <p>Your reward should arrive in 2 - 4 weeks.</p>
+  </div>
+  <button id="claim-credit-btn" class="btn grd3" disabled>Submit</button>
+</form>
 </div>
 <div id="redeem-details-view" class="details" style="display:none;">
 </div>
