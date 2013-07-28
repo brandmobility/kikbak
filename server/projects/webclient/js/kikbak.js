@@ -1094,15 +1094,11 @@ function claimCreditForm(credit) {
   $('#claim-credit-div').show();
   
   $('#back-btn').unbind();
-  $('#back-btn').click(function() {
+  $('#back-btn').click(function(e) {
+    e.preventDefault();
     $('#claim-credit-div').hide();
-    $('#redeem-details-view').show();
-    $('#back-btn').unbind();
-    $('#back-btn').click(function(e){
-      e.preventDefault();
-      localStorage.pageType = 'redeem';
-      initPage();
-    });
+    localStorage.pageType = 'redeem-credit-detail';
+    initPage();
   })
 }
 

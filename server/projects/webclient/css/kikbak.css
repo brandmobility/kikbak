@@ -117,17 +117,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7dc5ff', end
 	margin:2%;
 	width:15%
 }
-.back1:hover {
-	background:url("../images/abckarrow.png") no-repeat scroll left -189px transparent
-}
 .ritbtn:hover { float:right; background: url("../images/abckarrow.png") no-repeat scroll left -443px transparent; right:0;}
-.back1:hover .back2 {
-	background:url("../images/abckarrow.png") repeat-x scroll left -318px transparent;
-	color:#aaa
-}
-.back1:hover .back3 {
-	background:url("../images/abckarrow.png") no-repeat scroll left -251px transparent
-}
 .head-titel {
     color: #FFFFFF;
     float: left;
