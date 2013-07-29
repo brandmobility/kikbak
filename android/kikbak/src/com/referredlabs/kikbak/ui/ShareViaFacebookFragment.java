@@ -150,7 +150,7 @@ public class ShareViaFacebookFragment extends DialogFragment {
           long userId = Register.getInstance().getUserId();
           imageUrl = Http.uploadImage(userId, photoPath);
         }
-        FbObjectApi.publishStory(session, imageUrl, comment);
+        FbObjectApi.publishStory(session, offer, imageUrl, comment);
         mFbSuccess = true;
         reportToKikbak(imageUrl);
         mKikbakSuccess = true;

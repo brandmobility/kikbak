@@ -2,16 +2,16 @@
 package com.referredlabs.kikbak.data;
 
 public class ClientOfferType {
-  public long id; // optional
+  public long id;
   public String merchantName;
   public String name;
   public String giftDesc;
   public String giftDetailedDesc;
-  public double giftValue; // optional
+  public double giftValue;
   public String giftDiscountType;
   public String kikbakDesc;
   public String kikbakDetailedDesc;
-  public double kikbakValue; // optional
+  public double kikbakValue;
   public long merchantId;
   public String merchantUrl;
   public String offerImageUrl;
@@ -20,7 +20,4 @@ public class ClientOfferType {
   public MerchantLocationType[] locations;
   public long beginDate;
   public long endDate;
-
-  // not from json
-  transient public float mCurrentDistance = Float.MAX_VALUE;
 }

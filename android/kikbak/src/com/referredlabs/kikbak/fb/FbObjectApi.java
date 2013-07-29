@@ -1,6 +1,7 @@
 
 package com.referredlabs.kikbak.fb;
 
+import android.location.Location;
 import android.os.Bundle;
 
 import com.facebook.HttpMethod;
@@ -8,8 +9,10 @@ import com.facebook.Request;
 import com.facebook.RequestBatch;
 import com.facebook.Response;
 import com.facebook.Session;
-import com.referredlabs.kikbak.http.Http;
-import com.referredlabs.kikbak.utils.Register;
+import com.referredlabs.kikbak.C;
+import com.referredlabs.kikbak.data.ClientOfferType;
+import com.referredlabs.kikbak.service.LocationFinder;
+import com.referredlabs.kikbak.utils.Nearest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,20 +25,16 @@ public class FbObjectApi {
   private final static String COUPON_PATH = "me/objects/referredlabs:coupon";
   private final static String SHARE_PATH = "me/referredlabs:share";
 
-  public static void publishStory(Session session, String imageUrl, String userMessage)
+  public static void publishStory(Session session, ClientOfferType offer, String imageUrl,
+      String userMessage)
       throws IOException {
-
-    // TODO: location needs to be either facebook locaiton id
-    // or uri to page with 'place' meta-data
-    // do not know how to pass only lgn,lat
-    final String location = "http://young-springs-3453.herokuapp.com/coupon.html";
-
     RequestBatch requestBatch = new RequestBatch();
 
-    Request giftReq = createGiftRequest(session, imageUrl);
+    Request giftReq = createGiftRequest(session, offer, imageUrl);
     giftReq.setBatchEntryName("objectCreate");
     requestBatch.add(giftReq);
 
+    String location = getLocationString(offer);
     Request shareReq = createShareActionRequest(session, "{result=objectCreate:$.id}", userMessage,
         location);
     requestBatch.add(shareReq);
@@ -49,24 +48,23 @@ public class FbObjectApi {
     }
   }
 
-  private static Request createGiftRequest(Session session, String imageUrl) {
-    // FIXME
-    final String url = "http://young-springs-3453.herokuapp.com/xxxx/"; //
-    final String description = "This is gift description";
-
+  private static Request createGiftRequest(Session session, ClientOfferType offer, String imageUrl) {
     JSONObject gift = new JSONObject();
     try {
       // common properties
-      gift.put("image", imageUrl);
-      gift.put("title", "$50 gift for my friend");
-      gift.put("url", url);
+      String title = offer.merchantName + ":" + offer.giftDesc;
+      String description = offer.giftDetailedDesc;
+      String url = "http://young-springs-3453.herokuapp.com/xxxx/" + offer.id;
+
+      gift.put("title", title);
       gift.put("description", description);
+      gift.put("image", imageUrl);
+      gift.put("url", url);
 
       // kikbak specific properties
       JSONObject data = new JSONObject();
-      data.put("gift_value", "50");
-      data.put("merchant_name", "Vistula");
-      data.put("offer_id", "http://young-springs-3453.herokuapp.com/coupon.html");
+      data.put("merchant_name", offer.merchantName);
+      data.put("detailed_desc", offer.giftDetailedDesc);
       gift.put("data", data);
     } catch (JSONException e) {
       // ignore
@@ -87,9 +85,22 @@ public class FbObjectApi {
     actionParams.putString("coupon", objectId);
     actionParams.putString("fb:explicitly_shared", "true");
     actionParams.putString("message", userMessage);
-    actionParams.putString("place", location);
+    if (location != null)
+      actionParams.putString("place", location);
     Request actionRequest = new Request(session, SHARE_PATH, actionParams, HttpMethod.POST, null);
     return actionRequest;
+  }
+
+  private static String getLocationString(ClientOfferType offer) {
+    String result = null;
+    Location loc = LocationFinder.getLastLocation();
+    Nearest nearest = new Nearest(offer.locations);
+    nearest.determineNearestLocation(loc.getLatitude(), loc.getLongitude());
+    if (nearest.getDistance() < C.IN_STORE_DISTANCE) {
+      // FIXME
+      result = "http://young-springs-3453.herokuapp.com/coupon.html?loc=3";
+    }
+    return result;
   }
 
 }
