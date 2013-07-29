@@ -155,4 +155,7 @@
     <string name="businnes_why_hint">What makes them great</string>
     <string name="suggest_send">Let us know</string>
 
+    <!-- Select friend -->
+    <string name="select_friend_label">Select the friend whose gift you would like to redeem</string>
+
 </resources>

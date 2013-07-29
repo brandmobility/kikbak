@@ -14,21 +14,29 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.referredlabs.kikbak.R;
+import com.referredlabs.kikbak.data.AvailableCreditType;
+import com.referredlabs.kikbak.data.GiftType;
 import com.referredlabs.kikbak.store.RewardsLoader;
 import com.referredlabs.kikbak.store.TheReward;
+import com.referredlabs.kikbak.ui.RedeemChooserDialog.OnRedeemOptionSelectedListener;
+import com.referredlabs.kikbak.ui.SelectFriend.OnFriendSelectedListener;
+import com.referredlabs.kikbak.utils.LocaleUtils;
 
 import java.util.List;
 
 public class RewardListFragment extends Fragment implements OnItemClickListener,
-    LoaderCallbacks<List<TheReward>> {
+    OnFriendSelectedListener, OnRedeemOptionSelectedListener, LoaderCallbacks<List<TheReward>> {
 
-  public interface OnRewardClickedListener {
-    void onRewardClicked(TheReward offer);
+  public interface OnRedeemListener {
+    void onRedeemGift(GiftType gift);
+
+    void onRedeemCredit(AvailableCreditType credit);
   }
 
   private ListView mListView;
   private RewardAdapter mAdapter;
-  private OnRewardClickedListener mListener;
+  private OnRedeemListener mListener;
+  private TheReward mSelectedReward;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +46,7 @@ public class RewardListFragment extends Fragment implements OnItemClickListener,
   @Override
   public void onAttach(Activity activity) {
     super.onAttach(activity);
-    mListener = (OnRewardClickedListener) activity;
+    mListener = (OnRedeemListener) activity;
   }
 
   @Override
@@ -60,7 +68,59 @@ public class RewardListFragment extends Fragment implements OnItemClickListener,
   @Override
   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
     TheReward reward = (TheReward) mListView.getItemAtPosition(position);
-    mListener.onRewardClicked(reward);
+
+    if (reward.hasGifts() && reward.hasCredit()) {
+      selectWhatToRedeem(reward);
+    } else if (reward.hasCredit()) {
+      redeemCredit(reward.getCredit());
+    } else if (reward.hasGifts()) {
+      redeemGift(reward.getGifts());
+    }
+  }
+
+  private void selectWhatToRedeem(TheReward reward) {
+    mSelectedReward = reward;
+    String gift = LocaleUtils.getGiftValueString(getActivity(), reward);
+    String credit = LocaleUtils.getCreditValueString(getActivity(), reward);
+    RedeemChooserDialog dialog = RedeemChooserDialog.newInstance(gift, credit);
+    dialog.show(getFragmentManager(), null);
+  }
+
+  @Override
+  public void onRedeemGiftSelected() {
+    redeemGift(mSelectedReward.getGifts());
+  }
+
+  @Override
+  public void onRedeemCreditSelected() {
+    mListener.onRedeemCredit(mSelectedReward.getCredit());
+  }
+
+  private void redeemCredit(AvailableCreditType credit) {
+    mListener.onRedeemCredit(credit);
+  }
+
+  private void redeemGift(List<GiftType> gifts) {
+    if (gifts.size() == 1) {
+      redeemGift(gifts.get(0));
+    } else {
+      selectGiftToRedeem(gifts);
+    }
+  }
+
+  private void redeemGift(GiftType gift) {
+    mListener.onRedeemGift(gift);
+  }
+
+  private void selectGiftToRedeem(List<GiftType> gifts) {
+    SelectFriend dialog = SelectFriend.newInstance(gifts);
+    dialog.setTargetFragment(this, 0);
+    dialog.show(getFragmentManager(), null);
+  }
+
+  @Override
+  public void onFriendSelected(GiftType gift) {
+    mListener.onRedeemGift(gift);
   }
 
   @Override
@@ -78,5 +138,4 @@ public class RewardListFragment extends Fragment implements OnItemClickListener,
   public void onLoaderReset(Loader<List<TheReward>> laoder) {
     // ???
   }
-
 }

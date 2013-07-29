@@ -35,13 +35,11 @@ import com.referredlabs.kikbak.store.DataService;
 import com.referredlabs.kikbak.store.TheOffer;
 import com.referredlabs.kikbak.store.TheReward;
 import com.referredlabs.kikbak.ui.OfferListFragment.OnOfferClickedListener;
-import com.referredlabs.kikbak.ui.RedeemChooserDialog.OnRedeemOptionSelectedListener;
-import com.referredlabs.kikbak.ui.RewardListFragment.OnRewardClickedListener;
-import com.referredlabs.kikbak.utils.LocaleUtils;
+import com.referredlabs.kikbak.ui.RewardListFragment.OnRedeemListener;
 import com.referredlabs.kikbak.utils.Register;
 
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener,
-    OnOfferClickedListener, OnRewardClickedListener, OnRedeemOptionSelectedListener,
+    OnOfferClickedListener, OnRedeemListener,
     LocationFinderListener {
 
   SectionsPagerAdapter mSectionsPagerAdapter;
@@ -177,6 +175,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
   @Override
   public void onOfferClicked(TheOffer theOffer) {
+    give(theOffer);
+  }
+
+  private void give(TheOffer theOffer) {
     Intent intent = new Intent(this, GiveActivity.class);
     Gson gson = new Gson();
     String data = gson.toJson(theOffer.getOffer());
@@ -185,37 +187,13 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
   }
 
   @Override
-  public void onRewardClicked(TheReward reward) {
-    if (reward.hasGifts() && reward.hasCredit()) {
-      mSelectedReward = reward;
-      String gift = LocaleUtils.getGiftValueString(this, reward);
-      String credit = LocaleUtils.getCreditValueString(this, reward);
-      RedeemChooserDialog dialog = RedeemChooserDialog.newInstance(gift, credit);
-      dialog.show(getSupportFragmentManager(), "");
-    } else if (reward.hasGifts()) {
-      // TODO: picker dialog!
-      GiftType gift = reward.getGifts().get(0);
-      redeemGift(gift);
-    } else if (reward.hasCredit()) {
-      redeemCredit(reward.getCredit());
-    }
+  public void onRedeemGift(GiftType gift) {
+    redeemGift(gift);
   }
 
   @Override
-  public void onRedeemGiftSelected() {
-    if (mSelectedReward != null) {
-      GiftType gift = mSelectedReward.getGifts().get(0);
-      redeemGift(gift);
-      mSelectedReward = null;
-    }
-  }
-
-  @Override
-  public void onRedeemCreditSelected() {
-    if (mSelectedReward != null) {
-      redeemCredit(mSelectedReward.getCredit());
-      mSelectedReward = null;
-    }
+  public void onRedeemCredit(AvailableCreditType credit) {
+    redeemCredit(credit);
   }
 
   private void redeemGift(GiftType gift) {
