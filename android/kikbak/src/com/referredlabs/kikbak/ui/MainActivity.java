@@ -151,6 +151,11 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         item.setChecked(C.USE_FIXED_LOCATION);
         DataService.getInstance().refreshOffers(true);
         return true;
+
+      case R.id.action_who:
+        actionWhoAmI();
+        return true;
+
     }
     return super.onOptionsItemSelected(item);
   }
@@ -258,6 +263,11 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     } else {
       Toast.makeText(this, "Not yet registered!", Toast.LENGTH_SHORT).show();
     }
+  }
+
+  private void actionWhoAmI() {
+    String user = Register.getInstance().getUserName();
+    Toast.makeText(this, user, Toast.LENGTH_LONG).show();
   }
 
   // ------------------------------------------------------

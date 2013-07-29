@@ -8,15 +8,16 @@
         compat:showAsAction="always|withText"/>
     <item
         android:id="@+id/action_fixed_location"
+        android:checkable="true"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:checkable="true"
         android:title="use fixed location"/>
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="@string/action_settings"/>
+        android:title="@string/action_settings"
+        android:visible="false"/>
     <item
         android:id="@+id/action_login"
         android:orderInCategory="101"
@@ -32,5 +33,10 @@
         android:orderInCategory="103"
         android:showAsAction="never"
         android:title="cloud messaging"/>
+    <item
+        android:id="@+id/action_who"
+        android:orderInCategory="104"
+        android:showAsAction="never"
+        android:title="who am I"/>
 
 </menu>
