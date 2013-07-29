@@ -1038,7 +1038,7 @@ function renderRedeemGiftDetail(gift) {
   }
   html += '</div></div>';
   html += '<div class="gvrdm">';
-  html += '<img src="images/awtraimg.png">';
+  html += '<img src="https://graph.facebook.com/' + gift.fbFriendId + '/picture?type=square">';
   // TODO real avatar
   html += '<div class="avtr-cmnt">';
   html += '<h2>' + gift.friendName + '</h2>';
@@ -1063,7 +1063,9 @@ function renderRedeemCreditDetail(credit) {
   // TODO
   // html += '<div class="image-add rdme"><img src="' + gift.imageUrl + '" class="addimge"><span class="imgshado"></span>';
   html += '<h3>' + credit.merchant.name + '</h3>';
-  html += '<div class="msgg">Your gift has been redeemed by ' + credit.redeeemedGiftsCount + ' friend' + credit.redeeemedGiftsCount > 1 ? 's' : '' + '</div>';
+  if (credit.redeemedGiftsCount) {
+    html += '<div class="msgg">Your gift has been redeemed by ' + credit.redeemedGiftsCount + ' friend' + (credit.redeemedGiftsCount > 1 ? 's' : '') + '</div>';
+  }
   html += '</div>';
   html += '<div class="gv">';
   html += '<p>You have a reward ready to be claimed!</p>';
