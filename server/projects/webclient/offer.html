@@ -13,18 +13,20 @@
   </div>
   <span id="heading" class="head-titel">Give</span>
   <div id="suggest-btn-div" style="display:none;">
-    <a id="suggest-btn" href="#" class="back1 ritbtn"><span class="back2">Suggest</span><span class="back3"></span></a>
+    <a id="suggest-btn" href="#" class="suggest-btn back1 ritbtn"><span class="back2">Suggest</span><span class="back3"></span></a>
   </div>
 </div>
 <div id="offer-view" class="wrapper" style="dispaly:none;">
   <div class="scroller">
-    <ul id="offer-list" class="unstyled list-view">
-    </ul>
+    <div id="offer-list" class="unstyled list-view">
+    </div>
   </div>
   <div id="no-offer-list" style="display:none;">
-    <div class="title">Bummer!</div>
-    <div class="detail"><p>There are no Kikbak offers available in your area</p></div>
-    <p>Tell us about a business that you'd like to recommend to friends with a special offer</p>
+    <div class="no-list-msg"><h1>Bummer!</h1>
+      <h2>There are no Kikbak offers available in your area.</h2>
+    </div>
+    <div class="no-list-msg"><h3>Tell us about a business that you’d like
+to recommend to friends with a special offer</h3></div>
     <a class="suggest-btn btn btn-large btn-success" href="#">Suggest a business</a>
   </div>
 </div>
@@ -103,9 +105,12 @@ We always appreciate your feedback or other suggestions about Facebook, but you 
     </div>
   </div>
   <div id="no-redeem-list" style="display:none;">
-    <div class="title">Doh!</div>
-    <div class="detail"><p>You haven't received any gifts or earned any credit</p></div>
-    <p>You can change that by giving an offer to your friends. You'll earn credit for every friend that redeems.</p>
+    <div class="no-list-msg"><h1>Doh!</h1>
+        <h2>You haven’t received any gifts or earned any credit</h2>
+      </div>
+      <div class="no-list-msg"><h3>You can change that by giving an offer
+to your friends. You’ll earn credit for
+every friend that redeems.</h3></div>
     <a class="offer-btn btn btn-large btn-success" href="#">See offers to give to friends</a>
   </div>
 </div>
@@ -136,18 +141,21 @@ We always appreciate your feedback or other suggestions about Facebook, but you 
 </div>
 <div id="suggest-view" style="display:none;">
   <form id="suggest-form" class="form-view" onsubmit="doSuggest(); return false;">
-  <div class="add-photo">
-    <img src="" class="add-photo show-picture" id="show-picture-suggest" alt="" />
-  </div>
-  <div class="add-photo-btn">
-    <input name="source" type="file" id="take-picture-suggest" class="take-picture" accept="image/*" />
+  <div class="image-add tk-pht">
+    <span class="imgshado takphot"></span>
+    <h2>Take a photo</h2>
+    <div class="camicon"><img src="images/camicon.png">
+      <input name="source" type="file" id="take-picture-suggest" class="camicon take-picture" style="height:100px;margin-left:40%;width:20%;opacity:0;" accept="image/*" />
+    </div>
   </div>
   <div id="suggest-form-view">
-      <p>Want to recommend a business with 
-      a special offer? Tell us and we'll let 
-      them know that they should join Kikbak.</p>
-      <input name="name" type="text" placeholder="Business name" />
-      <input name="reason" type="text" placeholder="What makes them great" />
+    <div class="crt">
+      <h2 class="tk-pht-msg">Want to recommend a business with
+a special offer? Tell us and we’ll let
+them know that they should join Kikbak.</h2>
+      <input name="name" type="text" placeholder="Business name" class="bsnm">
+      <textarea name="reason" class="wtmek" placeholder="What makes them great"></textarea>
+    </div>
       <input name="suggest" class="btn" type="submit" value="Let us know" disabled />
   </div>
   </form>

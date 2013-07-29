@@ -36,7 +36,7 @@ $(document).ready(function() {
   setWrapperSize();
 
   $('#suggest-form input[name="name"]').bind('keyup', adjustSuggest);
-  $('#suggest-form input[name="reason"]').bind('keyup', adjustSuggest);
+  $('#suggest-form textarea[name="reason"]').bind('keyup', adjustSuggest);
   
   $('#share-facebook').click(shareViaFacebook);
   $('#share-email').click(shareViaEmail);
@@ -294,19 +294,25 @@ function initPage() {
         localStorage.pageType = 'offer';
         initPage();
       });
-    } else if (pageType === 'offer') {
-      $('#offer-view').show('');
-      $('#suggest-btn-div').show('');
-      $('#heading').html('Gift');
-      $('#offer-btn-div').css('background', 'url("img/btn_highlighted.png")');
-      getOffers();
-    } else { //if (pageType === 'offer-detail') {
+    } else if (pageType === 'offer-detail') { 
       $('#offer-details-view').show('');
       $('#back-btn-div').hide('');
       $('#heading').html('Gift');
       // TODO
-      //$('#back-btn-div').show('');
+      $('#back-btn-div').show('');
       getOfferDetail();
+    } else if (pageType == 'offer'){
+      $('#offer-view').show('');
+      $('#suggest-btn-div').show('');
+      $('#heading').html('Gift');
+      $('#offer-btn-div').css('background', 'url("img/btn_highlighted.png")');
+      getOffers(true);
+    } else { // Default
+      $('#offer-view').show('');
+      $('#suggest-btn-div').show('');
+      $('#heading').html('Gift');
+      $('#offer-btn-div').css('background', 'url("img/btn_highlighted.png")');
+      getOffers(false);
     }
   }
   setWrapperSize();
@@ -332,59 +338,51 @@ function claimGift(code) {
   });
 }
 
-function getOffers() {
+function getOffers(force) {
   if (typeof Storage != 'undefined') {
     localStorage.pageType = 'offer';
     var userId = localStorage.userId;
 
     if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
       if (typeof initPage.p !== 'undefined') {
-        getOffersByLocation(userId, initPage.p);
+        getOffersByLocation(userId, initPage.p, force);
       } else {
-        getOffersByLocation(userId, null);
+        getOffersByLocation(userId, null, force);
       }
     }
   }
 }
 
 function renderOffer(offer) {
-  var html = '<li>';
+  var html = '';
   
   var json = escape(JSON.stringify(offer));
-  html += '<div class="offer-div">';
   html += '<a href="#" data-object="' + json + '" class="offer-details-btn clearfix">';
-  html += '<img class="offer-background" src="img/offer.png" />';
+  html += '<div class="imglist"><span class="imgshado"></span><div class="lstimg">';
+  html += '<img src="img/offer.png" />';
+  html += '</div></a>';
   // TODO
-  // html += '<img class="offer-background" src="' + json.merchantImageUrl + '" />';
-  html += '<div class="offer-background-grad" />';
-  html += '</a>';
-  html += '<img class="offer-label1" src="img/label1_price.png" />';
-  html += '<div class="offer-label1-text">';
-  var gift = "Give<br>";
-  gift += offer.giftType == 'percentage' ? offer.giftValue + "%<br>OFF" :
-          "$" + offer.giftValue;
-  html += gift + '</div>';
-  html += '<img class="offer-label2" src="img/label2_price.png" />';
-  html += '<div class="offer-label2-text">';
-  gift = "Get<br>";
-  gift += "$" + offer.kikbakValue;
-  html += gift + '</div>';
-  html += '<div class="brand">';
-  html += offer.merchantName;
-  html += '</div><div class="website">';
-  html += '<a href="' + offer.merchantUrl + '"><img class="website-img" src="img/ic_web.png" /></a>';
-  html += '</div>';
-
-  local = getDisplayLocation(offer.locations);
+  // html += '<img src="' + json.merchantImageUrl + '" />';
+  html += '<h3>' + offer.merchantName + '</h3>';
+  
+  var local = getDisplayLocation(offer.locations);
   if (local != 'undefined') {
-    html += '<div class="phone">';
-    html += '<a href="tel:' + local.phoneNumber + '"><img class="website-img" src="img/ic_phone.png" /></a>';
-    html += '</div><div class="map">';
-    html += '<a href="' + generateMapUrl(offer.merchantName, local) + '"><img class="website-img" src="img/ic_map.png" />' + '&nbsp;' + computeDistance(local) + '</a>';
-    html += '</div>';
+    html += '<div class="opt-icon"><a href="' + generateMapUrl(offer.merchantName, local) + '"><img src="images/ic_map@2x.png">' + '&nbsp;' + computeDistance(local) + '</a>';
+    html += '<a href="' + offer.merchantUrl + '"><img src="images/ic_web@2x.png" /></a>';
+    html += '<a href="tel:' + local.phoneNumber + '"><img src="images/ic_phone@2x.png" /></a>';
+  } else {
+    html += '<a href="' + offer.merchantUrl + '"><img src="images/ic_web@2x.png" /></a>';
   }
   html += '</div>';
-  html += '</li>';
+  html += '<div class="ribn"><img src="images/ribncorn.png" class="crn">';
+  var gift = "<span>GIVE</span>";
+  gift += offer.giftType == 'percentage' ? offer.giftValue + "% off" :
+          "$" + offer.giftValue;
+  html += '<div class="giv grd3">' + gift + '</div>';
+  html += '<img src="images/ribnaro.png">';
+  html += '<div class="get"><span>GET</span>$' + offer.kikbakValue + '</div>';
+  html += '</div></div>';
+  
   $('#offer-list').append(html);
 }
 
@@ -426,7 +424,7 @@ function getDisplayLocation(locations) {
   return locations[0];
 }
 
-function getOffersByLocation(userId, position) {
+function getOffersByLocation(userId, position, force) {
   var location = {};
   if (position != null) {
     location['longitude'] = position.longitude;
@@ -445,10 +443,20 @@ function getOffersByLocation(userId, position) {
     url: config.backend + 'kikbak/user/offer/' + userId,
     success: function(json) {
       var offers = json.getUserOffersResponse.offers;
+      
+      if (offers.length == 1 && !force) {
+        if (Storage != 'undefined') {
+          localStorage.offerDetail = escape(JSON.stringify(offers[0]));
+          localStorage.pageType = 'offer-detail';
+        }
+        initPage();
+      }
+      
       $('#offer-list').html('');
       $.each(offers, function(i, offer) {
         renderOffer(offer);
       });
+      
       if (offers.length == 0) {
         $("#no-offer-list").show();
       } else {
@@ -1137,7 +1145,7 @@ function setWrapperSize() {
 
 function adjustSuggest() {
   if ($('#suggest-form input[name="name"]').val().replace(/^\s+|\s+$/g, '') != '' &&
-      $('#suggest-form input[name="reason"]').val().replace(/^\s+|\s+$/g, '') != '' &&
+      $('#suggest-form textarea[name="reason"]').val().replace(/^\s+|\s+$/g, '') != '' &&
       $('#take-picture-suggest')[0].files && $('#take-picture-suggest')[0].files.length > 0) {
     $('#suggest-form input[name="suggest"]').removeAttr('disabled');
   } else {
