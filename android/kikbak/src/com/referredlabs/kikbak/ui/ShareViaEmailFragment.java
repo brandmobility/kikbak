@@ -13,6 +13,7 @@ import android.text.Html;
 import android.text.Spanned;
 
 import com.google.gson.Gson;
+import com.referredlabs.kikbak.C;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ClientOfferType;
 import com.referredlabs.kikbak.data.ShareExperienceRequest;
@@ -31,6 +32,7 @@ public class ShareViaEmailFragment extends DialogFragment {
   private static final String ARG_PHOTO_PATH = "photo_path";
 
   private static final int REQUEST_SELECT_CONTACTS = 1;
+  private static final int REQUEST_SEND_EMAIL = 2;
 
   private ClientOfferType mOffer;
   private ShareTask mTask;
@@ -77,16 +79,21 @@ public class ShareViaEmailFragment extends DialogFragment {
 
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
-    if (requestCode == REQUEST_SELECT_CONTACTS && resultCode == Activity.RESULT_OK) {
-      mContacts = data.getStringArrayListExtra(PickContactsActivity.DATA);
-      if (mContacts != null && mContacts.size() > 0) {
+    if (requestCode == REQUEST_SELECT_CONTACTS) {
+      if (resultCode == Activity.RESULT_OK) {
+        mContacts = data.getStringArrayListExtra(PickContactsActivity.DATA);
         share();
-        return;
+      } else {
+        mListener.onShareFinished(false);
+        dismiss();
       }
     }
 
-    mListener.onShareFinished(false);
-    dismiss();
+    if (requestCode == REQUEST_SEND_EMAIL) {
+      // We do not know if user cancelled sending or not
+      mListener.onShareFinished(true);
+      dismiss();
+    }
   }
 
   @Override
@@ -106,18 +113,19 @@ public class ShareViaEmailFragment extends DialogFragment {
   protected void onShareFinished(String title, String body) {
     Intent intent = new Intent(Intent.ACTION_SENDTO);
     intent.setData(Uri.parse("mailto:"));
-    intent.putExtra(Intent.EXTRA_EMAIL, mContacts.toArray(new String[mContacts.size()]));
+    if (mContacts != null && mContacts.size() > 0) {
+      intent.putExtra(Intent.EXTRA_EMAIL, mContacts.toArray(new String[mContacts.size()]));
+    }
     intent.putExtra(Intent.EXTRA_SUBJECT, title);
     Spanned text = Html.fromHtml(body);
     intent.putExtra(Intent.EXTRA_TEXT, text.toString());
     intent.putExtra(Intent.EXTRA_HTML_TEXT, body);
-    startActivity(intent);
-    dismiss();
-    mListener.onShareFinished(true);
+    startActivityForResult(intent, REQUEST_SEND_EMAIL);
   }
 
   protected void onShareFailed() {
     mListener.onShareFinished(false);
+    dismiss();
   }
 
   private class ShareTask extends AsyncTask<Void, Void, Void> {
@@ -176,7 +184,7 @@ public class ShareViaEmailFragment extends DialogFragment {
       String comment = getArguments().getString(ARG_COMMENT);
 
       Uri.Builder b = new Uri.Builder();
-      b.scheme("http").authority("54.244.124.116").path("/s/email.php");
+      b.scheme("http").authority(C.SCRIPT_SERVER).path("/s/email.php");
       b.appendQueryParameter("name", name);
       b.appendQueryParameter("code", code);
       b.appendQueryParameter("desc", comment);
@@ -193,7 +201,7 @@ public class ShareViaEmailFragment extends DialogFragment {
       }
     }
   }
-  
+
   private static class ShareTemplateResponse {
     public String title;
     public String body;

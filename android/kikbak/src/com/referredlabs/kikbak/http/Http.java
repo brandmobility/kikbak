@@ -218,7 +218,7 @@ public class Http {
   public static String uploadImage(long userId, String filePath) throws IOException {
     AndroidHttpClient httpClient = AndroidHttpClient.newInstance(USER_AGENT);
     try {
-      String uri = "http://54.244.124.116/s/upload.php";
+      String uri = "http://" + C.SCRIPT_SERVER + "/s/upload.php";
       HttpPost postRequest = new HttpPost(uri);
       MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
       reqEntity.addPart("userId", new StringBody(Long.toString(userId)));
@@ -242,7 +242,7 @@ public class Http {
   public static String uploadImage(long userId, Bitmap image) throws IOException {
     AndroidHttpClient httpClient = AndroidHttpClient.newInstance(USER_AGENT);
     try {
-      String uri = "http://54.244.124.116/s/upload.php";
+      String uri = "http://" + C.SCRIPT_SERVER + "/s/upload.php";
       HttpPost postRequest = new HttpPost(uri);
       MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
       reqEntity.addPart("userId", new StringBody(Long.toString(userId)));

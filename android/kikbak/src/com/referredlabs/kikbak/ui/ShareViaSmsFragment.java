@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
 import com.google.gson.Gson;
+import com.referredlabs.kikbak.C;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ClientOfferType;
 import com.referredlabs.kikbak.data.ShareExperienceRequest;
@@ -29,6 +30,7 @@ public class ShareViaSmsFragment extends DialogFragment {
   private static final String ARG_PHOTO_PATH = "photo_path";
 
   private static final int REQUEST_SELECT_CONTACTS = 1;
+  private static final int REQUEST_SEND_SMS = 2;
 
   private ClientOfferType mOffer;
   private ShareTask mTask;
@@ -75,16 +77,20 @@ public class ShareViaSmsFragment extends DialogFragment {
 
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
-    if (requestCode == REQUEST_SELECT_CONTACTS && resultCode == Activity.RESULT_OK) {
-      mContacts = data.getStringArrayListExtra(PickContactsActivity.DATA);
-      if (mContacts != null && mContacts.size() > 0) {
+    if (requestCode == REQUEST_SELECT_CONTACTS) {
+      if (resultCode == Activity.RESULT_OK) {
+        mContacts = data.getStringArrayListExtra(PickContactsActivity.DATA);
         share();
-        return;
+      } else {
+        mListener.onShareFinished(false);
+        dismiss();
       }
     }
 
-    mListener.onShareFinished(false);
-    dismiss();
+    if (requestCode == REQUEST_SEND_SMS) {
+      mListener.onShareFinished(true);
+      dismiss();
+    }
   }
 
   @Override
@@ -105,9 +111,7 @@ public class ShareViaSmsFragment extends DialogFragment {
     Intent intent = new Intent(Intent.ACTION_VIEW);
     intent.setData(Uri.parse("sms:" + getSmsRecipients()));
     intent.putExtra("sms_body", body);
-    startActivity(intent);
-    dismiss();
-    mListener.onShareFinished(true);
+    startActivityForResult(intent, REQUEST_SEND_SMS);
   }
 
   protected void onShareFailed() {
@@ -115,6 +119,9 @@ public class ShareViaSmsFragment extends DialogFragment {
   }
 
   private String getSmsRecipients() {
+    if (mContacts == null || mContacts.size() == 0)
+      return "";
+
     StringBuilder b = new StringBuilder();
     for (String contact : mContacts) {
       b.append(contact).append(',');
@@ -178,7 +185,7 @@ public class ShareViaSmsFragment extends DialogFragment {
       String comment = getArguments().getString(ARG_COMMENT);
 
       Uri.Builder b = new Uri.Builder();
-      b.scheme("http").authority("54.244.124.116").path("/s/sms.php");
+      b.scheme("http").authority(C.SCRIPT_SERVER).path("/s/sms.php");
       b.appendQueryParameter("name", name);
       b.appendQueryParameter("code", code);
       b.appendQueryParameter("desc", comment);

@@ -89,12 +89,11 @@ public class PickContactsActivity extends FragmentActivity
 
   private void onShareButtonClicked() {
     ArrayList<String> data = getSelectedData();
-    if (!data.isEmpty()) {
-      Intent intent = new Intent();
+    Intent intent = new Intent();
+    if (!data.isEmpty())
       intent.putExtra(DATA, data);
-      setResult(RESULT_OK, intent);
-      finish();
-    }
+    setResult(RESULT_OK, intent);
+    finish();
   }
 
   private ArrayList<String> getSelectedData() {
