@@ -323,7 +323,7 @@ public class RewardServiceImpl implements RewardService{
         gt.setFbFriendId(friend.getFacebookId());
         gt.setFriendName(friend.getFirstName() + " " + friend.getLastName());
         gt.setCaption(shared.getCaption());
-        gt.setFbImageId(shared.getFbImageId());
+//        gt.setFbImageId(shared.getFbImageId());
 
         return gt;
     }
