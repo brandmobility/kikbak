@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.referredlabs.kikbak.R;
 
@@ -155,6 +156,7 @@ public class SuggestBusinessActivity extends ActionBarActivity implements
   }
 
   private void onSendClicked() {
+    Toast.makeText(this, R.string.suggest_confirmation_toast, Toast.LENGTH_LONG).show();
     finish();
   }
 }
