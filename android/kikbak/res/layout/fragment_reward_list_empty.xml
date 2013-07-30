@@ -27,7 +27,7 @@
         android:text="@string/redeem_empty_advise" />
 
     <Button
-        android:id="@+id/offers_button"
+        android:id="@+id/offers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/redeem_empty_button" />

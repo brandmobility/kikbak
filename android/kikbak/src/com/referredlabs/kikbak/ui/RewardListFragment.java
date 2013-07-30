@@ -8,10 +8,12 @@ import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.ViewFlipper;
 
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.AvailableCreditType;
@@ -25,14 +27,18 @@ import com.referredlabs.kikbak.utils.LocaleUtils;
 import java.util.List;
 
 public class RewardListFragment extends Fragment implements OnItemClickListener,
-    OnFriendSelectedListener, OnRedeemOptionSelectedListener, LoaderCallbacks<List<TheReward>> {
+    OnFriendSelectedListener, OnRedeemOptionSelectedListener, LoaderCallbacks<List<TheReward>>,
+    OnClickListener {
 
   public interface OnRedeemListener {
     void onRedeemGift(GiftType gift);
 
     void onRedeemCredit(AvailableCreditType credit);
+
+    void onShowOffersCliked();
   }
 
+  private ViewFlipper mFlipper;
   private ListView mListView;
   private RewardAdapter mAdapter;
   private OnRedeemListener mListener;
@@ -52,11 +58,28 @@ public class RewardListFragment extends Fragment implements OnItemClickListener,
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_reward_list, container, false);
+    mFlipper = (ViewFlipper) view.findViewById(R.id.flipper);
     mListView = (ListView) view.findViewById(R.id.list);
     mListView.setOnItemClickListener(this);
     mAdapter = new RewardAdapter(getActivity(), new IconBarActionHandler(getActivity()));
     mListView.setAdapter(mAdapter);
+
+    view.findViewById(R.id.offers).setOnClickListener(this);
+
     return view;
+  }
+
+  @Override
+  public void onClick(View v) {
+    mListener.onShowOffersCliked();
+  }
+
+  public void showList() {
+    mFlipper.setDisplayedChild(0);
+  }
+
+  public void showEmpty() {
+    mFlipper.setDisplayedChild(1);
   }
 
   @Override
@@ -132,10 +155,18 @@ public class RewardListFragment extends Fragment implements OnItemClickListener,
   @Override
   public void onLoadFinished(Loader<List<TheReward>> loader, List<TheReward> result) {
     mAdapter.swap(result);
+    RewardsLoader myLoader = (RewardsLoader) loader;
+    if (!myLoader.isPending() && result.isEmpty()) {
+      showEmpty();
+    } else {
+      mAdapter.swap(result);
+      showList();
+    }
   }
 
   @Override
   public void onLoaderReset(Loader<List<TheReward>> laoder) {
     // ???
   }
+
 }

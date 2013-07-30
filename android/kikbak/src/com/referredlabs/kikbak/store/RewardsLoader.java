@@ -20,6 +20,7 @@ public class RewardsLoader extends AsyncTaskLoader<List<TheReward>> {
 
   Observer mObserver;
   DataStore mStore;
+  boolean mPendingUpdate;
 
   public RewardsLoader(Context context) {
     super(context);
@@ -40,7 +41,7 @@ public class RewardsLoader extends AsyncTaskLoader<List<TheReward>> {
   @Override
   public List<TheReward> loadInBackground() {
 
-    DataService.getInstance().refreshRewards(false);
+    mPendingUpdate = DataService.getInstance().refreshRewards(false);
     List<GiftType> gifts = mStore.getGifts();
     List<AvailableCreditType> credits = mStore.getCredits();
 
@@ -94,10 +95,14 @@ public class RewardsLoader extends AsyncTaskLoader<List<TheReward>> {
     mStore.unregisterRewardsObserver(mObserver);
   }
 
+  public boolean isPending() {
+    return mPendingUpdate;
+  }
+
   private class Observer extends DataSetObserver {
     public void onChanged() {
       onContentChanged();
     };
-  };
+  }
 
 }

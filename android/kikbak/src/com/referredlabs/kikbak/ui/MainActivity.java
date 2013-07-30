@@ -202,6 +202,11 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     redeemCredit(credit);
   }
 
+  @Override
+  public void onShowOffersCliked() {
+    getSupportActionBar().setSelectedNavigationItem(0);
+  }
+
   private void redeemGift(GiftType gift) {
     Intent intent = new Intent(this, RedeemGiftActivity.class);
     String data = new Gson().toJson(gift);
