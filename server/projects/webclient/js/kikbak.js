@@ -46,7 +46,7 @@ $(document).ready(function() {
     $('.popup').hide();
   });
 
-  $('.take-picture').change(function(e) {
+  $('#suggest-form input[name="source"]').change(function(e) {
     var files = e.target.files;
     var file;
     
@@ -55,15 +55,16 @@ $(document).ready(function() {
       try {
         var URL = window.webkitURL || window.URL;
         var imgUrl = URL.createObjectURL(file);
-        $('.show-picture').load(function(e){
+        $('#show-picture-suggest').load(function(e){
           URL.revokeObjectURL(this.src);
         });
-        $('.show-picture').attr('src', imgUrl);
+        $('#show-picture-suggest').attr('src', imgUrl);
+        $('#add-photo-suggest').hide();
       } catch (e) {
         try {
           var fileReader = new FileReader();
           fileReader.onload = function (e) {
-            $('.show-picture').src = e.target.result;
+            $('#show-picture-suggest').src = e.target.result;
           }
           fileReader.readAsDataUrl(file);
         } catch (e) {
@@ -288,6 +289,8 @@ function initPage() {
       $('#suggest-view').show('');
       $('#back-btn-div').show('');
       $('#heading').html('Gift');
+      $('#show-picture-suggest').removeAttr('src');
+      $('#add-photo-suggest').show();
       $('#back-btn').unbind();
       $('#back-btn').click(function(e){
         e.preventDefault();
@@ -604,7 +607,6 @@ function getOfferDetail() {
       });
 
       $('#take-picture').change(function(e) {
-        // TODO
         var icon = $('.camicon');
         var files = e.target.files;
         var file;
@@ -945,8 +947,7 @@ function shareViaFacebook() {
       success: function(json) {
         var o = {
           'app_id': config.appId,
-          'url': 'http://young-springs-3453.herokuapp.com/'.replace(/\//g, '\/'),
-          //'url': json.url.replace(/\//g, '\/'),
+          'url': json.url.replace(/\//g, '\/'),
           'image': imageUrl.replace(/\//g, '\/'),
           'title': '\"' + encodeURIComponent(json.title) + '\"',
           'description': '\"' + encodeURIComponent(json.body) + '\"',
@@ -975,12 +976,13 @@ function shareViaFacebook() {
               var getData = {
                 'fb:app_id': config.appId,
                 'og:type': 'referredlabs:coupon',
-                //'og:url': json.url,
+                'og:url': json.url,
                 'og:image': imageUrl,
                 'og:title': json.title,
                 'og:description': json.body,
               }
-              var getUrl = 'http://young-springs-3453.herokuapp.com/repeater.php?' + encodeQueryData(getData);
+              // TODO
+              var getUrl = 'http://test.kikbak.me/s/repeater.php?' + encodeQueryData(getData);
               var req = {
                 'access_token': localStorage.accessToken,
                 'method': 'POST',

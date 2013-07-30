@@ -25,9 +25,9 @@
     <div class="no-list-msg"><h1>Bummer!</h1>
       <h2>There are no Kikbak offers available in your area.</h2>
     </div>
-    <div class="no-list-msg"><h3>Tell us about a business that you’d like
+    <div class="no-list-msg"><h3>Tell us about a business that you&#39;d like
 to recommend to friends with a special offer</h3></div>
-    <a class="suggest-btn btn btn-large btn-success" href="#">Suggest a business</a>
+  <button class="suggest-btn btn grd3">Suggest a business</button>
   </div>
 </div>
 <div id="offer-details-view" class="details" style="display:none;">
@@ -109,9 +109,9 @@ We always appreciate your feedback or other suggestions about Facebook, but you 
         <h2>You haven’t received any gifts or earned any credit</h2>
       </div>
       <div class="no-list-msg"><h3>You can change that by giving an offer
-to your friends. You’ll earn credit for
+to your friends. You&#39;ll earn credit for
 every friend that redeems.</h3></div>
-    <a class="offer-btn btn btn-large btn-success" href="#">See offers to give to friends</a>
+    <button class="offer-btn btn grd3">See offers to give to friends</button>
   </div>
 </div>
 <div id="claim-credit-div" style="display:none;">
@@ -141,22 +141,24 @@ every friend that redeems.</h3></div>
 </div>
 <div id="suggest-view" style="display:none;">
   <form id="suggest-form" class="form-view" onsubmit="doSuggest(); return false;">
-  <div class="image-add tk-pht">
+  <div class="image-add tk-pht"><img src="images/tak-photo.png" class="addimg add-photo show-picture" id="show-picture-suggest" />
+    <div id="add-photo-suggest">
     <span class="imgshado takphot"></span>
     <h2>Take a photo</h2>
     <div class="camicon"><img src="images/camicon.png">
       <input name="source" type="file" id="take-picture-suggest" class="camicon take-picture" style="height:100px;margin-left:40%;width:20%;opacity:0;" accept="image/*" />
     </div>
+    </div>
   </div>
   <div id="suggest-form-view">
     <div class="crt">
       <h2 class="tk-pht-msg">Want to recommend a business with
-a special offer? Tell us and we’ll let
+a special offer? Tell us and we&#39;ll let
 them know that they should join Kikbak.</h2>
       <input name="name" type="text" placeholder="Business name" class="bsnm">
       <textarea name="reason" class="wtmek" placeholder="What makes them great"></textarea>
     </div>
-      <input name="suggest" class="btn" type="submit" value="Let us know" disabled />
+      <input name="suggest" class="btn grd3" type="submit" value="Let us know" disabled />
   </div>
   </form>
 </div>
