@@ -172,7 +172,7 @@ public class RewardServiceImpl implements RewardService{
             ac.setValidationType(kikbak.getValidationType());
             ac.setTosUrl(offer.getTosUrl());
             ac.setImageUrl(kikbak.getImageUrl());
-            ac.setRedeeemedGiftsCount(roTxnDao.countOfGiftsRedeemedByUserByMerchant(userId, credit.getMerchantId()));
+            ac.setRedeemedGiftsCount(roTxnDao.countOfGiftsRedeemedByUserByMerchant(userId, credit.getMerchantId()));
 
             acts.add(ac);
         }
