@@ -193,7 +193,6 @@ CREATE TABLE `shared`
     offer_id BIGINT NOT NULL,
     employee_id VARCHAR(32) CHARACTER SET utf8,
     type VARCHAR(16) CHARACTER SET utf8 NOT NULL,
-    fb_image_id BIGINT,
     image_url VARCHAR(256),
     shared_date DATETIME NOT NULL,
     referral_code VARCHAR(12) NOT NULL,
