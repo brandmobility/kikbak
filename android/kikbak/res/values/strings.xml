@@ -45,6 +45,7 @@
     <string name="terms">Terms and Conditions</string>
     <string name="hint_add_comment">Add comment</string>
     <string name="take_photo">Take a photo</string>
+    <string name="share_failed_toast">We were unable to share your gift. Please try again.</string>
 
     <!-- Share via email -->
     <string name="send_gift">Send</string>

@@ -19,6 +19,7 @@ import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ClientOfferType;
 import com.referredlabs.kikbak.service.LocationFinder;
 import com.referredlabs.kikbak.ui.ShareOptionsFragment.OnShareMethodSelectedListener;
+import com.referredlabs.kikbak.ui.ShareSuccessDialog.OnShareSuccessListener;
 import com.referredlabs.kikbak.utils.Nearest;
 import com.squareup.picasso.Picasso;
 
@@ -26,8 +27,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class GiveActivity extends FragmentActivity implements OnClickListener,
-    OnShareMethodSelectedListener,
-    ShareStatusListener {
+    OnShareMethodSelectedListener, ShareStatusListener, OnShareSuccessListener {
 
   public static final String ARG_OFFER = "offer";
 
@@ -228,10 +228,19 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
   @Override
   public void onShareFinished(boolean success) {
     if (success) {
-      finish();
+      showShareSuccess();
+    } else {
+      Toast.makeText(this, R.string.share_failed_toast, Toast.LENGTH_LONG).show();
     }
+  }
 
-    String txt = "You have shared a gift " + (success ? "succesfully" : "unsuccesfully");
-    Toast.makeText(this, txt, Toast.LENGTH_LONG).show();
+  private void showShareSuccess() {
+    ShareSuccessDialog dialog = new ShareSuccessDialog();
+    dialog.show(getSupportFragmentManager(), null);
+  }
+
+  @Override
+  public void onShareSuccessDismissed() {
+    finish();
   }
 }
