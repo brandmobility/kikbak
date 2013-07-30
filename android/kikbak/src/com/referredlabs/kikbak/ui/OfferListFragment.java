@@ -9,6 +9,7 @@ import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -26,10 +27,12 @@ import com.referredlabs.kikbak.store.TheOffer;
 import java.util.List;
 
 public class OfferListFragment extends Fragment implements OnItemClickListener,
-    LoaderCallbacks<List<TheOffer>> {
+    LoaderCallbacks<List<TheOffer>>, OnClickListener {
 
   public interface OnOfferClickedListener {
     void onOfferClicked(TheOffer theOffer);
+
+    void onSuggestClicked();
   }
 
   private ViewFlipper mFlipper;
@@ -58,7 +61,14 @@ public class OfferListFragment extends Fragment implements OnItemClickListener,
     mListView.setOnItemClickListener(this);
     mAdapter = new OfferAdapter(getActivity(), new IconBarActionHandler(getActivity()));
     mListView.setAdapter(mAdapter);
+
+    view.findViewById(R.id.suggest).setOnClickListener(this);
     return view;
+  }
+
+  @Override
+  public void onClick(View v) {
+    mListener.onSuggestClicked();
   }
 
   @Override

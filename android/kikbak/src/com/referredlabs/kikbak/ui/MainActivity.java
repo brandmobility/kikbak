@@ -160,11 +160,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     return super.onOptionsItemSelected(item);
   }
 
-  private void onSuggestClicked() {
-    Intent intent = new Intent(this, SuggestBusinessActivity.class);
-    startActivity(intent);
-  }
-
   @Override
   public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     mViewPager.setCurrentItem(tab.getPosition());
@@ -181,6 +176,12 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
   @Override
   public void onOfferClicked(TheOffer theOffer) {
     give(theOffer);
+  }
+
+  @Override
+  public void onSuggestClicked() {
+    Intent intent = new Intent(this, SuggestBusinessActivity.class);
+    startActivity(intent);
   }
 
   private void give(TheOffer theOffer) {

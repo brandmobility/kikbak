@@ -1,35 +1,53 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:kikbak="http://schemas.android.com/apk/res/com.referredlabs.kikbak"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffcccccc"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:padding="16dp" >
+    android:background="#e5e5e5"
+    android:padding="14dp" >
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:id="@+id/bummer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:gravity="center"
         android:text="@string/bummer"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textColor="#3a3a3a"
+        android:textSize="36dp"
+        kikbak:typeface="Roboto-Bold.ttf" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
+        android:layout_below="@id/bummer"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
         android:text="@string/no_offers"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textColor="#3a3a3a"
+        android:textSize="21dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.referredlabs.kikbak.widget.TtfButton
+        android:id="@+id/suggest"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="@string/tell_about" />
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/btn_blue"
+        android:text="@string/suggest_btn"
+        android:textColor="#ffffff"
+        android:textSize="21dp"
+        kikbak:typeface="Roboto-Light.ttf" />
 
-    <Button
-        android:id="@+id/offers_button"
-        android:layout_width="wrap_content"
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/suggest_btn" />
+        android:layout_above="@id/suggest"
+        android:layout_marginBottom="30dp"
+        android:gravity="center"
+        android:text="@string/tell_about"
+        android:textColor="#3a3a3a"
+        android:textSize="16dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
 
-</LinearLayout>
+</RelativeLayout>
