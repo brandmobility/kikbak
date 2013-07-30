@@ -26,11 +26,11 @@ public class FbObjectApi {
   private final static String SHARE_PATH = "me/referredlabs:share";
 
   public static void publishStory(Session session, ClientOfferType offer, String imageUrl,
-      String userMessage)
+      String userMessage, String code)
       throws IOException {
     RequestBatch requestBatch = new RequestBatch();
 
-    Request giftReq = createGiftRequest(session, offer, imageUrl);
+    Request giftReq = createGiftRequest(session, offer, imageUrl, code);
     giftReq.setBatchEntryName("objectCreate");
     requestBatch.add(giftReq);
 
@@ -48,13 +48,14 @@ public class FbObjectApi {
     }
   }
 
-  private static Request createGiftRequest(Session session, ClientOfferType offer, String imageUrl) {
+  private static Request createGiftRequest(Session session, ClientOfferType offer, String imageUrl,
+      String code) {
     JSONObject gift = new JSONObject();
     try {
       // common properties
       String title = offer.merchantName + ":" + offer.giftDesc;
       String description = offer.giftDetailedDesc;
-      String url = "http://young-springs-3453.herokuapp.com/xxxx/" + offer.id;
+      String url = "http://" + C.SERVER_DOMAIN + "/s/claim.php?code=" + code;
 
       gift.put("title", title);
       gift.put("description", description);

@@ -150,9 +150,9 @@ public class ShareViaFacebookFragment extends DialogFragment {
           long userId = Register.getInstance().getUserId();
           imageUrl = Http.uploadImage(userId, photoPath);
         }
-        FbObjectApi.publishStory(session, offer, imageUrl, comment);
+        String code = reportToKikbak(imageUrl);
+        FbObjectApi.publishStory(session, offer, imageUrl, comment, code);
         mFbSuccess = true;
-        reportToKikbak(imageUrl);
         mKikbakSuccess = true;
       } catch (Exception e) {
         android.util.Log.d("MMM", "exception " + e);
@@ -160,7 +160,7 @@ public class ShareViaFacebookFragment extends DialogFragment {
       return null;
     }
 
-    private void reportToKikbak(String imageUrl) throws IOException {
+    private String reportToKikbak(String imageUrl) throws IOException {
       final long userId = Register.getInstance().getUserId();
       Bundle args = getArguments();
       ShareExperienceRequest req = new ShareExperienceRequest();
@@ -175,7 +175,7 @@ public class ShareViaFacebookFragment extends DialogFragment {
 
       String uri = Http.getUri(ShareExperienceRequest.PATH + userId);
       ShareExperienceResponse resp = Http.execute(uri, req, ShareExperienceResponse.class);
-      // check response status ?
+      return resp.referrerCode;
     }
 
     @Override
