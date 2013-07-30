@@ -166,7 +166,6 @@ public class ShareViaFacebookFragment extends DialogFragment {
       ShareExperienceRequest req = new ShareExperienceRequest();
       req.experience = new SharedType();
       req.experience.caption = args.getString(ARG_COMMENT);
-      req.experience.fbImageId = -1; // FIXME
       req.experience.employeeId = args.getString(ARG_VERIZON_ID);
       req.experience.imageUrl = imageUrl;
       req.experience.locationId = args.getLong(ARG_LOCATION_ID);

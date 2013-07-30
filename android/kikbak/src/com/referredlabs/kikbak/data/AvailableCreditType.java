@@ -8,7 +8,7 @@ public class AvailableCreditType {
   public String desc;
   public String detailedDesc;
   public double value;
-  public int redeeemedGiftsCount;
+  public int redeemedGiftsCount;
   public String tosUrl;
   public String validationType;
   public String rewardType;

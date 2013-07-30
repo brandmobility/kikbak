@@ -87,7 +87,7 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
     Uri uri = Uri.parse(mCredit.imageUrl);
     Picasso.with(getActivity()).load(uri).into(mImage);
     setCreditAmount(mCredit.value);
-    setRedeemCount(mCredit.redeeemedGiftsCount);
+    setRedeemCount(mCredit.redeemedGiftsCount);
   }
 
   private void setCreditAmount(double value) {
