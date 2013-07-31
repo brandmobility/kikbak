@@ -532,10 +532,33 @@ function getRedeems() {
             e.preventDefault();
             if (Storage != 'undefined') {
               var gifts = jQuery.parseJSON(unescape($(this).attr('data-object')));
-              localStorage.giftDetail = escape(JSON.stringify(gifts[0]));
-              localStorage.pageType = 'redeem-gift-detail';
+              
+              var list = $('#friend-list');
+              list.html('');
+              if (gifts && gifts.length > 1) {
+                for (var gift in gifts) {
+                  var li = '<li class="frd-bx" >';
+                  li += '<img src="https://graph.facebook.com/' + gift.fbFriendId + '/picture?type=square">';
+                  li += '<h2>' + gift.friendName + '</h2>';
+                  var j = escape(JSON.stringify(gift));
+                  li += '<a href="#" class="nxtt select-gift-btn" data-object="' + j + '"><img src="images/nxt-aro.png"></a></li>';
+                  list.append(li);
+                }
+                
+                $('#friend-popup').show();
+                $('.select-gift-btn').click(function() {
+                  $('#friend-popup').hide();
+                  localStorage.giftDetail = $(this).attr('data-object');
+                  localStorage.pageType = 'redeem-gift-detail';
+                  initPage();
+                });                
+                
+              } else if (gifts) {             
+                localStorage.giftDetail = escape(JSON.stringify(gifts[0]));
+                localStorage.pageType = 'redeem-gift-detail';
+                initPage();
+              }
             }
-            initPage();
           });
           $('.redeem-credit-btn').click(function(e) {
             e.preventDefault();
@@ -576,7 +599,9 @@ function renderRedeem(gifts, credits) {
     var json = escape(JSON.stringify(gifts));
     var style = credits ? ' lft-bdr' : '';
     html += '<a href="#" data-object="' + json + '" class="redeem-gift-btn clearfix">';
-    html += '<div class="lft-dtl' + style + '"><span> received GIFT </span><h2>' + g.desc + '</h2></div>';
+    html += '<div class="lft-dtl' + style + '"><span>USE RECEIVED GIFT </span><h2>' + g.desc + '</h2>';
+    html += '<img src="https://graph.facebook.com/' + gift.fbFriendId + '/picture?type=square"><img src="images/actor-bk.png" class="actbrd">';
+    html += '</div>';
     html += '</a>'; 
   }
   if (credits) {
@@ -906,7 +931,7 @@ function shareViaEmail() {
         url: '/s/email.php',
         success: function(json) {
           $('#spinner h2').html('Waiting');
-          window.location.href = 'mailto:?content-type=text/html&subject=' + json.title + '&body=' + json.body;
+          window.location.href = 'mailto:?content-type=text/html&subject=' + json.subject + '&body=' + json.body;
         },
         error: function() {
           showError();
@@ -920,7 +945,7 @@ function shareViaEmail() {
         url: '/s/sms.php',
         success: function(json) {
           $('#spinner h2').html('Waiting');
-          window.location.href = 'mailto:?content-type=text/html&subject=' + json.title + '&body=' + json.body;
+          window.location.href = 'mailto:?content-type=text/html&subject=' + json.subject + '&body=' + json.body;
         },
         error: function() {
           showError();
