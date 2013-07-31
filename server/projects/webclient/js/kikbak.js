@@ -532,9 +532,9 @@ function getRedeems() {
             e.preventDefault();
             if (Storage != 'undefined') {
               var gifts = jQuery.parseJSON(unescape($(this).attr('data-object')));
-              
+              $('#friend-popup h1').html('');
               var list = $('#friend-list');
-              list.html('');
+              list.html(gifts[0].desc);
               if (gifts && gifts.length > 1) {
                 for (var gift in gifts) {
                   var li = '<li class="frd-bx" >';
@@ -608,7 +608,7 @@ function renderRedeem(gifts, credits) {
     var c = credits[0];
     var json = escape(JSON.stringify(credits));
     html += '<a href="#" data-object="' + json + '" class="redeem-credit-btn clearfix">';
-    html += '<div class="rit-dtl"><span> earned credit </span><h2>' + c.desc + '</h2></div>';
+    html += '<div class="rit-dtl"><span>CLAIM REWARD</span><h2>' + c.desc + '</h2></div>';
     html += '</a>'; 
   }
   html += '</div>';
