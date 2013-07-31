@@ -1,6 +1,8 @@
 
 package com.referredlabs.kikbak.ui;
 
+import java.util.List;
+
 import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -16,19 +18,26 @@ import com.referredlabs.kikbak.utils.LocaleUtils;
 import com.referredlabs.kikbak.utils.Nearest;
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
-
 public class RewardAdapter extends BaseAdapter {
 
   private Context mContext;
   private LayoutInflater mInflater;
   private List<TheReward> mRewards;
   IconBarListener mIconBarListener;
+  ItemAreaListener mAreaListener;
 
-  public RewardAdapter(Context context, IconBarListener iconBarListener) {
+  public interface ItemAreaListener {
+    void onGiftAreaClicked(TheReward reward);
+
+    void onCreditAreaClicked(TheReward reward);
+  }
+
+  public RewardAdapter(Context context, IconBarListener iconBarListener,
+      ItemAreaListener areaListener) {
     mContext = context;
     mInflater = LayoutInflater.from(context);
     mIconBarListener = iconBarListener;
+    mAreaListener = areaListener;
   }
 
   public void swap(List<TheReward> result) {
@@ -56,13 +65,14 @@ public class RewardAdapter extends BaseAdapter {
     RewardHelper helper;
     if (view == null) {
       view = mInflater.inflate(R.layout.reward, parent, false);
-      helper = new RewardHelper(view, mIconBarListener);
+      helper = new RewardHelper(view, mIconBarListener, mAreaListener);
       view.setTag(helper);
     } else {
       helper = (RewardHelper) view.getTag();
     }
 
     TheReward reward = getItem(position);
+    helper.setCurrentReward(reward);
 
     Nearest nearest = reward.getNearest();
     ClientMerchantType merchant = reward.getMerchant();
