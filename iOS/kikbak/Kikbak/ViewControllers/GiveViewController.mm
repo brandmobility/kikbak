@@ -7,6 +7,7 @@
 //
 
 #import "GiveViewController.h"
+#import "FBConstants.h"
 #import "UIDevice+Screen.h"
 #import "AppDelegate.h"
 #import <QuartzCore/QuartzCore.h>
@@ -24,6 +25,9 @@
 #import "NotificationContstants.h"
 #import "TermsAndConditionsView.h"
 #import "UIButton+Util.h"
+#import "SMSMessageBodyRequest.h"
+#import "EmailBodyRequest.h"
+#import "EmailFields.h"
 
 
 #define DEFAULT_CONTAINER_VIEW_HEIGHT 50
@@ -36,6 +40,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 
 @interface GiveViewController (){
     BOOL shareViaEmail;
+    BOOL shareViaSMS;
     BOOL photoTaken;
 }
 
@@ -92,6 +97,10 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 
 -(void)postToFacebook;
 
+-(void) onEmailBodySuccess:(NSNotification*)notification;
+-(void) onEmailBodyError:(NSNotification*)notification;
+-(void) onSMSBodySuccess:(NSNotification*)notification;
+-(void) onSMSBodyError:(NSNotification*)notification;
 -(void) onShareSuccess:(NSNotification*)notification;
 -(void) onShareError:(NSNotification*)notification;
 -(void) onLocationUpdate:(NSNotification*)notification;
@@ -124,6 +133,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     self.title = NSLocalizedString(@"Give", nil);
 	// Do any additional setup after loading the view.
     shareViaEmail = NO;
+    shareViaSMS = NO;
     photoTaken = NO;
     
     if (self.offer.location.count > 0) {
@@ -162,6 +172,10 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onLocationUpdate:) name:kKikbakLocationUpdate object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onShareSuccess:) name:kKikbakShareSuccess object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onShareError:) name:kKikbakShareError object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onSMSBodySuccess:) name:kKikbakSMSBodySuccess object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onSMSBodyError:) name:kKikbakSMSBodyError object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onEmailBodySuccess:) name:kKikbakEmailBodySuccess object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onEmailBodyError:) name:kKikbakEmailBodyError object:nil];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -176,6 +190,10 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakLocationUpdate object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakShareSuccess object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakShareError object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakSMSBodySuccess object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakSMSBodyError object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakEmailBodySuccess object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakEmailBodyError object:nil];
 }
 
 -(void)viewDidLayoutSubviews{
@@ -572,7 +590,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
             [dict setObject:self.offer.merchantId forKey:@"merchantId"];
             [dict setObject:self.location.locationId forKey:@"locationId"];
             [dict setObject:self.offer.offerId forKey:@"offerId"];
-            [dict setObject:[result objectForKey:@"id"] forKey:@"fbImageId"];
+//            [dict setObject:[result objectForKey:@"id"] forKey:@"fbImageId"];
             [dict setObject:@"fb" forKey:@"type"];
             if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
                 [dict setObject:@"" forKey:@"caption"];
@@ -697,7 +715,6 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
              [dict setObject:self.offer.merchantId forKey:@"merchantId"];
              [dict setObject:self.location.locationId forKey:@"locationId"];
              [dict setObject:self.offer.offerId forKey:@"offerId"];
-             [dict setObject:fbImageId forKey:@"fbImageId"];
              if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
                  [dict setObject:@"" forKey:@"caption"];
              }
@@ -824,17 +841,18 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 #pragma mark - NSNotification Center 
 -(void) onShareSuccess:(NSNotification*)notification{
     if( shareViaEmail ){
-        MFMailComposeViewController* picker = [[MFMailComposeViewController alloc]init];
-        picker.mailComposeDelegate = self;
-        
-        
-        //    [picker setSubject:self.business.text];
-        //    [picker setMessageBody:self.about.text isHTML:NO];
-        
-        
-        [self presentViewController:picker animated:YES completion:nil];
+        EmailBodyRequest* request = [[EmailBodyRequest alloc]init];
+        NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
+        request.name = [prefs objectForKey:@(FB_NAME_KEY)];
+        request.code = [notification object];
+        request.description = self.captionTextView.text;
+        [request requestEmailBody];
     }
-    
+    else if( shareViaSMS ){
+        MFMessageComposeViewController* message = [[MFMessageComposeViewController alloc]init];
+        message.messageComposeDelegate = self;
+        [self presentViewController:message animated:YES completion:nil];
+    }
 }
 
 -(void) onShareError:(NSNotification*)notification{
@@ -843,6 +861,31 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [alert show];
 
 }
+
+-(void) onSMSBodySuccess:(NSNotification*)notification{
+    
+}
+
+-(void) onSMSBodyError:(NSNotification*)notification{
+    
+}
+
+-(void) onEmailBodySuccess:(NSNotification*)notification{
+    MFMailComposeViewController* picker = [[MFMailComposeViewController alloc]init];
+    picker.mailComposeDelegate = self;
+    
+    
+    [picker setSubject:((EmailFields*)[notification object]).subject];
+    [picker setMessageBody:((EmailFields*)[notification object]).body isHTML:YES];
+    
+    
+    [self presentViewController:picker animated:YES completion:nil];
+}
+
+-(void) onEmailBodyError:(NSNotification*)notification{
+    
+}
+
 
 -(void) onLocationUpdate:(NSNotification*)notification{
     [self updateDisance];
@@ -865,13 +908,14 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 -(void)onEmailSelected{
     //todo: upload email
     shareViaEmail = YES;
+    shareViaSMS = NO;
     ShareExperienceRequest* request = [[ShareExperienceRequest alloc]init];
     NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:5];
     
     [dict setObject:self.offer.merchantId forKey:@"merchantId"];
     [dict setObject:self.location.locationId forKey:@"locationId"];
     [dict setObject:self.offer.offerId forKey:@"offerId"];
-    [dict setObject:@"fb" forKey:@"type"];
+    [dict setObject:@"email" forKey:@"type"];
     if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
         [dict setObject:@"" forKey:@"caption"];
     }
@@ -882,8 +926,28 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 
 }
 
+-(void)onSmsSelected{
+    shareViaEmail = NO;
+    shareViaSMS = YES;
+    ShareExperienceRequest* request = [[ShareExperienceRequest alloc]init];
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:5];
+    
+    [dict setObject:self.offer.merchantId forKey:@"merchantId"];
+    [dict setObject:self.location.locationId forKey:@"locationId"];
+    [dict setObject:self.offer.offerId forKey:@"offerId"];
+    [dict setObject:@"sms" forKey:@"type"];
+    if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
+        [dict setObject:@"" forKey:@"caption"];
+    }
+    else{
+        [dict setObject:self.captionTextView.text forKey:@"caption"];
+    }
+    [request restRequest:dict];
+}
+
 -(void)onTimelineSelected{
     shareViaEmail = NO;
+    shareViaSMS = NO;
     [self postToFacebook];
 }
 
@@ -906,6 +970,20 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 			break;
 	}
 	[self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result{
+
+    switch (result) {
+        case MessageComposeResultCancelled:
+        case MessageComposeResultSent:
+        case MessageComposeResultFailed:
+            break;
+            
+        default:
+            break;
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

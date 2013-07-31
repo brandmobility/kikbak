@@ -18,7 +18,7 @@
 
 -(void)restPostRequest{
   
-  NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%s/%s/%@",hostname, kikbak_service, _resource]];
+  NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%s/%s/%@",service_host, kikbak_service, _resource]];
   
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
                                                          cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60.0];
@@ -40,6 +40,19 @@
 -(void)httpGetRequest{
     NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", _resource]];
     
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
+                                                           cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60.0];
+    
+    [request setHTTPMethod:@"GET"];
+    
+    NSURLConnection *connection = [[NSURLConnection alloc]initWithRequest:request delegate:self];
+    if (connection) {
+        _receivedData = [NSMutableData data];
+    }
+}
+
+
+-(void)httpGetQueryString:(NSURL*)url{
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
                                                            cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60.0];
     

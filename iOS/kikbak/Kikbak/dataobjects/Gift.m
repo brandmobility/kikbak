@@ -18,7 +18,6 @@
 @dynamic detailedDesc;
 @dynamic discountType;
 @dynamic fbFriendId;
-@dynamic fbImageId;
 @dynamic friendName;
 @dynamic friendUserId;
 @dynamic giftId;

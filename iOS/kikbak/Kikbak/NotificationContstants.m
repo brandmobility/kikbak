@@ -10,6 +10,7 @@
 
 NSString *const kKikbakLocationUpdate = @"kKikbakLocationUpdate";
 NSString *const kKikbakImageDownloaded = @"kKikbakImageDownloaded";
+NSString *const kKikbakOffersDownloaded = @"kKikbakOffersDownloaded";
 NSString *const kKikbakRewardUpdate = @"kKikbakRewardUpdate";
 NSString *const kKikbakRedeemGiftError = @"kKikbakRedeemGiftError";
 NSString *const kKikbakRedeemGiftSuccess = @"kKikbakRedeemGiftSuccess";
@@ -21,3 +22,7 @@ NSString *const kKikbakClaimSuccess = @"kKikbakClaimSuccess";
 NSString *const kKikbakClaimError = @"kKikbakClaimError";
 NSString *const kKikbakBarcodeSuccess = @"kKikbakBarcodeSuccess";
 NSString *const kKikbakBarcodeError = @"kKikbakBarcodeError";
+NSString *const kKikbakSMSBodySuccess = @"kKikbakSMSBodySuccess";
+NSString *const kKikbakSMSBodyError = @"kKikbakSMSBodyError";
+NSString *const kKikbakEmailBodySuccess = @"kKikbakEmailBodySuccess";
+NSString *const kKikbakEmailBodyError = @"kKikbakEmailBodyError";

@@ -23,7 +23,6 @@
         <attribute name="detailedDesc" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="discountType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="fbFriendId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="fbImageId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="friendName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="friendUserId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="giftId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -71,7 +70,7 @@
     </entity>
     <elements>
         <element name="Credit" positionX="160" positionY="192" width="128" height="255"/>
-        <element name="Gift" positionX="-5807" positionY="-495" width="128" height="345"/>
+        <element name="Gift" positionX="-5807" positionY="-495" width="128" height="330"/>
         <element name="Location" positionX="-5544" positionY="-567" width="128" height="150"/>
         <element name="Offer" positionX="-5247" positionY="-585" width="128" height="345"/>
     </elements>

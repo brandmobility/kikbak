@@ -50,6 +50,7 @@ const int CELL_HEIGHT = 156;
 
 -(void) onLocationUpdate:(NSNotification*)notification;
 -(void) onImageDownloaded:(NSNotification*)notification;
+-(void) onOffersDownloaded:(NSNotification*)notification;
 
 -(IBAction)onSuggest:(id)sender;
 -(IBAction)onGiveBtn:(id)sender;
@@ -92,11 +93,14 @@ const int CELL_HEIGHT = 156;
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onLocationUpdate:) name:kKikbakLocationUpdate object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onImageDownloaded:) name:kKikbakImageDownloaded object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onOffersDownloaded:) name:kKikbakOffersDownloaded object:nil];
     
     [self.tabBarController.view addSubview:self.redeemBtn];
     [self.tabBarController.view addSubview:self.seperator];
     [self.tabBarController.view addSubview:self.giveBtn];
 
+    self.offers = [OfferService getOffers];
+    [self toggleViews];
     [self.table reloadData];
     [self manuallyLayoutSubviews];
 }
@@ -115,6 +119,8 @@ const int CELL_HEIGHT = 156;
     
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakImageDownloaded object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakLocationUpdate object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakOffersDownloaded object:nil];
+
     [super viewDidDisappear:animated];
 }
 
@@ -311,6 +317,11 @@ const int CELL_HEIGHT = 156;
 }
 
 -(void) onImageDownloaded:(NSNotification*)notification{
+    [self toggleViews];
+    [self.table reloadData];
+}
+
+-(void) onOffersDownloaded:(NSNotification*)notification{
     self.offers = [OfferService getOffers];
     [self toggleViews];
     [self.table reloadData];

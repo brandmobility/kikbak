@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface NSString (UrlEncode)
-
++ (NSString*)encodeURL:(NSString *)string;
 @end

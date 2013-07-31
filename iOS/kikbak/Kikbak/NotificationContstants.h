@@ -16,6 +16,7 @@
 
 KIKBAK_EXTERN NSString *const kKikbakLocationUpdate;
 KIKBAK_EXTERN NSString *const kKikbakImageDownloaded;
+KIKBAK_EXTERN NSString *const kKikbakOffersDownloaded;
 KIKBAK_EXTERN NSString *const kKikbakRewardUpdate;
 KIKBAK_EXTERN NSString *const kKikbakRedeemGiftError;
 KIKBAK_EXTERN NSString *const kKikbakRedeemGiftSuccess;
@@ -27,3 +28,7 @@ KIKBAK_EXTERN NSString *const kKikbakClaimSuccess;
 KIKBAK_EXTERN NSString *const kKikbakClaimError;
 KIKBAK_EXTERN NSString *const kKikbakBarcodeSuccess;
 KIKBAK_EXTERN NSString *const kKikbakBarcodeError;
+KIKBAK_EXTERN NSString *const kKikbakSMSBodySuccess;
+KIKBAK_EXTERN NSString *const kKikbakSMSBodyError;
+KIKBAK_EXTERN NSString *const kKikbakEmailBodySuccess;
+KIKBAK_EXTERN NSString *const kKikbakEmailBodyError;

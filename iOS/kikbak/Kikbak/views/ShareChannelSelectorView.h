@@ -11,6 +11,7 @@
 @protocol ChannelSelectorDelegate <NSObject>
 
 -(void)onEmailSelected;
+-(void)onSmsSelected;
 -(void)onTimelineSelected;
 
 @end

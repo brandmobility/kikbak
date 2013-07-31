@@ -21,7 +21,8 @@
                                         HPGrowingTextViewDelegate,
                                         ShareCompleteDelegate,
                                         ChannelSelectorDelegate,
-                                        MFMailComposeViewControllerDelegate>{
+                                        MFMailComposeViewControllerDelegate,
+                                        MFMessageComposeViewControllerDelegate>{
 }
 
 @property(nonatomic, strong) Offer* offer;

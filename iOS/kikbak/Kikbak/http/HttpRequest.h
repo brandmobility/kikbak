@@ -22,5 +22,6 @@
 
 -(void)restPostRequest;
 -(void)httpGetRequest;
+-(void)httpGetQueryString:(NSURL*)url;
 
 @end
