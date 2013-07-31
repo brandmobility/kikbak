@@ -858,7 +858,6 @@ function doShare(cb, type) {
     
   exp['merchantId'] = offer.merchantId;
   exp['offerId'] = offer.id;
-  exp['fbImageId'] = 0;
   exp['imageUrl'] = url; 
   exp['caption'] = message;
   exp['type'] = type;
