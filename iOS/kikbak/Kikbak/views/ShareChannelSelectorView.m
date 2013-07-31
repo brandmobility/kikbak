@@ -21,6 +21,7 @@
 @property (nonatomic,strong) UIButton* closeBtn;
 
 -(IBAction)onEmail:(id)sender;
+-(IBAction)onSms:(id)sender;
 -(IBAction)onTimeline:(id)sender;
 -(IBAction)onCloseBtn:(id)sender;
 
@@ -109,6 +110,11 @@
 
 -(IBAction)onTimeline:(id)sender{
     [self.delegate onTimelineSelected];
+    [self removeFromSuperview];
+}
+
+-(IBAction)onSms:(id)sender{
+    [self.delegate onSmsSelected];
     [self removeFromSuperview];
 }
 

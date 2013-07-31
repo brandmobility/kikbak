@@ -70,7 +70,7 @@ static NSString* resource = @"user/offer";
         }
     }
     
-    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakImageDownloaded object:nil];
+    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakOffersDownloaded object:nil];
 }
 
 -(void)handleError:(NSInteger)statusCode withData:(NSData*)data{

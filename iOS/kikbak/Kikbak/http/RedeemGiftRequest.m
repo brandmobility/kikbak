@@ -49,7 +49,7 @@ static NSString* resource = @"rewards/redeem/gift";
 
 -(void)parseResponse:(NSData*)data{
     NSString* json = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"RedeemGiftRequest: %@", json);
+    //NSLog(@"RedeemGiftRequest: %@", json);
     
     self.gift.location = nil;
     NSManagedObjectContext* context = self.gift.managedObjectContext;

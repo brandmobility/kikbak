@@ -46,7 +46,7 @@
     credit.detailedDesc = [dict objectForKey:@"detailedDesc"];
     credit.name = [dict objectForKey:@"name"];
     credit.value = [dict objectForKey:@"value"];
-    credit.redeeemedGiftsCount = [dict objectForKey:@"redeeemedGiftsCount"];
+    credit.redeeemedGiftsCount = [dict objectForKey:@"redeemedGiftsCount"];
     credit.tosUrl = [dict objectForKey:@"tosUrl"];
     credit.validationType = [dict objectForKey:@"validationType"];
     credit.rewardType = [dict objectForKey:@"rewardType"];

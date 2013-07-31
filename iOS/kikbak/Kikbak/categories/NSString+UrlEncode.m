@@ -10,4 +10,16 @@
 
 @implementation NSString (UrlEncode)
 
++ (NSString*)encodeURL:(NSString *)string
+{
+    NSString *newString = (__bridge NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge CFStringRef)string, NULL, CFSTR(":/?#[]@!$ &'()*+,;=\"<>%{}|\\^~`"), CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
+    
+    if (newString)
+    {
+        return newString;
+    }
+    
+    return @"";
+}
+
 @end

@@ -19,7 +19,6 @@
 @property (nonatomic, retain) NSString * detailedDesc;
 @property (nonatomic, retain) NSString * discountType;
 @property (nonatomic, retain) NSNumber * fbFriendId;
-@property (nonatomic, retain) NSNumber * fbImageId;
 @property (nonatomic, retain) NSString * friendName;
 @property (nonatomic, retain) NSNumber * friendUserId;
 @property (nonatomic, retain) NSNumber * giftId;

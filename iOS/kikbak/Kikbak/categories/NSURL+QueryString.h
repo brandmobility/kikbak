@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface NSURL (QueryString)
-
++(NSURL*)URLwithQueryString:(NSString*)host withQueryParams:(NSDictionary*)params;
 @end

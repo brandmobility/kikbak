@@ -9,7 +9,7 @@
 #ifndef kikback_FBConstants_h
 #define kikback_FBConstants_h
 
-const char* FB_USER_ID_KEY = "id";
-const char* FB_USERNAME_KEY = "username";
-const char* FB_NAME_KEY = "name";
+#define FB_USER_ID_KEY "id"
+#define FB_USERNAME_KEY "username"
+#define FB_NAME_KEY "name"
 #endif
