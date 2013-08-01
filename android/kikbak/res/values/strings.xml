@@ -79,7 +79,7 @@
 
     <!-- Verizon -->
     <string name="share_verizon_title">Helped by a Verizon associate?</string>
-    <string name="share_verizon_note">Let your nearby friends know who to ask for when they visit the store.</string>
+    <string name="share_verizon_note">Let your nearby friends know who to ask when they visit the store.</string>
     <string name="share_verizon_employee_name_hint">Asociate name</string>
     <string name="share_verizon_store_id_hint">Store ID</string>
 
