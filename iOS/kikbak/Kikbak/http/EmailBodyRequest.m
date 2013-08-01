@@ -36,7 +36,7 @@
     NSString* json = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
     EmailFields* fields = [[EmailFields alloc]init];
     id dict = [json JSONValue];
-    fields.subject = [dict objectForKey:@"title"];
+    fields.subject = [dict objectForKey:@"subject"];
     fields.body = [dict objectForKey:@"body"];
     
     [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakEmailBodySuccess object:fields];

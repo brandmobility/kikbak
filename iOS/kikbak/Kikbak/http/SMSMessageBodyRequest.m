@@ -10,7 +10,7 @@
 #import "NotificationContstants.h"
 #import "HTTPConstants.h"
 #import "NSURL+QueryString.h"
-
+#import "SBJson.h"
 
 @implementation SMSMessageBodyRequest
 
@@ -19,7 +19,7 @@
     request = [[HttpRequest alloc]init];
     request.restDelegate = self;
 
-    NSString* host = [NSString stringWithFormat:@"%@%@", php_host, @"sms"];
+    NSString* host = [NSString stringWithFormat:@"%@%@", @(php_host), @"sms.php"];
     NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:3];
     [dict setObject:self.name forKey:@"name"];
     [dict setObject:self.code forKey:@"code"];
@@ -31,9 +31,9 @@
 
 
 -(void)parseResponse:(NSData*)data{
-
-    NSString* smsBody = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakSMSBodySuccess object:smsBody];
+    NSString* json = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    id dict = [json JSONValue];
+    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakSMSBodySuccess object:[dict objectForKey:@"body"]];
 }
 
 -(void)handleError:(NSInteger)statusCode withData:(NSData*)data{
