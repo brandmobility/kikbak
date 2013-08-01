@@ -40,6 +40,7 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
   private ClientOfferType mOffer;
   private ImageView mImage;
   private View mTakePhoto;
+  private View mRetakePhoto;
   private EditText mComment;
   private Uri mPhotoUri;
   private Uri mCroppedPhotoUri;
@@ -52,6 +53,8 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
     mComment = (EditText) findViewById(R.id.comment);
     mTakePhoto = findViewById(R.id.take_photo);
     mTakePhoto.setOnClickListener(this);
+    mRetakePhoto = findViewById(R.id.retake_photo);
+    mRetakePhoto.setOnClickListener(this);
 
     findViewById(R.id.give).setOnClickListener(this);
     findViewById(R.id.terms).setOnClickListener(this);
@@ -86,6 +89,7 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
   public void onClick(View v) {
     switch (v.getId()) {
       case R.id.take_photo:
+      case R.id.retake_photo:
         onTakePhotoClicked();
         break;
 
@@ -144,6 +148,7 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
   protected void onPhotoTaken() {
     mTakePhoto.setVisibility(View.INVISIBLE);
     findViewById(R.id.take_photo_label).setVisibility(View.INVISIBLE);
+    mRetakePhoto.setVisibility(View.VISIBLE);
     mImage.setImageURI(mCroppedPhotoUri);
   }
 
