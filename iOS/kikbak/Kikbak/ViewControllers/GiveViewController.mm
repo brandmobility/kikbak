@@ -841,18 +841,12 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 #pragma mark - NSNotification Center 
 -(void) onShareSuccess:(NSNotification*)notification{
     if( shareViaEmail ){
-//        EmailBodyRequest* request = [[EmailBodyRequest alloc]init];
-//        NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
-//        request.name = [prefs objectForKey:@(FB_NAME_KEY)];
-//        request.code = [notification object];
-//        request.description = self.captionTextView.text;
-//        [request requestEmailBody];
-        SMSMessageBodyRequest* request = [[SMSMessageBodyRequest alloc]init];
+        EmailBodyRequest* request = [[EmailBodyRequest alloc]init];
         NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
         request.name = [prefs objectForKey:@(FB_NAME_KEY)];
         request.code = [notification object];
         request.description = self.captionTextView.text;
-        [request requestSMSBody];
+        [request requestEmailBody];
     }
     else if( shareViaSMS ){
         SMSMessageBodyRequest* request = [[SMSMessageBodyRequest alloc]init];
