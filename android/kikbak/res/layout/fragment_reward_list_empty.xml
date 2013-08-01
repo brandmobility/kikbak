@@ -1,35 +1,58 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:kikbak="http://schemas.android.com/apk/res/com.referredlabs.kikbak"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffcccccc"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:padding="16dp" >
+    android:background="#e5e5e5"
+    android:orientation="vertical" >
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="90dp"
+        android:gravity="center"
         android:text="@string/redeem_empty_doh"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textColor="#3a3a3a"
+        android:textSize="36dp"
+        kikbak:typeface="Roboto-Bold.ttf" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="48dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
         android:text="@string/redeem_empty_note"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textColor="#3a3a3a"
+        android:textSize="21dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="@string/redeem_empty_advise" />
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="70dp"
+        android:gravity="center"
+        android:text="@string/redeem_empty_advise"
+        android:textColor="#3a3a3a"
+        android:textSize="16dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
 
-    <Button
+    <com.referredlabs.kikbak.widget.TtfButton
         android:id="@+id/offers"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/redeem_empty_button" />
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/btn_blue"
+        android:text="@string/redeem_empty_button"
+        android:textColor="@android:color/white"
+        android:textSize="21dp"
+        kikbak:typeface="Roboto-Light.ttf" />
 
 </LinearLayout>
