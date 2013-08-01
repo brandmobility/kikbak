@@ -86,4 +86,19 @@ public class DataStore {
     return new ArrayList<AvailableCreditType>(mCredits);
   }
 
+  public void creditUsed(long id, double creditUsed) {
+    // This is unsafe
+    // - may have already a updated credit value from server (slim chance)
+    // - threading, double assignment is not atomic (stay on main thread)
+    synchronized (this) {
+      for (AvailableCreditType credit : mCredits) {
+        if (credit.id == id) {
+          credit.value = Math.max(0, credit.value - creditUsed);
+          break;
+        }
+      }
+    }
+    mRewardsObservable.notifyChanged();
+  }
+
 }

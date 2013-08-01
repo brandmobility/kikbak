@@ -28,6 +28,7 @@ import com.referredlabs.kikbak.data.StatusType;
 import com.referredlabs.kikbak.data.ValidationType;
 import com.referredlabs.kikbak.http.Http;
 import com.referredlabs.kikbak.service.LocationFinder;
+import com.referredlabs.kikbak.store.DataStore;
 import com.referredlabs.kikbak.tasks.FetchBarcodeTask;
 import com.referredlabs.kikbak.tasks.FetchBarcodeTask.OnBarcodeFetched;
 import com.referredlabs.kikbak.ui.BarcodeScannerFragment.OnBarcodeScanningListener;
@@ -69,6 +70,7 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View root = inflater.inflate(R.layout.fragment_redeem_credit, container, false);
 
+    root.findViewById(R.id.terms).setOnClickListener(this);
     root.findViewById(R.id.change).setOnClickListener(this);
 
     mName = (TextView) root.findViewById(R.id.name);
@@ -108,6 +110,9 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
         break;
       case R.id.change:
         onChangeAmountClicked();
+        break;
+      case R.id.terms:
+        onTermsClicked();
         break;
     }
   }
@@ -149,7 +154,7 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
   }
 
   private void showCreditConfirmation() {
-    String msg = getString(R.string.redeem_credit_confirmation);
+    String msg = getString(R.string.redeem_credit_confirmation, mCreditToUse);
     ConfirmationDialog dialog = ConfirmationDialog.newInstance(msg);
     dialog.setTargetFragment(this, REQUEST_CONFIRM_CREDIT);
     dialog.show(getFragmentManager(), null);
@@ -165,7 +170,7 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
   private void onChangeAmountClicked() {
     ChangeAmountDialog dialog = ChangeAmountDialog.newInstance(mCredit.value);
     dialog.setTargetFragment(this, 0);
-    dialog.show(getFragmentManager(), "");
+    dialog.show(getFragmentManager(), null);
   }
 
   @Override
@@ -173,6 +178,13 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
     setCreditAmount(value);
     mCreditToUse = value;
     mCreditConfirmed = false;
+  }
+
+  private void onTermsClicked() {
+    String title = getString(R.string.terms_title);
+    String url = mCredit.tosUrl;
+    NoteDialog dialog = NoteDialog.newInstance(title, url);
+    dialog.show(getFragmentManager(), null);
   }
 
   @Override
@@ -233,6 +245,7 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
   }
 
   public void onRegistrationSuccess(String code) {
+    DataStore.getInstance().creditUsed(mCredit.id, mCreditToUse);
     mCallback.success(code, null);
   }
 
@@ -269,7 +282,6 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
         return;
       }
 
-      // TODO: update balance!
       onRegistrationSuccess(result.response.authorizationCode);
     }
 
