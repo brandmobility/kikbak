@@ -52,7 +52,7 @@ public class RewardsLoader extends AsyncTaskLoader<List<TheReward>> {
     HashMap<Long, TheReward> map = new HashMap<Long, TheReward>();
 
     for (GiftType gift : gifts) {
-      long id = gift.offerId;
+      long id = gift.merchant.id;
       TheReward entry = map.get(id);
       if (entry == null) {
         entry = new TheReward(id, gift.merchant);
@@ -63,7 +63,7 @@ public class RewardsLoader extends AsyncTaskLoader<List<TheReward>> {
     }
 
     for (AvailableCreditType credit : credits) {
-      long id = credit.offerId;
+      long id = credit.merchant.id;
       TheReward entry = map.get(id);
       if (entry == null) {
         entry = new TheReward(id, credit.merchant);
