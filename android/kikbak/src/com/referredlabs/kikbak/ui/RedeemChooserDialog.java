@@ -4,6 +4,7 @@ package com.referredlabs.kikbak.ui;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -43,7 +44,12 @@ public class RedeemChooserDialog extends DialogFragment implements OnClickListen
   @Override
   public void onAttach(Activity activity) {
     super.onAttach(activity);
-    mListener = (OnRedeemOptionSelectedListener) activity;
+    Fragment target = getTargetFragment();
+    if (target instanceof OnRedeemOptionSelectedListener) {
+      mListener = (OnRedeemOptionSelectedListener) target;
+    } else {
+      mListener = (OnRedeemOptionSelectedListener) activity;
+    }
   }
 
   @Override

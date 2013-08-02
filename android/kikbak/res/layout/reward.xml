@@ -97,13 +97,17 @@
                 kikbak:typeface="Roboto-Light.ttf" />
 
             <ImageView
-                android:id="@+id/reward_giver_image_frame"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/friend_photo"
+                android:layout_width="40dp"
+                android:layout_height="35dp"
+                android:paddingTop="1.5dp"
+                android:paddingBottom="1.5dp"
+                android:paddingLeft="1.5dp"
+                android:paddingRight="6dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="8dp"
-                android:src="@drawable/reward_giver_image_frame" />
+                android:background="@drawable/reward_giver_image_frame" />
         </RelativeLayout>
 
         <View

@@ -12,6 +12,7 @@ import android.widget.BaseAdapter;
 
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ClientMerchantType;
+import com.referredlabs.kikbak.fb.Fb;
 import com.referredlabs.kikbak.store.TheReward;
 import com.referredlabs.kikbak.ui.IconBarHelper.IconBarListener;
 import com.referredlabs.kikbak.utils.LocaleUtils;
@@ -84,6 +85,10 @@ public class RewardAdapter extends BaseAdapter {
 
     Uri url = Uri.parse(reward.getImageUrl());
     Picasso.with(mContext).load(url).into(helper.mImage);
+    if (reward.hasGifts()) {
+      Uri friendUrl = Fb.getFriendPhotoUri(reward.getGifts().get(0).fbFriendId);
+      Picasso.with(mContext).load(friendUrl).into(helper.mFriendImage);
+    }
 
     helper.setGiftValue(LocaleUtils.getGiftValueString(mContext, reward));
     helper.setCreditValue(LocaleUtils.getCreditValueString(mContext, reward));

@@ -12,6 +12,7 @@ import com.referredlabs.kikbak.ui.RewardAdapter.ItemAreaListener;
 public class RewardHelper extends IconBarHelper {
 
   public ImageView mImage;
+  public ImageView mFriendImage;
   private TextView mMerchantName;
   private TextView mGiftLabel;
   private TextView mGiftValue;
@@ -26,6 +27,7 @@ public class RewardHelper extends IconBarHelper {
     mAreaListener = areaListener;
 
     mImage = (ImageView) root.findViewById(R.id.reward_image);
+    mFriendImage = (ImageView) root.findViewById(R.id.friend_photo);
     mMerchantName = (TextView) root.findViewById(R.id.name);
     mGiftLabel = (TextView) root.findViewById(R.id.gift_label);
     mGiftValue = (TextView) root.findViewById(R.id.gift_value);
@@ -61,6 +63,7 @@ public class RewardHelper extends IconBarHelper {
   public void setGiftValue(String value) {
     mGiftValue.setText(value);
     setGiftVisibility(value != null);
+    mFriendImage.setVisibility(value != null ? View.VISIBLE : View.INVISIBLE);
     updateSeparatorVisibility();
   }
 
