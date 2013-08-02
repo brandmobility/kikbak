@@ -359,10 +359,10 @@ function renderOffer(offer) {
   var html = '';
   
   var json = escape(JSON.stringify(offer));
-  html += '<a href="#" data-object="' + json + '" class="offer-details-btn clearfix">';
-  html += '<div class="imglist"><span class="imgshado"></span><div class="lstimg">';
+  html += '<div class="imglist"><a href="#" data-object="' + json + '" class="offer-details-btn clearfix">';
+  html += '<span class="imgshado"></span><div class="lstimg">';
   html += '<img src="' + offer.offerImageUrl + '" />';
-  html += '</div></a>';
+  html += '</a></div>';
   html += '<h3>' + offer.merchantName + '</h3>';
   
   var local = getDisplayLocation(offer.locations);
@@ -665,10 +665,6 @@ function getOfferDetail() {
           $('#share-form input[name="share"]').attr('disabled', 'disabled');
         }
       });
-
-      $('#terms').click(function(e) {
-        e.preventDefault();
-      });
     }
   }
 }
@@ -739,7 +735,7 @@ function renderOfferDetail(offer) {
   html += '<h4>' + offer.kikbakDetailedDesc + '</h4>';
   html += '</div>';
   html += '<div class="crt">';
-  html += '<a href="#" class="trm" onclick="$(\'#terms\').show();" >Terms and Conditions</a>';
+  html += '<a href="#" class="trm" onclick="showTerms(\'' + offer.tosUrl + '\')" >Terms and Conditions</a>';
   html += '<a href="#" class="lrn-mor" onclick="$(\'#learn\').show();" >Learn more</a>';
   html += '</div>';
   html += '<input name="share" type="submit" class="btn grd3" value="Give To Friends" disabled />';
@@ -755,6 +751,11 @@ function renderOfferDetail(offer) {
     options += '<option value="' + l.locationId + '" ' + selected + '>' + l.address1 + ' ' + l.address2 + ', ' + l.city + '</option>';
   });
   $('#location-sel').html(options);
+}
+
+function showTerms(url) {
+  $('#terms iframe').attr('src', url);
+  $('#terms').show();
 }
 
 function doSuggest() {
@@ -1074,7 +1075,7 @@ function renderRedeemGiftDetail(gift) {
   html += '<h2>' + gift.desc + '</h2>';
   html += '<h4>' + gift.detailedDesc + '</h4>';
   html += '<div class="crt">';
-  html += '<a href="#" class="trm" onclick="$(\'#terms\').show();" >Terms and Conditions</a>';
+  html += '<a href="#" class="trm" onclick="showTerms(\'' + gift.tosUrl + '\')" >Terms and Conditions</a>';
   html += '<a href="#" class="lrn-mor" onclick="$(\'#learn\').show();" >Learn more</a>';
   html += '</div>';
   html += '<button id="redeem-gift-btn" class="btn grd3">Redeem now in store</button>';
@@ -1096,7 +1097,7 @@ function renderRedeemCreditDetail(credit) {
   html += '<div class="crt">';
   html += '<h1>$' + credit.value.toFixed(2) + '</h1>';
   html += '<h5>' + credit.rewardType + '</h5>';
-  html += '<a href="#" class="trm" onclick="$(\'#terms\').show();">Terms and Conditions</a>';
+  html += '<a href="#" class="trm" onclick="showTerms(\'' + credit.tosUrl + '\')">Terms and Conditions</a>';
   html += '</div>';
   html += '<button id="claim-credit-form-btn" class="btn grd3">Claim reward now</button>';
   
