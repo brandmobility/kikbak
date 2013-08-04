@@ -64,6 +64,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     GcmHelper.getInstance().registerIfNeeded();
     mLocationFinder = new LocationFinder(this);
     setupViews();
+    DataService.getInstance().refreshOffers(true);
+    DataService.getInstance().refreshRewards(true);
   }
 
   void setupViews() {
@@ -149,6 +151,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
       case R.id.action_fixed_location:
         C.USE_FIXED_LOCATION = !C.USE_FIXED_LOCATION;
         item.setChecked(C.USE_FIXED_LOCATION);
+        DataService.getInstance().refreshRewards(true);
         DataService.getInstance().refreshOffers(true);
         return true;
 

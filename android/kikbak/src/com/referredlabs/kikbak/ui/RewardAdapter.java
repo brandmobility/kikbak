@@ -1,6 +1,8 @@
 
 package com.referredlabs.kikbak.ui;
 
+import java.util.List;
+
 import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -10,13 +12,12 @@ import android.widget.BaseAdapter;
 
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ClientMerchantType;
+import com.referredlabs.kikbak.fb.Fb;
 import com.referredlabs.kikbak.store.TheReward;
 import com.referredlabs.kikbak.ui.IconBarHelper.IconBarListener;
 import com.referredlabs.kikbak.utils.LocaleUtils;
 import com.referredlabs.kikbak.utils.Nearest;
 import com.squareup.picasso.Picasso;
-
-import java.util.List;
 
 public class RewardAdapter extends BaseAdapter {
 
@@ -24,11 +25,20 @@ public class RewardAdapter extends BaseAdapter {
   private LayoutInflater mInflater;
   private List<TheReward> mRewards;
   IconBarListener mIconBarListener;
+  ItemAreaListener mAreaListener;
 
-  public RewardAdapter(Context context, IconBarListener iconBarListener) {
+  public interface ItemAreaListener {
+    void onGiftAreaClicked(TheReward reward);
+
+    void onCreditAreaClicked(TheReward reward);
+  }
+
+  public RewardAdapter(Context context, IconBarListener iconBarListener,
+      ItemAreaListener areaListener) {
     mContext = context;
     mInflater = LayoutInflater.from(context);
     mIconBarListener = iconBarListener;
+    mAreaListener = areaListener;
   }
 
   public void swap(List<TheReward> result) {
@@ -56,13 +66,14 @@ public class RewardAdapter extends BaseAdapter {
     RewardHelper helper;
     if (view == null) {
       view = mInflater.inflate(R.layout.reward, parent, false);
-      helper = new RewardHelper(view, mIconBarListener);
+      helper = new RewardHelper(view, mIconBarListener, mAreaListener);
       view.setTag(helper);
     } else {
       helper = (RewardHelper) view.getTag();
     }
 
     TheReward reward = getItem(position);
+    helper.setCurrentReward(reward);
 
     Nearest nearest = reward.getNearest();
     ClientMerchantType merchant = reward.getMerchant();
@@ -74,6 +85,10 @@ public class RewardAdapter extends BaseAdapter {
 
     Uri url = Uri.parse(reward.getImageUrl());
     Picasso.with(mContext).load(url).into(helper.mImage);
+    if (reward.hasGifts()) {
+      Uri friendUrl = Fb.getFriendPhotoUri(reward.getGifts().get(0).fbFriendId);
+      Picasso.with(mContext).load(friendUrl).into(helper.mFriendImage);
+    }
 
     helper.setGiftValue(LocaleUtils.getGiftValueString(mContext, reward));
     helper.setCreditValue(LocaleUtils.getCreditValueString(mContext, reward));

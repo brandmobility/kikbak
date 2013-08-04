@@ -203,7 +203,7 @@ public class ShareViaSmsFragment extends DialogFragment {
   }
 
   private static class ShareTemplateResponse {
-    public String title;
+    public String subject;
     public String body;
 
     // NOTE: GET request without top level type in response;

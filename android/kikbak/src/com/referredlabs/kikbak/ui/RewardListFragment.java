@@ -21,6 +21,7 @@ import com.referredlabs.kikbak.data.GiftType;
 import com.referredlabs.kikbak.store.RewardsLoader;
 import com.referredlabs.kikbak.store.TheReward;
 import com.referredlabs.kikbak.ui.RedeemChooserDialog.OnRedeemOptionSelectedListener;
+import com.referredlabs.kikbak.ui.RewardAdapter.ItemAreaListener;
 import com.referredlabs.kikbak.ui.SelectFriend.OnFriendSelectedListener;
 import com.referredlabs.kikbak.utils.LocaleUtils;
 
@@ -28,7 +29,7 @@ import java.util.List;
 
 public class RewardListFragment extends Fragment implements OnItemClickListener,
     OnFriendSelectedListener, OnRedeemOptionSelectedListener, LoaderCallbacks<List<TheReward>>,
-    OnClickListener {
+    OnClickListener, ItemAreaListener {
 
   public interface OnRedeemListener {
     void onRedeemGift(GiftType gift);
@@ -61,7 +62,7 @@ public class RewardListFragment extends Fragment implements OnItemClickListener,
     mFlipper = (ViewFlipper) view.findViewById(R.id.flipper);
     mListView = (ListView) view.findViewById(R.id.list);
     mListView.setOnItemClickListener(this);
-    mAdapter = new RewardAdapter(getActivity(), new IconBarActionHandler(getActivity()));
+    mAdapter = new RewardAdapter(getActivity(), new IconBarActionHandler(getActivity()), this);
     mListView.setAdapter(mAdapter);
 
     view.findViewById(R.id.offers).setOnClickListener(this);
@@ -101,11 +102,24 @@ public class RewardListFragment extends Fragment implements OnItemClickListener,
     }
   }
 
+  @Override
+  public void onGiftAreaClicked(TheReward reward) {
+    if (reward.hasGifts())
+      redeemGift(reward.getGifts());
+  }
+
+  @Override
+  public void onCreditAreaClicked(TheReward reward) {
+    if (reward.hasCredit())
+      redeemCredit(reward.getCredit());
+  }
+
   private void selectWhatToRedeem(TheReward reward) {
     mSelectedReward = reward;
     String gift = LocaleUtils.getGiftValueString(getActivity(), reward);
     String credit = LocaleUtils.getCreditValueString(getActivity(), reward);
     RedeemChooserDialog dialog = RedeemChooserDialog.newInstance(gift, credit);
+    dialog.setTargetFragment(this, 0);
     dialog.show(getFragmentManager(), null);
   }
 
@@ -168,5 +182,4 @@ public class RewardListFragment extends Fragment implements OnItemClickListener,
   public void onLoaderReset(Loader<List<TheReward>> laoder) {
     // ???
   }
-
 }

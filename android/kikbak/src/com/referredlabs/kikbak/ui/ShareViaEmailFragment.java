@@ -194,7 +194,7 @@ public class ShareViaEmailFragment extends DialogFragment {
     @Override
     protected void onPostExecute(Void result) {
       if (mKikbakSuccess) {
-        onShareFinished(mTemplate.title, mTemplate.body);
+        onShareFinished(mTemplate.subject, mTemplate.body);
       } else {
         onShareFailed();
       }
@@ -202,7 +202,7 @@ public class ShareViaEmailFragment extends DialogFragment {
   }
 
   private static class ShareTemplateResponse {
-    public String title;
+    public String subject;
     public String body;
 
     // NOTE: GET request without top level type in response;

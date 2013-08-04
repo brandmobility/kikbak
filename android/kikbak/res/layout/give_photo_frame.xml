@@ -85,8 +85,19 @@
         android:layout_above="@id/name"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
-        android:gravity="center"
         android:src="@drawable/ic_camera" />
+
+    <ImageButton
+        android:id="@+id/retake_photo"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_camera_retake_small"
+        android:visibility="invisible" />
 
     <com.referredlabs.kikbak.widget.TtfTextView
         android:id="@+id/take_photo_label"

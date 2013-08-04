@@ -79,7 +79,7 @@
 
     <!-- Verizon -->
     <string name="share_verizon_title">Helped by a Verizon associate?</string>
-    <string name="share_verizon_note">Let your nearby friends know who to ask for when they visit the store.</string>
+    <string name="share_verizon_note">Let your nearby friends know who to ask when they visit the store.</string>
     <string name="share_verizon_employee_name_hint">Asociate name</string>
     <string name="share_verizon_store_id_hint">Store ID</string>
 
@@ -118,7 +118,7 @@
     <!-- Confirmation dialogs -->
     <string name="redeem_gift_confirmation">You must be at the register to redeem.\n\nAre you ready to redeem this offer?</string>
     <string name="redeem_not_in_store">Oops! You have to be in the store to redeem.\n\nLooks like you might not be there yet. Try again?</string>
-    <string name="redeem_credit_confirmation">If you use more credit then your purchase total, you woll lose all excess credit.\n\nYou have chosen to redeem $15.00 credit. Is this right?</string>
+    <string name="redeem_credit_confirmation">If you use more credit then your purchase total, you will lose all excess credit.\n\nYou have chosen to redeem $%.2f credit. Is this right?</string>
 
     <!-- Redeem success -->
     <string name="redeem_success_title">Success!</string>
