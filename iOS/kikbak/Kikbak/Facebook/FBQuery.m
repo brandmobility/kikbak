@@ -16,7 +16,7 @@
 #import "KikbakConstants.h"
 #import "RegisterUserRequest.h"
 #import "SubmitFriendsRequest.h"
-#import "ImageRequest.h"
+#import "ImageDownloadRequest.h"
 #import "ImagePersistor.h"
 
 
@@ -136,7 +136,7 @@
         if(error == nil){
 //            NSLog(@"resolveImageUrl: %@", result);
             if(![ImagePersistor imageFileExists:[result objectForKey:@"id"] imageType:UGC_GIVE_IMAGE_TYPE]) {
-                ImageRequest* requestor = [[ImageRequest alloc]init];
+                ImageDownloadRequest* requestor = [[ImageDownloadRequest alloc]init];
                 requestor.url = [result objectForKey:@"source"];
                 requestor.type = UGC_GIVE_IMAGE_TYPE;
                 requestor.fileId = [result objectForKey:@"id"];
@@ -160,7 +160,7 @@
         if(error == nil){
             //            NSLog(@"resolveImageUrl: %@", result);
             if(![ImagePersistor imageFileExists:fbUserId imageType:FRIEND_IMAGE_TYPE]) {
-                ImageRequest* requestor = [[ImageRequest alloc]init];
+                ImageDownloadRequest* requestor = [[ImageDownloadRequest alloc]init];
                 id data = [[result objectForKey:@"picture"]objectForKey:@"data"];
                 if( data ){
                     requestor.url = [data objectForKey:@"url"];

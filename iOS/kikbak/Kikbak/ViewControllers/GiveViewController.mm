@@ -28,6 +28,7 @@
 #import "SMSMessageBodyRequest.h"
 #import "EmailBodyRequest.h"
 #import "EmailFields.h"
+#import "ImageUploadRequest.h"
 
 
 #define DEFAULT_CONTAINER_VIEW_HEIGHT 50
@@ -80,6 +81,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 
 @property(nonatomic, strong) UIButton* giveBtn;
 
+@property(nonatomic, strong) NSString* imageUrl;
 
 
 -(void)createSubviews;
@@ -103,6 +105,9 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 -(void) onSMSBodyError:(NSNotification*)notification;
 -(void) onShareSuccess:(NSNotification*)notification;
 -(void) onShareError:(NSNotification*)notification;
+-(void) onImageUploadSuccess:(NSNotification*)notification;
+-(void) onImageUploadError:(NSNotification*)notification;
+
 -(void) onLocationUpdate:(NSNotification*)notification;
 
 -(void) updateDisance;
@@ -441,12 +446,9 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 
 -(IBAction)onGiveGift:(id)sender{
     
-    CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
-    ShareChannelSelectorView* view = [[ShareChannelSelectorView alloc]initWithFrame:frame];
-    [view createsubviews];
-    view.delegate = self;
-    [self.view addSubview:view];
-
+    ImageUploadRequest* request = [[ImageUploadRequest alloc]init];
+    request.image = self.giveImage.image;
+    [request postImage];
 //    [self postToFacebook];
    // [self postPhotoTheOpenGraphAction];
 }
@@ -889,6 +891,20 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     
 }
 
+-(void) onImageUploadSuccess:(NSNotification*)notification{
+    self.imageUrl = [notification object];
+    
+    CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+    ShareChannelSelectorView* view = [[ShareChannelSelectorView alloc]initWithFrame:frame];
+    [view createsubviews];
+    view.delegate = self;
+    [self.view addSubview:view];
+    
+}
+
+-(void) onImageUploadError:(NSNotification*)notification{
+    
+}
 
 -(void) onLocationUpdate:(NSNotification*)notification{
     [self updateDisance];
@@ -918,6 +934,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [dict setObject:self.offer.merchantId forKey:@"merchantId"];
     [dict setObject:self.location.locationId forKey:@"locationId"];
     [dict setObject:self.offer.offerId forKey:@"offerId"];
+    [dict setObject:self.imageUrl forKey:@"imageUrl"];
     [dict setObject:@"email" forKey:@"type"];
     if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
         [dict setObject:@"" forKey:@"caption"];
@@ -938,6 +955,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [dict setObject:self.offer.merchantId forKey:@"merchantId"];
     [dict setObject:self.location.locationId forKey:@"locationId"];
     [dict setObject:self.offer.offerId forKey:@"offerId"];
+    [dict setObject:self.imageUrl forKey:@"imageUrl"];
     [dict setObject:@"sms" forKey:@"type"];
     if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
         [dict setObject:@"" forKey:@"caption"];

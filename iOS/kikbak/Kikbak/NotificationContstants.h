@@ -32,3 +32,6 @@ KIKBAK_EXTERN NSString *const kKikbakSMSBodySuccess;
 KIKBAK_EXTERN NSString *const kKikbakSMSBodyError;
 KIKBAK_EXTERN NSString *const kKikbakEmailBodySuccess;
 KIKBAK_EXTERN NSString *const kKikbakEmailBodyError;
+KIKBAK_EXTERN NSString *const kKikbakImagePostSuccess;
+KIKBAK_EXTERN NSString *const kKikbakImagePostError;
+

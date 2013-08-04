@@ -26,3 +26,5 @@ NSString *const kKikbakSMSBodySuccess = @"kKikbakSMSBodySuccess";
 NSString *const kKikbakSMSBodyError = @"kKikbakSMSBodyError";
 NSString *const kKikbakEmailBodySuccess = @"kKikbakEmailBodySuccess";
 NSString *const kKikbakEmailBodyError = @"kKikbakEmailBodyError";
+NSString *const kKikbakImagePostSuccess = @"kKikbakImagePostSuccess";
+NSString *const kKikbakImagePostError = @"kKikbakImagePostError";
