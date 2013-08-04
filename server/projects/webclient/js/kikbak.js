@@ -33,6 +33,12 @@ $(document).ready(function() {
       initPage();
     }
   });
+  $('.offer-list-btn').click(function(){
+    if (typeof Storage != 'undefined') {
+      localStorage.pageType = 'offer';
+      initPage();
+    }
+  });
   setWrapperSize();
 
   $('#suggest-form input[name="name"]').bind('keyup', adjustSuggest);
@@ -857,6 +863,7 @@ function doShare(cb, type) {
   exp['caption'] = message;
   exp['type'] = type;
   exp['locationId'] = locationId;
+  exp['platform'] = /iP(hone|od|ad)/.test(navigator.platform) ? 'ios' : 'android';
   exp['employeeId'] = $('#share-help-form input[name="associateName"]').val();
   data['experience'] = exp;
   req['ShareExperienceRequest'] = data;
@@ -872,7 +879,7 @@ function doShare(cb, type) {
     url: config.backend + 'kikbak/ShareExperience/' + localStorage.userId,
     success: function(json) {
       if (json && json.shareExperienceResponse && json.shareExperienceResponse.referrerCode) {
-        cb(json.shareExperienceResponse.referrerCode, message, url);
+        cb(json.shareExperienceResponse.referrerCode, message, url, json.shareExperienceResponse);
       } else {
         showError();
       }
@@ -882,76 +889,22 @@ function doShare(cb, type) {
 }
 
 function shareViaSms() {
-  $('#spinner h2').html('Sharing gift');
-  doShare(function(code, msg, url) {
-    var data = {
-      'name': localStorage.userName,
-      'code': code,
-      'desc': msg,
-      'url' : url
-    };
-    if (getBrowserName() !== 'Safari') {
-      $.ajax({
-        type: 'GET',
-        data: data,
-        dataType: 'json',
-        url: '/s/sms.php',
-        success: function(json) {
-          $('#spinner h2').html('Waiting');
-          window.location.href = 'sms://?&body=' + json.body;
-        },
-        error: function() {
-          showError();
-        }
-      });
-    }
+  doShare(function(code, msg, url, resp) {
+    $('#spinner h2').html('Waiting');
+    window.location.href = 'sms://?&body=' + json.template.body;
   }, 'sms');
 }
 
 function shareViaEmail() {
-  $('#spinner h2').html('Sharing gift');
-  doShare(function(code, msg, url) {
-    var data = {
-      'name': localStorage.userName,
-      'code': code,
-      'desc': msg,
-      'url' : url
-    };
-    if (getBrowserName() == 'Safari') {
-      $.ajax({
-        type: 'GET',
-        data: data,
-        dataType: 'json',
-        url: '/s/email.php',
-        success: function(json) {
-          $('#spinner h2').html('Waiting');
-          window.location.href = 'mailto:?content-type=text/html&subject=' + json.subject + '&body=' + json.body;
-        },
-        error: function() {
-          showError();
-        }
-      });
-    } else {
-      $.ajax({
-        type: 'GET',
-        data: data,
-        dataType: 'json',
-        url: '/s/sms.php',
-        success: function(json) {
-          $('#spinner h2').html('Waiting');
-          window.location.href = 'mailto:?content-type=text/html&subject=' + json.subject + '&body=' + json.body;
-        },
-        error: function() {
-          showError();
-        }
-      });
-    }
+  $('#spinner h2').html('Waiting');
+  doShare(function(code, msg, url, resp) {
+    window.location.href = 'mailto:?content-type=text/html&subject=' + resp.template.subject + '&body=' + resp.template.body;
   }, 'email');
 }
 
 function shareViaFacebook() {
   $('#spinner h2').html('Sharing gift');
-  doShare(function(code, msg, imageUrl) {
+  doShare(function(code, msg, imageUrl, resp) {
     var data = {
       'name': localStorage.userName,
       'code': code,
@@ -1078,9 +1031,47 @@ function renderRedeemGiftDetail(gift) {
   html += '<a href="#" class="trm" onclick="showTerms(\'' + gift.tosUrl + '\')" >Terms and Conditions</a>';
   html += '<a href="#" class="lrn-mor" onclick="$(\'#learn\').show();" >Learn more</a>';
   html += '</div>';
-  html += '<button id="redeem-gift-btn" class="btn grd3">Redeem now in store</button>';
+  html += '<button id="redeem-gift-instore-btn" class="btn grd3">Redeem now in store</button>';
+  
+  $('redeem-gift-instore-btn').click(function() {
+    doRedeemGift(gift);
+  });
   
   $('#redeem-details-view').html(html);
+}
+
+function doRedeemGift(gift) {
+  var data = {},
+      req = {},
+      str = '';
+      
+  data['gift'] = gift;
+  req['RedeemGiftRequest'] = data;
+  str = JSON.stringify(req);
+  
+  $.ajax({
+    url: config.backend + 'kikbak/redeem/gift/' + localStorage.userId + '/',
+    data : str,
+    cache : false,
+    contentType : false,
+    dataType: 'json',
+    type : 'POST',
+    success: function(json) {
+      if (json && json.RedeemGiftResponse && json.RedeemGiftResponse.authorizationCode) {
+        var code = json.RedeemGiftResponse.authorizationCode;
+        var imgUrl = config.backend + 'kikbak/generateBarcode/' + localStorage.userId + '/' + code + '/262/262/',
+        $('#redeem-gift-success .pg-hedng').html(gift.merchant.name);
+        $('#redeem-gift-success .cd-br-stin h1').html(gift.desc);
+        $('#redeem-gift-success .cd-br-stin h3').html(gift.detailedDesc);
+        $('#redeem-gift-success .mycod img').attr('src', imgUrl);
+        $('#redeem-gift-success .mycod span').html(code);
+        $('#redeem-details-view').hide();
+        $('#redeem-gift-success').show();
+      } else {
+        showError();
+      }
+    }, error: showError
+  });
 }
 
 function renderRedeemCreditDetail(credit) {
