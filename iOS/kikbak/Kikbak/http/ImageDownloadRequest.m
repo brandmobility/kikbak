@@ -6,12 +6,12 @@
 //  Copyright (c) 2013 Ian Barile. All rights reserved.
 //
 
-#import "ImageRequest.h"
+#import "ImageDownloadRequest.h"
 #import "ImagePersistor.h"
 #import "NotificationContstants.h"
 
 
-@implementation ImageRequest
+@implementation ImageDownloadRequest
 
 -(void)requestImage{
 
@@ -23,7 +23,6 @@
     [request httpGetRequest];
     
 }
-
 
 
 -(void)parseResponse:(NSData*)data{

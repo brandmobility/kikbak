@@ -11,7 +11,7 @@
 #import "HttpRequest.h"
 #import "KikbakConstants.h"
 
-@interface ImageRequest : NSObject <ResponseHandlerProtocol>
+@interface ImageDownloadRequest : NSObject <ResponseHandlerProtocol>
 {
     HttpRequest* request;
 }

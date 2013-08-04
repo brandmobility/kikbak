@@ -11,7 +11,7 @@
 #import "Offer.h"
 #import "LocationParser.h"
 #import "OfferService.h"
-#import "ImageRequest.h"
+#import "ImageDownloadRequest.h"
 #import "ImagePersistor.h"
 
 @interface OfferParser()
@@ -64,7 +64,7 @@
     }
 
     if(![ImagePersistor imageFileExists:offer.merchantId imageType:OFFER_LIST_IMAGE_TYPE]) {
-        ImageRequest* request = [[ImageRequest alloc]init];
+        ImageDownloadRequest* request = [[ImageDownloadRequest alloc]init];
         request.url = offer.offerImageUrl;
         request.fileId = offer.merchantId;
         request.type = OFFER_LIST_IMAGE_TYPE;

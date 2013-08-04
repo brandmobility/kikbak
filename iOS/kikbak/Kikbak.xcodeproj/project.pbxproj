@@ -172,6 +172,7 @@
 		3CA9F1AD172A5B2E001C3929 /* NotificationContstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA9F1AC172A5B2E001C3929 /* NotificationContstants.m */; };
 		3CB9FC6117A8D74E0071B8B4 /* EmailBodyRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9FC6017A8D74E0071B8B4 /* EmailBodyRequest.m */; };
 		3CB9FC6517A8E6970071B8B4 /* EmailFields.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9FC6417A8E6970071B8B4 /* EmailFields.m */; };
+		3CB9FC6817AA43230071B8B4 /* ImageUploadRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9FC6717AA43230071B8B4 /* ImageUploadRequest.m */; };
 		3CBCBF2617127468007B4249 /* OfferService.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF2517127468007B4249 /* OfferService.mm */; };
 		3CBCBF29171277A3007B4249 /* LocationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF28171277A3007B4249 /* LocationService.m */; };
 		3CBCBF491713E696007B4249 /* SubmitFriendsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF351713E696007B4249 /* SubmitFriendsRequest.m */; };
@@ -183,7 +184,7 @@
 		3CBCBF4F1713E696007B4249 /* DeviceTokenRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF3B1713E696007B4249 /* DeviceTokenRequest.m */; };
 		3CBCBF501713E696007B4249 /* OffersRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF3C1713E696007B4249 /* OffersRequest.m */; };
 		3CBCBF511713E696007B4249 /* HttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF3D1713E696007B4249 /* HttpRequest.m */; };
-		3CBCBF541713E6A8007B4249 /* ImageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF531713E6A8007B4249 /* ImageRequest.m */; };
+		3CBCBF541713E6A8007B4249 /* ImageDownloadRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF531713E6A8007B4249 /* ImageDownloadRequest.m */; };
 		3CBCBF581713F6AD007B4249 /* ImagePersistor.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF571713F6AD007B4249 /* ImagePersistor.m */; };
 		3CBCBF6D1717E2F8007B4249 /* GiftParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF6C1717E2F8007B4249 /* GiftParser.m */; };
 		3CBCBF701717E405007B4249 /* GiftService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF6F1717E405007B4249 /* GiftService.m */; };
@@ -473,6 +474,8 @@
 		3CB9FC6017A8D74E0071B8B4 /* EmailBodyRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmailBodyRequest.m; sourceTree = "<group>"; };
 		3CB9FC6317A8E6970071B8B4 /* EmailFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmailFields.h; sourceTree = "<group>"; };
 		3CB9FC6417A8E6970071B8B4 /* EmailFields.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmailFields.m; sourceTree = "<group>"; };
+		3CB9FC6617AA43230071B8B4 /* ImageUploadRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageUploadRequest.h; sourceTree = "<group>"; };
+		3CB9FC6717AA43230071B8B4 /* ImageUploadRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageUploadRequest.m; sourceTree = "<group>"; };
 		3CBCBF2417127468007B4249 /* OfferService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfferService.h; sourceTree = "<group>"; };
 		3CBCBF2517127468007B4249 /* OfferService.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OfferService.mm; sourceTree = "<group>"; };
 		3CBCBF27171277A3007B4249 /* LocationService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationService.h; sourceTree = "<group>"; };
@@ -498,8 +501,8 @@
 		3CBCBF461713E696007B4249 /* RewardRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RewardRequest.h; sourceTree = "<group>"; };
 		3CBCBF471713E696007B4249 /* ShareExperienceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareExperienceRequest.h; sourceTree = "<group>"; };
 		3CBCBF481713E696007B4249 /* SubmitFriendsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubmitFriendsRequest.h; sourceTree = "<group>"; };
-		3CBCBF521713E6A8007B4249 /* ImageRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageRequest.h; sourceTree = "<group>"; };
-		3CBCBF531713E6A8007B4249 /* ImageRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageRequest.m; sourceTree = "<group>"; };
+		3CBCBF521713E6A8007B4249 /* ImageDownloadRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloadRequest.h; sourceTree = "<group>"; };
+		3CBCBF531713E6A8007B4249 /* ImageDownloadRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDownloadRequest.m; sourceTree = "<group>"; };
 		3CBCBF561713F6AD007B4249 /* ImagePersistor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagePersistor.h; sourceTree = "<group>"; };
 		3CBCBF571713F6AD007B4249 /* ImagePersistor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagePersistor.m; sourceTree = "<group>"; };
 		3CBCBF6B1717E2F8007B4249 /* GiftParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GiftParser.h; sourceTree = "<group>"; };
@@ -1019,11 +1022,17 @@
 				3C6381531794F87900E10594 /* ClaimCreditRequest.m */,
 				3CBCBF401713E696007B4249 /* DeviceTokenRequest.h */,
 				3CBCBF3B1713E696007B4249 /* DeviceTokenRequest.m */,
+				3CB9FC5F17A8D74E0071B8B4 /* EmailBodyRequest.h */,
+				3CB9FC6017A8D74E0071B8B4 /* EmailBodyRequest.m */,
+				3CB9FC6317A8E6970071B8B4 /* EmailFields.h */,
+				3CB9FC6417A8E6970071B8B4 /* EmailFields.m */,
 				3CBCBF341713E696007B4249 /* HTTPConstants.h */,
 				3CBCBF3F1713E696007B4249 /* HttpRequest.h */,
 				3CBCBF3D1713E696007B4249 /* HttpRequest.m */,
-				3CBCBF521713E6A8007B4249 /* ImageRequest.h */,
-				3CBCBF531713E6A8007B4249 /* ImageRequest.m */,
+				3CBCBF521713E6A8007B4249 /* ImageDownloadRequest.h */,
+				3CBCBF531713E6A8007B4249 /* ImageDownloadRequest.m */,
+				3CB9FC6617AA43230071B8B4 /* ImageUploadRequest.h */,
+				3CB9FC6717AA43230071B8B4 /* ImageUploadRequest.m */,
 				3CBCBF411713E696007B4249 /* OffersRequest.h */,
 				3CBCBF3C1713E696007B4249 /* OffersRequest.m */,
 				3CBCBF431713E696007B4249 /* RedeemCreditRequest.h */,
@@ -1038,14 +1047,10 @@
 				3CBCBF371713E696007B4249 /* RewardRequest.m */,
 				3CBCBF471713E696007B4249 /* ShareExperienceRequest.h */,
 				3CBCBF361713E696007B4249 /* ShareExperienceRequest.m */,
-				3CBCBF481713E696007B4249 /* SubmitFriendsRequest.h */,
-				3CBCBF351713E696007B4249 /* SubmitFriendsRequest.m */,
 				3C63816617A26B4D00E10594 /* SMSMessageBodyRequest.h */,
 				3C63816717A26B4D00E10594 /* SMSMessageBodyRequest.m */,
-				3CB9FC5F17A8D74E0071B8B4 /* EmailBodyRequest.h */,
-				3CB9FC6017A8D74E0071B8B4 /* EmailBodyRequest.m */,
-				3CB9FC6317A8E6970071B8B4 /* EmailFields.h */,
-				3CB9FC6417A8E6970071B8B4 /* EmailFields.m */,
+				3CBCBF481713E696007B4249 /* SubmitFriendsRequest.h */,
+				3CBCBF351713E696007B4249 /* SubmitFriendsRequest.m */,
 			);
 			name = http;
 			path = Kikbak/http;
@@ -1399,7 +1404,7 @@
 				3CBCBF4F1713E696007B4249 /* DeviceTokenRequest.m in Sources */,
 				3CBCBF501713E696007B4249 /* OffersRequest.m in Sources */,
 				3CBCBF511713E696007B4249 /* HttpRequest.m in Sources */,
-				3CBCBF541713E6A8007B4249 /* ImageRequest.m in Sources */,
+				3CBCBF541713E6A8007B4249 /* ImageDownloadRequest.m in Sources */,
 				3CBCBF581713F6AD007B4249 /* ImagePersistor.m in Sources */,
 				3CBCBF6D1717E2F8007B4249 /* GiftParser.m in Sources */,
 				3CBCBF701717E405007B4249 /* GiftService.m in Sources */,
@@ -1428,6 +1433,7 @@
 				3C63816817A26B4D00E10594 /* SMSMessageBodyRequest.m in Sources */,
 				3CB9FC6117A8D74E0071B8B4 /* EmailBodyRequest.m in Sources */,
 				3CB9FC6517A8E6970071B8B4 /* EmailFields.m in Sources */,
+				3CB9FC6817AA43230071B8B4 /* ImageUploadRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
