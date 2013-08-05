@@ -70,42 +70,51 @@ public class SharedController {
 			return response;
 		}
 		
-		String titleKey = "share.template.title" + experience.getType().toLowerCase() + "." 
-				+ experience.getPlatform().toLowerCase();
+		if (StringUtils.isNotBlank(experience.getType())
+				&& StringUtils.isNotBlank(experience.getPlatform())) {
+			String titleKey = "share.template.title"
+					+ experience.getType().toLowerCase() + "."
+					+ experience.getPlatform().toLowerCase();
+			String bodyKey = "share.template.body"
+					+ experience.getType().toLowerCase() + "."
+					+ experience.getPlatform().toLowerCase();
 
-		String bodyKey = "share.template.body" + experience.getType().toLowerCase() + "." 
-				+ experience.getPlatform().toLowerCase();
+			String loginUrl = config.getString("share.template.login.url")
+					.replace("%CODE%", response.getReferrerCode());
 
-		String loginUrl = config.getString("share.template.login.url").replace("%CODE%", response.getReferrerCode());
-				
-		String titleTemplate = config.getString(titleKey, "");
-		String bodyTemplate = config.getString(bodyKey, "");
+			String titleTemplate = config.getString(titleKey, "");
+			String bodyTemplate = config.getString(bodyKey, "");
 
-		MessageTemplateType template = new MessageTemplateType();
-		response.setTemplate(template);
-		
-		try {
-			if (StringUtils.isNotBlank(bodyTemplate)) {
-				User user = readOnlyUserDAO.findById(userId);
-				Location location = readOnlyLocationDAO.findById(experience.getLocationId());
-				Merchant merchant = readOnlyMerchantDAO.findById(experience.getMerchantId());
-				Gift gift = readOnlyGiftDAO.findByOfferId(experience.getOfferId());
-				if (StringUtils.isNotBlank(titleTemplate)) {
-					fillTemplate(experience, loginUrl, titleTemplate, user,
-							location, merchant, gift);
-					template.setSubject(titleTemplate);
-				}
+			MessageTemplateType template = new MessageTemplateType();
+			response.setTemplate(template);
+
+			try {
 				if (StringUtils.isNotBlank(bodyTemplate)) {
-					fillTemplate(experience, loginUrl, bodyTemplate, user,
-							location, merchant, gift);
-					template.setSubject(bodyTemplate);
+					User user = readOnlyUserDAO.findById(userId);
+					Location location = readOnlyLocationDAO.findById(experience
+							.getLocationId());
+					Merchant merchant = readOnlyMerchantDAO.findById(experience
+							.getMerchantId());
+					Gift gift = readOnlyGiftDAO.findByOfferId(experience
+							.getOfferId());
+					if (StringUtils.isNotBlank(titleTemplate)) {
+						fillTemplate(experience, loginUrl, titleTemplate, user,
+								location, merchant, gift);
+						template.setSubject(titleTemplate);
+					}
+					if (StringUtils.isNotBlank(bodyTemplate)) {
+						fillTemplate(experience, loginUrl, bodyTemplate, user,
+								location, merchant, gift);
+						template.setSubject(bodyTemplate);
+					}
 				}
+			} catch (Exception e) {
+				httpResponse
+						.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				status.setCode(StatusCode.ERROR.ordinal());
+				logger.error(e, e);
+				return response;
 			}
-		}  catch (Exception e) {
-			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			status.setCode(StatusCode.ERROR.ordinal());
-			logger.error(e,e);
-			return response;
 		}
 		
 		return response;
@@ -115,7 +124,8 @@ public class SharedController {
 			String titleTemplate, User user, Location location,
 			Merchant merchant, Gift gift) {
 		titleTemplate = titleTemplate.replace("%CAPTION%", experience.getCaption());
-		titleTemplate = titleTemplate.replace("%EMPLOYEE_ID%", StringUtils.isNotBlank(experience.getEmployeeId()) ? experience.getEmployeeId() : "employee");
+		titleTemplate = titleTemplate.replace("%EMPLOYEE_ID%", StringUtils.isNotBlank(experience.getEmployeeId()) ?
+				experience.getEmployeeId() : "employee");
 		titleTemplate = titleTemplate.replace("%IMAGE_URL%", experience.getImageUrl());
 		titleTemplate = titleTemplate.replace("%DESC%", gift.getDescription());
 		titleTemplate = titleTemplate.replace("%DESC_DETAIL%", gift.getDetailedDesc());

@@ -25,7 +25,7 @@
             <!-- types: email, sms, or fb(facebook) -->
             <xsd:element name="type" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <!-- ios or android -->
-            <xsd:element name="platform" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="platform" type="xsd:string" minOccurs="0" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
     
