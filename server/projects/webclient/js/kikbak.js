@@ -767,7 +767,7 @@ function showTerms(url) {
 function doSuggest() {
   if (typeof Storage != 'undefined') {
     var userId = localStorage.userId;
-    $('#share-form input[name="share"]').attr('disabled', 'disabled');
+    $('#suggest-form input[name="suggest"]').attr('disabled', 'disabled');
     if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
       var req = new FormData();
       var file =  $('#take-picture-suggest')[0].files[0];
@@ -803,8 +803,6 @@ function shareOffer() {
     if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
       var message = $('#share-form input[name="comment"]').val(); 
       var msg = 'Visit getkikbak.com for an exclusive offer shared by your friend';
-      
-      $('#share-form input[name="comment"]').val(''); 
       
       if (!$('#take-picture')[0].files || $('#take-picture')[0].files.length == 0) {
         var src = $('#share-form .image-add img').attr('src');
@@ -853,6 +851,8 @@ function doShare(cb, type) {
     locationId = $('#location-sel').val(),
     str;
   
+  $('#share-form input[name="comment"]').val('');
+  
   if (typeof locationId === 'undefined') {
     locationId = 0;
   }
@@ -891,14 +891,15 @@ function doShare(cb, type) {
 function shareViaSms() {
   doShare(function(code, msg, url, resp) {
     $('#spinner h2').html('Waiting');
-    window.location.href = 'sms://?&body=' + json.template.body;
+    window.location.href = 'sms://?body=' + encodeURIComponent(resp.template.body);
   }, 'sms');
 }
 
 function shareViaEmail() {
   $('#spinner h2').html('Waiting');
   doShare(function(code, msg, url, resp) {
-    window.location.href = 'mailto:?content-type=text/html&subject=' + resp.template.subject + '&body=' + resp.template.body;
+    window.location.href = 'mailto:?content-type=text/html&subject=' + encodeURIComponent(resp.template.subject) 
+        + '&body=' + encodeURIComponent(resp.template.body);
   }, 'email');
 }
 
@@ -1059,7 +1060,7 @@ function doRedeemGift(gift) {
     success: function(json) {
       if (json && json.RedeemGiftResponse && json.RedeemGiftResponse.authorizationCode) {
         var code = json.RedeemGiftResponse.authorizationCode;
-        var imgUrl = config.backend + 'kikbak/generateBarcode/' + localStorage.userId + '/' + code + '/262/262/',
+        var imgUrl = config.backend + 'kikbak/generateBarcode/' + localStorage.userId + '/' + code + '/262/262/';
         $('#redeem-gift-success .pg-hedng').html(gift.merchant.name);
         $('#redeem-gift-success .cd-br-stin h1').html(gift.desc);
         $('#redeem-gift-success .cd-br-stin h3').html(gift.detailedDesc);

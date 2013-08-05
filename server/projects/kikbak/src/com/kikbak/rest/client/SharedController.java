@@ -72,10 +72,10 @@ public class SharedController {
 		
 		if (StringUtils.isNotBlank(experience.getType())
 				&& StringUtils.isNotBlank(experience.getPlatform())) {
-			String titleKey = "share.template.title"
+			String titleKey = "share.template.title."
 					+ experience.getType().toLowerCase() + "."
 					+ experience.getPlatform().toLowerCase();
-			String bodyKey = "share.template.body"
+			String bodyKey = "share.template.body."
 					+ experience.getType().toLowerCase() + "."
 					+ experience.getPlatform().toLowerCase();
 
@@ -98,14 +98,14 @@ public class SharedController {
 					Gift gift = readOnlyGiftDAO.findByOfferId(experience
 							.getOfferId());
 					if (StringUtils.isNotBlank(titleTemplate)) {
-						fillTemplate(experience, loginUrl, titleTemplate, user,
+						String title = fillTemplate(experience, loginUrl, titleTemplate, user,
 								location, merchant, gift);
-						template.setSubject(titleTemplate);
+						template.setSubject(title);
 					}
 					if (StringUtils.isNotBlank(bodyTemplate)) {
-						fillTemplate(experience, loginUrl, bodyTemplate, user,
+						String body = fillTemplate(experience, loginUrl, bodyTemplate, user,
 								location, merchant, gift);
-						template.setSubject(bodyTemplate);
+						template.setBody(body);
 					}
 				}
 			} catch (Exception e) {
@@ -120,19 +120,23 @@ public class SharedController {
 		return response;
 	}
 
-	private void fillTemplate(SharedType experience, String loginUrl,
-			String titleTemplate, User user, Location location,
+	private String fillTemplate(SharedType experience, String loginUrl,
+			String template, User user, Location location,
 			Merchant merchant, Gift gift) {
-		titleTemplate = titleTemplate.replace("%CAPTION%", experience.getCaption());
-		titleTemplate = titleTemplate.replace("%EMPLOYEE_ID%", StringUtils.isNotBlank(experience.getEmployeeId()) ?
+		String result;
+		result = template.replace("%CAPTION%", experience.getCaption());
+		result = result.replace("%EMPLOYEE_ID%", StringUtils.isNotBlank(experience.getEmployeeId()) ?
 				experience.getEmployeeId() : "employee");
-		titleTemplate = titleTemplate.replace("%IMAGE_URL%", experience.getImageUrl());
-		titleTemplate = titleTemplate.replace("%DESC%", gift.getDescription());
-		titleTemplate = titleTemplate.replace("%DESC_DETAIL%", gift.getDetailedDesc());
-		titleTemplate = titleTemplate.replace("%LOGIN_URL%", loginUrl);
-		titleTemplate = titleTemplate.replace("%MERCHANT%", merchant.getName());
-		titleTemplate = titleTemplate.replace("%NAME%", user.getFirstName() + " " + user.getLastName());
-		titleTemplate = titleTemplate.replace("%ADDRESS%", location.getAddress1() + " " + location.getAddress2()
+		result = result.replace("%IMAGE_URL%", experience.getImageUrl());
+		result = result.replace("%DESC%", gift.getDescription());
+		result = result.replace("%DESC_DETAIL%", gift.getDetailedDesc());
+		result = result.replace("%LOGIN_URL%", loginUrl);
+		result = result.replace("%MERCHANT%", merchant.getName());
+		result = result.replace("%NAME%", StringUtils.trimToEmpty(user.getFirstName()) + " " 
+				+ StringUtils.trimToEmpty(user.getLastName()));
+		result = result.replace("%ADDRESS%", location.getAddress1() + " " + location.getAddress2()
 				+ ", " + location.getCity());
+		
+		return result;
 	}
 }
