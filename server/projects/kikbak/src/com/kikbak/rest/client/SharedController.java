@@ -124,18 +124,19 @@ public class SharedController {
 			String template, User user, Location location,
 			Merchant merchant, Gift gift) {
 		String result;
-		result = template.replace("%CAPTION%", experience.getCaption());
+		result = template.replace("%CAPTION%", StringUtils.trimToEmpty(experience.getCaption()));
 		result = result.replace("%EMPLOYEE_ID%", StringUtils.isNotBlank(experience.getEmployeeId()) ?
 				experience.getEmployeeId() : "employee");
-		result = result.replace("%IMAGE_URL%", experience.getImageUrl());
-		result = result.replace("%DESC%", gift.getDescription());
-		result = result.replace("%DESC_DETAIL%", gift.getDetailedDesc());
+		result = result.replace("%IMAGE_URL%", StringUtils.trimToEmpty(experience.getImageUrl()));
+		result = result.replace("%DESC%", StringUtils.trimToEmpty(gift.getDescription()));
+		result = result.replace("%DESC_DETAIL%", StringUtils.trimToEmpty(gift.getDetailedDesc()));
 		result = result.replace("%LOGIN_URL%", loginUrl);
-		result = result.replace("%MERCHANT%", merchant.getName());
-		result = result.replace("%NAME%", StringUtils.trimToEmpty(user.getFirstName()) + " " 
+		result = result.replace("%MERCHANT%", StringUtils.trimToEmpty(merchant.getName()));
+		result = result.replace("%NAME%", StringUtils.trimToEmpty(user.getFirstName()) + " "
 				+ StringUtils.trimToEmpty(user.getLastName()));
-		result = result.replace("%ADDRESS%", location.getAddress1() + " " + location.getAddress2()
-				+ ", " + location.getCity());
+		result = result.replace("%ADDRESS%", StringUtils.trimToEmpty(location.getAddress1()) + " "
+				+ StringUtils.trimToEmpty(location.getAddress2())
+				+ ", " + StringUtils.trimToEmpty(location.getCity()));
 		
 		return result;
 	}
