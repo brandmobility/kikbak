@@ -584,7 +584,7 @@ function renderRedeem(gifts, credits) {
   var imgUrl = credits ? credits[0].imageUrl : gifts[0].imageUrl;
   
   var html = '<div class="rdem-bx"><div class="redeem"><span class="imgshado"></span><div class="lstimg">';
-  html += '<img class="redeem-background" src="' + imageUrl + '" />';  html += '<a href="' + redeem.merchant.url + '"><img class="website-img" src="img/ic_web.png" /></a>';
+  html += '<img class="redeem-background" src="' + imgUrl + '" />';  html += '<a href="' + m.url + '"><img class="website-img" src="img/ic_web.png" /></a>';
   html += '</div><h3>' + m.name + '</h3><div class="opt-icon">';
   local = getDisplayLocation(m.locations);
   if (local != 'undefined') {
@@ -602,7 +602,10 @@ function renderRedeem(gifts, credits) {
     var style = credits ? ' lft-bdr' : '';
     html += '<a href="#" data-object="' + json + '" class="redeem-gift-btn clearfix">';
     html += '<div class="lft-dtl' + style + '"><span>USE RECEIVED GIFT </span><h2>' + g.desc + '</h2>';
-    html += '<img src="https://graph.facebook.com/' + gift.fbFriendId + '/picture?type=square"><img src="images/actor-bk.png" class="actbrd">';
+    html += '<a href="#" class="actor"><img style="width:64px;height:64px;" src="https://graph.facebook.com/' + g.fbFriendId + '/picture?type=square"></a>';
+    if (gifts.length > 1) {
+      html += '<img src="images/actor-bk.png" class="actbrd">';
+    }
     html += '</div>';
     html += '</a>'; 
   }
