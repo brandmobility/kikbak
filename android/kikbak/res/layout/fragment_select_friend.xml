@@ -1,21 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:kikbak="http://schemas.android.com/apk/res/com.referredlabs.kikbak"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <TextView
+    <com.referredlabs.kikbak.widget.TtfTextView
         android:id="@+id/value"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="$50 off" />
+        android:layout_marginLeft="19dp"
+        android:layout_marginRight="19dp"
+        android:layout_marginTop="12dp"
+        android:gravity="left"
+        android:text="$50 off"
+        android:textColor="#247de9"
+        android:textSize="23dp"
+        kikbak:typeface="Roboto-Bold.ttf" />
 
-    <TextView
+    <com.referredlabs.kikbak.widget.TtfTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/select_friend_label" />
+        android:layout_marginLeft="19dp"
+        android:layout_marginRight="19dp"
+        android:layout_marginTop="10dp"
+        android:gravity="left"
+        android:text="@string/select_friend_label"
+        android:textColor="#3a3a3a"
+        android:textSize="15dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="12dp"
+        android:background="#0061e5" />
 
     <ListView
         android:id="@+id/list"

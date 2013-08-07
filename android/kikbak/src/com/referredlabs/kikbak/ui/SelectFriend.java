@@ -1,6 +1,9 @@
 
 package com.referredlabs.kikbak.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,9 +25,6 @@ import com.referredlabs.kikbak.data.GiftType;
 import com.referredlabs.kikbak.fb.Fb;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class SelectFriend extends DialogFragment implements OnItemClickListener {
 
   private static final String ARG_GIFTS = "gifts";
@@ -37,7 +37,7 @@ public class SelectFriend extends DialogFragment implements OnItemClickListener 
   }
 
   public static SelectFriend newInstance(List<GiftType> gifts) {
-    SelectFriend frag = new SelectFriend();
+    SelectFriend dialog = new SelectFriend();
     Bundle args = new Bundle();
     Gson gson = new Gson();
     ArrayList<String> data = new ArrayList<String>(gifts.size());
@@ -45,14 +45,14 @@ public class SelectFriend extends DialogFragment implements OnItemClickListener 
       data.add(gson.toJson(gift));
     }
     args.putStringArrayList(ARG_GIFTS, data);
-    frag.setArguments(args);
-    return frag;
+    dialog.setArguments(args);
+    return dialog;
   }
-
+  
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    // TODO Auto-generated method stub
     super.onCreate(savedInstanceState);
+    setStyle(DialogFragment.STYLE_NO_TITLE, 0);
   }
 
   @Override
