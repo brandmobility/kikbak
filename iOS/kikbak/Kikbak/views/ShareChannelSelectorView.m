@@ -14,10 +14,11 @@
 
 @property (nonatomic,strong) UIView* backgroundView;
 @property (nonatomic,strong) UILabel* share;
-@property (nonatomic,strong) UILabel* email;
+@property (nonatomic,strong) UIButton* fbBtn;
+@property (nonatomic,strong) UIImageView* or1;
 @property (nonatomic,strong) UIButton* emailBtn;
-@property (nonatomic,strong) UILabel* facebook;
-@property (nonatomic,strong) UIButton* timelineBtn;
+@property (nonatomic,strong) UIImageView* or2;
+@property (nonatomic,strong) UIButton* smsBtn;
 @property (nonatomic,strong) UIButton* closeBtn;
 
 -(IBAction)onEmail:(id)sender;
@@ -49,7 +50,7 @@
 */
 -(void)createsubviews{
  
-    self.backgroundView = [[UIView alloc] initWithFrame:CGRectMake(23, 100, self.frame.size.width - 46, 226)];
+    self.backgroundView = [[UIView alloc] initWithFrame:CGRectMake(23, 100, self.frame.size.width - 46, 256)];
     self.backgroundView.backgroundColor = UIColorFromRGB(0xE0E0E0);
     self.backgroundView.layer.cornerRadius = 10;
     [self addSubview:self.backgroundView];
@@ -62,39 +63,46 @@
     self.share.textColor = UIColorFromRGB(0x3a3a3a);
     [self.backgroundView addSubview:self.share];
     
-    self.email = [[UILabel alloc]initWithFrame:CGRectMake(0, 50, self.backgroundView.frame.size.width, 24)];
-    self.email.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:21];
-    self.email.text = NSLocalizedString(@"Email", nil);
-    self.email.textAlignment = NSTextAlignmentCenter;
-    self.email.backgroundColor = [UIColor clearColor];
-    self.email.textColor = UIColorFromRGB(0x3a3a3a);
-    [self.backgroundView addSubview:self.email];
+    self.fbBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.fbBtn.frame = CGRectMake(12, 50, self.backgroundView.frame.size.width - 24, 40);
+    [self.fbBtn setBackgroundImage:[UIImage imageNamed:@"btn_blue"] forState:UIControlStateNormal];
+    [self.fbBtn setTitle:NSLocalizedString(@"Post on my timeline", nil) forState:UIControlStateNormal];
+    self.fbBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16];
+    self.fbBtn.titleLabel.textColor = [UIColor whiteColor];
+    [self.fbBtn addTarget:self action:@selector(onTimeline:) forControlEvents:UIControlEventTouchUpInside];
+    [self.backgroundView addSubview:self.fbBtn];
+    
 
+    UIImage* orSeperator = [UIImage imageNamed:@"seperator_share_or"];
+    self.or1 = [[UIImageView alloc]initWithImage:orSeperator];
+    CGRect fr = CGRectMake(69, 105, orSeperator.size.width/2, orSeperator.size.height/2);
+    self.or1.frame = fr;
+    [self.backgroundView addSubview:self.or1];
+    
     self.emailBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.emailBtn.frame = CGRectMake(12, 81, self.backgroundView.frame.size.width - 24, 40);
-    [self.emailBtn setBackgroundImage:[UIImage imageNamed:@"btn_blue"] forState:UIControlStateNormal];
-    [self.emailBtn setTitle:NSLocalizedString(@"Send to select friends", nil) forState:UIControlStateNormal];
+    self.emailBtn.frame = CGRectMake(12, 125, self.backgroundView.frame.size.width - 24, 40);
+    [self.emailBtn setBackgroundImage:[UIImage imageNamed:@"btn_grey"] forState:UIControlStateNormal];
+    [self.emailBtn setTitle:NSLocalizedString(@"Email", nil) forState:UIControlStateNormal];
     self.emailBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16];
     self.emailBtn.titleLabel.textColor = [UIColor whiteColor];
     [self.emailBtn addTarget:self action:@selector(onEmail:) forControlEvents:UIControlEventTouchUpInside];
     [self.backgroundView addSubview:self.emailBtn];
     
-    self.facebook = [[UILabel alloc]initWithFrame:CGRectMake(0, 141, self.backgroundView.frame.size.width, 24)];
-    self.facebook.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:21];
-    self.facebook.text = NSLocalizedString(@"Facebook", nil);
-    self.facebook.textAlignment = NSTextAlignmentCenter;
-    self.facebook.backgroundColor = [UIColor clearColor];
-    self.facebook.textColor = UIColorFromRGB(0x3a3a3a);
-    [self.backgroundView addSubview:self.facebook];
     
-    self.timelineBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.timelineBtn.frame = CGRectMake(12, 172, self.backgroundView.frame.size.width - 24, 40);
-    [self.timelineBtn setBackgroundImage:[UIImage imageNamed:@"btn_blue"] forState:UIControlStateNormal];
-    [self.timelineBtn setTitle:NSLocalizedString(@"Post on my timeline", nil) forState:UIControlStateNormal];
-    self.timelineBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16];
-    self.timelineBtn.titleLabel.textColor = [UIColor whiteColor];
-    [self.timelineBtn addTarget:self action:@selector(onTimeline:) forControlEvents:UIControlEventTouchUpInside];
-    [self.backgroundView addSubview:self.timelineBtn];
+    self.or2 = [[UIImageView alloc]initWithImage:orSeperator];
+    fr = CGRectMake(69, 175, orSeperator.size.width/2, orSeperator.size.height/2);
+    self.or2.frame = fr;
+    [self.backgroundView addSubview:self.or2];
+    
+    self.smsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.smsBtn.frame = CGRectMake(12, 195, self.backgroundView.frame.size.width - 24, 40);
+    [self.smsBtn setBackgroundImage:[UIImage imageNamed:@"btn_grey"] forState:UIControlStateNormal];
+    [self.smsBtn setTitle:NSLocalizedString(@"SMS", nil) forState:UIControlStateNormal];
+    self.smsBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16];
+    self.smsBtn.titleLabel.textColor = [UIColor whiteColor];
+    [self.smsBtn addTarget:self action:@selector(onSms:) forControlEvents:UIControlEventTouchUpInside];
+    [self.backgroundView addSubview:self.smsBtn];
+
     
     self.closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.closeBtn addTarget:self action:@selector(onCloseBtn:) forControlEvents:UIControlEventTouchUpInside];

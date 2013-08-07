@@ -746,10 +746,12 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 }
 
 -(void) onSMSBodySuccess:(NSNotification*)notification{
-    MFMessageComposeViewController* message = [[MFMessageComposeViewController alloc]init];
-    message.messageComposeDelegate = self;
-    [message setBody:[notification object]];    
-    [self presentViewController:message animated:YES completion:nil];
+    if( [MFMessageComposeViewController canSendText] ){
+        MFMessageComposeViewController* message = [[MFMessageComposeViewController alloc]init];
+        message.messageComposeDelegate = self;
+        [message setBody:[notification object]];    
+        [self presentViewController:message animated:YES completion:nil];
+    }
 }
 
 -(void) onSMSBodyError:(NSNotification*)notification{
@@ -757,12 +759,14 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 }
 
 -(void) onEmailBodySuccess:(NSNotification*)notification{
-    MFMailComposeViewController* picker = [[MFMailComposeViewController alloc]init];
-    picker.mailComposeDelegate = self;
-    [picker setSubject:((EmailFields*)[notification object]).subject];
-    [picker setMessageBody:((EmailFields*)[notification object]).body isHTML:YES];
-    
-    [self presentViewController:picker animated:YES completion:nil];
+    if( [MFMailComposeViewController canSendMail]){
+        MFMailComposeViewController* picker = [[MFMailComposeViewController alloc]init];
+        picker.mailComposeDelegate = self;
+        [picker setSubject:((EmailFields*)[notification object]).subject];
+        [picker setMessageBody:((EmailFields*)[notification object]).body isHTML:YES];
+        
+        [self presentViewController:picker animated:YES completion:nil];
+    }
 }
 
 -(void) onEmailBodyError:(NSNotification*)notification{
