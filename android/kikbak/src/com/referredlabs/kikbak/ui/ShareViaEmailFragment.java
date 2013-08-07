@@ -1,6 +1,9 @@
 
 package com.referredlabs.kikbak.ui;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -9,11 +12,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.text.Html;
-import android.text.Spanned;
 
 import com.google.gson.Gson;
-import com.referredlabs.kikbak.C;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ClientOfferType;
 import com.referredlabs.kikbak.data.ShareExperienceRequest;
@@ -21,9 +21,6 @@ import com.referredlabs.kikbak.data.ShareExperienceResponse;
 import com.referredlabs.kikbak.data.SharedType;
 import com.referredlabs.kikbak.http.Http;
 import com.referredlabs.kikbak.utils.Register;
-
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class ShareViaEmailFragment extends DialogFragment {
 
@@ -110,16 +107,17 @@ public class ShareViaEmailFragment extends DialogFragment {
     }
   }
 
-  protected void onShareFinished(String title, String body) {
+  protected void onShareFinished(String subject, String body) {
     Intent intent = new Intent(Intent.ACTION_SENDTO);
     intent.setData(Uri.parse("mailto:"));
     if (mContacts != null && mContacts.size() > 0) {
       intent.putExtra(Intent.EXTRA_EMAIL, mContacts.toArray(new String[mContacts.size()]));
     }
-    intent.putExtra(Intent.EXTRA_SUBJECT, title);
-    Spanned text = Html.fromHtml(body);
-    intent.putExtra(Intent.EXTRA_TEXT, text.toString());
-    intent.putExtra(Intent.EXTRA_HTML_TEXT, body);
+    intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+    intent.putExtra(Intent.EXTRA_TEXT, body);
+    // Spanned text = Html.fromHtml(body);
+    // intent.putExtra(Intent.EXTRA_TEXT, text.toString());
+    // intent.putExtra(Intent.EXTRA_HTML_TEXT, body);
     startActivityForResult(intent, REQUEST_SEND_EMAIL);
   }
 
@@ -130,7 +128,8 @@ public class ShareViaEmailFragment extends DialogFragment {
 
   private class ShareTask extends AsyncTask<Void, Void, Void> {
 
-    private ShareTemplateResponse mTemplate;
+    private String mSubject;
+    private String mBody;
     private boolean mKikbakSuccess = false;
 
     @Override
@@ -145,8 +144,7 @@ public class ShareViaEmailFragment extends DialogFragment {
           long userId = Register.getInstance().getUserId();
           imageUrl = Http.uploadImage(userId, photoPath);
         }
-        String code = reportToKikbak(imageUrl);
-        fetchTemplate(code, imageUrl);
+        reportToKikbak(imageUrl);
 
         mKikbakSuccess = true;
       } catch (Exception e) {
@@ -155,7 +153,7 @@ public class ShareViaEmailFragment extends DialogFragment {
       return null;
     }
 
-    private String reportToKikbak(String imageUrl) throws IOException {
+    private void reportToKikbak(String imageUrl) throws IOException {
       final long userId = Register.getInstance().getUserId();
       Bundle args = getArguments();
       ShareExperienceRequest req = new ShareExperienceRequest();
@@ -170,41 +168,17 @@ public class ShareViaEmailFragment extends DialogFragment {
 
       String uri = Http.getUri(ShareExperienceRequest.PATH + userId);
       ShareExperienceResponse resp = Http.execute(uri, req, ShareExperienceResponse.class);
-      return resp.referrerCode;
-    }
-
-    void fetchTemplate(String reffererCode, String imageUrl) throws IOException {
-      String uri = getTemplateUri(reffererCode, imageUrl);
-      mTemplate = Http.execute(uri, ShareTemplateResponse.class);
-    }
-
-    private String getTemplateUri(String code, String imageUrl) {
-      String name = Register.getInstance().getUserName();
-      String comment = getArguments().getString(ARG_COMMENT);
-
-      Uri.Builder b = new Uri.Builder();
-      b.scheme("http").authority(C.SCRIPT_SERVER).path("/s/email.php");
-      b.appendQueryParameter("name", name);
-      b.appendQueryParameter("code", code);
-      b.appendQueryParameter("desc", comment);
-      b.appendQueryParameter("url", imageUrl);
-      return b.build().toString();
+      mSubject = resp.template.subject;
+      mBody = resp.template.body;
     }
 
     @Override
     protected void onPostExecute(Void result) {
       if (mKikbakSuccess) {
-        onShareFinished(mTemplate.subject, mTemplate.body);
+        onShareFinished(mSubject, mBody);
       } else {
         onShareFailed();
       }
     }
-  }
-
-  private static class ShareTemplateResponse {
-    public String subject;
-    public String body;
-
-    // NOTE: GET request without top level type in response;
   }
 }
