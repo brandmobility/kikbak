@@ -134,7 +134,7 @@
 
     <!-- Scanner -->
     <string name="scan_now">Scan now</string>
-    <string name="scan_desc">To redeem now, scan the Kikbak QR code held by the cashier</string>
+    <string name="scan_desc">"Scan QR code on the cashier's Kikbak Card"</string>
     <string name="scan_tip">Hold still for scan</string>
 
     <!-- Claim credit card -->

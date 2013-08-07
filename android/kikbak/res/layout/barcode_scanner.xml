@@ -1,42 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:kikbak="http://schemas.android.com/apk/res/com.referredlabs.kikbak"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:paddingBottom="15dp"
-    android:paddingLeft="15dp"
-    android:paddingRight="15dp" >
+    android:orientation="vertical" >
 
-    <TextView
-        style="@android:style/TextAppearance.Medium"
+    <com.referredlabs.kikbak.widget.TtfTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="@string/scan_desc" />
+        android:layout_marginLeft="19dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/scan_desc"
+        android:textColor="#247de9"
+        android:textSize="26dp"
+        kikbak:typeface="Roboto-Bold.ttf" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        android:background="#0061e5" />
 
     <FrameLayout
-        android:id="@+id/cameraPreviewContainer"
+        android:id="@+id/camera_preview_container"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp" >
+        android:layout_height="270dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="19dp"
+        android:layout_marginRight="19dp"
+        android:layout_marginTop="20dp" >
 
         <com.referredlabs.kikbak.widget.CameraPreview
-            android:id="@+id/cameraPreview"
+            android:id="@+id/camera_preview"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
         <com.referredlabs.kikbak.widget.PointsView
-            android:id="@+id/pointsView"
+            android:id="@+id/points_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </FrameLayout>
 
-    <TextView
-        style="@android:style/TextAppearance.Medium"
+    <com.referredlabs.kikbak.widget.TtfTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/scan_tip" />
+        android:layout_marginBottom="20dp"
+        android:text="@string/scan_tip"
+        android:textColor="#3a3a3a"
+        android:textSize="15dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
 
 </LinearLayout>
