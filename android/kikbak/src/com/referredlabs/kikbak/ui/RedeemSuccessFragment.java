@@ -2,6 +2,7 @@
 package com.referredlabs.kikbak.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.zxing.BarcodeFormat;
@@ -21,7 +21,10 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.AvailableCreditType;
+import com.referredlabs.kikbak.data.ClientOfferType;
 import com.referredlabs.kikbak.data.GiftType;
+import com.referredlabs.kikbak.data.ValidationType;
+import com.referredlabs.kikbak.store.DataStore;
 
 public class RedeemSuccessFragment extends Fragment implements OnClickListener {
 
@@ -33,7 +36,9 @@ public class RedeemSuccessFragment extends Fragment implements OnClickListener {
 
   private TextView mName;
   private View mSuccessFrame;
-  private TextView mNote;
+  private TextView mTitle;
+  private TextView mNoteFirst;
+  private TextView mNoteSecond;
   private TextView mTypeLabel;
   private TextView mValue;
   private TextView mDesc;
@@ -64,9 +69,11 @@ public class RedeemSuccessFragment extends Fragment implements OnClickListener {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View root = inflater.inflate(R.layout.fragment_redeem_success, container, false);
-    mSuccessFrame = root.findViewById(R.id.success_frame);
     mName = (TextView) root.findViewById(R.id.name);
-    mNote = (TextView) root.findViewById(R.id.redeem_note);
+    mSuccessFrame = root.findViewById(R.id.success_frame);
+    mTitle = (TextView) root.findViewById(R.id.title);
+    mNoteFirst = (TextView) root.findViewById(R.id.redeem_note_first);
+    mNoteSecond = (TextView) root.findViewById(R.id.redeem_note_second);
     mTypeLabel = (TextView) root.findViewById(R.id.redeem_type_label);
     mValue = (TextView) root.findViewById(R.id.redeem_value);
     mDesc = (TextView) root.findViewById(R.id.redeem_desc);
@@ -80,9 +87,9 @@ public class RedeemSuccessFragment extends Fragment implements OnClickListener {
 
   private void setupViews() {
     if (mGift != null)
-      setupForGift();
+      setupGiftViews();
     else
-      setupForCredit();
+      setupCreditViews();
 
     Bitmap bmp = mBarcodeBitmap;
     if (bmp == null) {
@@ -92,16 +99,39 @@ public class RedeemSuccessFragment extends Fragment implements OnClickListener {
     mCode.setText(mBarcode);
   }
 
-  private void setupForGift() {
+  private void setupGiftViews() {
+    mName.setText(mGift.merchant.name);
     mSuccessFrame.setBackgroundColor(getResources().getColor(R.color.success_gift_background));
-    mNote.setText(R.string.redeem_success_gift_note);
+
+    int color = getResources().getColor(R.color.success_gift_text);
+    mTitle.setTextColor(color);
+    mNoteFirst.setTextColor(color);
+    mNoteSecond.setTextColor(color);
+
+    mNoteFirst.setText(R.string.redeem_success_note_first_gift);
+    if (ValidationType.QRCODE.equals(mGift.validationType))
+      mNoteSecond.setText(R.string.redeem_success_note_second);
+    else
+      mNoteSecond.setText(R.string.redeem_success_note_second_integrated);
     mTypeLabel.setText(R.string.redeem_success_offer);
+    mValue.setText(mGift.desc);
+    mDesc.setText(mGift.detailedDesc);
   }
 
-  private void setupForCredit() {
+  private void setupCreditViews() {
+    mName.setText(mCredit.merchant.name);
     mSuccessFrame.setBackgroundColor(getResources().getColor(R.color.success_credit_background));
-    mNote.setText(R.string.redeem_success_credit_note);
+
+    int color = getResources().getColor(R.color.success_credit_text);
+    mTitle.setTextColor(color);
+    mNoteFirst.setTextColor(color);
+    mNoteSecond.setTextColor(color);
+
+    mNoteFirst.setText(R.string.redeem_success_note_first_credit);
+    mNoteSecond.setText(R.string.redeem_success_note_second);
     mTypeLabel.setText(R.string.redeem_success_credit);
+    mValue.setText(mCredit.desc);
+    mDesc.setText(mCredit.detailedDesc);
   }
 
   private Bitmap generateQrCode(String code) {
@@ -136,6 +166,15 @@ public class RedeemSuccessFragment extends Fragment implements OnClickListener {
   }
 
   private void onGiveClicked() {
-    Toast.makeText(getActivity(), "Not implemented", Toast.LENGTH_SHORT).show();
+    getActivity().finish();
+    long id = mGift != null ? mGift.offerId : mCredit.offerId;
+    ClientOfferType offer = DataStore.getInstance().getOffer(id);
+    if (offer != null) {
+      Intent intent = new Intent(getActivity(), GiveActivity.class);
+      Gson gson = new Gson();
+      String data = gson.toJson(offer);
+      intent.putExtra(GiveActivity.ARG_OFFER, data);
+      startActivity(intent);
+    }
   }
 }

@@ -1,16 +1,16 @@
 
 package com.referredlabs.kikbak.store;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import android.database.DataSetObservable;
 import android.database.DataSetObserver;
 
 import com.referredlabs.kikbak.data.AvailableCreditType;
 import com.referredlabs.kikbak.data.ClientOfferType;
 import com.referredlabs.kikbak.data.GiftType;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class DataStore {
 
@@ -99,6 +99,14 @@ public class DataStore {
       }
     }
     mRewardsObservable.notifyChanged();
+  }
+
+  public synchronized ClientOfferType getOffer(long id) {
+    for (ClientOfferType offer : mOffers) {
+      if (offer.id == id)
+        return offer;
+    }
+    return null;
   }
 
 }

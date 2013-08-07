@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="success_gift_background">#ff99cc00</color>
-    <color name="success_credit_background">#ff33b5e5</color>
+    <color name="success_gift_text">#135317</color>
+    <color name="success_gift_background">#86d18b</color>
+    <color name="success_credit_text">#0f4689</color>
+    <color name="success_credit_background">#98bbe7</color>
     <color name="scanner_point">#c0ffbd21</color>
     
     <color name="no_image">#ff33b5e5</color>
