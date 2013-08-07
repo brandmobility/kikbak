@@ -141,7 +141,7 @@ public class RewardServiceImpl implements RewardService{
             User friend = roUserDao.findById(ag.getFriendUserId());
             Offer offer = roOfferDao.findById(gift.getOfferId());
 
-            GiftType gt = createGiftType(shared, ag, merchant, gift, friend, offer);
+            GiftType gt = createGiftType(shared, merchant, gift, friend, offer, ag.getId());
 
             gts.add(gt);
         }
@@ -293,8 +293,8 @@ public class RewardServiceImpl implements RewardService{
                     Gift gift = roGiftDao.findById(ag.getGiftId());
                     User friend = roUserDao.findById(ag.getFriendUserId());
 
-                    GiftType gt = createGiftType(shared, ag, merchant, gift,
-                            friend, offer);
+                    GiftType gt = createGiftType(shared, merchant, gift,
+                            friend, offer, ag.getId());
                     gifts.add(gt);
                 }
             }
@@ -302,11 +302,69 @@ public class RewardServiceImpl implements RewardService{
 
         return gifts.isEmpty() ? status : ClaimStatusType.OK;
     }
+    
+    @Override
+    public GiftType getGiftByReferredCode(final String code) throws RewardException {
 
-    private GiftType createGiftType(Shared shared, Allocatedgift ag,
-            Merchant merchant, Gift gift, User friend, Offer offer) {
+        Collection<Shared> shareds = roSharedDao.listAvailableForGiftingByReferralCode(code);
+        
+        if (shareds == null || shareds.size() != 1) {
+
+            GiftType gt = new GiftType();
+            gt.setId(0);
+            ClientMerchantType cmt = new ClientMerchantType();
+            cmt.setId(0);
+            cmt.setName("merchant");
+            cmt.setUrl("http://www.merchant.com");
+
+                MerchantLocationType clt = new MerchantLocationType();
+                clt.setLocationId(0);
+                clt.setSiteName("site");
+                clt.setAddress1("addr1");
+                clt.setAddress2("addr2");
+                clt.setCity("location.getCity()");
+                clt.setState("location.getState()");
+                clt.setZipcode("String.valueOf(location.getZipcode())");
+                clt.setZip4("location.getZipPlusFour()");
+                clt.setLatitude(111);
+                clt.setLongitude(222);
+                clt.setPhoneNumber(333);
+                cmt.getLocations().add(clt);
+
+            gt.setMerchant(cmt);
+            gt.setOfferId(0);
+            gt.setDesc("gift.getDescription()");
+            gt.setDetailedDesc("gift.getDetailedDesc()");
+            gt.setValue(5);
+            gt.setDiscountType("gift.getDiscountType()");
+            gt.setValidationType("gift.getValidationType()");
+            gt.setRedemptionLocationType("gift.getRedemptionLocationType()");
+            gt.setImageUrl("gift.getDefaultGiveImageUrl()");
+            gt.setDefaultGiveImageUrl("gift.getDefaultGiveImageUrl()");
+            gt.setTosUrl("offer.getTosUrl()");
+            gt.setFriendUserId(0);
+            gt.setFbFriendId(0);
+            gt.setFriendName("friend.getFirstName() friend.getLastName()");
+            gt.setCaption("shared.getCaption()");
+            gt.setEmployeeId("shared.getEmployeeId()");
+            
+            return gt;
+        	// throw new RewardException("should only have one shared with code " + code + ", found " + ((shareds == null) ? 0 : shareds.size()));
+        }
+        
+        Shared shared = shareds.iterator().next();
+        Offer offer = roOfferDao.findById(shared.getOfferId());
+        Merchant merchant = roMerchantDao.findById(offer.getMerchantId());
+        Gift gift = roGiftDao.findById(shared.getOfferId());
+        User friend = roUserDao.findById(shared.getUserId());
+
+        return createGiftType(shared, merchant, gift, friend, offer, 0);
+    } 
+
+    private GiftType createGiftType(Shared shared,
+            Merchant merchant, Gift gift, User friend, Offer offer, long agId) {
         GiftType gt = new GiftType();
-        gt.setId(ag.getId());
+        gt.setId(agId);
         ClientMerchantType cmt = fillClientMerchantType(merchant);
         gt.setMerchant(cmt);
         gt.setOfferId(shared.getOfferId());
@@ -319,10 +377,11 @@ public class RewardServiceImpl implements RewardService{
         gt.setImageUrl(gift.getDefaultGiveImageUrl());
         gt.setDefaultGiveImageUrl(gift.getDefaultGiveImageUrl());
         gt.setTosUrl(offer.getTosUrl());
-        gt.setFriendUserId(ag.getFriendUserId());
+        gt.setFriendUserId(friend.getId());
         gt.setFbFriendId(friend.getFacebookId());
         gt.setFriendName(friend.getFirstName() + " " + friend.getLastName());
         gt.setCaption(shared.getCaption());
+        gt.setEmployeeId(shared.getEmployeeId());
 //        gt.setFbImageId(shared.getFbImageId());
 
         return gt;

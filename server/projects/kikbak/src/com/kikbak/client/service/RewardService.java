@@ -20,4 +20,5 @@ public interface RewardService {
     ClaimStatusType claimGift(Long userId, String referralCode, List<GiftType> gifts) throws RewardException;
     void claimCredit(final Long userId, final ClaimType claim) throws Exception;
     String getBarcode(final Long userId, final Long allocatedGiftId)throws Exception;
+    GiftType getGiftByReferredCode(final String code) throws RewardException;
 }
