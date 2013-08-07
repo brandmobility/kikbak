@@ -104,7 +104,6 @@
 
 //share channel
 "Share type" = "How would you like to share?";
-"Email" = "Email";
-"Send to select friends" = "Send to select friends";
-"Facebook" = "Facebook";
-"Post on my timeline" = "Post on my Timeline";
+"Post on my timeline" = "Post on Facebook";
+"Email" = "Share via Email";
+"SMS" = "Share via SMS";

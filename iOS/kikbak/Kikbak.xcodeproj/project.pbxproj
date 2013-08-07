@@ -173,6 +173,7 @@
 		3CB9FC6117A8D74E0071B8B4 /* EmailBodyRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9FC6017A8D74E0071B8B4 /* EmailBodyRequest.m */; };
 		3CB9FC6517A8E6970071B8B4 /* EmailFields.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9FC6417A8E6970071B8B4 /* EmailFields.m */; };
 		3CB9FC6817AA43230071B8B4 /* ImageUploadRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9FC6717AA43230071B8B4 /* ImageUploadRequest.m */; };
+		3CB9FC7017B232E40071B8B4 /* seperator_share_or.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CB9FC6F17B232E40071B8B4 /* seperator_share_or.png */; };
 		3CBCBF2617127468007B4249 /* OfferService.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF2517127468007B4249 /* OfferService.mm */; };
 		3CBCBF29171277A3007B4249 /* LocationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF28171277A3007B4249 /* LocationService.m */; };
 		3CBCBF491713E696007B4249 /* SubmitFriendsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF351713E696007B4249 /* SubmitFriendsRequest.m */; };
@@ -241,6 +242,7 @@
 		C0C973991693ADB1001A2A80 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C0C973981693ADB1001A2A80 /* libiconv.dylib */; };
 		C0C9739B1693FDA2001A2A80 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0C9739A1693FDA2001A2A80 /* CoreVideo.framework */; };
 		C0C974011696BF16001A2A80 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0C974001696BF15001A2A80 /* Security.framework */; };
+		C0FF2B4817B1BC03001889B0 /* FBCouponObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C0FF2B4717B1BC03001889B0 /* FBCouponObject.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -476,6 +478,7 @@
 		3CB9FC6417A8E6970071B8B4 /* EmailFields.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmailFields.m; sourceTree = "<group>"; };
 		3CB9FC6617AA43230071B8B4 /* ImageUploadRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageUploadRequest.h; sourceTree = "<group>"; };
 		3CB9FC6717AA43230071B8B4 /* ImageUploadRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageUploadRequest.m; sourceTree = "<group>"; };
+		3CB9FC6F17B232E40071B8B4 /* seperator_share_or.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = seperator_share_or.png; sourceTree = "<group>"; };
 		3CBCBF2417127468007B4249 /* OfferService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfferService.h; sourceTree = "<group>"; };
 		3CBCBF2517127468007B4249 /* OfferService.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OfferService.mm; sourceTree = "<group>"; };
 		3CBCBF27171277A3007B4249 /* LocationService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationService.h; sourceTree = "<group>"; };
@@ -596,6 +599,8 @@
 		C0C973981693ADB1001A2A80 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		C0C9739A1693FDA2001A2A80 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		C0C974001696BF15001A2A80 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		C0FF2B4617B1BC03001889B0 /* FBCouponObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBCouponObject.h; sourceTree = "<group>"; };
+		C0FF2B4717B1BC03001889B0 /* FBCouponObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBCouponObject.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -875,6 +880,8 @@
 				C04799B2167D96E900C2253D /* FBUserInfo.h */,
 				C04799B3167D96E900C2253D /* FBUserInfo.m */,
 				3C4A2410174B3C5000B8C5F0 /* KikbakOpenGraphProtocols.h */,
+				C0FF2B4617B1BC03001889B0 /* FBCouponObject.h */,
+				C0FF2B4717B1BC03001889B0 /* FBCouponObject.m */,
 			);
 			name = facebook;
 			sourceTree = "<group>";
@@ -882,6 +889,7 @@
 		C04799B9167D9B4B00C2253D /* graphics */ = {
 			isa = PBXGroup;
 			children = (
+				3CB9FC6F17B232E40071B8B4 /* seperator_share_or.png */,
 				3C0F26D71787686A00472352 /* grd_offer_cell_bottom.png */,
 				3C0F26D81787686B00472352 /* grd_offer_cell_bottom@2x.png */,
 				3C0F26D51783F5D200472352 /* grd_give_img@2x.png */,
@@ -1348,6 +1356,7 @@
 				3C0F26D61783F5D200472352 /* grd_give_img@2x.png in Resources */,
 				3C0F26D91787686B00472352 /* grd_offer_cell_bottom.png in Resources */,
 				3C0F26DA1787686B00472352 /* grd_offer_cell_bottom@2x.png in Resources */,
+				3CB9FC7017B232E40071B8B4 /* seperator_share_or.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1434,6 +1443,7 @@
 				3CB9FC6117A8D74E0071B8B4 /* EmailBodyRequest.m in Sources */,
 				3CB9FC6517A8E6970071B8B4 /* EmailFields.m in Sources */,
 				3CB9FC6817AA43230071B8B4 /* ImageUploadRequest.m in Sources */,
+				C0FF2B4817B1BC03001889B0 /* FBCouponObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

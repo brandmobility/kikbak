@@ -29,7 +29,7 @@
 #import "EmailBodyRequest.h"
 #import "EmailFields.h"
 #import "ImageUploadRequest.h"
-
+#import "FBCouponObject.h"
 
 #define DEFAULT_CONTAINER_VIEW_HEIGHT 50
 #define PHOTO_TAG  1000
@@ -115,10 +115,6 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 -(IBAction)keyboardWillShow:(NSNotification*)notification;
 -(IBAction)keyboardWillHide:(NSNotification*)notification;
 
--(id<KikbakOGCoupon>)CouponObject:(NSString*)caption;
--(void)postPhotoTheOpenGraphAction;
--(void)postOpenGraphActionWithPhotoURL:(NSString*)photoURL withImageId:(NSNumber*)fbImageId;
-
 @end
 
 @implementation GiveViewController
@@ -181,6 +177,8 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onSMSBodyError:) name:kKikbakSMSBodyError object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onEmailBodySuccess:) name:kKikbakEmailBodySuccess object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onEmailBodyError:) name:kKikbakEmailBodyError object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onImageUploadSuccess:) name:kKikbakImagePostSuccess object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onImageUploadError:) name:kKikbakImagePostError object:nil];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -614,126 +612,6 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     
 }
 
--(id<KikbakOGCoupon>)CouponObject:(NSString*)caption{
-    // This URL is specific to this sample, and can be used to
-    // create arbitrary OG objects for this app; your OG objects
-    // will have URLs hosted by your server.
-    NSString *format =
-    @"https://young-springs-3453.herokuapp.com/repeater.php?"
-    @"fb:app_id=493383324061333&og:type=%@&"
-    @"og:title=%@&og:description=%%22%@%%22&"
-    @"og:image=https://s-static.ak.fbcdn.net/images/devsite/attachment_blank.png&"
-    @"og:message=testing 1234&"
-    @"body=%@";
-    
-    // We create an FBGraphObject object, but we can treat it as
-    // an SCOGMeal with typed properties, etc. See <FacebookSDK/FBGraphObject.h>
-    // for more details.
-    id<KikbakOGCoupon> result = (id<KikbakOGCoupon>)[FBGraphObject graphObject];
-    
-    // Give it a URL that will echo back the name of the meal as its title,
-    // description, and body.
-    result.url = [NSString stringWithFormat:format,
-                  @"referredlabs:coupon", @"Testing", caption, caption];
-    
-    return result;
-}
-
-- (void)postPhotoTheOpenGraphAction{
-    self.giveBtn.enabled = NO;
-    
-    FBRequestConnection *connection = [[FBRequestConnection alloc] init];
-    
-    // First request uploads the photo.
-    FBRequest *request1 = [FBRequest
-                           requestForUploadPhoto:[self.giveImage.image imageByScalingAndCroppingForSize:CGSizeMake(480, 480)]];
-    [request1.parameters setObject:@"To get gift install kikbak, @[http://en.wikipedia.org/wiki/Cyan]" forKey:@"name"];
-    [connection addRequest:request1
-         completionHandler:
-     ^(FBRequestConnection *connection, id result, NSError *error) {
-         if (!error) {
-         }
-     }
-            batchEntryName:@"photopost"
-     ];
-    
-    // Second request retrieves photo information for just-created
-    // photo so we can grab its source.
-    FBRequest *request2 = [FBRequest
-                           requestForGraphPath:@"{result=photopost:$.id}"];
-    [connection addRequest:request2
-         completionHandler:
-     ^(FBRequestConnection *connection, id result, NSError *error) {
-         if (!error &&
-             result) {
-             NSString *source = [result objectForKey:@"source"];
-             NSNumber* fbImageId = [result objectForKey:@"id"];
-             [self postOpenGraphActionWithPhotoURL:source withImageId:fbImageId];
-         }
-     }
-     ];
-    
-    [connection start];
-}
-
-
--(void)postOpenGraphActionWithPhotoURL:(NSString*)photoURL withImageId:(NSNumber*)fbImageId{
-    // First create the Open Graph meal object for the meal we ate.
-    id<KikbakOGCoupon> couponObject = [self CouponObject:self.captionTextView.text];
-    
-    // Now create an Open Graph eat action with the meal, our location,
-    // and the people we were with.
-    id<KikbakOGShareCouponAction> action = (id<KikbakOGShareCouponAction>)[FBGraphObject graphObject];
-    action.coupon = couponObject;
-    
-    if (photoURL) {
-        NSMutableDictionary *image = [[NSMutableDictionary alloc] init];
-        [image setObject:photoURL forKey:@"url"];
-        [image setObject:@"true" forKey:@"user_generated"];
-        [image setObject:@"true" forKey:@"fb:explicitly_shared"];
-        [image setObject:@"this is a test message" forKey:@"description"];
-        
-        NSMutableArray *images = [[NSMutableArray alloc] init];
-        [images addObject:image];
-        
-        action.image = images;
-    }
-    
-    // Create the request and post the action to the
-    // "me/<YOUR_APP_NAMESPACE>:eat" path.
-    [FBRequestConnection startForPostWithGraphPath:@"me/referredlabs:share"
-                                       graphObject:action
-                                 completionHandler:
-     ^(FBRequestConnection *connection, id result, NSError *error) {
-         if (!error) {
-             CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
-             ShareSuccessView* shareView = [[ShareSuccessView alloc]initWithFrame:frame];
-             shareView.delegate = self;
-             [shareView manuallyLayoutSubviews];
-             [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:shareView];
-             ShareExperienceRequest* request = [[ShareExperienceRequest alloc]init];
-             NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:5];
-             
-             [dict setObject:self.offer.merchantId forKey:@"merchantId"];
-             [dict setObject:self.location.locationId forKey:@"locationId"];
-             [dict setObject:self.offer.offerId forKey:@"offerId"];
-             if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
-                 [dict setObject:@"" forKey:@"caption"];
-             }
-             else{
-                 [dict setObject:self.captionTextView.text forKey:@"caption"];
-             }
-             [request restRequest:dict];
-         } else {
-             NSLog(@"%@, %@",[NSString stringWithFormat:
-                          @"error: domain = %@, code = %d",
-                          error.domain, error.code], error.userInfo);
-         }
-
-     }
-     ];
-}
-
 
 
 #pragma mark - keyboard options
@@ -868,10 +746,12 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 }
 
 -(void) onSMSBodySuccess:(NSNotification*)notification{
-    MFMessageComposeViewController* message = [[MFMessageComposeViewController alloc]init];
-    message.messageComposeDelegate = self;
-    [message setBody:[notification object]];    
-    [self presentViewController:message animated:YES completion:nil];
+    if( [MFMessageComposeViewController canSendText] ){
+        MFMessageComposeViewController* message = [[MFMessageComposeViewController alloc]init];
+        message.messageComposeDelegate = self;
+        [message setBody:[notification object]];    
+        [self presentViewController:message animated:YES completion:nil];
+    }
 }
 
 -(void) onSMSBodyError:(NSNotification*)notification{
@@ -879,12 +759,14 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 }
 
 -(void) onEmailBodySuccess:(NSNotification*)notification{
-    MFMailComposeViewController* picker = [[MFMailComposeViewController alloc]init];
-    picker.mailComposeDelegate = self;
-    [picker setSubject:((EmailFields*)[notification object]).subject];
-    [picker setMessageBody:((EmailFields*)[notification object]).body isHTML:YES];
-    
-    [self presentViewController:picker animated:YES completion:nil];
+    if( [MFMailComposeViewController canSendMail]){
+        MFMailComposeViewController* picker = [[MFMailComposeViewController alloc]init];
+        picker.mailComposeDelegate = self;
+        [picker setSubject:((EmailFields*)[notification object]).subject];
+        [picker setMessageBody:((EmailFields*)[notification object]).body isHTML:YES];
+        
+        [self presentViewController:picker animated:YES completion:nil];
+    }
 }
 
 -(void) onEmailBodyError:(NSNotification*)notification{
@@ -969,7 +851,25 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 -(void)onTimelineSelected{
     shareViaEmail = NO;
     shareViaSMS = NO;
-    [self postToFacebook];
+    [FBSettings setLoggingBehavior:[NSSet setWithObject:FBLoggingBehaviorFBRequests]];
+//  if ([FBSession.activeSession.permissions
+//       indexOfObject:@"publish_actions"] == NSNotFound) {
+//    // No permissions found in session, ask for it
+//    [FBSession.activeSession
+//     requestNewPublishPermissions:
+//     [NSArray arrayWithObject:@"publish_actions"]
+//     defaultAudience:FBSessionDefaultAudienceFriends
+//     completionHandler:^(FBSession *session, NSError *error) {
+//       if (!error) {
+//         // If permissions granted, update the status
+//       }
+//     }];
+//  }
+
+    //[self postToFacebook];
+//  [self postOpenGraphActionWithPhotoURL:self.imageUrl];
+    FBCouponObject* obj = [[FBCouponObject alloc]init];
+    [obj postCoupon:self.imageUrl];
 }
 
 #pragma mark - MFMailComposer Delegates

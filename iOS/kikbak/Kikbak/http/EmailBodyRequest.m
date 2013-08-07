@@ -39,12 +39,12 @@
     fields.subject = [dict objectForKey:@"subject"];
     fields.body = [dict objectForKey:@"body"];
     
-    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakImagePostSuccess object:fields];
+    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakEmailBodySuccess object:fields];
 }
 
 -(void)handleError:(NSInteger)statusCode withData:(NSData*)data{
     
-    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakImagePostError object:nil];
+    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakEmailBodyError object:nil];
 }
 
 @end
