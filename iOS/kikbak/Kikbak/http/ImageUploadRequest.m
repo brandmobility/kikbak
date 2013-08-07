@@ -89,14 +89,12 @@
 -(void)parseResponse:(NSData*)data{
      NSString* json = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
     id dict = [json JSONValue];
-    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakEmailBodySuccess object:[dict objectForKey:@"url"]];
+    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakImagePostSuccess object:[dict objectForKey:@"url"]];
 }
 
 -(void)handleError:(NSInteger)statusCode withData:(NSData*)data{
     
-    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakEmailBodyError object:nil];
-}
-
+    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakImagePostError object:nil];
 }
 
 @end

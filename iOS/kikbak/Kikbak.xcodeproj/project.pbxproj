@@ -241,6 +241,7 @@
 		C0C973991693ADB1001A2A80 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C0C973981693ADB1001A2A80 /* libiconv.dylib */; };
 		C0C9739B1693FDA2001A2A80 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0C9739A1693FDA2001A2A80 /* CoreVideo.framework */; };
 		C0C974011696BF16001A2A80 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0C974001696BF15001A2A80 /* Security.framework */; };
+		C0FF2B4817B1BC03001889B0 /* FBCouponObject.m in Sources */ = {isa = PBXBuildFile; fileRef = C0FF2B4717B1BC03001889B0 /* FBCouponObject.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -596,6 +597,8 @@
 		C0C973981693ADB1001A2A80 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		C0C9739A1693FDA2001A2A80 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		C0C974001696BF15001A2A80 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		C0FF2B4617B1BC03001889B0 /* FBCouponObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBCouponObject.h; sourceTree = "<group>"; };
+		C0FF2B4717B1BC03001889B0 /* FBCouponObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBCouponObject.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -875,6 +878,8 @@
 				C04799B2167D96E900C2253D /* FBUserInfo.h */,
 				C04799B3167D96E900C2253D /* FBUserInfo.m */,
 				3C4A2410174B3C5000B8C5F0 /* KikbakOpenGraphProtocols.h */,
+				C0FF2B4617B1BC03001889B0 /* FBCouponObject.h */,
+				C0FF2B4717B1BC03001889B0 /* FBCouponObject.m */,
 			);
 			name = facebook;
 			sourceTree = "<group>";
@@ -1434,6 +1439,7 @@
 				3CB9FC6117A8D74E0071B8B4 /* EmailBodyRequest.m in Sources */,
 				3CB9FC6517A8E6970071B8B4 /* EmailFields.m in Sources */,
 				3CB9FC6817AA43230071B8B4 /* ImageUploadRequest.m in Sources */,
+				C0FF2B4817B1BC03001889B0 /* FBCouponObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
