@@ -38,7 +38,7 @@
         android:layout_below="@id/gift_desc_opt"
         android:layout_marginLeft="13dp"
         android:layout_marginRight="13dp"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="10dp"
         android:background="#999999" />
 
     <com.referredlabs.kikbak.widget.TtfTextView
@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/separator"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="8dp"
         android:drawableLeft="@drawable/ic_cup"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
