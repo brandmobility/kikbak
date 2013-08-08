@@ -10,7 +10,7 @@
 	
 	<target name="copy-web-inf" extensionOf="pre-compile-ext">
 		<!-- copy WEB-INF to build directory -->
-		<copy todir="${bin.dir}/WEB-INF" failonerror="false">
+        <copy todir="${bin.dir}" failonerror="false">
 			<fileset dir="${web-inf.dir}" />
 		</copy>
 	</target>

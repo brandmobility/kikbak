@@ -1,6 +1,5 @@
 package com.kikbak.rest.client;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.portlet.ModelAndView;
 
 import com.kikbak.client.service.RewardService;
 import com.kikbak.client.service.SharedExperienceService;
@@ -24,7 +22,6 @@ import com.kikbak.dto.Gift;
 import com.kikbak.dto.Location;
 import com.kikbak.dto.Merchant;
 import com.kikbak.dto.User;
-import com.kikbak.jaxb.rewards.GiftType;
 import com.kikbak.jaxb.share.MessageTemplateType;
 import com.kikbak.jaxb.share.ShareExperienceRequest;
 import com.kikbak.jaxb.share.ShareExperienceResponse;
@@ -125,25 +122,6 @@ public class SharedController {
 		}
 		
 		return response;
-	}
-	
-	@RequestMapping( value = "/landing", method = RequestMethod.GET)
-	public ModelAndView getLandingPage(final HttpServletRequest request, final HttpServletResponse httpResponse) {
-		
-		try {
-			String code = request.getParameter("code");
-			GiftType gift = rewardService.getGiftByReferredCode(code);
-			request.setAttribute("gift", gift);
-			request.setAttribute("url", request.getRequestURL());
-			// TODO
-			request.setAttribute("title", "title");
-			request.setAttribute("desc", "desc");
-			request.setAttribute("location", gift.getMerchant().getLocations().get(0));
-			return new ModelAndView("landing");
-		} catch (Exception e) {
-			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			return new ModelAndView();
-		}
 	}
 
 	private String fillTemplate(SharedType experience, String loginUrl,

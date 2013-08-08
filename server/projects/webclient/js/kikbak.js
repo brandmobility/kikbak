@@ -1,6 +1,7 @@
 var config = {
   backend: '',
-  appId: 493383324061333
+  appId: 493383324061333,
+  landing: 'http://test.kikbak.me:8080/kikbak/landing.html?code=',
 }
 
 $(document).ready(function() {
@@ -915,88 +916,64 @@ function shareViaFacebook() {
       'desc': msg,
       'url' : imageUrl
     };
+    var fbUrl = config.landing + code;
+    var o = {
+      'app_id' : config.appId,
+      'url' : fbUrl.replace(/\//g, '\/'),
+      'title': '\"' + encodeURIComponent('title') + '\"',
+      'description': '\"' + encodeURIComponent('desc') + '\"',
+    };
+    var req = {
+      'access_token' : localStorage.accessToken,
+      //'privacy': '{"value":"all_friends"}',
+      'object' : JSON.stringify(o),
+      'method' : 'POST',
+      'format' : 'json'
+    };
+    var url = 'https://graph.facebook.com/me/objects/referredlabs:coupon';
     $.ajax({
-      type: 'GET',
-      data: data,
-      dataType: 'json',
-      url: '/s/fb.php',
-      success: function(json) {
-        var o = {
-          'app_id': config.appId,
-          'url': json.url.replace(/\//g, '\/'),
-          'image': imageUrl.replace(/\//g, '\/'),
-          'title': '\"' + encodeURIComponent(json.title) + '\"',
-          'description': '\"' + encodeURIComponent(json.body) + '\"',
-          'location': {
-            'longitude': initPage.p.longitude,
-            'latitude': initPage.p.latitude,
-          }
-        };
-        var req = {
-          'access_token': localStorage.accessToken,
-          //'privacy': '{"value":"all_friends"}',
-          'object': JSON.stringify(o),
-          'method': 'POST',
-          'format': 'json'
-        };
-        var url = 'https://graph.facebook.com/me/objects/referredlabs:coupon';
-        $.ajax({
-          url : url,
-          data : req,
-          cache : false,
-          contentType : false,
-          dataType: 'json',
-          type : 'GET',
-          success : function(response) {
-            if (response && response.id) {
-              var getData = {
-                'fb:app_id': config.appId,
-                'og:type': 'referredlabs:coupon',
-                'og:url': json.url,
-                'og:image': imageUrl,
-                'og:title': json.title,
-                'og:description': json.body,
-              }
-              // TODO
-              var getUrl = 'http://test.kikbak.me/s/repeater.php?' + encodeQueryData(getData);
-              var req = {
-                'access_token': localStorage.accessToken,
-                'method': 'POST',
-                'coupon': getUrl,
-                'fb:explicitly_shared': 'true',
-                'format': 'json'
-              };
-              var url = 'https://graph.facebook.com/me/referredlabs:share';
-              $.ajax({
-                url : url,
-                data : req,
-                cache : false,
-                contentType : false,
-                dataType: 'json',
-                type : 'GET',
-                success : function(response) {
-                  $('#spinner h2').html('Waiting');
-                  $('#success-popup h3').html('You have shared a gift');
-                  $('#success-popup p').html('We will notify you when a friend uses your gift and you earn a reward');
-                  $('#success-popup').show();
-                },
-                error : function() {
-                  showError();
-                }
-              });
-            } else {
+      url : url,
+      data : req,
+      cache : false,
+      contentType : false,
+      dataType : 'json',
+      type : 'GET',
+      success : function(response) {
+        if (response && response.id) {
+          var req = {
+            'access_token' : localStorage.accessToken,
+            'method' : 'POST',
+            'coupon' : fbUrl,
+            'fb:explicitly_shared' : 'true',
+            'format' : 'json'
+          };
+          var url = 'https://graph.facebook.com/me/referredlabs:share';
+          $.ajax({
+            url : url,
+            data : req,
+            cache : false,
+            contentType : false,
+            dataType : 'json',
+            type : 'GET',
+            success : function(response) {
+              $('#spinner h2').html('Waiting');
+              $('#success-popup h3').html('You have shared a gift');
+              $('#success-popup p').html('We will notify you when a friend uses your gift and you earn a reward');
+              $('#success-popup').show();
+            },
+            error : function() {
               showError();
             }
-          },
-          error : function() {
-            showError();
-          }
-        });
+          });
+        } else {
+          showError();
+        }
       },
-      error: function() {
+      error : function() {
         showError();
       }
-    });
+    }); 
+
   }, 'fb');
 }
 
@@ -1045,37 +1022,13 @@ function renderRedeemGiftDetail(gift) {
 }
 
 function doRedeemGift(gift) {
-  var data = {},
-      req = {},
-      str = '';
-      
-  data['gift'] = gift;
-  req['RedeemGiftRequest'] = data;
-  str = JSON.stringify(req);
-  
-  $.ajax({
-    url: config.backend + 'kikbak/redeem/gift/' + localStorage.userId + '/',
-    data : str,
-    cache : false,
-    contentType : false,
-    dataType: 'json',
-    type : 'POST',
-    success: function(json) {
-      if (json && json.RedeemGiftResponse && json.RedeemGiftResponse.authorizationCode) {
-        var code = json.RedeemGiftResponse.authorizationCode;
-        var imgUrl = config.backend + 'kikbak/generateBarcode/' + localStorage.userId + '/' + code + '/262/262/';
-        $('#redeem-gift-success .pg-hedng').html(gift.merchant.name);
-        $('#redeem-gift-success .cd-br-stin h1').html(gift.desc);
-        $('#redeem-gift-success .cd-br-stin h3').html(gift.detailedDesc);
-        $('#redeem-gift-success .mycod img').attr('src', imgUrl);
-        $('#redeem-gift-success .mycod span').html(code);
-        $('#redeem-details-view').hide();
-        $('#redeem-gift-success').show();
-      } else {
-        showError();
-      }
-    }, error: showError
-  });
+  var imgUrl = config.backend + 'kikbak/generateBarcode/' + localStorage.userId + '/' + gift.id + '/262/262/';
+  $('#redeem-gift-success .pg-hedng').html(gift.merchant.name);
+  $('#redeem-gift-success .cd-br-stin h1').html(gift.desc);
+  $('#redeem-gift-success .cd-br-stin h3').html(gift.detailedDesc);
+  $('#redeem-gift-success .mycod img').attr('src', imgUrl);
+  $('#redeem-details-view').hide();
+  $('#redeem-gift-success').show();
 }
 
 function renderRedeemCreditDetail(credit) {

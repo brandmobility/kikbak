@@ -12,7 +12,7 @@
 	<property name="testsrc.dir" value="${basedir}/testsrc"/>
 	<property name="module.name" value="kikbak"/>
   	<property name="archive.name" value="${module.name}.war"/>
-	<property name="web-inf.dir" value="${basedir}/WebContent/WEB-INF" />
+	<property name="web-inf.dir" value="${basedir}/WebContent" />
 	
 	<!-- jaxb -->
 	<property name="schema.dir" value="${basedir}/schema"/>

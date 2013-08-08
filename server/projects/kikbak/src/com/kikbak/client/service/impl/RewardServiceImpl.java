@@ -309,47 +309,7 @@ public class RewardServiceImpl implements RewardService{
         Collection<Shared> shareds = roSharedDao.listAvailableForGiftingByReferralCode(code);
         
         if (shareds == null || shareds.size() != 1) {
-
-            GiftType gt = new GiftType();
-            gt.setId(0);
-            ClientMerchantType cmt = new ClientMerchantType();
-            cmt.setId(0);
-            cmt.setName("merchant");
-            cmt.setUrl("http://www.merchant.com");
-
-                MerchantLocationType clt = new MerchantLocationType();
-                clt.setLocationId(0);
-                clt.setSiteName("site");
-                clt.setAddress1("addr1");
-                clt.setAddress2("addr2");
-                clt.setCity("location.getCity()");
-                clt.setState("location.getState()");
-                clt.setZipcode("String.valueOf(location.getZipcode())");
-                clt.setZip4("location.getZipPlusFour()");
-                clt.setLatitude(111);
-                clt.setLongitude(222);
-                clt.setPhoneNumber(333);
-                cmt.getLocations().add(clt);
-
-            gt.setMerchant(cmt);
-            gt.setOfferId(0);
-            gt.setDesc("gift.getDescription()");
-            gt.setDetailedDesc("gift.getDetailedDesc()");
-            gt.setValue(5);
-            gt.setDiscountType("gift.getDiscountType()");
-            gt.setValidationType("gift.getValidationType()");
-            gt.setRedemptionLocationType("gift.getRedemptionLocationType()");
-            gt.setImageUrl("gift.getDefaultGiveImageUrl()");
-            gt.setDefaultGiveImageUrl("gift.getDefaultGiveImageUrl()");
-            gt.setTosUrl("offer.getTosUrl()");
-            gt.setFriendUserId(0);
-            gt.setFbFriendId(0);
-            gt.setFriendName("friend.getFirstName() friend.getLastName()");
-            gt.setCaption("shared.getCaption()");
-            gt.setEmployeeId("shared.getEmployeeId()");
-            
-            return gt;
-        	// throw new RewardException("should only have one shared with code " + code + ", found " + ((shareds == null) ? 0 : shareds.size()));
+        	throw new RewardException("should only have one shared with code " + code + ", found " + ((shareds == null) ? 0 : shareds.size()));
         }
         
         Shared shared = shareds.iterator().next();
