@@ -14,4 +14,5 @@ public class SharedType {
   public String imageUrl;
   public String caption;
   public String type;
+  public String platform = "android";
 }

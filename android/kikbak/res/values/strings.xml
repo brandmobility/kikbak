@@ -122,8 +122,10 @@
 
     <!-- Redeem success -->
     <string name="redeem_success_title">Success!</string>
-    <string name="redeem_success_gift_note">You have claimed your gift.\nPlease show this screen to the cashier.</string>
-    <string name="redeem_success_credit_note">You have claimed your credit.\nPlease show this screen to the cashier.</string>
+    <string name="redeem_success_note_first_gift">You have claimed your gift.</string>
+    <string name="redeem_success_note_second">Please show this screen to the cashier.</string>
+    <string name="redeem_success_note_second_integrated">Your code will expire in 24 hours.</string>
+    <string name="redeem_success_note_first_credit">You have claimed your credit.</string>
     <string name="redeem_success_offer">OFFER</string>
     <string name="redeem_success_credit">CREDIT</string>
     <string name="redeem_success_share_note">Share the same offer with our friends.\nYou earn for every friend that redeems.</string>
@@ -134,7 +136,7 @@
 
     <!-- Scanner -->
     <string name="scan_now">Scan now</string>
-    <string name="scan_desc">To redeem now, scan the Kikbak QR code held by the cashier</string>
+    <string name="scan_desc">"Scan QR code on the cashier's Kikbak Card"</string>
     <string name="scan_tip">Hold still for scan</string>
 
     <!-- Claim credit card -->

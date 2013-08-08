@@ -1,11 +1,11 @@
 
 package com.referredlabs.kikbak.ui;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.pm.ActivityInfo;
 import android.hardware.Camera;
 import android.hardware.Camera.PreviewCallback;
 import android.hardware.Camera.Size;
@@ -15,7 +15,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
+import android.view.ViewGroup;
 
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
@@ -30,10 +30,7 @@ import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.widget.CameraPreview;
 import com.referredlabs.kikbak.widget.PointsView;
 
-import java.util.EnumMap;
-import java.util.Map;
-
-public class BarcodeScannerFragment extends DialogFragment {
+public class BarcodeScannerFragment extends DialogFragment implements ResultPointCallback {
   // Container Activity must implement this interface
   public interface OnBarcodeScanningListener {
     public void onBarcodeScanned(String barcodeResult);
@@ -44,7 +41,7 @@ public class BarcodeScannerFragment extends DialogFragment {
   OnBarcodeScanningListener mListener;
 
   private CameraPreview mPreviewSurface;
-  private ResultPointCallback mPointsCallback;
+  private PointsView mPointsView;
 
   DecodeBarcodeTask mDecodeBarcodeTask = new DecodeBarcodeTask();
 
@@ -63,6 +60,12 @@ public class BarcodeScannerFragment extends DialogFragment {
   };
 
   @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setStyle(DialogFragment.STYLE_NO_TITLE, 0);
+  }
+
+  @Override
   public void onAttach(Activity activity) {
     super.onAttach(activity);
     Fragment target = getTargetFragment();
@@ -74,24 +77,17 @@ public class BarcodeScannerFragment extends DialogFragment {
   }
 
   @Override
-  public Dialog onCreateDialog(Bundle savedInstanceState) {
-    LayoutInflater inflater = getActivity().getLayoutInflater();
-    View previewContainer = inflater.inflate(R.layout.barcode_scanner, null, false);
+  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    setStyle(STYLE_NO_TITLE, 0);
+    View root = inflater.inflate(R.layout.barcode_scanner, null, false);
 
-    PointsView pointsView = (PointsView) previewContainer.findViewById(R.id.pointsView);
-    mPointsCallback = new ViewfinderResultPointCallback(pointsView);
-
-    mPreviewSurface = (CameraPreview) previewContainer.findViewById(R.id.cameraPreview);
+    mPreviewSurface = (CameraPreview) root.findViewById(R.id.camera_preview);
     mPreviewSurface.setOneShotPreviewCallback(mPreviewCallback);
-    pointsView.setCameraPreview(mPreviewSurface);
 
-    TextView dialogTitle = (TextView) inflater.inflate(R.layout.barcode_scan_dialog_title, null,
-        false);
+    mPointsView = (PointsView) root.findViewById(R.id.points_view);
+    mPointsView.setCameraPreview(mPreviewSurface);
 
-    return new AlertDialog.Builder(getActivity())
-        .setCustomTitle(dialogTitle)
-        .setView(previewContainer)
-        .create();
+    return root;
   }
 
   @Override
@@ -165,7 +161,7 @@ public class BarcodeScannerFragment extends DialogFragment {
 
       Map<DecodeHintType, Object> hints =
           new EnumMap<DecodeHintType, Object>(DecodeHintType.class);
-      hints.put(DecodeHintType.NEED_RESULT_POINT_CALLBACK, mPointsCallback);
+      hints.put(DecodeHintType.NEED_RESULT_POINT_CALLBACK, BarcodeScannerFragment.this);
       try {
         // rawResult will never be null if it couldn't be decoded an exception is thrown
         rawResult = mQrCodeReader.decode(bitmap, hints);
@@ -179,17 +175,8 @@ public class BarcodeScannerFragment extends DialogFragment {
     }
   }
 
-  static final class ViewfinderResultPointCallback implements ResultPointCallback {
-    private final PointsView mPointsView;
-
-    ViewfinderResultPointCallback(PointsView pointsView) {
-      mPointsView = pointsView;
-    }
-
-    @Override
-    public void foundPossibleResultPoint(ResultPoint point) {
-      mPointsView.addPossibleResultPoint(point);
-    }
+  @Override
+  public void foundPossibleResultPoint(ResultPoint point) {
+    mPointsView.addPossibleResultPoint(point);
   }
-
 }

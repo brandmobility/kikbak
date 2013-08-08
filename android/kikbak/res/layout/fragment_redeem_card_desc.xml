@@ -3,53 +3,57 @@
     xmlns:kikbak="http://schemas.android.com/apk/res/com.referredlabs.kikbak"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@android:color/white"
     android:orientation="vertical"
+    android:paddingBottom="10dp"
     android:paddingLeft="14dp"
     android:paddingRight="14dp"
-    android:paddingTop="16dp"
-    android:paddingBottom="10dp"
-    android:background="@android:color/white" >
+    android:paddingTop="16dp" >
 
     <com.referredlabs.kikbak.widget.TtfTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:text="@string/redeem_card_ready"
-        kikbak:typeface="Roboto-Regular.ttf"
-       	android:textColor="#3a3a3a"
-        android:textSize="14dp" />
+        android:textColor="#3a3a3a"
+        android:textSize="14dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="14dp"
         android:background="#c4c4c4" />
 
     <com.referredlabs.kikbak.widget.TtfTextView
         android:id="@+id/credit_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="18dp"
         android:text="$15"
-        kikbak:typeface="Roboto-Bold.ttf"
-       	android:textColor="#3a3a3a"
-        android:textSize="36dp" />
+        android:textColor="#3a3a3a"
+        android:textSize="41dp"
+        kikbak:typeface="Roboto-Bold.ttf" />
 
     <com.referredlabs.kikbak.widget.TtfTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="4dp"
         android:text="@string/gift_card"
-        kikbak:typeface="Roboto-Regular.ttf"
-       	android:textColor="#3a3a3a"
-        android:textSize="20dp" />
+        android:textColor="#9c9c9c"
+        android:textSize="26dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
 
-	<com.referredlabs.kikbak.widget.TtfTextView
+    <com.referredlabs.kikbak.widget.TtfTextView
         android:id="@+id/terms"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="26dp"
         android:text="@string/terms"
-        kikbak:typeface="Roboto-Regular.ttf"
         android:textColor="#686868"
-        android:textSize="13dp" />
+        android:textSize="13dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
 
 </LinearLayout>
