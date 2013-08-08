@@ -43,6 +43,10 @@ public class TheReward {
     return mGifts.size() > 0;
   }
 
+  public boolean hasMultipleGifts() {
+    return mGifts.size() > 1;
+  }
+
   public boolean hasCredit() {
     return mCredit != null;
   }

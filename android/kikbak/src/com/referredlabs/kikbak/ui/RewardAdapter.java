@@ -89,6 +89,11 @@ public class RewardAdapter extends BaseAdapter {
       Uri friendUrl = Fb.getFriendPhotoUri(reward.getGifts().get(0).fbFriendId);
       Picasso.with(mContext).load(friendUrl).into(helper.mFriendImage);
     }
+    if (reward.hasMultipleGifts()) {
+      helper.mFriendImage.setBackgroundResource(R.drawable.bg_multiple_friends);
+    } else {
+      helper.mFriendImage.setBackground(null);
+    }
 
     helper.setGiftValue(LocaleUtils.getGiftValueString(mContext, reward));
     helper.setCreditValue(LocaleUtils.getCreditValueString(mContext, reward));
