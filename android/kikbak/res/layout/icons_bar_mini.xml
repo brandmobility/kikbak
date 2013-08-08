@@ -10,7 +10,7 @@
     <com.referredlabs.kikbak.widget.TtfButton
         android:id="@+id/distance"
         style="?android:attr/borderlessButtonStyle"
-        android:layout_width="70dp"
+        android:layout_width="60dp"
         android:layout_height="28dp"
         android:drawableLeft="@drawable/ic_map_mini"
         android:drawablePadding="4dp"
