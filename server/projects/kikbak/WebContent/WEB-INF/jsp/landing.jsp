@@ -24,7 +24,7 @@ if (typeof localStorage !== 'undefined') {
 </script>
 <body>
 <div class="bdy">
-<div class="hedr-wpr"><a href="#" class="logo"><img src="${gift.imageUrl}" /></a></div>
+<div class="hedr-wpr"><a href="#" class="logo"><img src="${gift.defaultGiveImageUrl}" /></a></div>
 <div class="main-bdy">
 <p class="top-msg"><strong>${gift.friendName}</strong> used <strong>Kikbak</strong> to give you
 an exclusive offer for <strong>${gift.merchant.name}</strong>.</p>
@@ -40,7 +40,7 @@ an exclusive offer for <strong>${gift.merchant.name}</strong>.</p>
 <div class="cmnt-on-photo wit-grd photup"><p>${gift.friendName} was helped by <strong>${employeeId}</strong> at ${gift.merchant.name} Store:
 <strong>${location.address1} ${location.address2}, ${location.city}, ${location.state}</strong>
 If you visit the same store, ${employeeId} can help you too.</p></div>
-<img src="img/mobile-bnr.png" class="mob-bnr"/>
+<img src="${gift.imageUrl}" class="mob-bnr"/>
 <h3>${gift.merchant.name}</h3>
 <div class="optn">
 <a href="https://maps.google.com/maps?q=${encodeMerchantName}%40${location.latitude},${location.longitude}"><img src="img/map-mrk.png"/></a>
