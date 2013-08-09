@@ -19,8 +19,9 @@
     <!-- OfferFragemnt -->
     <string name="ribbon_give">GIVE</string>
     <string name="ribbon_get">GET</string>
+    <string name="ribbon_off">OFF</string>
     <string name="ribbon_give_amount_fmt">$%.0f</string>
-    <string name="ribbon_give_percentage_fmt">%.0f%%\nOFF</string>
+    <string name="ribbon_give_percentage_fmt">%.0f%%</string>
     <string name="ribbon_get_fmt">$%.0f</string>
 
     <!-- Offer list empty -->

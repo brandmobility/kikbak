@@ -50,7 +50,8 @@ public class LocaleUtils {
     // TODO: depending on locale display either km or convert to miles
     distance = distance / 1000; // to kilometers
     distance = distance * 0.621371192f; // to miles
-    String result = String.format(Locale.getDefault(), "%.2f mi", distance);
+    String format = distance > 9.95f ? "%.0f mi" : "%.1f mi";
+    String result = String.format(Locale.getDefault(), format, distance);
     return result;
   }
 

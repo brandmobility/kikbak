@@ -5,6 +5,6 @@
 
     <include layout="@layout/offer_common" />
 
-    <include layout="@layout/ribbon" />
+    <include layout="@layout/ribbon_off" />
 
 </RelativeLayout>

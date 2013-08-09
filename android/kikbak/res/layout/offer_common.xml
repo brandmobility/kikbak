@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:kikbak="http://schemas.android.com/apk/res/com.referredlabs.kikbak" >
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="21dp"
+        android:background="@drawable/bg_redeem" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="21dp"
+        android:foreground="@drawable/grd_offer" >
+
+        <ImageView
+            android:id="@+id/offer_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@color/no_image" />
+    </FrameLayout>
+
+    <include
+        android:id="@+id/icon_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="13dp"
+        layout="@layout/icons_bar_mini" />
+
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:id="@+id/offer_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/icon_bar"
+        android:layout_marginLeft="13dp"
+        android:text="Verizon Wireless"
+        android:textColor="@android:color/white"
+        android:textSize="26dp"
+        kikbak:typeface="Roboto-Light.ttf" />
+
+</merge>
