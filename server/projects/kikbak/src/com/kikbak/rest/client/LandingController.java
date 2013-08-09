@@ -58,7 +58,7 @@ public class LandingController {
 			GiftType gift = rewardService.getGiftByReferredCode(code);
 			
 			String title = config.getString(SHARE_TEMPLATE_TITLE_FB).replace("%NAME%", gift.getFriendName());
-			String body = config.getString(SHARE_TEMPLATE_BODY_FB).replace("MERCHANT", gift.getMerchant().getName())
+			String body = config.getString(SHARE_TEMPLATE_BODY_FB).replace("%MERCHANT%", gift.getMerchant().getName())
 					.replace("%DESC%", gift.getDesc())
 					.replace("%DESC_DETAIL%", gift.getDetailedDesc());
 			
