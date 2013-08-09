@@ -1,6 +1,8 @@
 
 package com.referredlabs.kikbak.ui;
 
+import java.io.IOException;
+
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.location.Location;
@@ -29,7 +31,6 @@ import com.referredlabs.kikbak.data.RedeemGiftResponse;
 import com.referredlabs.kikbak.data.StatusType;
 import com.referredlabs.kikbak.data.ValidationType;
 import com.referredlabs.kikbak.fb.Fb;
-import com.referredlabs.kikbak.fb.PicassoFb;
 import com.referredlabs.kikbak.http.Http;
 import com.referredlabs.kikbak.service.LocationFinder;
 import com.referredlabs.kikbak.ui.BarcodeScannerFragment.OnBarcodeScanningListener;
@@ -38,8 +39,7 @@ import com.referredlabs.kikbak.utils.LocaleUtils;
 import com.referredlabs.kikbak.utils.Nearest;
 import com.referredlabs.kikbak.utils.Register;
 import com.squareup.picasso.Picasso;
-
-import java.io.IOException;
+import com.squareup.picasso.Target;
 
 public class RedeemGiftFragment extends Fragment implements OnClickListener, ConfirmationListener,
     OnBarcodeScanningListener {
@@ -102,16 +102,11 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
 
   private void setupViews() {
     mName.setText(mGift.merchant.name);
-    if (mGift.fbImageId > 0) {
-      Uri uri = Uri.parse("fb://image/" + mGift.fbImageId);
-      PicassoFb.with(getActivity()).load(uri).into(mImage);
-    } else {
-      Uri uri = Uri.parse(mGift.imageUrl);
-      Picasso.with(getActivity()).load(uri).into(mImage);
-    }
+    Uri uri = Uri.parse(mGift.imageUrl);
+    Picasso.with(getActivity()).load(uri).into(mImage);
 
     Uri friendUri = Fb.getFriendPhotoUri(mGift.fbFriendId);
-    Picasso.with(getActivity()).load(friendUri).into(mFriendPhoto);
+    Picasso.with(getActivity()).load(friendUri).into((Target) mFriendPhoto);
     mFriendName.setText(mGift.friendName);
     mFriendComment.setText(mGift.caption);
 

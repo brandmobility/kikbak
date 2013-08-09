@@ -24,6 +24,7 @@ import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.GiftType;
 import com.referredlabs.kikbak.fb.Fb;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 public class SelectFriend extends DialogFragment implements OnItemClickListener {
 
@@ -48,7 +49,7 @@ public class SelectFriend extends DialogFragment implements OnItemClickListener 
     dialog.setArguments(args);
     return dialog;
   }
-  
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -132,7 +133,7 @@ public class SelectFriend extends DialogFragment implements OnItemClickListener 
 
       Uri uri = Fb.getFriendPhotoUri(gift.fbFriendId);
       ImageView image = (ImageView) convertView.findViewById(R.id.image);
-      Picasso.with(convertView.getContext()).load(uri).into(image);
+      Picasso.with(convertView.getContext()).load(uri).into((Target) image);
 
       return convertView;
     }

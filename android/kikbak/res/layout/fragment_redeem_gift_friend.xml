@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:kikbak="http://schemas.android.com/apk/res/com.referredlabs.kikbak"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/bg_redeem"
+    android:paddingBottom="16dp"
     android:paddingLeft="14dp"
     android:paddingRight="14dp"
-    android:paddingTop="14dp"
-    android:paddingBottom="16dp"
-    android:background="@drawable/bg_redeem" >
+    android:paddingTop="14dp" >
 
-    <ImageView
+    <com.referredlabs.kikbak.widget.RoundedImageView
         android:id="@+id/friend_photo"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_alignParentLeft="true"
         android:layout_marginRight="15dp"
-        android:src="@drawable/jessica" />
+        android:src="@drawable/jessica"
+        app:border_color="#cacaca"
+        app:border_width="1dip"
+        app:corner_radius="6dip" />
 
     <com.referredlabs.kikbak.widget.TtfTextView
         android:id="@+id/friend_name"
@@ -24,9 +28,9 @@
         android:layout_toRightOf="@id/friend_photo"
         android:maxLines="1"
         android:text="Jessica Kempner"
-        kikbak:typeface="Roboto-Bold.ttf"
+        android:textColor="@color/redeem_text_dark"
         android:textSize="22dp"
-        android:textColor="@color/redeem_text_dark" />
+        kikbak:typeface="Roboto-Bold.ttf" />
 
     <com.referredlabs.kikbak.widget.TtfTextView
         android:id="@+id/friend_comment"
@@ -36,8 +40,8 @@
         android:layout_toRightOf="@id/friend_photo"
         android:maxLines="4"
         android:text="I just got $50 off on a year of yoga! Lorizzle break your neck, yail dolizzle sit ass, mammasay mammasa mamma oo sa"
-        kikbak:typeface="Roboto-Regular.ttf"
+        android:textColor="@color/redeem_text_desc_light"
         android:textSize="14dp"
-        android:textColor="@color/redeem_text_desc_light" />
+        kikbak:typeface="Roboto-Regular.ttf" />
 
 </RelativeLayout>

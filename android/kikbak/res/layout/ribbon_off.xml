@@ -6,7 +6,7 @@
     android:layout_alignParentRight="true"
     android:layout_marginRight="15dp"
     android:layout_marginTop="15dp"
-    android:background="@drawable/bg_ribbon" >
+    android:background="@drawable/bg_ribbon_off" >
 
     <com.referredlabs.kikbak.widget.TtfTextView
         android:layout_width="wrap_content"

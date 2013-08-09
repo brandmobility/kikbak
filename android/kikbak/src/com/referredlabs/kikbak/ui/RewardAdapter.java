@@ -18,6 +18,7 @@ import com.referredlabs.kikbak.ui.IconBarHelper.IconBarListener;
 import com.referredlabs.kikbak.utils.LocaleUtils;
 import com.referredlabs.kikbak.utils.Nearest;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 public class RewardAdapter extends BaseAdapter {
 
@@ -87,7 +88,7 @@ public class RewardAdapter extends BaseAdapter {
     Picasso.with(mContext).load(url).into(helper.mImage);
     if (reward.hasGifts()) {
       Uri friendUrl = Fb.getFriendPhotoUri(reward.getGifts().get(0).fbFriendId);
-      Picasso.with(mContext).load(friendUrl).into(helper.mFriendImage);
+      Picasso.with(mContext).load(friendUrl).into((Target) helper.mFriendImage);
     }
     if (reward.hasMultipleGifts()) {
       helper.mFriendImage.setBackgroundResource(R.drawable.bg_multiple_friends);
