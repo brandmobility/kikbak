@@ -334,7 +334,7 @@ public class RewardServiceImpl implements RewardService{
         gt.setDiscountType(gift.getDiscountType());
         gt.setValidationType(gift.getValidationType());
         gt.setRedemptionLocationType(gift.getRedemptionLocationType());
-        gt.setImageUrl(gift.getDefaultGiveImageUrl());
+        gt.setImageUrl(shared.getImageUrl());
         gt.setDefaultGiveImageUrl(gift.getDefaultGiveImageUrl());
         gt.setTosUrl(offer.getTosUrl());
         gt.setFriendUserId(friend.getId());

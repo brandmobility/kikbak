@@ -1,15 +1,19 @@
 var config = {
   backend: '',
   appId: 493383324061333,
-  landing: 'http://test.kikbak.me:8080/kikbak/landing.html?code=',
+  landing: 'http://test.kikbak.me/m/kikbak/landing.html?code=',
 }
 
 $(document).ready(function() {
+  var req = 0;
   $(document).ajaxStart(function (){
+    req++;
     $('#spinner').show();
   });
   $(document).ajaxComplete(function (){
-    $('#spinner').hide();
+    if (--req == 0) {
+      $('#spinner').hide();
+    }
   });
   $('body').scrollTop($(document).height());
   $.ajaxSetup({ cache: true });

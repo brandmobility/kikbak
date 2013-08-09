@@ -9,7 +9,6 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.portlet.ModelAndView;
@@ -24,6 +23,10 @@ import com.kikbak.jaxb.rewards.GiftType;
 
 @Controller
 public class LandingController {
+
+	private static final String SHARE_TEMPLATE_TITLE_FB = "share.template.title.fb";
+
+	private static final String SHARE_TEMPLATE_BODY_FB = "share.template.body.fb";
 
 	@Autowired
 	private PropertiesConfiguration config;
@@ -53,12 +56,18 @@ public class LandingController {
 		try {
 			String code = request.getParameter("code");
 			GiftType gift = rewardService.getGiftByReferredCode(code);
+			
+			String title = config.getString(SHARE_TEMPLATE_TITLE_FB).replace("%NAME%", gift.getFriendName());
+			String body = config.getString(SHARE_TEMPLATE_BODY_FB).replace("MERCHANT", gift.getMerchant().getName())
+					.replace("%DESC%", gift.getDesc())
+					.replace("%DESC_DETAIL%", gift.getDetailedDesc());
+			
 			request.setAttribute("gift", gift);
 			request.setAttribute("url", request.getRequestURL() + (StringUtils.isBlank(request.getQueryString()) ? "" : "?" + request.getQueryString()));
 			request.setAttribute("code", code);
 			request.setAttribute("encodeMerchantName", URLEncoder.encode(gift.getMerchant().getName(), "UTF-8"));
-			// TODO
-			request.setAttribute("title", "title");
+			request.setAttribute("title", title);
+			request.setAttribute("body", body);
 			request.setAttribute("location", gift.getMerchant().getLocations().get(0));
 			return new ModelAndView("landing.jsp");
 		} catch (Exception e) {

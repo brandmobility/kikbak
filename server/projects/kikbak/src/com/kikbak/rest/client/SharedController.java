@@ -123,7 +123,7 @@ public class SharedController {
 		
 		return response;
 	}
-
+	
 	private String fillTemplate(SharedType experience, String loginUrl,
 			String template, User user, Location location,
 			Merchant merchant, Gift gift) {
