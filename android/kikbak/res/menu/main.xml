@@ -13,11 +13,11 @@
         android:showAsAction="never"
         android:title="use fixed location"/>
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_demo_server"
+        android:checkable="true"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="@string/action_settings"
-        android:visible="false"/>
+        android:title="demo server"/>
     <item
         android:id="@+id/action_login"
         android:orderInCategory="101"

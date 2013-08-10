@@ -34,11 +34,9 @@ import java.io.StringWriter;
 public class Http {
 
   public static final String USER_AGENT = "kikbak";
-  static final String SERVER = C.SERVER;
-  static final short PORT = C.PORT;
 
   public static String getUri(String path) {
-    return "http://" + SERVER + ":" + PORT + "/kikbak" + path;
+    return "http://" + C.SERVER + ":" + C.PORT + "/" + C.SERVER_INSTANCE + path;
   }
 
   public static <T, V> V execute(String uri, T request, Class<V> responseType) throws IOException {

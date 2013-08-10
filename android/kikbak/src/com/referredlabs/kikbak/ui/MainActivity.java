@@ -123,6 +123,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
   public boolean onPrepareOptionsMenu(Menu menu) {
     MenuItem item = menu.findItem(R.id.action_fixed_location);
     item.setChecked(C.USE_FIXED_LOCATION);
+
+    item = menu.findItem(R.id.action_demo_server);
+    item.setChecked(C.SERVER_INSTANCE == C.INST_DEMO);
+
     return super.onPrepareOptionsMenu(menu);
   }
 
@@ -153,6 +157,12 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         item.setChecked(C.USE_FIXED_LOCATION);
         DataService.getInstance().refreshRewards(true);
         DataService.getInstance().refreshOffers(true);
+        return true;
+
+      case R.id.action_demo_server:
+        C.toggleServerInstance();
+        Register.getInstance().clear();
+        finish();
         return true;
 
       case R.id.action_who:

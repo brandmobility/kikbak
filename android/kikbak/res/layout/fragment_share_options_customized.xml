@@ -7,12 +7,13 @@
     android:orientation="vertical" >
 
     <com.referredlabs.kikbak.widget.TtfTextView
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="14dp"
         android:layout_marginRight="14dp"
         android:layout_marginTop="15dp"
-        android:text="@string/share_verizon_title"
+        android:text="@string/share_customized_title"
         android:textColor="#247de9"
         android:textSize="23dp"
         kikbak:typeface="Roboto-Bold.ttf" />
@@ -29,29 +30,29 @@
         android:layout_marginLeft="14dp"
         android:layout_marginRight="14dp"
         android:layout_marginTop="20dp"
-        android:text="@string/share_verizon_note"
+        android:text="@string/share_customized_note"
         android:textColor="#3a3a3a"
         android:textSize="15dp"
         kikbak:typeface="Roboto-Regular.ttf" />
 
     <com.referredlabs.kikbak.widget.TtfEditText
-        android:id="@+id/verizon_employee_name"
+        android:id="@+id/employee_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="14dp"
         android:layout_marginRight="14dp"
         android:layout_marginTop="20dp"
-        android:hint="@string/share_verizon_employee_name_hint"
+        android:hint="@string/share_customized_employee_name_hint"
         android:textSize="17dp"
         kikbak:typeface="Roboto-Regular.ttf" />
 
     <com.referredlabs.kikbak.widget.TtfEditText
-        android:id="@+id/verizon_sotre_id"
+        android:id="@+id/sotre_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="14dp"
         android:layout_marginRight="14dp"
-        android:hint="@string/share_verizon_store_id_hint"
+        android:hint="@string/share_customized_store_id_hint"
         android:textSize="17dp"
         kikbak:typeface="Roboto-Regular.ttf" />
 
