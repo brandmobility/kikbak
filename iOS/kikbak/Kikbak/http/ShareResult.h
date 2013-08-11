@@ -1,15 +1,16 @@
 //
-//  EmailFields.h
+//  ShareResult.h
 //  Kikbak
 //
-//  Created by Ian Barile on 7/30/13.
+//  Created by Ian Barile on 8/9/13.
 //  Copyright (c) 2013 Ian Barile. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-@interface EmailFields : NSObject
+@interface ShareResult : NSObject
 
+@property (nonatomic,strong) NSString* refcode;
 @property (nonatomic,strong) NSString* subject;
 @property (nonatomic,strong) NSString* body;
 

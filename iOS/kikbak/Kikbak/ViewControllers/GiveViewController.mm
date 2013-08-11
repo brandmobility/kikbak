@@ -25,11 +25,9 @@
 #import "NotificationContstants.h"
 #import "TermsAndConditionsView.h"
 #import "UIButton+Util.h"
-#import "SMSMessageBodyRequest.h"
-#import "EmailBodyRequest.h"
-#import "EmailFields.h"
 #import "ImageUploadRequest.h"
 #import "FBCouponObject.h"
+#import "ShareResult.h"
 
 #define DEFAULT_CONTAINER_VIEW_HEIGHT 50
 #define PHOTO_TAG  1000
@@ -97,18 +95,13 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 -(IBAction)onCallBtn:(id)sender;
 -(IBAction)onWebBtn:(id)sender;
 
--(void)postToFacebook;
-
--(void) onEmailBodySuccess:(NSNotification*)notification;
--(void) onEmailBodyError:(NSNotification*)notification;
--(void) onSMSBodySuccess:(NSNotification*)notification;
--(void) onSMSBodyError:(NSNotification*)notification;
 -(void) onShareSuccess:(NSNotification*)notification;
 -(void) onShareError:(NSNotification*)notification;
 -(void) onImageUploadSuccess:(NSNotification*)notification;
 -(void) onImageUploadError:(NSNotification*)notification;
-
 -(void) onLocationUpdate:(NSNotification*)notification;
+-(void) onFBStoryPostSuccess:(NSNotification*)notification;
+-(void) onFBStoryPostError:(NSNotification *)notification;
 
 -(void) updateDisance;
 
@@ -147,6 +140,11 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [self updateDisance];
     
     
+    NSString* imagePath = [ImagePersistor imageFileExists:self.offer.merchantId imageType:DEFAULT_GIVE_IMAGE_TYPE];
+    if(imagePath != nil){
+        self.giveImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
+    }
+    
     self.navigationItem.hidesBackButton = YES;
     self.navigationItem.leftBarButtonItem = [UIButton blackBackBtn:self];
 }
@@ -173,12 +171,10 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onLocationUpdate:) name:kKikbakLocationUpdate object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onShareSuccess:) name:kKikbakShareSuccess object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onShareError:) name:kKikbakShareError object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onSMSBodySuccess:) name:kKikbakSMSBodySuccess object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onSMSBodyError:) name:kKikbakSMSBodyError object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onEmailBodySuccess:) name:kKikbakEmailBodySuccess object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onEmailBodyError:) name:kKikbakEmailBodyError object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onImageUploadSuccess:) name:kKikbakImagePostSuccess object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onImageUploadError:) name:kKikbakImagePostError object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onFBStoryPostSuccess:) name:kKikbakFBStoryPostSuccess object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onFBStoryPostError:) name:kKikbakFBStoryPostError object:nil];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -193,10 +189,10 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakLocationUpdate object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakShareSuccess object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakShareError object:nil];
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakSMSBodySuccess object:nil];
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakSMSBodyError object:nil];
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakEmailBodySuccess object:nil];
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakEmailBodyError object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakImagePostSuccess object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakImagePostError object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakFBStoryPostSuccess object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakFBStoryPostError object:nil];
 }
 
 -(void)viewDidLayoutSubviews{
@@ -237,7 +233,6 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     self.view.backgroundColor = UIColorFromRGB(0xFFFFFF);
     
     self.giveImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 292)];
-    self.giveImage.image = [UIImage imageNamed:@"img_vz_photo"];
     [self.view addSubview:self.giveImage];
     
     
@@ -443,12 +438,15 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 }
 
 -(IBAction)onGiveGift:(id)sender{
+    CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+    self.spinnerView = [[SpinnerView alloc]initWithFrame:frame];
+    [self.spinnerView startActivity];
+    [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:self.spinnerView];
+
     
     ImageUploadRequest* request = [[ImageUploadRequest alloc]init];
     request.image = self.giveImage.image;
     [request postImage];
-//    [self postToFacebook];
-   // [self postPhotoTheOpenGraphAction];
 }
 
 -(IBAction)onTakePhotoBtn:(id)sender{
@@ -521,11 +519,6 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 
 #pragma mark - AlertView Delegate Methods
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
- 
-    if((alertView.tag == PHOTO_TAG || alertView.tag == CAPTION_TAG) && buttonIndex == 0) {
-        [self postToFacebook];
-        //[self postPhotoTheOpenGraphAction];
-    }
 }
 
 
@@ -557,60 +550,61 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 
 
 
-#pragma mark - facebook
--(void)postToFacebook{
-    
-    CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
-    self.spinnerView = [[SpinnerView alloc]initWithFrame:frame];
-    [self.spinnerView startActivity];
-    [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:self.spinnerView];
-
-    
-    FBRequestConnection* connection = [[FBRequestConnection alloc]initWithTimeout:30];
-    FBRequest* request = [FBRequest requestForUploadPhoto:[self.giveImage.image imageByScalingAndCroppingForSize:CGSizeMake(300, 300)]];
-    if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
-        [request.parameters setObject:@"Visit http://getkikbak.com for an exclusive offer shared by your friend" forKey:@"name"];
-    }
-    else{
-        [request.parameters setObject:[NSString stringWithFormat:@"%@.\n\nVisit http://getkikbak.com for an exclusive offer shared by your friend", self.captionTextView.text] forKey:@"name"];
-    }
-    
-    [connection addRequest:request completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        if(error == nil){
-            [Flurry logEvent:@"ShareEvent" timed:YES];
-
-            [self.spinnerView removeFromSuperview];
-            ShareSuccessView* shareView = [[ShareSuccessView alloc]initWithFrame:frame];
-            shareView.delegate = self;
-            [shareView manuallyLayoutSubviews];
-            [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:shareView];
-            ShareExperienceRequest* request = [[ShareExperienceRequest alloc]init];
-            NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:5];
-
-            [dict setObject:self.offer.merchantId forKey:@"merchantId"];
-            [dict setObject:self.location.locationId forKey:@"locationId"];
-            [dict setObject:self.offer.offerId forKey:@"offerId"];
-//            [dict setObject:[result objectForKey:@"id"] forKey:@"fbImageId"];
-            [dict setObject:@"fb" forKey:@"type"];
-            if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
-                [dict setObject:@"" forKey:@"caption"];
-            }
-            else{
-                [dict setObject:self.captionTextView.text forKey:@"caption"];
-            }
-            [request restRequest:dict];
-        }
-        else{
-            [self.spinnerView removeFromSuperview];
-            [Flurry logEvent:@"FailedShareEvent" timed:YES];
-            NSLog(@"Submit Error: %@", error);
-        }
-    }];
-    
-    
-    [connection start];
-    
-}
+//#pragma mark - facebook
+//-(void)postToFacebook{
+//    
+//    CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+//    self.spinnerView = [[SpinnerView alloc]initWithFrame:frame];
+//    [self.spinnerView startActivity];
+//    [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:self.spinnerView];
+//
+//    
+//    FBRequestConnection* connection = [[FBRequestConnection alloc]initWithTimeout:30];
+//    FBRequest* request = [FBRequest requestForUploadPhoto:[self.giveImage.image imageByScalingAndCroppingForSize:CGSizeMake(300, 300)]];
+//    if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
+//        [request.parameters setObject:@"Visit http://getkikbak.com for an exclusive offer shared by your friend" forKey:@"name"];
+//    }
+//    else{
+//        [request.parameters setObject:[NSString stringWithFormat:@"%@.\n\nVisit http://getkikbak.com for an exclusive offer shared by your friend", self.captionTextView.text] forKey:@"name"];
+//    }
+//    
+//    [connection addRequest:request completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+//        if(error == nil){
+//            [Flurry logEvent:@"ShareEvent" timed:YES];
+//
+//            [self.spinnerView removeFromSuperview];
+//            ShareSuccessView* shareView = [[ShareSuccessView alloc]initWithFrame:frame];
+//            shareView.delegate = self;
+//            [shareView manuallyLayoutSubviews];
+//            [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:shareView];
+//            ShareExperienceRequest* request = [[ShareExperienceRequest alloc]init];
+//            NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:5];
+//
+//            [dict setObject:self.offer.merchantId forKey:@"merchantId"];
+//            [dict setObject:self.location.locationId forKey:@"locationId"];
+//            [dict setObject:self.offer.offerId forKey:@"offerId"];
+////            [dict setObject:[result objectForKey:@"id"] forKey:@"fbImageId"];
+//            [dict setObject:@"fb" forKey:@"type"];
+//            [dict setObject:@"ios" forKey:@"platform"];
+//            if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
+//                [dict setObject:@"" forKey:@"caption"];
+//            }
+//            else{
+//                [dict setObject:self.captionTextView.text forKey:@"caption"];
+//            }
+//            [request restRequest:dict];
+//        }
+//        else{
+//            [self.spinnerView removeFromSuperview];
+//            [Flurry logEvent:@"FailedShareEvent" timed:YES];
+//            NSLog(@"Submit Error: %@", error);
+//        }
+//    }];
+//    
+//    
+//    [connection start];
+//    
+//}
 
 
 
@@ -720,21 +714,24 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 
 #pragma mark - NSNotification Center 
 -(void) onShareSuccess:(NSNotification*)notification{
+    ShareResult* result = [notification object];
     if( shareViaEmail ){
-        EmailBodyRequest* request = [[EmailBodyRequest alloc]init];
-        NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
-        request.name = [prefs objectForKey:@(FB_NAME_KEY)];
-        request.code = [notification object];
-        request.description = self.captionTextView.text;
-        [request requestEmailBody];
+        if( [MFMailComposeViewController canSendMail]){
+            MFMailComposeViewController* picker = [[MFMailComposeViewController alloc]init];
+            picker.mailComposeDelegate = self;
+            [picker setSubject:result.subject];
+            [picker setMessageBody:result.body isHTML:YES];
+            
+            [self presentViewController:picker animated:YES completion:nil];
+        }
     }
     else if( shareViaSMS ){
-        SMSMessageBodyRequest* request = [[SMSMessageBodyRequest alloc]init];
-        NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
-        request.name = [prefs objectForKey:@(FB_NAME_KEY)];
-        request.code = [notification object];
-        request.description = self.captionTextView.text;
-        [request requestSMSBody];
+        if( [MFMessageComposeViewController canSendText] ){
+            MFMessageComposeViewController* message = [[MFMessageComposeViewController alloc]init];
+            message.messageComposeDelegate = self;
+            [message setBody:result.body];
+            [self presentViewController:message animated:YES completion:nil];
+        }
     }
 }
 
@@ -745,43 +742,16 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 
 }
 
--(void) onSMSBodySuccess:(NSNotification*)notification{
-    if( [MFMessageComposeViewController canSendText] ){
-        MFMessageComposeViewController* message = [[MFMessageComposeViewController alloc]init];
-        message.messageComposeDelegate = self;
-        [message setBody:[notification object]];    
-        [self presentViewController:message animated:YES completion:nil];
-    }
-}
-
--(void) onSMSBodyError:(NSNotification*)notification{
-    
-}
-
--(void) onEmailBodySuccess:(NSNotification*)notification{
-    if( [MFMailComposeViewController canSendMail]){
-        MFMailComposeViewController* picker = [[MFMailComposeViewController alloc]init];
-        picker.mailComposeDelegate = self;
-        [picker setSubject:((EmailFields*)[notification object]).subject];
-        [picker setMessageBody:((EmailFields*)[notification object]).body isHTML:YES];
-        
-        [self presentViewController:picker animated:YES completion:nil];
-    }
-}
-
--(void) onEmailBodyError:(NSNotification*)notification{
-    
-}
 
 -(void) onImageUploadSuccess:(NSNotification*)notification{
+    [self.spinnerView removeFromSuperview];
+
     self.imageUrl = [notification object];
-    
     CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
     ShareChannelSelectorView* view = [[ShareChannelSelectorView alloc]initWithFrame:frame];
     [view createsubviews];
     view.delegate = self;
     [self.view addSubview:view];
-    
 }
 
 -(void) onImageUploadError:(NSNotification*)notification{
@@ -796,8 +766,37 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     CLLocation* current = [[CLLocation alloc]initWithLatitude:self.location.latitude.doubleValue longitude:self.location.longitude.doubleValue];
     self.distance.text = [NSString stringWithFormat:NSLocalizedString(@"miles away", nil),
                           [Distance distanceToInMiles:current]];
+}
+
+-(void) onFBStoryPostSuccess:(NSNotification*)notification{
+    [Flurry logEvent:@"ShareEvent" timed:YES];
     
-     
+    CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+    ShareSuccessView* shareView = [[ShareSuccessView alloc]initWithFrame:frame];
+    shareView.delegate = self;
+    [shareView manuallyLayoutSubviews];
+    [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:shareView];
+    ShareExperienceRequest* request = [[ShareExperienceRequest alloc]init];
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:5];
+    
+    [dict setObject:self.offer.merchantId forKey:@"merchantId"];
+    [dict setObject:self.location.locationId forKey:@"locationId"];
+    [dict setObject:self.offer.offerId forKey:@"offerId"];
+    //            [dict setObject:[result objectForKey:@"id"] forKey:@"fbImageId"];
+    [dict setObject:@"fb" forKey:@"type"];
+    [dict setObject:@"ios" forKey:@"platform"];
+    if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
+        [dict setObject:@"" forKey:@"caption"];
+    }
+    else{
+        [dict setObject:self.captionTextView.text forKey:@"caption"];
+    }
+    [request restRequest:dict];
+    
+}
+
+-(void) onFBStoryPostError:(NSNotification *)notification{
+    
 }
 
 #pragma mark - ShareComplete Delegate
@@ -818,6 +817,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [dict setObject:self.offer.offerId forKey:@"offerId"];
     [dict setObject:self.imageUrl forKey:@"imageUrl"];
     [dict setObject:@"email" forKey:@"type"];
+    [dict setObject:@"ios" forKey:@"platform"];
     if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
         [dict setObject:@"" forKey:@"caption"];
     }
@@ -839,6 +839,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [dict setObject:self.offer.offerId forKey:@"offerId"];
     [dict setObject:self.imageUrl forKey:@"imageUrl"];
     [dict setObject:@"sms" forKey:@"type"];
+    [dict setObject:@"ios" forKey:@"platform"];
     if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
         [dict setObject:@"" forKey:@"caption"];
     }
@@ -852,22 +853,6 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     shareViaEmail = NO;
     shareViaSMS = NO;
     [FBSettings setLoggingBehavior:[NSSet setWithObject:FBLoggingBehaviorFBRequests]];
-//  if ([FBSession.activeSession.permissions
-//       indexOfObject:@"publish_actions"] == NSNotFound) {
-//    // No permissions found in session, ask for it
-//    [FBSession.activeSession
-//     requestNewPublishPermissions:
-//     [NSArray arrayWithObject:@"publish_actions"]
-//     defaultAudience:FBSessionDefaultAudienceFriends
-//     completionHandler:^(FBSession *session, NSError *error) {
-//       if (!error) {
-//         // If permissions granted, update the status
-//       }
-//     }];
-//  }
-
-    //[self postToFacebook];
-//  [self postOpenGraphActionWithPhotoURL:self.imageUrl];
     FBCouponObject* obj = [[FBCouponObject alloc]init];
     [obj postCoupon:self.imageUrl];
 }

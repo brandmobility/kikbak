@@ -12,7 +12,8 @@
 #define service_host "54.244.124.116:8080"
 //const char* service_host = "192.168.1.31:8080";
 //#define service_host  "localhost:8080"
-#define kikbak_service "kikbak"
+#define kikbak_service "k2"
+//#define kikbak_service "kikbak"
 
 #define php_host "http://test.kikbak.me/s/"
 

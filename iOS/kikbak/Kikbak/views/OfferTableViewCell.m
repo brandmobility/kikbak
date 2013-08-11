@@ -68,8 +68,7 @@
     self.topGradient.frame = CGRectMake(0, 0, 320, 16);
     [self addSubview:self.topGradient];
     
-    self.retailerImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"img1_offer"]];
-    self.retailerImage.frame = CGRectMake(0, 16, 320, 140);
+    self.retailerImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 16, 320, 140)];
     [self addSubview:self.retailerImage];
 
     self.retailerImageGradient = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"grd_background"]];
@@ -194,13 +193,6 @@
     NSString* imagePath = [ImagePersistor imageFileExists:self.offer.merchantId imageType:OFFER_LIST_IMAGE_TYPE];
     if(imagePath != nil){
         self.retailerImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
-    }
-    
-    if(index == 1){
-        self.retailerImage.image = [UIImage imageNamed:@"img3_offer"];
-    }
-    else if(index == 2){
-        self.retailerImage.image = [UIImage imageNamed:@"img2_offer"];
     }
 }
 

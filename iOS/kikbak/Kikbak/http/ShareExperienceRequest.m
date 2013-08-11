@@ -10,6 +10,7 @@
 #import "SBJson.h"
 #import "KikbakConstants.h"
 #import "NotificationContstants.h"
+#import "ShareResult.h"
 
 static NSString* resource = @"ShareExperience";
 
@@ -53,8 +54,12 @@ static NSString* resource = @"ShareExperience";
     NSString* json = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
     NSLog(@"Share Experience Request: %@", json);
     id dict = [json JSONValue];
-    NSString* refCode = [[dict objectForKey:@"shareExperienceResponse"] objectForKey:@"referrerCode"];
-    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakShareSuccess object:refCode];
+
+    ShareResult* result = [[ShareResult alloc]init];
+    result.refcode = [[dict objectForKey:@"shareExperienceResponse"] objectForKey:@"referrerCode"];
+    result.subject = [[[dict objectForKey:@"shareExperienceResponse"] objectForKey:@"template"] objectForKey:@"subject"];
+    result.body = [[[dict objectForKey:@"shareExperienceResponse"] objectForKey:@"template"] objectForKey:@"body"];
+    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakShareSuccess object:result];
 }
 
 -(void)handleError:(NSInteger)statusCode withData:(NSData*)data{
