@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -25,6 +27,7 @@ import com.referredlabs.kikbak.data.ClaimCreditResponse;
 import com.referredlabs.kikbak.data.ClaimType;
 import com.referredlabs.kikbak.http.Http;
 import com.referredlabs.kikbak.utils.Register;
+import com.squareup.picasso.Picasso;
 
 public class ClaimInputFragment extends Fragment implements OnClickListener {
   private static final String TAG_INVALID_INFO = "tag_invalid_info";
@@ -32,12 +35,10 @@ public class ClaimInputFragment extends Fragment implements OnClickListener {
 
   private AvailableCreditType mCredit;
 
-  private String mRewardDescription = "Gift Card";
-  private String mCompanyName = "Verizon Wireless";
-
   private TextView mRewardValueTv;
   private TextView mRewardDescriptionTv;
   private TextView mCompanyNameTv;
+  private ImageView mImage;
 
   private TextView mPhoneTv;
   private TextView mNameTv;
@@ -63,6 +64,7 @@ public class ClaimInputFragment extends Fragment implements OnClickListener {
     mRewardValueTv = (TextView) root.findViewById(R.id.reward_value);
     mRewardDescriptionTv = (TextView) root.findViewById(R.id.reward_description);
     mCompanyNameTv = (TextView) root.findViewById(R.id.company_name);
+    mImage = (ImageView) root.findViewById(R.id.image);
 
     mPhoneTv = (TextView) root.findViewById(R.id.phone_number);
     mNameTv = (TextView) root.findViewById(R.id.first_last_name);
@@ -78,9 +80,11 @@ public class ClaimInputFragment extends Fragment implements OnClickListener {
   }
 
   private void setupViews() {
+    mCompanyNameTv.setText(mCredit.merchant.name);
+    Uri uri = Uri.parse(mCredit.imageUrl);
+    Picasso.with(getActivity()).load(uri).into(mImage);
     setCreditAmount(mCredit.value);
-    mRewardDescriptionTv.setText(mRewardDescription);
-    mCompanyNameTv.setText(mCompanyName);
+    mRewardDescriptionTv.setText(mCredit.desc);
   }
 
   private void setCreditAmount(double value) {
@@ -165,7 +169,7 @@ public class ClaimInputFragment extends Fragment implements OnClickListener {
       mRequest.claim.PhoneNumber = mPhoneTv.getText().toString();
       mRequest.claim.name = mNameTv.getText().toString();
       mRequest.claim.street = mStreetTv.getText().toString();
-      mRequest.claim.apt = mAptTv.getText().toString();;
+      mRequest.claim.apt = mAptTv.getText().toString();
       mRequest.claim.city = mCityTv.getText().toString();
       mRequest.claim.state = mStateTv.getText().toString();
       mRequest.claim.zipcode = mZipTv.getText().toString();

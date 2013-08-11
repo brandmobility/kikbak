@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="customized_merchants_names">
+        <item>verizon</item>
+        <item>at&amp;t</item>
+    </string-array>
+    <string-array name="customized_merchants_subs">
+        <item>a Verizon</item>
+        <item>an AT&amp;T</item>
+    </string-array>
+
+</resources>

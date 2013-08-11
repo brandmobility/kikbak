@@ -1,190 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:kikbak="http://schemas.android.com/apk/res/com.referredlabs.kikbak"            
+    xmlns:kikbak="http://schemas.android.com/apk/res/com.referredlabs.kikbak"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical" >
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="140dp" >
-        <ImageView
-            android:id="@+id/reward_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@color/no_image" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/grd_imgredeem" />
-        
-        <com.referredlabs.kikbak.widget.TtfTextView
-            android:id="@+id/company_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginLeft="20dp"
-            android:layout_marginBottom="15dp"
-            kikbak:typeface="Roboto-Light.ttf"
-            android:textColor="@android:color/white"
-	        android:textSize="27dp"
-	        android:text="Verizon Wireless" />
-	</FrameLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="4dp"
-        android:paddingBottom="2dp"
-        android:paddingLeft="22dp"
-        android:paddingRight="22dp"
-        android:background="@drawable/bg_blue" >
-
-        <com.referredlabs.kikbak.widget.TtfTextView
-            android:id="@+id/reward_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:textAlignment="textStart"
-            kikbak:typeface="Roboto-Regular.ttf"
-            android:textColor="#0f4689"
-	        android:textSize="36dp"
-	        android:text="$15" />
-
-        <com.referredlabs.kikbak.widget.TtfTextView
-            android:id="@+id/reward_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:textAlignment="textEnd"
-            android:layout_centerVertical="true"
-            kikbak:typeface="Roboto-Regular.ttf"
-            android:textColor="#0f4689"
-	        android:textSize="20dp"
-	        android:text="GIFT CARD" />
-    </RelativeLayout>
-
-    <!-- ********************* start of the form ************************** -->
+    android:layout_height="match_parent" >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="14dp"
-        android:background="@drawable/bg_grey" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
-        <com.referredlabs.kikbak.widget.TtfTextView
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="140dp" >
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@color/no_image" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/grd_imgredeem" />
+
+            <com.referredlabs.kikbak.widget.TtfTextView
+                android:id="@+id/company_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="20dp"
+                android:text="Verizon Wireless"
+                android:textColor="@android:color/white"
+                android:textSize="27dp"
+                kikbak:typeface="Roboto-Light.ttf" />
+        </FrameLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="@string/claim_card_instruction"
-            kikbak:typeface="Roboto-Regular.ttf"
-	        android:textSize="17dp" />
+            android:background="@drawable/bg_blue"
+            android:paddingBottom="2dp"
+            android:paddingLeft="22dp"
+            android:paddingRight="22dp"
+            android:paddingTop="4dp" >
 
-        <com.referredlabs.kikbak.widget.TtfEditText
-            android:id="@+id/phone_number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/claim_card_phone_hint"
-            kikbak:typeface="Roboto-Regular.ttf"
-            android:textColor="#868686"
-	        android:textSize="17dp"            
-            android:inputType="phone"
-            android:background="@drawable/text_field" />
+            <com.referredlabs.kikbak.widget.TtfTextView
+                android:id="@+id/reward_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="$15"
+                android:textAlignment="textStart"
+                android:textColor="#0f4689"
+                android:textSize="36dp"
+                kikbak:typeface="Roboto-Regular.ttf" />
 
-        <com.referredlabs.kikbak.widget.TtfEditText
-            android:id="@+id/first_last_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/claim_card_name_hint"
-            kikbak:typeface="Roboto-Regular.ttf"
-            android:textColor="#868686"
-	        android:textSize="17dp"             
-            android:inputType="textPersonName|textCapWords"
-            android:background="@drawable/text_field" />
+            <com.referredlabs.kikbak.widget.TtfTextView
+                android:id="@+id/reward_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="GIFT CARD"
+                android:textAlignment="textEnd"
+                android:textColor="#0f4689"
+                android:textSize="20dp"
+                kikbak:typeface="Roboto-Regular.ttf" />
+        </RelativeLayout>
 
-       <com.referredlabs.kikbak.widget.TtfEditText
-            android:id="@+id/address_street"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/claim_card_street_hint"
-            kikbak:typeface="Roboto-Regular.ttf"
-            android:textColor="#868686"
-	        android:textSize="17dp"
-	        android:inputType="text"
-            android:background="@drawable/text_field" />
-        
-        <com.referredlabs.kikbak.widget.TtfEditText
-            android:id="@+id/address_apartment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/claim_card_apt_hint"
-            kikbak:typeface="Roboto-Regular.ttf"
-            android:textColor="#868686"
-	        android:textSize="17dp"
-            android:inputType="text"
-            android:background="@drawable/text_field" />
+        <!-- ********************* start of the form ************************** -->
 
-        <com.referredlabs.kikbak.widget.TtfEditText
-            android:id="@+id/address_city"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/claim_card_city_hint"
-            kikbak:typeface="Roboto-Regular.ttf"
-            android:textColor="#868686"
-	        android:textSize="17dp"
-	        android:inputType="text"
-            android:background="@drawable/text_field" />
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_grey"
+            android:orientation="vertical"
+            android:padding="14dp" >
 
-        <com.referredlabs.kikbak.widget.TtfEditText
-            android:id="@+id/address_state"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/claim_card_state_hint"
-            kikbak:typeface="Roboto-Regular.ttf"
-            android:textColor="#868686"
-	        android:textSize="17dp"             
-            android:inputType="text"
-            android:background="@drawable/text_field" />
+            <com.referredlabs.kikbak.widget.TtfTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="@string/claim_card_instruction"
+                android:textSize="17dp"
+                kikbak:typeface="Roboto-Regular.ttf" />
 
-        <com.referredlabs.kikbak.widget.TtfEditText
-            android:id="@+id/address_zip"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/claim_card_zip_hint"
-            kikbak:typeface="Roboto-Regular.ttf"
-            android:textColor="#868686"
-	        android:textSize="17dp"             
-            android:inputType="number"
-            android:background="@drawable/text_field" />
+            <com.referredlabs.kikbak.widget.TtfEditText
+                android:id="@+id/phone_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/text_field"
+                android:hint="@string/claim_card_phone_hint"
+                android:inputType="phone"
+                android:textColor="#868686"
+                android:textSize="17dp"
+                kikbak:typeface="Roboto-Regular.ttf" />
 
-        <!-- ********************* end of the form **************************** -->
+            <com.referredlabs.kikbak.widget.TtfEditText
+                android:id="@+id/first_last_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/text_field"
+                android:hint="@string/claim_card_name_hint"
+                android:inputType="textPersonName|textCapWords"
+                android:textColor="#868686"
+                android:textSize="17dp"
+                kikbak:typeface="Roboto-Regular.ttf" />
 
-        <com.referredlabs.kikbak.widget.TtfTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
-            android:text="@string/claim_card_arrival"
-            kikbak:typeface="Roboto-Regular.ttf"
-            android:textColor="#868686"
-	        android:textSize="14dp"  />
+            <com.referredlabs.kikbak.widget.TtfEditText
+                android:id="@+id/address_street"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/text_field"
+                android:hint="@string/claim_card_street_hint"
+                android:inputType="text"
+                android:textColor="#868686"
+                android:textSize="17dp"
+                kikbak:typeface="Roboto-Regular.ttf" />
 
-        <com.referredlabs.kikbak.widget.TtfButton
-            android:id="@+id/button_submit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/btn_blue"
-            android:text="@string/claim_card_submit"
-            kikbak:typeface="Roboto-Light.ttf"
-            android:textColor="@android:color/white"
-	        android:textSize="21dp" />
+            <com.referredlabs.kikbak.widget.TtfEditText
+                android:id="@+id/address_apartment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/text_field"
+                android:hint="@string/claim_card_apt_hint"
+                android:inputType="text"
+                android:textColor="#868686"
+                android:textSize="17dp"
+                kikbak:typeface="Roboto-Regular.ttf" />
+
+            <com.referredlabs.kikbak.widget.TtfEditText
+                android:id="@+id/address_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/text_field"
+                android:hint="@string/claim_card_city_hint"
+                android:inputType="text"
+                android:textColor="#868686"
+                android:textSize="17dp"
+                kikbak:typeface="Roboto-Regular.ttf" />
+
+            <com.referredlabs.kikbak.widget.TtfEditText
+                android:id="@+id/address_state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/text_field"
+                android:hint="@string/claim_card_state_hint"
+                android:inputType="text"
+                android:textColor="#868686"
+                android:textSize="17dp"
+                kikbak:typeface="Roboto-Regular.ttf" />
+
+            <com.referredlabs.kikbak.widget.TtfEditText
+                android:id="@+id/address_zip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/text_field"
+                android:hint="@string/claim_card_zip_hint"
+                android:inputType="number"
+                android:textColor="#868686"
+                android:textSize="17dp"
+                kikbak:typeface="Roboto-Regular.ttf" />
+
+            <!-- ********************* end of the form **************************** -->
+
+            <com.referredlabs.kikbak.widget.TtfTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/claim_card_arrival"
+                android:textColor="#868686"
+                android:textSize="14dp"
+                kikbak:typeface="Roboto-Regular.ttf" />
+
+            <com.referredlabs.kikbak.widget.TtfButton
+                android:id="@+id/button_submit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_blue"
+                android:text="@string/claim_card_submit"
+                android:textColor="@android:color/white"
+                android:textSize="21dp"
+                kikbak:typeface="Roboto-Light.ttf" />
+        </LinearLayout>
     </LinearLayout>
-    
-</LinearLayout>
+
 </ScrollView>
