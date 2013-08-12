@@ -79,7 +79,7 @@ an exclusive offer for <strong>${gift.merchant.name}</strong>.</p>
 <div class="blue-btn">
 <a href="#" onclick="fblogin();return false;" class="btnn">Generate offer to use in store</a>
 </div>
-<p>The Kikbak app makes it easy to access your gift. 
+<p style="margin-left:3%;">The Kikbak app makes it easy to access your gift. 
 Download it now -- your gift is already there.</p>
 <p class="ap-srt">
 <a href="#" class="lft"><img src="img/app-store.png" /></a> 
