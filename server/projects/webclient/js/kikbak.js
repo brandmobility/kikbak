@@ -290,16 +290,14 @@ function initPage() {
     $('#offer-details-view').show('');
     $('#back-btn-div').hide('');
     $('#heading').html('Gift');
-    if (localStorage.offerCount > 1) {
-      $('#back-btn-div').show('');
-    }
+    $('#back-btn-div').show('');
     getOfferDetail();
-  } else if (pageType == 'offer') {
+  } else if (pageType == 'offer-force') {
     $('#offer-view').show('');
     $('#suggest-btn-div').show('');
     $('#heading').html('Gift');
     $('#offer-btn-div').css('background', 'url("img/btn_highlighted.png")');
-    getOffers();
+    getOffers(true);
   } else {// Default
     $('#offer-view').show('');
     $('#suggest-btn-div').show('');
@@ -331,15 +329,15 @@ function claimGift(code) {
   });
 }
 
-function getOffers() {
+function getOffers(force) {
   localStorage.pageType = 'offer';
   var userId = 0;
 
   if ( typeof userId !== 'undefined' && userId !== null && userId !== '') {
     if ( typeof initPage.p !== 'undefined') {
-      getOffersByLocation(userId, initPage.p);
+      getOffersByLocation(userId, initPage.p, force);
     } else {
-      getOffersByLocation(userId, null);
+      getOffersByLocation(userId, null, force);
     }
   }
 }
@@ -407,16 +405,17 @@ function computeDistanceDigit(local) {
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
   var d = parseInt(R * c * 10);
   return parseInt(d / 10) + '.' + (d % 10);
-  
-function computeDistance() {
-  computeDistanceDigit() + ' mile';
+}
+
+function computeDistance(local) {
+  computeDistanceDigit(local) + ' mile';
 }
 
 function getDisplayLocation(locations) {
   return locations[0];
 }
 
-function getOffersByLocation(userId, position) {
+function getOffersByLocation(userId, position, force) {
   var location = {};
   if (position != null) {
     location['longitude'] = position.longitude;
@@ -437,7 +436,7 @@ function getOffersByLocation(userId, position) {
       var offers = json.getUserOffersResponse.offers;
       localStorage.offerCount = offers.length;
       
-      if (offers.length == 1) {
+      if (offers.length == 1 && !force) {
         localStorage.offerDetail = escape(JSON.stringify(offers[0]));
         localStorage.pageType = 'offer-detail';
         initPage();
@@ -449,14 +448,11 @@ function getOffersByLocation(userId, position) {
         var local = getDisplayLocation(offer.locations);
         if (computeDistanceDigit(local) < 0.5) {
           ++availCount;
-          if (availCount > 1) {
-            break;
-          }
           availOffer = offer;
         }
       });
       
-      if (availCount == 1) {
+      if (availCount == 1 && !force) {
         localStorage.offerDetail = escape(JSON.stringify(availOffer));
         localStorage.pageType = 'offer-detail';
         initPage();
@@ -628,7 +624,7 @@ function getOfferDetail() {
     $('#back-btn').unbind();
     $('#back-btn').click(function(e) {
       e.preventDefault();
-      localStorage.pageType = 'offer';
+      localStorage.pageType = 'offer-force';
       initPage();
     });
 
