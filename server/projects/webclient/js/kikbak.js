@@ -155,16 +155,8 @@ function fbInit() {
     status: true,
     cookie: true,
     xfbml: true
-  });       
-  FB.Event.subscribe('auth.authResponseChange', function(response) {
-    if (response.status === 'connected') {
-      connectFb(response.authResponse.accessToken);
-    } else if (response.status === 'not_authorized') {
-      FB.login();
-    } else {
-      FB.login();
-    }
   });
+  initPosition(initPage);
 }
 
 function connectFb(accessToken) {
@@ -307,7 +299,7 @@ function initPage() {
     $('#suggest-btn-div').show('');
     $('#heading').html('Gift');
     $('#offer-btn-div').css('background', 'url("img/btn_highlighted.png")');
-    getOffers(true);
+    getOffers();
   } else {// Default
     $('#offer-view').show('');
     $('#suggest-btn-div').show('');
@@ -723,7 +715,15 @@ function renderOfferDetail(offer) {
   html += '<a href="#" class="trm" onclick="showTerms(\'' + offer.tosUrl + '\')" >Terms and Conditions</a>';
   html += '<a href="#" class="lrn-mor" onclick="$(\'#learn\').show();" >Learn more</a>';
   html += '</div>';
-  html += '<input name="share" type="submit" class="btn grd3" value="Give To Friends" disabled />';
+  var userId = localStorage.userId;
+  if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
+    html += '<input name="share" type="submit" class="btn grd3" value="Give To Friends" disabled />';
+  } else {
+    html += '<input name="share" type="submit" class="btn grd3" value="Connect with Facebook to share" />';
+    html += '<div class="crt">';
+    html += '<p>We use Facebook to make it easy for you to store, redeem, and share gifts.  We will never post on Facebook with your permission.</p>';
+    html += '</div>';
+  }
   html += '</form>';
   $('#offer-details-view').html(html);
   
@@ -775,37 +775,48 @@ function onSuggestResponse() {
 
 function shareOffer() {
   var userId = localStorage.userId;
-  $('#share-form input[name="share"]').attr('disabled', 'disabled');
-  if ( typeof userId !== 'undefined' && userId !== null && userId !== '') {
-    var message = $('#share-form input[name="comment"]').val();
-    var msg = 'Visit getkikbak.com for an exclusive offer shared by your friend';
-
-    if (!$('#take-picture')[0].files || $('#take-picture')[0].files.length == 0) {
-      var src = $('#share-form .image-add img').attr('src');
-      onShareResponse(src);
-    } else {
-      var req = new FormData();
-      var file = $('#take-picture')[0].files[0];
-      req.append('file', file);
-      req.append('userId', userId);
-      $.ajax({
-        url : config.backend + '/s/upload.php',
-        data : req,
-        processData : false,
-        cache : false,
-        contentType : false,
-        dataType : 'json',
-        type : 'POST',
-        success : function(response) {
-          if (response && response.url) {
-            onShareResponse(response.url);
-          }
-        },
-        error : showError
-      });
+  if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
+    var userId = localStorage.userId;
+    $('#share-form input[name="share"]').attr('disabled', 'disabled');
+    if ( typeof userId !== 'undefined' && userId !== null && userId !== '') {
+      var message = $('#share-form input[name="comment"]').val();
+      var msg = 'Visit getkikbak.com for an exclusive offer shared by your friend';
+      if (!$('#take-picture')[0].files || $('#take-picture')[0].files.length == 0) {
+        var src = $('#share-form .image-add img').attr('src');
+        onShareResponse(src);
+      } else {
+        var req = new FormData();
+        var file = $('#take-picture')[0].files[0];
+        req.append('file', file);
+        req.append('userId', userId);
+        $.ajax({
+          url : config.backend + '/s/upload.php',
+          data : req,
+          processData : false,
+          cache : false,
+          contentType : false,
+          dataType : 'json',
+          type : 'POST',
+          success : function(response) {
+            if (response && response.url) {
+              onShareResponse(response.url);
+            }
+          },
+          error : showError
+        });
+      }
     }
+  } else {   
+    FB.login(function(response) {
+      if (response.status === 'connected') {
+        connectFb(response.authResponse.accessToken);
+      } else if (response.status === 'not_authorized') {
+        FB.login();
+      } else {
+        FB.login();
+      }
+    }, {scope:"email,read_friendlists,publish_stream,publish_actions"});
   }
-
 }
 
 function onShareResponse(url) {
