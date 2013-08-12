@@ -77,31 +77,31 @@ const int CELL_HEIGHT = 147;
 
 -(void)manuallyLayoutSubview{
     self.retailerImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"img1"]];
-    self.retailerImage.frame = CGRectMake(0, 0, 320, 90);
+    self.retailerImage.frame = CGRectMake(0, 0, 320, 140);
     [self addSubview:self.retailerImage];
     
     self.imageGradient = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"grd_img_redeem_list"]];
-    self.imageGradient.frame = CGRectMake(0,15,320,75);
+    self.imageGradient.frame = CGRectMake(0,65,320,75);
     [self addSubview:self.imageGradient];
     
-    self.rewardBackground = [[UIView alloc]initWithFrame:CGRectMake(0, 90, 320, 47)];
+    self.rewardBackground = [[UIView alloc]initWithFrame:CGRectMake(0, 140, 320, 47)];
     self.rewardBackground.backgroundColor = [UIColor whiteColor];
     [self addSubview:self.rewardBackground];
     
-    self.drpShadow = [[UIImageView alloc]initWithFrame:CGRectMake(0, 137, 320, 11)];
+    self.drpShadow = [[UIImageView alloc]initWithFrame:CGRectMake(0, 187, 320, 11)];
     self.drpShadow.image = [UIImage imageNamed:@"grd_redeem_list_dropshadow"];
     [self addSubview:self.drpShadow];
     
     
-    self.horizontalSeparator = [[UIImageView alloc]initWithFrame:CGRectMake(0, 88, 320, 2)];
+    self.horizontalSeparator = [[UIImageView alloc]initWithFrame:CGRectMake(0, 138, 320, 2)];
     self.horizontalSeparator.image = [UIImage imageNamed:@"separator_dots"];
     [self addSubview:self.horizontalSeparator];
     
-    self.verticalSeparator = [[UIImageView alloc]initWithFrame:CGRectMake(159, 90, 2, 47)];
+    self.verticalSeparator = [[UIImageView alloc]initWithFrame:CGRectMake(159, 140, 2, 47)];
     self.verticalSeparator.image = [UIImage imageNamed:@"separator_vertical_redeem_list"];
     [self addSubview:self.verticalSeparator];
     
-    self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(11, 61, 180, 25)];
+    self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(11, 111, 180, 25)];
     self.retailerName.backgroundColor = [UIColor clearColor];
     self.retailerName.textColor = [UIColor whiteColor];
     self.retailerName.font = [UIFont fontWithName:@"HelveticaNeue" size:21];
@@ -110,10 +110,10 @@ const int CELL_HEIGHT = 147;
     
     UIImage* mapIcon = [UIImage imageNamed:@"ic_map"];
     self.mapIcon = [[UIImageView alloc]initWithImage:mapIcon];
-    self.mapIcon.frame = CGRectMake(202, 67, mapIcon.size.width, mapIcon.size.height);
+    self.mapIcon.frame = CGRectMake(202, 117, mapIcon.size.width, mapIcon.size.height);
     [self addSubview:self.mapIcon];
     
-    self.distance = [[UILabel alloc]initWithFrame:CGRectMake(214, 65, 80, 16)];
+    self.distance = [[UILabel alloc]initWithFrame:CGRectMake(214, 115, 80, 16)];
     self.distance.font = [UIFont fontWithName:@"HelveticaNeue" size:15];
     self.distance.text = @"1.7 mi";
     self.distance.textColor = [UIColor whiteColor];
@@ -123,13 +123,13 @@ const int CELL_HEIGHT = 147;
     
     
     self.mapBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.mapBtn.frame = CGRectMake(202, 64, 60, 30);
+    self.mapBtn.frame = CGRectMake(202, 114, 60, 30);
     [self.mapBtn addTarget:self action:@selector(onMap:) forControlEvents:UIControlEventTouchUpInside];
     // self.mapBtn.backgroundColor = [UIColor greenColor];
     [self addSubview:self.mapBtn];
     
     self.webBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.webBtn.frame = CGRectMake(264, 58, 26, 30);
+    self.webBtn.frame = CGRectMake(264, 108, 26, 30);
     self.webBtn.contentMode = UIViewContentModeCenter;
     //self.webBtn.backgroundColor = [UIColor redColor];
     [self.webBtn setImage:[UIImage imageNamed:@"ic_web"] forState:UIControlStateNormal];
@@ -137,7 +137,7 @@ const int CELL_HEIGHT = 147;
     [self addSubview:self.webBtn];
     
     self.callBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.callBtn.frame = CGRectMake(290, 57, 26, 30);
+    self.callBtn.frame = CGRectMake(290, 107, 26, 30);
     self.callBtn.contentMode = UIViewContentModeLeft;
     //self.callBtn.backgroundColor = [UIColor greenColor];
     [self.callBtn setImage:[UIImage imageNamed:@"ic_phone"] forState:UIControlStateNormal];
@@ -266,17 +266,17 @@ const int CELL_HEIGHT = 147;
     [self.giftBtn removeFromSuperview];
     [self.creditBtn removeFromSuperview];
     if( self.rewards.credit && self.rewards.gift){
-        self.giftBtn.frame = CGRectMake(0, 90, 159, 47);
-        self.creditBtn.frame = CGRectMake(161, 90, 159, 47);
+        self.giftBtn.frame = CGRectMake(0, 140, 159, 47);
+        self.creditBtn.frame = CGRectMake(161, 140, 159, 47);
         [self addSubview:self.giftBtn];
         [self addSubview:self.creditBtn];
     }
     else if( self.rewards.credit){
-        self.creditBtn.frame = CGRectMake(0, 90, 320, 47);
+        self.creditBtn.frame = CGRectMake(0, 140, 320, 47);
         [self addSubview:self.creditBtn];
     }
     else{
-        self.giftBtn.frame = CGRectMake(0, 90, 320, 47);
+        self.giftBtn.frame = CGRectMake(0, 140, 320, 47);
         [self addSubview:self.giftBtn];
     }
 }
