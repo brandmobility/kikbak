@@ -381,7 +381,7 @@ function generateMapUrl(name, local) {
   return url;
 }
 
-function computeDistance(local) {
+function computeDistanceDigit(local) {
   if (typeof(Number.prototype.toRad) === "undefined") {
     Number.prototype.toRad = function() {
       return this * Math.PI / 180;
@@ -406,7 +406,10 @@ function computeDistance(local) {
               Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
   var d = parseInt(R * c * 10);
-  return parseInt(d / 10) + '.' + (d % 10) + ' mile';
+  return parseInt(d / 10) + '.' + (d % 10);
+  
+function computeDistance() {
+  computeDistanceDigit() + ' mile';
 }
 
 function getDisplayLocation(locations) {
@@ -436,6 +439,25 @@ function getOffersByLocation(userId, position) {
       
       if (offers.length == 1) {
         localStorage.offerDetail = escape(JSON.stringify(offers[0]));
+        localStorage.pageType = 'offer-detail';
+        initPage();
+      }
+      
+      var availCount = 0;
+      var availOffer = null;
+      $.each(offers, function(i, offer) {
+        var local = getDisplayLocation(offer.locations);
+        if (computeDistanceDigit(local) < 0.5) {
+          ++availCount;
+          if (availCount > 1) {
+            break;
+          }
+          availOffer = offer;
+        }
+      });
+      
+      if (availCount == 1) {
+        localStorage.offerDetail = escape(JSON.stringify(availOffer));
         localStorage.pageType = 'offer-detail';
         initPage();
       }
