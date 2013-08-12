@@ -408,7 +408,7 @@ function computeDistanceDigit(local) {
 }
 
 function computeDistance(local) {
-  computeDistanceDigit(local) + ' mile';
+  return computeDistanceDigit(local) + ' mile';
 }
 
 function getDisplayLocation(locations) {
