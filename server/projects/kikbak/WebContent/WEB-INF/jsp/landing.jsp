@@ -23,7 +23,8 @@ if (typeof localStorage !== 'undefined') {
 }
 </script>
 <body>
-<div class="bdy">
+<div>
+<div class="bdy" style="background:url(${gift.defaultGiveImageUrl});background-size:cover;"></div>
 <div class="hedr-wpr"><a href="#" class="logo"><img src="${gift.defaultGiveImageUrl}" /></a></div>
 <div class="main-bdy">
 <p class="top-msg"><strong>${gift.friendName}</strong> used <strong>Kikbak</strong> to give you
