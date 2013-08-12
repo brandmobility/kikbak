@@ -5,6 +5,10 @@ var config = {
 }
 
 $(document).ready(function() {
+  if (!Storage && !localStorgage) {
+    alert("Needs to enable localstorage to use Kikbak.me");
+    return;
+  }
   var req = 0;
   $(document).ajaxStart(function (){
     req++;
@@ -21,28 +25,20 @@ $(document).ready(function() {
     window.fbAsyncInit = fbInit;
   });
   $('.offer-btn').click(function(){
-    if (typeof Storage != 'undefined') {
-      localStorage.pageType = 'offer';
-      initPage();
-    }
+    localStorage.pageType = 'offer';
+    initPage();
   });
   $('.redeem-btn').click(function(){
-    if (typeof Storage != 'undefined') {
-      localStorage.pageType = 'redeem';
-      initPage();
-    }
+    localStorage.pageType = 'redeem';
+    initPage();
   });
   $('.suggest-btn').click(function(){
-    if (typeof Storage != 'undefined') {
-      localStorage.pageType = 'suggest';
-      initPage();
-    }
+    localStorage.pageType = 'suggest';
+    initPage();
   });
   $('.offer-list-btn').click(function(){
-    if (typeof Storage != 'undefined') {
-      localStorage.pageType = 'offer';
-      initPage();
-    }
+    localStorage.pageType = 'offer';
+    initPage();
   });
   setWrapperSize();
 
@@ -152,11 +148,6 @@ function showError() {
   alert("Service is unavailable. Please try again later.");
 }
 
-function showGpsError(userId) {
-  alert("Cannot locate user");
-  getOffersByLocation(userId, null);
-}
-
 function fbInit() {
   FB.init({
     appId: '493383324061333',
@@ -164,26 +155,16 @@ function fbInit() {
     status: true,
     cookie: true,
     xfbml: true
-  });       
-  FB.Event.subscribe('auth.authResponseChange', function(response) {
-    if (response.status === 'connected') {
-      connectFb(response.authResponse.accessToken);
-    } else if (response.status === 'not_authorized') {
-      FB.login();
-    } else {
-      FB.login();
-    }
   });
+  initPosition(initPage);
 }
 
 function connectFb(accessToken) {
-  if (typeof Storage != 'undefined') {
-    localStorage.accessToken = accessToken;
-    var userId = localStorage.userId;
-    if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
-      initPosition(initPage);
-      return;
-    }
+  localStorage.accessToken = accessToken;
+  var userId = localStorage.userId;
+  if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
+    initPosition(initPage);
+    return;
   }
   FB.api('/me', function(response) {
     var user = {};
@@ -204,9 +185,7 @@ function connectFb(accessToken) {
     req['RegisterUserRequest'] = data;
     var str = JSON.stringify(req);
 
-    if (typeof Storage != 'undefined') {
-      localStorage.userName = response.first_name + ' ' + response.last_name;
-    }
+    localStorage.userName = response.first_name + ' ' + response.last_name;
 
     $.ajax({
       dataType: 'json',
@@ -237,9 +216,7 @@ function updateFbFriends(userId) {
       data: str,
       url: config.backend + 'kikbak/user/friends/fb/' + userId,
       success: function(json) {
-        if (typeof Storage != 'undefined') {
-          localStorage.userId = userId;
-        }
+        localStorage.userId = userId;
         initPage();
       },
       error: showError
@@ -270,64 +247,67 @@ function initPage() {
   $('#back-btn-div').hide();
   $('#suggest-btn-div').hide();
   $('#suggest-view').hide();
+  $('#redeem-gift-success').hide();
   $('#offer-btn-div').css('background', 'url("img/btn_normal.png")');
   $('#redeem-btn-div').css('background', 'url("img/btn_normal.png")');
   window.scrollTo(0, 1);
-  if (typeof Storage != 'undefined') {
-    var code = localStorage.code;
-    if (typeof code !== 'undefined' && code !== 'null' && code !== '') {
-      claimGift(code);
-      return;
-    }
-    
-    var pageType = localStorage.pageType;
-    if (pageType === 'redeem') {
-      $('#redeem-view').show('');
-      $('#redeem-btn-div').css('background', 'url("img/btn_highlighted.png")');
-      $('#heading').html('Kikbak');
-      getRedeems();
-    } else if (pageType === 'redeem-gift-detail') {
-      $('#redeem-details-view').show('');
-      $('#back-btn-div').show('');
-      $('#heading').html('Redeem');
-      getRedeemGiftDetail();
-    } else if (pageType === 'redeem-credit-detail') {
-      $('#redeem-details-view').show('');
-      $('#back-btn-div').show('');
-      $('#heading').html('Redeem');
-      getRedeemCreditDetail();
-    } else if (pageType === 'suggest') {
-      $('#suggest-view').show('');
-      $('#back-btn-div').show('');
-      $('#heading').html('Gift');
-      $('#show-picture-suggest').removeAttr('src');
-      $('#add-photo-suggest').show();
-      $('#back-btn').unbind();
-      $('#back-btn').click(function(e){
-        e.preventDefault();
-        localStorage.pageType = 'offer';
-        initPage();
-      });
-    } else if (pageType === 'offer-detail') { 
-      $('#offer-details-view').show('');
-      $('#back-btn-div').hide('');
-      $('#heading').html('Gift');
-      $('#back-btn-div').show('');
-      getOfferDetail();
-    } else if (pageType == 'offer'){
-      $('#offer-view').show('');
-      $('#suggest-btn-div').show('');
-      $('#heading').html('Gift');
-      $('#offer-btn-div').css('background', 'url("img/btn_highlighted.png")');
-      getOffers(true);
-    } else { // Default
-      $('#offer-view').show('');
-      $('#suggest-btn-div').show('');
-      $('#heading').html('Gift');
-      $('#offer-btn-div').css('background', 'url("img/btn_highlighted.png")');
-      getOffers(false);
-    }
+  
+  var code = localStorage.code;
+  if (typeof code !== 'undefined' && code !== 'null' && code !== '') {
+    claimGift(code);
+    return;
   }
+
+  var pageType = localStorage.pageType;
+  if (pageType === 'redeem') {
+    $('#redeem-view').show('');
+    $('#redeem-btn-div').css('background', 'url("img/btn_highlighted.png")');
+    $('#heading').html('Kikbak');
+    getRedeems();
+  } else if (pageType === 'redeem-gift-detail') {
+    $('#redeem-details-view').show('');
+    $('#back-btn-div').show('');
+    $('#heading').html('Redeem');
+    getRedeemGiftDetail();
+  } else if (pageType === 'redeem-credit-detail') {
+    $('#redeem-details-view').show('');
+    $('#back-btn-div').show('');
+    $('#heading').html('Redeem');
+    getRedeemCreditDetail();
+  } else if (pageType === 'suggest') {
+    $('#suggest-view').show('');
+    $('#back-btn-div').show('');
+    $('#heading').html('Gift');
+    $('#show-picture-suggest').removeAttr('src');
+    $('#add-photo-suggest').show();
+    $('#back-btn').unbind();
+    $('#back-btn').click(function(e) {
+      e.preventDefault();
+      localStorage.pageType = 'offer';
+      initPage();
+    });
+  } else if (pageType === 'offer-detail') {
+    $('#offer-details-view').show('');
+    $('#back-btn-div').hide('');
+    $('#heading').html('Gift');
+    if (localStorage.offerCount > 1) {
+      $('#back-btn-div').show('');
+    }
+    getOfferDetail();
+  } else if (pageType == 'offer') {
+    $('#offer-view').show('');
+    $('#suggest-btn-div').show('');
+    $('#heading').html('Gift');
+    $('#offer-btn-div').css('background', 'url("img/btn_highlighted.png")');
+    getOffers();
+  } else {// Default
+    $('#offer-view').show('');
+    $('#suggest-btn-div').show('');
+    $('#heading').html('Gift');
+    $('#offer-btn-div').css('background', 'url("img/btn_highlighted.png")');
+    getOffers(false);
+  }
+
   setWrapperSize();
   setTimeout(function(){
     reload();
@@ -351,17 +331,15 @@ function claimGift(code) {
   });
 }
 
-function getOffers(force) {
-  if (typeof Storage != 'undefined') {
-    localStorage.pageType = 'offer';
-    var userId = localStorage.userId;
+function getOffers() {
+  localStorage.pageType = 'offer';
+  var userId = 0;
 
-    if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
-      if (typeof initPage.p !== 'undefined') {
-        getOffersByLocation(userId, initPage.p, force);
-      } else {
-        getOffersByLocation(userId, null, force);
-      }
+  if ( typeof userId !== 'undefined' && userId !== null && userId !== '') {
+    if ( typeof initPage.p !== 'undefined') {
+      getOffersByLocation(userId, initPage.p);
+    } else {
+      getOffersByLocation(userId, null);
     }
   }
 }
@@ -435,7 +413,7 @@ function getDisplayLocation(locations) {
   return locations[0];
 }
 
-function getOffersByLocation(userId, position, force) {
+function getOffersByLocation(userId, position) {
   var location = {};
   if (position != null) {
     location['longitude'] = position.longitude;
@@ -454,12 +432,11 @@ function getOffersByLocation(userId, position, force) {
     url: config.backend + 'kikbak/user/offer/' + userId,
     success: function(json) {
       var offers = json.getUserOffersResponse.offers;
+      localStorage.offerCount = offers.length;
       
-      if (offers.length == 1 && !force) {
-        if (Storage != 'undefined') {
-          localStorage.offerDetail = escape(JSON.stringify(offers[0]));
-          localStorage.pageType = 'offer-detail';
-        }
+      if (offers.length == 1) {
+        localStorage.offerDetail = escape(JSON.stringify(offers[0]));
+        localStorage.pageType = 'offer-detail';
         initPage();
       }
       
@@ -475,10 +452,8 @@ function getOffersByLocation(userId, position, force) {
       }
       $('.offer-details-btn').click(function(e) {
         e.preventDefault();
-        if (Storage != 'undefined') {
-          localStorage.offerDetail = $(this).attr('data-object');
-          localStorage.pageType = 'offer-detail';
-        }
+        localStorage.offerDetail = $(this).attr('data-object');
+        localStorage.pageType = 'offer-detail';
         initPage();
       });
     },
@@ -487,100 +462,94 @@ function getOffersByLocation(userId, position, force) {
 }
 
 function getRedeems() {
-  if (typeof Storage != 'undefined') {
-    var userId = localStorage.userId;
+  var userId = localStorage.userId;
 
-    if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
-      var data = {};
-      var req = {};
-      req['RewardsRequest'] = data;      
-      var str = JSON.stringify(req);
+  if ( typeof userId !== 'undefined' && userId !== null && userId !== '') {
+    var data = {};
+    var req = {};
+    req['RewardsRequest'] = data;
+    var str = JSON.stringify(req);
 
-      $.ajax({
-        dataType: 'json',
-        type: 'POST',
-        contentType: 'application/json',
-        data: str,
-        url: config.backend + 'kikbak/rewards/request/' + userId,
-        success: function(json) {
-          var gifts = json.rewardsResponse.gifts;
-          var credits = json.rewardsResponse.credits;
-          var giftCollection = {};
-          var creditCollection = {};
-          $('#redeem-list').html('');
-          $.each(gifts, function(i, gift) {
-            var mid = gift.merchant.id;
-            if (giftCollection[mid]) {
-              giftCollection[mid].push(gift);
-            } else {
-              giftCollection[mid] = [gift];
-            }
-          });
-          $.each(credits, function(i, credit) {
-            var mid = credit.merchant.id;
-            if (creditCollection[mid]) {
-              creditCollection[mid].push(credit);
-            } else {
-              creditCollection[mid] = [credit];
-            }
-          });
-          
-          var mark = {};
-          for (var mid in giftCollection) {
+    $.ajax({
+      dataType : 'json',
+      type : 'POST',
+      contentType : 'application/json',
+      data : str,
+      url : config.backend + 'kikbak/rewards/request/' + userId,
+      success : function(json) {
+        var gifts = json.rewardsResponse.gifts;
+        var credits = json.rewardsResponse.credits;
+        var giftCollection = {};
+        var creditCollection = {};
+        $('#redeem-list').html('');
+        $.each(gifts, function(i, gift) {
+          var mid = gift.merchant.id;
+          if (giftCollection[mid]) {
+            giftCollection[mid].push(gift);
+          } else {
+            giftCollection[mid] = [gift];
+          }
+        });
+        $.each(credits, function(i, credit) {
+          var mid = credit.merchant.id;
+          if (creditCollection[mid]) {
+            creditCollection[mid].push(credit);
+          } else {
+            creditCollection[mid] = [credit];
+          }
+        });
+
+        var mark = {};
+        for (var mid in giftCollection) {
+          renderRedeem(giftCollection[mid], creditCollection[mid]);
+          mark[mid] = 1;
+        }
+        for (var mid in creditCollection) {
+          if (!mark[mid]) {
             renderRedeem(giftCollection[mid], creditCollection[mid]);
-            mark[mid] = 1;
           }
-          for (var mid in creditCollection) {
-            if (!mark[mid]) {
-              renderRedeem(giftCollection[mid], creditCollection[mid]);
+        }
+
+        $('.redeem-gift-btn').click(function(e) {
+          e.preventDefault();
+          var gifts = jQuery.parseJSON(unescape($(this).attr('data-object')));
+          $('#friend-popup h1').html('');
+          var list = $('#friend-list');
+          list.html(gifts[0].desc);
+          if (gifts && gifts.length > 1) {
+            for (var gift in gifts) {
+              var li = '<li class="frd-bx" >';
+              li += '<img src="https://graph.facebook.com/' + gift.fbFriendId + '/picture?type=square">';
+              li += '<h2>' + gift.friendName + '</h2>';
+              var j = escape(JSON.stringify(gift));
+              li += '<a href="#" class="nxtt select-gift-btn" data-object="' + j + '"><img src="images/nxt-aro.png"></a></li>';
+              list.append(li);
             }
-          }
-          
-          $('.redeem-gift-btn').click(function(e) {
-            e.preventDefault();
-            if (Storage != 'undefined') {
-              var gifts = jQuery.parseJSON(unescape($(this).attr('data-object')));
-              $('#friend-popup h1').html('');
-              var list = $('#friend-list');
-              list.html(gifts[0].desc);
-              if (gifts && gifts.length > 1) {
-                for (var gift in gifts) {
-                  var li = '<li class="frd-bx" >';
-                  li += '<img src="https://graph.facebook.com/' + gift.fbFriendId + '/picture?type=square">';
-                  li += '<h2>' + gift.friendName + '</h2>';
-                  var j = escape(JSON.stringify(gift));
-                  li += '<a href="#" class="nxtt select-gift-btn" data-object="' + j + '"><img src="images/nxt-aro.png"></a></li>';
-                  list.append(li);
-                }
-                
-                $('#friend-popup').show();
-                $('.select-gift-btn').click(function() {
-                  $('#friend-popup').hide();
-                  localStorage.giftDetail = $(this).attr('data-object');
-                  localStorage.pageType = 'redeem-gift-detail';
-                  initPage();
-                });                
-                
-              } else if (gifts) {             
-                localStorage.giftDetail = escape(JSON.stringify(gifts[0]));
-                localStorage.pageType = 'redeem-gift-detail';
-                initPage();
-              }
-            }
-          });
-          $('.redeem-credit-btn').click(function(e) {
-            e.preventDefault();
-            if (Storage != 'undefined') {
-              var credits = jQuery.parseJSON(unescape($(this).attr('data-object')));
-              localStorage.creditDetail = escape(JSON.stringify(credits[0]));
-              localStorage.pageType = 'redeem-credit-detail';
-            }
+
+            $('#friend-popup').show();
+            $('.select-gift-btn').click(function() {
+              $('#friend-popup').hide();
+              localStorage.giftDetail = $(this).attr('data-object');
+              localStorage.pageType = 'redeem-gift-detail';
+              initPage();
+            });
+
+          } else if (gifts) {
+            localStorage.giftDetail = escape(JSON.stringify(gifts[0]));
+            localStorage.pageType = 'redeem-gift-detail';
             initPage();
-          });
-        },
-        error: showError
-      });
-    }
+          }
+        });
+        $('.redeem-credit-btn').click(function(e) {
+          e.preventDefault();
+          var credits = jQuery.parseJSON(unescape($(this).attr('data-object')));
+          localStorage.creditDetail = escape(JSON.stringify(credits[0]));
+          localStorage.pageType = 'redeem-credit-detail';
+          initPage();
+        });
+      },
+      error : showError
+    });
   }
 }
 
@@ -628,90 +597,84 @@ function renderRedeem(gifts, credits) {
 }
 
 function getOfferDetail() {
-  if (typeof Storage != 'undefined') {
-    var userId = localStorage.userId;
-    if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
-      var offer = jQuery.parseJSON(unescape(localStorage.offerDetail));
-      renderOfferDetail(offer);
+  var userId = 0;
+  // localStorage.userId;
+  if ( typeof userId !== 'undefined' && userId !== null && userId !== '') {
+    var offer = jQuery.parseJSON(unescape(localStorage.offerDetail));
+    renderOfferDetail(offer);
 
-      $('#back-btn').unbind();
-      $('#back-btn').click(function(e) {
-        e.preventDefault();
-        localStorage.pageType = 'offer';
-        initPage();
-      });
+    $('#back-btn').unbind();
+    $('#back-btn').click(function(e) {
+      e.preventDefault();
+      localStorage.pageType = 'offer';
+      initPage();
+    });
 
-      $('#take-picture').change(function(e) {
-        var icon = $('.camicon');
-        var files = e.target.files;
-        var file;
-        
-        if (files && files.length > 0) {
-           file = files[0];
-           try {
-             var URL = window.webkitURL || window.URL;
-             var imgUrl = URL.createObjectURL(file);
-             $('#show-picture').load(function(e){
-               URL.revokeObjectURL(this.src);
-             });
-             $('#show-picture').attr('src', imgUrl);
-             icon.removeClass('camicon');
-             icon.addClass('smallcamicon');
-             $('#take-photo-header').hide();
-           } catch (e) {
-             try {
-               var fileReader = new FileReader();
-               fileReader.onload = function (e) {
-                 $('#show-picture').src = e.target.result;
-               }
-               fileReader.readAsDataUrl(file);
-             } catch (e) {
-               alert('Unsupported browser');
-             }
-           }
+    $('#take-picture').change(function(e) {
+      var icon = $('.camicon');
+      var files = e.target.files;
+      var file;
+
+      if (files && files.length > 0) {
+        file = files[0];
+        try {
+          var URL = window.webkitURL || window.URL;
+          var imgUrl = URL.createObjectURL(file);
+          $('#show-picture').load(function(e) {
+            URL.revokeObjectURL(this.src);
+          });
+          $('#show-picture').attr('src', imgUrl);
+          icon.removeClass('camicon');
+          icon.addClass('smallcamicon');
+          $('#take-photo-header').hide();
+        } catch (e) {
+          try {
+            var fileReader = new FileReader();
+            fileReader.onload = function(e) {
+              $('#show-picture').src = e.target.result;
+            }
+            fileReader.readAsDataUrl(file);
+          } catch (e) {
+            alert('Unsupported browser');
+          }
         }
-      });
-
-      $('#share-form input[name="comment"]').bind('keyup', function(){
-        if ($('#share-form input[name="comment"]').val().replace(/^\s+|\s+$/g, '') != '') {
-          $('#share-form input[name="share"]').removeAttr('disabled');
-        } else {
-          $('#share-form input[name="share"]').attr('disabled', 'disabled');
-        }
-      });
-    }
+      }
+    });
+    $('#share-form input[name="comment"]').bind('keyup', function() {
+      if ($('#share-form input[name="comment"]').val().replace(/^\s+|\s+$/g, '') != '') {
+        $('#share-form input[name="share"]').removeAttr('disabled');
+      } else {
+        $('#share-form input[name="share"]').attr('disabled', 'disabled');
+      }
+    });
   }
 }
 
 function getRedeemGiftDetail() {
-  if (typeof Storage != 'undefined') {
-    var userId = localStorage.userId;
-    if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
-      var gifts = jQuery.parseJSON(unescape(localStorage.giftDetail));
-      renderRedeemGiftDetail(gifts);
-      $('#back-btn').unbind();
-      $('#back-btn').click(function(e){
-        e.preventDefault();
-        localStorage.pageType = 'redeem';
-        initPage();
-      });
-    }
+  var userId = localStorage.userId;
+  if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
+    var gifts = jQuery.parseJSON(unescape(localStorage.giftDetail));
+    renderRedeemGiftDetail(gifts);
+    $('#back-btn').unbind();
+    $('#back-btn').click(function(e){
+      e.preventDefault();
+      localStorage.pageType = 'redeem';
+      initPage();
+    });
   }
 }
 
 function getRedeemCreditDetail() {
-  if (typeof Storage != 'undefined') {
-    var userId = localStorage.userId;
-    if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
-      var credit = jQuery.parseJSON(unescape(localStorage.creditDetail));
-      renderRedeemCreditDetail(credit);
-      $('#back-btn').unbind();
-      $('#back-btn').click(function(e){
-        e.preventDefault();
-        localStorage.pageType = 'redeem';
-        initPage();
-      });
-    }
+  var userId = localStorage.userId;
+  if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
+    var credit = jQuery.parseJSON(unescape(localStorage.creditDetail));
+    renderRedeemCreditDetail(credit);
+    $('#back-btn').unbind();
+    $('#back-btn').click(function(e){
+      e.preventDefault();
+      localStorage.pageType = 'redeem';
+      initPage();
+    });
   }
 }
 
@@ -752,7 +715,15 @@ function renderOfferDetail(offer) {
   html += '<a href="#" class="trm" onclick="showTerms(\'' + offer.tosUrl + '\')" >Terms and Conditions</a>';
   html += '<a href="#" class="lrn-mor" onclick="$(\'#learn\').show();" >Learn more</a>';
   html += '</div>';
-  html += '<input name="share" type="submit" class="btn grd3" value="Give To Friends" disabled />';
+  var userId = localStorage.userId;
+  if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
+    html += '<input name="share" type="submit" class="btn grd3" value="Give To Friends" disabled />';
+  } else {
+    html += '<input name="share" type="submit" class="btn grd3" value="Connect with Facebook to share" />';
+    html += '<div class="crt">';
+    html += '<p>We use Facebook to make it easy for you to store, redeem, and share gifts.  We will never post on Facebook with your permission.</p>';
+    html += '</div>';
+  }
   html += '</form>';
   $('#offer-details-view').html(html);
   
@@ -773,25 +744,23 @@ function showTerms(url) {
 }
 
 function doSuggest() {
-  if (typeof Storage != 'undefined') {
-    var userId = localStorage.userId;
-    $('#suggest-form input[name="suggest"]').attr('disabled', 'disabled');
-    if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
-      var req = new FormData();
-      var file =  $('#take-picture-suggest')[0].files[0];
-      req.append('source', file);
-      var url='https://graph.facebook.com/photos?access_token=' + localStorage.accessToken;
-      $.ajax({
-        url: url,
-        data: req,
-        cache: false,
-        contentType: false,
-        dataType: 'json',
-        type: 'POST',
-        success: onSuggestResponse,
-        error: showError
-      });
-    }
+  var userId = localStorage.userId;
+  $('#suggest-form input[name="suggest"]').attr('disabled', 'disabled');
+  if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
+    var req = new FormData();
+    var file =  $('#take-picture-suggest')[0].files[0];
+    req.append('source', file);
+    var url='https://graph.facebook.com/photos?access_token=' + localStorage.accessToken;
+    $.ajax({
+      url: url,
+      data: req,
+      cache: false,
+      contentType: false,
+      dataType: 'json',
+      type: 'POST',
+      success: onSuggestResponse,
+      error: showError
+    });
   }
 }
 
@@ -805,38 +774,48 @@ function onSuggestResponse() {
 }
 
 function shareOffer() {
-  if (typeof Storage != 'undefined') {
+  var userId = localStorage.userId;
+  if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
     var userId = localStorage.userId;
     $('#share-form input[name="share"]').attr('disabled', 'disabled');
-    if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
-      var message = $('#share-form input[name="comment"]').val(); 
+    if ( typeof userId !== 'undefined' && userId !== null && userId !== '') {
+      var message = $('#share-form input[name="comment"]').val();
       var msg = 'Visit getkikbak.com for an exclusive offer shared by your friend';
-      
       if (!$('#take-picture')[0].files || $('#take-picture')[0].files.length == 0) {
         var src = $('#share-form .image-add img').attr('src');
         onShareResponse(src);
       } else {
         var req = new FormData();
-        var file =  $('#take-picture')[0].files[0];
+        var file = $('#take-picture')[0].files[0];
         req.append('file', file);
         req.append('userId', userId);
         $.ajax({
-          url: config.backend + '/s/upload.php',
-          data: req,
-          processData: false,
-          cache: false,
-          contentType: false,
-          dataType: 'json',
-          type: 'POST',
-          success: function(response) {
+          url : config.backend + '/s/upload.php',
+          data : req,
+          processData : false,
+          cache : false,
+          contentType : false,
+          dataType : 'json',
+          type : 'POST',
+          success : function(response) {
             if (response && response.url) {
               onShareResponse(response.url);
             }
           },
-          error: showError
+          error : showError
         });
       }
     }
+  } else {   
+    FB.login(function(response) {
+      if (response.status === 'connected') {
+        connectFb(response.authResponse.accessToken);
+      } else if (response.status === 'not_authorized') {
+        FB.login();
+      } else {
+        FB.login();
+      }
+    }, {scope:"email,read_friendlists,publish_stream,publish_actions"});
   }
 }
 
@@ -1018,19 +997,19 @@ function renderRedeemGiftDetail(gift) {
   html += '</div>';
   html += '<button id="redeem-gift-instore-btn" class="btn grd3">Redeem now in store</button>';
   
-  $('redeem-gift-instore-btn').click(function() {
+  $('#redeem-details-view').html(html);
+  
+  $('#redeem-gift-instore-btn').click(function() {
     doRedeemGift(gift);
   });
-  
-  $('#redeem-details-view').html(html);
 }
 
 function doRedeemGift(gift) {
-  var imgUrl = config.backend + 'kikbak/generateBarcode/' + localStorage.userId + '/' + gift.id + '/262/262/';
+  var imgUrl = config.backend + 'kikbak/rewards/generateBarcode/' + localStorage.userId + '/' + gift.id + '/200/300/';
   $('#redeem-gift-success .pg-hedng').html(gift.merchant.name);
   $('#redeem-gift-success .cd-br-stin h1').html(gift.desc);
   $('#redeem-gift-success .cd-br-stin h3').html(gift.detailedDesc);
-  $('#redeem-gift-success .mycod img').attr('src', imgUrl);
+  $('#redeem-gift-success img').attr('src', imgUrl);
   $('#redeem-details-view').hide();
   $('#redeem-gift-success').show();
 }
