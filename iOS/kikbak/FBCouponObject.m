@@ -9,6 +9,8 @@
 #import "FBCouponObject.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "SBJson.h"
+#import "NotificationContstants.h"
+
 
 @implementation FBCouponObject
 
@@ -37,10 +39,9 @@
     [connection addRequest:request1
           completionHandler:
          ^(FBRequestConnection *connection, id result, NSError *error) {
+             //todo: what todo with errors
            if (!error) {
-             NSLog(@"Success");
            }else{
-             NSLog(@"Error");
            }
          }
           batchEntryName:@"status-post"
@@ -59,9 +60,9 @@
          completionHandler:
      ^(FBRequestConnection *connection, id result, NSError *error) {
        if (!error) {
-         NSLog(@"Success **** 2");
+           [[NSNotificationCenter defaultCenter]postNotificationName:@"kKikbakFBStoryPostSuccess" object:nil];
        }else{
-         NSLog(@"Error **** 2");
+           [[NSNotificationCenter defaultCenter]postNotificationName:@"kKikbakFBStoryPostError" object:nil];
        }
      }
      ];

@@ -63,11 +63,21 @@
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
 
+    //offer image
     if(![ImagePersistor imageFileExists:offer.merchantId imageType:OFFER_LIST_IMAGE_TYPE]) {
         ImageDownloadRequest* request = [[ImageDownloadRequest alloc]init];
         request.url = offer.offerImageUrl;
         request.fileId = offer.merchantId;
         request.type = OFFER_LIST_IMAGE_TYPE;
+        [request requestImage];
+    }
+    
+    //default give
+    if(![ImagePersistor imageFileExists:offer.merchantId imageType:DEFAULT_GIVE_IMAGE_TYPE]) {
+        ImageDownloadRequest* request = [[ImageDownloadRequest alloc]init];
+        request.url = offer.giveImageUrl;
+        request.fileId = offer.merchantId;
+        request.type = DEFAULT_GIVE_IMAGE_TYPE;
         [request requestImage];
     }
     
