@@ -7,14 +7,14 @@ public class C {
   public static final String INST_DEV = "kikbak";
   public static final String INST_DEMO = "k2";
 
-  public static boolean USE_FIXED_LOCATION = false;
+  public static boolean USE_FIXED_LOCATION = true;
 
   public static final double LATITUDE = 37.44;
   public static final double LONGITUDE = -122.17;
   public static final String SERVER_DOMAIN = "test.kikbak.me";
   public static final String SERVER = "54.244.124.116";
   public static final String SCRIPT_SERVER = "54.244.124.116";
-  public static String SERVER_INSTANCE = INST_DEV;
+  public static String SERVER_INSTANCE = INST_DEMO;
 
   // public static final double LATITUDE = 50.01250;
   // public static final double LONGITUDE = 20.98833;
