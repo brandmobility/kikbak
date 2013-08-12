@@ -49,7 +49,7 @@ If you visit the same store, ${employeeId} can help you too.</p></div>
 </div>
 </div>
 <div class="usr-cmnt blk">
-<a href="#" class="usr-img"><img src="https://graph.facebook.com/${gift.fbFriendId}/picture?type=square" /></a>
+<a href="#" class="usr-img"><img style="width:64px;height:64px;" src="https://graph.facebook.com/${gift.fbFriendId}/picture?type=square" /></a>
 <h2>${gift.friendName}</h2>
 <p>${gift.caption}</p>
 </div>
