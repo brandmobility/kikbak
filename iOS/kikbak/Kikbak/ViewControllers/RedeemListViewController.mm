@@ -28,7 +28,7 @@
 #import "Distance.h"
 #import "Location.h"
 
-const int CELL_HEIGHT = 156;
+const int CELL_HEIGHT = 206;
 
 @interface RedeemListViewController (){
     bool locationResolved;
