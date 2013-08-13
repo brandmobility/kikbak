@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:kikbak="http://schemas.android.com/apk/res/com.referredlabs.kikbak"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/redeem_success_your_code"
+        android:textColor="#aeaeae"
+        android:textSize="26dp"
+        kikbak:typeface="Roboto-Bold.ttf" />
+
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:id="@+id/text_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="kik123456"
+        android:textColor="#135317"
+        android:textSize="56dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
+
+</LinearLayout>

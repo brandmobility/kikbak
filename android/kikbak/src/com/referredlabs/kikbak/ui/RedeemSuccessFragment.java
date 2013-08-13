@@ -1,6 +1,9 @@
 
 package com.referredlabs.kikbak.ui;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,14 +14,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+import com.referredlabs.kikbak.Kikbak;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.AvailableCreditType;
 import com.referredlabs.kikbak.data.ClientOfferType;
@@ -39,11 +45,10 @@ public class RedeemSuccessFragment extends Fragment implements OnClickListener {
   private TextView mTitle;
   private TextView mNoteFirst;
   private TextView mNoteSecond;
-  private TextView mTypeLabel;
   private TextView mValue;
   private TextView mDesc;
-  private TextView mCode;
-  private ImageView mQrCode;
+  private ImageView mCode;
+  private TextView mTextCode;
   private Button mGive;
 
   public static RedeemSuccessFragment newInstance() {
@@ -74,15 +79,26 @@ public class RedeemSuccessFragment extends Fragment implements OnClickListener {
     mTitle = (TextView) root.findViewById(R.id.title);
     mNoteFirst = (TextView) root.findViewById(R.id.redeem_note_first);
     mNoteSecond = (TextView) root.findViewById(R.id.redeem_note_second);
-    mTypeLabel = (TextView) root.findViewById(R.id.redeem_type_label);
     mValue = (TextView) root.findViewById(R.id.redeem_value);
     mDesc = (TextView) root.findViewById(R.id.redeem_desc);
-    mCode = (TextView) root.findViewById(R.id.code);
-    mQrCode = (ImageView) root.findViewById(R.id.qr_code);
     mGive = (Button) root.findViewById(R.id.give);
     mGive.setOnClickListener(this);
+
+    ViewStub stub = (ViewStub) root.findViewById(R.id.barcode_area);
+    stub.setLayoutResource(getBarcodeLayout());
+    stub.inflate();
+
+    mCode = (ImageView) root.findViewById(R.id.code);
+    mTextCode = (TextView) root.findViewById(R.id.text_code);
+
     setupViews();
     return root;
+  }
+
+  private int getBarcodeLayout() {
+    String validationType = mGift != null ? mGift.validationType : mCredit.validationType;
+    return ValidationType.BARCODE.equals(validationType) ? R.layout.fragment_redeem_success_barcode
+        : R.layout.fragment_redeem_success_qrcode;
   }
 
   private void setupViews() {
@@ -92,11 +108,11 @@ public class RedeemSuccessFragment extends Fragment implements OnClickListener {
       setupCreditViews();
 
     Bitmap bmp = mBarcodeBitmap;
-    if (bmp == null) {
+    if (true || bmp == null) {
       bmp = generateQrCode(mBarcode);
     }
-    mQrCode.setImageBitmap(bmp);
-    mCode.setText(mBarcode);
+    mCode.setImageBitmap(bmp);
+    mTextCode.setText(mBarcode);
   }
 
   private void setupGiftViews() {
@@ -113,7 +129,6 @@ public class RedeemSuccessFragment extends Fragment implements OnClickListener {
       mNoteSecond.setText(R.string.redeem_success_note_second);
     else
       mNoteSecond.setText(R.string.redeem_success_note_second_integrated);
-    mTypeLabel.setText(R.string.redeem_success_offer);
     mValue.setText(mGift.desc);
     mDesc.setText(mGift.detailedDesc);
   }
@@ -129,22 +144,24 @@ public class RedeemSuccessFragment extends Fragment implements OnClickListener {
 
     mNoteFirst.setText(R.string.redeem_success_note_first_credit);
     mNoteSecond.setText(R.string.redeem_success_note_second);
-    mTypeLabel.setText(R.string.redeem_success_credit);
     mValue.setText(mCredit.desc);
     mDesc.setText(mCredit.detailedDesc);
   }
 
   private Bitmap generateQrCode(String code) {
     try {
+      int size = getResources().getDimensionPixelSize(R.dimen.qr_code_size);
+      Map<EncodeHintType, Object> hints = new EnumMap<EncodeHintType, Object>(EncodeHintType.class);
+      hints.put(EncodeHintType.MARGIN, 0);
       QRCodeWriter writer = new QRCodeWriter();
-      BitMatrix result = writer.encode(code, BarcodeFormat.QR_CODE, 300, 300);
+      BitMatrix result = writer.encode(code, BarcodeFormat.QR_CODE, size, size, hints);
       int width = result.getWidth();
       int height = result.getHeight();
       int[] pixels = new int[width * height];
       for (int y = 0; y < height; y++) {
         int offset = y * width;
         for (int x = 0; x < width; x++) {
-          pixels[offset + x] = result.get(x, y) ? 0xFF000000 : 0xFFFFFFFF;
+          pixels[offset + x] = result.get(x, y) ? 0xFF333333 : 0xFFFFFFFF;
         }
       }
       Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);

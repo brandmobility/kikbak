@@ -127,8 +127,7 @@
     <string name="redeem_success_note_second">Please show this screen to the cashier.</string>
     <string name="redeem_success_note_second_integrated">Your code will expire in 24 hours.</string>
     <string name="redeem_success_note_first_credit">You have claimed your credit.</string>
-    <string name="redeem_success_offer">OFFER</string>
-    <string name="redeem_success_credit">CREDIT</string>
+    <string name="redeem_success_your_code">YOUR CODE</string>
     <string name="redeem_success_share_note">Share the same offer with our friends.\nYou earn for every friend that redeems.</string>
 
     <!-- Redeem chooser -->
