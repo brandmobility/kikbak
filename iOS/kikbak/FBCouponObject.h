@@ -10,5 +10,11 @@
 
 @interface FBCouponObject : NSObject
 
+@property (nonatomic,strong)NSString* caption;
+@property (nonatomic,strong)NSString* merchant;
+@property (nonatomic,strong)NSString* gift;
+@property (nonatomic,strong)NSString* detailedDescription;
+
 -(void)postCoupon:(NSString*)url;
+
 @end

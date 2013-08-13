@@ -16,18 +16,17 @@
 
 -(void)postCoupon:(NSString*)url{
   
+    NSString* title = [NSString stringWithFormat:@"%@: %@", self.merchant, self.gift];
+    
     FBRequestConnection *connection = [[FBRequestConnection alloc] init];
     NSMutableDictionary* gift = [[NSMutableDictionary alloc]initWithCapacity:5];
-    [gift setObject:@"test" forKey:@"title"];
-    [gift setObject:@"description" forKey:@"description"];
+    [gift setObject:title forKey:@"title"];
+    if( self.detailedDescription){
+        [gift setObject:self.detailedDescription forKey:@"description"];
+    }
     [gift setObject:url forKey:@"image"];
     [gift setObject:@"http://test.kikbak.me/m/index.html" forKey:@"url"];
     
-    NSMutableDictionary* data = [[NSMutableDictionary alloc]initWithCapacity:2];
-    [data setObject:@"att" forKey:@"merchant_name"];
-    [data setObject:@"12345 32313" forKey:@"detailed_desc"];
-//  [gift setObject:[data JSONRepresentation] forKey:@"data"];
-  
   
     NSDictionary *request1Params = [[NSDictionary alloc]
                                   initWithObjectsAndKeys:
@@ -51,7 +50,7 @@
     [actionParams setObject:@"{result=status-post:$.id}" forKey:@"coupon"];
     [actionParams setObject:@"true" forKey:@"fb:explicitly_shared"];
     [actionParams setObject:@"true" forKey:@"user_generated"];
-    [actionParams setObject:@"testing this" forKey:@"message"];
+    [actionParams setObject:self.caption forKey:@"message"];
     
     FBRequest* request2 = [FBRequest requestWithGraphPath:@"me/referredlabs:share"
                                                parameters:actionParams

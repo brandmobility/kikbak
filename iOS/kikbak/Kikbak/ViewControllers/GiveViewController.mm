@@ -443,7 +443,9 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [self.spinnerView startActivity];
     [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:self.spinnerView];
 
-    
+    if([self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame){
+        self.captionTextView.text = @"";
+    }
     ImageUploadRequest* request = [[ImageUploadRequest alloc]init];
     request.image = self.giveImage.image;
     [request postImage];
@@ -854,6 +856,10 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     shareViaSMS = NO;
     [FBSettings setLoggingBehavior:[NSSet setWithObject:FBLoggingBehaviorFBRequests]];
     FBCouponObject* obj = [[FBCouponObject alloc]init];
+    obj.caption = self.captionTextView.text;
+    obj.merchant = self.retailerName.text;
+    obj.gift = self.giftDesctription.text;
+    obj.detailedDescription = self.giftDescriptionOptional.text;
     [obj postCoupon:self.imageUrl];
 }
 
