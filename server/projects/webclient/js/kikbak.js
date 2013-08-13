@@ -254,27 +254,32 @@ function initPage() {
   
   var code = localStorage.code;
   if (typeof code !== 'undefined' && code !== 'null' && code !== '') {
+    loginFb();
     claimGift(code);
     return;
   }
 
   var pageType = localStorage.pageType;
   if (pageType === 'redeem') {
+    loginFb();
     $('#redeem-view').show('');
     $('#redeem-btn-div').css('background', 'url("img/btn_highlighted.png")');
     $('#heading').html('Kikbak');
     getRedeems();
   } else if (pageType === 'redeem-gift-detail') {
+    loginFb();
     $('#redeem-details-view').show('');
     $('#back-btn-div').show('');
     $('#heading').html('Redeem');
     getRedeemGiftDetail();
   } else if (pageType === 'redeem-credit-detail') {
+    loginFb();
     $('#redeem-details-view').show('');
     $('#back-btn-div').show('');
     $('#heading').html('Redeem');
     getRedeemCreditDetail();
   } else if (pageType === 'suggest') {
+    loginFb();
     $('#suggest-view').show('');
     $('#back-btn-div').show('');
     $('#heading').html('Gift');
@@ -315,6 +320,7 @@ function initPage() {
 function claimGift(code) {
   var userId = localStorage.userId,
       url = config.backend + 'kikbak/rewards/claim/' + userId + '/' + code;
+  localStorage.code = null;
   $.ajax({
     dataType: 'json',
     type: 'GET',
@@ -322,10 +328,12 @@ function claimGift(code) {
     url: url,
     success: function(json) {
       localStorage.pageType = 'redeem';
-      localStorage.code = null;
       initPage();
     },
-    error: showError
+    error: function() {
+      showError();
+      initPage();
+    }
   });
 }
 
@@ -824,7 +832,14 @@ function shareOffer() {
         });
       }
     }
-  } else {   
+  } else {
+    loginFb();
+  }
+}
+
+function loginFb() {
+  var userId = localStorage.userId;
+  if ( typeof userId == 'undefined' || userId == null || userId == '') {
     FB.login(function(response) {
       if (response.status === 'connected') {
         connectFb(response.authResponse.accessToken);
@@ -833,7 +848,9 @@ function shareOffer() {
       } else {
         FB.login();
       }
-    }, {scope:"email,read_friendlists,publish_stream,publish_actions"});
+    }, {
+      scope : "email,read_friendlists,publish_stream,publish_actions"
+    });
   }
 }
 
