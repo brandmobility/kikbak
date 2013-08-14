@@ -292,16 +292,15 @@ public class RewardServiceImpl implements RewardService{
             throw new RewardException("user id " + userId + " doesn't exist");
         }
 
-        Collection<Shared> shareds = roSharedDao.listAvailableForGiftingByReferralCode(referralCode);
+        Shared shared = roSharedDao.findAvailableForGiftingByReferralCode(referralCode);
 
         Collection<Allocatedgift> newGifts = new ArrayList<Allocatedgift>();
-        for(Shared shared : shareds){
+        if (null != shared){
             if(!offerIds.contains(shared.getOfferId())){
                 Offer offer = roOfferDao.findById(shared.getOfferId());
                 Date now = new Date();
                 if (now.before(offer.getBeginDate()) || now.after(offer.getEndDate())) {
                     status = ClaimStatusType.EXPIRED;
-                    continue;
                 } else {
                     Allocatedgift ag = createAllocateOffer(userId, shared, offer);
                     newGifts.add(ag);
@@ -325,13 +324,12 @@ public class RewardServiceImpl implements RewardService{
     @Override
     public GiftType getGiftByReferredCode(final String code) throws RewardException {
 
-        Collection<Shared> shareds = roSharedDao.listAvailableForGiftingByReferralCode(code);
+        Shared shared = roSharedDao.findAvailableForGiftingByReferralCode(code);
         
-        if (shareds == null || shareds.size() != 1) {
-        	throw new RewardException("should only have one shared with code " + code + ", found " + ((shareds == null) ? 0 : shareds.size()));
+        if (shared == null) {
+        	throw new RewardException("no shared found for code " + code);
         }
         
-        Shared shared = shareds.iterator().next();
         Offer offer = roOfferDao.findById(shared.getOfferId());
         Merchant merchant = roMerchantDao.findById(offer.getMerchantId());
         Gift gift = roGiftDao.findById(shared.getOfferId());
