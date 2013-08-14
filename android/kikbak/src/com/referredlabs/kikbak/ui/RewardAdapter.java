@@ -80,7 +80,7 @@ public class RewardAdapter extends BaseAdapter {
     ClientMerchantType merchant = reward.getMerchant();
 
     helper.setLocation(nearest);
-    helper.setPhone(Long.toString(nearest.getPhoneNumber()));
+    helper.setPhone(Long.toString(nearest.get().phoneNumber));
     helper.setLink(merchant.url);
     helper.setMerchantName(merchant.name);
 

@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,7 +32,6 @@ import com.referredlabs.kikbak.data.StatusType;
 import com.referredlabs.kikbak.data.ValidationType;
 import com.referredlabs.kikbak.fb.Fb;
 import com.referredlabs.kikbak.http.Http;
-import com.referredlabs.kikbak.service.LocationFinder;
 import com.referredlabs.kikbak.ui.BarcodeScannerFragment.OnBarcodeScanningListener;
 import com.referredlabs.kikbak.ui.ConfirmationDialog.ConfirmationListener;
 import com.referredlabs.kikbak.utils.LocaleUtils;
@@ -89,14 +87,11 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
     mRedeemInStore = (Button) root.findViewById(R.id.redeem_store);
     mRedeemInStore.setOnClickListener(this);
 
-    Location loc = LocationFinder.getLastLocation();
-
     IconBarHelper ih = new IconBarHelper(root, new IconBarActionHandler(getActivity()));
-    Nearest location = new Nearest(mGift.merchant.locations);
-    location.determineNearestLocation(loc.getLatitude(), loc.getLongitude());
+    Nearest nearest = new Nearest(mGift.merchant.locations);
     ih.setLink(mGift.merchant.url);
-    ih.setLocation(location);
-    ih.setPhone(Long.toString(location.getPhoneNumber()));
+    ih.setLocation(nearest);
+    ih.setPhone(Long.toString(nearest.get().phoneNumber));
     setupViews();
 
     return root;
@@ -154,9 +149,7 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
   }
 
   private boolean isInStore() {
-    Location loc = LocationFinder.getLastLocation();
     Nearest nearest = new Nearest(mGift.merchant.locations);
-    nearest.determineNearestLocation(loc.getLatitude(), loc.getLongitude());
     return C.BYPASS_STORE_CHECK || nearest.getDistance() < C.IN_STORE_DISTANCE;
   }
 

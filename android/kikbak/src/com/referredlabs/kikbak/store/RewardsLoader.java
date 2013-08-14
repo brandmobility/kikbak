@@ -55,8 +55,7 @@ public class RewardsLoader extends AsyncTaskLoader<List<TheReward>> {
       long id = gift.offerId;
       TheReward entry = map.get(id);
       if (entry == null) {
-        entry = new TheReward(id, gift.merchant);
-        entry.calculateDistance(latitude, longitude);
+        entry = new TheReward(id, gift.merchant, latitude, longitude);
         map.put(id, entry);
       }
       entry.addGift(gift);
@@ -66,8 +65,7 @@ public class RewardsLoader extends AsyncTaskLoader<List<TheReward>> {
       long id = credit.offerId;
       TheReward entry = map.get(id);
       if (entry == null) {
-        entry = new TheReward(id, credit.merchant);
-        entry.calculateDistance(latitude, longitude);
+        entry = new TheReward(id, credit.merchant, latitude, longitude);
         map.put(id, entry);
       }
       entry.addCredit(credit);

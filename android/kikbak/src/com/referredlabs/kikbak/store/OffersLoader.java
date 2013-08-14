@@ -1,6 +1,11 @@
 
 package com.referredlabs.kikbak.store;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.location.Location;
@@ -8,11 +13,6 @@ import android.support.v4.content.AsyncTaskLoader;
 
 import com.referredlabs.kikbak.data.ClientOfferType;
 import com.referredlabs.kikbak.service.LocationFinder;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 public class OffersLoader extends AsyncTaskLoader<List<TheOffer>> {
 
@@ -48,8 +48,7 @@ public class OffersLoader extends AsyncTaskLoader<List<TheOffer>> {
     List<ClientOfferType> offers = mStore.getOffers();
 
     for (ClientOfferType offer : offers) {
-      TheOffer theOffer = new TheOffer(offer.id, offer);
-      theOffer.calculateDistance(latitude, longitude);
+      TheOffer theOffer = new TheOffer(offer.id, offer, latitude, longitude);
       result.add(theOffer);
     }
 
@@ -73,7 +72,7 @@ public class OffersLoader extends AsyncTaskLoader<List<TheOffer>> {
     super.onReset();
     mStore.unregisterOffersObserver(mObserver);
   }
-  
+
   public boolean isPending() {
     return mPendingUpdate;
   }

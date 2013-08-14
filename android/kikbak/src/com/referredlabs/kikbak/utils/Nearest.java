@@ -4,19 +4,27 @@ package com.referredlabs.kikbak.utils;
 import android.location.Location;
 
 import com.referredlabs.kikbak.data.MerchantLocationType;
+import com.referredlabs.kikbak.service.LocationFinder;
 
 public class Nearest {
-  private static float[] sResult = new float[1];
   private MerchantLocationType[] mLocations;
   private MerchantLocationType mNearestLocation;
   private float mDistanceToNearest;
 
   public Nearest(MerchantLocationType[] locations) {
     mLocations = locations;
+
+    Location l = LocationFinder.getLastLocation();
+    determineNearestLocation(l.getLatitude(), l.getLongitude());
   }
 
-  public void determineNearestLocation(double latitude, double longitude) {
-    float[] results = sResult;
+  public Nearest(MerchantLocationType[] locations, double latitude, double longitude) {
+    mLocations = locations;
+    determineNearestLocation(latitude, longitude);
+  }
+
+  private void determineNearestLocation(double latitude, double longitude) {
+    float[] results = new float[1];
     float distance = Float.MAX_VALUE;
     MerchantLocationType nearest = null;
 
@@ -36,20 +44,8 @@ public class Nearest {
     return mDistanceToNearest;
   }
 
-  public double getLatitude() {
-    return mNearestLocation.latitude;
+  public MerchantLocationType get() {
+    return mNearestLocation;
   }
-
-  public double getLongitude() {
-    return mNearestLocation.longitude;
-  }
-
-  public long getPhoneNumber() {
-    return mNearestLocation.phoneNumber;
-  }
-
-  // public OfferLocationType getLocation() {
-  // return mNearestLocation;
-  // }
 
 }

@@ -20,6 +20,7 @@ import com.referredlabs.kikbak.data.ShareExperienceRequest;
 import com.referredlabs.kikbak.data.ShareExperienceResponse;
 import com.referredlabs.kikbak.data.SharedType;
 import com.referredlabs.kikbak.http.Http;
+import com.referredlabs.kikbak.utils.Nearest;
 import com.referredlabs.kikbak.utils.Register;
 
 public class ShareViaEmailFragment extends DialogFragment {
@@ -161,7 +162,7 @@ public class ShareViaEmailFragment extends DialogFragment {
       req.experience.caption = args.getString(ARG_COMMENT);
       req.experience.employeeId = ""; // FIXME
       req.experience.imageUrl = imageUrl;
-      req.experience.locationId = mOffer.locations[0].locationId; // TODO:
+      req.experience.locationId = new Nearest(mOffer.locations).get().locationId;
       req.experience.merchantId = mOffer.merchantId;
       req.experience.offerId = mOffer.id;
       req.experience.type = SharedType.SHARE_MODE_EMAIL;

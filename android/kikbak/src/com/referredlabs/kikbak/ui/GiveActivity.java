@@ -1,8 +1,10 @@
 
 package com.referredlabs.kikbak.ui;
 
+import java.io.File;
+import java.io.IOException;
+
 import android.content.Intent;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,14 +19,10 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ClientOfferType;
-import com.referredlabs.kikbak.service.LocationFinder;
 import com.referredlabs.kikbak.ui.ShareOptionsFragment.OnShareMethodSelectedListener;
 import com.referredlabs.kikbak.ui.ShareSuccessDialog.OnShareSuccessListener;
 import com.referredlabs.kikbak.utils.Nearest;
 import com.squareup.picasso.Picasso;
-
-import java.io.File;
-import java.io.IOException;
 
 public class GiveActivity extends FragmentActivity implements OnClickListener,
     OnShareMethodSelectedListener, ShareStatusListener, OnShareSuccessListener {
@@ -76,12 +74,8 @@ public class GiveActivity extends FragmentActivity implements OnClickListener,
         new IconBarActionHandler(this));
     iconBar.setLink(mOffer.merchantUrl);
 
-    Location location = LocationFinder.getLastLocation();
-    double latitude = location.getLatitude();
-    double longitude = location.getLongitude();
     Nearest nearest = new Nearest(mOffer.locations);
-    nearest.determineNearestLocation(latitude, longitude);
-    iconBar.setPhone(Long.toString(nearest.getPhoneNumber()));
+    iconBar.setPhone(Long.toString(nearest.get().phoneNumber));
     iconBar.setLocation(nearest);
   }
 

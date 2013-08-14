@@ -1,7 +1,12 @@
 
 package com.referredlabs.kikbak.fb;
 
-import android.location.Location;
+import java.io.IOException;
+import java.util.List;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.os.Bundle;
 
 import com.facebook.HttpMethod;
@@ -11,14 +16,7 @@ import com.facebook.Response;
 import com.facebook.Session;
 import com.referredlabs.kikbak.C;
 import com.referredlabs.kikbak.data.ClientOfferType;
-import com.referredlabs.kikbak.service.LocationFinder;
 import com.referredlabs.kikbak.utils.Nearest;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.List;
 
 public class FbObjectApi {
 
@@ -93,9 +91,7 @@ public class FbObjectApi {
 
   private static String getLocationString(ClientOfferType offer) {
     String result = null;
-    Location loc = LocationFinder.getLastLocation();
     Nearest nearest = new Nearest(offer.locations);
-    nearest.determineNearestLocation(loc.getLatitude(), loc.getLongitude());
     if (nearest.getDistance() < C.IN_STORE_DISTANCE) {
       // FIXME
       result = "http://young-springs-3453.herokuapp.com/coupon.html?loc=3";

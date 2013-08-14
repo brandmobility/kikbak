@@ -13,9 +13,9 @@ public class TheReward {
   private final ClientMerchantType mMerchant;
   private Nearest mNearest;
 
-  public TheReward(long offerId, ClientMerchantType merchant) {
+  public TheReward(long offerId, ClientMerchantType merchant, double latitude, double longitude) {
     mMerchant = merchant;
-    mNearest = new Nearest(merchant.locations);
+    mNearest = new Nearest(merchant.locations, latitude, longitude);
   }
 
   public void addGift(GiftType gift) {
@@ -48,10 +48,6 @@ public class TheReward {
 
   public boolean hasCredit() {
     return mCredit != null;
-  }
-
-  public void calculateDistance(double latitude, double longitude) {
-    mNearest.determineNearestLocation(latitude, longitude);
   }
 
   public float getDistance() {
