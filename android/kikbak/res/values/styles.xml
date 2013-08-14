@@ -1,8 +1,13 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+
+    <!-- Borderless button -->
+    <style name="borderless">
+        <item name="android:background">?attr/actionBarItemBackground</item>
     </style>
 
 </resources>
