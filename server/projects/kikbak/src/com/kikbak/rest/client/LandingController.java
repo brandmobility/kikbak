@@ -61,7 +61,8 @@ public class LandingController {
 			String body = config.getString(SHARE_TEMPLATE_BODY_FB).replace("%MERCHANT%", gift.getMerchant().getName())
 					.replace("%DESC%", gift.getDesc())
 					.replace("%DESC_DETAIL%", gift.getDetailedDesc());
-			
+			// TODO
+			request.setAttribute("merchantUrl", gift.getDefaultGiveImageUrl());
 			request.setAttribute("gift", gift);
 			request.setAttribute("url", request.getRequestURL() + (StringUtils.isBlank(request.getQueryString()) ? "" : "?" + request.getQueryString()));
 			request.setAttribute("code", code);
@@ -70,6 +71,29 @@ public class LandingController {
 			request.setAttribute("body", body);
 			request.setAttribute("location", gift.getMerchant().getLocations().get(0));
 			return new ModelAndView("landing.jsp");
+		} catch (Exception e) {
+			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return new ModelAndView();
+		}
+	}
+	
+	@RequestMapping( value = "/gift/success", method = RequestMethod.GET)
+	public ModelAndView getSuccessPage(final HttpServletRequest request,
+			final HttpServletResponse httpResponse) {
+		
+		try {
+			String code = request.getParameter("code");
+			long userId = Long.parseLong(request.getParameter("user"));
+			GiftType gift = rewardService.getGiftByReferredCode(code);
+			
+			// TODO
+			request.setAttribute("merchantUrl", gift.getDefaultGiveImageUrl());
+			request.setAttribute("gift", gift);
+			request.setAttribute("url", "../generateBarcode/" + userId + "/" + gift.getId() + "/200/300/");
+			request.setAttribute("code", code);
+			request.setAttribute("encodeMerchantName", URLEncoder.encode(gift.getMerchant().getName(), "UTF-8"));
+			request.setAttribute("location", gift.getMerchant().getLocations().get(0));
+			return new ModelAndView("success.jsp");
 		} catch (Exception e) {
 			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return new ModelAndView();

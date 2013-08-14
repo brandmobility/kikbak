@@ -13,19 +13,13 @@
 <meta property="og:image" content="${gift.imageUrl}">
 <meta property="og:description" content="${body}}">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;"/>
 <link href="css/landing.css" rel="stylesheet" type="text/css" />
 <title>Kikbak</title>
 </head>
-<script>
-if (typeof localStorage !== 'undefined') {
-  localStorage.code = '${code}';
-}
-</script>
 <body>
 <div>
 <div class="bdy" style="background:url(${gift.defaultGiveImageUrl});background-size:cover;"></div>
-<div class="hedr-wpr"><a href="#" class="logo"><img src="${gift.defaultGiveImageUrl}" /></a></div>
+<div class="hedr-wpr"><a href="#" class="logo"><img src="${merchantDefaultUrl}" /></a></div>
 <div class="main-bdy">
 <p class="top-msg"><strong>${gift.friendName}</strong> used <strong>Kikbak</strong> to give you
 an exclusive offer for <strong>${gift.merchant.name}</strong>.</p>
@@ -65,20 +59,9 @@ an exclusive offer for <strong>${gift.merchant.name}</strong>.</p>
 <div class="tp-bnr-lft"><h1>${gift.desc}</h1><p>${gift.detailedDesc}</p>
 <div class="tp-bnr-rit"></div></div>
 <div id="fb-root"></div>
-<script>
-  window.fbAsyncInit = function() {
-    FB.init({appId: '493383324061333', status: false, cookie: true, xfbml: true});
-  };
-  (function() {
-    var e = document.createElement('script'); e.async = true;
-    e.src = document.location.protocol +
-      '//connect.facebook.net/en_US/all.js';
-    document.getElementById('fb-root').appendChild(e);
-  }());
-</script>
 </div>
 <div class="blue-btn">
-<a href="#" onclick="fblogin();return false;" class="btnn">Generate offer to use in store</a>
+<a id="loginFb" href="#" class="btnn">Generate offer to use in store</a>
 </div>
 <p style="margin-left:3%;">The Kikbak app makes it easy to access your gift. 
 Download it now -- your gift is already there.</p>
@@ -97,17 +80,10 @@ Download it now -- your gift is already there.</p>
 </div>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 <script>
-  function fblogin() {
-    FB.login(function(response) {
-      if (response.status === 'connected') {
-        window.location.href = '/m/offer.html';
-      } else if (response.status === 'not_authorized') {
-        FB.login();
-      } else {
-        FB.login();
-      }
-    }, {scope:"email,read_friendlists,publish_stream,publish_actions"});
-  }
+if (typeof localStorage !== 'undefined') {
+  localStorage.code = '${code}';
+}
 </script>
+<script src="js/landing.js"></script>
 </body>
 </html>
