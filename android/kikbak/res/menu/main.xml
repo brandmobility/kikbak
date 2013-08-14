@@ -18,7 +18,7 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="demo server"
-        android:visible="false"/>
+        android:visible="true"/>
     <item
         android:id="@+id/action_login"
         android:orderInCategory="101"

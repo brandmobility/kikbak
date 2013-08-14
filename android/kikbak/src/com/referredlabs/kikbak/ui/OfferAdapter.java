@@ -63,6 +63,7 @@ public class OfferAdapter extends BaseAdapter {
     ClientOfferType offer = theOffer.getOffer();
     Uri url = Uri.parse(offer.offerImageUrl);
 
+    helper.mImage.setImageResource(R.color.no_image);
     Picasso.with(mContext).load(url).into(helper.mImage);
     helper.setName(offer.merchantName);
     helper.setGetValue(offer.giftDiscountType);

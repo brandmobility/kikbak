@@ -1,9 +1,6 @@
 
 package com.referredlabs.kikbak.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,30 +19,28 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.GiftType;
+import com.referredlabs.kikbak.data.ShareInfoType;
 import com.referredlabs.kikbak.fb.Fb;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 public class SelectFriend extends DialogFragment implements OnItemClickListener {
 
-  private static final String ARG_GIFTS = "gifts";
+  private static final String ARG_GIFT = "gift";
 
   private ListView mList;
+  GiftType mGift;
   OnFriendSelectedListener mListener;
 
   public interface OnFriendSelectedListener {
-    void onFriendSelected(GiftType gift);
+    void onFriendSelected(GiftType gift, int idx);
   }
 
-  public static SelectFriend newInstance(List<GiftType> gifts) {
+  public static SelectFriend newInstance(GiftType gift) {
     SelectFriend dialog = new SelectFriend();
     Bundle args = new Bundle();
-    Gson gson = new Gson();
-    ArrayList<String> data = new ArrayList<String>(gifts.size());
-    for (GiftType gift : gifts) {
-      data.add(gson.toJson(gift));
-    }
-    args.putStringArrayList(ARG_GIFTS, data);
+    String data = new Gson().toJson(gift);
+    args.putString(ARG_GIFT, data);
     dialog.setArguments(args);
     return dialog;
   }
@@ -54,6 +49,9 @@ public class SelectFriend extends DialogFragment implements OnItemClickListener 
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setStyle(DialogFragment.STYLE_NO_TITLE, 0);
+
+    String data = getArguments().getString(ARG_GIFT);
+    mGift = new Gson().fromJson(data, GiftType.class);
   }
 
   @Override
@@ -71,48 +69,35 @@ public class SelectFriend extends DialogFragment implements OnItemClickListener 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View root = inflater.inflate(R.layout.fragment_select_friend, container, false);
     mList = (ListView) root.findViewById(R.id.list);
-    mList.setAdapter(new Adapter(inflater, getGifts()));
+    mList.setAdapter(new Adapter(inflater, mGift.shareInfo));
     mList.setOnItemClickListener(this);
     return root;
   }
 
   @Override
   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-    GiftType gift = (GiftType) parent.getItemAtPosition(position);
-    mListener.onFriendSelected(gift);
+    mListener.onFriendSelected(mGift, position);
     dismiss();
-  }
-
-  List<GiftType> getGifts() {
-    ArrayList<GiftType> result = new ArrayList<GiftType>();
-    ArrayList<String> data = getArguments().getStringArrayList(ARG_GIFTS);
-    if (data != null) {
-      Gson gson = new Gson();
-      for (String d : data) {
-        result.add(gson.fromJson(d, GiftType.class));
-      }
-    }
-    return result;
   }
 
   private static class Adapter extends BaseAdapter {
 
-    List<GiftType> mGifts;
+    ShareInfoType[] mFriends;
     LayoutInflater mInflater;
 
-    public Adapter(LayoutInflater inflater, List<GiftType> gifts) {
+    public Adapter(LayoutInflater inflater, ShareInfoType[] friends) {
       mInflater = inflater;
-      mGifts = gifts;
+      mFriends = friends;
     }
 
     @Override
     public int getCount() {
-      return mGifts.size();
+      return mFriends.length;
     }
 
     @Override
-    public GiftType getItem(int position) {
-      return mGifts.get(position);
+    public ShareInfoType getItem(int position) {
+      return mFriends[position];
     }
 
     @Override
@@ -126,12 +111,12 @@ public class SelectFriend extends DialogFragment implements OnItemClickListener 
         convertView = mInflater.inflate(R.layout.fragment_select_friend_row, parent, false);
       }
 
-      GiftType gift = getItem(position);
+      ShareInfoType friend = getItem(position);
 
       TextView text = (TextView) convertView.findViewById(R.id.name);
-      text.setText(gift.friendName);
+      text.setText(friend.friendName);
 
-      Uri uri = Fb.getFriendPhotoUri(gift.fbFriendId);
+      Uri uri = Fb.getFriendPhotoUri(friend.fbFriendId);
       ImageView image = (ImageView) convertView.findViewById(R.id.image);
       Picasso.with(convertView.getContext()).load(uri).into((Target) image);
 

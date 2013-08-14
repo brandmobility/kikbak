@@ -206,8 +206,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
   }
 
   @Override
-  public void onRedeemGift(GiftType gift) {
-    redeemGift(gift);
+  public void onRedeemGift(GiftType gift, int shareIdx) {
+    redeemGift(gift, shareIdx);
   }
 
   @Override
@@ -220,10 +220,11 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     getSupportActionBar().setSelectedNavigationItem(0);
   }
 
-  private void redeemGift(GiftType gift) {
+  private void redeemGift(GiftType gift, int shareIdx) {
     Intent intent = new Intent(this, RedeemGiftActivity.class);
     String data = new Gson().toJson(gift);
     intent.putExtra(RedeemGiftActivity.EXTRA_GIFT, data);
+    intent.putExtra(RedeemGiftActivity.EXTRA_SHARE_IDX, shareIdx);
     startActivity(intent);
   }
 

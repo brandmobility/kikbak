@@ -11,6 +11,7 @@ import com.referredlabs.kikbak.R;
 public class RedeemGiftActivity extends FragmentActivity implements RedeemSuccessCallback {
 
   public static final String EXTRA_GIFT = "gift";
+  public static final String EXTRA_SHARE_IDX = "idx";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
