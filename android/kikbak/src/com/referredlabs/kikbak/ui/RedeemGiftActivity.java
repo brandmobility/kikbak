@@ -4,11 +4,10 @@ package com.referredlabs.kikbak.ui;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 
 import com.referredlabs.kikbak.R;
 
-public class RedeemGiftActivity extends FragmentActivity implements RedeemSuccessCallback {
+public class RedeemGiftActivity extends KikbakActivity implements RedeemSuccessCallback {
 
   public static final String EXTRA_GIFT = "gift";
   public static final String EXTRA_SHARE_IDX = "idx";

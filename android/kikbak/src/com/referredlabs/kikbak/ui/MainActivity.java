@@ -16,7 +16,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,7 +37,7 @@ import com.referredlabs.kikbak.ui.OfferListFragment.OnOfferClickedListener;
 import com.referredlabs.kikbak.ui.RewardListFragment.OnRedeemListener;
 import com.referredlabs.kikbak.utils.Register;
 
-public class MainActivity extends ActionBarActivity implements ActionBar.TabListener,
+public class MainActivity extends KikbakActivity implements ActionBar.TabListener,
     OnOfferClickedListener, OnRedeemListener,
     LocationFinderListener {
 

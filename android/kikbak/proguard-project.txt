@@ -23,3 +23,8 @@
 -keep class * extends java.util.ListResourceBundle {
     protected Object[][] getContents();
 }
+
+# flurry 
+-keep class com.flurry.** { *; }
+-dontwarn com.flurry.**
+-keepattributes *Annotation*,EnclosingMethod

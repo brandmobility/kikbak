@@ -25,7 +25,7 @@ import com.referredlabs.kikbak.R;
 
 import java.util.ArrayList;
 
-public class PickContactsActivity extends FragmentActivity
+public class PickContactsActivity extends KikbakActivity
     implements LoaderCallbacks<Cursor>, OnClickListener {
 
   public static final String ARG_TYPE = "type";

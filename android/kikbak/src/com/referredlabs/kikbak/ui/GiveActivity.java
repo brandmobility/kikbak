@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -24,7 +23,7 @@ import com.referredlabs.kikbak.ui.ShareSuccessDialog.OnShareSuccessListener;
 import com.referredlabs.kikbak.utils.Nearest;
 import com.squareup.picasso.Picasso;
 
-public class GiveActivity extends FragmentActivity implements OnClickListener,
+public class GiveActivity extends KikbakActivity implements OnClickListener,
     OnShareMethodSelectedListener, ShareStatusListener, OnShareSuccessListener {
 
   public static final String ARG_OFFER = "offer";

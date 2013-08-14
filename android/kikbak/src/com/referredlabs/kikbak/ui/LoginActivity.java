@@ -1,10 +1,11 @@
 
 package com.referredlabs.kikbak.ui;
 
+import java.util.Arrays;
+
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -24,9 +25,7 @@ import com.referredlabs.kikbak.http.Http;
 import com.referredlabs.kikbak.tasks.UpdateFriends;
 import com.referredlabs.kikbak.utils.Register;
 
-import java.util.Arrays;
-
-public class LoginActivity extends FragmentActivity implements StatusCallback,
+public class LoginActivity extends KikbakActivity implements StatusCallback,
     UserInfoChangedCallback {
 
   private UiLifecycleHelper mUiHelper;
