@@ -108,7 +108,7 @@ public class RedeemSuccessFragment extends Fragment implements OnClickListener {
       setupCreditViews();
 
     Bitmap bmp = mBarcodeBitmap;
-    if (true || bmp == null) {
+    if (bmp == null) {
       bmp = generateQrCode(mBarcode);
     }
     mCode.setImageBitmap(bmp);
