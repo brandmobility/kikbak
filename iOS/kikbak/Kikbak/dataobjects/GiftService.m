@@ -13,7 +13,7 @@
 
 @implementation GiftService
 
-+(Gift*)findGiftById:(NSNumber*)giftId{
++(Gift*)findGiftByMerchantId:(NSNumber*)merchantId{
     NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
     
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Gift" inManagedObjectContext:context];
@@ -21,10 +21,10 @@
     [request setEntity:entityDescription];
     
     // Set example predicate and sort orderings...
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(giftId = %@)", giftId];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(merchantId = %@)", merchantId];
     [request setPredicate:predicate];
     
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"giftId" ascending:YES];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"merchantId" ascending:YES];
     [request setSortDescriptors:@[sortDescriptor]];
     
     NSError *error;

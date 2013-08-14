@@ -17,16 +17,10 @@
         <relationship name="location" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Location" inverseName="credit" inverseEntity="Location" syncable="YES"/>
     </entity>
     <entity name="Gift" representedClassName="Gift" syncable="YES">
-        <attribute name="caption" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="defaultGiveImageUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="detailedDesc" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="discountType" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="fbFriendId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="friendName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="friendUserId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="giftId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="imageUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="merchantId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="merchantName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="merchantUrl" optional="YES" attributeType="String" syncable="YES"/>
@@ -36,6 +30,7 @@
         <attribute name="validationType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <relationship name="location" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Location" inverseName="gift" inverseEntity="Location" syncable="YES"/>
+        <relationship name="shareInfo" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ShareInfo" inverseName="gift" inverseEntity="ShareInfo" syncable="YES"/>
     </entity>
     <entity name="Location" representedClassName="Location" syncable="YES">
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
@@ -68,10 +63,20 @@
         <attribute name="termsOfService" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="location" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Location" inverseName="offer" inverseEntity="Location" syncable="YES"/>
     </entity>
+    <entity name="ShareInfo" representedClassName="ShareInfo" syncable="YES">
+        <attribute name="allocatedGiftId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="caption" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fbFriendId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="friendName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="friendUserId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="imageUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="gift" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Gift" inverseName="shareInfo" inverseEntity="Gift" syncable="YES"/>
+    </entity>
     <elements>
         <element name="Credit" positionX="160" positionY="192" width="128" height="255"/>
-        <element name="Gift" positionX="-5807" positionY="-495" width="128" height="330"/>
+        <element name="Gift" positionX="-5807" positionY="-495" width="128" height="253"/>
         <element name="Location" positionX="-5544" positionY="-567" width="128" height="150"/>
         <element name="Offer" positionX="-5247" positionY="-585" width="128" height="345"/>
+        <element name="ShareInfo" positionX="-873" positionY="-135" width="128" height="150"/>
     </elements>
 </model>

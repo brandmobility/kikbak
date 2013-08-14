@@ -13,7 +13,7 @@
 
 @interface GiftService : NSObject
 
-+(Gift*)findGiftById:(NSNumber*)giftId;
++(Gift*)findGiftByMerchantId:(NSNumber*)merchantId;
 +(NSArray*)getGifts;
 +(void)deleteAll;
 

@@ -2,26 +2,21 @@
 //  Gift.m
 //  Kikbak
 //
-//  Created by Ian Barile on 7/13/13.
+//  Created by Ian Barile on 8/13/13.
 //  Copyright (c) 2013 Ian Barile. All rights reserved.
 //
 
 #import "Gift.h"
 #import "Location.h"
+#import "ShareInfo.h"
 
 
 @implementation Gift
 
-@dynamic caption;
 @dynamic defaultGiveImageUrl;
 @dynamic desc;
 @dynamic detailedDesc;
 @dynamic discountType;
-@dynamic fbFriendId;
-@dynamic friendName;
-@dynamic friendUserId;
-@dynamic giftId;
-@dynamic imageUrl;
 @dynamic merchantId;
 @dynamic merchantName;
 @dynamic merchantUrl;
@@ -31,5 +26,6 @@
 @dynamic validationType;
 @dynamic value;
 @dynamic location;
+@dynamic shareInfo;
 
 @end

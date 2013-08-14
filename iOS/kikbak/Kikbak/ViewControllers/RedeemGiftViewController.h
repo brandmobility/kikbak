@@ -10,11 +10,12 @@
 #import <ZXingWidgetController.h>
 
 @class Gift;
+@class ShareInfo;
 
 @interface RedeemGiftViewController : UIViewController<ZXingDelegate>
 
-@property(nonatomic, strong) Gift* gift;
-
+@property(nonatomic,strong) Gift* gift;
+@property(nonatomic,strong) ShareInfo* shareInfo;
 
 
 @end

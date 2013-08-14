@@ -25,6 +25,7 @@
 #import "RedeemGiftSuccessViewController.h"
 #import "BarcodeImageRequest.h"
 #import "TermsAndConditionsView.h"
+#import "ShareInfo.h"
 
 
 @interface RedeemGiftViewController (){
@@ -135,13 +136,13 @@
 //            self.giftImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
 //        }
         
-        NSString* imagePath = [ImagePersistor imageFileExists:self.gift.fbFriendId imageType:FRIEND_IMAGE_TYPE];
+        NSString* imagePath = [ImagePersistor imageFileExists:self.shareInfo.fbFriendId imageType:FRIEND_IMAGE_TYPE];
         if(imagePath != nil){
             self.friendImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
         }
         
-        self.friendName.text = self.gift.friendName;
-        self.caption.text = self.gift.caption;
+        self.friendName.text = self.shareInfo.friendName;
+        self.caption.text = self.shareInfo.caption;
         self.retailerName.text = self.gift.merchantName;
     }
     
@@ -358,7 +359,7 @@
 //        request.gift = self.gift;
 //        [request restRequest:[self setupGiftRequest]];
         BarcodeImageRequest* request = [[BarcodeImageRequest alloc]init];
-        request.allocatedGiftId = self.gift.giftId;
+        request.allocatedGiftId = self.shareInfo.allocatedGiftId;
         [request requestBarcode];
     }
 }
@@ -382,10 +383,10 @@
     
     RedeemGiftRequest *request = [[RedeemGiftRequest alloc]init];
     NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:3];
-    [dict setObject:self.gift.giftId forKey:@"id"];
+    [dict setObject:self.shareInfo.allocatedGiftId forKey:@"id"];
     Location* location = [self.gift.location anyObject];
     [dict setObject:location.locationId forKey:@"locationId"];
-    [dict setObject:self.gift.friendUserId forKey:@"friendId"];
+    [dict setObject:self.shareInfo.friendUserId forKey:@"friendId"];
     [dict setObject:@"zdfdw" forKey:@"verificationCode"];
     [request restRequest:dict];
     
@@ -425,10 +426,10 @@
 
 -(NSDictionary*)setupGiftRequest{
     NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:3];
-    [dict setObject:self.gift.giftId forKey:@"id"];
+    [dict setObject:self.shareInfo.allocatedGiftId forKey:@"id"];
     Location* location = [self.gift.location anyObject];
     [dict setObject:location.locationId forKey:@"locationId"];
-    [dict setObject:self.gift.friendUserId forKey:@"friendUserId"];
+    [dict setObject:self.shareInfo.friendUserId forKey:@"friendUserId"];
     [dict setObject:@"fwttt" forKey:@"verificationCode"];
     
     return dict;
