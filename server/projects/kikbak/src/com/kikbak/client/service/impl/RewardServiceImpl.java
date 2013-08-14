@@ -5,8 +5,11 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -59,6 +62,7 @@ import com.kikbak.jaxb.rewards.AvailableCreditType;
 import com.kikbak.jaxb.rewards.ClaimStatusType;
 import com.kikbak.jaxb.rewards.ClientMerchantType;
 import com.kikbak.jaxb.rewards.GiftType;
+import com.kikbak.jaxb.rewards.ShareInfoType;
 import com.kikbak.push.service.ApsNotifier;
 
 @Service
@@ -134,14 +138,29 @@ public class RewardServiceImpl implements RewardService{
         gifts.addAll(roAllocatedGiftDao.listValidByUserId(userId));
         Collection<GiftType> gts = new ArrayList<GiftType>();
 
+        Map<Long, List<Allocatedgift>> m = new HashMap<Long, List<Allocatedgift>>();
         for( Allocatedgift ag: gifts){
-            Merchant merchant = roMerchantDao.findById(ag.getMerchantId());
-            Shared shared = roSharedDao.findById(ag.getSharedId());
-            Gift gift = roGiftDao.findById(ag.getGiftId());
-            User friend = roUserDao.findById(ag.getFriendUserId());
-            Offer offer = roOfferDao.findById(gift.getOfferId());
-
-            GiftType gt = createGiftType(shared, merchant, gift, friend, offer, ag.getId());
+            if( !m.containsKey(ag.getOfferId())) {
+                m.put(ag.getOfferId(), new ArrayList<Allocatedgift>());
+                m.get(ag.getOfferId()).add(ag);
+            }
+            else {
+                m.get(ag.getOfferId()).add(ag);
+            }
+        }
+        
+        for(Long offerId : m.keySet() )
+        {
+            Offer offer = roOfferDao.findById(offerId);
+            Gift gift = roGiftDao.findByOfferId(offerId);
+            Merchant merchant = roMerchantDao.findById(offer.getMerchantId());
+            
+            GiftType gt = createGiftType(merchant, gift, offer);
+            for( Allocatedgift ag : m.get(offerId)) {
+                Shared shared = roSharedDao.findById(ag.getSharedId());
+                User friend = roUserDao.findById(ag.getFriendUserId());
+                addShareInfoToGift(gt, shared, friend, ag.getId());
+            }
 
             gts.add(gt);
         }
@@ -292,8 +311,8 @@ public class RewardServiceImpl implements RewardService{
                     Gift gift = roGiftDao.findById(ag.getGiftId());
                     User friend = roUserDao.findById(ag.getFriendUserId());
 
-                    GiftType gt = createGiftType(shared, merchant, gift,
-                            friend, offer, ag.getId());
+                    GiftType gt = createGiftType( merchant, gift, offer);
+                    addShareInfoToGift(gt, shared, friend, ag.getId());
                     gifts.add(gt);
                 }
             }
@@ -316,33 +335,37 @@ public class RewardServiceImpl implements RewardService{
         Gift gift = roGiftDao.findById(shared.getOfferId());
         User friend = roUserDao.findById(shared.getUserId());
 
-        return createGiftType(shared, merchant, gift, friend, offer, 0);
+        GiftType gt = createGiftType(merchant, gift, offer);
+        addShareInfoToGift(gt, shared, friend, 0);
+        return gt;
     } 
 
-    private GiftType createGiftType(Shared shared,
-            Merchant merchant, Gift gift, User friend, Offer offer, long agId) {
+    private GiftType createGiftType(Merchant merchant, Gift gift, Offer offer) {
         GiftType gt = new GiftType();
-        gt.setId(agId);
         ClientMerchantType cmt = fillClientMerchantType(merchant);
         gt.setMerchant(cmt);
-        gt.setOfferId(shared.getOfferId());
+        gt.setOfferId(gift.getOfferId());
         gt.setDesc(gift.getDescription());
         gt.setDetailedDesc(gift.getDetailedDesc());
         gt.setValue(gift.getValue());
         gt.setDiscountType(gift.getDiscountType());
         gt.setValidationType(gift.getValidationType());
         gt.setRedemptionLocationType(gift.getRedemptionLocationType());
-        gt.setImageUrl(shared.getImageUrl());
         gt.setDefaultGiveImageUrl(gift.getDefaultGiveImageUrl());
         gt.setTosUrl(offer.getTosUrl());
-        gt.setFriendUserId(friend.getId());
-        gt.setFbFriendId(friend.getFacebookId());
-        gt.setFriendName(friend.getFirstName() + " " + friend.getLastName());
-        gt.setCaption(shared.getCaption());
-        gt.setEmployeeId(shared.getEmployeeId());
-//        gt.setFbImageId(shared.getFbImageId());
-
         return gt;
+    }
+    
+    private void addShareInfoToGift(GiftType gt, Shared shared, User friend, long agId) {
+        ShareInfoType sit = new ShareInfoType();
+        sit.setAllocatedGiftId(agId);
+        sit.setImageUrl(shared.getImageUrl());
+        sit.setCaption(shared.getCaption());
+        sit.setEmployeeId(shared.getEmployeeId());
+        sit.setFriendUserId(friend.getId());
+        sit.setFbFriendId(friend.getFacebookId());
+        sit.setFriendName(friend.getFirstName() + " " + friend.getLastName());
+        gt.getShareInfo().add(sit);
     }
 
     private Allocatedgift createAllocateOffer(Long userId, Shared shared, Offer offer) {

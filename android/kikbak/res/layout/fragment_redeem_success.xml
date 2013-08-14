@@ -1,142 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:kikbak="http://schemas.android.com/apk/res/com.referredlabs.kikbak"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:background="#e5e5e5"
+        android:gravity="center"
+        android:text="Zen Yoga"
+        android:textColor="#3a3a3a"
+        android:textSize="31dp"
+        kikbak:typeface="Roboto-Light.ttf" />
 
     <LinearLayout
+        android:id="@+id/success_frame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
+        android:background="@color/success_gift_background"
+        android:gravity="center"
         android:orientation="vertical" >
 
         <com.referredlabs.kikbak.widget.TtfTextView
-            android:id="@+id/name"
+            android:id="@+id/title"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:background="#e5e5e5"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:gravity="center"
-            android:paddingBottom="14dp"
-            android:paddingTop="14dp"
-            android:text="Zen Yoga"
-            android:textColor="#3a3a3a"
+            android:text="@string/redeem_success_title"
+            android:textColor="#135317"
             android:textSize="31dp"
-            kikbak:typeface="Roboto-Light.ttf" />
-
-        <LinearLayout
-            android:id="@+id/success_frame"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:background="@color/success_gift_background"
-            android:gravity="center_vertical"
-            android:orientation="vertical" >
-
-            <com.referredlabs.kikbak.widget.TtfTextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/redeem_success_title"
-                android:textColor="#135317"
-                android:textSize="31dp"
-                kikbak:typeface="Roboto-Bold.ttf" />
-
-            <com.referredlabs.kikbak.widget.TtfTextView
-                android:id="@+id/redeem_note_first"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/redeem_success_note_first_gift"
-                android:textColor="#135317"
-                android:textSize="17dp"
-                kikbak:typeface="Roboto-Regular.ttf" />
-
-            <com.referredlabs.kikbak.widget.TtfTextView
-                android:id="@+id/redeem_note_second"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/redeem_success_note_second"
-                android:textColor="#135317"
-                android:textSize="17dp"
-                kikbak:typeface="Roboto-Regular.ttf" />
-        </LinearLayout>
-
-        <com.referredlabs.kikbak.widget.TtfTextView
-            android:id="@+id/redeem_type_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:text="@string/redeem_success_offer"
-            android:textColor="#aeaeae"
-            android:textSize="26dp"
             kikbak:typeface="Roboto-Bold.ttf" />
 
         <com.referredlabs.kikbak.widget.TtfTextView
-            android:id="@+id/redeem_value"
+            android:id="@+id/redeem_note_first"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:includeFontPadding="false"
-            android:text="$50 off"
-            android:textColor="#3a3a3a"
-            android:textSize="46dp"
-            kikbak:typeface="Roboto-Bold.ttf" />
-
-        <com.referredlabs.kikbak.widget.TtfTextView
-            android:id="@+id/redeem_desc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:includeFontPadding="false"
-            android:text="with new 2-year contract"
-            android:textColor="#3a3a3a"
+            android:text="@string/redeem_success_note_first_gift"
+            android:textColor="#135317"
             android:textSize="17dp"
             kikbak:typeface="Roboto-Regular.ttf" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="140dp" >
-
-            <ImageView
-                android:id="@+id/qr_code"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:src="@drawable/qr_code" />
-
-            <TextView
-                android:id="@+id/code"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:minHeight="28dp"
-                android:text="VLX435" />
-        </LinearLayout>
-
         <com.referredlabs.kikbak.widget.TtfTextView
+            android:id="@+id/redeem_note_second"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
             android:gravity="center"
-            android:text="@string/redeem_success_share_note"
-            android:textColor="#3a3a3a"
+            android:text="@string/redeem_success_note_second"
+            android:textColor="#135317"
             android:textSize="17dp"
             kikbak:typeface="Roboto-Regular.ttf" />
 
-        <com.referredlabs.kikbak.widget.TtfButton
-            android:id="@+id/give"
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="14dp"
-            android:layout_marginLeft="14dp"
-            android:layout_marginRight="14dp"
-            android:layout_marginTop="14dp"
-            android:background="@drawable/btn_blue"
-            android:text="@string/give"
-            android:textColor="@android:color/white"
-            android:textSize="21dp"
-            kikbak:typeface="Roboto-Light.ttf" />
+            android:layout_marginTop="8dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/dotted_line_pattern" />
     </LinearLayout>
 
-</ScrollView>
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:id="@+id/redeem_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:text="$50 off"
+        android:textColor="#3a3a3a"
+        android:textSize="46dp"
+        kikbak:typeface="Roboto-Bold.ttf" />
+
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:id="@+id/redeem_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:text="with new 2-year contract"
+        android:textColor="#3a3a3a"
+        android:textSize="17dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
+
+    <ViewStub
+        android:id="@+id/barcode_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout="@layout/fragment_redeem_success_barcode" />
+
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="@string/redeem_success_share_note"
+        android:textColor="#3a3a3a"
+        android:textSize="17dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
+
+    <com.referredlabs.kikbak.widget.TtfButton
+        android:id="@+id/give"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="14dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/btn_blue"
+        android:text="@string/give"
+        android:textColor="@android:color/white"
+        android:textSize="21dp"
+        kikbak:typeface="Roboto-Light.ttf" />
+
+</LinearLayout>
