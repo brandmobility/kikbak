@@ -56,12 +56,16 @@ public class RewardController {
         status.setCode(StatusCode.OK.ordinal());
         response.setStatus(status);
         try {
-            List<GiftType> gifts = new LinkedList<GiftType>(); 
-            ClaimStatusType claimStatusType = service.claimGift(userId, referralCode, gifts);
+            List<GiftType> gifts = new LinkedList<GiftType>();
+            List<Long> agIds = new LinkedList<Long>();
+            ClaimStatusType claimStatusType = service.claimGift(userId, referralCode, gifts, agIds);
             response.getGifts().addAll(gifts);
             response.setClaimStatus(claimStatusType);
             if (response.getGifts().isEmpty()) {
                 status.setCode(StatusCode.ERROR.ordinal());
+            }
+            if (!agIds.isEmpty()) {
+            	response.setAgId(agIds.get(0));
             }
         } catch (Exception e) {
             httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

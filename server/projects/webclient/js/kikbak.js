@@ -542,12 +542,16 @@ function getRedeems() {
           $('#friend-popup h1').html('');
           var list = $('#friend-list');
           list.html(gifts[0].desc);
-          if (gifts && gifts.length > 1) {
-            for (var gift in gifts) {
+          if (gifts && gifts.shareInfo.length > 1) {
+            for (var shareInfo in gifts.shareInfo.length) {
               var li = '<li class="frd-bx" >';
-              li += '<img src="https://graph.facebook.com/' + gift.fbFriendId + '/picture?type=square">';
-              li += '<h2>' + gift.friendName + '</h2>';
-              var j = escape(JSON.stringify(gift));
+              li += '<img src="https://graph.facebook.com/' + shareInfo.fbFriendId + '/picture?type=square">';
+              li += '<h2>' + shareInfo.friendName + '</h2>';
+              var data = {
+                'gift': gifts[0],
+                'shareInfo': shareInfo
+              };
+              var j = escape(JSON.stringify(data));
               li += '<a href="#" class="nxtt select-gift-btn" data-object="' + j + '"><img src="images/nxt-aro.png"></a></li>';
               list.append(li);
             }
@@ -561,7 +565,12 @@ function getRedeems() {
             });
 
           } else if (gifts) {
-            localStorage.giftDetail = escape(JSON.stringify(gifts[0]));
+            var data = {
+              'gift': gifts[0],
+              'shareInfo': gift[0].shareInfo
+            };
+            var j = escape(JSON.stringify(data));
+            localStorage.giftDetail = j;
             localStorage.pageType = 'redeem-gift-detail';
             initPage();
           }
@@ -581,7 +590,7 @@ function getRedeems() {
 
 function renderRedeem(gifts, credits) {
   var m = credits ? credits[0].merchant : gifts[0].merchant;
-  var imgUrl = credits ? credits[0].imageUrl : gifts[0].imageUrl;
+  var imgUrl = credits ? credits[0].imageUrl : gifts[0].defaultGiveImageUrl;
   
   var html = '<div class="rdem-bx"><div class="redeem"><span class="imgshado"></span><div class="lstimg">';
   html += '<img class="redeem-background" src="' + imgUrl + '" />';  html += '<a href="' + m.url + '"><img class="website-img" src="img/ic_web.png" /></a>';
@@ -602,7 +611,7 @@ function renderRedeem(gifts, credits) {
     var style = credits ? ' lft-bdr' : '';
     html += '<a href="#" data-object="' + json + '" class="redeem-gift-btn clearfix">';
     html += '<div class="lft-dtl' + style + '"><span>USE RECEIVED GIFT </span><h2>' + g.desc + '</h2>';
-    html += '<a href="#" class="actor"><img style="width:64px;height:64px;" src="https://graph.facebook.com/' + g.fbFriendId + '/picture?type=square"></a>';
+    html += '<img style="width:64px;height:64px;" src="https://graph.facebook.com/' + g.shareInfo[0].fbFriendId + '/picture?type=square">';
     if (gifts.length > 1) {
       html += '<img src="images/actor-bk.png" class="actbrd">';
     }
@@ -1002,9 +1011,11 @@ function encodeQueryData(data) {
    return ret.join("&");
 }
 
-function renderRedeemGiftDetail(gift) {
+function renderRedeemGiftDetail(data) {
+  var gift = data.gift;
+  var share = data.shareInfo;
   var html = '';
-  html += '<div class="image-add rdme"><img src="' + gift.imageUrl + '" class="addimge"><span class="imgshado"></span>';
+  html += '<div class="image-add rdme"><img src="' + share.imageUrl + '" class="addimge"><span class="imgshado"></span>';
   html += '<h3>' + gift.merchant.name + '</h3>';
   html += '<div class="opt-icon">';
   local = getDisplayLocation(gift.merchant.locations);
@@ -1017,10 +1028,10 @@ function renderRedeemGiftDetail(gift) {
   }
   html += '</div></div>';
   html += '<div class="gvrdm">';
-  html += '<img src="https://graph.facebook.com/' + gift.fbFriendId + '/picture?type=square">';
+  html += '<img src="https://graph.facebook.com/' + share.fbFriendId + '/picture?type=square">';
   html += '<div class="avtr-cmnt">';
-  html += '<h2>' + gift.friendName + '</h2>';
-  html += '<h2>' + gift.caption + '</h2>';
+  html += '<h2>' + share.friendName + '</h2>';
+  html += '<h2>' + share.caption + '</h2>';
   html += '</div></div>';
   html += '<div class="gvrdm-botm-patrn"></div>';
   html += '<div class="crt">';

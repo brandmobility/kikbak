@@ -15,6 +15,7 @@ import org.springframework.web.portlet.ModelAndView;
 
 import com.kikbak.client.service.RewardService;
 import com.kikbak.client.service.SharedExperienceService;
+import com.kikbak.dao.ReadOnlyAllocatedGiftDAO;
 import com.kikbak.dao.ReadOnlyGiftDAO;
 import com.kikbak.dao.ReadOnlyLocationDAO;
 import com.kikbak.dao.ReadOnlyMerchantDAO;
@@ -45,6 +46,9 @@ public class LandingController {
 	
 	@Autowired
 	private ReadOnlyLocationDAO readOnlyLocationDAO;
+
+    @Autowired
+    ReadOnlyAllocatedGiftDAO roAllocatedGiftDao;
 	
 	@Autowired
 	private ReadOnlyGiftDAO readOnlyGiftDAO;
@@ -63,6 +67,7 @@ public class LandingController {
 					.replace("%DESC_DETAIL%", gift.getDetailedDesc());
 			// TODO
 			request.setAttribute("merchantUrl", gift.getDefaultGiveImageUrl());
+			request.setAttribute("shareInfo", gift.getShareInfo().get(0));
 			request.setAttribute("gift", gift);
 			request.setAttribute("url", request.getRequestURL() + (StringUtils.isBlank(request.getQueryString()) ? "" : "?" + request.getQueryString()));
 			request.setAttribute("code", code);
@@ -84,12 +89,14 @@ public class LandingController {
 		try {
 			String code = request.getParameter("code");
 			long userId = Long.parseLong(request.getParameter("user"));
+			long agId = Long.parseLong(request.getParameter("gid"));
 			GiftType gift = rewardService.getGiftByReferredCode(code);
 			
 			// TODO
 			request.setAttribute("merchantUrl", gift.getDefaultGiveImageUrl());
+			request.setAttribute("shareInfo", gift.getShareInfo().get(0));
 			request.setAttribute("gift", gift);
-			request.setAttribute("url", "../generateBarcode/" + userId + "/" + gift.getId() + "/200/300/");
+			request.setAttribute("url", "../rewards/generateBarcode/" + userId + "/" + agId + "/160/100/");
 			request.setAttribute("code", code);
 			request.setAttribute("encodeMerchantName", URLEncoder.encode(gift.getMerchant().getName(), "UTF-8"));
 			request.setAttribute("location", gift.getMerchant().getLocations().get(0));

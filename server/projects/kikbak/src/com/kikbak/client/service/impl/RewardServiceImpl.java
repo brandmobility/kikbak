@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -280,13 +279,12 @@ public class RewardServiceImpl implements RewardService{
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor=RewardException.class)
-    public ClaimStatusType claimGift(Long userId, String referralCode, List<GiftType> gifts) throws RewardException {
+    public ClaimStatusType claimGift(Long userId, String referralCode, List<GiftType> gifts, List<Long> agIds) throws RewardException {
         ClaimStatusType status = ClaimStatusType.INVALID_CODE;
         if (userId == null || StringUtils.isBlank(referralCode)) {
             throw new RewardException("userId or referralCode cannot be empty");
         }
 
-        Collection<Long> offerIds = roAllocatedGiftDao.listOfferIdsForUser(userId);
         User user = roUserDao.findById(userId);
         if (user == null) {
             throw new RewardException("user id " + userId + " doesn't exist");
@@ -294,9 +292,11 @@ public class RewardServiceImpl implements RewardService{
 
         Shared shared = roSharedDao.findAvailableForGiftingByReferralCode(referralCode);
 
+        Collection<Allocatedgift> allocatedGifts = roAllocatedGiftDao.listValidByUserIdAndSharedId(userId, shared.getId());
+        
         Collection<Allocatedgift> newGifts = new ArrayList<Allocatedgift>();
         if (null != shared){
-            if(!offerIds.contains(shared.getOfferId())){
+            if(null == allocatedGifts || allocatedGifts.isEmpty()){
                 Offer offer = roOfferDao.findById(shared.getOfferId());
                 Date now = new Date();
                 if (now.before(offer.getBeginDate()) || now.after(offer.getEndDate())) {
@@ -304,7 +304,6 @@ public class RewardServiceImpl implements RewardService{
                 } else {
                     Allocatedgift ag = createAllocateOffer(userId, shared, offer);
                     newGifts.add(ag);
-                    offerIds.add(shared.getOfferId());
                     status = ClaimStatusType.OK;
 
                     Merchant merchant = roMerchantDao.findById(ag.getMerchantId());
@@ -314,7 +313,12 @@ public class RewardServiceImpl implements RewardService{
                     GiftType gt = createGiftType( merchant, gift, offer);
                     addShareInfoToGift(gt, shared, friend, ag.getId());
                     gifts.add(gt);
+                    agIds.add(ag.getId());
                 }
+            } else {
+            	for (Allocatedgift g : allocatedGifts) {
+            		agIds.add(g.getId());
+            	}
             }
         }
 

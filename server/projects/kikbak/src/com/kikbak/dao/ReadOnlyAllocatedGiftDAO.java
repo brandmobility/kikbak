@@ -13,4 +13,5 @@ public interface ReadOnlyAllocatedGiftDAO {
 	public Collection<Long> listOfferIdsForUser(Long userId);
 	public Collection<Long> listSharedIdsForUser(Long userId);
 	public Collection<Allocatedgift> listByFriendUserId(Long friendId);
+	public Collection<Allocatedgift> listValidByUserIdAndSharedId(Long userId, long sharedId);
 }

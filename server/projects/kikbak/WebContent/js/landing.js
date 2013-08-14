@@ -93,22 +93,26 @@ function updateFbFriends(userId) {
       data: str,
       url: config.backend + 'user/friends/fb/' + userId,
       success: function(json) {
-    	claimCode(userId, code);
+    	claimCode(userId);
       },
       error: showError
     });
   });
 }
 
-function claimCode() {
-  var url = config.backend + 'kikbak/rewards/claim/' + userId + '/' + localStorage.code;
+function claimCode(userId) {
+  var url = config.backend + 'rewards/claim/' + userId + '/' + localStorage.code;
   $.ajax({
     dataType: 'json',
     type: 'GET',
     contentType: 'application/json',
     url: url,
     success: function(json) {
-      window.location.href = 'gift/success.html?user=' + userId + '&code=' + localStorage.code;
+      if (json.claimGiftResponse.agId) {
+        window.location.href = 'gift/success.html?user=' + userId + '&gid=' + json.claimGiftResponse.agId + '&code=' + localStorage.code;
+      } else {
+    	showError();
+      }
     },
     error: showError
   });
