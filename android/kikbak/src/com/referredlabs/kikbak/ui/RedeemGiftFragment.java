@@ -27,6 +27,7 @@ import com.referredlabs.kikbak.data.GiftRedemptionType;
 import com.referredlabs.kikbak.data.GiftType;
 import com.referredlabs.kikbak.data.RedeemGiftRequest;
 import com.referredlabs.kikbak.data.RedeemGiftResponse;
+import com.referredlabs.kikbak.data.RedemptionLocationType;
 import com.referredlabs.kikbak.data.ShareInfoType;
 import com.referredlabs.kikbak.data.StatusType;
 import com.referredlabs.kikbak.data.ValidationType;
@@ -57,6 +58,7 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
   private TextView mGiftValue;
   private TextView mGiftDesc;
   private Button mRedeemInStore;
+  private Button mRedeemOnline;
 
   RedeemSuccessCallback mCallback;
 
@@ -87,6 +89,9 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
     mRedeemInStore = (Button) root.findViewById(R.id.redeem_store);
     mRedeemInStore.setOnClickListener(this);
 
+    mRedeemOnline = (Button) root.findViewById(R.id.redeem_online);
+    mRedeemOnline.setOnClickListener(this);
+
     IconBarHelper ih = new IconBarHelper(root, new IconBarActionHandler(getActivity()));
     Nearest nearest = new Nearest(mGift.merchant.locations);
     ih.setLink(mGift.merchant.url);
@@ -111,6 +116,10 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
 
     mGiftValue.setText(LocaleUtils.getGiftValueString(getActivity(), mGift));
     mGiftDesc.setText(mGift.desc);
+
+    if (RedemptionLocationType.ALL.equals(mGift.redemptionLocationType)) {
+      mRedeemOnline.setVisibility(View.VISIBLE);
+    }
   }
 
   @Override
@@ -121,6 +130,9 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
         break;
       case R.id.redeem_store:
         onRedeemInStoreClicked();
+        break;
+      case R.id.redeem_online:
+        onRedeemOnlineClicked();
         break;
     }
   }
@@ -146,6 +158,10 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
       mRedeemInStore.setEnabled(false);
       new BarcodeTask().execute();
     }
+  }
+
+  private void onRedeemOnlineClicked() {
+    registerRedemption("online");
   }
 
   private boolean isInStore() {
@@ -193,6 +209,10 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
 
   @Override
   public void onBarcodeScanned(String code) {
+    registerRedemption(code);
+  }
+
+  private void registerRedemption(String code) {
     RedeemGiftRequest req = new RedeemGiftRequest();
     req.gift = new GiftRedemptionType();
     req.gift.id = mGift.shareInfo[mShareIdx].allocatedGiftId;

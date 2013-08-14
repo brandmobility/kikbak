@@ -52,6 +52,7 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
   private TextView mRedeemCount;
   private TextView mCreditValue;
   private Button mRedeemInStore;
+  private Button mRedeemOnline;
   private boolean mCreditConfirmed;
   private RedeemSuccessCallback mCallback;
 
@@ -77,6 +78,9 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
     mRedeemCount = (TextView) root.findViewById(R.id.redeem_count);
     mRedeemInStore = (Button) root.findViewById(R.id.redeem_store);
     mRedeemInStore.setOnClickListener(this);
+
+    mRedeemOnline = (Button) root.findViewById(R.id.redeem_online);
+    mRedeemOnline.setOnClickListener(this);
 
     setupViews();
     return root;
@@ -106,6 +110,11 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
       case R.id.redeem_store:
         onRedeemInStoreClicked();
         break;
+
+      case R.id.redeem_online:
+        onRedeemOnlineClicked();
+        break;
+
       case R.id.change:
         onChangeAmountClicked();
         break;
@@ -161,6 +170,10 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
     ConfirmationDialog dialog = ConfirmationDialog.newInstance(msg);
     dialog.setTargetFragment(this, REQUEST_SCAN_CONFIRMATION);
     dialog.show(getFragmentManager(), null);
+  }
+
+  private void onRedeemOnlineClicked() {
+    registerRedemption("online");
   }
 
   private void onChangeAmountClicked() {
@@ -223,13 +236,16 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
 
   @Override
   public void onBarcodeScanned(String code) {
+    registerRedemption(code);
+  }
+
+  private void registerRedemption(String code) {
     RedeemCreditRequest req = new RedeemCreditRequest();
     req.credit = new CreditRedemptionType();
     req.credit.id = mCredit.id;
     req.credit.locationId = new Nearest(mCredit.merchant.locations).get().locationId;
     req.credit.amount = mCreditToUse;
     req.credit.verificationCode = code;
-    req.credit.verificationCode = code.substring(0, Math.min(8, code.length()));
     long userId = Register.getInstance().getUserId();
     RedeemCreditTask task = new RedeemCreditTask(userId);
     task.execute(req);

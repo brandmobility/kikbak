@@ -107,8 +107,9 @@
     <string name="redeem_card_ready">You have a reward ready to be claimed!</string>
     <string name="gift_card">Gift Card</string>
     <string name="claim_reward">Claim reward now</string>
-    <string name="redeem_store">Redeem now in store</string>
-
+    <string name="redeem_store">Redeem in store</string>
+    <string name="redeem_online">Redeem online</string>
+    
     <!-- Change amount -->
     <string name="change_amount_title">Change amount</string>
     <string name="credit_avaiable_label">Credit avaiable</string>
