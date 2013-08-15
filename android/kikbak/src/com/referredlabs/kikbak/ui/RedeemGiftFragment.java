@@ -27,7 +27,6 @@ import com.referredlabs.kikbak.data.GiftRedemptionType;
 import com.referredlabs.kikbak.data.GiftType;
 import com.referredlabs.kikbak.data.RedeemGiftRequest;
 import com.referredlabs.kikbak.data.RedeemGiftResponse;
-import com.referredlabs.kikbak.data.RedemptionLocationType;
 import com.referredlabs.kikbak.data.ShareInfoType;
 import com.referredlabs.kikbak.data.StatusType;
 import com.referredlabs.kikbak.data.ValidationType;
@@ -117,9 +116,10 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
     mGiftValue.setText(LocaleUtils.getGiftValueString(getActivity(), mGift));
     mGiftDesc.setText(mGift.desc);
 
-    if (RedemptionLocationType.ALL.equals(mGift.redemptionLocationType)) {
-      mRedeemOnline.setVisibility(View.VISIBLE);
-    }
+    // not supported yet
+    // if (RedemptionLocationType.ALL.equals(mGift.redemptionLocationType)) {
+    // mRedeemOnline.setVisibility(View.VISIBLE);
+    // }
   }
 
   @Override
