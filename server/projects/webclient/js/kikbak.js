@@ -720,7 +720,7 @@ function renderOfferDetail(offer) {
   html += '<div class="add-photo-btn">';
   html += '<h2 id="take-photo-header">Add your own photo</h2>';
   html += '<div class="camicon"><img src="images/camicon.png">';
-  html += '<input name="source" type="file" id="take-picture" class="camicon take-picture" style="height:100px;margin-left:40%;width:20%;opacity:0;" accept="image/*" /></div>';
+  html += '<input name="source" type="file" id="take-picture" class="camicon take-picture" style="height:60px;margin-left:40%;width:20%;opacity:0;" accept="image/*" /></div>';
   html += '</div>';
   html += '<h3>' + offer.merchantName + '</h3>';
   html += '<div class="opt-icon">';
@@ -773,7 +773,7 @@ function renderOfferDetail(offer) {
   });
   $('#location-sel').html(options);
   if (offer.locations.length <= 1) {
-    $('#location-sel-div').hide();
+  //  $('#location-sel-div').hide();
   }
 }
 

@@ -41,6 +41,7 @@ input, textarea {background:none repeat scroll 0 0 #fff;
 }
 
 
+
 .graden1, .drkgraa {
 background:#aaa;
 background:url(data:image/svg+xml;
@@ -1009,7 +1010,6 @@ border-radius:0 0 0 10px;
     padding: 2%;
 }
 .popin .cntnt {height: 357px;} .image-add h3.post {bottom: 47%;} .post-opt { bottom: 32%;} .tkpoto {height: 385px;} .potofrm {margin: 10% 15%;}
-.cls-popup {margin: 20% 10%;}
 
 .rdme h3 {
     bottom: 20%;}.gvrdm { padding: 1% 2%} .rdme .msgg {bottom: 5%;} h1.pg-hedng {font-size: 45px;}
@@ -1054,18 +1054,19 @@ border-radius:0 0 0 10px;
 	}
 
 .location-sel {
-    width:300px;
-    height:50px;
-    font-size:24;
+    width:170px;
+    height:25px;
+    font-size:12;
+    margin-top:10px;
 }
 
 .spinner {
     position: absolute;
-    top: 45%;
-    left: 60%;
+    top: 55%;
+    left: 72%;
     margin: -100px 0 0 -100px;
-    height: 80px;
-    width: 80px;
+    height: 40px;
+    width: 40px;
     text-indent: 250px;
     white-space: nowrap;
     overflow: hidden;
