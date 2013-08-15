@@ -144,6 +144,7 @@ public class MainActivity extends KikbakActivity implements ActionBar.TabListene
 
       case R.id.action_clear_registration:
         Register.getInstance().clear();
+        GcmHelper.getInstance().clear();
         finish();
         return true;
 
