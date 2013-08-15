@@ -752,7 +752,7 @@ function renderOfferDetail(offer) {
   html += '</div>';
   var userId = localStorage.userId;
   if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
-    html += '<input name="share" type="submit" class="btn grd3" value="Give To Friends" disabled />';
+    html += '<input name="share" type="submit" class="btn grd3 botm-position" value="Give To Friends" disabled />';
   } else {
     html += '<input name="share" type="submit" class="btn grd3" value="Connect with Facebook to share" />';
     html += '<div class="crt">';
@@ -768,9 +768,13 @@ function renderOfferDetail(offer) {
     if (i === 0) {
       selected = ' selected';
     }
-    options += '<option value="' + l.locationId + '" ' + selected + '>' + l.address1 + ' ' + l.address2 + ', ' + l.city + '</option>';
+    var addr2 = l.address2 ? l.address2 : '';
+    options += '<option value="' + l.locationId + '" ' + selected + '>' + l.address1 + ' ' + addr2 + ', ' + l.city + '</option>';
   });
   $('#location-sel').html(options);
+  if (offer.locations.length <= 1) {
+    $('#location-sel-div').hide();
+  }
 }
 
 function showTerms(url) {
@@ -1041,7 +1045,7 @@ function renderRedeemGiftDetail(data) {
   html += '<a href="#" class="trm" onclick="showTerms(\'' + gift.tosUrl + '\')" >Terms and Conditions</a>';
   html += '<a href="#" class="lrn-mor" onclick="$(\'#learn\').show();" >Learn more</a>';
   html += '</div>';
-  html += '<button id="redeem-gift-instore-btn" class="btn grd3">Redeem now in store</button>';
+  html += '<button id="redeem-gift-instore-btn" class="btn grd3 botm-position">Redeem now in store</button>';
   
   $('#redeem-details-view').html(html);
   
@@ -1076,7 +1080,7 @@ function renderRedeemCreditDetail(credit) {
   html += '<h5>' + credit.rewardType + '</h5>';
   html += '<a href="#" class="trm" onclick="showTerms(\'' + credit.tosUrl + '\')">Terms and Conditions</a>';
   html += '</div>';
-  html += '<button id="claim-credit-form-btn" class="btn grd3">Claim reward now</button>';
+  html += '<button id="claim-credit-form-btn" class="btn grd3 botm-position">Claim reward now</button>';
   
   $('#redeem-details-view').html(html);
   
