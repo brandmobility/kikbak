@@ -206,7 +206,7 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		token.setToken(deviceToken.getToken());
-		token.setPlatformType((short)PlatformType.iOS.ordinal());
+		token.setPlatformType((short)deviceToken.getPlatformId());
 		token.setLastUpdateTime(new Date());
 		token.setUserId(userId);
 		
