@@ -95,7 +95,7 @@ public class UserController {
 		
 		return response;
 	}
-	
+
 	@RequestMapping( value = "/offer/{userId}", method = RequestMethod.POST)
 	public GetUserOffersResponse offersRequest(@PathVariable("userId") Long userId, 
 					@RequestBody GetUserOffersRequest request, final HttpServletResponse httpResponse){

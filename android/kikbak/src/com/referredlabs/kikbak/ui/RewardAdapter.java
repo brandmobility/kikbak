@@ -80,14 +80,15 @@ public class RewardAdapter extends BaseAdapter {
     ClientMerchantType merchant = reward.getMerchant();
 
     helper.setLocation(nearest);
-    helper.setPhone(Long.toString(nearest.getPhoneNumber()));
+    helper.setPhone(Long.toString(nearest.get().phoneNumber));
     helper.setLink(merchant.url);
     helper.setMerchantName(merchant.name);
 
     Uri url = Uri.parse(reward.getImageUrl());
+    helper.mImage.setImageResource(R.color.no_image);
     Picasso.with(mContext).load(url).into(helper.mImage);
     if (reward.hasGifts()) {
-      Uri friendUrl = Fb.getFriendPhotoUri(reward.getGifts().get(0).fbFriendId);
+      Uri friendUrl = Fb.getFriendPhotoUri(reward.getGift().shareInfo[0].fbFriendId);
       Picasso.with(mContext).load(friendUrl).into((Target) helper.mFriendImage);
     }
     if (reward.hasMultipleGifts()) {

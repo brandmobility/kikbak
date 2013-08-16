@@ -171,10 +171,10 @@ public class Http {
     }
   }
 
-  public static Pair<String, Bitmap> fetchBarcode(long userId, long giftId) throws IOException {
+  public static Pair<String, Bitmap> fetchBarcode(long userId, long allocatedGiftId) throws IOException {
     AndroidHttpClient client = AndroidHttpClient.newInstance(USER_AGENT);
     try {
-      String uri = getUri("/rewards/generateBarcode/" + userId + "/" + giftId + "/160/400/");
+      String uri = getUri("/rewards/generateBarcode/" + userId + "/" + allocatedGiftId + "/160/400/");
       HttpGet get = new HttpGet(uri);
       AndroidHttpClient.modifyRequestToAcceptGzipResponse(get);
 

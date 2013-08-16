@@ -194,14 +194,14 @@ function connectFb(accessToken) {
       data: str,
       url: config.backend + 'kikbak/user/register/fb/',
       success: function(json) {
-        updateFbFriends(json.registerUserResponse.userId.userId);
+        updateFbFriends(json.registerUserResponse.userId.userId, initPage);
       },
       error: showError
     });
   });
 }
 
-function updateFbFriends(userId) {
+function updateFbFriends(userId, cb) {
   FB.api('/me/friends', {fields: 'name,id,first_name,last_name,username'}, function(friend_response) {
     var data = {};
     data['friends'] = friend_response.data;
@@ -217,7 +217,7 @@ function updateFbFriends(userId) {
       url: config.backend + 'kikbak/user/friends/fb/' + userId,
       success: function(json) {
         localStorage.userId = userId;
-        initPage();
+        cb();
       },
       error: showError
     });
@@ -542,12 +542,16 @@ function getRedeems() {
           $('#friend-popup h1').html('');
           var list = $('#friend-list');
           list.html(gifts[0].desc);
-          if (gifts && gifts.length > 1) {
-            for (var gift in gifts) {
+          if (gifts && gifts.shareInfo.length > 1) {
+            for (var shareInfo in gifts.shareInfo.length) {
               var li = '<li class="frd-bx" >';
-              li += '<img src="https://graph.facebook.com/' + gift.fbFriendId + '/picture?type=square">';
-              li += '<h2>' + gift.friendName + '</h2>';
-              var j = escape(JSON.stringify(gift));
+              li += '<img src="https://graph.facebook.com/' + shareInfo.fbFriendId + '/picture?type=square">';
+              li += '<h2>' + shareInfo.friendName + '</h2>';
+              var data = {
+                'gift': gifts[0],
+                'shareInfo': shareInfo
+              };
+              var j = escape(JSON.stringify(data));
               li += '<a href="#" class="nxtt select-gift-btn" data-object="' + j + '"><img src="images/nxt-aro.png"></a></li>';
               list.append(li);
             }
@@ -561,7 +565,12 @@ function getRedeems() {
             });
 
           } else if (gifts) {
-            localStorage.giftDetail = escape(JSON.stringify(gifts[0]));
+            var data = {
+              'gift': gifts[0],
+              'shareInfo': gift[0].shareInfo
+            };
+            var j = escape(JSON.stringify(data));
+            localStorage.giftDetail = j;
             localStorage.pageType = 'redeem-gift-detail';
             initPage();
           }
@@ -581,7 +590,7 @@ function getRedeems() {
 
 function renderRedeem(gifts, credits) {
   var m = credits ? credits[0].merchant : gifts[0].merchant;
-  var imgUrl = credits ? credits[0].imageUrl : gifts[0].imageUrl;
+  var imgUrl = credits ? credits[0].imageUrl : gifts[0].defaultGiveImageUrl;
   
   var html = '<div class="rdem-bx"><div class="redeem"><span class="imgshado"></span><div class="lstimg">';
   html += '<img class="redeem-background" src="' + imgUrl + '" />';  html += '<a href="' + m.url + '"><img class="website-img" src="img/ic_web.png" /></a>';
@@ -602,7 +611,7 @@ function renderRedeem(gifts, credits) {
     var style = credits ? ' lft-bdr' : '';
     html += '<a href="#" data-object="' + json + '" class="redeem-gift-btn clearfix">';
     html += '<div class="lft-dtl' + style + '"><span>USE RECEIVED GIFT </span><h2>' + g.desc + '</h2>';
-    html += '<a href="#" class="actor"><img style="width:64px;height:64px;" src="https://graph.facebook.com/' + g.fbFriendId + '/picture?type=square"></a>';
+    html += '<img style="width:64px;height:64px;" src="https://graph.facebook.com/' + g.shareInfo[0].fbFriendId + '/picture?type=square">';
     if (gifts.length > 1) {
       html += '<img src="images/actor-bk.png" class="actbrd">';
     }
@@ -704,7 +713,7 @@ function renderOfferDetail(offer) {
   html += '<div class="add-photo-btn">';
   html += '<h2 id="take-photo-header">Add your own photo</h2>';
   html += '<div class="camicon"><img src="images/camicon.png">';
-  html += '<input name="source" type="file" id="take-picture" class="camicon take-picture" style="height:100px;margin-left:40%;width:20%;opacity:0;" accept="image/*" /></div>';
+  html += '<input name="source" type="file" id="take-picture" class="camicon take-picture" style="height:60px;margin-left:40%;width:20%;opacity:0;" accept="image/*" /></div>';
   html += '</div>';
   html += '<h3>' + offer.merchantName + '</h3>';
   html += '<div class="opt-icon">';
@@ -736,7 +745,11 @@ function renderOfferDetail(offer) {
   html += '</div>';
   var userId = localStorage.userId;
   if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
+<<<<<<< HEAD
     html += '<input name="share" type="submit" class="btn grd3" value="Give To Friends" />';
+=======
+    html += '<input name="share" type="submit" class="btn grd3 botm-position" value="Give To Friends" disabled />';
+>>>>>>> 41b98f2014e7ccbcc8c5bb9efe9c83623ba0c16d
   } else {
     html += '<input name="share" type="submit" class="btn grd3" value="Connect with Facebook to share" />';
     html += '<div class="crt">';
@@ -752,9 +765,13 @@ function renderOfferDetail(offer) {
     if (i === 0) {
       selected = ' selected';
     }
-    options += '<option value="' + l.locationId + '" ' + selected + '>' + l.address1 + ' ' + l.address2 + ', ' + l.city + '</option>';
+    var addr2 = l.address2 ? l.address2 : '';
+    options += '<option value="' + l.locationId + '" ' + selected + '>' + l.address1 + ' ' + addr2 + ', ' + l.city + '</option>';
   });
   $('#location-sel').html(options);
+  if (offer.locations.length <= 1) {
+  //  $('#location-sel-div').hide();
+  }
 }
 
 function showTerms(url) {
@@ -795,8 +812,13 @@ function onSuggestResponse() {
 function shareOffer() {
   var userId = localStorage.userId;
   if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
+<<<<<<< HEAD
     var userId = localStorage.userId;
     if ( typeof userId !== 'undefined' && userId !== null && userId !== '') {
+=======
+    updateFbFriends(userId, function() {
+      $('#share-form input[name="share"]').attr('disabled', 'disabled');
+>>>>>>> 41b98f2014e7ccbcc8c5bb9efe9c83623ba0c16d
       var message = $('#share-form input[name="comment"]').val();
       var msg = 'Visit getkikbak.com for an exclusive offer shared by your friend';
       if (!$('#take-picture')[0].files || $('#take-picture')[0].files.length == 0) {
@@ -823,7 +845,7 @@ function shareOffer() {
           error : showError
         });
       }
-    }
+    });
   } else {
     loginFb();
   }
@@ -994,9 +1016,11 @@ function encodeQueryData(data) {
    return ret.join("&");
 }
 
-function renderRedeemGiftDetail(gift) {
+function renderRedeemGiftDetail(data) {
+  var gift = data.gift;
+  var share = data.shareInfo;
   var html = '';
-  html += '<div class="image-add rdme"><img src="' + gift.imageUrl + '" class="addimge"><span class="imgshado"></span>';
+  html += '<div class="image-add rdme"><img src="' + share.imageUrl + '" class="addimge"><span class="imgshado"></span>';
   html += '<h3>' + gift.merchant.name + '</h3>';
   html += '<div class="opt-icon">';
   local = getDisplayLocation(gift.merchant.locations);
@@ -1009,10 +1033,10 @@ function renderRedeemGiftDetail(gift) {
   }
   html += '</div></div>';
   html += '<div class="gvrdm">';
-  html += '<img src="https://graph.facebook.com/' + gift.fbFriendId + '/picture?type=square">';
+  html += '<img src="https://graph.facebook.com/' + share.fbFriendId + '/picture?type=square">';
   html += '<div class="avtr-cmnt">';
-  html += '<h2>' + gift.friendName + '</h2>';
-  html += '<h2>' + gift.caption + '</h2>';
+  html += '<h2>' + share.friendName + '</h2>';
+  html += '<h2>' + share.caption + '</h2>';
   html += '</div></div>';
   html += '<div class="gvrdm-botm-patrn"></div>';
   html += '<div class="crt">';
@@ -1022,7 +1046,7 @@ function renderRedeemGiftDetail(gift) {
   html += '<a href="#" class="trm" onclick="showTerms(\'' + gift.tosUrl + '\')" >Terms and Conditions</a>';
   html += '<a href="#" class="lrn-mor" onclick="$(\'#learn\').show();" >Learn more</a>';
   html += '</div>';
-  html += '<button id="redeem-gift-instore-btn" class="btn grd3">Redeem now in store</button>';
+  html += '<button id="redeem-gift-instore-btn" class="btn grd3 botm-position">Redeem now in store</button>';
   
   $('#redeem-details-view').html(html);
   
@@ -1057,7 +1081,7 @@ function renderRedeemCreditDetail(credit) {
   html += '<h5>' + credit.rewardType + '</h5>';
   html += '<a href="#" class="trm" onclick="showTerms(\'' + credit.tosUrl + '\')">Terms and Conditions</a>';
   html += '</div>';
-  html += '<button id="claim-credit-form-btn" class="btn grd3">Claim reward now</button>';
+  html += '<button id="claim-credit-form-btn" class="btn grd3 botm-position">Claim reward now</button>';
   
   $('#redeem-details-view').html(html);
   

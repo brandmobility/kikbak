@@ -14,7 +14,7 @@ public class C {
   public static final String SERVER_DOMAIN = "test.kikbak.me";
   public static final String SERVER = "54.244.124.116";
   public static final String SCRIPT_SERVER = "54.244.124.116";
-  public static String SERVER_INSTANCE = INST_DEMO;
+  public static String SERVER_INSTANCE = INST_DEV;
 
   // public static final double LATITUDE = 50.01250;
   // public static final double LONGITUDE = 20.98833;

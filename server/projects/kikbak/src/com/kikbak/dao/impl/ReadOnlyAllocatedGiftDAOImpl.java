@@ -56,5 +56,10 @@ public class ReadOnlyAllocatedGiftDAOImpl extends ReadOnlyGenericDAOImpl<Allocat
 		return listByCriteria(Restrictions.eq("friendUserId", friendId));
 	}
 
+	@Override
+	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
+	public Collection<Allocatedgift> listValidByUserIdAndSharedId(Long userId, long sharedId) {
+		return listByCriteria(Restrictions.eq("userId", userId), Restrictions.eq("sharedId", sharedId));
+	}
 	
 }

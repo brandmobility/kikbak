@@ -1,9 +1,10 @@
 
 package com.referredlabs.kikbak.ui;
 
+import java.io.IOException;
+
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,7 +28,6 @@ import com.referredlabs.kikbak.data.RedeemCreditResponse;
 import com.referredlabs.kikbak.data.StatusType;
 import com.referredlabs.kikbak.data.ValidationType;
 import com.referredlabs.kikbak.http.Http;
-import com.referredlabs.kikbak.service.LocationFinder;
 import com.referredlabs.kikbak.store.DataStore;
 import com.referredlabs.kikbak.tasks.FetchBarcodeTask;
 import com.referredlabs.kikbak.tasks.FetchBarcodeTask.OnBarcodeFetched;
@@ -37,8 +37,6 @@ import com.referredlabs.kikbak.ui.ConfirmationDialog.ConfirmationListener;
 import com.referredlabs.kikbak.utils.Nearest;
 import com.referredlabs.kikbak.utils.Register;
 import com.squareup.picasso.Picasso;
-
-import java.io.IOException;
 
 public class RedeemCreditFragment extends Fragment implements OnClickListener,
     OnCreditChangedListener, ConfirmationListener, OnBarcodeScanningListener, OnBarcodeFetched {
@@ -54,6 +52,7 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
   private TextView mRedeemCount;
   private TextView mCreditValue;
   private Button mRedeemInStore;
+  private Button mRedeemOnline;
   private boolean mCreditConfirmed;
   private RedeemSuccessCallback mCallback;
 
@@ -79,6 +78,9 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
     mRedeemCount = (TextView) root.findViewById(R.id.redeem_count);
     mRedeemInStore = (Button) root.findViewById(R.id.redeem_store);
     mRedeemInStore.setOnClickListener(this);
+
+    mRedeemOnline = (Button) root.findViewById(R.id.redeem_online);
+    mRedeemOnline.setOnClickListener(this);
 
     setupViews();
     return root;
@@ -108,6 +110,11 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
       case R.id.redeem_store:
         onRedeemInStoreClicked();
         break;
+
+      case R.id.redeem_online:
+        onRedeemOnlineClicked();
+        break;
+
       case R.id.change:
         onChangeAmountClicked();
         break;
@@ -140,9 +147,7 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
   }
 
   private boolean isInStore() {
-    Location loc = LocationFinder.getLastLocation();
     Nearest nearest = new Nearest(mCredit.merchant.locations);
-    nearest.determineNearestLocation(loc.getLatitude(), loc.getLongitude());
     return C.BYPASS_STORE_CHECK || nearest.getDistance() < C.IN_STORE_DISTANCE;
   }
 
@@ -165,6 +170,10 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
     ConfirmationDialog dialog = ConfirmationDialog.newInstance(msg);
     dialog.setTargetFragment(this, REQUEST_SCAN_CONFIRMATION);
     dialog.show(getFragmentManager(), null);
+  }
+
+  private void onRedeemOnlineClicked() {
+    registerRedemption("online");
   }
 
   private void onChangeAmountClicked() {
@@ -227,13 +236,16 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
 
   @Override
   public void onBarcodeScanned(String code) {
+    registerRedemption(code);
+  }
+
+  private void registerRedemption(String code) {
     RedeemCreditRequest req = new RedeemCreditRequest();
     req.credit = new CreditRedemptionType();
     req.credit.id = mCredit.id;
-    req.credit.locationId = mCredit.merchant.locations[0].locationId; // TODO: location
+    req.credit.locationId = new Nearest(mCredit.merchant.locations).get().locationId;
     req.credit.amount = mCreditToUse;
     req.credit.verificationCode = code;
-    req.credit.verificationCode = code.substring(0, Math.min(8, code.length()));
     long userId = Register.getInstance().getUserId();
     RedeemCreditTask task = new RedeemCreditTask(userId);
     task.execute(req);

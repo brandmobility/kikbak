@@ -28,10 +28,9 @@ public class LocaleUtils {
   }
 
   public static String getGiftValueString(Context ctx, TheReward reward) {
-    if (reward == null || reward.getGifts().size() == 0)
+    if (reward == null)
       return null;
-    GiftType gift = reward.getGifts().get(0); // all gifts are same
-    return getGiftValueString(ctx, gift);
+    return getGiftValueString(ctx, reward.getGift());
   }
 
   public static String getCreditValueString(Context ctx, AvailableCreditType credit) {

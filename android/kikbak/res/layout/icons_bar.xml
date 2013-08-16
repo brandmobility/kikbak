@@ -9,7 +9,7 @@
 
     <com.referredlabs.kikbak.widget.TtfButton
         android:id="@+id/distance"
-        style="?android:attr/borderlessButtonStyle"
+        style="@style/borderless"
         android:layout_width="90dp"
         android:layout_height="40dp"
         android:drawableLeft="@drawable/ic_map"
@@ -21,14 +21,14 @@
 
     <ImageButton
         android:id="@+id/web_icon"
-        style="?android:attr/borderlessButtonStyle"
+        style="@style/borderless"
         android:layout_width="48dp"
         android:layout_height="40dp"
         android:src="@drawable/ic_web" />
 
     <ImageButton
         android:id="@+id/phone_icon"
-        style="?android:attr/borderlessButtonStyle"
+        style="@style/borderless"
         android:layout_width="48dp"
         android:layout_height="40dp"
         android:src="@drawable/ic_phone" />

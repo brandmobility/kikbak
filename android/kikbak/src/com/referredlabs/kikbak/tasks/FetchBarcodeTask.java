@@ -18,20 +18,20 @@ public class FetchBarcodeTask extends AsyncTask<Void, Void, Void> {
 
   private OnBarcodeFetched mListener;
   private long mUserId;
-  private long mGiftOrCreditId;
+  private long mAllocatedGiftId;
   private String mBarcode;
   private Bitmap mBitmap;
 
-  public FetchBarcodeTask(OnBarcodeFetched listener, long userId, long giftOrCreditId) {
+  public FetchBarcodeTask(OnBarcodeFetched listener, long userId, long allocatedGiftId) {
     mListener = listener;
     mUserId = userId;
-    mGiftOrCreditId = giftOrCreditId;
+    mAllocatedGiftId = allocatedGiftId;
   }
 
   @Override
   protected Void doInBackground(Void... params) {
     try {
-      Pair<String, Bitmap> result = Http.fetchBarcode(mUserId, mGiftOrCreditId);
+      Pair<String, Bitmap> result = Http.fetchBarcode(mUserId, mAllocatedGiftId);
       mBarcode = result.first;
       mBitmap = result.second;
     } catch (Exception e) {

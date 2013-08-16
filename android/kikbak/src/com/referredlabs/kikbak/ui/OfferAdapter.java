@@ -1,6 +1,8 @@
 
 package com.referredlabs.kikbak.ui;
 
+import java.util.List;
+
 import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -16,8 +18,6 @@ import com.referredlabs.kikbak.ui.IconBarHelper.IconBarListener;
 import com.referredlabs.kikbak.utils.LocaleUtils;
 import com.referredlabs.kikbak.utils.Nearest;
 import com.squareup.picasso.Picasso;
-
-import java.util.List;
 
 public class OfferAdapter extends BaseAdapter {
 
@@ -63,6 +63,7 @@ public class OfferAdapter extends BaseAdapter {
     ClientOfferType offer = theOffer.getOffer();
     Uri url = Uri.parse(offer.offerImageUrl);
 
+    helper.mImage.setImageResource(R.color.no_image);
     Picasso.with(mContext).load(url).into(helper.mImage);
     helper.setName(offer.merchantName);
     helper.setGetValue(offer.giftDiscountType);
@@ -70,7 +71,7 @@ public class OfferAdapter extends BaseAdapter {
     helper.setLink(offer.merchantUrl);
     Nearest nearest = theOffer.getNearest();
     helper.setLocation(nearest);
-    helper.setPhone(Long.toString(nearest.getPhoneNumber()));
+    helper.setPhone(Long.toString(nearest.get().phoneNumber));
 
     String text = LocaleUtils.getRibbonGiveString(mContext, offer);
     helper.setGiveValue(text);
