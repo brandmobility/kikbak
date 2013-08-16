@@ -745,11 +745,7 @@ function renderOfferDetail(offer) {
   html += '</div>';
   var userId = localStorage.userId;
   if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
-<<<<<<< HEAD
-    html += '<input name="share" type="submit" class="btn grd3" value="Give To Friends" />';
-=======
-    html += '<input name="share" type="submit" class="btn grd3 botm-position" value="Give To Friends" disabled />';
->>>>>>> 41b98f2014e7ccbcc8c5bb9efe9c83623ba0c16d
+    html += '<input name="share" type="submit" class="btn grd3 botm-position" value="Give To Friends" />';
   } else {
     html += '<input name="share" type="submit" class="btn grd3" value="Connect with Facebook to share" />';
     html += '<div class="crt">';
@@ -812,13 +808,7 @@ function onSuggestResponse() {
 function shareOffer() {
   var userId = localStorage.userId;
   if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
-<<<<<<< HEAD
-    var userId = localStorage.userId;
-    if ( typeof userId !== 'undefined' && userId !== null && userId !== '') {
-=======
     updateFbFriends(userId, function() {
-      $('#share-form input[name="share"]').attr('disabled', 'disabled');
->>>>>>> 41b98f2014e7ccbcc8c5bb9efe9c83623ba0c16d
       var message = $('#share-form input[name="comment"]').val();
       var msg = 'Visit getkikbak.com for an exclusive offer shared by your friend';
       if (!$('#take-picture')[0].files || $('#take-picture')[0].files.length == 0) {
