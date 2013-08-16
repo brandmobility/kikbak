@@ -194,14 +194,14 @@ function connectFb(accessToken) {
       data: str,
       url: config.backend + 'kikbak/user/register/fb/',
       success: function(json) {
-        updateFbFriends(json.registerUserResponse.userId.userId);
+        updateFbFriends(json.registerUserResponse.userId.userId, initPage);
       },
       error: showError
     });
   });
 }
 
-function updateFbFriends(userId) {
+function updateFbFriends(userId, cb) {
   FB.api('/me/friends', {fields: 'name,id,first_name,last_name,username'}, function(friend_response) {
     var data = {};
     data['friends'] = friend_response.data;
@@ -217,7 +217,7 @@ function updateFbFriends(userId) {
       url: config.backend + 'kikbak/user/friends/fb/' + userId,
       success: function(json) {
         localStorage.userId = userId;
-        initPage();
+        cb();
       },
       error: showError
     });
@@ -815,9 +815,8 @@ function onSuggestResponse() {
 function shareOffer() {
   var userId = localStorage.userId;
   if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
-    var userId = localStorage.userId;
-    $('#share-form input[name="share"]').attr('disabled', 'disabled');
-    if ( typeof userId !== 'undefined' && userId !== null && userId !== '') {
+    updateFbFriends(userId, function() {
+      $('#share-form input[name="share"]').attr('disabled', 'disabled');
       var message = $('#share-form input[name="comment"]').val();
       var msg = 'Visit getkikbak.com for an exclusive offer shared by your friend';
       if (!$('#take-picture')[0].files || $('#take-picture')[0].files.length == 0) {
@@ -844,7 +843,7 @@ function shareOffer() {
           error : showError
         });
       }
-    }
+    });
   } else {
     loginFb();
   }
