@@ -77,12 +77,12 @@
     <string name="share_option_via_email">Share via email</string>
     <string name="share_option_via_sms">Share via SMS</string>
     <string name="share_option_via_facebook">Post on Facebook</string>
-
+    <string name="share_option_other_location">Other</string>
+    
     <!-- Customized -->
-    <string name="share_customized_title">Helped by %s associate?</string>
-    <string name="share_customized_note">Let your nearby friends know who to ask when they visit the store.</string>
-    <string name="share_customized_employee_name_hint">Asociate name</string>
-    <string name="share_customized_store_id_hint">Store ID</string>
+    <string name="share_options_helped_title">Helped by an employee ?</string>
+    <string name="share_options_helped_note">Let your nearby friends know who to ask when they visit the store.</string>
+    <string name="share_options_employee_name_hint">Asociate name</string>
 
     <!-- Share progress -->
     <string name="share_in_progress">Sharing gift</string>

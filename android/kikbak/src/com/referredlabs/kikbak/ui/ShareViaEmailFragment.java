@@ -20,7 +20,6 @@ import com.referredlabs.kikbak.data.ShareExperienceRequest;
 import com.referredlabs.kikbak.data.ShareExperienceResponse;
 import com.referredlabs.kikbak.data.SharedType;
 import com.referredlabs.kikbak.http.Http;
-import com.referredlabs.kikbak.utils.Nearest;
 import com.referredlabs.kikbak.utils.Register;
 
 public class ShareViaEmailFragment extends DialogFragment {
@@ -28,6 +27,9 @@ public class ShareViaEmailFragment extends DialogFragment {
   private static final String ARG_OFFER = "offer";
   private static final String ARG_COMMENT = "comment";
   private static final String ARG_PHOTO_PATH = "photo_path";
+  private static final String ARG_EMPLYOYEE = "emplyee";
+  private static final String ARG_LOCATION_ID = "location_id";
+  private static final String ARG_OTHER_ADDRESS = "other";
 
   private static final int REQUEST_SELECT_CONTACTS = 1;
   private static final int REQUEST_SEND_EMAIL = 2;
@@ -38,12 +40,15 @@ public class ShareViaEmailFragment extends DialogFragment {
   private ArrayList<String> mContacts;
 
   public static ShareViaEmailFragment newInstance(ClientOfferType offer, String comment,
-      String photoPath) {
+      String photoPath, String employee, long locationId, String address) {
     ShareViaEmailFragment fragment = new ShareViaEmailFragment();
     Bundle args = new Bundle();
     args.putString(ARG_OFFER, new Gson().toJson(offer));
     args.putString(ARG_COMMENT, comment);
     args.putString(ARG_PHOTO_PATH, photoPath);
+    args.putString(ARG_EMPLYOYEE, employee);
+    args.putLong(ARG_LOCATION_ID, locationId); // may be -1
+    args.putString(ARG_OTHER_ADDRESS, address); // may be null
     fragment.setArguments(args);
     fragment.setRetainInstance(true);
     return fragment;
@@ -160,9 +165,9 @@ public class ShareViaEmailFragment extends DialogFragment {
       ShareExperienceRequest req = new ShareExperienceRequest();
       req.experience = new SharedType();
       req.experience.caption = args.getString(ARG_COMMENT);
-      req.experience.employeeId = ""; // FIXME
+      req.experience.employeeId = args.getString(ARG_EMPLYOYEE);
       req.experience.imageUrl = imageUrl;
-      req.experience.locationId = new Nearest(mOffer.locations).get().locationId;
+      req.experience.locationId = args.getLong(ARG_LOCATION_ID);
       req.experience.merchantId = mOffer.merchantId;
       req.experience.offerId = mOffer.id;
       req.experience.type = SharedType.SHARE_MODE_EMAIL;

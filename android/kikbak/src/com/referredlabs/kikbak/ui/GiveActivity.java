@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ClientOfferType;
+import com.referredlabs.kikbak.data.MerchantLocationType;
 import com.referredlabs.kikbak.ui.ShareOptionsFragment.OnShareMethodSelectedListener;
 import com.referredlabs.kikbak.ui.ShareSuccessDialog.OnShareSuccessListener;
 import com.referredlabs.kikbak.utils.Nearest;
@@ -181,7 +182,7 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
   }
 
   protected void onShareClicked() {
-    ShareOptionsFragment dialog = ShareOptionsFragment.newInstance(mOffer.merchantName);
+    ShareOptionsFragment dialog = ShareOptionsFragment.newInstance(mOffer);
     dialog.show(getSupportFragmentManager(), null);
   }
 
@@ -199,27 +200,32 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
   }
 
   @Override
-  public void onSendViaEmail(String id) {
+  public void onSendViaEmail(String employee, MerchantLocationType location, String address) {
     String comment = mComment.getText().toString();
     String path = mCroppedPhotoUri == null ? null : mCroppedPhotoUri.getPath();
-    ShareViaEmailFragment shareFrag = ShareViaEmailFragment.newInstance(mOffer, comment, path);
+    long locationId = location == null ? -1 : location.locationId;
+    ShareViaEmailFragment shareFrag = ShareViaEmailFragment.newInstance(mOffer, comment, path,
+        employee, locationId, address);
     shareFrag.show(getSupportFragmentManager(), null);
   }
 
   @Override
-  public void onSendViaSms(String id) {
+  public void onSendViaSms(String employee, MerchantLocationType location, String address) {
     String comment = mComment.getText().toString();
     String path = mCroppedPhotoUri == null ? null : mCroppedPhotoUri.getPath();
-    ShareViaSmsFragment shareFrag = ShareViaSmsFragment.newInstance(mOffer, comment, path);
+    long locationId = location == null ? -1 : location.locationId;
+    ShareViaSmsFragment shareFrag = ShareViaSmsFragment.newInstance(mOffer, comment, path,
+        employee, locationId, address);
     shareFrag.show(getSupportFragmentManager(), null);
   }
 
   @Override
-  public void onSendViaFacebook(String id) {
+  public void onSendViaFacebook(String employee, MerchantLocationType location, String address) {
     String comment = mComment.getText().toString();
     String path = mCroppedPhotoUri == null ? null : mCroppedPhotoUri.getPath();
+    long locationId = location == null ? -1 : location.locationId;
     ShareViaFacebookFragment publish = ShareViaFacebookFragment.newInstance(mOffer, comment, path,
-        id);
+        employee, locationId, address);
     publish.show(getSupportFragmentManager(), null);
   }
 
