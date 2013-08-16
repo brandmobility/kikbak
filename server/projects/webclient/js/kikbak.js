@@ -666,13 +666,6 @@ function getOfferDetail() {
         }
       }
     });
-    $('#share-form input[name="comment"]').bind('keyup', function() {
-      if ($('#share-form input[name="comment"]').val().replace(/^\s+|\s+$/g, '') != '') {
-        $('#share-form input[name="share"]').removeAttr('disabled');
-      } else {
-        $('#share-form input[name="share"]').attr('disabled', 'disabled');
-      }
-    });
   }
 }
 
@@ -743,7 +736,7 @@ function renderOfferDetail(offer) {
   html += '</div>';
   var userId = localStorage.userId;
   if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
-    html += '<input name="share" type="submit" class="btn grd3" value="Give To Friends" disabled />';
+    html += '<input name="share" type="submit" class="btn grd3" value="Give To Friends" />';
   } else {
     html += '<input name="share" type="submit" class="btn grd3" value="Connect with Facebook to share" />';
     html += '<div class="crt">';
@@ -794,7 +787,7 @@ function onSuggestResponse() {
   if (response && response.post_id) {
     // TODO
   } else {
-    $('#share-form input[name="suggest"]').removeAttr('disabled');
+    $('#suggest-form input[name="suggest"]').removeAttr('disabled');
     alert(response.error.message);
   }
 }
@@ -803,7 +796,6 @@ function shareOffer() {
   var userId = localStorage.userId;
   if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
     var userId = localStorage.userId;
-    $('#share-form input[name="share"]').attr('disabled', 'disabled');
     if ( typeof userId !== 'undefined' && userId !== null && userId !== '') {
       var message = $('#share-form input[name="comment"]').val();
       var msg = 'Visit getkikbak.com for an exclusive offer shared by your friend';
