@@ -32,6 +32,7 @@ import com.referredlabs.kikbak.data.StatusType;
 import com.referredlabs.kikbak.data.ValidationType;
 import com.referredlabs.kikbak.fb.Fb;
 import com.referredlabs.kikbak.http.Http;
+import com.referredlabs.kikbak.store.DataStore;
 import com.referredlabs.kikbak.ui.BarcodeScannerFragment.OnBarcodeScanningListener;
 import com.referredlabs.kikbak.ui.ConfirmationDialog.ConfirmationListener;
 import com.referredlabs.kikbak.utils.LocaleUtils;
@@ -239,6 +240,9 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
   }
 
   public void onRegistrationSuccess(String code) {
+    if (ValidationType.QRCODE.equals(mGift.validationType)) {
+      DataStore.getInstance().giftUsed(mGift.offerId);
+    }
     mCallback.success(code, null);
   }
 
