@@ -65,8 +65,7 @@ public class LandingController {
 			String body = config.getString(SHARE_TEMPLATE_BODY_FB).replace("%MERCHANT%", gift.getMerchant().getName())
 					.replace("%DESC%", gift.getDesc())
 					.replace("%DESC_DETAIL%", gift.getDetailedDesc());
-			// TODO
-			request.setAttribute("merchantUrl", gift.getDefaultGiveImageUrl());
+			request.setAttribute("merchantUrl", gift.getMerchant().getImageUrl());
 			request.setAttribute("shareInfo", gift.getShareInfo().get(0));
 			request.setAttribute("gift", gift);
 			request.setAttribute("url", request.getRequestURL() + (StringUtils.isBlank(request.getQueryString()) ? "" : "?" + request.getQueryString()));
@@ -91,9 +90,7 @@ public class LandingController {
 			long userId = Long.parseLong(request.getParameter("user"));
 			long agId = Long.parseLong(request.getParameter("gid"));
 			GiftType gift = rewardService.getGiftByReferredCode(code);
-			
-			// TODO
-			request.setAttribute("merchantUrl", gift.getDefaultGiveImageUrl());
+			request.setAttribute("merchantUrl", gift.getMerchant().getImageUrl());
 			request.setAttribute("shareInfo", gift.getShareInfo().get(0));
 			request.setAttribute("gift", gift);
 			request.setAttribute("url", "../rewards/generateBarcode/" + userId + "/" + agId + "/160/100/");

@@ -48,7 +48,15 @@ If you visit the same store, ${shareInfo.employeeId} can help you too.</p></div>
 <h2>${shareInfo.friendName}</h2>
 <p>${shareInfo.caption}</p>
 </div>
-<div class="cmnt-on-photo"><img src="img/info-icon.png" /><p>${shareInfo.friendName} was helped by <strong>${shareInfo.employeeId}</strong> at ${gift.merchant.name} Store:
+<div class="cmnt-on-photo"><img src="img/info-icon.png" />
+<c:choose>
+<c:when test="${not empty shareInfo.employeeId}">
+<p>${shareInfo.friendName} was helped by <strong>${shareInfo.employeeId}</strong> at ${gift.merchant.name} Store:
+</c:when>
+<c:otherwise>
+<p>At ${gift.merchant.name} Store:
+</c:otherwise>
+</c:choose>
 <strong>${location.address1} ${location.address2}, ${location.city}, ${location.state}</strong>
 If you visit the same store, ${shareInfo.employeeId} can help you too.</p></div>
 </div>

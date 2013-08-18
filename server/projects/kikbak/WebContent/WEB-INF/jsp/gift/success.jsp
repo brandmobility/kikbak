@@ -1,3 +1,8 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ page import="java.net.*" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -25,7 +30,15 @@ Bring this offer into a ${gift.merchant.name} Store to redeem your gift.</p></di
 </div>
 <div class="img-bnr">
 <span class="blkshd"></span>
-<div class="cmnt-on-photo wit-grd photup"><p>${shareInfo.friendName} was helped by <strong>${shareInfo.employeeId}</strong> at ${gift.merchant.name} Store:
+<div class="cmnt-on-photo wit-grd photup">
+<c:choose>
+<c:when test="${not empty shareInfo.employeeId}">
+<p>${shareInfo.friendName} was helped by <strong>${shareInfo.employeeId}</strong> at ${gift.merchant.name} Store:
+</c:when>
+<c:otherwise>
+<p>At ${gift.merchant.name} Store:
+</c:otherwise>
+</c:choose>
 <strong>${location.address1} ${location.address2}, ${location.city}, ${location.state}</strong>
 If you visit the same store, ${shareInfo.employeeId} can help you too.</p></div>
 <img src="${shareInfo.imageUrl}" class="mob-bnr"/>
@@ -51,13 +64,12 @@ If you visit the same store, ${shareInfo.employeeId} can help you too.</p></div>
 Your code will expire in 24 hours.<br />
 Bring this offer into a Verizon Store to redeem your gift.</p></div>
 <div class="tp-bnr">
-<div class="tp-bnr-lft"><h1>${gift.desc}</h1><p>${gift.detailedDesc}</p>>
+<div class="tp-bnr-lft"><h1>${gift.desc}</h1><p>${gift.detailedDesc}</p>
 <a class="vld" href="#">offer valid in-store only</a>
 <div class="tp-bnr-rit"></div></div>
 </div>
 <div class="blue-btn">
 <img src="${url}" />
-</div>
 </div>
 </div>
 </div>

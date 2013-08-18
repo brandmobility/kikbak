@@ -1,7 +1,5 @@
 package com.kikbak.rest.client;
 
-import java.io.IOException;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.kikbak.client.service.UserService;
+import com.kikbak.client.service.impl.CookieAuthenticationFilter;
 import com.kikbak.jaxb.devicetoken.DeviceTokenUpdateRequest;
 import com.kikbak.jaxb.devicetoken.DeviceTokenUpdateResponse;
 import com.kikbak.jaxb.friends.UpdateFriendResponse;
@@ -29,7 +28,7 @@ import com.kikbak.rest.StatusCode;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-	
+
 	@Autowired
 	private UserService service;
 
@@ -38,28 +37,12 @@ public class UserController {
     
     static final String REFERRAL_CODE_KEY = "rc";
 	
-	private static final String WEB_CLIENT_LOGIN_URL = "web.client.login.page";
-	
+	private static final String USER_COOKIE_SECURE = "user.cookie.secure";
+		
 	private static final int COOKIE_EXPIRE_TIME = 10 * 365 * 24 * 60 * 60;
 
     private static final Logger logger = Logger.getLogger(UserController.class);
-	
-	@RequestMapping(value = "/claim/{referralCode}", method = RequestMethod.GET)
-	public void claimGiftLogin(@PathVariable("referralCode") String referralCode, HttpServletResponse httpResponse) {
-        Cookie cookie = new Cookie(REFERRAL_CODE_KEY, referralCode);
-        cookie.setSecure(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(COOKIE_EXPIRE_TIME);
-    
-        httpResponse.addCookie(cookie);
-        try {
-            String url = config.getString(WEB_CLIENT_LOGIN_URL);
-            httpResponse.sendRedirect(url);
-        } catch (IOException e) {
-            logger.error("failed to redirect user", e); 
-        } 
-	}
-	
+		
 	@RequestMapping(value = "/register/fb/",  method = RequestMethod.POST)
 	public RegisterUserResponse registerFacebookUser(@RequestBody RegisterUserRequest request, final HttpServletResponse httpResponse){
 		RegisterUserResponse response = new RegisterUserResponse();
@@ -68,6 +51,23 @@ public class UserController {
 		response.setStatus(status);
 		try {
 			response.setUserId(service.registerUser(request.getUser()));
+			String token = service.getUserToken(response.getUserId().getUserId());
+			Cookie cookie = new Cookie(CookieAuthenticationFilter.COOKIE_TOKEN_KEY, token);
+			if (config.getBoolean(USER_COOKIE_SECURE)) {
+				cookie.setSecure(true);
+			}
+			cookie.setPath("/");
+			cookie.setMaxAge(COOKIE_EXPIRE_TIME);
+			httpResponse.addCookie(cookie);
+			
+			cookie = new Cookie(CookieAuthenticationFilter.COOKIE_USER_ID_KEY, Long.toString(response.getUserId().getUserId()));
+			if (config.getBoolean(USER_COOKIE_SECURE)) {
+				cookie.setSecure(true);
+			}
+			cookie.setPath("/");
+			cookie.setMaxAge(COOKIE_EXPIRE_TIME);
+			httpResponse.addCookie(cookie);
+
 		} catch (Exception e) {
 			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			status.setCode(StatusCode.ERROR.ordinal());

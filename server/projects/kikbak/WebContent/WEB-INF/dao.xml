@@ -158,5 +158,13 @@
     <bean id="ReadWriteUserDAO" class="com.kikbak.dao.impl.ReadWriteUserDAOImpl">
         <property name="sessionFactory" ref="rwSessionFactory"/>
     </bean>
+    
+    <bean id="ReadOnlyUserTokenDAO" class="com.kikbak.dao.impl.ReadOnlyUserTokenDAOImpl">
+        <property name="sessionFactory" ref="roSessionFactory" />
+    </bean>
+    
+    <bean id="ReadWriteUserTokenDAO" class="com.kikbak.dao.impl.ReadWriteUserTokenDAOImpl">
+        <property name="sessionFactory" ref="rwSessionFactory" />
+    </bean>
  
 </beans>
