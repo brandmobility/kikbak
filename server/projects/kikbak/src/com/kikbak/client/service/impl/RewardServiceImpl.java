@@ -24,7 +24,6 @@ import com.kikbak.client.service.impl.types.TransactionType;
 import com.kikbak.dao.ReadOnlyAllocatedGiftDAO;
 import com.kikbak.dao.ReadOnlyBarcodeDAO;
 import com.kikbak.dao.ReadOnlyCreditDAO;
-import com.kikbak.dao.ReadOnlyDeviceTokenDAO;
 import com.kikbak.dao.ReadOnlyGiftDAO;
 import com.kikbak.dao.ReadOnlyKikbakDAO;
 import com.kikbak.dao.ReadOnlyLocationDAO;
@@ -43,7 +42,6 @@ import com.kikbak.dto.Allocatedgift;
 import com.kikbak.dto.Barcode;
 import com.kikbak.dto.Claim;
 import com.kikbak.dto.Credit;
-import com.kikbak.dto.Devicetoken;
 import com.kikbak.dto.Gift;
 import com.kikbak.dto.Kikbak;
 import com.kikbak.dto.Location;
@@ -62,7 +60,7 @@ import com.kikbak.jaxb.rewards.ClaimStatusType;
 import com.kikbak.jaxb.rewards.ClientMerchantType;
 import com.kikbak.jaxb.rewards.GiftType;
 import com.kikbak.jaxb.rewards.ShareInfoType;
-import com.kikbak.push.service.ApsNotifier;
+import com.kikbak.push.service.PushNotifier;
 
 @Service
 public class RewardServiceImpl implements RewardService{
@@ -112,11 +110,8 @@ public class RewardServiceImpl implements RewardService{
     ReadOnlyLocationDAO roLocationDao;
 
     @Autowired
-    ApsNotifier apsNotifier;
+    PushNotifier pushNotifier;
 
-    @Autowired
-    ReadOnlyDeviceTokenDAO roDeviceToken;
-    
     @Autowired
     ReadWriteClaimDAO rwClaimDao;
     
@@ -226,16 +221,9 @@ public class RewardServiceImpl implements RewardService{
     CreditManager km = new CreditManager(roOfferDao, roKikbakDAO, roCreditDao, rwKikbakDao, rwTxnDao);
     km.manageCredit(giftType.getFriendUserId(), gift.getOfferId(), gift.getMerchantId(), giftType.getLocationId());
 
-    //send notification for kikbak when gift is redeemed
-    Devicetoken token = roDeviceToken.findByUserId(userId);
-    if( token != null){
-        Kikbak kikbak = roKikbakDAO.findByOfferId(gift.getOfferId());
-        try {
-            apsNotifier.sendNotification(token, kikbak.getNotificationText());
-        } catch (Exception e) {
-            throw new RuntimeException("failed to notify gift redemption to user " + userId, e);
-        }
-    }
+    // send notification for kikbak when gift is redeemed
+    Kikbak kikbak = roKikbakDAO.findByOfferId(gift.getOfferId());
+    pushNotifier.sendKikbakNotification(userId, kikbak);    
 
     return generateAuthorizationCode();
     }

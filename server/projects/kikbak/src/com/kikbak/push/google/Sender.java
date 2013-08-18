@@ -13,30 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.google.android.gcm.server;
+package com.kikbak.push.google;
 
-import static com.google.android.gcm.server.Constants.GCM_SEND_ENDPOINT;
-import static com.google.android.gcm.server.Constants.JSON_CANONICAL_IDS;
-import static com.google.android.gcm.server.Constants.JSON_ERROR;
-import static com.google.android.gcm.server.Constants.JSON_FAILURE;
-import static com.google.android.gcm.server.Constants.JSON_MESSAGE_ID;
-import static com.google.android.gcm.server.Constants.JSON_MULTICAST_ID;
-import static com.google.android.gcm.server.Constants.JSON_PAYLOAD;
-import static com.google.android.gcm.server.Constants.JSON_REGISTRATION_IDS;
-import static com.google.android.gcm.server.Constants.JSON_RESULTS;
-import static com.google.android.gcm.server.Constants.JSON_SUCCESS;
-import static com.google.android.gcm.server.Constants.PARAM_COLLAPSE_KEY;
-import static com.google.android.gcm.server.Constants.PARAM_DELAY_WHILE_IDLE;
-import static com.google.android.gcm.server.Constants.PARAM_DRY_RUN;
-import static com.google.android.gcm.server.Constants.PARAM_PAYLOAD_PREFIX;
-import static com.google.android.gcm.server.Constants.PARAM_REGISTRATION_ID;
-import static com.google.android.gcm.server.Constants.PARAM_RESTRICTED_PACKAGE_NAME;
-import static com.google.android.gcm.server.Constants.PARAM_TIME_TO_LIVE;
-import static com.google.android.gcm.server.Constants.TOKEN_CANONICAL_REG_ID;
-import static com.google.android.gcm.server.Constants.TOKEN_ERROR;
-import static com.google.android.gcm.server.Constants.TOKEN_MESSAGE_ID;
+import static com.kikbak.push.google.Constants.GCM_SEND_ENDPOINT;
+import static com.kikbak.push.google.Constants.JSON_CANONICAL_IDS;
+import static com.kikbak.push.google.Constants.JSON_ERROR;
+import static com.kikbak.push.google.Constants.JSON_FAILURE;
+import static com.kikbak.push.google.Constants.JSON_MESSAGE_ID;
+import static com.kikbak.push.google.Constants.JSON_MULTICAST_ID;
+import static com.kikbak.push.google.Constants.JSON_PAYLOAD;
+import static com.kikbak.push.google.Constants.JSON_REGISTRATION_IDS;
+import static com.kikbak.push.google.Constants.JSON_RESULTS;
+import static com.kikbak.push.google.Constants.JSON_SUCCESS;
+import static com.kikbak.push.google.Constants.PARAM_COLLAPSE_KEY;
+import static com.kikbak.push.google.Constants.PARAM_DELAY_WHILE_IDLE;
+import static com.kikbak.push.google.Constants.PARAM_DRY_RUN;
+import static com.kikbak.push.google.Constants.PARAM_PAYLOAD_PREFIX;
+import static com.kikbak.push.google.Constants.PARAM_REGISTRATION_ID;
+import static com.kikbak.push.google.Constants.PARAM_RESTRICTED_PACKAGE_NAME;
+import static com.kikbak.push.google.Constants.PARAM_TIME_TO_LIVE;
+import static com.kikbak.push.google.Constants.TOKEN_CANONICAL_REG_ID;
+import static com.kikbak.push.google.Constants.TOKEN_ERROR;
+import static com.kikbak.push.google.Constants.TOKEN_MESSAGE_ID;
 
-import com.google.android.gcm.server.Result.Builder;
+import com.kikbak.push.google.Result.Builder;
 
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;

@@ -1,4 +1,4 @@
-package com.kikbak.push.service.impl;
+package com.kikbak.push.apple;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
