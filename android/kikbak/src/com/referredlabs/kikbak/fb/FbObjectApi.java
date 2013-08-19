@@ -53,7 +53,7 @@ public class FbObjectApi {
       // common properties
       String title = offer.merchantName + ":" + offer.giftDesc;
       String description = offer.giftDetailedDesc;
-      String url = "http://" + C.SERVER_DOMAIN + "/att/kikbak/landing.html?code=" + code;
+      String url = "http://" + C.SERVER_DOMAIN + C.LANDING_PAGE + code;
       gift.put("title", title);
       gift.put("description", description);
       gift.put("image", imageUrl);
