@@ -18,8 +18,8 @@
         android:maxLines="1"
         android:text="1.7 mi"
         android:textColor="@android:color/white"
-        android:textSize="14dp"
-        kikbak:typeface="Roboto-Regular.ttf" />
+        android:textSize="15dp"
+        kikbak:typeface="Roboto-Medium.ttf" />
 
     <ImageButton
         android:id="@+id/web_icon"

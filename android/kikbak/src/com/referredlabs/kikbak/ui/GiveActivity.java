@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -144,6 +145,9 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
     findViewById(R.id.take_photo_label).setVisibility(View.INVISIBLE);
     mRetakePhoto.setVisibility(View.VISIBLE);
     mImage.setImageURI(mCroppedPhotoUri);
+    
+    FrameLayout frame = (FrameLayout) findViewById(R.id.overlay);
+    frame.setForeground(null);
   }
 
   protected void onTermsClicked() {
