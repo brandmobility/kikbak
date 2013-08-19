@@ -48,13 +48,13 @@ public class Register {
     editor.putBoolean(KEY_IS_REGISTERED, true);
     editor.putLong(KEY_USER_ID, userId);
     editor.putString(KEY_USER_NAME, userName);
-    editor.apply();
+    editor.commit();
   }
 
   public void clear() {
     Editor editor = mPref.edit();
     editor.clear();
-    editor.apply();
+    editor.commit();
     clearFbSession();
   }
 

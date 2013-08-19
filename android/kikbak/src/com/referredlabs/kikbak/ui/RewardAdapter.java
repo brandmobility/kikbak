@@ -94,7 +94,7 @@ public class RewardAdapter extends BaseAdapter {
     if (reward.hasMultipleGifts()) {
       helper.mFriendImage.setBackgroundResource(R.drawable.bg_multiple_friends);
     } else {
-      helper.mFriendImage.setBackground(null);
+      helper.mFriendImage.setBackgroundDrawable(null);
     }
 
     helper.setGiftValue(LocaleUtils.getGiftValueString(mContext, reward));

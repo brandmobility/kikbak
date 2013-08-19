@@ -33,9 +33,15 @@ public class LocationFinder implements LocationListener {
   }
 
   public void startLocating() {
-    mLocMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_MS, MIN_DISTANCE,
-        this);
-    mLocMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_MS, MIN_DISTANCE, this);
+    List<String> providers = mLocMgr.getAllProviders();
+
+    if (providers.contains(LocationManager.NETWORK_PROVIDER)) {
+      mLocMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_MS, MIN_DISTANCE,
+          this);
+    }
+    if (providers.contains(LocationManager.GPS_PROVIDER)) {
+      mLocMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_MS, MIN_DISTANCE, this);
+    }
   }
 
   public void stopLocating() {

@@ -74,7 +74,7 @@ public class GcmHelper {
 
   public void clear() {
     SharedPreferences prefs = Kikbak.getInstance().getSharedPreferences(REG, Context.MODE_PRIVATE);
-    prefs.edit().clear().apply();
+    prefs.edit().clear().commit();
   }
 
   private void register() {
