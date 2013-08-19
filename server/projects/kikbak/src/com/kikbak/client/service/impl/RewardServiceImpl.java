@@ -280,6 +280,10 @@ public class RewardServiceImpl implements RewardService{
 
         Shared shared = roSharedDao.findAvailableForGiftingByReferralCode(referralCode);
 
+        if (userId.equals(shared.getUserId())) {
+            throw new RewardException("cannot redeem the gift shared by him self.");
+        }
+
         Collection<Allocatedgift> allocatedGifts = roAllocatedGiftDao.listValidByUserIdAndSharedId(userId, shared.getId());
         
         Collection<Allocatedgift> newGifts = new ArrayList<Allocatedgift>();
