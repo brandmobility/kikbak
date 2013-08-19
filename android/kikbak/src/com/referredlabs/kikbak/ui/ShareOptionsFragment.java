@@ -109,7 +109,12 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
   @Override
   public void onClick(View v) {
     String employee = mEmplName != null ? mEmplName.getText().toString() : null;
-    MerchantLocationType location = (MerchantLocationType) mStoreSpinner.getSelectedItem();
+
+    MerchantLocationType location = mOffer.locations[0];
+    if (mStoreSpinner.getVisibility() == View.VISIBLE) {
+      location = (MerchantLocationType) mStoreSpinner.getSelectedItem();
+    }
+
     String address = null;
     EditText other = (EditText) getView().findViewById(R.id.other_store_address);
     if (other != null) {
