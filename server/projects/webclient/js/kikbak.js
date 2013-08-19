@@ -741,7 +741,6 @@ function renderOfferDetail(offer) {
   html += '</div>';
   html += '<div class="crt">';
   html += '<a href="#" class="trm" onclick="showTerms(\'' + offer.tosUrl + '\')" >Terms and Conditions</a>';
-  html += '<a href="#" class="lrn-mor" onclick="$(\'#learn\').show();" >Learn more</a>';
   html += '</div>';
   var userId = localStorage.userId;
   if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
@@ -1034,7 +1033,6 @@ function renderRedeemGiftDetail(data) {
   html += '<h4>' + gift.detailedDesc + '</h4>';
   html += '<div class="crt">';
   html += '<a href="#" class="trm" onclick="showTerms(\'' + gift.tosUrl + '\')" >Terms and Conditions</a>';
-  html += '<a href="#" class="lrn-mor" onclick="$(\'#learn\').show();" >Learn more</a>';
   html += '</div>';
   html += '<button id="redeem-gift-instore-btn" class="btn grd3 botm-position">Redeem now in store</button>';
   
