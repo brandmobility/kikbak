@@ -27,7 +27,7 @@ import com.kikbak.rest.StatusCode;
 
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends AbstractController {
 
 	@Autowired
 	private UserService service;
@@ -79,7 +79,19 @@ public class UserController {
 	@RequestMapping(value="/friends/fb/{userId}", method=RequestMethod.POST)
 	public UpdateFriendResponse updateFriends(@PathVariable("userId") Long userId,@RequestBody UpdateFriendsRequest request,
 			final HttpServletResponse httpResponse){
-		
+
+    	try {
+    		Long actualUserId = getCurrentUserId();
+    		if (!userId.equals(actualUserId)) {
+                logger.error("Wrong user expect " + userId + " actually " + actualUserId);
+    			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                return null;
+    		}
+    	} catch (Exception e) {
+            logger.error(e,e);
+			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return null;
+    	}
 		
 		UpdateFriendResponse response = new UpdateFriendResponse();
 		StatusType status = new StatusType();
@@ -117,7 +129,20 @@ public class UserController {
 	@RequestMapping( value="/devicetoken/{userId}", method = RequestMethod.POST)
 	public DeviceTokenUpdateResponse deviceTokenUpdate(@PathVariable("userId") Long userId,
 					@RequestBody DeviceTokenUpdateRequest request, final HttpServletResponse httpResponse){
-		
+
+    	try {
+    		Long actualUserId = getCurrentUserId();
+    		if (!userId.equals(actualUserId)) {
+                logger.error("Wrong user expect " + userId + " actually " + actualUserId);
+    			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                return null;
+    		}
+    	} catch (Exception e) {
+            logger.error(e,e);
+			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return null;
+    	}
+    	
 		DeviceTokenUpdateResponse response = new DeviceTokenUpdateResponse();
 		StatusType status = new StatusType();
 		status.setCode(StatusCode.OK.ordinal());

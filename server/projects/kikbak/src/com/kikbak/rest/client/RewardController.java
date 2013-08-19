@@ -40,7 +40,7 @@ import com.kikbak.rest.StatusCode;
 
 @Controller
 @RequestMapping("/rewards")
-public class RewardController {
+public class RewardController extends AbstractController {
 
 	private static final Logger logger = Logger.getLogger(RewardController.class);
 	
@@ -50,11 +50,25 @@ public class RewardController {
     @RequestMapping(value = "/claim/{userId}/{referralCode}", method = RequestMethod.GET)
     public ClaimGiftResponse claimGift(@PathVariable("userId") Long userId,
                         @PathVariable("referralCode") String referralCode, final HttpServletResponse httpResponse){
+
+    	try {
+    		Long actualUserId = getCurrentUserId();
+    		if (!userId.equals(actualUserId)) {
+                logger.error("Wrong user expect " + userId + " actually " + actualUserId);
+    			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                return null;
+    		}
+    	} catch (Exception e) {
+            logger.error(e,e);
+			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return null;
+    	}
+    	
+    	ClaimGiftResponse response = new ClaimGiftResponse();
+    	StatusType status = new StatusType();
+    	status.setCode(StatusCode.OK.ordinal());
+    	response.setStatus(status);
         
-        ClaimGiftResponse response = new ClaimGiftResponse();
-        StatusType status = new StatusType();
-        status.setCode(StatusCode.OK.ordinal());
-        response.setStatus(status);
         try {
             List<GiftType> gifts = new LinkedList<GiftType>();
             List<Long> agIds = new LinkedList<Long>();
@@ -79,6 +93,19 @@ public class RewardController {
     public ClaimGiftResponse claimGiftViaCookie(@PathVariable("userId") Long userId,
             final HttpServletRequest request,  final HttpServletResponse httpResponse){
 
+    	try {
+    		Long actualUserId = getCurrentUserId();
+    		if (!userId.equals(actualUserId)) {
+                logger.error("Wrong user expect " + userId + " actually " + actualUserId);
+    			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                return null;
+    		}
+    	} catch (Exception e) {
+            logger.error(e,e);
+			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return null;
+    	}
+    	
         Cookie[] cookies = request.getCookies();
         String referralCode = null;
         for (Cookie cookie : cookies) {
@@ -94,7 +121,20 @@ public class RewardController {
 	@RequestMapping(value = "/request/{userId}", method = RequestMethod.POST)
 	public RewardsResponse rewards(@PathVariable("userId") Long userId,
 						@RequestBody RewardsRequest request, final HttpServletResponse httpResponse){
-		
+
+    	try {
+    		Long actualUserId = getCurrentUserId();
+    		if (!userId.equals(actualUserId)) {
+                logger.error("Wrong user expect " + userId + " actually " + actualUserId);
+    			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                return null;
+    		}
+    	} catch (Exception e) {
+            logger.error(e,e);
+			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return null;
+    	}
+    	
 		RewardsResponse response = new RewardsResponse();
 		StatusType status = new StatusType();
 		status.setCode(StatusCode.OK.ordinal());
@@ -113,6 +153,19 @@ public class RewardController {
 	@RequestMapping(value="/redeem/gift/{userId}", method = RequestMethod.POST)
 	public RedeemGiftResponse redeemGift(@PathVariable("userId") Long userId,
 						@RequestBody RedeemGiftRequest request, final HttpServletResponse httpResponse){
+
+    	try {
+    		Long actualUserId = getCurrentUserId();
+    		if (!userId.equals(actualUserId)) {
+                logger.error("Wrong user expect " + userId + " actually " + actualUserId);
+    			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                return null;
+    		}
+    	} catch (Exception e) {
+            logger.error(e,e);
+			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return null;
+    	}
 		
 		RedeemGiftResponse response = new RedeemGiftResponse();
 		StatusType status = new StatusType();
@@ -145,7 +198,20 @@ public class RewardController {
 	@RequestMapping(value="/redeem/credit/{userId}", method = RequestMethod.POST)
 	public RedeemCreditResponse redeemKikbak(@PathVariable("userId") Long userId,
 						@RequestBody RedeemCreditRequest request, final HttpServletResponse httpResponse){
-		
+
+    	try {
+    		Long actualUserId = getCurrentUserId();
+    		if (!userId.equals(actualUserId)) {
+                logger.error("Wrong user expect " + userId + " actually " + actualUserId);
+    			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                return null;
+    		}
+    	} catch (Exception e) {
+            logger.error(e,e);
+			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return null;
+    	}
+    	
 	    RedeemCreditResponse response = new RedeemCreditResponse();
 		StatusType status = new StatusType();
 		status.setCode(StatusCode.OK.ordinal());
@@ -164,7 +230,21 @@ public class RewardController {
     public void generateBarcode(@PathVariable("userId") Long userId,
             @PathVariable("allocatedGiftId") Long allocatedGiftId, @PathVariable("height") Integer height,
             @PathVariable("width") Integer width, final HttpServletResponse response) {
-        try {
+
+    	try {
+    		Long actualUserId = getCurrentUserId();
+    		if (!userId.equals(actualUserId)) {
+                logger.error("Wrong user expect " + userId + " actually " + actualUserId);
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                return;
+    		}
+    	} catch (Exception e) {
+            logger.error(e,e);
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return;
+    	}
+    	
+    	try {
             String barcode = service.getBarcode(userId, allocatedGiftId);
             BitMatrix result = new UPCAWriter().encode(barcode, BarcodeFormat.UPC_A, width, height);
             response.setContentType("image/png");
@@ -183,7 +263,20 @@ public class RewardController {
     public ClaimCreditResponse claimCredit(@PathVariable("userId") Long userId, 
             @RequestBody ClaimCreditRequest request, 
             final HttpServletResponse httpResponse){
-     
+
+    	try {
+    		Long actualUserId = getCurrentUserId();
+    		if (!userId.equals(actualUserId)) {
+                logger.error("Wrong user expect " + userId + " actually " + actualUserId);
+    			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                return null;
+    		}
+    	} catch (Exception e) {
+            logger.error(e,e);
+			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return null;
+    	}
+    	
         ClaimCreditResponse response = new ClaimCreditResponse();
         StatusType status = new StatusType();
         status.setCode(StatusCode.OK.ordinal());
