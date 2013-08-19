@@ -1123,8 +1123,6 @@ function setWrapperSize() {
     wrapperSize = getHeight() - 45 - 45;
   };
     
-  $('.add-photo').css('height', wrapperSize - 200 + 45 + 'px');
-  $('#show-picture').css('max-height', wrapperSize - 200 + 45 + 'px');
   $('.wrapper').css('min-height', wrapperSize + 'px');
 }
 
