@@ -766,7 +766,7 @@ function renderOfferDetail(offer) {
   });
   $('#location-sel').html(options);
   if (offer.locations.length <= 1) {
-  //  $('#location-sel-div').hide();
+    $('#location-sel-div').hide();
   }
 }
 
