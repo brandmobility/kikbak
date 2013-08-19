@@ -46,7 +46,6 @@ If you visit the same store, ${shareInfo.employeeId} can help you too.</p></div>
 <div class="optn">
 <a href="https://maps.google.com/maps?q=${encodeMerchantName}%40${location.latitude},${location.longitude}"><img src="../img/map-mrk.png"/></a>
 <a href="${gift.merchant.url}"><img src="../img/glob.png"/></a>
-<a href="tel:${location.phoneNumber}"><img src="../img/phone.png"/></a>
 </div>
 </div>
 <div class="usr-cmnt blk">
@@ -54,7 +53,7 @@ If you visit the same store, ${shareInfo.employeeId} can help you too.</p></div>
 <h2>${shareInfo.friendName}</h2>
 <p>${shareInfo.caption}</p>
 </div>
-<div class="cmnt-on-photo"><img src="img/info-icon.png" /><p>${shareInfo.friendName} was helped by <strong>${shareInfo.employeeId}</strong> at ${gift.merchant.name} Store:
+<div class="cmnt-on-photo"><img src="../img/info-icon.png" /><p>${shareInfo.friendName} was helped by <strong>${shareInfo.employeeId}</strong> at ${gift.merchant.name} Store:
 <strong>${location.address1} ${location.address2}, ${location.city}, ${location.state}</strong>
 If you visit the same store, ${shareInfo.employeeId} can help you too.</p></div>
 </div>

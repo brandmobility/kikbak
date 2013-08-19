@@ -40,7 +40,9 @@ If you visit the same store, ${shareInfo.employeeId} can help you too.</p></div>
 <div class="optn">
 <a href="https://maps.google.com/maps?q=${encodeMerchantName}%40${location.latitude},${location.longitude}"><img src="img/map-mrk.png"/></a>
 <a href="${gift.merchant.url}"><img src="img/glob.png"/></a>
+<div id="tel-div">
 <a href="tel:${location.phoneNumber}"><img src="img/phone.png"/></a>
+</div>
 </div>
 </div>
 <div class="usr-cmnt blk">
@@ -58,7 +60,14 @@ If you visit the same store, ${shareInfo.employeeId} can help you too.</p></div>
 </c:otherwise>
 </c:choose>
 <strong>${location.address1} ${location.address2}, ${location.city}, ${location.state}</strong>
+<c:choose>
+<c:when test="${not empty shareInfo.employeeId}">
 If you visit the same store, ${shareInfo.employeeId} can help you too.</p></div>
+</c:when>
+<c:otherwise>
+</p></div>
+</c:otherwise>
+</c:choose>
 </div>
 <div class="rit-colm">
 <p class="tp-msg"><strong>${shareInfo.friendName}</strong> used <strong>Kikbak</strong> to give you
@@ -68,8 +77,17 @@ an exclusive offer for <strong>${gift.merchant.name}</strong>.</p>
 <div class="tp-bnr-rit"></div></div>
 <div id="fb-root"></div>
 </div>
+<div id="facebook-div">
 <div class="blue-btn">
-<a id="loginFb" href="#" class="btnn">Generate offer to use in store</a>
+<p style="font-weight:normal;"><font size="3">Connect to Facebook to access your gift.</font></p>
+<a id="loginFb" href="#" class="btnn">Connect with Facebook</a>
+<p style="font-weight:normal;"><font size="1">We use Facebook to make it easy for you to store, redeem and share gifts.</font>
+<br /><font size="1">We will never post on Facebook without your permission.</font></p>
+</div>
+<div>
+<div id="redemm-div" style="display:none;"> 
+<div class="blue-btn">
+<a id="redemGift" href="#" class="btnn">Generate offer to use in store</a>
 </div>
 <p style="margin-left:3%;">The Kikbak app makes it easy to access your gift. 
 Download it now -- your gift is already there.</p>
@@ -77,6 +95,7 @@ Download it now -- your gift is already there.</p>
 <a href="#" class="lft"><img src="img/app-store.png" /></a> 
 <a href="#" class="rit"><img src="img/google-play.png" /></a>
 </p>
+</div>
 </div>
 </div>
 </div>
@@ -89,6 +108,7 @@ Download it now -- your gift is already there.</p>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 <script>
 if (typeof localStorage !== 'undefined') {
+  localStorage.friendUserId = ${shareInfo.friendUserId};
   localStorage.code = '${code}';
 }
 </script>
