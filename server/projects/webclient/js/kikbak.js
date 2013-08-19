@@ -331,7 +331,6 @@ function claimGift(code) {
       initPage();
     },
     error: function() {
-      showError();
       initPage();
     }
   });

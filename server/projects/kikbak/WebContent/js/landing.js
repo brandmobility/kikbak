@@ -99,6 +99,7 @@ function updateFbFriends(userId) {
       success: function(json) {
     	$('#facebook-div').hide();
     	$('#redeem-div').show();
+    	localStorage.userId = userId;
       },
       error: showError
     });
@@ -109,7 +110,7 @@ function redeemGift() {
   if (window.mobilecheck()) {
     window.location.href = config.mobileUrl;
   } else {
-    claimCode(userId);
+    claimCode(localStorage.userId);
   }
 }
 
