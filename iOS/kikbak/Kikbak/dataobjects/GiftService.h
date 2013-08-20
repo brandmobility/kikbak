@@ -10,10 +10,12 @@
 
 
 @class Gift;
+@class ShareInfo;
 
 @interface GiftService : NSObject
 
 +(Gift*)findGiftByMerchantId:(NSNumber*)merchantId;
++(ShareInfo*)findShareInfoByAllocatedGift:(NSNumber*)giftId;
 +(NSArray*)getGifts;
 +(void)deleteAll;
 

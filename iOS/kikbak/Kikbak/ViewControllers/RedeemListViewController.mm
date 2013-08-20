@@ -27,6 +27,7 @@
 #import <map>
 #import "Distance.h"
 #import "Location.h"
+#import "FriendSelectorView.h"
 
 const int CELL_HEIGHT = 206;
 
@@ -267,7 +268,7 @@ const int CELL_HEIGHT = 206;
     return 1;
 }
 
-#pragma mark - segue
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
     RewardCollection* collection = [self.rewards objectAtIndex:indexPath.row];
@@ -283,10 +284,21 @@ const int CELL_HEIGHT = 206;
         [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:chooser];
     }
     else if(collection.gift != nil){
-        RedeemGiftViewController* vc = [[RedeemGiftViewController alloc]init];
-        vc.hidesBottomBarWhenPushed = true;
-        vc.gift = collection.gift;
-        [self.navigationController pushViewController:vc animated:YES];
+        if( [collection.gift.shareInfo count] == 1){
+            RedeemGiftViewController* vc = [[RedeemGiftViewController alloc]init];
+            vc.hidesBottomBarWhenPushed = true;
+            vc.gift = collection.gift;
+            vc.shareInfo = [collection.gift.shareInfo anyObject];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        else{
+            CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+            FriendSelectorView* view = [[FriendSelectorView alloc]initWithFrame:frame];
+            view.gift = collection.gift;
+            view.delegate = self;
+            [view createSubviews];
+            [self.view addSubview:view];
+        }
     }
     else if(collection.credit != nil){
         if( [collection.credit.rewardType compare:@"gift_card"] != NSOrderedSame){
@@ -304,6 +316,7 @@ const int CELL_HEIGHT = 206;
 
 }
 
+#pragma mark - segue
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if( [segue.destinationViewController isKindOfClass:[RedeemGiftViewController class]]){
         RedeemGiftViewController* vc = (RedeemGiftViewController*)segue.destinationViewController;
@@ -390,8 +403,27 @@ const int CELL_HEIGHT = 206;
 }
 
 -(void)onRedeemGift:(Gift*)gift{
+    if( [gift.shareInfo count] == 1){
+        RedeemGiftViewController* vc = [[RedeemGiftViewController alloc]init];
+        vc.gift = gift;
+        vc.shareInfo = [gift.shareInfo anyObject];
+        vc.hidesBottomBarWhenPushed = true;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    else{
+        CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+        FriendSelectorView* view = [[FriendSelectorView alloc]initWithFrame:frame];
+        view.gift = gift;
+        view.delegate = self;
+        [view createSubviews];
+        [self.view addSubview:view];
+    }
+}
+
+-(void)onRedeemGift:(Gift*)gift withShareInfo:(ShareInfo*)shareInfo{
     RedeemGiftViewController* vc = [[RedeemGiftViewController alloc]init];
     vc.gift = gift;
+    vc.shareInfo = shareInfo;
     vc.hidesBottomBarWhenPushed = true;
     [self.navigationController pushViewController:vc animated:YES];
 }

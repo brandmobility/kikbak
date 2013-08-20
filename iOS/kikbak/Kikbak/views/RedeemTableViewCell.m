@@ -7,6 +7,7 @@
 //
 
 #import "RedeemTableViewCell.h"
+#import <QuartzCore/QuartzCore.h>
 #import "Gift.h"
 #import "Credit.h"
 #import "Distance.h"
@@ -14,6 +15,7 @@
 #import "ImagePersistor.h"
 #import "RewardCollection.h"
 #import "util.h"
+#import "ShareInfo.h"
 
 const int CELL_HEIGHT = 147;
 
@@ -37,6 +39,8 @@ const int CELL_HEIGHT = 147;
 @property (nonatomic,strong) UIButton* giftBtn;
 @property (nonatomic,strong) UILabel* credit;
 @property (nonatomic,strong) UIButton* creditBtn;
+@property (nonatomic,strong) UIImageView* friendFrame;
+@property (nonatomic,strong) UIImageView* friendImage;
 
 
 -(void)manuallyLayoutSubview;
@@ -76,8 +80,7 @@ const int CELL_HEIGHT = 147;
 }
 
 -(void)manuallyLayoutSubview{
-    self.retailerImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"img1"]];
-    self.retailerImage.frame = CGRectMake(0, 0, 320, 140);
+    self.retailerImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 140)];
     [self addSubview:self.retailerImage];
     
     self.imageGradient = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"grd_img_redeem_list"]];
@@ -161,6 +164,16 @@ const int CELL_HEIGHT = 147;
     self.giftValue.textColor = UIColorFromRGB(0X767676);
     self.giftValue.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16];
     self.giftValue.textAlignment = NSTextAlignmentLeft;
+    
+    self.friendImage = [[UIImageView alloc]initWithFrame:CGRectMake(112, 6, 36, 36)];
+    self.friendImage.layer.cornerRadius = 5;
+    self.friendImage.layer.masksToBounds = YES;
+    self.friendImage.layer.borderWidth = 1;
+    self.friendImage.layer.borderColor= [UIColorFromRGB(0xBABABA) CGColor];
+
+
+    self.friendFrame = [[UIImageView alloc]initWithFrame:CGRectMake(112, 6, 43, 36)];
+    self.friendFrame.image = [UIImage imageNamed:@"bg_multiple_friends_image_frame"];
 
     
     self.credit = [[UILabel alloc]initWithFrame:CGRectMake(160, 9, 149, 13)];
@@ -192,12 +205,18 @@ const int CELL_HEIGHT = 147;
     [self.creditValue removeFromSuperview];
     [self.gift removeFromSuperview];
     [self.giftValue removeFromSuperview];
+    [self.friendImage removeFromSuperview];
+    [self.friendFrame removeFromSuperview];
     
     [self setupRedeemButtons];
     
     if( self.rewards.gift){
         [self.rewardBackground addSubview:self.gift];
         [self.rewardBackground addSubview:self.giftValue];
+        if( [self.rewards.gift.shareInfo count] > 1){
+            [self.rewardBackground addSubview:self.friendFrame];
+        }
+        [self.rewardBackground addSubview:self.friendImage];
         [self setupGift];
     }
     
@@ -276,6 +295,17 @@ const int CELL_HEIGHT = 147;
         [self addSubview:self.creditBtn];
     }
     else{
+        ShareInfo* shareInfo = [self.rewards.gift.shareInfo anyObject];
+        NSString* imagePath = [ImagePersistor imageFileExists:shareInfo.fbFriendId imageType:FRIEND_IMAGE_TYPE];
+        if(imagePath != nil){
+            self.friendImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
+        }
+        
+        if( [self.rewards.gift.shareInfo count] > 1){
+            [self addSubview:self.friendFrame];
+        }
+        [self addSubview:self.friendImage];
+
         self.giftBtn.frame = CGRectMake(0, 140, 320, 47);
         [self addSubview:self.giftBtn];
     }

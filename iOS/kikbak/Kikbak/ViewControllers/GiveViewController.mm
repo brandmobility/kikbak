@@ -28,6 +28,7 @@
 #import "ImageUploadRequest.h"
 #import "FBCouponObject.h"
 #import "ShareResult.h"
+#import "ShareData.h"
 
 #define DEFAULT_CONTAINER_VIEW_HEIGHT 50
 #define PHOTO_TAG  1000
@@ -41,6 +42,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     BOOL shareViaEmail;
     BOOL shareViaSMS;
     BOOL photoTaken;
+    BOOL adjustTextview;
 }
 
 @property (nonatomic, strong) Location* location;
@@ -129,6 +131,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     shareViaEmail = NO;
     shareViaSMS = NO;
     photoTaken = NO;
+    adjustTextview = NO;
     
     if (self.offer.location.count > 0) {
         self.location = [self.offer.location anyObject];
@@ -439,16 +442,27 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 
 -(IBAction)onGiveGift:(id)sender{
     CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
-    self.spinnerView = [[SpinnerView alloc]initWithFrame:frame];
-    [self.spinnerView startActivity];
-    [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:self.spinnerView];
-
     if([self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame){
         self.captionTextView.text = @"";
     }
-    ImageUploadRequest* request = [[ImageUploadRequest alloc]init];
-    request.image = self.giveImage.image;
-    [request postImage];
+    
+    if( photoTaken == YES){
+        self.spinnerView = [[SpinnerView alloc]initWithFrame:frame];
+        [self.spinnerView startActivity];
+        [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:self.spinnerView];
+
+        ImageUploadRequest* request = [[ImageUploadRequest alloc]init];
+        request.image = self.giveImage.image;
+        [request postImage];
+    }
+    else{
+        self.imageUrl = self.offer.giveImageUrl;
+        ShareChannelSelectorView* view = [[ShareChannelSelectorView alloc]initWithFrame:frame];
+        view.locations = self.offer.location;
+        [view createsubviews];
+        view.delegate = self;
+        [self.view addSubview:view];
+    }
 }
 
 -(IBAction)onTakePhotoBtn:(id)sender{
@@ -551,65 +565,6 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 }
 
 
-
-//#pragma mark - facebook
-//-(void)postToFacebook{
-//    
-//    CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
-//    self.spinnerView = [[SpinnerView alloc]initWithFrame:frame];
-//    [self.spinnerView startActivity];
-//    [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:self.spinnerView];
-//
-//    
-//    FBRequestConnection* connection = [[FBRequestConnection alloc]initWithTimeout:30];
-//    FBRequest* request = [FBRequest requestForUploadPhoto:[self.giveImage.image imageByScalingAndCroppingForSize:CGSizeMake(300, 300)]];
-//    if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
-//        [request.parameters setObject:@"Visit http://getkikbak.com for an exclusive offer shared by your friend" forKey:@"name"];
-//    }
-//    else{
-//        [request.parameters setObject:[NSString stringWithFormat:@"%@.\n\nVisit http://getkikbak.com for an exclusive offer shared by your friend", self.captionTextView.text] forKey:@"name"];
-//    }
-//    
-//    [connection addRequest:request completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-//        if(error == nil){
-//            [Flurry logEvent:@"ShareEvent" timed:YES];
-//
-//            [self.spinnerView removeFromSuperview];
-//            ShareSuccessView* shareView = [[ShareSuccessView alloc]initWithFrame:frame];
-//            shareView.delegate = self;
-//            [shareView manuallyLayoutSubviews];
-//            [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:shareView];
-//            ShareExperienceRequest* request = [[ShareExperienceRequest alloc]init];
-//            NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:5];
-//
-//            [dict setObject:self.offer.merchantId forKey:@"merchantId"];
-//            [dict setObject:self.location.locationId forKey:@"locationId"];
-//            [dict setObject:self.offer.offerId forKey:@"offerId"];
-////            [dict setObject:[result objectForKey:@"id"] forKey:@"fbImageId"];
-//            [dict setObject:@"fb" forKey:@"type"];
-//            [dict setObject:@"ios" forKey:@"platform"];
-//            if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
-//                [dict setObject:@"" forKey:@"caption"];
-//            }
-//            else{
-//                [dict setObject:self.captionTextView.text forKey:@"caption"];
-//            }
-//            [request restRequest:dict];
-//        }
-//        else{
-//            [self.spinnerView removeFromSuperview];
-//            [Flurry logEvent:@"FailedShareEvent" timed:YES];
-//            NSLog(@"Submit Error: %@", error);
-//        }
-//    }];
-//    
-//    
-//    [connection start];
-//    
-//}
-
-
-
 #pragma mark - keyboard options
 -(IBAction)keyboardWillShow:(NSNotification*)notification{
     CGRect keyboardBounds;
@@ -646,6 +601,10 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     NSNumber *duration = [notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
     NSNumber *curve = [notification.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
 	
+    if( adjustTextview == NO ){
+        return;
+    }
+    
 	// get a rect for the textView frame
 	CGRect containerFrame = self.captionContainerView.frame;
     if( [UIDevice hasFourInchDisplay] ){
@@ -679,6 +638,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 -(void)resignTextView
 {
 	[self.captionTextView resignFirstResponder];
+    adjustTextview = NO;
 }
 
 
@@ -705,6 +665,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 }
 
 - (BOOL)growingTextViewShouldBeginEditing:(HPGrowingTextView *)growingTextView{
+    adjustTextview = YES;
     if( [growingTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
         growingTextView.text = @"";
         growingTextView.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0];
@@ -751,6 +712,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     self.imageUrl = [notification object];
     CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
     ShareChannelSelectorView* view = [[ShareChannelSelectorView alloc]initWithFrame:frame];
+    view.locations = self.offer.location;
     [view createsubviews];
     view.delegate = self;
     [self.view addSubview:view];
@@ -781,10 +743,12 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     ShareExperienceRequest* request = [[ShareExperienceRequest alloc]init];
     NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:5];
     
+    ShareData* data = [notification object];
+    
     [dict setObject:self.offer.merchantId forKey:@"merchantId"];
-    [dict setObject:self.location.locationId forKey:@"locationId"];
+    [dict setObject:data.locationId forKey:@"locationId"];
     [dict setObject:self.offer.offerId forKey:@"offerId"];
-    //            [dict setObject:[result objectForKey:@"id"] forKey:@"fbImageId"];
+    [dict setObject:data.employeeName forKey:@"employeeId"];
     [dict setObject:@"fb" forKey:@"type"];
     [dict setObject:@"ios" forKey:@"platform"];
     if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
@@ -807,7 +771,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 }
 
 #pragma mark - ShareChannelSelector
--(void)onEmailSelected{
+-(void)onEmailSelected:(NSNumber*)locationId withEmployeeName:(NSString*)name{
     //todo: upload email
     shareViaEmail = YES;
     shareViaSMS = NO;
@@ -815,11 +779,12 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:5];
     
     [dict setObject:self.offer.merchantId forKey:@"merchantId"];
-    [dict setObject:self.location.locationId forKey:@"locationId"];
+    [dict setObject:locationId forKey:@"locationId"];
     [dict setObject:self.offer.offerId forKey:@"offerId"];
     [dict setObject:self.imageUrl forKey:@"imageUrl"];
     [dict setObject:@"email" forKey:@"type"];
     [dict setObject:@"ios" forKey:@"platform"];
+    [dict setObject:name forKey:@"employeeId"];
     if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
         [dict setObject:@"" forKey:@"caption"];
     }
@@ -830,18 +795,19 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 
 }
 
--(void)onSmsSelected{
+-(void)onSmsSelected:(NSNumber*)locationId withEmployeeName:(NSString*)name{
     shareViaEmail = NO;
     shareViaSMS = YES;
     ShareExperienceRequest* request = [[ShareExperienceRequest alloc]init];
     NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:5];
     
     [dict setObject:self.offer.merchantId forKey:@"merchantId"];
-    [dict setObject:self.location.locationId forKey:@"locationId"];
+    [dict setObject:locationId forKey:@"locationId"];
     [dict setObject:self.offer.offerId forKey:@"offerId"];
     [dict setObject:self.imageUrl forKey:@"imageUrl"];
     [dict setObject:@"sms" forKey:@"type"];
     [dict setObject:@"ios" forKey:@"platform"];
+    [dict setObject:name forKey:@"employeeId"];
     if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
         [dict setObject:@"" forKey:@"caption"];
     }
@@ -851,13 +817,15 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [request restRequest:dict];
 }
 
--(void)onTimelineSelected{
+-(void)onTimelineSelected:(NSNumber*)locationId withEmployeeName:(NSString*)name{
     shareViaEmail = NO;
     shareViaSMS = NO;
     [FBSettings setLoggingBehavior:[NSSet setWithObject:FBLoggingBehaviorFBRequests]];
     FBCouponObject* obj = [[FBCouponObject alloc]init];
     obj.caption = self.captionTextView.text;
     obj.merchant = self.retailerName.text;
+    obj.locationId = locationId;
+    obj.employeeName = name;
     obj.gift = self.giftDesctription.text;
     obj.detailedDescription = self.giftDescriptionOptional.text;
     [obj postCoupon:self.imageUrl];

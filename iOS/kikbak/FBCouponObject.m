@@ -10,7 +10,8 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import "SBJson.h"
 #import "NotificationContstants.h"
-
+#import "Location.h"
+#import "ShareData.h"
 
 @implementation FBCouponObject
 
@@ -59,7 +60,10 @@
          completionHandler:
      ^(FBRequestConnection *connection, id result, NSError *error) {
        if (!error) {
-           [[NSNotificationCenter defaultCenter]postNotificationName:@"kKikbakFBStoryPostSuccess" object:nil];
+           ShareData* data = [[ShareData alloc]init];
+           data.locationId = self.locationId;
+           data.employeeName = self.employeeName;
+           [[NSNotificationCenter defaultCenter]postNotificationName:@"kKikbakFBStoryPostSuccess" object:data];
        }else{
            [[NSNotificationCenter defaultCenter]postNotificationName:@"kKikbakFBStoryPostError" object:nil];
        }

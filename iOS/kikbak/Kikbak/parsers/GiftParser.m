@@ -14,6 +14,8 @@
 #import "LocationParser.h"
 #import "FBQuery.h"
 #import "ShareInfo.h"
+#import "ImagePersistor.h"
+#import "ImageDownloadRequest.h"
 
 @interface GiftParser()
 
@@ -27,7 +29,7 @@
     NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
     
     id merchant = [dict objectForKey:@"merchant"];
-    if( merchant != [NSNull null]){
+    if( merchant == [NSNull null]){
         return;
     }
     
@@ -60,16 +62,28 @@
     
     NSArray* shares = [dict objectForKey:@"shareInfo"];
     for( id shareInfo in shares){
-        ShareInfo* info = [NSEntityDescription insertNewObjectForEntityForName:@"ShareInfo" inManagedObjectContext:context];
-        info.allocatedGiftId = [shareInfo objectForKey:@"allocatedGiftId"];
+        NSNumber* allocatedGiftId = [shareInfo objectForKey:@"allocatedGiftId"];
+        ShareInfo* info = [GiftService findShareInfoByAllocatedGift:allocatedGiftId];
+        if(info == nil){
+            info = [NSEntityDescription insertNewObjectForEntityForName:@"ShareInfo" inManagedObjectContext:context];
+        }
+        info.allocatedGiftId = allocatedGiftId;
         info.friendUserId = [shareInfo objectForKey:@"friendUserId"];
         info.fbFriendId = [shareInfo objectForKey:@"fbFriendId"];
-        info.friendName = [shareInfo objectForKey:@"friendInfo"];
+        info.friendName = [shareInfo objectForKey:@"friendName"];
         info.imageUrl = [shareInfo objectForKey:@"imageUrl"];
         info.caption = [shareInfo objectForKey:@"caption"];
         [gift addShareInfoObject:info];
         
         [FBQuery requestProfileImage:info.fbFriendId];
+        
+        if(![ImagePersistor imageFileExists:info.allocatedGiftId imageType:UGC_GIVE_IMAGE_TYPE]) {
+            ImageDownloadRequest* request = [[ImageDownloadRequest alloc]init];
+            request.url = info.imageUrl;
+            request.fileId = info.allocatedGiftId ;
+            request.type = UGC_GIVE_IMAGE_TYPE;
+            [request requestImage];
+        }
     }
     
     NSError *error = nil;

@@ -8,9 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "RedeemTypeProtocol.h"
+#import "RedeemGiftFriendChooserProtocol.h"
 
 
-@interface RedeemListViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, RedeemTypeProtocol>
+@interface RedeemListViewController : UIViewController<UITableViewDataSource,
+                                                        UITableViewDelegate,
+                                                        RedeemTypeProtocol,
+                                                        RedeemGiftFriendChooserProtocol>
 
 
 @end

@@ -176,6 +176,11 @@
 		3CB9FC7D17BB504C0071B8B4 /* Gift.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9FC7C17BB504C0071B8B4 /* Gift.m */; };
 		3CB9FC8017BB73EB0071B8B4 /* ic_friend_chevron.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CB9FC7E17BB73EB0071B8B4 /* ic_friend_chevron.png */; };
 		3CB9FC8117BB73EB0071B8B4 /* bg_multiple_friends_image_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CB9FC7F17BB73EB0071B8B4 /* bg_multiple_friends_image_frame.png */; };
+		3CB9FC8417BCC41F0071B8B4 /* FriendSelectorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9FC8317BCC41F0071B8B4 /* FriendSelectorView.m */; };
+		3CB9FC8717BDF7B20071B8B4 /* FriendSelectorTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9FC8617BDF7B10071B8B4 /* FriendSelectorTableViewCell.m */; };
+		3CB9FC8B17C330800071B8B4 /* LocationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9FC8A17C330800071B8B4 /* LocationTableViewCell.m */; };
+		3CB9FC8E17C336DE0071B8B4 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9FC8D17C336DE0071B8B4 /* Location.m */; };
+		3CB9FC9117C362500071B8B4 /* ShareData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9FC9017C362500071B8B4 /* ShareData.m */; };
 		3CBCBF2617127468007B4249 /* OfferService.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF2517127468007B4249 /* OfferService.mm */; };
 		3CBCBF29171277A3007B4249 /* LocationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF28171277A3007B4249 /* LocationService.m */; };
 		3CBCBF491713E696007B4249 /* SubmitFriendsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF351713E696007B4249 /* SubmitFriendsRequest.m */; };
@@ -336,8 +341,6 @@
 		3C29805717796DC300026E14 /* ic_post_give_camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_post_give_camera.png; sourceTree = "<group>"; };
 		3C329C5B170178F70007345E /* ShareSuccessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareSuccessView.h; sourceTree = "<group>"; };
 		3C329C5C170178F70007345E /* ShareSuccessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareSuccessView.m; sourceTree = "<group>"; };
-		3C339E15179256B100CD0C7B /* Location.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
-		3C339E16179256B100CD0C7B /* Location.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
 		3C339E17179256B100CD0C7B /* Credit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Credit.h; sourceTree = "<group>"; };
 		3C339E18179256B100CD0C7B /* Credit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Credit.m; sourceTree = "<group>"; };
 		3C339E1D1792575900CD0C7B /* Offer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Offer.h; sourceTree = "<group>"; };
@@ -481,6 +484,17 @@
 		3CB9FC7C17BB504C0071B8B4 /* Gift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gift.m; sourceTree = "<group>"; };
 		3CB9FC7E17BB73EB0071B8B4 /* ic_friend_chevron.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_friend_chevron.png; sourceTree = "<group>"; };
 		3CB9FC7F17BB73EB0071B8B4 /* bg_multiple_friends_image_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_multiple_friends_image_frame.png; sourceTree = "<group>"; };
+		3CB9FC8217BCC41F0071B8B4 /* FriendSelectorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendSelectorView.h; sourceTree = "<group>"; };
+		3CB9FC8317BCC41F0071B8B4 /* FriendSelectorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendSelectorView.m; sourceTree = "<group>"; };
+		3CB9FC8517BDF7B10071B8B4 /* FriendSelectorTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendSelectorTableViewCell.h; sourceTree = "<group>"; };
+		3CB9FC8617BDF7B10071B8B4 /* FriendSelectorTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendSelectorTableViewCell.m; sourceTree = "<group>"; };
+		3CB9FC8817C0C2210071B8B4 /* RedeemGiftFriendChooserProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RedeemGiftFriendChooserProtocol.h; sourceTree = "<group>"; };
+		3CB9FC8917C3307F0071B8B4 /* LocationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationTableViewCell.h; sourceTree = "<group>"; };
+		3CB9FC8A17C330800071B8B4 /* LocationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationTableViewCell.m; sourceTree = "<group>"; };
+		3CB9FC8C17C336DE0071B8B4 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
+		3CB9FC8D17C336DE0071B8B4 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
+		3CB9FC8F17C362500071B8B4 /* ShareData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareData.h; sourceTree = "<group>"; };
+		3CB9FC9017C362500071B8B4 /* ShareData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareData.m; sourceTree = "<group>"; };
 		3CBCBF2417127468007B4249 /* OfferService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfferService.h; sourceTree = "<group>"; };
 		3CBCBF2517127468007B4249 /* OfferService.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OfferService.mm; sourceTree = "<group>"; };
 		3CBCBF27171277A3007B4249 /* LocationService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationService.h; sourceTree = "<group>"; };
@@ -667,6 +681,8 @@
 		3C752BD917113B710092CFB1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3CB9FC8C17C336DE0071B8B4 /* Location.h */,
+				3CB9FC8D17C336DE0071B8B4 /* Location.m */,
 				3CB9FC7B17BB504C0071B8B4 /* Gift.h */,
 				3CB9FC7C17BB504C0071B8B4 /* Gift.m */,
 				3CB9FC7817BB47C10071B8B4 /* ShareInfo.h */,
@@ -675,8 +691,6 @@
 				3C339E1E1792575900CD0C7B /* Offer.m */,
 				3C339E17179256B100CD0C7B /* Credit.h */,
 				3C339E18179256B100CD0C7B /* Credit.m */,
-				3C339E15179256B100CD0C7B /* Location.h */,
-				3C339E16179256B100CD0C7B /* Location.m */,
 				3CA9F191171E8016001C3929 /* CreditService.h */,
 				3CA9F192171E8016001C3929 /* CreditService.m */,
 				3CBCBF6E1717E405007B4249 /* GiftService.h */,
@@ -746,6 +760,8 @@
 				3C0A5C23177AAD91007D4E18 /* RedeemCreditSuccessViewController.m */,
 				3C638156179506B600E10594 /* ClaimCreditViewController.h */,
 				3C638157179506B600E10594 /* ClaimCreditViewController.m */,
+				3CB9FC8F17C362500071B8B4 /* ShareData.h */,
+				3CB9FC9017C362500071B8B4 /* ShareData.m */,
 			);
 			name = ViewControllers;
 			path = Kikbak/ViewControllers;
@@ -770,6 +786,13 @@
 				3CCCBCF616F2E59500FA71A2 /* TermsAndConditionsView.m */,
 				3C339E201792933900CD0C7B /* ShareChannelSelectorView.h */,
 				3C339E211792933900CD0C7B /* ShareChannelSelectorView.m */,
+				3CB9FC8217BCC41F0071B8B4 /* FriendSelectorView.h */,
+				3CB9FC8317BCC41F0071B8B4 /* FriendSelectorView.m */,
+				3CB9FC8517BDF7B10071B8B4 /* FriendSelectorTableViewCell.h */,
+				3CB9FC8617BDF7B10071B8B4 /* FriendSelectorTableViewCell.m */,
+				3CB9FC8817C0C2210071B8B4 /* RedeemGiftFriendChooserProtocol.h */,
+				3CB9FC8917C3307F0071B8B4 /* LocationTableViewCell.h */,
+				3CB9FC8A17C330800071B8B4 /* LocationTableViewCell.m */,
 			);
 			name = views;
 			path = Kikbak/views;
@@ -1448,6 +1471,11 @@
 				3CB9FC7417B6189A0071B8B4 /* ShareResult.m in Sources */,
 				3CB9FC7A17BB47C10071B8B4 /* ShareInfo.m in Sources */,
 				3CB9FC7D17BB504C0071B8B4 /* Gift.m in Sources */,
+				3CB9FC8417BCC41F0071B8B4 /* FriendSelectorView.m in Sources */,
+				3CB9FC8717BDF7B20071B8B4 /* FriendSelectorTableViewCell.m in Sources */,
+				3CB9FC8B17C330800071B8B4 /* LocationTableViewCell.m in Sources */,
+				3CB9FC8E17C336DE0071B8B4 /* Location.m in Sources */,
+				3CB9FC9117C362500071B8B4 /* ShareData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

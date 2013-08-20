@@ -8,12 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+@class Location;
+
 @interface FBCouponObject : NSObject
 
-@property (nonatomic,strong)NSString* caption;
-@property (nonatomic,strong)NSString* merchant;
-@property (nonatomic,strong)NSString* gift;
-@property (nonatomic,strong)NSString* detailedDescription;
+@property (nonatomic,strong) NSString* caption;
+@property (nonatomic,strong) NSString* merchant;
+@property (nonatomic,strong) NSString* gift;
+@property (nonatomic,strong) NSString* detailedDescription;
+@property (nonatomic,strong) NSNumber* locationId;
+@property (nonatomic,strong) NSString* employeeName;
 
 -(void)postCoupon:(NSString*)url;
 

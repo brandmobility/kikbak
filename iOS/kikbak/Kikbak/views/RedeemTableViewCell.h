@@ -14,7 +14,7 @@
 @interface RedeemTableViewCell : UITableViewCell
 
 @property (nonatomic,strong) id<RedeemTypeProtocol> delegate;
-@property(strong, nonatomic)RewardCollection* rewards;
+@property(strong, nonatomic) RewardCollection* rewards;
 @property (nonatomic,strong) UILabel* giftValue;
 @property (nonatomic,strong) UILabel* creditValue;
 

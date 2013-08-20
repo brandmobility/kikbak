@@ -10,15 +10,20 @@
 
 @protocol ChannelSelectorDelegate <NSObject>
 
--(void)onEmailSelected;
--(void)onSmsSelected;
--(void)onTimelineSelected;
+-(void)onEmailSelected:(NSNumber*)locationId withEmployeeName:(NSString*)name;
+-(void)onSmsSelected:(NSNumber*)locationId withEmployeeName:(NSString*)name;
+-(void)onTimelineSelected:(NSNumber*)locationId withEmployeeName:(NSString*)name;
 
 @end
 
-@interface ShareChannelSelectorView : UIView
+@class Location;
+
+@interface ShareChannelSelectorView : UIView<UITableViewDataSource,
+                                            UITableViewDelegate,
+                                            UITextViewDelegate>
 
 @property (nonatomic,strong) id<ChannelSelectorDelegate> delegate;
+@property (nonatomic,strong) NSSet* locations;
 
 -(void)createsubviews;
 

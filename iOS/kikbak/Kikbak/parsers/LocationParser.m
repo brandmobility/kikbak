@@ -25,6 +25,7 @@
     location.latitude = [dict objectForKey:@"latitude"];
     location.locationId = [dict objectForKey:@"locationId"];
     location.phoneNumber = [dict objectForKey:@"phoneNumber"];
+    location.address = [dict objectForKey:@"address1"];
 
     return location;
 }

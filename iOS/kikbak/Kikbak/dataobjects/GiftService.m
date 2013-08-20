@@ -9,7 +9,7 @@
 #import "GiftService.h"
 #import "AppDelegate.h"
 #import "Gift.h"
-
+#import "ShareInfo.h"
 
 @implementation GiftService
 
@@ -43,6 +43,36 @@
     }
 }
 
++(ShareInfo*)findShareInfoByAllocatedGift:(NSNumber*)giftId{
+    NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
+    
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"ShareInfo" inManagedObjectContext:context];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
+    
+    // Set example predicate and sort orderings...
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(allocatedGiftId = %@)", giftId];
+    [request setPredicate:predicate];
+    
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"allocatedGiftId" ascending:YES];
+    [request setSortDescriptors:@[sortDescriptor]];
+    
+    NSError *error;
+    NSArray *array = [context executeFetchRequest:request error:&error];
+    if (array == nil)
+    {
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        return nil;
+    }
+    
+    if( [array count] ){
+        return [array objectAtIndex:0];
+    }
+    else{
+        return nil;
+    }
+}
+
 +(NSArray*)getGifts{
     NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
     
@@ -50,7 +80,7 @@
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDescription];
     
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"giftId" ascending:YES];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"merchantId" ascending:YES];
     [request setSortDescriptors:@[sortDescriptor]];
     
     NSError *error;

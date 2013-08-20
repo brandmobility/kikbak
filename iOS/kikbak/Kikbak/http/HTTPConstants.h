@@ -15,6 +15,5 @@
 //#define kikbak_service "k2"
 #define kikbak_service "kikbak"
 
-//#define php_host "http://test.kikbak.me/s/"
 
 #endif

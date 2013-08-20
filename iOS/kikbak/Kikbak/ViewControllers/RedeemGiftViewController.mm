@@ -131,12 +131,12 @@
 
     
     if(self.gift){
-//        NSString* imagePath = [ImagePersistor imageFileExists:self.gift.fbImageId imageType:UGC_GIVE_IMAGE_TYPE];
-//        if(imagePath != nil){
-//            self.giftImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
-//        }
+        NSString* imagePath = [ImagePersistor imageFileExists:self.shareInfo.allocatedGiftId imageType:UGC_GIVE_IMAGE_TYPE];
+        if(imagePath != nil){
+            self.giftImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
+        }
         
-        NSString* imagePath = [ImagePersistor imageFileExists:self.shareInfo.fbFriendId imageType:FRIEND_IMAGE_TYPE];
+        imagePath = [ImagePersistor imageFileExists:self.shareInfo.fbFriendId imageType:FRIEND_IMAGE_TYPE];
         if(imagePath != nil){
             self.friendImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
         }
