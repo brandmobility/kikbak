@@ -12,6 +12,7 @@ import android.support.v4.app.NotificationCompat;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.referredlabs.kikbak.R;
+import com.referredlabs.kikbak.store.DataService;
 import com.referredlabs.kikbak.ui.MainActivity;
 
 public class GcmBroadcastReceiver extends BroadcastReceiver {
@@ -24,6 +25,7 @@ public class GcmBroadcastReceiver extends BroadcastReceiver {
     if (type != null) {
       String data = intent.getExtras().toString();
       sendNotification(context, type, data);
+      DataService.getInstance().refreshRewards(true);
     }
     setResultCode(Activity.RESULT_OK);
   }
