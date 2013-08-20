@@ -287,7 +287,8 @@ public class MainActivity extends KikbakActivity implements ActionBar.TabListene
 
   private void actionWhoAmI() {
     String user = Register.getInstance().getUserName();
-    Toast.makeText(this, user, Toast.LENGTH_LONG).show();
+    long id = Register.getInstance().getUserId();
+    Toast.makeText(this, user + " (" + id + ")", Toast.LENGTH_LONG).show();
   }
 
   // ------------------------------------------------------
