@@ -26,6 +26,7 @@ import com.referredlabs.kikbak.data.ClaimCreditRequest;
 import com.referredlabs.kikbak.data.ClaimCreditResponse;
 import com.referredlabs.kikbak.data.ClaimType;
 import com.referredlabs.kikbak.http.Http;
+import com.referredlabs.kikbak.store.DataStore;
 import com.referredlabs.kikbak.utils.Register;
 import com.squareup.picasso.Picasso;
 
@@ -93,8 +94,8 @@ public class ClaimInputFragment extends Fragment implements OnClickListener {
   }
 
   void onClaimSuccess() {
+    DataStore.getInstance().creditUsed(mCredit.id, mCredit.value);
     showClaimSubmittedPopup();
-
   }
 
   void onClaimFailed() {
@@ -141,17 +142,18 @@ public class ClaimInputFragment extends Fragment implements OnClickListener {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-      return new AlertDialog.Builder(getActivity())
+      AlertDialog dialog = new AlertDialog.Builder(getActivity())
           .setTitle("Success!")
           .setMessage(message)
-          .setOnDismissListener(new OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-              mCallback.finished();
-            }
-          })
           .setPositiveButton(android.R.string.ok, null)
           .create();
+      return dialog;
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+      super.onDismiss(dialog);
+      mCallback.finished();
     }
   }
 
@@ -166,7 +168,7 @@ public class ClaimInputFragment extends Fragment implements OnClickListener {
       mRequest = new ClaimCreditRequest();
       mRequest.claim = new ClaimType();
       mRequest.claim.creditId = mCredit.id;
-      mRequest.claim.PhoneNumber = mPhoneTv.getText().toString();
+      mRequest.claim.phoneNumber = mPhoneTv.getText().toString();
       mRequest.claim.name = mNameTv.getText().toString();
       mRequest.claim.street = mStreetTv.getText().toString();
       mRequest.claim.apt = mAptTv.getText().toString();

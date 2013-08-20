@@ -3,7 +3,7 @@ package com.referredlabs.kikbak.data;
 
 public class ClaimType {
   public long creditId;
-  public String PhoneNumber;
+  public String phoneNumber;
   public String name;
   public String street;
   public String apt;

@@ -100,7 +100,7 @@ public class ChangeAmountDialog extends DialogFragment implements OnClickListene
 
   protected void onApplyClicked() {
     String txt = mCreditToUse.getText().toString();
-    if (!txt.isEmpty()) {
+    if (txt.length() != 0) {
       double value = Double.parseDouble(txt);
       mListener.onCreditChanged(value);
     }
@@ -125,7 +125,7 @@ public class ChangeAmountDialog extends DialogFragment implements OnClickListene
             + source.subSequence(start, end)
             + dest.subSequence(dend, dest.length());
 
-        if (result.isEmpty())
+        if (result.length() == 0)
           return null;
 
         Matcher matcher = mPattern.matcher(result);
