@@ -167,4 +167,12 @@
         <property name="sessionFactory" ref="rwSessionFactory" />
     </bean>
  
+    <bean id="ReadOnlySuggestDAO" class="com.kikbak.dao.impl.ReadOnlySuggestDAOImpl">
+        <property name="sessionFactory" ref="roSessionFactory" />
+    </bean>
+    
+    <bean id="ReadWriteSuggestDAO" class="com.kikbak.dao.impl.ReadWriteSuggestDAOImpl">
+        <property name="sessionFactory" ref="rwSessionFactory" />
+    </bean>
+
 </beans>

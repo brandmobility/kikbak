@@ -250,7 +250,15 @@ CREATE TABLE `user2friend`
 	PRIMARY KEY (id)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET latin1 COLLATE latin1_bin;
 
-
+CREATE TABLE `suggest`
+(
+	id BIGINT NOT NULL AUTO_INCREMENT,
+	business_name VARCHAR(64) CHARACTER SET utf8,
+	why VARCHAR(64) CHARACTER SET utf8,
+    image_url VARCHAR(256),
+	user_id BIGINT NOT NULL,
+	PRIMARY KEY (id)
+) ENGINE = InnoDB DEFAULT CHARACTER SET latin1 COLLATE latin1_bin;
 
 /* Create Indexes */
 
