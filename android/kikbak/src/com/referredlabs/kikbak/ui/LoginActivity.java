@@ -6,7 +6,6 @@ import java.util.Arrays;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.facebook.Session;
@@ -96,28 +95,32 @@ public class LoginActivity extends KikbakActivity implements StatusCallback,
   public void onUserInfoFetched(GraphUser user) {
     if (user != null && !Register.getInstance().isRegistered()) {
       mLoginButton.setEnabled(false);
-      registerUser(user);
+      String accessToken = Session.getActiveSession().getAccessToken();
+      registerUser(user, accessToken);
     }
   }
 
-  private void registerUser(GraphUser facebookUser) {
-    RegisterTask task = new RegisterTask(facebookUser);
+  private void registerUser(GraphUser fbUser, String accessToken) {
+    RegisterTask task = new RegisterTask(fbUser, accessToken);
     task.execute();
   }
 
   class RegisterTask extends AsyncTask<Void, Void, Void> {
-    private GraphUser mFacebookUser;
+    GraphUser mFacebookUser;
+    private String mAccessToken;
     private long mUserId;
     private boolean mSuccess = false;
 
-    RegisterTask(GraphUser user) {
-      mFacebookUser = user;
+    RegisterTask(GraphUser fbUser, String accessToken) {
+      mFacebookUser = fbUser;
+      mAccessToken = accessToken;
     }
 
     @Override
     protected Void doInBackground(Void... arg0) {
       try {
-        UserType user = UserType.createFromFacebook(mFacebookUser);
+        UserType user = new UserType();
+        user.access_token = mAccessToken;
         RegisterUserRequest req = new RegisterUserRequest();
         req.user = user;
         String uri = Http.getUri("/user/register/fb/");
@@ -133,10 +136,7 @@ public class LoginActivity extends KikbakActivity implements StatusCallback,
     @Override
     protected void onPostExecute(Void result) {
       if (mSuccess) {
-        String userName = mFacebookUser.getUsername();
-        if (TextUtils.isEmpty(userName)) {
-          userName = mFacebookUser.getFirstName() + " " + mFacebookUser.getLastName();
-        }
+        String userName = mFacebookUser.getName();
         Register.getInstance().registerUser(mUserId, userName);
         startActivity(new Intent(LoginActivity.this, MainActivity.class));
         finish();
