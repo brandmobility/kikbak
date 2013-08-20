@@ -3,6 +3,7 @@ package com.referredlabs.kikbak.store;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import android.database.DataSetObservable;
@@ -91,9 +92,14 @@ public class DataStore {
     // - may have already a updated credit value from server (slim chance)
     // - threading, double assignment is not atomic (stay on main thread)
     synchronized (this) {
-      for (AvailableCreditType credit : mCredits) {
+      Iterator<AvailableCreditType> it = mCredits.iterator();
+      while (it.hasNext()) {
+        AvailableCreditType credit = it.next();
         if (credit.id == id) {
           credit.value = Math.max(0, credit.value - creditUsed);
+          if (credit.value == 0) {
+            it.remove();
+          }
           break;
         }
       }
@@ -107,6 +113,20 @@ public class DataStore {
         return offer;
     }
     return null;
+  }
+
+  public void giftUsed(long offerId) {
+    synchronized (this) {
+      Iterator<GiftType> it = mGifts.iterator();
+      while (it.hasNext()) {
+        GiftType gift = it.next();
+        if (gift.offerId == offerId) {
+          it.remove();
+        }
+        break;
+      }
+    }
+    mRewardsObservable.notifyChanged();
   }
 
 }

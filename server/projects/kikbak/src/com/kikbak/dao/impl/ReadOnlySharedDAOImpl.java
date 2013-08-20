@@ -49,8 +49,8 @@ public class ReadOnlySharedDAOImpl extends ReadOnlyGenericDAOImpl<Shared, Long> 
 
     @Override
     @Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
-    public Collection<Shared> listAvailableForGiftingByReferralCode(String referralCode) {
-        return listByCriteria(Restrictions.eq("referralCode", referralCode));
+    public Shared findAvailableForGiftingByReferralCode(String referralCode) {
+        return findByCriteria(Restrictions.eq("referralCode", referralCode));
     }
 
 }

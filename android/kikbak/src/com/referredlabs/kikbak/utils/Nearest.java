@@ -1,22 +1,35 @@
 
 package com.referredlabs.kikbak.utils;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+
 import android.location.Location;
 
 import com.referredlabs.kikbak.data.MerchantLocationType;
+import com.referredlabs.kikbak.service.LocationFinder;
 
 public class Nearest {
-  private static float[] sResult = new float[1];
   private MerchantLocationType[] mLocations;
   private MerchantLocationType mNearestLocation;
   private float mDistanceToNearest;
 
   public Nearest(MerchantLocationType[] locations) {
     mLocations = locations;
+
+    Location l = LocationFinder.getLastLocation();
+    determineNearestLocation(l.getLatitude(), l.getLongitude());
   }
 
-  public void determineNearestLocation(double latitude, double longitude) {
-    float[] results = sResult;
+  public Nearest(MerchantLocationType[] locations, double latitude, double longitude) {
+    mLocations = locations;
+    determineNearestLocation(latitude, longitude);
+  }
+
+  private void determineNearestLocation(double latitude, double longitude) {
+    float[] results = new float[1];
     float distance = Float.MAX_VALUE;
     MerchantLocationType nearest = null;
 
@@ -36,20 +49,27 @@ public class Nearest {
     return mDistanceToNearest;
   }
 
-  public double getLatitude() {
-    return mNearestLocation.latitude;
+  public MerchantLocationType get() {
+    return mNearestLocation;
   }
 
-  public double getLongitude() {
-    return mNearestLocation.longitude;
-  }
+  public static void sortByDistance(ArrayList<MerchantLocationType> locations, double latitude,
+      double longitude) {
+    float[] results = new float[1];
 
-  public long getPhoneNumber() {
-    return mNearestLocation.phoneNumber;
-  }
+    final HashMap<MerchantLocationType, Float> distances =
+        new HashMap<MerchantLocationType, Float>(2 * locations.size());
+    for (MerchantLocationType l : locations) {
+      Location.distanceBetween(latitude, longitude, l.latitude, l.longitude, results);
+      distances.put(l, results[0]);
+    }
 
-  // public OfferLocationType getLocation() {
-  // return mNearestLocation;
-  // }
+    Collections.sort(locations, new Comparator<MerchantLocationType>() {
+      @Override
+      public int compare(MerchantLocationType lhs, MerchantLocationType rhs) {
+        return Float.compare(distances.get(lhs), distances.get(rhs));
+      }
+    });
+  }
 
 }

@@ -1,11 +1,13 @@
 package com.kikbak.client.service.impl;
 
 import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -13,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kikbak.client.service.UserService;
 import com.kikbak.client.service.impl.types.GenderType;
-import com.kikbak.client.service.impl.types.PlatformType;
 import com.kikbak.config.ContextUtil;
 import com.kikbak.dao.ReadOnlyDeviceTokenDAO;
 import com.kikbak.dao.ReadOnlyGiftDAO;
@@ -23,9 +24,11 @@ import com.kikbak.dao.ReadOnlyMerchantDAO;
 import com.kikbak.dao.ReadOnlyOfferDAO;
 import com.kikbak.dao.ReadOnlyUser2FriendDAO;
 import com.kikbak.dao.ReadOnlyUserDAO;
+import com.kikbak.dao.ReadOnlyUserTokenDAO;
 import com.kikbak.dao.ReadWriteDeviceTokenDAO;
 import com.kikbak.dao.ReadWriteUser2FriendDAO;
 import com.kikbak.dao.ReadWriteUserDAO;
+import com.kikbak.dao.ReadWriteUserTokenDAO;
 import com.kikbak.dto.Devicetoken;
 import com.kikbak.dto.Gift;
 import com.kikbak.dto.Kikbak;
@@ -33,6 +36,7 @@ import com.kikbak.dto.Location;
 import com.kikbak.dto.Merchant;
 import com.kikbak.dto.Offer;
 import com.kikbak.dto.User;
+import com.kikbak.dto.UserToken;
 import com.kikbak.dto.User2friend;
 import com.kikbak.jaxb.devicetoken.DeviceTokenType;
 import com.kikbak.jaxb.friends.FriendType;
@@ -57,6 +61,12 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	ReadWriteUserDAO rwUserDao;
+	
+	@Autowired
+	ReadOnlyUserTokenDAO roUserTokenDao;
+
+	@Autowired
+	ReadWriteUserTokenDAO rwUserTokenDao;
 	
 	@Autowired
 	ReadOnlyUser2FriendDAO roU2FDao;
@@ -105,8 +115,35 @@ public class UserServiceImpl implements UserService {
 		rwUserDao.makePersistent(user);
 		UserIdType userId = new UserIdType();
 		userId.setUserId(user.getId());
+		
 		return userId;
 	}
+	
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public String getUserToken(long userId) {
+		UserToken token = roUserTokenDao.findByUserId(userId);
+		if( token == null ){
+			token = new UserToken();
+			token.setUserId(userId);
+			token.setToken(generateRandomToken());
+			rwUserTokenDao.makePersistent(token);
+		}
+		return token.getToken();
+	}
+	
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public boolean verifyUserToken(long userId, String token) {
+		UserToken userToken = roUserTokenDao.findByUserId(userId);
+		if( token != null ){
+			if (StringUtils.equals(token, userToken.getToken())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
@@ -206,19 +243,23 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		token.setToken(deviceToken.getToken());
-		token.setPlatformType((short)PlatformType.iOS.ordinal());
+		token.setPlatformType(deviceToken.getPlatformId());
 		token.setLastUpdateTime(new Date());
 		token.setUserId(userId);
 		
 		rwDeviceTokenDao.makePersistent(token);
 	}
 	
-	protected User findOrCreateUser(UserType userType){
+	private User findOrCreateUser(UserType userType){
 		User user = roUserDao.findByFacebookId(userType.getId());
 		if( user == null ){
 			user = new User();
 		}
 		
 		return user;
+	}
+	
+	private String generateRandomToken() {
+        return new BigInteger(130, new SecureRandom()).toString(Character.MAX_RADIX);
 	}
 }

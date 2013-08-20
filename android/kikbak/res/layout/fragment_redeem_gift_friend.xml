@@ -29,7 +29,7 @@
         android:maxLines="1"
         android:text="Jessica Kempner"
         android:textColor="@color/redeem_text_dark"
-        android:textSize="22dp"
+        android:textSize="20dp"
         kikbak:typeface="Roboto-Bold.ttf" />
 
     <com.referredlabs.kikbak.widget.TtfTextView

@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -28,11 +27,12 @@ import com.referredlabs.kikbak.data.GiftRedemptionType;
 import com.referredlabs.kikbak.data.GiftType;
 import com.referredlabs.kikbak.data.RedeemGiftRequest;
 import com.referredlabs.kikbak.data.RedeemGiftResponse;
+import com.referredlabs.kikbak.data.ShareInfoType;
 import com.referredlabs.kikbak.data.StatusType;
 import com.referredlabs.kikbak.data.ValidationType;
 import com.referredlabs.kikbak.fb.Fb;
 import com.referredlabs.kikbak.http.Http;
-import com.referredlabs.kikbak.service.LocationFinder;
+import com.referredlabs.kikbak.store.DataStore;
 import com.referredlabs.kikbak.ui.BarcodeScannerFragment.OnBarcodeScanningListener;
 import com.referredlabs.kikbak.ui.ConfirmationDialog.ConfirmationListener;
 import com.referredlabs.kikbak.utils.LocaleUtils;
@@ -48,6 +48,7 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
   private static final int REQUEST_SCAN_CONFIRMATION = 2;
 
   private GiftType mGift;
+  private int mShareIdx;
   private TextView mName;
   private ImageView mImage;
   private ImageView mFriendPhoto;
@@ -57,6 +58,7 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
   private TextView mGiftValue;
   private TextView mGiftDesc;
   private Button mRedeemInStore;
+  private Button mRedeemOnline;
 
   RedeemSuccessCallback mCallback;
 
@@ -65,7 +67,7 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
     super.onAttach(activity);
     String data = getActivity().getIntent().getStringExtra(RedeemGiftActivity.EXTRA_GIFT);
     mGift = new Gson().fromJson(data, GiftType.class);
-
+    mShareIdx = getActivity().getIntent().getIntExtra(RedeemGiftActivity.EXTRA_SHARE_IDX, 0);
     mCallback = (RedeemSuccessCallback) activity;
   }
 
@@ -87,32 +89,38 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
     mRedeemInStore = (Button) root.findViewById(R.id.redeem_store);
     mRedeemInStore.setOnClickListener(this);
 
-    Location loc = LocationFinder.getLastLocation();
+    mRedeemOnline = (Button) root.findViewById(R.id.redeem_online);
+    mRedeemOnline.setOnClickListener(this);
 
     IconBarHelper ih = new IconBarHelper(root, new IconBarActionHandler(getActivity()));
-    Nearest location = new Nearest(mGift.merchant.locations);
-    location.determineNearestLocation(loc.getLatitude(), loc.getLongitude());
+    Nearest nearest = new Nearest(mGift.merchant.locations);
     ih.setLink(mGift.merchant.url);
-    ih.setLocation(location);
-    ih.setPhone(Long.toString(location.getPhoneNumber()));
+    ih.setLocation(nearest);
+    ih.setPhone(Long.toString(nearest.get().phoneNumber));
     setupViews();
 
     return root;
   }
 
   private void setupViews() {
+    ShareInfoType share = mGift.shareInfo[mShareIdx];
+
     mName.setText(mGift.merchant.name);
-    Uri uri = Uri.parse(mGift.imageUrl);
+    Uri uri = Uri.parse(share.imageUrl);
     Picasso.with(getActivity()).load(uri).into(mImage);
 
-    Uri friendUri = Fb.getFriendPhotoUri(mGift.fbFriendId);
+    Uri friendUri = Fb.getFriendPhotoUri(share.fbFriendId);
     Picasso.with(getActivity()).load(friendUri).into((Target) mFriendPhoto);
-    mFriendName.setText(mGift.friendName);
-    mFriendComment.setText(mGift.caption);
+    mFriendName.setText(share.friendName);
+    mFriendComment.setText(share.caption);
 
     mGiftValue.setText(LocaleUtils.getGiftValueString(getActivity(), mGift));
     mGiftDesc.setText(mGift.desc);
 
+    // not supported yet
+    // if (RedemptionLocationType.ALL.equals(mGift.redemptionLocationType)) {
+    // mRedeemOnline.setVisibility(View.VISIBLE);
+    // }
   }
 
   @Override
@@ -123,6 +131,9 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
         break;
       case R.id.redeem_store:
         onRedeemInStoreClicked();
+        break;
+      case R.id.redeem_online:
+        onRedeemOnlineClicked();
         break;
     }
   }
@@ -150,10 +161,12 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
     }
   }
 
+  private void onRedeemOnlineClicked() {
+    registerRedemption("online");
+  }
+
   private boolean isInStore() {
-    Location loc = LocationFinder.getLastLocation();
     Nearest nearest = new Nearest(mGift.merchant.locations);
-    nearest.determineNearestLocation(loc.getLatitude(), loc.getLongitude());
     return C.BYPASS_STORE_CHECK || nearest.getDistance() < C.IN_STORE_DISTANCE;
   }
 
@@ -197,13 +210,16 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
 
   @Override
   public void onBarcodeScanned(String code) {
+    registerRedemption(code);
+  }
+
+  private void registerRedemption(String code) {
     RedeemGiftRequest req = new RedeemGiftRequest();
     req.gift = new GiftRedemptionType();
-    req.gift.id = mGift.id;
-    req.gift.friendUserId = mGift.friendUserId;
+    req.gift.id = mGift.shareInfo[mShareIdx].allocatedGiftId;
+    req.gift.friendUserId = mGift.shareInfo[mShareIdx].friendUserId;
     req.gift.locationId = mGift.merchant.locations[0].locationId;
     req.gift.verificationCode = code;
-    req.gift.verificationCode = code.substring(0, Math.min(8, code.length()));
     long userId = Register.getInstance().getUserId();
     new RedeemTask(userId).execute(req);
   }
@@ -224,6 +240,9 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
   }
 
   public void onRegistrationSuccess(String code) {
+    if (ValidationType.QRCODE.equals(mGift.validationType)) {
+      DataStore.getInstance().giftUsed(mGift.offerId);
+    }
     mCallback.success(code, null);
   }
 
@@ -267,20 +286,20 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
   private class BarcodeTask extends AsyncTask<Void, Void, Void> {
 
     private long mUserId;
-    private long mGiftId;
+    private long allocatedGiftId;
     private String mBarcode;
     private Bitmap mBitmap;
 
     @Override
     protected void onPreExecute() {
       mUserId = Register.getInstance().getUserId();
-      mGiftId = mGift.id;
+      allocatedGiftId = mGift.shareInfo[mShareIdx].allocatedGiftId;
     }
 
     @Override
     protected Void doInBackground(Void... params) {
       try {
-        Pair<String, Bitmap> result = Http.fetchBarcode(mUserId, mGiftId);
+        Pair<String, Bitmap> result = Http.fetchBarcode(mUserId, allocatedGiftId);
         mBarcode = result.first;
         mBitmap = result.second;
       } catch (Exception e) {

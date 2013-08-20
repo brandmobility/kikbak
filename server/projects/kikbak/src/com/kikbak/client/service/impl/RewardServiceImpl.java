@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,7 +24,6 @@ import com.kikbak.client.service.impl.types.TransactionType;
 import com.kikbak.dao.ReadOnlyAllocatedGiftDAO;
 import com.kikbak.dao.ReadOnlyBarcodeDAO;
 import com.kikbak.dao.ReadOnlyCreditDAO;
-import com.kikbak.dao.ReadOnlyDeviceTokenDAO;
 import com.kikbak.dao.ReadOnlyGiftDAO;
 import com.kikbak.dao.ReadOnlyKikbakDAO;
 import com.kikbak.dao.ReadOnlyLocationDAO;
@@ -44,7 +42,6 @@ import com.kikbak.dto.Allocatedgift;
 import com.kikbak.dto.Barcode;
 import com.kikbak.dto.Claim;
 import com.kikbak.dto.Credit;
-import com.kikbak.dto.Devicetoken;
 import com.kikbak.dto.Gift;
 import com.kikbak.dto.Kikbak;
 import com.kikbak.dto.Location;
@@ -63,7 +60,7 @@ import com.kikbak.jaxb.rewards.ClaimStatusType;
 import com.kikbak.jaxb.rewards.ClientMerchantType;
 import com.kikbak.jaxb.rewards.GiftType;
 import com.kikbak.jaxb.rewards.ShareInfoType;
-import com.kikbak.push.service.ApsNotifier;
+import com.kikbak.push.service.PushNotifier;
 
 @Service
 public class RewardServiceImpl implements RewardService{
@@ -113,11 +110,8 @@ public class RewardServiceImpl implements RewardService{
     ReadOnlyLocationDAO roLocationDao;
 
     @Autowired
-    ApsNotifier apsNotifier;
+    PushNotifier pushNotifier;
 
-    @Autowired
-    ReadOnlyDeviceTokenDAO roDeviceToken;
-    
     @Autowired
     ReadWriteClaimDAO rwClaimDao;
     
@@ -227,16 +221,9 @@ public class RewardServiceImpl implements RewardService{
     CreditManager km = new CreditManager(roOfferDao, roKikbakDAO, roCreditDao, rwKikbakDao, rwTxnDao);
     km.manageCredit(giftType.getFriendUserId(), gift.getOfferId(), gift.getMerchantId(), giftType.getLocationId());
 
-    //send notification for kikbak when gift is redeemed
-    Devicetoken token = roDeviceToken.findByUserId(userId);
-    if( token != null){
-        Kikbak kikbak = roKikbakDAO.findByOfferId(gift.getOfferId());
-        try {
-            apsNotifier.sendNotification(token, kikbak.getNotificationText());
-        } catch (Exception e) {
-            throw new RuntimeException("failed to notify gift redemption to user " + userId, e);
-        }
-    }
+    // send notification for kikbak when gift is redeemed
+    Kikbak kikbak = roKikbakDAO.findByOfferId(gift.getOfferId());
+    pushNotifier.sendKikbakNotification(userId, kikbak);    
 
     return generateAuthorizationCode();
     }
@@ -280,32 +267,35 @@ public class RewardServiceImpl implements RewardService{
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor=RewardException.class)
-    public ClaimStatusType claimGift(Long userId, String referralCode, List<GiftType> gifts) throws RewardException {
+    public ClaimStatusType claimGift(Long userId, String referralCode, List<GiftType> gifts, List<Long> agIds) throws RewardException {
         ClaimStatusType status = ClaimStatusType.INVALID_CODE;
         if (userId == null || StringUtils.isBlank(referralCode)) {
             throw new RewardException("userId or referralCode cannot be empty");
         }
 
-        Collection<Long> offerIds = roAllocatedGiftDao.listOfferIdsForUser(userId);
         User user = roUserDao.findById(userId);
         if (user == null) {
             throw new RewardException("user id " + userId + " doesn't exist");
         }
 
-        Collection<Shared> shareds = roSharedDao.listAvailableForGiftingByReferralCode(referralCode);
+        Shared shared = roSharedDao.findAvailableForGiftingByReferralCode(referralCode);
 
+        if (userId.equals(shared.getUserId())) {
+            throw new RewardException("cannot redeem the gift shared by him self.");
+        }
+
+        Collection<Allocatedgift> allocatedGifts = roAllocatedGiftDao.listValidByUserIdAndSharedId(userId, shared.getId());
+        
         Collection<Allocatedgift> newGifts = new ArrayList<Allocatedgift>();
-        for(Shared shared : shareds){
-            if(!offerIds.contains(shared.getOfferId())){
+        if (null != shared){
+            if(null == allocatedGifts || allocatedGifts.isEmpty()){
                 Offer offer = roOfferDao.findById(shared.getOfferId());
                 Date now = new Date();
                 if (now.before(offer.getBeginDate()) || now.after(offer.getEndDate())) {
                     status = ClaimStatusType.EXPIRED;
-                    continue;
                 } else {
                     Allocatedgift ag = createAllocateOffer(userId, shared, offer);
                     newGifts.add(ag);
-                    offerIds.add(shared.getOfferId());
                     status = ClaimStatusType.OK;
 
                     Merchant merchant = roMerchantDao.findById(ag.getMerchantId());
@@ -315,7 +305,12 @@ public class RewardServiceImpl implements RewardService{
                     GiftType gt = createGiftType( merchant, gift, offer);
                     addShareInfoToGift(gt, shared, friend, ag.getId());
                     gifts.add(gt);
+                    agIds.add(ag.getId());
                 }
+            } else {
+            	for (Allocatedgift g : allocatedGifts) {
+            		agIds.add(g.getId());
+            	}
             }
         }
 
@@ -325,13 +320,12 @@ public class RewardServiceImpl implements RewardService{
     @Override
     public GiftType getGiftByReferredCode(final String code) throws RewardException {
 
-        Collection<Shared> shareds = roSharedDao.listAvailableForGiftingByReferralCode(code);
+        Shared shared = roSharedDao.findAvailableForGiftingByReferralCode(code);
         
-        if (shareds == null || shareds.size() != 1) {
-        	throw new RewardException("should only have one shared with code " + code + ", found " + ((shareds == null) ? 0 : shareds.size()));
+        if (shared == null) {
+        	throw new RewardException("no shared found for code " + code);
         }
         
-        Shared shared = shareds.iterator().next();
         Offer offer = roOfferDao.findById(shared.getOfferId());
         Merchant merchant = roMerchantDao.findById(offer.getMerchantId());
         Gift gift = roGiftDao.findById(shared.getOfferId());

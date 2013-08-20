@@ -13,11 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kikbak.client.service.ReferralCodeUniqueException;
 import com.kikbak.client.service.SharedExperienceService;
+import com.kikbak.dao.ReadOnlyGiftDAO;
 import com.kikbak.dao.ReadOnlySharedDAO;
 import com.kikbak.dao.ReadOnlyUser2FriendDAO;
 import com.kikbak.dao.ReadWriteSharedDAO;
+import com.kikbak.dto.Gift;
 import com.kikbak.dto.Shared;
 import com.kikbak.jaxb.share.SharedType;
+import com.kikbak.push.service.PushNotifier;
 
 
 @Service
@@ -42,6 +45,12 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
 	@Autowired
 	ReadOnlyUser2FriendDAO roU2FDao;
 	
+    @Autowired
+    PushNotifier pushNotifier;
+	
+    @Autowired
+    ReadOnlyGiftDAO roGiftDAO;    
+    
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public String registerSharing(final Long userId, SharedType experience) {
@@ -52,6 +61,8 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
             try {
                 referralCode = generateReferralCode(userId, experience, maxLength);
                 persistExperience(userId, experience, referralCode);
+                Gift gift = roGiftDAO.findByOfferId(experience.getOfferId());
+                pushNotifier.sendGiftNotification(userId, gift);
                 break;
             } catch (ReferralCodeUniqueException e) {
                 ++maxLength;
@@ -120,6 +131,5 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
 		
 		rwSharedDao.saveShared(shared);
 	}
-	
-	
+
 }

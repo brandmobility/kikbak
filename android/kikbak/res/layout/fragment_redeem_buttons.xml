@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:kikbak="http://schemas.android.com/apk/res/com.referredlabs.kikbak"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="14dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp" >
+
+    <com.referredlabs.kikbak.widget.TtfButton
+        android:id="@+id/redeem_store"
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_weight="1"
+        android:background="@drawable/btn_blue"
+        android:text="@string/redeem_store"
+        android:textColor="@android:color/white"
+        android:textSize="15dp"
+        kikbak:typeface="Roboto-Medium.ttf" />
+
+    <com.referredlabs.kikbak.widget.TtfButton
+        android:id="@+id/redeem_online"
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_weight="1"
+        android:background="@drawable/btn_blue"
+        android:text="@string/redeem_online"
+        android:textColor="@android:color/white"
+        android:textSize="15dp"
+        android:visibility="gone"
+        kikbak:typeface="Roboto-Medium.ttf" />
+
+</LinearLayout>

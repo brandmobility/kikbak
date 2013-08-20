@@ -9,13 +9,9 @@ public class TheOffer {
   private ClientOfferType mOffer;
   private Nearest mNearest;
 
-  public TheOffer(long offerId, ClientOfferType offer) {
+  public TheOffer(long offerId, ClientOfferType offer, double latitude, double longitude) {
     mOffer = offer;
-    mNearest = new Nearest(offer.locations);
-  }
-
-  public void calculateDistance(double latitude, double longitude) {
-    mNearest.determineNearestLocation(latitude, longitude);
+    mNearest = new Nearest(mOffer.locations, latitude, longitude);
   }
 
   public ClientOfferType getOffer() {

@@ -3,6 +3,10 @@
 
     <declare-styleable name="TtfTextView">
         <attr name="typeface" format="string" />
+        <attr name="shadowRadius" format="dimension" />
+        <attr name="shadowDx" format="dimension" />
+        <attr name="shadowDy" format="dimension" />
+        <attr name="shadowColor" format="color" />
     </declare-styleable>
 
 </resources>

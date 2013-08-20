@@ -15,5 +15,7 @@ public interface UserService {
 	public void updateFriends(final long userId, final Collection<FriendType> friends);
 	public Collection<ClientOfferType> getOffers(final Long userId, final UserLocationType userLocation);
 	public void persistDeviceToken(final Long userId, final DeviceTokenType deviceToken);
+	public String getUserToken(long userId);
+	public boolean verifyUserToken(long userId, String token);
 
 }

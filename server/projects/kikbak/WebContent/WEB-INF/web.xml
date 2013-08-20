@@ -11,7 +11,8 @@
         /WEB-INF/applicationContext.xml
         /WEB-INF/dataSource.xml   
         /WEB-INF/dao.xml        
-        /WEB-INF/sessionFactory.xml       
+        /WEB-INF/sessionFactory.xml  
+        /WEB-INF/auth-filter.xml     
     </param-value>
     </context-param>
     <context-param>
@@ -39,6 +40,20 @@
        <url-pattern>/js/*</url-pattern>
     </servlet-mapping>
 
+    <filter>
+        <filter-name>cookieAuthenticationFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>cookieAuthenticationFilter</filter-name>
+        <servlet-name>cookieAuthenticationFilter</servlet-name>
+        <url-pattern>/ShareExperience/*</url-pattern>
+        <url-pattern>/rewards/*</url-pattern>
+        <url-pattern>/user/friends/*</url-pattern>
+        <url-pattern>/user/devicetoken/*</url-pattern>
+    </filter-mapping>
+    
     <servlet>
         <servlet-name>kikbak</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

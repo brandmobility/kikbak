@@ -10,6 +10,7 @@
         android:orientation="vertical" >
 
         <FrameLayout
+            android:id="@+id/overlay"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -54,7 +55,7 @@
         android:background="@drawable/textfield_comment"
         android:hint="@string/hint_add_comment"
         android:maxLength="1024"
-        android:maxLines="2"
+        android:maxLines="3"
         android:textSize="16dp"
         kikbak:typeface="Roboto-Regular.ttf" />
 
@@ -79,7 +80,7 @@
 
     <ImageButton
         android:id="@+id/take_photo"
-        style="?android:attr/borderlessButtonStyle"
+        style="@style/borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/name"
@@ -89,7 +90,7 @@
 
     <ImageButton
         android:id="@+id/retake_photo"
-        style="?android:attr/borderlessButtonStyle"
+        style="@style/borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"

@@ -103,6 +103,7 @@ CREATE TABLE `merchant`
     name VARCHAR(64) CHARACTER SET utf8 NOT NULL,
     description VARCHAR(4096) CHARACTER SET utf8,
     url VARCHAR(256),
+    image_url VARCHAR(256),
     PRIMARY KEY (id)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET latin1 COLLATE latin1_bin;
 
@@ -229,6 +230,15 @@ CREATE TABLE `user`
 	create_date DATETIME NOT NULL,
 	update_date DATETIME,
 	PRIMARY KEY (id)
+) ENGINE = InnoDB DEFAULT CHARACTER SET latin1 COLLATE latin1_bin;
+
+CREATE TABLE `userToken`
+(
+	id BIGINT NOT NULL AUTO_INCREMENT,
+	user_id BIGINT NOT NULL,
+	token VARCHAR(32) NOT NULL,
+	PRIMARY KEY (id),
+	UNIQUE KEY (user_id)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET latin1 COLLATE latin1_bin;
 
 

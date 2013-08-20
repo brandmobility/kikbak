@@ -9,7 +9,6 @@
     <context:component-scan base-package="com.kikbak.rest"/>
     <context:component-scan base-package="com.kikbak.admin.service"/>
     <context:component-scan base-package="com.kikbak.client.service"/>
-    
 
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
         <property name="messageConverters">

@@ -27,8 +27,13 @@ public class GcmHelper {
   private static final String KEY_EXPIRATION_TIME = "expirationTime";
   private static final long EXPIRY_TIME_MS = 1000 * 3600 * 24 * 7; // 7 days
 
-  public static GcmHelper getInstance() {
-    return new GcmHelper();
+  private static GcmHelper sInstance;
+
+  public static synchronized GcmHelper getInstance() {
+    if (sInstance == null) {
+      sInstance = new GcmHelper();
+    }
+    return sInstance;
   }
 
   private GcmHelper() {
@@ -67,6 +72,11 @@ public class GcmHelper {
     return registrationId;
   }
 
+  public void clear() {
+    SharedPreferences prefs = Kikbak.getInstance().getSharedPreferences(REG, Context.MODE_PRIVATE);
+    prefs.edit().clear().commit();
+  }
+
   private void register() {
     new RegisterTask().execute();
   }
@@ -96,7 +106,6 @@ public class GcmHelper {
       req.user.userId = userId;
       req.token = new DeviceTokenType();
       req.token.token = regId;
-      req.token.platform_id = 7;
 
       String uri = Http.getUri(DeviceTokenUpdateRequest.PATH + userId);
       Http.execute(uri, req, DeviceTokenUpdateResponse.class);

@@ -43,7 +43,7 @@
     <string name="give">Give to friends</string>
     <string name="give_gift_optional_note">Optional text, you can put 40 characters here.</string>
     <string name="give_get_optional_note">For every friend that redeems your gift</string>
-    <string name="terms">Terms and Conditions</string>
+    <string name="terms">Terms &amp; Conditions</string>
     <string name="hint_add_comment">Add comment</string>
     <string name="take_photo">Take a photo</string>
     <string name="share_failed_toast">We were unable to share your gift. Please try again.</string>
@@ -77,12 +77,12 @@
     <string name="share_option_via_email">Share via email</string>
     <string name="share_option_via_sms">Share via SMS</string>
     <string name="share_option_via_facebook">Post on Facebook</string>
-
+    <string name="share_option_other_location">Other</string>
+    
     <!-- Customized -->
-    <string name="share_customized_title">Helped by %s associate?</string>
-    <string name="share_customized_note">Let your nearby friends know who to ask when they visit the store.</string>
-    <string name="share_customized_employee_name_hint">Asociate name</string>
-    <string name="share_customized_store_id_hint">Store ID</string>
+    <string name="share_options_helped_title">Helped by an employee ?</string>
+    <string name="share_options_helped_note">Let your nearby friends know who to ask for when they visit the store.</string>
+    <string name="share_options_employee_name_hint">Employee name</string>
 
     <!-- Share progress -->
     <string name="share_in_progress">Sharing gift</string>
@@ -107,8 +107,9 @@
     <string name="redeem_card_ready">You have a reward ready to be claimed!</string>
     <string name="gift_card">Gift Card</string>
     <string name="claim_reward">Claim reward now</string>
-    <string name="redeem_store">Redeem now in store</string>
-
+    <string name="redeem_store">Redeem in store</string>
+    <string name="redeem_online">Redeem online</string>
+    
     <!-- Change amount -->
     <string name="change_amount_title">Change amount</string>
     <string name="credit_avaiable_label">Credit avaiable</string>

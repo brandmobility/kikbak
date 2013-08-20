@@ -1,10 +1,6 @@
 
 package com.referredlabs.kikbak;
 
-import android.app.Application;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
-
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -12,6 +8,12 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import android.app.Application;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
+
+import com.referredlabs.kikbak.http.HttpClientHelper;
 
 public class Kikbak extends Application {
 
@@ -42,6 +44,7 @@ public class Kikbak extends Application {
   @Override
   public void onCreate() {
     super.onCreate();
+    HttpClientHelper.createInstance(this);
     setInstance(this);
   }
 
@@ -54,5 +57,4 @@ public class Kikbak extends Application {
       throw new RuntimeException("Could not get package name: " + e);
     }
   }
-
 }

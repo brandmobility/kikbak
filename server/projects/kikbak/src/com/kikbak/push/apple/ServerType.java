@@ -1,4 +1,4 @@
-package com.kikbak.push.service.impl;
+package com.kikbak.push.apple;
 
 public enum ServerType {
     development("gateway.sandbox.push.apple.com", 2195, "feedback.sandbox.push.apple.com", 2196),

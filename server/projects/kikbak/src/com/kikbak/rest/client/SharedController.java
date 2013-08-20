@@ -31,7 +31,7 @@ import com.kikbak.rest.StatusCode;
 
 @Controller
 @RequestMapping("/ShareExperience")
-public class SharedController {
+public class SharedController extends AbstractController {
 
 	private static final Logger logger = Logger.getLogger(SharedController.class);
 	
@@ -60,6 +60,19 @@ public class SharedController {
 	public ShareExperienceResponse postShareExperience(@PathVariable("userId") Long userId,
 			@RequestBody ShareExperienceRequest experienceRequest, final HttpServletResponse httpResponse)
 	{
+    	try {
+    		Long actualUserId = getCurrentUserId();
+    		if (!userId.equals(actualUserId)) {
+                logger.error("Wrong user expect " + userId + " actually " + actualUserId);
+    			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                return null;
+    		}
+    	} catch (Exception e) {
+            logger.error(e,e);
+			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return null;
+    	}
+    	
 		ShareExperienceResponse response = new ShareExperienceResponse();
 		StatusType status = new StatusType();
 		status.setCode(StatusCode.OK.ordinal());

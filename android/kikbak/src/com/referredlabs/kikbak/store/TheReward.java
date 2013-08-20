@@ -6,27 +6,26 @@ import com.referredlabs.kikbak.data.ClientMerchantType;
 import com.referredlabs.kikbak.data.GiftType;
 import com.referredlabs.kikbak.utils.Nearest;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class TheReward {
 
-  private ArrayList<GiftType> mGifts = new ArrayList<GiftType>();
+  private GiftType mGift;
   private AvailableCreditType mCredit;
   private final ClientMerchantType mMerchant;
   private Nearest mNearest;
 
-  public TheReward(long offerId, ClientMerchantType merchant) {
+  public TheReward(long offerId, ClientMerchantType merchant, double latitude, double longitude) {
     mMerchant = merchant;
-    mNearest = new Nearest(merchant.locations);
+    mNearest = new Nearest(merchant.locations, latitude, longitude);
   }
 
   public void addGift(GiftType gift) {
-    mGifts.add(gift);
+    if (mGift != null)
+      throw new IllegalArgumentException("gift was already set, two same gifts for one offer ?");
+    mGift = gift;
   }
 
-  public List<GiftType> getGifts() {
-    return mGifts;
+  public GiftType getGift() {
+    return mGift;
   }
 
   public void addCredit(AvailableCreditType credit) {
@@ -40,19 +39,15 @@ public class TheReward {
   }
 
   public boolean hasGifts() {
-    return mGifts.size() > 0;
+    return mGift != null;
   }
 
   public boolean hasMultipleGifts() {
-    return mGifts.size() > 1;
+    return mGift != null && mGift.shareInfo.length > 1;
   }
 
   public boolean hasCredit() {
     return mCredit != null;
-  }
-
-  public void calculateDistance(double latitude, double longitude) {
-    mNearest.determineNearestLocation(latitude, longitude);
   }
 
   public float getDistance() {
@@ -68,12 +63,11 @@ public class TheReward {
   }
 
   public String getImageUrl() {
-    if (mGifts.size() > 0) {
-      return mGifts.get(0).imageUrl;
+    if (mGift != null) {
+      return mGift.defaultGiveImageUrl;
     } else if (mCredit != null) {
       return mCredit.imageUrl;
     }
     return null;
   }
-
 }

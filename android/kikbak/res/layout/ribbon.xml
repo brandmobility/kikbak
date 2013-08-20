@@ -1,65 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <FrameLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:kikbak="http://schemas.android.com/apk/res/com.referredlabs.kikbak"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_alignParentRight="true"
+    android:layout_marginRight="15dp"
+    android:layout_marginTop="15dp"
+    android:background="@drawable/bg_ribbon" >
+
+    <com.referredlabs.kikbak.widget.TtfTextView
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="15dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="15dp"
-        android:background="@drawable/bg_ribbon" >
+        android:includeFontPadding="false"
+        android:orientation="vertical"
+        android:paddingLeft="5dp"
+        android:text="@string/ribbon_give"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        kikbak:shadowColor="#000000"
+        kikbak:shadowDy="-1dp"
+        kikbak:shadowRadius="2dp"
+        kikbak:typeface="Roboto-Bold.ttf" />
 
-        <com.referredlabs.kikbak.widget.TtfTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"
-            android:includeFontPadding="false"
-            android:orientation="vertical"
-            android:paddingLeft="5dp"
-            android:text="@string/ribbon_give"
-            android:textColor="@android:color/white"
-            android:textSize="12sp"
-            kikbak:typeface="Roboto-Bold.ttf" />
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:id="@+id/ribbon_give_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:paddingLeft="5dp"
+        android:text="20%\nOFF"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        kikbak:shadowColor="#000000"
+        kikbak:shadowDy="-1dp"
+        kikbak:shadowRadius="2dp"
+        kikbak:typeface="Roboto-Bold.ttf" />
 
-        <com.referredlabs.kikbak.widget.TtfTextView
-            android:id="@+id/ribbon_give_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp"
-            android:includeFontPadding="false"
-            android:maxLines="1"
-            android:paddingLeft="5dp"
-            android:text="20%\nOFF"
-            android:textColor="@android:color/white"
-            android:textSize="24sp"
-            kikbak:typeface="Roboto-Bold.ttf" />
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="95dp"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:paddingLeft="5dp"
+        android:text="@string/ribbon_get"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        kikbak:shadowColor="#000000"
+        kikbak:shadowDy="-1dp"
+        kikbak:shadowRadius="2dp"
+        kikbak:typeface="Roboto-Bold.ttf" />
 
-        <com.referredlabs.kikbak.widget.TtfTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="95dp"
-            android:includeFontPadding="false"
-            android:maxLines="1"
-            android:paddingLeft="5dp"
-            android:text="@string/ribbon_get"
-            android:textColor="@android:color/white"
-            android:textSize="12sp"
-            kikbak:typeface="Roboto-Bold.ttf" />
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:id="@+id/ribbon_get_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="108dp"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:paddingLeft="5dp"
+        android:text="$10"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        kikbak:shadowColor="#000000"
+        kikbak:shadowDy="-1dp"
+        kikbak:shadowRadius="2dp"
+        kikbak:typeface="Roboto-Bold.ttf" />
 
-        <com.referredlabs.kikbak.widget.TtfTextView
-            android:id="@+id/ribbon_get_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="108dp"
-            android:includeFontPadding="false"
-            android:maxLines="1"
-            android:paddingLeft="5dp"
-            android:text="$10"
-            android:textColor="@android:color/white"
-            android:textSize="24sp"
-            kikbak:typeface="Roboto-Bold.ttf" />
-    </FrameLayout>
+</FrameLayout>

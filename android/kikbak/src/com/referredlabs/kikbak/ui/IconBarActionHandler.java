@@ -1,6 +1,8 @@
 
 package com.referredlabs.kikbak.ui;
 
+import java.util.Locale;
+
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -8,8 +10,6 @@ import android.net.Uri;
 
 import com.referredlabs.kikbak.ui.IconBarHelper.IconBarListener;
 import com.referredlabs.kikbak.utils.Nearest;
-
-import java.util.Locale;
 
 public class IconBarActionHandler implements IconBarListener {
 
@@ -20,9 +20,9 @@ public class IconBarActionHandler implements IconBarListener {
   }
 
   @Override
-  public void onMapIconClicked(Nearest loc) {
-    String uri = String.format(Locale.US, "geo:0,0?q=%1$f,%2$f", loc.getLatitude(),
-        loc.getLongitude());
+  public void onMapIconClicked(Nearest nearest) {
+    String uri = String.format(Locale.US, "geo:0,0?q=%1$f,%2$f", nearest.get().latitude,
+        nearest.get().longitude);
     // String uri = String.format(Locale.US, "https://maps.google.com/maps?q=%1$f,%2$f",
     // loc.getLatitude(), loc.getLongitude());
     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));

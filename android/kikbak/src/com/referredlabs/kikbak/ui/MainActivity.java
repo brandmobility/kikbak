@@ -16,7 +16,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,7 +37,7 @@ import com.referredlabs.kikbak.ui.OfferListFragment.OnOfferClickedListener;
 import com.referredlabs.kikbak.ui.RewardListFragment.OnRedeemListener;
 import com.referredlabs.kikbak.utils.Register;
 
-public class MainActivity extends ActionBarActivity implements ActionBar.TabListener,
+public class MainActivity extends KikbakActivity implements ActionBar.TabListener,
     OnOfferClickedListener, OnRedeemListener,
     LocationFinderListener {
 
@@ -145,6 +144,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
       case R.id.action_clear_registration:
         Register.getInstance().clear();
+        GcmHelper.getInstance().clear();
         finish();
         return true;
 
@@ -206,8 +206,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
   }
 
   @Override
-  public void onRedeemGift(GiftType gift) {
-    redeemGift(gift);
+  public void onRedeemGift(GiftType gift, int shareIdx) {
+    redeemGift(gift, shareIdx);
   }
 
   @Override
@@ -220,10 +220,11 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     getSupportActionBar().setSelectedNavigationItem(0);
   }
 
-  private void redeemGift(GiftType gift) {
+  private void redeemGift(GiftType gift, int shareIdx) {
     Intent intent = new Intent(this, RedeemGiftActivity.class);
     String data = new Gson().toJson(gift);
     intent.putExtra(RedeemGiftActivity.EXTRA_GIFT, data);
+    intent.putExtra(RedeemGiftActivity.EXTRA_SHARE_IDX, shareIdx);
     startActivity(intent);
   }
 
