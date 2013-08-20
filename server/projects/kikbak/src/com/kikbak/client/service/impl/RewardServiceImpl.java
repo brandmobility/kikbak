@@ -172,6 +172,7 @@ public class RewardServiceImpl implements RewardService{
             AvailableCreditType ac = new AvailableCreditType();
             ac.setValue(credit.getValue());
             ac.setId(credit.getId());
+            ac.setOfferId(credit.getOfferId());
 
             Merchant merchant = roMerchantDao.findById(credit.getMerchantId());
             ClientMerchantType cmt = fillClientMerchantType(merchant);
