@@ -200,7 +200,7 @@ public class UserServiceTest extends KikbakBaseTest{
 		ut.setGender("male");
 		ut.setLastName("last");
 		ut.setName("first last");
-		ut.setId(12345);
+		ut.setId(12345L);
 		ut.setVerified(true);
 		
 		return ut;

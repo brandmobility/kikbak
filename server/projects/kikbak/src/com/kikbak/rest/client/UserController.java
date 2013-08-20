@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.kikbak.client.service.FbLoginService;
 import com.kikbak.client.service.UserService;
 import com.kikbak.client.service.impl.CookieAuthenticationFilter;
 import com.kikbak.jaxb.devicetoken.DeviceTokenUpdateRequest;
@@ -22,6 +23,7 @@ import com.kikbak.jaxb.offer.GetUserOffersRequest;
 import com.kikbak.jaxb.offer.GetUserOffersResponse;
 import com.kikbak.jaxb.register.RegisterUserRequest;
 import com.kikbak.jaxb.register.RegisterUserResponse;
+import com.kikbak.jaxb.register.UserType;
 import com.kikbak.jaxb.statustype.StatusType;
 import com.kikbak.rest.StatusCode;
 
@@ -30,7 +32,10 @@ import com.kikbak.rest.StatusCode;
 public class UserController extends AbstractController {
 
 	@Autowired
-	private UserService service;
+	private UserService userService;
+	
+	@Autowired
+	private FbLoginService fbLoginService;
 
 	@Autowired
 	private PropertiesConfiguration config;
@@ -50,8 +55,9 @@ public class UserController extends AbstractController {
 		status.setCode(StatusCode.OK.ordinal());
 		response.setStatus(status);
 		try {
-			response.setUserId(service.registerUser(request.getUser()));
-			String token = service.getUserToken(response.getUserId().getUserId());
+			UserType user = fbLoginService.getUserInfo(request.getUser().getAccessToken());
+			response.setUserId(userService.registerUser(user));
+			String token = userService.getUserToken(response.getUserId().getUserId());
 			Cookie cookie = new Cookie(CookieAuthenticationFilter.COOKIE_TOKEN_KEY, token);
 			if (config.getBoolean(USER_COOKIE_SECURE)) {
 				cookie.setSecure(true);
@@ -98,7 +104,7 @@ public class UserController extends AbstractController {
 		status.setCode(StatusCode.OK.ordinal());
 		response.setStatus(status);
 		try {
-			service.updateFriends(userId, request.getFriends());
+			userService.updateFriends(userId, request.getFriends());
 		} catch (Exception e) {
 			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			status.setCode(StatusCode.ERROR.ordinal());
@@ -117,7 +123,7 @@ public class UserController extends AbstractController {
 		status.setCode(StatusCode.OK.ordinal());
 		response.setStatus(status);
 		try {
-			response.getOffers().addAll(service.getOffers(userId, request.getUserLocation()));
+			response.getOffers().addAll(userService.getOffers(userId, request.getUserLocation()));
 		} catch (Exception e) {
 			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			status.setCode(StatusCode.ERROR.ordinal());
@@ -148,7 +154,7 @@ public class UserController extends AbstractController {
 		status.setCode(StatusCode.OK.ordinal());
 		response.setStatus(status);
 		try {
-			service.persistDeviceToken(userId, request.getToken());
+			userService.persistDeviceToken(userId, request.getToken());
 		} catch (Exception e) {
 			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			status.setCode(StatusCode.ERROR.ordinal());
