@@ -166,38 +166,26 @@ function connectFb(accessToken) {
     initPosition(initPage);
     return;
   }
-  FB.api('/me', function(response) {
-    var user = {};
-    user['id'] = response.id;
-    user['first_name'] = response.first_name;
-    user['last_name'] = response.last_name;
-    user['name'] = response.name;
-    user['link'] = response.link;
-    user['gender'] = response.gender;
-    user['locale'] = response.locale;
-    user['verified'] = response.verified;
-    user['timezone'] = response.timezone;
-    user['updated_time'] = response.updated_time;
-    user['email'] = response.email
-    var data = {};
-    data['user'] = user;
-    var req = {};
-    req['RegisterUserRequest'] = data;
-    var str = JSON.stringify(req);
+  var user = {};
+  user['access_token'] = accessToken;
+  var data = {};
+  data['user'] = user;
+  var req = {};
+  req['RegisterUserRequest'] = data;
+  var str = JSON.stringify(req);
 
-    localStorage.userName = response.first_name + ' ' + response.last_name;
+  localStorage.userName = response.first_name + ' ' + response.last_name;
 
-    $.ajax({
-      dataType: 'json',
-      type: 'POST',
-      contentType: 'application/json',
-      data: str,
-      url: config.backend + 'kikbak/user/register/fb/',
-      success: function(json) {
-        updateFbFriends(json.registerUserResponse.userId.userId, initPage);
-      },
-      error: showError
-    });
+  $.ajax({
+    dataType: 'json',
+    type: 'POST',
+    contentType: 'application/json',
+    data: str,
+    url: config.backend + 'kikbak/user/register/fb/',
+    success: function(json) {
+      updateFbFriends(json.registerUserResponse.userId.userId, initPage);
+    },
+    error: showError
   });
 }
 
