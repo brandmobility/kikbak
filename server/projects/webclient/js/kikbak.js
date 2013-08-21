@@ -589,31 +589,39 @@ function renderRedeem(gifts, credits) {
     html += '<a href="' + m.url + '"><img src="images/ic_web@2x.png" /></a>';
   }
 
+  var valid = false;
   html += '</div></div><div class="lst-dtl">';
   if (gifts) {
     var g = gifts[0];
-    var json = escape(JSON.stringify(gifts));
-    var style = credits ? ' lft-bdr' : '';
-    html += '<a href="#" data-object="' + json + '" class="redeem-gift-btn clearfix">';
-    html += '<div class="lft-dtl' + style + '"><span>USE RECEIVED GIFT </span><h2>' + g.desc + '</h2>';
-    html += '<img style="width:64px;height:64px;" src="https://graph.facebook.com/' + g.shareInfo[0].fbFriendId + '/picture?type=square">';
-    if (gifts.length > 1) {
-      html += '<img src="images/actor-bk.png" class="actbrd">';
-    }
-    html += '</div>';
-    html += '</a>'; 
+    if (g.validationType === 'barcode') {
+      var json = escape(JSON.stringify(gifts));
+      var style = credits ? ' lft-bdr' : '';
+      html += '<a href="#" data-object="' + json + '" class="redeem-gift-btn clearfix">';
+      html += '<div class="lft-dtl' + style + '"><span>USE RECEIVED GIFT </span><h2>' + g.desc + '</h2>';
+      html += '<img style="width:64px;height:64px;" src="https://graph.facebook.com/' + g.shareInfo[0].fbFriendId + '/picture?type=square">';
+      if (gifts.length > 1) {
+        html += '<img src="images/actor-bk.png" class="actbrd">';
+      }
+      html += '</div>';
+      html += '</a>';
+      valid = true;
+    } 
   }
   if (credits) {
     var c = credits[0];
-    var json = escape(JSON.stringify(credits));
-    html += '<a href="#" data-object="' + json + '" class="redeem-credit-btn clearfix">';
-    html += '<div class="rit-dtl"><span>CLAIM REWARD</span><h2>' + c.desc + '</h2></div>';
-    html += '</a>'; 
+    if (c.rewardType === 'gift_card') {
+      var json = escape(JSON.stringify(credits));
+      html += '<a href="#" data-object="' + json + '" class="redeem-credit-btn clearfix">';
+      html += '<div class="rit-dtl"><span>CLAIM REWARD</span><h2>' + c.desc + '</h2></div>';
+      html += '</a>';
+      valid = true;
+    }
   }
   html += '</div>';
   
-  $('#redeem-list').append(html);
-
+  if (valid) {
+    $('#redeem-list').append(html);
+  }
 }
 
 function getOfferDetail() {
