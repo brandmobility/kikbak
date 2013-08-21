@@ -174,8 +174,6 @@ function connectFb(accessToken) {
   req['RegisterUserRequest'] = data;
   var str = JSON.stringify(req);
 
-  localStorage.userName = response.first_name + ' ' + response.last_name;
-
   $.ajax({
     dataType: 'json',
     type: 'POST',
@@ -735,7 +733,7 @@ function renderOfferDetail(offer) {
   } else {
     html += '<input name="share" type="submit" class="btn grd3" value="Connect with Facebook to share" />';
     html += '<div class="crt">';
-    html += '<p>We use Facebook to make it easy for you to store, redeem, and share gifts.  We will never post on Facebook with your permission.</p>';
+    html += '<p><font size="2">We use Facebook to make it easy for you to store, redeem, and share gifts.  We will never post on Facebook with your permission.</font></p>';
     html += '</div>';
   }
   html += '</form>';
@@ -767,27 +765,52 @@ function doSuggest() {
   if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
     var req = new FormData();
     var file =  $('#take-picture-suggest')[0].files[0];
-    req.append('source', file);
-    var url='https://graph.facebook.com/photos?access_token=' + localStorage.accessToken;
+    req.append('file', file);
+    req.append('userId', userId);
     $.ajax({
-      url: url,
-      data: req,
-      cache: false,
-      contentType: false,
-      dataType: 'json',
-      type: 'POST',
-      success: onSuggestResponse,
-      error: showError
+      url : config.backend + '/suggest/upload.php',
+      data : req,
+      processData : false,
+      cache : false,
+      contentType : false,
+      dataType : 'json',
+      type : 'POST',
+      success : function(response) {
+        if (response && response.url) {
+          onSuggestResponse(response.url);
+        } else {
+          showError();
+        }
+      },
+      error : showError
     });
   }
 }
 
-function onSuggestResponse() {
-  if (response && response.post_id) {
-    // TODO
-  } else {
-    $('#suggest-form input[name="suggest"]').removeAttr('disabled');
-    alert(response.error.message);
+function onSuggestResponse(url) {
+  var userId = localStorage.userId;
+  if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
+    var business = {};
+    business['business_name'] = $('#suggest-form input[name="name"]').val();
+    business['why'] = $('#suggest-form input[name="reason"]').val();
+    business['image_url'] = url; 
+    var data = {};
+    data['business'] = business;
+    var req = {};
+    req['SuggestBusinessRequest'] = data;
+    var str = JSON.stringify(req);
+    $.ajax({
+      url : config.backend + 'kikbak/suggest/business/' + userId,
+      dataType: 'json',
+      type: 'POST',
+      contentType: 'application/json',
+      data: str,
+      success : function(response) {
+        localStorage.pageType = 'offer';
+        initPage();
+      },
+      error : showError
+    });
   }
 }
 
@@ -918,12 +941,6 @@ function shareViaEmail() {
 function shareViaFacebook() {
   $('#spinner h2').html('Sharing gift');
   doShare(function(code, msg, imageUrl, resp) {
-    var data = {
-      'name': localStorage.userName,
-      'code': code,
-      'desc': msg,
-      'url' : imageUrl
-    };
     var fbUrl = config.landing + code;
     var o = {
       'app_id' : config.appId,
