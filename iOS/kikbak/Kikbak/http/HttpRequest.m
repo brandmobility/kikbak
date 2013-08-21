@@ -8,6 +8,7 @@
 
 #import "HttpRequest.h"
 #import "HTTPConstants.h"
+#import "KikbakConstants.h"
 
 @interface HttpRequest()
 
@@ -18,23 +19,26 @@
 
 -(void)restPostRequest{
   
-  NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%s/%s/%@",service_host, kikbak_service, _resource]];
-  
-  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%s/%s/%@",service_host, kikbak_service, _resource]];
+
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
                                                          cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60.0];
-  
-  NSData *requestData = [NSData dataWithBytes:[_body UTF8String] length:[_body lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
-  
-  [request setHTTPMethod:@"POST"];
-  [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-  [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-  [request setValue:[NSString stringWithFormat:@"%d", [requestData length]] forHTTPHeaderField:@"Content-Length"];
-  [request setHTTPBody: requestData];
-  
-  NSURLConnection *connection = [[NSURLConnection alloc]initWithRequest:request delegate:self];
-  if (connection) {
-    _receivedData = [NSMutableData data];
-  }
+
+    NSData *requestData = [NSData dataWithBytes:[_body UTF8String] length:[_body lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
+
+    [request setHTTPMethod:@"POST"];
+
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
+    [request setValue:[prefs objectForKey:COOKIE_KEY] forHTTPHeaderField:COOKIE_KEY];
+    [request setValue:[NSString stringWithFormat:@"%d", [requestData length]] forHTTPHeaderField:@"Content-Length"];
+    [request setHTTPBody: requestData];
+
+    NSURLConnection *connection = [[NSURLConnection alloc]initWithRequest:request delegate:self];
+    if (connection) {
+        _receivedData = [NSMutableData data];
+    }
 }
 
 -(void)httpGetRequest{
@@ -44,6 +48,8 @@
                                                            cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60.0];
     
     [request setHTTPMethod:@"GET"];
+    NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
+    [request setValue:[prefs objectForKey:COOKIE_KEY] forHTTPHeaderField:COOKIE_KEY];
     
     NSURLConnection *connection = [[NSURLConnection alloc]initWithRequest:request delegate:self];
     if (connection) {
@@ -76,6 +82,11 @@
     if( [response class] == [ NSHTTPURLResponse class]){
         NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
         self.responseHeaders = [httpResponse allHeaderFields];
+        if( [self.responseHeaders objectForKey:@"Set-Cookie"]){
+            NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
+            [prefs setValue:[self.responseHeaders objectForKey:@"Set-Cookie"] forKey:COOKIE_KEY];
+            [prefs synchronize];
+        }
         statusCode = [httpResponse statusCode];
     }
 }
