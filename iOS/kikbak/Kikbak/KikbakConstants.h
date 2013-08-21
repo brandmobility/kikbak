@@ -11,6 +11,7 @@
 
 #define KIKBAK_USER_ID @"kikbakId"
 #define DEVICE_TOKEN_KEY @"deviceToken"
+#define COOKIE_KEY @"cookie"
 
 
 typedef enum{

@@ -107,6 +107,7 @@
             
             [dict setObject:[result objectForKey:@"verified"] forKey:@"verified"];
             [dict setObject:[result objectForKey:@"gender"] forKey:@"gender"];
+            [dict setObject:[FBSession activeSession].accessTokenData.accessToken forKey:@"access_token"];
             [request restRequest:dict];
         }
 

@@ -72,7 +72,6 @@ const int CELL_HEIGHT = 156;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.offers = [OfferService getOffers];
     
 	// Do any additional setup after loading the view.
     self.navigationController.navigationBar.topItem.title = NSLocalizedString(@"Kikbak", nil);

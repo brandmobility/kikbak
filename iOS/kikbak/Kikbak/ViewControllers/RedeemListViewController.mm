@@ -93,6 +93,7 @@ const int CELL_HEIGHT = 206;
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onLocationUpdate:) name:kKikbakLocationUpdate object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onRewaredCollectionUpdate:) name:kKikbakRewardUpdate object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onOffersDownloaded:) name:kKikbakOffersDownloaded object:nil];
     
     [self.tabBarController.view addSubview:self.redeemBtn];
     [self.tabBarController.view addSubview:self.seperator];
@@ -118,6 +119,7 @@ const int CELL_HEIGHT = 206;
 -(void)viewDidDisappear:(BOOL)animated{
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakRewardUpdate object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakLocationUpdate object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakOffersDownloaded object:nil];
 
     [super viewDidDisappear:animated];
 }
@@ -340,6 +342,10 @@ const int CELL_HEIGHT = 206;
 -(void) onRewaredCollectionUpdate:(NSNotification*)notification{
     [self createRewardCollection];
     [self toggleViews];
+    [self.table reloadData];
+}
+
+-(void) onOffersDownloaded:(NSNotification*)notification{
     [self.table reloadData];
 }
 
