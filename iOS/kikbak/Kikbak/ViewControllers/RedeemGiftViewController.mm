@@ -8,7 +8,6 @@
 
 #import "RedeemGiftViewController.h"
 #import "UIDevice+Screen.h"
-#import "RedeemView.h"
 #import "AppDelegate.h"
 #import "QRCodeReader.h"
 #import "Gift.h"
@@ -71,7 +70,6 @@
 -(IBAction)onRedeemBtn:(id)sender;
 
 
--(NSDictionary*)setupGiftRequest;
 -(void)updateDistance;
 
 -(void) onLocationUpdate:(NSNotification*)notification;
@@ -333,35 +331,25 @@
 
 -(IBAction)onRedeemBtn:(id)sender{
 
-//    RedeemGiftSuccessViewController* vc = [[RedeemGiftSuccessViewController alloc]init];
-//    vc.gift = self.gift;
-//    [self.navigationController pushViewController:vc animated:YES];
-    
-//    ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO];
-//    
-//    NSMutableSet *readers = [[NSMutableSet alloc ] init];
-//    QRCodeReader* qrcodeReader = [[QRCodeReader alloc] init];
-//    [readers addObject:qrcodeReader];
-//    
-//    widController.readers = readers;
-//    [self presentViewController:widController animated:YES completion:nil];
-//    if(self.reward.kikbak != nil){
-//        RedeemKikbakRequest* rkr = [[RedeemKikbakRequest alloc]init];
-//        rkr.kikbak = self.reward.kikbak;
-//        [rkr restRequest:[self setupKikbakRequest]];
-//    }
-    
     self.value = self.gift.value;
     self.giftType = self.gift.discountType;
     
-    if(self.gift != nil){
-//        RedeemGiftRequest *request = [[RedeemGiftRequest alloc]init];
-//        request.gift = self.gift;
-//        [request restRequest:[self setupGiftRequest]];
+    if( [self.gift.validationType compare:@"barcode"] == NSOrderedSame){
         BarcodeImageRequest* request = [[BarcodeImageRequest alloc]init];
         request.allocatedGiftId = self.shareInfo.allocatedGiftId;
         [request requestBarcode];
     }
+    else{
+        ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO];
+
+        NSMutableSet *readers = [[NSMutableSet alloc ] init];
+        QRCodeReader* qrcodeReader = [[QRCodeReader alloc] init];
+        [readers addObject:qrcodeReader];
+
+        widController.readers = readers;
+        [self presentViewController:widController animated:YES completion:nil];
+    }
+    
 }
 
 -(void)onTermsBtn:(id)sender{
@@ -373,67 +361,25 @@
 }
 
 
+#pragma mark - qrcode scanner callbacks
 - (void)zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)result {
     [self dismissViewControllerAnimated:NO completion:nil];
     
-    CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
-    RedeemView* redeemView = [[RedeemView alloc]initWithFrame:frame];
-    [redeemView manuallyLayoutSubviews];
-    [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:redeemView];
-    
     RedeemGiftRequest *request = [[RedeemGiftRequest alloc]init];
-    NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:3];
-    [dict setObject:self.shareInfo.allocatedGiftId forKey:@"id"];
-    Location* location = [self.gift.location anyObject];
-    [dict setObject:location.locationId forKey:@"locationId"];
-    [dict setObject:self.shareInfo.friendUserId forKey:@"friendId"];
-    [dict setObject:@"zdfdw" forKey:@"verificationCode"];
-    [request restRequest:dict];
-    
-    self.gift.location = nil;
-    NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
-    [context deleteObject:self.gift];
-    
-    NSError* error;
-    [context save:&error];
-    
-    if(error){
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-    }
-    
-    self.gift = nil;
-}
-
-- (void)zxingControllerDidCancel:(ZXingWidgetController*)controller {
-    [self dismissViewControllerAnimated:YES completion:nil];
-    
-    RedeemGiftRequest *request = [[RedeemGiftRequest alloc]init];
-    [request restRequest:[self setupGiftRequest]];
-    
-    self.gift.location = nil;
-    NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
-    [context deleteObject:self.gift];
-    
-    NSError* error;
-    [context save:&error];
-    
-    if(error){
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-    }
-    
-    self.gift = nil;
-}
-
--(NSDictionary*)setupGiftRequest{
     NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:3];
     [dict setObject:self.shareInfo.allocatedGiftId forKey:@"id"];
     Location* location = [self.gift.location anyObject];
     [dict setObject:location.locationId forKey:@"locationId"];
     [dict setObject:self.shareInfo.friendUserId forKey:@"friendUserId"];
-    [dict setObject:@"fwttt" forKey:@"verificationCode"];
-    
-    return dict;
+    [dict setObject:result forKey:@"verificationCode"];
+    [request restRequest:dict];
 }
+
+- (void)zxingControllerDidCancel:(ZXingWidgetController*)controller {
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+}
+
 
 
 -(void)updateDistance{
@@ -453,6 +399,17 @@
 }
 
 -(void) onRedeemGiftSuccess:(NSNotification*)notification{
+    self.gift.location = nil;
+    NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
+    [context deleteObject:self.gift];
+    NSError* error;
+    [context save:&error];
+    if(error){
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+    }
+    self.gift = nil;
+
+    
     RedeemGiftSuccessViewController* vc = [[RedeemGiftSuccessViewController alloc]init];
     vc.validationCode = [notification object];
     vc.merchantName = self.retailerName.text;

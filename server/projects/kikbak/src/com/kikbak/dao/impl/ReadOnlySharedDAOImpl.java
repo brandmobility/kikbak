@@ -16,7 +16,7 @@ import com.kikbak.dto.Shared;
 public class ReadOnlySharedDAOImpl extends ReadOnlyGenericDAOImpl<Shared, Long> implements ReadOnlySharedDAO{
 
 	private static final String find_gifts="select shared.* from offer, shared where begin_date < now() and end_date > now() " + 
-			"and offer.id=shared.offer_id and offer.id in ( select offer_id from shared where user_id in " +
+			"and offer.id=shared.offer_id and offer.id in (select offer_id from shared where user_id in " +
 			"(select user_id from user2friend where facebook_friend_id=?) group by offer_id) " +
 			"and user_id in (select user_id from user2friend where facebook_friend_id=?)";
 

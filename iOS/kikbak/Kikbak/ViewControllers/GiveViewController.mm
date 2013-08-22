@@ -749,6 +749,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [dict setObject:data.locationId forKey:@"locationId"];
     [dict setObject:self.offer.offerId forKey:@"offerId"];
     [dict setObject:data.employeeName forKey:@"employeeId"];
+    [dict setObject:self.imageUrl forKey:@"imageUrl"];
     [dict setObject:@"fb" forKey:@"type"];
     [dict setObject:@"ios" forKey:@"platform"];
     if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){

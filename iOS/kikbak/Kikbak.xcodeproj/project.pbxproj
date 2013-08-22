@@ -202,7 +202,6 @@
 		3CCCBCF016F03A0B00FA71A2 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCBCEF16F03A0B00FA71A2 /* NSData+Base64.m */; };
 		3CCCBCF316F03A2300FA71A2 /* UIDevice+Screen.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCBCF216F03A2300FA71A2 /* UIDevice+Screen.m */; };
 		3CCCBCF716F2E59500FA71A2 /* TermsAndConditionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCBCF616F2E59500FA71A2 /* TermsAndConditionsView.m */; };
-		3CCCBCFA16F2E60B00FA71A2 /* RedeemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCBCF916F2E60B00FA71A2 /* RedeemView.m */; };
 		3CCCBD0116F4444000FA71A2 /* GiveViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCBD0016F4444000FA71A2 /* GiveViewController.mm */; };
 		3CF383D51706C2350010D9B9 /* UIImage+Manipulate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CF383D41706C2350010D9B9 /* UIImage+Manipulate.m */; };
 		C0479989167D967500C2253D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0479988167D967500C2253D /* UIKit.framework */; };
@@ -539,8 +538,6 @@
 		3CCCBCF216F03A2300FA71A2 /* UIDevice+Screen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+Screen.m"; sourceTree = "<group>"; };
 		3CCCBCF516F2E59500FA71A2 /* TermsAndConditionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TermsAndConditionsView.h; sourceTree = "<group>"; };
 		3CCCBCF616F2E59500FA71A2 /* TermsAndConditionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TermsAndConditionsView.m; sourceTree = "<group>"; };
-		3CCCBCF816F2E60B00FA71A2 /* RedeemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedeemView.h; sourceTree = "<group>"; };
-		3CCCBCF916F2E60B00FA71A2 /* RedeemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedeemView.m; sourceTree = "<group>"; };
 		3CCCBCFF16F4444000FA71A2 /* GiveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GiveViewController.h; sourceTree = "<group>"; };
 		3CCCBD0016F4444000FA71A2 /* GiveViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GiveViewController.mm; sourceTree = "<group>"; };
 		3CF383D31706C2350010D9B9 /* UIImage+Manipulate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Manipulate.h"; sourceTree = "<group>"; };
@@ -776,8 +773,6 @@
 				3C4A2416174DDE7400B8C5F0 /* RedeemChooserView.m */,
 				3CBCBF79171862A4007B4249 /* RedeemTableViewCell.h */,
 				3CBCBF7A171862A4007B4249 /* RedeemTableViewCell.m */,
-				3CCCBCF816F2E60B00FA71A2 /* RedeemView.h */,
-				3CCCBCF916F2E60B00FA71A2 /* RedeemView.m */,
 				3C329C5B170178F70007345E /* ShareSuccessView.h */,
 				3C329C5C170178F70007345E /* ShareSuccessView.m */,
 				3C4A2412174C8D0800B8C5F0 /* SpinnerView.h */,
@@ -1418,7 +1413,6 @@
 				3CCCBCF016F03A0B00FA71A2 /* NSData+Base64.m in Sources */,
 				3CCCBCF316F03A2300FA71A2 /* UIDevice+Screen.m in Sources */,
 				3CCCBCF716F2E59500FA71A2 /* TermsAndConditionsView.m in Sources */,
-				3CCCBCFA16F2E60B00FA71A2 /* RedeemView.m in Sources */,
 				3CCCBD0116F4444000FA71A2 /* GiveViewController.mm in Sources */,
 				3C329C5D170178F70007345E /* ShareSuccessView.m in Sources */,
 				3CA1B30E1704020B005D2918 /* RootViewController.mm in Sources */,

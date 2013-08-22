@@ -124,7 +124,7 @@
     [self addSubview:self.getImage];
     
     self.giveImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"label1_price"]];
-    self.giveImage.frame = CGRectMake(232, 10, 77, 80);
+    self.giveImage.frame = CGRectMake(232, 9, 77, 80);
     [self addSubview:self.giveImage];
     
     self.give = [[UILabel alloc]initWithFrame:CGRectMake(239, 30, 74, 13)];

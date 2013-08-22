@@ -8,6 +8,7 @@ import java.util.Date;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.common.collect.Multimap;
 import com.kikbak.KikbakBaseTest;
 import com.kikbak.dto.Allocatedgift;
 
@@ -40,8 +41,8 @@ public class AllocatedGiftDAOTest extends KikbakBaseTest {
 	
 	@Test 
 	public void testListOfferIdsForUser(){
-		Collection<Long> offerIds = roDao.listOfferIdsForUser(12L);	
-		assertEquals(1, offerIds.size());
+		Multimap<Long, Long> mapMultimap = roDao.listOfferIdsByFriendsForUser(12L);	
+		assertEquals(1, mapMultimap.size());
 	}
 	
 	@Test

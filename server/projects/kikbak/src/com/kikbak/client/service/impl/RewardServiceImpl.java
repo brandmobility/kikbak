@@ -10,12 +10,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.collect.Multimap;
 import com.kikbak.client.service.RateLimitException;
 import com.kikbak.client.service.RedemptionException;
 import com.kikbak.client.service.RewardException;
@@ -64,6 +66,8 @@ import com.kikbak.push.service.PushNotifier;
 
 @Service
 public class RewardServiceImpl implements RewardService{
+    
+    Logger logger = Logger.getLogger(RewardServiceImpl.class);
 
     @Autowired
     ReadOnlyKikbakDAO roKikbakDAO;
@@ -390,14 +394,14 @@ public class RewardServiceImpl implements RewardService{
         }
         Collection<Shared> shareds = roSharedDao.listAvailableForGifting(user.getFacebookId());
 
-        Collection<Long> sharedIds = roAllocatedGiftDao.listSharedIdsForUser(userId);
-        Collection<Allocatedgift> newGifts = new ArrayList<Allocatedgift>();
+        Multimap<Long, Long> friendsToOffersMultimap = roAllocatedGiftDao.listOfferIdsByFriendsForUser(userId);
         for(Shared shared : shareds){
-            if(!sharedIds.contains(shared.getId())){
+            logger.trace("Shared id:" + shared.getId() + " offerId:"+ shared.getOfferId() + " user id:"+shared.getUserId());
+            if(!friendsToOffersMultimap.containsEntry(shared.getOfferId(),shared.getUserId())){
+                logger.trace("Created gift");
                 Offer offer = roOfferDao.findById(shared.getOfferId());
-                Allocatedgift ag = createAllocateOffer(userId, shared, offer);
-                newGifts.add(ag);
-                sharedIds.add(shared.getOfferId());
+                createAllocateOffer(userId, shared, offer);
+                friendsToOffersMultimap.put(shared.getOfferId(),shared.getUserId());
             }
         }
     }
