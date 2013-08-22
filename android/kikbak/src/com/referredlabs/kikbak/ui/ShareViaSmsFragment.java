@@ -88,13 +88,13 @@ public class ShareViaSmsFragment extends DialogFragment {
         mContacts = data.getStringArrayListExtra(PickContactsActivity.DATA);
         share();
       } else {
-        mListener.onShareFinished(false);
+        mListener.onShareCancelled();
         dismiss();
       }
     }
 
     if (requestCode == REQUEST_SEND_SMS) {
-      mListener.onShareFinished(true);
+      mListener.onShareFinished();
       dismiss();
     }
   }
@@ -121,7 +121,7 @@ public class ShareViaSmsFragment extends DialogFragment {
   }
 
   protected void onShareFailed() {
-    mListener.onShareFinished(false);
+    mListener.onShareFailed();
   }
 
   private String getSmsRecipients() {

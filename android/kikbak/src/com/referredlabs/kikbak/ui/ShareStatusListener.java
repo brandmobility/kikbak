@@ -2,5 +2,9 @@
 package com.referredlabs.kikbak.ui;
 
 public interface ShareStatusListener {
-  void onShareFinished(boolean success);
+  void onShareFinished();
+
+  void onShareFailed();
+
+  void onShareCancelled();
 }

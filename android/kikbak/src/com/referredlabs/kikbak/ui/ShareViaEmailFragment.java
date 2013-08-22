@@ -88,14 +88,14 @@ public class ShareViaEmailFragment extends DialogFragment {
         mContacts = data.getStringArrayListExtra(PickContactsActivity.DATA);
         share();
       } else {
-        mListener.onShareFinished(false);
+        mListener.onShareCancelled();
         dismiss();
       }
     }
 
     if (requestCode == REQUEST_SEND_EMAIL) {
       // We do not know if user cancelled sending or not
-      mListener.onShareFinished(true);
+      mListener.onShareFinished();
       dismiss();
     }
   }
@@ -129,7 +129,7 @@ public class ShareViaEmailFragment extends DialogFragment {
   }
 
   protected void onShareFailed() {
-    mListener.onShareFinished(false);
+    mListener.onShareFailed();
     dismiss();
   }
 

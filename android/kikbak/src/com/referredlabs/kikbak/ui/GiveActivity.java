@@ -145,7 +145,7 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
     findViewById(R.id.take_photo_label).setVisibility(View.INVISIBLE);
     mRetakePhoto.setVisibility(View.VISIBLE);
     mImage.setImageURI(mCroppedPhotoUri);
-    
+
     FrameLayout frame = (FrameLayout) findViewById(R.id.overlay);
     frame.setForeground(null);
   }
@@ -234,12 +234,17 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
   }
 
   @Override
-  public void onShareFinished(boolean success) {
-    if (success) {
-      showShareSuccess();
-    } else {
-      Toast.makeText(this, R.string.share_failed_toast, Toast.LENGTH_LONG).show();
-    }
+  public void onShareFinished() {
+    showShareSuccess();
+  }
+
+  @Override
+  public void onShareFailed() {
+    Toast.makeText(this, R.string.share_failed_toast, Toast.LENGTH_LONG).show();
+  }
+
+  @Override
+  public void onShareCancelled() {
   }
 
   private void showShareSuccess() {
