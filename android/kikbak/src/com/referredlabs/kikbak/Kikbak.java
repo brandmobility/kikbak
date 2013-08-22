@@ -1,6 +1,7 @@
 
 package com.referredlabs.kikbak;
 
+import java.io.File;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -12,6 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import android.app.Application;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.net.Uri;
 
 import com.referredlabs.kikbak.http.HttpClientHelper;
 
@@ -55,6 +57,18 @@ public class Kikbak extends Application {
     } catch (NameNotFoundException e) {
       // should never happen
       throw new RuntimeException("Could not get package name: " + e);
+    }
+  }
+
+  public void removeFileAsync(final Uri uri) {
+    if (uri != null) {
+      PARALLEL_EXECUTOR.execute(new Runnable() {
+        @Override
+        public void run() {
+          String path = uri.getPath();
+          new File(path).delete();
+        }
+      });
     }
   }
 }
