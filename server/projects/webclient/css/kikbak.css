@@ -558,7 +558,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 	border:1px solid #175db4;
 	border-radius:10px 10px 10px 10px;
 	color:#fff;
-	font-size:20px;
+	font-size:17px;
 	   margin: 1% 2%;
     padding:2%;
 	text-align:center;
@@ -566,9 +566,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 	font-weight:bold;
 	text-shadow:-1px -1px 1px #204d78;
 	filter:dropshadow(color=#050505,offx=-1,offy=-1)
-}
-.btn:hover {
-	background: #338bed
 }
 .botm-position { position:fixed; left:0; bottom:7px;}
 .bgptrn { background:url(../images/bgptrn.png) left top repeat;}
