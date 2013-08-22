@@ -24,18 +24,19 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
-import com.referredlabs.kikbak.Kikbak;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.AvailableCreditType;
 import com.referredlabs.kikbak.data.ClientOfferType;
 import com.referredlabs.kikbak.data.GiftType;
 import com.referredlabs.kikbak.data.ValidationType;
 import com.referredlabs.kikbak.store.DataStore;
+import com.referredlabs.kikbak.utils.LocaleUtils;
 
 public class RedeemSuccessFragment extends Fragment implements OnClickListener {
 
   private GiftType mGift;
   private AvailableCreditType mCredit;
+  private double mCreditUsed;
 
   private Bitmap mBarcodeBitmap;
   private String mBarcode;
@@ -65,6 +66,8 @@ public class RedeemSuccessFragment extends Fragment implements OnClickListener {
 
     data = args.getString(SuccessActivity.ARG_CREDIT);
     mCredit = new Gson().fromJson(data, AvailableCreditType.class);
+
+    mCreditUsed = args.getDouble(SuccessActivity.ARG_CREDIT_USED, -1);
 
     mBarcodeBitmap = args.getParcelable(SuccessActivity.ARG_BARCODE_BITMAP);
     mBarcode = args.getString(SuccessActivity.ARG_BARCODE);
@@ -144,7 +147,13 @@ public class RedeemSuccessFragment extends Fragment implements OnClickListener {
 
     mNoteFirst.setText(R.string.redeem_success_note_first_credit);
     mNoteSecond.setText(R.string.redeem_success_note_second);
-    mValue.setText(mCredit.desc);
+
+    double value = mCredit.value;
+    if (mCreditUsed > 0) {
+      value = mCreditUsed;
+    }
+
+    mValue.setText(String.format("$%.2f", value));
     mDesc.setText(mCredit.detailedDesc);
   }
 

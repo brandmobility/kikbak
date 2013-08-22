@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnDismissListener;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,6 +32,10 @@ import com.squareup.picasso.Picasso;
 public class ClaimInputFragment extends Fragment implements OnClickListener {
   private static final String TAG_INVALID_INFO = "tag_invalid_info";
   private static final String TAG_CLAIM_SUBMITTED = "tag_claim_submitted";
+
+  public interface ClaimCompletedCallback {
+    void onClaimCompleted();
+  }
 
   private AvailableCreditType mCredit;
 
@@ -132,12 +135,12 @@ public class ClaimInputFragment extends Fragment implements OnClickListener {
 
   public static class ClaimSubmittedPopup extends DialogFragment {
     String message = "Your reward claim has been submitted.";
-    RedeemSuccessCallback mCallback;
+    ClaimCompletedCallback mCallback;
 
     @Override
     public void onAttach(Activity activity) {
       super.onAttach(activity);
-      mCallback = (RedeemSuccessCallback) activity;
+      mCallback = (ClaimCompletedCallback) activity;
     }
 
     @Override
@@ -153,7 +156,7 @@ public class ClaimInputFragment extends Fragment implements OnClickListener {
     @Override
     public void onDismiss(DialogInterface dialog) {
       super.onDismiss(dialog);
-      mCallback.finished();
+      mCallback.onClaimCompleted();
     }
   }
 

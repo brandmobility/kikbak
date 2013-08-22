@@ -44,6 +44,14 @@ import com.squareup.picasso.Target;
 public class RedeemGiftFragment extends Fragment implements OnClickListener, ConfirmationListener,
     OnBarcodeScanningListener {
 
+  public interface RedeemGiftCallback {
+    // overlay
+    void onRedeemGiftSuccess(String barcode);
+
+    // integrated
+    void onRedeemGiftSuccess(String barcode, Bitmap barcodeBitmap);
+  }
+
   private static final int REQUEST_NOT_IN_STORE = 1;
   private static final int REQUEST_SCAN_CONFIRMATION = 2;
 
@@ -60,7 +68,7 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
   private Button mRedeemInStore;
   private Button mRedeemOnline;
 
-  RedeemSuccessCallback mCallback;
+  RedeemGiftCallback mCallback;
 
   @Override
   public void onAttach(Activity activity) {
@@ -68,7 +76,7 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
     String data = getActivity().getIntent().getStringExtra(RedeemGiftActivity.EXTRA_GIFT);
     mGift = new Gson().fromJson(data, GiftType.class);
     mShareIdx = getActivity().getIntent().getIntExtra(RedeemGiftActivity.EXTRA_SHARE_IDX, 0);
-    mCallback = (RedeemSuccessCallback) activity;
+    mCallback = (RedeemGiftCallback) activity;
   }
 
   @Override
@@ -231,7 +239,7 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
   }
 
   public void onBarcodeFetched(String barcode, Bitmap bitmap) {
-    mCallback.success(barcode, bitmap);
+    mCallback.onRedeemGiftSuccess(barcode, bitmap);
   }
 
   public void onBarcodeFetchFailed() {
@@ -243,7 +251,7 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
     if (ValidationType.QRCODE.equals(mGift.validationType)) {
       DataStore.getInstance().giftUsed(mGift.offerId);
     }
-    mCallback.success(code, null);
+    mCallback.onRedeemGiftSuccess(code);
   }
 
   public void onRegistrationFailed() {

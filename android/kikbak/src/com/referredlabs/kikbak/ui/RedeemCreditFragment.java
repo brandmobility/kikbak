@@ -41,6 +41,14 @@ import com.squareup.picasso.Picasso;
 public class RedeemCreditFragment extends Fragment implements OnClickListener,
     OnCreditChangedListener, ConfirmationListener, OnBarcodeScanningListener, OnBarcodeFetched {
 
+  public interface RedeemCreditCallback {
+    // overlay
+    void onRedeemCreditSuccess(double creditUsed, String code);
+
+    // integrated
+    void onRedeemCreditSuccess(double creditUsed, String barcode, Bitmap barcodeBitmap);
+  }
+
   private static final int REQUEST_CONFIRM_CREDIT = 1;
   private static final int REQUEST_NOT_IN_STORE = 2;
   private static final int REQUEST_SCAN_CONFIRMATION = 3;
@@ -54,7 +62,7 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
   private Button mRedeemInStore;
   private Button mRedeemOnline;
   private boolean mCreditConfirmed;
-  private RedeemSuccessCallback mCallback;
+  private RedeemCreditCallback mCallback;
 
   @Override
   public void onAttach(Activity activity) {
@@ -62,7 +70,7 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
     String data = activity.getIntent().getStringExtra(RedeemCreditActivity.EXTRA_CREDIT);
     mCredit = new Gson().fromJson(data, AvailableCreditType.class);
     mCreditToUse = mCredit.value;
-    mCallback = (RedeemSuccessCallback) activity;
+    mCallback = (RedeemCreditCallback) activity;
   }
 
   @Override
@@ -225,7 +233,7 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
 
   @Override
   public void onBarcodeFetched(String barcode, Bitmap bitmap) {
-    mCallback.success(barcode, bitmap);
+    mCallback.onRedeemCreditSuccess(mCreditToUse, barcode, bitmap);
   }
 
   @Override
@@ -258,7 +266,7 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
 
   public void onRegistrationSuccess(String code) {
     DataStore.getInstance().creditUsed(mCredit.id, mCreditToUse);
-    mCallback.success(code, null);
+    mCallback.onRedeemCreditSuccess(mCreditToUse, code);
   }
 
   public void onRegistrationFailed() {
