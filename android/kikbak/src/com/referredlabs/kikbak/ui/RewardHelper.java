@@ -1,11 +1,14 @@
 
 package com.referredlabs.kikbak.ui;
 
+import android.content.res.Resources;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.referredlabs.kikbak.R;
+import com.referredlabs.kikbak.data.AvailableCreditType;
+import com.referredlabs.kikbak.data.RewardType;
 import com.referredlabs.kikbak.store.TheReward;
 import com.referredlabs.kikbak.ui.RewardAdapter.ItemAreaListener;
 
@@ -67,12 +70,6 @@ public class RewardHelper extends IconBarHelper {
     updateSeparatorVisibility();
   }
 
-  public void setCreditValue(String value) {
-    mCreditValue.setText(value);
-    setCreditVisibility(value != null);
-    updateSeparatorVisibility();
-  }
-
   private void setGiftVisibility(boolean visible) {
     mGiftLabel.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
     mGiftValue.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
@@ -90,5 +87,23 @@ public class RewardHelper extends IconBarHelper {
     } else {
       mSeparator.setVisibility(View.INVISIBLE);
     }
+  }
+
+  public void setCreditPart(Resources res, AvailableCreditType credit) {
+    if (credit == null) {
+      setCreditVisibility(false);
+    } else {
+      setCreditVisibility(true);
+      if (RewardType.PURCHASE.equals(credit.rewardType)) {
+        mCreditLabel.setText(R.string.reward_credit_purchase_label);
+        String value = res.getString(R.string.reward_credit_purchase_amount_fmt, credit.value);
+        mCreditValue.setText(value);
+      } else {
+        mCreditLabel.setText(R.string.reward_credit_claim_label);
+        String value = res.getString(R.string.reward_credit_claim_amount_fmt, credit.value);
+        mCreditValue.setText(value);
+      }
+    }
+    updateSeparatorVisibility();
   }
 }

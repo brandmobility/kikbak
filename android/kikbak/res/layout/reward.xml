@@ -133,7 +133,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="10dp"
-                android:text="@string/reward_credit_label"
+                android:text="@string/reward_credit_purchase_label"
                 android:textColor="@color/redeem_text_dark"
                 android:textSize="13dp"
                 kikbak:typeface="Roboto-Light.ttf" />
@@ -145,7 +145,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/credit_label"
                 android:layout_marginBottom="10dp"
-                android:text="$10"
+                android:text="$10.00"
                 android:textColor="@color/redeem_text_dark"
                 android:textSize="21dp"
                 kikbak:typeface="Roboto-Light.ttf" />

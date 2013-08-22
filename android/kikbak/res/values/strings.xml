@@ -78,7 +78,7 @@
     <string name="share_option_via_sms">Share via SMS</string>
     <string name="share_option_via_facebook">Post on Facebook</string>
     <string name="share_option_other_location">Other</string>
-    
+
     <!-- Customized -->
     <string name="share_options_helped_title">Helped by an employee ?</string>
     <string name="share_options_helped_note">Let your nearby friends know who to ask for when they visit the store.</string>
@@ -91,8 +91,10 @@
     <string name="reward_gift_label">USE RECEIVED GIFT</string>
     <string name="reward_gift_type_percentage_fmt">%.0f%% OFF</string>
     <string name="reward_gift_type_amount_fmt">$%.0f OFF</string>
-    <string name="reward_credit_label">CLAIM REWARD</string>
-    <string name="reward_credit_type_amount_fmt">$%.0f OFF</string>
+    <string name="reward_credit_purchase_label">USE EARNED CREDIT</string>
+    <string name="reward_credit_purchase_amount_fmt">$%.2f</string>
+    <string name="reward_credit_claim_label">CLAIM REWARD</string>
+    <string name="reward_credit_claim_amount_fmt">$%.0f Gift Card</string>
 
     <!-- Redeem -->
     <plurals name="credit_redeem_count">
@@ -109,7 +111,7 @@
     <string name="claim_reward">Claim reward now</string>
     <string name="redeem_store">Redeem in store</string>
     <string name="redeem_online">Redeem online</string>
-    
+
     <!-- Change amount -->
     <string name="change_amount_title">Change amount</string>
     <string name="credit_avaiable_label">Credit avaiable</string>
