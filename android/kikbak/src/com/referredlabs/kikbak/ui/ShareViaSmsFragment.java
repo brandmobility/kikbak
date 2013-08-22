@@ -62,6 +62,7 @@ public class ShareViaSmsFragment extends DialogFragment {
     // start picker
     Intent intent = new Intent(getActivity(), PickContactsActivity.class);
     intent.putExtra(PickContactsActivity.ARG_TYPE, PickContactsActivity.TYPE_PHONE);
+    intent.putExtra(PickContactsActivity.ARG_BUTTON_TEXT, R.string.share_pick_button_sms);
     startActivityForResult(intent, REQUEST_SELECT_CONTACTS);
   }
 

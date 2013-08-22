@@ -86,7 +86,9 @@
 
     <!-- Share progress -->
     <string name="share_in_progress">Sharing gift</string>
-
+    <string name="share_pick_button_email">Generate email</string>
+    <string name="share_pick_button_sms">Generate SMS</string>
+    
     <!-- Rewards -->
     <string name="reward_gift_label">USE RECEIVED GIFT</string>
     <string name="reward_gift_type_percentage_fmt">%.0f%% OFF</string>
