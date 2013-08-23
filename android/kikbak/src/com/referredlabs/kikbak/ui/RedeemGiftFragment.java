@@ -123,7 +123,7 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
     mFriendComment.setText(share.caption);
 
     mGiftValue.setText(LocaleUtils.getGiftValueString(getActivity(), mGift));
-    mGiftDesc.setText(mGift.desc);
+    mGiftDesc.setText(mGift.detailedDesc);
 
     // not supported yet
     // if (RedemptionLocationType.ALL.equals(mGift.redemptionLocationType)) {
