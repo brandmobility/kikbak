@@ -115,6 +115,9 @@ public class PushNotifierImpl implements PushNotifier {
     }
 
     private void sendGiftNotificationGoogle(List<String> tokens, Gift gift) {
+        if (tokens.isEmpty())
+            return;
+
         try {
             String key = config.getString("gcm.key");
             Sender sender = new Sender(key);
