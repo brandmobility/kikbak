@@ -81,7 +81,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="10dp"
                 android:text="@string/reward_gift_label"
-                android:textColor="@color/reward_gift_label"
+                android:textColor="#686868"
                 android:textSize="13dp"
                 kikbak:typeface="Roboto-Light.ttf" />
 
@@ -93,7 +93,7 @@
                 android:layout_below="@id/gift_label"
                 android:layout_marginBottom="10dp"
                 android:text="$20 OFF"
-                android:textColor="@color/reward_gift_label"
+                android:textColor="#3a3a3a"
                 android:textSize="21dp"
                 kikbak:typeface="Roboto-Light.ttf" />
 
@@ -134,7 +134,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="10dp"
                 android:text="@string/reward_credit_purchase_label"
-                android:textColor="@color/redeem_text_dark"
+                android:textColor="#686868"
                 android:textSize="13dp"
                 kikbak:typeface="Roboto-Light.ttf" />
 
@@ -146,7 +146,7 @@
                 android:layout_below="@id/credit_label"
                 android:layout_marginBottom="10dp"
                 android:text="$10.00"
-                android:textColor="@color/redeem_text_dark"
+                android:textColor="#3a3a3a"
                 android:textSize="21dp"
                 kikbak:typeface="Roboto-Light.ttf" />
         </RelativeLayout>

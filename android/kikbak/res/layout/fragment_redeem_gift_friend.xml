@@ -28,7 +28,7 @@
         android:layout_toRightOf="@id/friend_photo"
         android:maxLines="1"
         android:text="Jessica Kempner"
-        android:textColor="@color/redeem_text_dark"
+        android:textColor="#3a3a3a"
         android:textSize="20dp"
         kikbak:typeface="Roboto-Bold.ttf" />
 
@@ -40,7 +40,7 @@
         android:layout_toRightOf="@id/friend_photo"
         android:maxLines="4"
         android:text="I just got $50 off on a year of yoga! Lorizzle break your neck, yail dolizzle sit ass, mammasay mammasa mamma oo sa"
-        android:textColor="@color/redeem_text_desc_light"
+        android:textColor="#8e8e8e"
         android:textSize="14dp"
         kikbak:typeface="Roboto-Regular.ttf" />
 

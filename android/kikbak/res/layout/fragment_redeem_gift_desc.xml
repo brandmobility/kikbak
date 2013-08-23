@@ -16,7 +16,7 @@
         android:gravity="center_vertical"
         android:text="$50 off"
         kikbak:typeface="Roboto-Bold.ttf"
-        android:textColor="@color/redeem_text_dark"
+        android:textColor="#3a3a3a"
         android:textSize="36dp" />
 
     <com.referredlabs.kikbak.widget.TtfTextView
@@ -28,7 +28,7 @@
         android:layout_marginBottom="12dp"
         android:text="with new 1-year contract"
         kikbak:typeface="Roboto-Regular.ttf"
-        android:textColor="@color/redeem_text_dark"
+        android:textColor="#3a3a3a"
         android:textSize="14dp" />
 
     <com.referredlabs.kikbak.widget.TtfTextView
@@ -39,7 +39,7 @@
         android:layout_below="@id/gift_desc"
         android:text="@string/terms"
         kikbak:typeface="Roboto-Regular.ttf"
-        android:textColor="@color/redeem_text_more_info_light"
+        android:textColor="#686868"
         android:textSize="13dp" />
 
 </RelativeLayout>
