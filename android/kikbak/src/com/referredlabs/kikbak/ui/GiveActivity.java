@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -147,7 +148,8 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
     mImage.setImageURI(mCroppedPhotoUri);
 
     FrameLayout frame = (FrameLayout) findViewById(R.id.overlay);
-    frame.setForeground(null);
+    Drawable overlay = getResources().getDrawable(R.drawable.grd_give_post);
+    frame.setForeground(overlay);
   }
 
   protected void onTermsClicked() {
