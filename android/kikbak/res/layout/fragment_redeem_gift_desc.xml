@@ -5,8 +5,7 @@
     android:layout_height="wrap_content"
     android:paddingLeft="14dp"
     android:paddingRight="14dp"
-    android:paddingTop="10dp"
-    android:paddingBottom="13dp" >
+    android:paddingTop="10dp" >
 
     <com.referredlabs.kikbak.widget.TtfTextView
         android:id="@+id/gift_value"
@@ -15,9 +14,9 @@
         android:layout_centerHorizontal="true"
         android:gravity="center_vertical"
         android:text="$50 off"
-        kikbak:typeface="Roboto-Bold.ttf"
         android:textColor="#3a3a3a"
-        android:textSize="36dp" />
+        android:textSize="36dp"
+        kikbak:typeface="Roboto-Bold.ttf" />
 
     <com.referredlabs.kikbak.widget.TtfTextView
         android:id="@+id/gift_desc"
@@ -25,11 +24,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/gift_value"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="12dp"
         android:text="with new 1-year contract"
-        kikbak:typeface="Roboto-Regular.ttf"
         android:textColor="#3a3a3a"
-        android:textSize="14dp" />
+        android:textSize="14dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
 
     <com.referredlabs.kikbak.widget.TtfTextView
         android:id="@+id/terms"
@@ -37,9 +35,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/gift_desc"
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="2dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         android:text="@string/terms"
-        kikbak:typeface="Roboto-Regular.ttf"
         android:textColor="#686868"
-        android:textSize="13dp" />
+        android:textSize="13dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
 
 </RelativeLayout>
