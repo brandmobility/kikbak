@@ -18,7 +18,7 @@ $(document).ready(function() {
     document.getElementById('fb-root').appendChild(e);
   }());
   $('#loginFb').click(fbLogin);
-  $('#redemGift').click(redeemGift);
+  $('#redeemGift').click(redeemGift);
 });
 
 function showError() {

@@ -87,7 +87,7 @@ an exclusive offer for <strong>${gift.merchant.name}</strong>.</p>
 <p style="font-weight:normal;"><font size="1">We use Facebook to make it easy for you to store, redeem and share gifts.</font>
 <br /><font size="1">We will never post on Facebook without your permission.</font></p>
 </div>
-<div>
+</div>
 <div id="redeem-div" style="display:none;"> 
 <div class="blue-btn">
 <a id="redeemGift" href="#" class="btnn">Generate offer to use in store</a>
@@ -98,8 +98,6 @@ Download it now -- your gift is already there.</p>
 <a href="#" class="lft"><img src="img/app-store.png" /></a> 
 <a href="#" class="rit"><img src="img/google-play.png" /></a>
 </p>
-</div>
-</div>
 </div>
 </div>
 </div>
