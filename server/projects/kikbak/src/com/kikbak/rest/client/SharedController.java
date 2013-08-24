@@ -149,11 +149,12 @@ public class SharedController extends AbstractController {
 		result = result.replace("%DESC_DETAIL%", StringUtils.trimToEmpty(gift.getDetailedDesc()));
 		result = result.replace("%LOGIN_URL%", loginUrl);
 		result = result.replace("%MERCHANT%", StringUtils.trimToEmpty(merchant.getName()));
-		result = result.replace("%NAME%", StringUtils.trimToEmpty(user.getFirstName()) + " "
-				+ StringUtils.trimToEmpty(user.getLastName()));
-		result = result.replace("%ADDRESS%", StringUtils.trimToEmpty(location.getAddress1()) + " "
-				+ StringUtils.trimToEmpty(location.getAddress2())
-				+ ", " + StringUtils.trimToEmpty(location.getCity()));
+		result = result.replace("%NAME%", StringUtils.trimToEmpty(user.getFirstName())
+				+ (StringUtils.isBlank(user.getLastName()) ? "" : " " + user.getLastName()));
+		result = result.replace("%ADDRESS%", StringUtils.trimToEmpty(location.getAddress1())
+				+ (StringUtils.isBlank(location.getAddress2()) ? "" : " " + location.getAddress2())
+				+ ", " + StringUtils.trimToEmpty(location.getCity()))
+				+ ", " + StringUtils.trimToEmpty(location.getState());
 		
 		return result;
 	}
