@@ -1,3 +1,5 @@
+(function(){
+
 var config = {
   backend: '',
   appId: 493383324061333,
@@ -635,6 +637,8 @@ function getOfferDetail() {
       s.pageType = 'offer';
       initPage();
     });
+    
+    $('#share-btn').click(shareOffer);
 
     $('#take-picture').change(function(e) {
       var icon = $('.camicon');
@@ -698,7 +702,7 @@ function getRedeemCreditDetail() {
 }
 
 function renderOfferDetail(offer) {
-  var html = '<form id="share-form" type="POST" enctype="multipart/form-data" onsubmit="shareOffer(); return false;" >';
+  var html = '<form id="share-form" type="POST" enctype="multipart/form-data">';
   html += '<div class="image-add"><img src="' + offer.offerImageUrl + '" class="addimg add-photo show-picture" id="show-picture">';
   html += '<span class="imgshado"></span>';
   html += '<div class="add-photo-btn">';
@@ -735,9 +739,9 @@ function renderOfferDetail(offer) {
   html += '</div>';
   var userId = s.userId;
   if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
-    html += '<input name="share" type="submit" class="btn grd3 botm-position" value="Give To Friends" />';
+    html += '<input id="share-btn" name="share" type="submit" class="btn grd3 botm-position" value="Give To Friends" />';
   } else {
-    html += '<input name="share" type="submit" class="btn grd3" value="Connect with Facebook to share" />';
+    html += '<input id="share-btn" name="share" type="submit" class="btn grd3" value="Connect with Facebook to share" />';
     html += '<div class="crt">';
     html += '<p><font size="2">We use Facebook to make it easy for you to store, redeem, and share gifts.  We will never post on Facebook with your permission.</font></p>';
     html += '</div>';
@@ -932,10 +936,8 @@ function doShare(cb, type) {
 function shareViaSms() {
   doShare(function(code, msg, url, resp) {
     $('#spinner h2').html('Waiting');
-    if (--req == 0) {
-      $('#spinner').hide();
-    }
     setTimeout(function(){
+      $('#spinner').hide();
       $('#success-popup h3').html('You have shared a gift');
       $('#success-popup p').html('We will notify you when a friend uses your gift and you earn a reward');
       $('#success-popup').show();
@@ -947,10 +949,8 @@ function shareViaSms() {
 function shareViaEmail() {
   $('#spinner h2').html('Waiting');
   doShare(function(code, msg, url, resp) {
-    if (--req == 0) {
-      $('#spinner').hide();
-    }
     setTimeout(function(){
+      $('#spinner').hide();
       $('#success-popup h3').html('You have shared a gift');
       $('#success-popup p').html('We will notify you when a friend uses your gift and you earn a reward');
       $('#success-popup').show();
@@ -1177,3 +1177,5 @@ function adjustAddPhoto() {
     $('.add-photo-btn').hide(); 
   }
 }
+
+})();
