@@ -704,7 +704,7 @@ function renderOfferDetail(offer) {
   html += '<div class="add-photo-btn">';
   html += '<h2 id="take-photo-header">Add your own photo</h2>';
   html += '<div class="camicon"><img src="images/camicon.png">';
-  html += '<input name="source" type="file" id="take-picture" class="camicon take-picture" style="height:60px;margin-left:40%;width:20%;opacity:0;" accept="image/*" /></div>';
+  html += '<input name="source" type="file" id="take-picture" class="camicon take-picture" style="height:60px;width:100%;opacity:0;" accept="image/*" /></div>';
   html += '</div>';
   html += '<h3>' + offer.merchantName + '</h3>';
   html += '<div class="opt-icon">';
@@ -935,6 +935,11 @@ function shareViaSms() {
     if (--req == 0) {
       $('#spinner').hide();
     }
+    setTimeout(function(){
+      $('#success-popup h3').html('You have shared a gift');
+      $('#success-popup p').html('We will notify you when a friend uses your gift and you earn a reward');
+      $('#success-popup').show();
+    }, 200);
     window.location.href = 'sms://?body=' + encodeURIComponent(resp.template.body);
   }, 'sms');
 }
@@ -945,6 +950,11 @@ function shareViaEmail() {
     if (--req == 0) {
       $('#spinner').hide();
     }
+    setTimeout(function(){
+      $('#success-popup h3').html('You have shared a gift');
+      $('#success-popup p').html('We will notify you when a friend uses your gift and you earn a reward');
+      $('#success-popup').show();
+    }, 200);
     window.location.href = 'mailto:?content-type=text/html&subject=' + encodeURIComponent(resp.template.subject) 
         + '&body=' + encodeURIComponent(resp.template.body);
   }, 'email');
