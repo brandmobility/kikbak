@@ -932,12 +932,6 @@ function doShare(cb, type) {
 function shareViaSms() {
   doShare(function(code, msg, url, resp) {
     $('#spinner h2').html('Waiting');
-    setTimeout(function(){
-      $('#spinner').hide();
-      $('#success-popup h3').html('You have shared a gift');
-      $('#success-popup p').html('We will notify you when a friend uses your gift and you earn a reward');
-      $('#success-popup').show();
-    }, 200);
     window.location.href = 'sms://?body=' + encodeURIComponent(resp.template.body);
   }, 'sms');
 }
@@ -945,12 +939,6 @@ function shareViaSms() {
 function shareViaEmail() {
   $('#spinner h2').html('Waiting');
   doShare(function(code, msg, url, resp) {
-    setTimeout(function(){
-      $('#spinner').hide();
-      $('#success-popup h3').html('You have shared a gift');
-      $('#success-popup p').html('We will notify you when a friend uses your gift and you earn a reward');
-      $('#success-popup').show();
-    }, 200);
     window.location.href = 'mailto:?content-type=text/html&subject=' + encodeURIComponent(resp.template.subject) 
         + '&body=' + encodeURIComponent(resp.template.body);
   }, 'email');
