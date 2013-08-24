@@ -9,20 +9,16 @@ var config = {
 }
 
 var s = (Storage) ? localStorage : {};
-var req = 0;
 
 $(document).ready(function() {
   if (s.pageType == 'offer-detail') {
     s.pageType = 'offer';
   }
   $(document).ajaxStart(function (){
-    req++;
     $('#spinner').show();
   });
-  $(document).ajaxComplete(function (){
-    if (--req == 0) {
-      $('#spinner').hide();
-    }
+  $(document).ajaxStop(function (){
+    $('#spinner').hide();
   });
   $('body').scrollTop($(document).height());
   $.ajaxSetup({ cache: true });
@@ -1020,7 +1016,6 @@ function shareViaFacebook() {
         showError();
       }
     }); 
-
   }, 'fb');
 }
 
