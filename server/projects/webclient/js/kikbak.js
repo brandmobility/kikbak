@@ -823,7 +823,7 @@ function renderOfferDetail(offer) {
   html += '<h4>' + offer.kikbakDetailedDesc + '</h4>';
   html += '</div>';
   html += '<div class="crt">';
-  html += '<a href="#" class="trm" onclick="showTerms(\'' + offer.tosUrl + '\')" >Terms and Conditions</a>';
+  html += '<a href="#" class="trm" id="term-btn" >Terms and Conditions</a>';
   html += '</div>';
   var userId = s.userId;
   if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
@@ -836,6 +836,10 @@ function renderOfferDetail(offer) {
   }
   html += '</form>';
   $('#offer-details-view').html(html);
+    
+  $('#term-btn').click(function() {
+    showTerms(offer.tosUrl);
+  });
   
   var options = '';
   $.each(offer.locations, function(i, l) {
@@ -1108,6 +1112,9 @@ function encodeQueryData(data) {
 
 function renderRedeemGiftDetail(data) {
   var gift = data.gift;
+  doRedeemGift(gift);
+  return;
+  
   var share = data.shareInfo;
   var html = '';
   html += '<div class="image-add rdme"><img src="' + share.imageUrl + '" class="addimge"><span class="imgshado"></span>';
@@ -1133,11 +1140,15 @@ function renderRedeemGiftDetail(data) {
   html += '<h2>' + gift.desc + '</h2>';
   html += '<h4>' + gift.detailedDesc + '</h4>';
   html += '<div class="crt">';
-  html += '<a href="#" class="trm" onclick="showTerms(\'' + gift.tosUrl + '\')" >Terms and Conditions</a>';
+  html += '<a href="#" class="trm" id="term-btn" >Terms and Conditions</a>';
   html += '</div>';
   html += '<button id="redeem-gift-instore-btn" class="btn grd3 botm-position">Redeem now in store</button>';
   
   $('#redeem-details-view').html(html);
+  
+  $('#term-btn').click(function() {
+    showTerms(gift.tosUrl);
+  });
   
   $('#redeem-gift-instore-btn').click(function() {
     doRedeemGift(gift);
@@ -1168,11 +1179,15 @@ function renderRedeemCreditDetail(credit) {
   html += '<div class="crt">';
   html += '<h1>$' + credit.value.toFixed(2) + '</h1>';
   html += '<h5>' + credit.rewardType + '</h5>';
-  html += '<a href="#" class="trm" onclick="showTerms(\'' + credit.tosUrl + '\')">Terms and Conditions</a>';
+  html += '<a href="#" class="trm" id="term-btn">Terms and Conditions</a>';
   html += '</div>';
   html += '<button id="claim-credit-form-btn" class="btn grd3 botm-position">Claim reward now</button>';
   
   $('#redeem-details-view').html(html);
+  
+  $('#term-btn').click(function() {
+    showTerms(credit.tosUrl);
+  });
   
   $("#claim-credit-form-btn").click(function() {
     claimCreditForm(credit);
