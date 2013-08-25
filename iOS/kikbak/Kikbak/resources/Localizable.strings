@@ -113,3 +113,21 @@
 
 //friend Selector
 "Select friend" = "Select the friend whose gift you would like to redeem";
+
+//claim screen
+"Gift Card" = "Gift Card";
+"Customer Info" = "Please provide the following to redeem:";
+"Phone Number" = "Phone number";
+"First Last Name" = "First Last Name";
+"Street" = "Street";
+"Apt" = "Apartment number or Unit #";
+"City" = "City";
+"State" = "State";
+"Zip" = "Zip";
+"Arrival" = "Your reward should arrive in 2 - 4 weeks.";
+
+"Claim Error Title"="Redemption Failed";
+"Claim Error Msg"="Unable to verify your information. Please validate and try again";
+
+//claim success
+"reward claim"="Your reward claim has been submitted";

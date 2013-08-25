@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ClaimSuccessView.h"
 
-@interface ClaimCreditViewController : UIViewController
+@interface ClaimCreditViewController : UIViewController<UITextFieldDelegate, ClaimCompleteDelegate>
+
+@property (nonatomic,strong) NSNumber* amount;
+@property (nonatomic,strong) NSString* merchantName;
 
 @end

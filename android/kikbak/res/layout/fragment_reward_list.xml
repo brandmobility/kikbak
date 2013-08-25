@@ -9,7 +9,7 @@
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/redeem_list_background"
+        android:background="#e6e6e6"
         android:footerDividersEnabled="false" />
 
     <include

@@ -1,7 +1,9 @@
 package com.kikbak.rest.client;
 
+import java.util.EnumMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -17,9 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.oned.UPCAWriter;
+import com.google.zxing.qrcode.QRCodeWriter;
 import com.kikbak.client.service.RateLimitException;
 import com.kikbak.client.service.RedemptionException;
 import com.kikbak.client.service.RewardService;
@@ -291,5 +295,23 @@ public class RewardController extends AbstractController {
         }
         
         return response;
+    }    
+
+    @RequestMapping(value = "/generateQrcode/{code}/{size}", method = RequestMethod.GET)
+    public void generateQrcode(@PathVariable("code") String code, @PathVariable("size") Integer size,
+            final HttpServletResponse response) {
+        try {
+            Map<EncodeHintType, Object> hints = new EnumMap<EncodeHintType, Object>(EncodeHintType.class);
+            hints.put(EncodeHintType.MARGIN, 0);
+            BitMatrix result = new QRCodeWriter().encode(code, BarcodeFormat.QR_CODE, size, size, hints);
+            response.setContentType("image/png");
+            response.addHeader("qrcode", code);
+
+            MatrixToImageWriter.writeToStream(result, "png", response.getOutputStream());
+
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            logger.error("cannot generate barcode", e);
+        }
     }
 }

@@ -1,6 +1,8 @@
 
 package com.referredlabs.kikbak.ui;
 
+import java.util.regex.Pattern;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -10,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -107,7 +110,54 @@ public class ClaimInputFragment extends Fragment implements OnClickListener {
 
   @Override
   public void onClick(View v) {
-    new ClaimTask().execute();
+    if (validateData()) {
+      new ClaimTask().execute();
+    }
+  }
+
+  private boolean validateData() {
+    boolean isOk = true;
+    isOk &= validateNotEmpty(mZipTv, R.string.claim_zip_empty)
+        && validateZipCode(mZipTv, R.string.claim_zip_wrong_format);
+    isOk &= validateNotEmpty(mStateTv, R.string.claim_state_empty);
+    isOk &= validateNotEmpty(mCityTv, R.string.claim_city_empty);
+    isOk &= validateNotEmpty(mStreetTv, R.string.claim_street_empty);
+    isOk &= validateNotEmpty(mNameTv, R.string.claim_name_empty);
+    isOk &= validateNotEmpty(mPhoneTv, R.string.claim_phone_empty)
+        && validatePhone(mPhoneTv, R.string.claim_phone_wrong_format);
+    return isOk;
+  }
+
+  boolean validateNotEmpty(TextView tv, int error) {
+    if (tv.getText().toString().trim().length() == 0) {
+      tv.setError(getString(error));
+      tv.requestFocus();
+      return false;
+    }
+    tv.setError(null);
+    return true;
+  }
+
+  boolean validateZipCode(TextView tv, int error) {
+    String zip = tv.getText().toString().trim();
+    String regex = "^\\d{5}(-\\d{4})?$";
+    if (!Pattern.matches(regex, zip)) {
+      tv.setError(getString(R.string.claim_zip_wrong_format));
+      tv.requestFocus();
+      return false;
+    }
+    tv.setError(null);
+    return true;
+  }
+
+  boolean validatePhone(TextView tv, int error) {
+    if (!PhoneNumberUtils.isGlobalPhoneNumber(tv.getText().toString())) {
+      tv.setError(getString(R.string.claim_phone_wrong_format));
+      tv.requestFocus();
+      return false;
+    }
+    tv.setError(null);
+    return true;
   }
 
   private void showInvalidInfoPopup() {
@@ -171,7 +221,8 @@ public class ClaimInputFragment extends Fragment implements OnClickListener {
       mRequest = new ClaimCreditRequest();
       mRequest.claim = new ClaimType();
       mRequest.claim.creditId = mCredit.id;
-      mRequest.claim.phoneNumber = mPhoneTv.getText().toString();
+      mRequest.claim.phoneNumber =
+          PhoneNumberUtils.stripSeparators(mPhoneTv.getText().toString());
       mRequest.claim.name = mNameTv.getText().toString();
       mRequest.claim.street = mStreetTv.getText().toString();
       mRequest.claim.apt = mAptTv.getText().toString();

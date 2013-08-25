@@ -6,11 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity" >
 
-    <View
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/login_bottom"
-        android:background="@drawable/login_bg" />
+        android:scaleType="centerCrop"
+        android:src="@drawable/login_bg" />
 
     <LinearLayout
         android:id="@+id/login_bottom"
