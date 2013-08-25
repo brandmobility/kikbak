@@ -1,6 +1,10 @@
 
 package com.referredlabs.kikbak.ui;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -23,10 +27,6 @@ import com.referredlabs.kikbak.fb.Fb;
 import com.referredlabs.kikbak.fb.FbObjectApi;
 import com.referredlabs.kikbak.http.Http;
 import com.referredlabs.kikbak.utils.Register;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 public class ShareViaFacebookFragment extends DialogFragment {
 
@@ -184,8 +184,13 @@ public class ShareViaFacebookFragment extends DialogFragment {
     @Override
     protected void onPostExecute(Void result) {
       dismiss();
-      if (mListener != null)
-        mListener.onShareFinished(mFbSuccess && mKikbakSuccess);
+      if (mListener != null) {
+        if (mFbSuccess && mKikbakSuccess) {
+          mListener.onShareFinished();
+        } else {
+          mListener.onShareFailed();
+        }
+      }
     }
   }
 

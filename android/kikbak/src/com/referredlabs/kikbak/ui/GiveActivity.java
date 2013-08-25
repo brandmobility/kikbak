@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -145,9 +146,10 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
     findViewById(R.id.take_photo_label).setVisibility(View.INVISIBLE);
     mRetakePhoto.setVisibility(View.VISIBLE);
     mImage.setImageURI(mCroppedPhotoUri);
-    
+
     FrameLayout frame = (FrameLayout) findViewById(R.id.overlay);
-    frame.setForeground(null);
+    Drawable overlay = getResources().getDrawable(R.drawable.grd_give_post);
+    frame.setForeground(overlay);
   }
 
   protected void onTermsClicked() {
@@ -234,12 +236,17 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
   }
 
   @Override
-  public void onShareFinished(boolean success) {
-    if (success) {
-      showShareSuccess();
-    } else {
-      Toast.makeText(this, R.string.share_failed_toast, Toast.LENGTH_LONG).show();
-    }
+  public void onShareFinished() {
+    showShareSuccess();
+  }
+
+  @Override
+  public void onShareFailed() {
+    Toast.makeText(this, R.string.share_failed_toast, Toast.LENGTH_LONG).show();
+  }
+
+  @Override
+  public void onShareCancelled() {
   }
 
   private void showShareSuccess() {

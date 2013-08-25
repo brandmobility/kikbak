@@ -1,6 +1,8 @@
 
 package com.referredlabs.kikbak.utils;
 
+import java.util.Locale;
+
 import android.content.Context;
 
 import com.referredlabs.kikbak.Kikbak;
@@ -9,9 +11,8 @@ import com.referredlabs.kikbak.data.AvailableCreditType;
 import com.referredlabs.kikbak.data.ClientOfferType;
 import com.referredlabs.kikbak.data.DiscountType;
 import com.referredlabs.kikbak.data.GiftType;
+import com.referredlabs.kikbak.data.RewardType;
 import com.referredlabs.kikbak.store.TheReward;
-
-import java.util.Locale;
 
 public class LocaleUtils {
 
@@ -36,7 +37,11 @@ public class LocaleUtils {
   public static String getCreditValueString(Context ctx, AvailableCreditType credit) {
     if (credit == null)
       return null;
-    return ctx.getString(R.string.reward_credit_type_amount_fmt, credit.value);
+    if (RewardType.PURCHASE.equals(credit.rewardType)) {
+      return ctx.getString(R.string.reward_credit_purchase_amount_fmt, credit.value);
+    } else {
+      return ctx.getString(R.string.reward_credit_claim_amount_fmt, credit.value);
+    }
   }
 
   public static String getCreditValueString(Context ctx, TheReward reward) {

@@ -1,23 +1,24 @@
+(function(){
+
 var config = {
   backend: '',
   appId: 493383324061333,
   landing: 'http://test.kikbak.me/m/kikbak/landing.html?code=',
+  latitude: 37.42082770,
+  longitude: -122.13043270
 }
 
+var s = (Storage) ? localStorage : {};
+
 $(document).ready(function() {
-  if (!Storage && !localStorgage) {
-    alert("Needs to enable localstorage to use Kikbak.me");
-    return;
+  if (s.pageType == 'offer-detail') {
+    s.pageType = 'offer';
   }
-  var req = 0;
   $(document).ajaxStart(function (){
-    req++;
     $('#spinner').show();
   });
-  $(document).ajaxComplete(function (){
-    if (--req == 0) {
-      $('#spinner').hide();
-    }
+  $(document).ajaxStop(function (){
+    $('#spinner').hide();
   });
   $('body').scrollTop($(document).height());
   $.ajaxSetup({ cache: true });
@@ -25,19 +26,19 @@ $(document).ready(function() {
     window.fbAsyncInit = fbInit;
   });
   $('.offer-btn').click(function(){
-    localStorage.pageType = 'offer';
+    s.pageType = 'offer';
     initPage();
   });
   $('.redeem-btn').click(function(){
-    localStorage.pageType = 'redeem';
+    s.pageType = 'redeem';
     initPage();
   });
   $('.suggest-btn').click(function(){
-    localStorage.pageType = 'suggest';
+    s.pageType = 'suggest';
     initPage();
   });
   $('.offer-list-btn').click(function(){
-    localStorage.pageType = 'offer';
+    s.pageType = 'offer';
     initPage();
   });
   setWrapperSize();
@@ -114,7 +115,7 @@ $(document).ready(function() {
       type: 'POST',
       contentType: 'application/json',
       data: str,
-      url: config.backend + 'kikbak/rewards/claim/' + localStorage.userId + '/',
+      url: config.backend + 'kikbak/rewards/claim/' + s.userId + '/',
       success: function(json) {
         $('#success-popup h3').html('Your reward claim has been submitted');
         $('#success-popup p').html('');
@@ -160,8 +161,8 @@ function fbInit() {
 }
 
 function connectFb(accessToken) {
-  localStorage.accessToken = accessToken;
-  var userId = localStorage.userId;
+  s.accessToken = accessToken;
+  var userId = s.userId;
   if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
     initPosition(initPage);
     return;
@@ -202,7 +203,7 @@ function updateFbFriends(userId, cb) {
       data: str,
       url: config.backend + 'kikbak/user/friends/fb/' + userId,
       success: function(json) {
-        localStorage.userId = userId;
+        s.userId = userId;
         cb();
       },
       error: showError
@@ -238,14 +239,14 @@ function initPage() {
   $('#redeem-btn-div').css('background', 'url("img/btn_normal.png")');
   window.scrollTo(0, 1);
   
-  var code = localStorage.code;
+  var code = s.code;
   if (typeof code !== 'undefined' && code !== 'null' && code !== '') {
     loginFb();
     claimGift(code);
     return;
   }
 
-  var pageType = localStorage.pageType;
+  var pageType = s.pageType;
   if (pageType === 'redeem') {
     loginFb();
     $('#redeem-view').show('');
@@ -274,7 +275,7 @@ function initPage() {
     $('#back-btn').unbind();
     $('#back-btn').click(function(e) {
       e.preventDefault();
-      localStorage.pageType = 'offer';
+      s.pageType = 'offer';
       initPage();
     });
   } else if (pageType === 'offer-detail') {
@@ -283,18 +284,12 @@ function initPage() {
     $('#heading').html('Gift');
     $('#back-btn-div').show('');
     getOfferDetail();
-  } else if (pageType == 'offer-force') {
-    $('#offer-view').show('');
-    $('#suggest-btn-div').show('');
-    $('#heading').html('Gift');
-    $('#offer-btn-div').css('background', 'url("img/btn_highlighted.png")');
-    getOffers(true);
   } else {// Default
     $('#offer-view').show('');
     $('#suggest-btn-div').show('');
     $('#heading').html('Gift');
     $('#offer-btn-div').css('background', 'url("img/btn_highlighted.png")');
-    getOffers(false);
+    getOffers();
   }
 
   setWrapperSize();
@@ -304,16 +299,16 @@ function initPage() {
 }
 
 function claimGift(code) {
-  var userId = localStorage.userId,
+  var userId = s.userId,
       url = config.backend + 'kikbak/rewards/claim/' + userId + '/' + code;
-  localStorage.code = null;
+  s.code = null;
   $.ajax({
     dataType: 'json',
     type: 'GET',
     contentType: 'application/json',
     url: url,
     success: function(json) {
-      localStorage.pageType = 'redeem';
+      s.pageType = 'redeem';
       initPage();
     },
     error: function() {
@@ -322,15 +317,15 @@ function claimGift(code) {
   });
 }
 
-function getOffers(force) {
-  localStorage.pageType = 'offer';
+function getOffers() {
+  s.pageType = 'offer';
   var userId = 0;
 
   if ( typeof userId !== 'undefined' && userId !== null && userId !== '') {
     if ( typeof initPage.p !== 'undefined') {
-      getOffersByLocation(userId, initPage.p, force);
+      getOffersByLocation(userId, initPage.p);
     } else {
-      getOffersByLocation(userId, null, force);
+      getOffersByLocation(userId, null);
     }
   }
 }
@@ -408,11 +403,11 @@ function getDisplayLocation(locations) {
   return locations[0];
 }
 
-function getOffersByLocation(userId, position, force) {
+function getOffersByLocation(userId, position) {
   var location = {};
   if (position != null) {
-    location['longitude'] = position.longitude;
-    location['latitude'] = position.latitude;
+    location['longitude'] = config.longitude ? config.longitude : position.longitude;
+    location['latitude'] = config.latitude ? config.latitude : position.latitude;
   }
   var data = {};
   data['userLocation'] = location;
@@ -427,12 +422,13 @@ function getOffersByLocation(userId, position, force) {
     url: config.backend + 'kikbak/user/offer/' + userId,
     success: function(json) {
       var offers = json.getUserOffersResponse.offers;
-      localStorage.offerCount = offers.length;
+      s.offerCount = offers.length;
       
-      if (offers.length == 1 && !force) {
-        localStorage.offerDetail = escape(JSON.stringify(offers[0]));
-        localStorage.pageType = 'offer-detail';
+      if (offers.length == 1) {
+        s.offerDetail = escape(JSON.stringify(offers[0]));
+        s.pageType = 'offer-detail';
         initPage();
+        $('back-btn').hide();
       }
       
       var availCount = 0;
@@ -445,9 +441,9 @@ function getOffersByLocation(userId, position, force) {
         }
       });
       
-      if (availCount == 1 && !force) {
-        localStorage.offerDetail = escape(JSON.stringify(availOffer));
-        localStorage.pageType = 'offer-detail';
+      if (availCount == 1) {
+        s.offerDetail = escape(JSON.stringify(availOffer));
+        s.pageType = 'offer-detail';
         initPage();
       }
       
@@ -463,8 +459,8 @@ function getOffersByLocation(userId, position, force) {
       }
       $('.offer-details-btn').click(function(e) {
         e.preventDefault();
-        localStorage.offerDetail = $(this).attr('data-object');
-        localStorage.pageType = 'offer-detail';
+        s.offerDetail = $(this).attr('data-object');
+        s.pageType = 'offer-detail';
         initPage();
       });
     },
@@ -473,7 +469,7 @@ function getOffersByLocation(userId, position, force) {
 }
 
 function getRedeems() {
-  var userId = localStorage.userId;
+  var userId = s.userId;
 
   if ( typeof userId !== 'undefined' && userId !== null && userId !== '') {
     var data = {};
@@ -526,14 +522,14 @@ function getRedeems() {
           var gifts = jQuery.parseJSON(unescape($(this).attr('data-object')));
           $('#friend-popup h1').html('');
           var list = $('#friend-list');
-          list.html(gifts[0].desc);
+          list.html(gifts.desc);
           if (gifts && gifts.shareInfo.length > 1) {
             for (var shareInfo in gifts.shareInfo.length) {
               var li = '<li class="frd-bx" >';
               li += '<img src="https://graph.facebook.com/' + shareInfo.fbFriendId + '/picture?type=square">';
               li += '<h2>' + shareInfo.friendName + '</h2>';
               var data = {
-                'gift': gifts[0],
+                'gift': gifts,
                 'shareInfo': shareInfo
               };
               var j = escape(JSON.stringify(data));
@@ -544,27 +540,27 @@ function getRedeems() {
             $('#friend-popup').show();
             $('.select-gift-btn').click(function() {
               $('#friend-popup').hide();
-              localStorage.giftDetail = $(this).attr('data-object');
-              localStorage.pageType = 'redeem-gift-detail';
+              s.giftDetail = $(this).attr('data-object');
+              s.pageType = 'redeem-gift-detail';
               initPage();
             });
 
           } else if (gifts) {
             var data = {
-              'gift': gifts[0],
-              'shareInfo': gift[0].shareInfo
+              'gift': gifts,
+              'shareInfo': gifts.shareInfo[0]
             };
             var j = escape(JSON.stringify(data));
-            localStorage.giftDetail = j;
-            localStorage.pageType = 'redeem-gift-detail';
+            s.giftDetail = j;
+            s.pageType = 'redeem-gift-detail';
             initPage();
           }
         });
         $('.redeem-credit-btn').click(function(e) {
           e.preventDefault();
           var credits = jQuery.parseJSON(unescape($(this).attr('data-object')));
-          localStorage.creditDetail = escape(JSON.stringify(credits[0]));
-          localStorage.pageType = 'redeem-credit-detail';
+          s.creditDetail = escape(JSON.stringify(credits));
+          s.pageType = 'redeem-credit-detail';
           initPage();
         });
       },
@@ -594,7 +590,7 @@ function renderRedeem(gifts, credits) {
   if (gifts) {
     var g = gifts[0];
     if (g.validationType === 'barcode') {
-      var json = escape(JSON.stringify(gifts));
+      var json = escape(JSON.stringify(g));
       var style = credits ? ' lft-bdr' : '';
       html += '<a href="#" data-object="' + json + '" class="redeem-gift-btn clearfix">';
       html += '<div class="lft-dtl' + style + '"><span>USE RECEIVED GIFT </span><h2>' + g.desc + '</h2>';
@@ -610,7 +606,7 @@ function renderRedeem(gifts, credits) {
   if (credits) {
     var c = credits[0];
     if (c.rewardType === 'gift_card') {
-      var json = escape(JSON.stringify(credits));
+      var json = escape(JSON.stringify(c));
       html += '<a href="#" data-object="' + json + '" class="redeem-credit-btn clearfix">';
       html += '<div class="rit-dtl"><span>CLAIM REWARD</span><h2>' + c.desc + '</h2></div>';
       html += '</a>';
@@ -626,17 +622,19 @@ function renderRedeem(gifts, credits) {
 
 function getOfferDetail() {
   var userId = 0;
-  // localStorage.userId;
+  // s.userId;
   if ( typeof userId !== 'undefined' && userId !== null && userId !== '') {
-    var offer = jQuery.parseJSON(unescape(localStorage.offerDetail));
+    var offer = jQuery.parseJSON(unescape(s.offerDetail));
     renderOfferDetail(offer);
 
     $('#back-btn').unbind();
     $('#back-btn').click(function(e) {
       e.preventDefault();
-      localStorage.pageType = 'offer-force';
+      s.pageType = 'offer';
       initPage();
     });
+    
+    $('#share-btn').click(shareOffer);
 
     $('#take-picture').change(function(e) {
       var icon = $('.camicon');
@@ -672,41 +670,41 @@ function getOfferDetail() {
 }
 
 function getRedeemGiftDetail() {
-  var userId = localStorage.userId;
+  var userId = s.userId;
   if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
-    var gifts = jQuery.parseJSON(unescape(localStorage.giftDetail));
+    var gifts = jQuery.parseJSON(unescape(s.giftDetail));
     renderRedeemGiftDetail(gifts);
     $('#back-btn').unbind();
     $('#back-btn').click(function(e){
       e.preventDefault();
-      localStorage.pageType = 'redeem';
+      s.pageType = 'redeem';
       initPage();
     });
   }
 }
 
 function getRedeemCreditDetail() {
-  var userId = localStorage.userId;
+  var userId = s.userId;
   if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
-    var credit = jQuery.parseJSON(unescape(localStorage.creditDetail));
+    var credit = jQuery.parseJSON(unescape(s.creditDetail));
     renderRedeemCreditDetail(credit);
     $('#back-btn').unbind();
     $('#back-btn').click(function(e){
       e.preventDefault();
-      localStorage.pageType = 'redeem';
+      s.pageType = 'redeem';
       initPage();
     });
   }
 }
 
 function renderOfferDetail(offer) {
-  var html = '<form id="share-form" type="POST" enctype="multipart/form-data" onsubmit="shareOffer(); return false;" >';
+  var html = '<form id="share-form" type="POST" enctype="multipart/form-data">';
   html += '<div class="image-add"><img src="' + offer.offerImageUrl + '" class="addimg add-photo show-picture" id="show-picture">';
   html += '<span class="imgshado"></span>';
   html += '<div class="add-photo-btn">';
   html += '<h2 id="take-photo-header">Add your own photo</h2>';
   html += '<div class="camicon"><img src="images/camicon.png">';
-  html += '<input name="source" type="file" id="take-picture" class="camicon take-picture" style="height:60px;margin-left:40%;width:20%;opacity:0;" accept="image/*" /></div>';
+  html += '<input name="source" type="file" id="take-picture" class="camicon take-picture" style="height:60px;width:100%;opacity:0;" accept="image/*" /></div>';
   html += '</div>';
   html += '<h3>' + offer.merchantName + '</h3>';
   html += '<div class="opt-icon">';
@@ -735,11 +733,11 @@ function renderOfferDetail(offer) {
   html += '<div class="crt">';
   html += '<a href="#" class="trm" onclick="showTerms(\'' + offer.tosUrl + '\')" >Terms and Conditions</a>';
   html += '</div>';
-  var userId = localStorage.userId;
+  var userId = s.userId;
   if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
-    html += '<input name="share" type="submit" class="btn grd3 botm-position" value="Give To Friends" />';
+    html += '<input id="share-btn" name="share" type="submit" class="btn grd3 botm-position" value="Give To Friends" />';
   } else {
-    html += '<input name="share" type="submit" class="btn grd3" value="Connect with Facebook to share" />';
+    html += '<input id="share-btn" name="share" type="submit" class="btn grd3" value="Connect with Facebook to share" />';
     html += '<div class="crt">';
     html += '<p><font size="2">We use Facebook to make it easy for you to store, redeem, and share gifts.  We will never post on Facebook with your permission.</font></p>';
     html += '</div>';
@@ -768,7 +766,7 @@ function showTerms(url) {
 }
 
 function doSuggest() {
-  var userId = localStorage.userId;
+  var userId = s.userId;
   $('#suggest-form input[name="suggest"]').attr('disabled', 'disabled');
   if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
     var req = new FormData();
@@ -796,7 +794,7 @@ function doSuggest() {
 }
 
 function onSuggestResponse(url) {
-  var userId = localStorage.userId;
+  var userId = s.userId;
   if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
     var business = {};
     business['business_name'] = $('#suggest-form input[name="name"]').val();
@@ -814,7 +812,7 @@ function onSuggestResponse(url) {
       contentType: 'application/json',
       data: str,
       success : function(response) {
-        localStorage.pageType = 'offer';
+        s.pageType = 'offer';
         initPage();
       },
       error : showError
@@ -823,7 +821,7 @@ function onSuggestResponse(url) {
 }
 
 function shareOffer() {
-  var userId = localStorage.userId;
+  var userId = s.userId;
   if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
     updateFbFriends(userId, function() {
       var message = $('#share-form input[name="comment"]').val();
@@ -859,7 +857,7 @@ function shareOffer() {
 }
 
 function loginFb() {
-  var userId = localStorage.userId;
+  var userId = s.userId;
   if ( typeof userId == 'undefined' || userId == null || userId == '') {
     FB.login(function(response) {
       if (response.status === 'connected') {
@@ -885,7 +883,7 @@ function doShare(cb, type) {
   $('#spinner h2').html('Sharing Gift');
   $('#spinner').show();
   
-  var offer = jQuery.parseJSON(unescape(localStorage.offerDetail)),
+  var offer = jQuery.parseJSON(unescape(s.offerDetail)),
     exp = {},
     message = $('#share-form input[name="comment"]').val(),
     data = {},
@@ -919,7 +917,7 @@ function doShare(cb, type) {
     type: 'POST',
     contentType: 'application/json',
     data: str,
-    url: config.backend + 'kikbak/ShareExperience/' + localStorage.userId,
+    url: config.backend + 'kikbak/ShareExperience/' + s.userId,
     success: function(json) {
       if (json && json.shareExperienceResponse && json.shareExperienceResponse.referrerCode) {
         cb(json.shareExperienceResponse.referrerCode, message, url, json.shareExperienceResponse);
@@ -957,7 +955,7 @@ function shareViaFacebook() {
       'description': '\"' + encodeURIComponent('desc') + '\"',
     };
     var req = {
-      'access_token' : localStorage.accessToken,
+      'access_token' : s.accessToken,
       //'privacy': '{"value":"all_friends"}',
       'object' : JSON.stringify(o),
       'method' : 'POST',
@@ -974,7 +972,7 @@ function shareViaFacebook() {
       success : function(response) {
         if (response && response.id) {
           var req = {
-            'access_token' : localStorage.accessToken,
+            'access_token' : s.accessToken,
             'method' : 'POST',
             'coupon' : fbUrl,
             'fb:explicitly_shared' : 'true',
@@ -1006,7 +1004,6 @@ function shareViaFacebook() {
         showError();
       }
     }); 
-
   }, 'fb');
 }
 
@@ -1056,7 +1053,7 @@ function renderRedeemGiftDetail(data) {
 }
 
 function doRedeemGift(gift) {
-  var imgUrl = config.backend + 'kikbak/rewards/generateBarcode/' + localStorage.userId + '/' + gift.id + '/200/300/';
+  var imgUrl = config.backend + 'kikbak/rewards/generateBarcode/' + s.userId + '/' + gift.shareInfo[0].allocatedGiftId + '/200/300/';
   $('#redeem-gift-success .pg-hedng').html(gift.merchant.name);
   $('#redeem-gift-success .cd-br-stin h1').html(gift.desc);
   $('#redeem-gift-success .cd-br-stin h3').html(gift.detailedDesc);
@@ -1105,7 +1102,7 @@ function claimCreditForm(credit) {
   $('#back-btn').click(function(e) {
     e.preventDefault();
     $('#claim-credit-div').hide();
-    localStorage.pageType = 'redeem-credit-detail';
+    s.pageType = 'redeem-credit-detail';
     initPage();
   })
 }
@@ -1163,3 +1160,5 @@ function adjustAddPhoto() {
     $('.add-photo-btn').hide(); 
   }
 }
+
+})();

@@ -6,15 +6,23 @@ import java.io.IOException;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.referredlabs.kikbak.Kikbak;
 import com.referredlabs.kikbak.R;
+import com.referredlabs.kikbak.data.SuggestBusinessRequest;
+import com.referredlabs.kikbak.data.SuggestBusinessResponse;
+import com.referredlabs.kikbak.data.SuggestBusinessType;
+import com.referredlabs.kikbak.http.Http;
+import com.referredlabs.kikbak.utils.Register;
 
 public class SuggestBusinessActivity extends KikbakActivity implements
     OnClickListener {
@@ -55,7 +63,7 @@ public class SuggestBusinessActivity extends KikbakActivity implements
         break;
 
       case R.id.retake_photo:
-        onTakePhotoClicked();
+        onRetakePhotoClicked();
         break;
 
       case R.id.send:
@@ -94,18 +102,17 @@ public class SuggestBusinessActivity extends KikbakActivity implements
     });
   }
 
+  protected void onRetakePhotoClicked() {
+    Kikbak.getInstance().removeFileAsync(mCroppedPhotoUri);
+    mCroppedPhotoUri = null;
+    onTakePhotoClicked();
+  }
+
   private File getTempFile() throws IOException {
     // TODO: what if there is no sd card ?
     // need a way to grant access to a file in app space
     // getDir("temp", MODE_WORLD_WRITEABLE); this mode is depricated
     return File.createTempFile("kikbak", ".jpg", getExternalCacheDir());
-  }
-
-  private static void removeFile(Uri uri) {
-    if (uri != null) {
-      File f = new File(uri.getPath());
-      f.delete();
-    }
   }
 
   @Override
@@ -128,7 +135,7 @@ public class SuggestBusinessActivity extends KikbakActivity implements
     }
 
     if (requestCode == REQUEST_CROP_PHOTO && resultCode == RESULT_OK) {
-      removeFile(mPhotoUri);
+      Kikbak.getInstance().removeFileAsync(mPhotoUri);
       mPhotoUri = null;
       onPhotoTakenAsync();
     }
@@ -154,8 +161,61 @@ public class SuggestBusinessActivity extends KikbakActivity implements
     }
   }
 
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    Kikbak.getInstance().removeFileAsync(mCroppedPhotoUri);
+  }
+
   private void onSendClicked() {
     Toast.makeText(this, R.string.suggest_confirmation_toast, Toast.LENGTH_LONG).show();
     finish();
+
+    String name = ((EditText) findViewById(R.id.business_name)).getText().toString();
+    String why = ((EditText) findViewById(R.id.business_greatness)).getText().toString();
+    String path = mCroppedPhotoUri != null ? mCroppedPhotoUri.getPath() : null;
+    new SuggestTask(name, why, path).execute();
+    mCroppedPhotoUri = null;
   }
+
+  private static class SuggestTask extends AsyncTask<Void, Void, Void> {
+
+    private String mBusinessName;
+    private String mWhy;
+    private String mPhotoPath;
+
+    public SuggestTask(String name, String why, String path) {
+      mBusinessName = name;
+      mWhy = why;
+      mPhotoPath = path;
+    }
+
+    @Override
+    protected Void doInBackground(Void... arg0) {
+      try {
+        long userId = Register.getInstance().getUserId();
+
+        String imageUrl = null;
+        if (mPhotoPath != null) {
+          imageUrl = Http.uploadImage(userId, mPhotoPath);
+        }
+        SuggestBusinessType business = new SuggestBusinessType();
+        business.business_name = mBusinessName;
+        business.why = mWhy;
+        business.image_url = imageUrl;
+        SuggestBusinessRequest req = new SuggestBusinessRequest();
+        req.business = business;
+        String uri = Http.getUri(SuggestBusinessRequest.PATH + userId);
+        SuggestBusinessResponse resp = Http.execute(uri, req, SuggestBusinessResponse.class);
+      } catch (Exception e) {
+        android.util.Log.d("MMM", "Sending failed.");
+      } finally {
+        if (mPhotoPath != null) {
+          new File(mPhotoPath).delete();
+        }
+      }
+      return null;
+    }
+  };
+
 }

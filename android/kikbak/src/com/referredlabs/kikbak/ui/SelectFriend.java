@@ -21,6 +21,7 @@ import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.GiftType;
 import com.referredlabs.kikbak.data.ShareInfoType;
 import com.referredlabs.kikbak.fb.Fb;
+import com.referredlabs.kikbak.utils.LocaleUtils;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -28,6 +29,7 @@ public class SelectFriend extends DialogFragment implements OnItemClickListener 
 
   private static final String ARG_GIFT = "gift";
 
+  private TextView mValue;
   private ListView mList;
   GiftType mGift;
   OnFriendSelectedListener mListener;
@@ -68,6 +70,11 @@ public class SelectFriend extends DialogFragment implements OnItemClickListener 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View root = inflater.inflate(R.layout.fragment_select_friend, container, false);
+    mValue = (TextView) root.findViewById(R.id.value);
+
+    String text = LocaleUtils.getGiftValueString(getActivity(), mGift);
+    mValue.setText(text);
+
     mList = (ListView) root.findViewById(R.id.list);
     mList.setAdapter(new Adapter(inflater, mGift.shareInfo));
     mList.setOnItemClickListener(this);

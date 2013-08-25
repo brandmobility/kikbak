@@ -6,8 +6,9 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import com.referredlabs.kikbak.R;
+import com.referredlabs.kikbak.ui.RedeemGiftFragment.RedeemGiftCallback;
 
-public class RedeemGiftActivity extends KikbakActivity implements RedeemSuccessCallback {
+public class RedeemGiftActivity extends KikbakActivity implements RedeemGiftCallback {
 
   public static final String EXTRA_GIFT = "gift";
   public static final String EXTRA_SHARE_IDX = "idx";
@@ -19,7 +20,12 @@ public class RedeemGiftActivity extends KikbakActivity implements RedeemSuccessC
   }
 
   @Override
-  public void success(String barcode, Bitmap barcodeBitmap) {
+  public void onRedeemGiftSuccess(String barcode) {
+    onRedeemGiftSuccess(barcode, null);
+  }
+
+  @Override
+  public void onRedeemGiftSuccess(String barcode, Bitmap barcodeBitmap) {
     Intent intent = new Intent(this, SuccessActivity.class);
     intent.putExtra(SuccessActivity.ARG_BARCODE_BITMAP, barcodeBitmap);
     intent.putExtra(SuccessActivity.ARG_BARCODE, barcode);
@@ -27,10 +33,4 @@ public class RedeemGiftActivity extends KikbakActivity implements RedeemSuccessC
     startActivity(intent);
     finish();
   }
-
-  @Override
-  public void finished() {
-    finish();
-  }
-
 }

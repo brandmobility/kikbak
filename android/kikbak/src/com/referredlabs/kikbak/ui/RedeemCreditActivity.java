@@ -12,8 +12,11 @@ import com.google.gson.Gson;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.AvailableCreditType;
 import com.referredlabs.kikbak.data.RewardType;
+import com.referredlabs.kikbak.ui.ClaimInputFragment.ClaimCompletedCallback;
+import com.referredlabs.kikbak.ui.RedeemCreditFragment.RedeemCreditCallback;
 
-public class RedeemCreditActivity extends KikbakActivity implements RedeemSuccessCallback {
+public class RedeemCreditActivity extends KikbakActivity implements RedeemCreditCallback,
+    ClaimCompletedCallback {
 
   public static final String EXTRA_CREDIT = "credit";
 
@@ -41,17 +44,23 @@ public class RedeemCreditActivity extends KikbakActivity implements RedeemSucces
   }
 
   @Override
-  public void success(String barcode, Bitmap barcodeBitmap) {
+  public void onRedeemCreditSuccess(double creditUsed, String code) {
+    onRedeemCreditSuccess(creditUsed, code, null);
+  }
+
+  @Override
+  public void onRedeemCreditSuccess(double creditUsed, String barcode, Bitmap barcodeBitmap) {
     Intent intent = new Intent(this, SuccessActivity.class);
     intent.putExtra(SuccessActivity.ARG_BARCODE_BITMAP, barcodeBitmap);
     intent.putExtra(SuccessActivity.ARG_BARCODE, barcode);
     intent.putExtra(SuccessActivity.ARG_CREDIT, getIntent().getStringExtra(EXTRA_CREDIT));
+    intent.putExtra(SuccessActivity.ARG_CREDIT_USED, creditUsed);
     startActivity(intent);
     finish();
   }
 
   @Override
-  public void finished() {
+  public void onClaimCompleted() {
     finish();
   }
 }

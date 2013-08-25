@@ -62,6 +62,7 @@ public class ShareViaSmsFragment extends DialogFragment {
     // start picker
     Intent intent = new Intent(getActivity(), PickContactsActivity.class);
     intent.putExtra(PickContactsActivity.ARG_TYPE, PickContactsActivity.TYPE_PHONE);
+    intent.putExtra(PickContactsActivity.ARG_BUTTON_TEXT, R.string.share_pick_button_sms);
     startActivityForResult(intent, REQUEST_SELECT_CONTACTS);
   }
 
@@ -87,13 +88,13 @@ public class ShareViaSmsFragment extends DialogFragment {
         mContacts = data.getStringArrayListExtra(PickContactsActivity.DATA);
         share();
       } else {
-        mListener.onShareFinished(false);
+        mListener.onShareCancelled();
         dismiss();
       }
     }
 
     if (requestCode == REQUEST_SEND_SMS) {
-      mListener.onShareFinished(true);
+      mListener.onShareFinished();
       dismiss();
     }
   }
@@ -120,7 +121,7 @@ public class ShareViaSmsFragment extends DialogFragment {
   }
 
   protected void onShareFailed() {
-    mListener.onShareFinished(false);
+    mListener.onShareFailed();
   }
 
   private String getSmsRecipients() {

@@ -28,6 +28,7 @@ import java.util.ArrayList;
 public class PickContactsActivity extends KikbakActivity
     implements LoaderCallbacks<Cursor>, OnClickListener {
 
+  public static final String ARG_BUTTON_TEXT = "button_text";
   public static final String ARG_TYPE = "type";
   public static final int TYPE_EMAIL = 0;
   public static final int TYPE_PHONE = 1;
@@ -48,6 +49,7 @@ public class PickContactsActivity extends KikbakActivity
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
+    int buttonTextResId = getIntent().getIntExtra(ARG_BUTTON_TEXT, 0);
     int type = getIntent().getIntExtra(ARG_TYPE, TYPE_EMAIL);
     mHelper = type == TYPE_EMAIL ? new EmailChooserHelper() : new PhoneChooserHelper();
     setContentView(R.layout.activity_share_gift_via_email);
@@ -62,6 +64,11 @@ public class PickContactsActivity extends KikbakActivity
 
     mShareButton = (Button) findViewById(R.id.share_gift);
     mShareButton.setOnClickListener(this);
+    
+    if(buttonTextResId != 0) {
+      mShareButton.setText(buttonTextResId);
+    }
+    
     getSupportLoaderManager().initLoader(LOADER_ID, null, this);
   }
 

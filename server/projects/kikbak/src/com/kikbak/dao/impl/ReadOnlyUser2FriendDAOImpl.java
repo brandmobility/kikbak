@@ -1,6 +1,7 @@
 package com.kikbak.dao.impl;
 
 import java.util.Collection;
+import java.util.Collections;
 
 import org.hibernate.SQLQuery;
 import org.hibernate.type.StandardBasicTypes;
@@ -28,6 +29,9 @@ public class ReadOnlyUser2FriendDAOImpl extends ReadOnlyGenericDAOImpl<User2frie
 	@Override
 	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
 	public Collection<Long> listFriendsToDelete(Long userId, Collection<Long> facebookIds) {
+		if (facebookIds.isEmpty()) {
+		  return Collections.emptyList();
+		}
 		String fbIds = facebookIds.toString();
 		StringBuffer queryString = new StringBuffer(friends_to_delete_query + userId);
 		queryString.append(" and facebook_friend_id not in(" + fbIds.substring(1, fbIds.length() -1) +")");

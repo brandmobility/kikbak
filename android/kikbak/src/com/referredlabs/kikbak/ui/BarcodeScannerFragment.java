@@ -10,6 +10,7 @@ import android.hardware.Camera;
 import android.hardware.Camera.PreviewCallback;
 import android.hardware.Camera.Size;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -86,6 +87,16 @@ public class BarcodeScannerFragment extends DialogFragment implements ResultPoin
 
     mPointsView = (PointsView) root.findViewById(R.id.points_view);
     mPointsView.setCameraPreview(mPreviewSurface);
+
+    if (Build.PRODUCT.contains("sdk")) {
+      // running on emulator
+      root.postDelayed(new Runnable() {
+        @Override
+        public void run() {
+          mListener.onBarcodeScanned("bug");
+        }
+      }, 2000);
+    }
 
     return root;
   }

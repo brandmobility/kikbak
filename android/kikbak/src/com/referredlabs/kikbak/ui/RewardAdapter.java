@@ -98,7 +98,7 @@ public class RewardAdapter extends BaseAdapter {
     }
 
     helper.setGiftValue(LocaleUtils.getGiftValueString(mContext, reward));
-    helper.setCreditValue(LocaleUtils.getCreditValueString(mContext, reward));
+    helper.setCreditPart(mContext.getResources(), reward.getCredit());
 
     return view;
   }
