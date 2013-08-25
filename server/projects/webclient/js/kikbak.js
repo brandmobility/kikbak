@@ -827,9 +827,9 @@ function renderOfferDetail(offer) {
   html += '</div>';
   var userId = s.userId;
   if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
-    html += '<input id="share-btn" name="share" type="submit" class="btn grd3 botm-position" value="Give To Friends" />';
+    html += '<input id="share-btn" name="share" type="button" class="btn grd3 botm-position" value="Give To Friends" />';
   } else {
-    html += '<input id="share-btn" name="share" type="submit" class="btn grd3" value="Connect with Facebook to share" />';
+    html += '<input id="share-btn" name="share" type="button" class="btn grd3" value="Connect with Facebook to share" />';
     html += '<div class="crt">';
     html += '<p><font size="2">We use Facebook to make it easy for you to store, redeem, and share gifts.  We will never post on Facebook with your permission.</font></p>';
     html += '</div>';
