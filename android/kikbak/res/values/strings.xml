@@ -88,7 +88,7 @@
     <string name="share_in_progress">Sharing gift</string>
     <string name="share_pick_button_email">Generate email</string>
     <string name="share_pick_button_sms">Generate SMS</string>
-    
+
     <!-- Rewards -->
     <string name="reward_gift_label">USE RECEIVED GIFT</string>
     <string name="reward_gift_type_percentage_fmt">%.0f%% OFF</string>
@@ -156,15 +156,23 @@
     <string name="claim_card_arrival">Your reward should arrive in 2 to 4 weeks.</string>
     <string name="claim_card_submit">Submit</string>
 
+    <!-- validation -->
+    <string name="claim_zip_empty">ZIP cannot be empty</string>
+    <string name="claim_zip_wrong_format">This is not a valid ZIP code, use XXXXX or XXXXX-XXXX pattern"</string>
+    <string name="claim_city_empty">City cannot be empty</string>
+    <string name="claim_state_empty">State cannot be empty</string>
+    <string name="claim_name_empty">Name cannot be empty</string>
+    <string name="claim_street_empty">Street cannot be empty</string>
+    <string name="claim_phone_empty">Phone number cannot be empty</string>
+    <string name="claim_phone_wrong_format">This is not a valid phone number</string>
+
     <!-- Suggest business -->
     <string name="activity_suggest">Suggest</string>
     <string name="suggest_desc">"Want to recommend a business with a special offer? Tell us and we'll let them know that they should join Kikbak."</string>
     <string name="businnes_name_hint">Business name</string>
     <string name="businnes_why_hint">What makes them great</string>
     <string name="suggest_send">Let us know</string>
-    <string name="suggest_confirmation_toast">"Thanks for your suggestion.\nWe'll pass it along and let you know when the business joins Kikbak."</string>
-
-    <!-- Select friend -->
+    <string name="suggest_confirmation_toast">"Thanks for your suggestion.\nWe'll pass it along and let you know when the business joins Kikbak."</string> <!-- Select friend -->
     <string name="select_friend_label">Select the friend whose gift you would like to redeem</string>
 
 </resources>
