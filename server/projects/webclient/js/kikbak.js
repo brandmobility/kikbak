@@ -1,5 +1,7 @@
 (function(){
 
+'use strict';
+
 var config = {
   backend: '',
   appId: 493383324061333,
@@ -13,6 +15,10 @@ var s = (Storage) ? localStorage : {};
 $(document).ready(function() {
   if (s.pageType == 'offer-detail') {
     s.pageType = 'offer';
+  } else if (s.pageType == 'redeem-gift-detail') {
+    s.pageType = 'redeem';
+  } else if (s.pageType == 'redeem-credit-detail') {
+    s.pageType = 'redeem';
   }
   $(document).ajaxStart(function (){
     $('#spinner').show();
@@ -134,7 +140,7 @@ $(document).ready(function() {
 });
 
 function getHeight() {
-  xHeight = null;
+  var xHeight = null;
   if(window.screen != null)
     xHeight = window.screen.availHeight;
   if(window.innerHeight != null)
@@ -256,13 +262,17 @@ function initPage() {
   } else if (pageType === 'redeem-gift-detail') {
     loginFb();
     $('#redeem-details-view').show('');
-    $('#back-btn-div').show('');
+    if (getRedeems.counter > 1) {
+      $('#back-btn-div').show('');
+    }
     $('#heading').html('Redeem');
     getRedeemGiftDetail();
   } else if (pageType === 'redeem-credit-detail') {
     loginFb();
     $('#redeem-details-view').show('');
-    $('#back-btn-div').show('');
+    if (getRedeems.counter > 1) {
+      $('#back-btn-div').show('');
+    }
     $('#heading').html('Redeem');
     getRedeemCreditDetail();
   } else if (pageType === 'suggest') {
@@ -505,63 +515,48 @@ function getRedeems() {
             creditCollection[mid] = [credit];
           }
         });
-
+        
         var mark = {};
+        var redeemData = {};
+        getRedeems.counter = 0;
         for (var mid in giftCollection) {
-          renderRedeem(giftCollection[mid], creditCollection[mid]);
-          mark[mid] = 1;
+          if (renderRedeem(giftCollection[mid], creditCollection[mid])) {
+            mark[mid] = 1;
+            getRedeems.counter++;
+            redeemData['gift'] = giftCollection[mid][0];
+            if (creditCollection[mid]) {
+              redeemData['credit'] = creditCollection[mid][0];
+            }
+          }
         }
         for (var mid in creditCollection) {
           if (!mark[mid]) {
-            renderRedeem(giftCollection[mid], creditCollection[mid]);
+            if (renderRedeem(giftCollection[mid], creditCollection[mid])) {
+              getRedeems.counter++;
+              redeemData['credit'] = creditCollection[mid][0];
+            }
           }
         }
+        
+        if (getRedeems.counter == 1) {
+          onClickRedeem(redeemData);
+          
+        }
 
+        $('.redeem-data-btn').click(function(e) {
+          e.preventDefault();
+          var redeemData = jQuery.parseJSON(unescape($(this).attr('data-object')));
+          onClickRedeem(redeemData);
+        });
         $('.redeem-gift-btn').click(function(e) {
           e.preventDefault();
           var gifts = jQuery.parseJSON(unescape($(this).attr('data-object')));
-          $('#friend-popup h1').html('');
-          var list = $('#friend-list');
-          list.html(gifts.desc);
-          if (gifts && gifts.shareInfo.length > 1) {
-            for (var shareInfo in gifts.shareInfo.length) {
-              var li = '<li class="frd-bx" >';
-              li += '<img src="https://graph.facebook.com/' + shareInfo.fbFriendId + '/picture?type=square">';
-              li += '<h2>' + shareInfo.friendName + '</h2>';
-              var data = {
-                'gift': gifts,
-                'shareInfo': shareInfo
-              };
-              var j = escape(JSON.stringify(data));
-              li += '<a href="#" class="nxtt select-gift-btn" data-object="' + j + '"><img src="images/nxt-aro.png"></a></li>';
-              list.append(li);
-            }
-
-            $('#friend-popup').show();
-            $('.select-gift-btn').click(function() {
-              $('#friend-popup').hide();
-              s.giftDetail = $(this).attr('data-object');
-              s.pageType = 'redeem-gift-detail';
-              initPage();
-            });
-
-          } else if (gifts) {
-            var data = {
-              'gift': gifts,
-              'shareInfo': gifts.shareInfo[0]
-            };
-            var j = escape(JSON.stringify(data));
-            s.giftDetail = j;
-            s.pageType = 'redeem-gift-detail';
-            initPage();
-          }
+          onClickRedeemGift(gifts);
         });
         $('.redeem-credit-btn').click(function(e) {
           e.preventDefault();
           var credits = jQuery.parseJSON(unescape($(this).attr('data-object')));
-          s.creditDetail = escape(JSON.stringify(credits));
-          s.pageType = 'redeem-credit-detail';
-          initPage();
+          onClickRedeemCredit(credits);
         });
       },
       error : showError
@@ -569,14 +564,108 @@ function getRedeems() {
   }
 }
 
+function onClickRedeem(redeemData) {
+  if (!redeemData['gift']) {
+    onClickRedeemCredit(redeemData['credit']);
+    return;
+  }
+  if (!redeemData['credit']) {
+    onClickRedeemGift(redeemData['gift']);
+    return;
+  }
+  var gift = redeemData['gift'];
+  var credit = redeemData['credit'];
+  $('#friend-popup h1').html('');
+  var list = $('#friend-list');
+  var li = '<li class="frd-bx" >';
+  li += '<h2>' + gift.desc + '</h2>';
+  var j = escape(JSON.stringify(gift));
+  li += '<a href="#" class="nxtt" id="redeem-gift-shortcut" data-object="' + j + '"><img src="images/nxt-aro.png"></a></li>';
+  list.append(li);
+  var li = '<li class="frd-bx" >';
+  li += '<h2>' + credit.desc + '</h2>';
+  var j = escape(JSON.stringify(credit));
+  li += '<a href="#" class="nxtt" id="redeem-credit-shortcut" data-object="' + j + '"><img src="images/nxt-aro.png"></a></li>';
+  list.append(li);
+  
+  $('#redeem-gift-shortcut').click(function(e) {
+    e.preventDefault();
+    var gifts = jQuery.parseJSON(unescape($(this).attr('data-object')));
+    onClickRedeemGift(gifts);
+  });
+  $('#redeem-credit-shortcut').click(function(e) {
+    e.preventDefault();
+    var credits = jQuery.parseJSON(unescape($(this).attr('data-object')));
+    onClickRedeemCredit(credits);
+  });
+  $('#friend-popup').show();
+}
+
+function onClickRedeemCredit(credits) {
+  s.creditDetail = escape(JSON.stringify(credits));
+  s.pageType = 'redeem-credit-detail';
+  initPage();
+}
+
+function onClickRedeemGift(gifts) {
+    $('#friend-popup h1').html('');
+    var list = $('#friend-list');
+    list.html(gifts.desc);
+    if (gifts && gifts.shareInfo.length > 1) {
+      for (var shareInfo in gifts.shareInfo.length) {
+        var li = '<li class="frd-bx" >';
+        li += '<img src="https://graph.facebook.com/' + shareInfo.fbFriendId + '/picture?type=square">';
+        li += '<h2>' + shareInfo.friendName + '</h2>';
+        var data = {
+          'gift' : gifts,
+          'shareInfo' : shareInfo
+        };
+        var j = escape(JSON.stringify(data));
+        li += '<a href="#" class="nxtt select-gift-btn" data-object="' + j + '"><img src="images/nxt-aro.png"></a></li>';
+        list.append(li);
+      }
+
+      $('#friend-popup').show();
+      $('.select-gift-btn').click(function() {
+        $('#friend-popup').hide();
+        s.giftDetail = $(this).attr('data-object');
+        s.pageType = 'redeem-gift-detail';
+        initPage();
+      });
+
+    } else if (gifts) {
+      var data = {
+        'gift' : gifts,
+        'shareInfo' : gifts.shareInfo[0]
+      };
+      var j = escape(JSON.stringify(data));
+      s.giftDetail = j;
+      s.pageType = 'redeem-gift-detail';
+      initPage();
+    }
+}
+
 function renderRedeem(gifts, credits) {
   var m = credits ? credits[0].merchant : gifts[0].merchant;
   var imgUrl = credits ? credits[0].imageUrl : gifts[0].defaultGiveImageUrl;
   
-  var html = '<div class="rdem-bx"><div class="redeem"><span class="imgshado"></span><div class="lstimg">';
-  html += '<img class="redeem-background" src="' + imgUrl + '" />';  html += '<a href="' + m.url + '"><img class="website-img" src="img/ic_web.png" /></a>';
-  html += '</div><h3>' + m.name + '</h3><div class="opt-icon">';
-  local = getDisplayLocation(m.locations);
+  var redeemData = {};
+  if (gifts) {
+    redeemData['gift'] = gifts[0];
+  }
+  if (credits) {
+    redeemData['credit'] = credits[0];
+  }
+  var json = escape(JSON.stringify(redeemData));
+  var html = '<div class="rdem-bx"><div class="redeem">';
+  html += '<a href="#" data-object="' + json + '" class="redeem-data-btn clearfix">';
+  html += '<span class="imgshado"></span>';
+  html += '<div class="lstimg">';
+  html += '<img class="redeem-background" src="' + imgUrl + '" />';
+  html += '</div>';  
+  html += '</a>';
+  html += '<h3>' + m.name + '</h3><div class="opt-icon">';
+  var local = getDisplayLocation(m.locations);
   if (local != 'undefined') {
     html += '<a href="tel:' + local.phoneNumber + '"><img src="images/ic_phone@2x.png" /></a>';
     html += '<a href="' + m.url + '"><img src="images/ic_web@2x.png" /></a>';
@@ -617,7 +706,10 @@ function renderRedeem(gifts, credits) {
   
   if (valid) {
     $('#redeem-list').append(html);
+    return true;
   }
+  
+  return false;
 }
 
 function getOfferDetail() {
@@ -708,7 +800,7 @@ function renderOfferDetail(offer) {
   html += '</div>';
   html += '<h3>' + offer.merchantName + '</h3>';
   html += '<div class="opt-icon">';
-  local = getDisplayLocation(offer.locations);
+  var local = getDisplayLocation(offer.locations);
   if (local != 'undefined') {
     html += '<a href="' + generateMapUrl(offer.merchantName, local) + '"><img class="website-img" src="images/ic_map@2x.png" />' + '&nbsp;' + computeDistance(local) + '</a>';
     html += '<a href="' + offer.merchantUrl + '"><img class="website-img" src="images/ic_web@2x.png" /></a>';
@@ -952,7 +1044,7 @@ function shareViaFacebook() {
       'app_id' : config.appId,
       'url' : fbUrl.replace(/\//g, '\/'),
       'title': '\"' + encodeURIComponent('title') + '\"',
-      'description': '\"' + encodeURIComponent('desc') + '\"',
+      'description': '\"' + encodeURIComponent('desc') + '\"'
     };
     var req = {
       'access_token' : s.accessToken,
@@ -1021,7 +1113,7 @@ function renderRedeemGiftDetail(data) {
   html += '<div class="image-add rdme"><img src="' + share.imageUrl + '" class="addimge"><span class="imgshado"></span>';
   html += '<h3>' + gift.merchant.name + '</h3>';
   html += '<div class="opt-icon">';
-  local = getDisplayLocation(gift.merchant.locations);
+  var local = getDisplayLocation(gift.merchant.locations);
   if (local != 'undefined') {
     html += '<a href="' + generateMapUrl(gift.merchant.name, local) + '"><img src="images/ic_map@2x.png" />' + '&nbsp;' + computeDistance(local) + '</a>';
     html += '<a href="' + gift.merchant.url + '"><img src="images/ic_web@2x.png" /></a>';
@@ -1117,7 +1209,7 @@ function getBrowserName() {
   var nAgt = navigator.userAgent;
 
   if(navigator.platform == 'iPhone' || navigator.platform == 'iPod'){
-    if ((verOffset=nAgt.indexOf('Safari'))!=-1) {
+    if (nAgt.indexOf('Safari') != -1) {
       return 'Safari';
     }
   }
