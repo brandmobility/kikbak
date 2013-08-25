@@ -181,6 +181,8 @@
 		3CB9FC8B17C330800071B8B4 /* LocationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9FC8A17C330800071B8B4 /* LocationTableViewCell.m */; };
 		3CB9FC8E17C336DE0071B8B4 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9FC8D17C336DE0071B8B4 /* Location.m */; };
 		3CB9FC9117C362500071B8B4 /* ShareData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9FC9017C362500071B8B4 /* ShareData.m */; };
+		3CB9FC9417C7541E0071B8B4 /* KikbakTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9FC9317C7541D0071B8B4 /* KikbakTextField.m */; };
+		3CB9FC9717C9EE9F0071B8B4 /* ClaimSuccessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9FC9617C9EE9E0071B8B4 /* ClaimSuccessView.m */; };
 		3CBCBF2617127468007B4249 /* OfferService.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF2517127468007B4249 /* OfferService.mm */; };
 		3CBCBF29171277A3007B4249 /* LocationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF28171277A3007B4249 /* LocationService.m */; };
 		3CBCBF491713E696007B4249 /* SubmitFriendsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF351713E696007B4249 /* SubmitFriendsRequest.m */; };
@@ -494,6 +496,10 @@
 		3CB9FC8D17C336DE0071B8B4 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
 		3CB9FC8F17C362500071B8B4 /* ShareData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareData.h; sourceTree = "<group>"; };
 		3CB9FC9017C362500071B8B4 /* ShareData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareData.m; sourceTree = "<group>"; };
+		3CB9FC9217C7541C0071B8B4 /* KikbakTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KikbakTextField.h; sourceTree = "<group>"; };
+		3CB9FC9317C7541D0071B8B4 /* KikbakTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KikbakTextField.m; sourceTree = "<group>"; };
+		3CB9FC9517C9EE9E0071B8B4 /* ClaimSuccessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClaimSuccessView.h; sourceTree = "<group>"; };
+		3CB9FC9617C9EE9E0071B8B4 /* ClaimSuccessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClaimSuccessView.m; sourceTree = "<group>"; };
 		3CBCBF2417127468007B4249 /* OfferService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfferService.h; sourceTree = "<group>"; };
 		3CBCBF2517127468007B4249 /* OfferService.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OfferService.mm; sourceTree = "<group>"; };
 		3CBCBF27171277A3007B4249 /* LocationService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationService.h; sourceTree = "<group>"; };
@@ -788,6 +794,10 @@
 				3CB9FC8817C0C2210071B8B4 /* RedeemGiftFriendChooserProtocol.h */,
 				3CB9FC8917C3307F0071B8B4 /* LocationTableViewCell.h */,
 				3CB9FC8A17C330800071B8B4 /* LocationTableViewCell.m */,
+				3CB9FC9217C7541C0071B8B4 /* KikbakTextField.h */,
+				3CB9FC9317C7541D0071B8B4 /* KikbakTextField.m */,
+				3CB9FC9517C9EE9E0071B8B4 /* ClaimSuccessView.h */,
+				3CB9FC9617C9EE9E0071B8B4 /* ClaimSuccessView.m */,
 			);
 			name = views;
 			path = Kikbak/views;
@@ -1470,6 +1480,8 @@
 				3CB9FC8B17C330800071B8B4 /* LocationTableViewCell.m in Sources */,
 				3CB9FC8E17C336DE0071B8B4 /* Location.m in Sources */,
 				3CB9FC9117C362500071B8B4 /* ShareData.m in Sources */,
+				3CB9FC9417C7541E0071B8B4 /* KikbakTextField.m in Sources */,
+				3CB9FC9717C9EE9F0071B8B4 /* ClaimSuccessView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

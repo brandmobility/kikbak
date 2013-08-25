@@ -312,6 +312,8 @@ const int CELL_HEIGHT = 206;
         else{
             ClaimCreditViewController* vc = [[ClaimCreditViewController alloc]init];
             vc.hidesBottomBarWhenPushed = true;
+            vc.amount = collection.credit.value;
+            vc.merchantName = collection.credit.merchantName;
             [self.navigationController pushViewController:vc animated:YES];
         }
     }
@@ -403,6 +405,8 @@ const int CELL_HEIGHT = 206;
     }
     else{
         vc = [[ClaimCreditViewController alloc]init];
+        ((ClaimCreditViewController* )vc).amount = credit.value;
+        ((ClaimCreditViewController* )vc).merchantName = credit.merchantName;
     }
     vc.hidesBottomBarWhenPushed = true;
     [self.navigationController pushViewController:vc animated:YES];
