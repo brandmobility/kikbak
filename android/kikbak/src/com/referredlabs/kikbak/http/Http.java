@@ -57,7 +57,7 @@ public class Http {
     }
 
     String content = getContent(resp.getEntity());
-    throw new HttpStatusException(code, content);
+    throw new HttpStatusException(uri, code, content);
   }
 
   public static <T, V> SafeResponse<T, V> executeSafe(String uri, T request, Class<V> responseType) {
@@ -84,7 +84,7 @@ public class Http {
     }
 
     String content = getContent(resp.getEntity());
-    throw new HttpStatusException(code, content);
+    throw new HttpStatusException(uri, code, content);
   }
 
   private static <V> V getResponse(HttpEntity entity, Class<V> responseType, boolean extraTyped)
@@ -180,7 +180,7 @@ public class Http {
     }
 
     String content = getContent(resp.getEntity());
-    throw new HttpStatusException(code, content);
+    throw new HttpStatusException(uri, code, content);
   }
 
   private static Bitmap getContentAsBitmap(HttpEntity entity)
@@ -219,7 +219,7 @@ public class Http {
     }
 
     String content = getContent(resp.getEntity());
-    throw new HttpStatusException(code, content);
+    throw new HttpStatusException(uri, code, content);
 
   }
 
@@ -239,7 +239,7 @@ public class Http {
     }
 
     String content = getContent(resp.getEntity());
-    throw new HttpStatusException(code, content);
+    throw new HttpStatusException(uri, code, content);
   }
 
 }

@@ -15,13 +15,14 @@ import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
 import com.facebook.widget.LoginButton.UserInfoChangedCallback;
+import com.flurry.android.FlurryAgent;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.RegisterUserRequest;
 import com.referredlabs.kikbak.data.RegisterUserResponse;
 import com.referredlabs.kikbak.data.UserType;
 import com.referredlabs.kikbak.fb.Fb;
 import com.referredlabs.kikbak.http.Http;
-import com.referredlabs.kikbak.tasks.UpdateFriends;
+import com.referredlabs.kikbak.log.Log;
 import com.referredlabs.kikbak.utils.Register;
 
 public class LoginActivity extends KikbakActivity implements StatusCallback,
@@ -79,16 +80,6 @@ public class LoginActivity extends KikbakActivity implements StatusCallback,
     if (session.isOpened() && !mFriendsUpdated && Register.getInstance().isRegistered()) {
       mFriendsUpdated = true;
     }
-
-    // if (session.isOpened()) {
-    // // findViewById(R.id.login_button).setVisibility(View.INVISIBLE);
-    // List<String> permissions = session.getPermissions();
-    // if (!permissions.containsAll(Arrays.asList(Fb.PUBLISH_PERMISSIONS))) {
-    // Session.NewPermissionsRequest newPermissionsRequest = new Session
-    // .NewPermissionsRequest(this, Arrays.asList(Fb.PUBLISH_PERMISSIONS));
-    // session.requestNewPublishPermissions(newPermissionsRequest);
-    // }
-    // }
   }
 
   @Override
@@ -126,9 +117,13 @@ public class LoginActivity extends KikbakActivity implements StatusCallback,
         String uri = Http.getUri("/user/register/fb/");
         RegisterUserResponse resp = Http.execute(uri, req, RegisterUserResponse.class);
         mUserId = resp.userId.userId;
+
+        String userName = mFacebookUser.getName();
+        Register.getInstance().registerUser(mUserId, userName);
+
         mSuccess = true;
       } catch (Exception e) {
-        android.util.Log.d("MMM", "Registration failed.");
+        FlurryAgent.onError(Log.E_REGISTRATION, e.getMessage(), Log.CLASS_NETWORK);
       }
       return null;
     }
@@ -136,17 +131,12 @@ public class LoginActivity extends KikbakActivity implements StatusCallback,
     @Override
     protected void onPostExecute(Void result) {
       if (mSuccess) {
-        String userName = mFacebookUser.getName();
-        Register.getInstance().registerUser(mUserId, userName);
         startActivity(new Intent(LoginActivity.this, MainActivity.class));
         finish();
-        UpdateFriends task = new UpdateFriends();
-        task.execute();
       } else {
         Session session = Session.getActiveSession();
         session.closeAndClearTokenInformation();
         mLoginButton.setEnabled(true);
-
         Toast.makeText(LoginActivity.this, R.string.registration_failed, Toast.LENGTH_LONG).show();
       }
     }

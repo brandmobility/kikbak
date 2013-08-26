@@ -17,6 +17,7 @@ import com.facebook.Session;
 import com.facebook.Session.StatusCallback;
 import com.facebook.SessionDefaultAudience;
 import com.facebook.SessionState;
+import com.flurry.android.FlurryAgent;
 import com.google.gson.Gson;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ClientOfferType;
@@ -26,6 +27,8 @@ import com.referredlabs.kikbak.data.SharedType;
 import com.referredlabs.kikbak.fb.Fb;
 import com.referredlabs.kikbak.fb.FbObjectApi;
 import com.referredlabs.kikbak.http.Http;
+import com.referredlabs.kikbak.log.Log;
+import com.referredlabs.kikbak.tasks.UpdateFriendsTask;
 import com.referredlabs.kikbak.utils.Register;
 
 public class ShareViaFacebookFragment extends DialogFragment {
@@ -147,6 +150,9 @@ public class ShareViaFacebookFragment extends DialogFragment {
       String photoPath = args.getString(ARG_PHOTO_PATH);
       ClientOfferType offer = new Gson().fromJson(args.getString(ARG_OFFER), ClientOfferType.class);
 
+      UpdateFriendsTask update = new UpdateFriendsTask(session.getAccessToken());
+      update.execute();
+
       try {
         String imageUrl = offer.giveImageUrl;
         if (photoPath != null) {
@@ -158,7 +164,7 @@ public class ShareViaFacebookFragment extends DialogFragment {
         FbObjectApi.publishStory(session, offer, imageUrl, comment, code);
         mFbSuccess = true;
       } catch (Exception e) {
-        android.util.Log.d("MMM", "exception " + e);
+        FlurryAgent.onError(Log.E_PUBLISH_STORY, e.getMessage(), Log.CLASS_NETWORK);
       }
       return null;
     }

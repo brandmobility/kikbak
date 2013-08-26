@@ -9,7 +9,8 @@ public class HttpStatusException extends IOException {
   private int mStatusCode;
   private String mResponse;
 
-  public HttpStatusException(int statusCode, String response) {
+  public HttpStatusException(String uri, int statusCode, String response) {
+    super("HTTP " + statusCode + " " + uri);
     mStatusCode = statusCode;
     mResponse = response;
   }
