@@ -10,7 +10,7 @@
     <com.referredlabs.kikbak.widget.TtfButton
         android:id="@+id/distance"
         style="@style/borderless"
-        android:layout_width="80dp"
+        android:layout_width="76dp"
         android:layout_height="40dp"
         android:drawableLeft="@drawable/ic_map"
         android:drawablePadding="8dp"
@@ -24,14 +24,14 @@
     <ImageButton
         android:id="@+id/web_icon"
         style="@style/borderless"
-        android:layout_width="48dp"
+        android:layout_width="40dp"
         android:layout_height="40dp"
         android:src="@drawable/ic_web" />
 
     <ImageButton
         android:id="@+id/phone_icon"
         style="@style/borderless"
-        android:layout_width="48dp"
+        android:layout_width="40dp"
         android:layout_height="40dp"
         android:src="@drawable/ic_phone" />
 
