@@ -64,11 +64,11 @@ public class PickContactsActivity extends KikbakActivity
 
     mShareButton = (Button) findViewById(R.id.share_gift);
     mShareButton.setOnClickListener(this);
-    
-    if(buttonTextResId != 0) {
+
+    if (buttonTextResId != 0) {
       mShareButton.setText(buttonTextResId);
     }
-    
+
     getSupportLoaderManager().initLoader(LOADER_ID, null, this);
   }
 
@@ -137,7 +137,7 @@ public class PickContactsActivity extends KikbakActivity
 
     private String getSelection() {
       String selection = getColDataName() + " NOT LIKE ''"
-          + " AND " + Contacts.IN_VISIBLE_GROUP + " = '1'";
+      /* + " AND " + Contacts.IN_VISIBLE_GROUP + " = '1'" */;
       return selection;
     }
 
