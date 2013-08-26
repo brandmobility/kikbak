@@ -154,9 +154,9 @@ public class ShareViaFacebookFragment extends DialogFragment {
           imageUrl = Http.uploadImage(userId, photoPath);
         }
         String code = reportToKikbak(imageUrl);
+        mKikbakSuccess = true;
         FbObjectApi.publishStory(session, offer, imageUrl, comment, code);
         mFbSuccess = true;
-        mKikbakSuccess = true;
       } catch (Exception e) {
         android.util.Log.d("MMM", "exception " + e);
       }

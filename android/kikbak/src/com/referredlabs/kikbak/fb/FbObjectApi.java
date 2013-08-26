@@ -94,7 +94,7 @@ public class FbObjectApi {
     Nearest nearest = new Nearest(offer.locations);
     if (nearest.getDistance() < C.IN_STORE_DISTANCE) {
       // FIXME
-      result = "http://young-springs-3453.herokuapp.com/coupon.html?loc=3";
+      // result = "http://young-springs-3453.herokuapp.com/coupon.html?loc=3";
     }
     return result;
   }
