@@ -136,7 +136,7 @@
     <string name="redeem_success_share_note">Share the same offer with our friends.\nYou earn for every friend that redeems.</string>
 
     <!-- Redeem chooser -->
-    <string name="redeem_chooser_title">Please select one to redeem</string>
+    <string name="redeem_chooser_title">Select one to redeem</string>
     <string name="or">OR</string>
 
     <!-- Scanner -->
