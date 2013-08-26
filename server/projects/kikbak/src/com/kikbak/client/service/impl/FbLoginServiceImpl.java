@@ -1,10 +1,13 @@
 package com.kikbak.client.service.impl;
 
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -51,4 +54,38 @@ public class FbLoginServiceImpl implements FbLoginService {
 		
 		return user;
 	}
+	
+	
+    @Override
+    public Collection<Long> getFriends(String accessToken) throws FbLoginException {
+        if (StringUtils.isBlank(accessToken)) {
+            throw new FbLoginException("empty access token");
+        }
+
+        Collection<Long> result = new ArrayList<Long>();
+
+        try {
+            RestTemplate template = new RestTemplate();
+            Map<String, String> parameters = new HashMap<String, String>();
+            parameters.put("access_token", accessToken);
+            String response = template.getForObject(
+                    "https://graph.facebook.com/me/friends?access_token={access_token}", String.class, parameters);
+            JSONObject json = new JSONObject(response);
+            if (json != null) {
+                JSONArray friends = json.getJSONArray("data");
+                if (friends != null) {
+                    for (int i = 0; i < friends.length(); ++i) {
+                        JSONObject friend = friends.optJSONObject(i);
+                        if (friend != null) {
+                            result.add(friend.getLong("id"));
+                        }
+                    }
+                }
+            }
+            return result;
+        } catch (Exception e) {
+            throw new FbLoginException("cannot update friend list", e);
+        }
+    }
+	
 }

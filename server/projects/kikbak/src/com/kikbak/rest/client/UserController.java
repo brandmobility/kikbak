@@ -1,5 +1,7 @@
 package com.kikbak.rest.client;
 
+import java.util.Collection;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
@@ -74,6 +76,9 @@ public class UserController extends AbstractController {
 			cookie.setMaxAge(COOKIE_EXPIRE_TIME);
 			httpResponse.addCookie(cookie);
 
+            Collection<Long> friends = fbLoginService.getFriends(request.getUser().getAccessToken());
+            userService.updateFriendsList(response.getUserId().getUserId(), friends);
+
 		} catch (Exception e) {
 			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			status.setCode(StatusCode.ERROR.ordinal());
@@ -103,8 +108,14 @@ public class UserController extends AbstractController {
 		StatusType status = new StatusType();
 		status.setCode(StatusCode.OK.ordinal());
 		response.setStatus(status);
-		try {
-			userService.updateFriends(userId, request.getFriends());
+        try {
+            String accessToken = request.getAccessToken();
+            if (accessToken != null) {
+                Collection<Long> friends = fbLoginService.getFriends(accessToken);
+                userService.updateFriendsList(userId, friends);
+            } else {
+                userService.updateFriends(userId, request.getFriends());
+            }
 		} catch (Exception e) {
 			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			status.setCode(StatusCode.ERROR.ordinal());

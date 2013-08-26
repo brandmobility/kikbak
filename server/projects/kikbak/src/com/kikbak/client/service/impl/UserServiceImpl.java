@@ -145,39 +145,42 @@ public class UserServiceImpl implements UserService {
 	}
 
 
-	@Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public void updateFriends(final long userId, final Collection<FriendType> friends) {
-		
-		//delete old
-		Collection<Long> currentFriendIds = new ArrayList<Long>();
-		for(FriendType ft : friends){
-			currentFriendIds.add(ft.getId());
-		}
-		Collection<Long> friendsToDelete = roU2FDao.listFriendsToDelete(userId, currentFriendIds);
-		if( friendsToDelete.size() != 0 ){
-			rwU2FDao.batchDelete(userId, friendsToDelete);
-		}
-		
-		//update new
-		Collection<Long> fbIds = roU2FDao.listFriendsForUser(userId);
-		Collection<User2friend> friendAssociations = new ArrayList<User2friend>();
-		for( FriendType ft : friends){
-			BigInteger fbId = new BigInteger(((Long)ft.getId()).toString());
-			if( !fbIds.contains( fbId ) ){
-				User2friend u2f = new User2friend();
-				u2f.setFacebookFriendId(ft.getId());
-				u2f.setUserId(userId);
-				friendAssociations.add(u2f);
-			}
-		}
-		
-		if( friendAssociations.size() != 0 ){
-			rwU2FDao.batchInsert(friendAssociations);
-		}
-		
-	}
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void updateFriends(final long userId, final Collection<FriendType> friends) {
+        Collection<Long> currentFriendIds = new ArrayList<Long>();
+        for (FriendType ft : friends) {
+            currentFriendIds.add(ft.getId());
+        }
+        updateFriendsList(userId, currentFriendIds);
+    }
 
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void updateFriendsList(final long userId, final Collection<Long> friends) {
+        // delete old
+        Collection<Long> friendsToDelete = roU2FDao.listFriendsToDelete(userId, friends);
+        if (friendsToDelete.size() != 0) {
+            rwU2FDao.batchDelete(userId, friendsToDelete);
+        }
+
+        // update new
+        Collection<Long> fbIds = roU2FDao.listFriendsForUser(userId);
+        Collection<User2friend> friendAssociations = new ArrayList<User2friend>();
+        for (Long fid : friends) {
+            if (!fbIds.contains(BigInteger.valueOf(fid))) {
+                User2friend u2f = new User2friend();
+                u2f.setFacebookFriendId(fid);
+                u2f.setUserId(userId);
+                friendAssociations.add(u2f);
+            }
+        }
+
+        if (friendAssociations.size() != 0) {
+            rwU2FDao.batchInsert(friendAssociations);
+        }
+    }
+    
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public Collection<ClientOfferType> getOffers(Long userId,

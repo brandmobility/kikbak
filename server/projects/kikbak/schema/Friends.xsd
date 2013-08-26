@@ -26,7 +26,8 @@
     <xsd:element name="UpdateFriendsRequest">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="friends" type="kikbak:FriendType" minOccurs="1" maxOccurs="unbounded"/>
+                <xsd:element name="friends" type="kikbak:FriendType" minOccurs="0" maxOccurs="unbounded"/>
+                <xsd:element name="access_token" type="xsd:string" minOccurs="0" maxOccurs="1" />
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>   

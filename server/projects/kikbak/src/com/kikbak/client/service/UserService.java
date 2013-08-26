@@ -13,6 +13,7 @@ public interface UserService {
 		
 	public UserIdType registerUser(UserType userType);
 	public void updateFriends(final long userId, final Collection<FriendType> friends);
+    public void updateFriendsList(final long userId, final Collection<Long> friends);
 	public Collection<ClientOfferType> getOffers(final Long userId, final UserLocationType userLocation);
 	public void persistDeviceToken(final Long userId, final DeviceTokenType deviceToken);
 	public String getUserToken(long userId);
