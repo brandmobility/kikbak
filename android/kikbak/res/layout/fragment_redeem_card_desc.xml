@@ -15,7 +15,7 @@
         android:layout_gravity="center_horizontal"
         android:text="@string/redeem_card_ready"
         android:textColor="#3a3a3a"
-        android:textSize="14dp"
+        android:textSize="16dp"
         kikbak:typeface="Roboto-Regular.ttf" />
 
     <View
