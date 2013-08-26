@@ -17,6 +17,7 @@ import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.protocol.HTTP;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -43,7 +44,7 @@ public class Http {
 
     HttpClient httpClient = HttpClientHelper.getHttpClient();
     HttpPost post = new HttpPost(uri);
-    StringEntity reqEntity = new StringEntity(data);
+    StringEntity reqEntity = new StringEntity(data, HTTP.UTF_8);
     reqEntity.setContentType("application/json");
     post.setEntity(reqEntity);
     AndroidHttpClient.modifyRequestToAcceptGzipResponse(post);
