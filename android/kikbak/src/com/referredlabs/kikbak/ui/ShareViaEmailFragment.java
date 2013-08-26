@@ -5,13 +5,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 
 import com.google.gson.Gson;
 import com.referredlabs.kikbak.R;
@@ -22,7 +19,7 @@ import com.referredlabs.kikbak.data.SharedType;
 import com.referredlabs.kikbak.http.Http;
 import com.referredlabs.kikbak.utils.Register;
 
-public class ShareViaEmailFragment extends DialogFragment {
+public class ShareViaEmailFragment extends SharingDialog {
 
   private static final String ARG_OFFER = "offer";
   private static final String ARG_COMMENT = "comment";
@@ -70,15 +67,6 @@ public class ShareViaEmailFragment extends DialogFragment {
   public void onAttach(Activity activity) {
     super.onAttach(activity);
     mListener = (ShareStatusListener) activity;
-  }
-
-  @Override
-  public Dialog onCreateDialog(Bundle savedInstanceState) {
-    ProgressDialog dialog = new ProgressDialog(getActivity());
-    dialog.setMessage(getActivity().getString(R.string.share_in_progress));
-    dialog.setIndeterminate(true);
-    dialog.setCancelable(false);
-    return dialog;
   }
 
   @Override

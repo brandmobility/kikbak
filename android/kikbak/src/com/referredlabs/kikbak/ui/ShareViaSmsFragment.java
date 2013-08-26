@@ -5,13 +5,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 
 import com.google.gson.Gson;
 import com.referredlabs.kikbak.R;
@@ -22,7 +19,7 @@ import com.referredlabs.kikbak.data.SharedType;
 import com.referredlabs.kikbak.http.Http;
 import com.referredlabs.kikbak.utils.Register;
 
-public class ShareViaSmsFragment extends DialogFragment {
+public class ShareViaSmsFragment extends SharingDialog {
 
   private static final String ARG_OFFER = "offer";
   private static final String ARG_COMMENT = "comment";
@@ -73,19 +70,10 @@ public class ShareViaSmsFragment extends DialogFragment {
   }
 
   @Override
-  public Dialog onCreateDialog(Bundle savedInstanceState) {
-    ProgressDialog dialog = new ProgressDialog(getActivity());
-    dialog.setMessage(getActivity().getString(R.string.share_in_progress));
-    dialog.setIndeterminate(true);
-    dialog.setCancelable(false);
-    return dialog;
-  }
-
-  @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     if (requestCode == REQUEST_SELECT_CONTACTS) {
       if (resultCode == Activity.RESULT_OK) {
-        if(data != null)
+        if (data != null)
           mContacts = data.getStringArrayListExtra(PickContactsActivity.DATA);
         share();
       } else {

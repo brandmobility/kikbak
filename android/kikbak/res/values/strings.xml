@@ -85,7 +85,7 @@
     <string name="share_options_employee_name_hint">Employee name</string>
 
     <!-- Share progress -->
-    <string name="share_in_progress">Sharing gift</string>
+    <string name="share_in_progress">Sharing gift&#8230;</string>
     <string name="share_pick_button_email">Generate email</string>
     <string name="share_pick_button_sms">Generate SMS</string>
 

@@ -6,12 +6,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 
 import com.facebook.Session;
 import com.facebook.Session.StatusCallback;
@@ -19,7 +16,6 @@ import com.facebook.SessionDefaultAudience;
 import com.facebook.SessionState;
 import com.flurry.android.FlurryAgent;
 import com.google.gson.Gson;
-import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ClientOfferType;
 import com.referredlabs.kikbak.data.ShareExperienceRequest;
 import com.referredlabs.kikbak.data.ShareExperienceResponse;
@@ -31,7 +27,7 @@ import com.referredlabs.kikbak.log.Log;
 import com.referredlabs.kikbak.tasks.UpdateFriendsTask;
 import com.referredlabs.kikbak.utils.Register;
 
-public class ShareViaFacebookFragment extends DialogFragment {
+public class ShareViaFacebookFragment extends SharingDialog {
 
   final long userId = Register.getInstance().getUserId();
 
@@ -96,15 +92,6 @@ public class ShareViaFacebookFragment extends DialogFragment {
       }
       publishStory();
     }
-  }
-
-  @Override
-  public Dialog onCreateDialog(Bundle savedInstanceState) {
-    ProgressDialog dialog = new ProgressDialog(getActivity());
-    dialog.setMessage(getActivity().getString(R.string.share_in_progress));
-    dialog.setIndeterminate(true);
-    dialog.setCancelable(false);
-    return dialog;
   }
 
   @Override
