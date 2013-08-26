@@ -44,7 +44,7 @@ public class PushNotifierImpl implements PushNotifier {
             return;
 
         if (deviceToken.getPlatformType() == PlatformType.iOS.ordinal()) {
-            sendKikbakNotificationApple(deviceToken, kikbak.getNotificationText());
+            sendKikbakNotificationApple(deviceToken.getToken(), kikbak.getNotificationText());
             return;
         } else if (deviceToken.getPlatformType() == PlatformType.Android.ordinal()) {
             sendKikbakNotificationGoogle(deviceToken, kikbak);
@@ -52,7 +52,7 @@ public class PushNotifierImpl implements PushNotifier {
         }
     }
 
-    private void sendKikbakNotificationApple(Devicetoken deviceToken, String notification) {
+    private void sendKikbakNotificationApple(String encodedToken, String notification) {
         try {
             if (config.getInt("aps.enabled", 0) == 0) {
                 return;
@@ -66,7 +66,7 @@ public class PushNotifierImpl implements PushNotifier {
             ApsType values = new ApsType();
             values.setAlert(notification);
             apsNotification.setAps(values);
-            ApsToken token = new ApsToken(deviceToken.getToken());
+            ApsToken token = new ApsToken(encodedToken);
             NotificationPayload payload = new NotificationPayload(apsNotification, token);
             connection.sendPush(payload);
         } catch (Exception e) {
@@ -106,12 +106,16 @@ public class PushNotifierImpl implements PushNotifier {
                 continue;
             }
         }
-        sendGiftNotificationApple(android, gift);
+        sendGiftNotificationApple(ios, gift);
         sendGiftNotificationGoogle(android, gift);
     }
 
     private void sendGiftNotificationApple(List<String> tokens, Gift gift) {
-        // TODO: implement me
+        if (tokens.isEmpty())
+            return;
+        for(String token : tokens) {
+            sendKikbakNotificationApple(token, gift.getNotificationText());
+        }
     }
 
     private void sendGiftNotificationGoogle(List<String> tokens, Gift gift) {

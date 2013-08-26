@@ -134,6 +134,10 @@
   
 }
 
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{
+    
+}
+
 #pragma mark -
 #pragma mark Core Data stack
 
