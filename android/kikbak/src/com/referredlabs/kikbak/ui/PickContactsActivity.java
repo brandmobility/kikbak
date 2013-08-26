@@ -1,6 +1,9 @@
 
 package com.referredlabs.kikbak.ui;
 
+import java.util.ArrayList;
+
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,7 +12,6 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds;
 import android.provider.ContactsContract.Contacts;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -23,8 +25,6 @@ import android.widget.ListView;
 
 import com.referredlabs.kikbak.R;
 
-import java.util.ArrayList;
-
 public class PickContactsActivity extends KikbakActivity
     implements LoaderCallbacks<Cursor>, OnClickListener {
 
@@ -36,9 +36,6 @@ public class PickContactsActivity extends KikbakActivity
   public static final String DATA = "data";
 
   private static final int LOADER_ID = 0;
-
-  private static final String CONTACT_NAME = Contacts.DISPLAY_NAME;
-  private static final String CONTACT_EMAIL = CommonDataKinds.Email.DATA;
 
   private ListView mList;
   private Button mShareButton;
@@ -52,15 +49,12 @@ public class PickContactsActivity extends KikbakActivity
     int buttonTextResId = getIntent().getIntExtra(ARG_BUTTON_TEXT, 0);
     int type = getIntent().getIntExtra(ARG_TYPE, TYPE_EMAIL);
     mHelper = type == TYPE_EMAIL ? new EmailChooserHelper() : new PhoneChooserHelper();
-    setContentView(R.layout.activity_share_gift_via_email);
+    setContentView(R.layout.activity_pick_contacts);
     mList = (ListView) findViewById(R.id.list);
     mAdapter = mHelper.getCursorAdapter(this);
     mList.setAdapter(mAdapter);
     mList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
     mList.setItemsCanFocus(false);
-
-    View emptyView = getLayoutInflater().inflate(R.layout.share_gift_empty_contacts_list, null);
-    mList.setEmptyView(emptyView);
 
     mShareButton = (Button) findViewById(R.id.share_gift);
     mShareButton.setOnClickListener(this);
@@ -81,6 +75,14 @@ public class PickContactsActivity extends KikbakActivity
 
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+    if (cursor == null || cursor.getCount() == 0) {
+      if (cursor != null)
+        cursor.close();
+      setResult(Activity.RESULT_OK, new Intent());
+      finish();
+      return;
+    }
+
     mAdapter.swapCursor(cursor);
   }
 
@@ -125,8 +127,6 @@ public class PickContactsActivity extends KikbakActivity
     protected abstract Uri getEmptySearchUri();
 
     protected abstract Uri getFilledSearchUri();
-
-    protected abstract String getNoContactsWithDataMsg(Context context);
 
     private String[] getProjection() {
       String[] projection = new String[] {
@@ -193,12 +193,6 @@ public class PickContactsActivity extends KikbakActivity
     protected Uri getFilledSearchUri() {
       return FILLED_SEARCH_URI;
     }
-
-    @Override
-    public String getNoContactsWithDataMsg(Context context) {
-      // TODO move this to resources
-      return "You don't have any contacts with email addresses.";
-    }
   }
 
   private static class PhoneChooserHelper extends DataChooserHelper {
@@ -221,12 +215,6 @@ public class PickContactsActivity extends KikbakActivity
     @Override
     protected Uri getFilledSearchUri() {
       return FILLED_SEARCH_URI;
-    }
-
-    @Override
-    public String getNoContactsWithDataMsg(Context context) {
-      // TODO move this to resources
-      return "You don't have any contacts with phone numbers.";
     }
   }
 

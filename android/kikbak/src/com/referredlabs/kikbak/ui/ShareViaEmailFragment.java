@@ -85,7 +85,8 @@ public class ShareViaEmailFragment extends DialogFragment {
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     if (requestCode == REQUEST_SELECT_CONTACTS) {
       if (resultCode == Activity.RESULT_OK) {
-        mContacts = data.getStringArrayListExtra(PickContactsActivity.DATA);
+        if (data != null)
+          mContacts = data.getStringArrayListExtra(PickContactsActivity.DATA);
         share();
       } else {
         mListener.onShareCancelled();
