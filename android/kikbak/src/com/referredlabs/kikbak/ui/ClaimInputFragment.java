@@ -43,7 +43,6 @@ public class ClaimInputFragment extends Fragment implements OnClickListener {
   private AvailableCreditType mCredit;
 
   private TextView mRewardValueTv;
-  private TextView mRewardDescriptionTv;
   private TextView mCompanyNameTv;
   private ImageView mImage;
 
@@ -69,7 +68,6 @@ public class ClaimInputFragment extends Fragment implements OnClickListener {
     root.findViewById(R.id.button_submit).setOnClickListener(this);
 
     mRewardValueTv = (TextView) root.findViewById(R.id.reward_value);
-    mRewardDescriptionTv = (TextView) root.findViewById(R.id.reward_description);
     mCompanyNameTv = (TextView) root.findViewById(R.id.company_name);
     mImage = (ImageView) root.findViewById(R.id.image);
 
@@ -91,7 +89,6 @@ public class ClaimInputFragment extends Fragment implements OnClickListener {
     Uri uri = Uri.parse(mCredit.imageUrl);
     Picasso.with(getActivity()).load(uri).into(mImage);
     setCreditAmount(mCredit.value);
-    mRewardDescriptionTv.setText(mCredit.desc);
   }
 
   private void setCreditAmount(double value) {
