@@ -538,10 +538,14 @@ function getRedeems() {
           }
         }
         
+        if (getRedeems.counter == 0) {
+          $("#no-redeem-list").show();
+        } else {
+          $("#no-redeem-list").hide();
+        }
         if (getRedeems.counter == 1) {
           onClickRedeem(redeemData);
-          
-        }
+        } 
 
         $('.redeem-data-btn').click(function(e) {
           e.preventDefault();
@@ -928,22 +932,77 @@ function shareOffer() {
       } else {
         var req = new FormData();
         var file = $('#take-picture')[0].files[0];
-        req.append('file', file);
-        req.append('userId', userId);
-        $.ajax({
-          url : config.backend + '/s/upload.php',
-          data : req,
-          processData : false,
-          cache : false,
-          contentType : false,
-          dataType : 'json',
-          type : 'POST',
-          success : function(response) {
-            if (response && response.url) {
-              onShareResponse(response.url);
-            }
-          },
-          error : showError
+        
+        $('#back-btn').unbind();
+        
+        $('#heading').html('Resize image');
+        $('#offer-details-view').hide();
+        $('#crop-image-div').show();
+        var URL = window.webkitURL || window.URL;
+        var imgUrl = URL.createObjectURL(file);
+        var cropImage = $('#crop-image-div .tkpoto img');
+        cropImage.attr('src', imgUrl);
+        
+        var jcrop_api, x, y, w, h;
+        var options = {
+          bgColor: 'black',
+          bgOpacity: .4,
+          setSelect: [ 250, 320, 70, 80 ],
+          allowResize: false,
+          allowSelect: false,
+          onChange: function updateCoords(c) {
+            x = c.x;
+            y = c.y;
+            w = c.w;
+            h = c.h;
+          }
+        };
+        cropImage.Jcrop(options,function(){
+          jcrop_api = this;
+        });
+        
+        var goback = function(){
+          URL.revokeObjectURL(imgUrl);
+          jcrop_api.destroy();
+          $('#heading').html('Gift');
+          $('#offer-details-view').show();
+          $('#crop-image-div').hide();
+          $('#back-btn').unbind();
+          $('#back-btn').click(function(e) {
+            e.preventDefault();
+            s.pageType = 'offer';
+            initPage();
+          });
+        };
+        
+        $('#back-btn').click(function() {
+          goback();
+        });
+        
+        $('#crop-image').unbind('click');
+        $('#crop-image').click(function() {
+          goback();
+          req.append('file', file);
+          req.append('userId', userId);
+          req.append('x', x / parseInt(cropImage.css('width')));
+          req.append('y', y / parseInt(cropImage.css('height')));
+          req.append('w', w / parseInt(cropImage.css('width')));
+          req.append('h', h / parseInt(cropImage.css('height')));
+          $.ajax({
+            url : config.backend + '/s/upload.php',
+            data : req,
+            processData : false,
+            cache : false,
+            contentType : false,
+            dataType : 'json',
+            type : 'POST',
+            success : function(response) {
+              if (response && response.url) {
+                onShareResponse(response.url);
+              }
+            },
+            error : showError
+          }); 
         });
       }
     });

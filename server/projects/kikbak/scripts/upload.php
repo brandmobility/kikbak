@@ -1,4 +1,6 @@
-<?
+<?php
+
+require_once('ImageManipulator.php');
 
 function full_url_path()
 {
@@ -26,15 +28,20 @@ if (preg_match($pattern, $_POST['userId']) || preg_match($pattern, $_FILES['file
   exit(-1);
 }
 
+$width  = $manipulator->getWidth();
+$height = $manipulator->getHeight();
+
+if (isset($_POST['x']) && isset($_POST['y']) && isset($_POST['w']) && isset($_POST['h'])) {
+	$newImage = $manipulator->crop($_POST['x'] * $width, $_POST['y'] * $height,
+			($_POST['x'] + $_POST['w']) * $width, ($_POST['y'] + $_POST['h']) * $height);
+}
+
 $upload_dir = 'upload/' . $_POST['userId'];
 $target_path = $upload_dir . '/' . mt_rand();
 
 mkdir($upload_dir, 0754, true);
 
-if (!move_uploaded_file($_FILES['file']['tmp_name'], $target_path)) {
-    header('HTTP/1.1 500 Internal Server Error');
-  exit(-1);
-}
+$manipulator->save($target_path);
 
 $url_path = full_url_path();
 echo '{"url":' . '"' . $url_path . $target_path . '"}';
