@@ -125,6 +125,7 @@
 "State" = "State";
 "Zip" = "Zip";
 "Arrival" = "Your reward should arrive in 2 - 4 weeks.";
+"Submit" = "Submit";
 
 "Claim Error Title"="Redemption Failed";
 "Claim Error Msg"="Unable to verify your information. Please validate and try again";

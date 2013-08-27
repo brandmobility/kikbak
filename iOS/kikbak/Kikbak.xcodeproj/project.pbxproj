@@ -74,6 +74,7 @@
 		3C63815C1797A4F500E10594 /* BarcodeImageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C63815B1797A4F500E10594 /* BarcodeImageRequest.m */; };
 		3C63816117A264BA00E10594 /* NSString+UrlEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C63816017A264BA00E10594 /* NSString+UrlEncode.m */; };
 		3C63816517A265BB00E10594 /* NSURL+QueryString.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C63816417A265BB00E10594 /* NSURL+QueryString.m */; };
+		3C6D4F9617CC815F00BB5425 /* QRCodeImageReqest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C6D4F9517CC815F00BB5425 /* QRCodeImageReqest.m */; };
 		3C727544176C3F3B0029B069 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C727543176C3F3B0029B069 /* MessageUI.framework */; };
 		3C727550176C502F0029B069 /* separator_vertical_redeem_list@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C72754E176C502F0029B069 /* separator_vertical_redeem_list@2x.png */; };
 		3C727555176D70FB0029B069 /* separator_vertical_redeem_list.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C727552176D70FB0029B069 /* separator_vertical_redeem_list.png */; };
@@ -368,6 +369,8 @@
 		3C63816017A264BA00E10594 /* NSString+UrlEncode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UrlEncode.m"; sourceTree = "<group>"; };
 		3C63816317A265BB00E10594 /* NSURL+QueryString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+QueryString.h"; sourceTree = "<group>"; };
 		3C63816417A265BB00E10594 /* NSURL+QueryString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+QueryString.m"; sourceTree = "<group>"; };
+		3C6D4F9417CC815F00BB5425 /* QRCodeImageReqest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRCodeImageReqest.h; sourceTree = "<group>"; };
+		3C6D4F9517CC815F00BB5425 /* QRCodeImageReqest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRCodeImageReqest.m; sourceTree = "<group>"; };
 		3C727543176C3F3B0029B069 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		3C72754E176C502F0029B069 /* separator_vertical_redeem_list@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "separator_vertical_redeem_list@2x.png"; sourceTree = "<group>"; };
 		3C727552176D70FB0029B069 /* separator_vertical_redeem_list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = separator_vertical_redeem_list.png; sourceTree = "<group>"; };
@@ -1089,6 +1092,8 @@
 				3CBCBF351713E696007B4249 /* SubmitFriendsRequest.m */,
 				3CB9FC7217B6189A0071B8B4 /* ShareResult.h */,
 				3CB9FC7317B6189A0071B8B4 /* ShareResult.m */,
+				3C6D4F9417CC815F00BB5425 /* QRCodeImageReqest.h */,
+				3C6D4F9517CC815F00BB5425 /* QRCodeImageReqest.m */,
 			);
 			name = http;
 			path = Kikbak/http;
@@ -1482,6 +1487,7 @@
 				3CB9FC9117C362500071B8B4 /* ShareData.m in Sources */,
 				3CB9FC9417C7541E0071B8B4 /* KikbakTextField.m in Sources */,
 				3CB9FC9717C9EE9F0071B8B4 /* ClaimSuccessView.m in Sources */,
+				3C6D4F9617CC815F00BB5425 /* QRCodeImageReqest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
