@@ -189,13 +189,6 @@ background-image: linear-gradient(to right bottom, #6B6969 0%, #303030 100%);
             transform: rotate(45deg);
 }
 
-
-.btn-back:hover:before,.btn-back:hover:after {
-     background: #303030;
-}
-
-
-
 .btn-back:active:before,
 .btn-back:active:after {
     background: #6B6969;

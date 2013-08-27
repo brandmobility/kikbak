@@ -950,7 +950,7 @@ function shareOffer() {
         var options = {
           bgColor: 'black',
           bgOpacity: .4,
-          setSelect: [ 250, 320, 70, 80 ],
+          setSelect: [ 260, 300, 60, 100 ],
           allowResize: false,
           allowSelect: false,
           onChange: function updateCoords(c) {
@@ -978,7 +978,8 @@ function shareOffer() {
           });
         };
         
-        $('#back-btn').click(function() {
+        $('#back-btn').click(function(e) {
+          e.preventDefault();
           goback();
         });
         
