@@ -20,6 +20,8 @@ const char* UGC_GIVE_IMAGE_PATH = "ugc_give";
 const char* DEFAULT_GIVE_IMAGE_PATH = "default_give";
 const char* OFFER_LIST_IMAGE_PATH = "merchant";
 const char* BARCODE_IMAGE_PATH = "barcode";
+const char* QRCODE_GIFT_IMAGE_PATH = "qrcode_gift";
+const char* QRCODE_CREDIT_IMAGE_PATH = "qrcode_credit";
 const char* REDEEM_LIST_IMAGE_PATH = "redeem";
 const char* FRIEND_PATH = "friend";
 const char* IMAGE_PNG = "image.png";
@@ -91,6 +93,12 @@ const char* IMAGE_PNG = "image.png";
     }
     else if(type == BARCODE_IMAGE_TYPE){
         return @(BARCODE_IMAGE_PATH);
+    }
+    else if(type == QRCODE_GIFT_IMAGE_TYPE){
+        return @(QRCODE_GIFT_IMAGE_PATH);
+    }
+    else if(type == QRCODE_CREDIT_IMAGE_TYPE){
+        return @(QRCODE_CREDIT_IMAGE_PATH);
     }
 
     return @(FRIEND_PATH);

@@ -38,10 +38,7 @@ static NSString* resource = @"user/friends/fb";
 
 -(NSDictionary*)formatRequest:(id)requestData{
   NSMutableDictionary* result = [[NSMutableDictionary alloc]initWithCapacity:1];
-  NSMutableDictionary* user =[[NSMutableDictionary alloc]initWithCapacity:1];
-  
-  [user setObject:requestData forKey:@"friends"];
-  [result setObject:user forKey:@"UpdateFriendsRequest"];
+  [result setObject:requestData forKey:@"UpdateFriendsRequest"];
   return result;
 }
 

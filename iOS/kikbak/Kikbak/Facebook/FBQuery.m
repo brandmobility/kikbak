@@ -56,27 +56,10 @@
 
 
 +(void)fbFriends{
-  FBRequestConnection* connection = [[FBRequestConnection alloc]initWithTimeout:30];
-  
-  FBRequest* request = [FBRequest requestForMyFriends];
-  [connection addRequest:request completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-    if(error == nil){
-        AppDelegate* delegate =[UIApplication sharedApplication].delegate;
-        delegate.userInfo.friends = result;
-
-//        NSLog(@"friend result %@", result);
-        SubmitFriendsRequest* request = [[SubmitFriendsRequest alloc]init];
-        [request restRequest:[result objectForKey:@"data"]];
-
-        [Flurry logEvent:@"FriendRequestEvent" timed:YES];
-    }
-    else{
-      [Flurry logEvent:@"FriendFailedRequestEvent" timed:YES];
-      NSLog(@"Submit Error: %@", error);
-}
-  }];
-  
-  [connection start];
+    SubmitFriendsRequest* request = [[SubmitFriendsRequest alloc]init];
+    NSMutableDictionary* token = [[NSMutableDictionary alloc]initWithCapacity:1];
+    [token setObject:[FBSession activeSession].accessTokenData.accessToken forKey:@"access_token"];
+    [request restRequest:token];
 }
 
 
