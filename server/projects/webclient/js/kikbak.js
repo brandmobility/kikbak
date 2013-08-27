@@ -352,7 +352,7 @@ function renderOffer(offer) {
   
   var local = getDisplayLocation(offer.locations);
   if (local != 'undefined') {
-    html += '<div class="opt-icon"><a href="' + generateMapUrl(offer.merchantName, local) + '"><img src="images/ic_map@2x.png">' + '&nbsp;' + computeDistance(local) + '</a>';
+    html += '<div class="opt-icon"><a href="' + generateMapUrl(offer.merchantName, local) + '"><img src="images/ic_map@2x.png">' + '&nbsp;' + offer.dist + ' mile</a>';
     html += '<a href="' + offer.merchantUrl + '"><img src="images/ic_web@2x.png" /></a>';
     html += '<a href="tel:' + local.phoneNumber + '"><img src="images/ic_phone@2x.png" /></a>';
   } else {
@@ -445,11 +445,14 @@ function getOffersByLocation(userId, position) {
       var availOffer = null;
       $.each(offers, function(i, offer) {
         var local = getDisplayLocation(offer.locations);
+        offer.dist = computeDistanceDigit(local);
         if (computeDistanceDigit(local) < 0.5) {
           ++availCount;
           availOffer = offer;
         }
       });
+      
+      offers = offers.sort(function(a, b) {return a.dist - b.dist});
       
       if (availCount == 1) {
         s.offerDetail = escape(JSON.stringify(availOffer));
@@ -795,7 +798,7 @@ function getRedeemCreditDetail() {
 
 function renderOfferDetail(offer) {
   var html = '<form id="share-form" type="POST" enctype="multipart/form-data">';
-  html += '<div class="image-add"><img src="' + offer.offerImageUrl + '" class="addimg add-photo show-picture" id="show-picture">';
+  html += '<div class="image-add"><img src="' + offer.giveImageUrl + '" class="addimg add-photo show-picture" id="show-picture">';
   html += '<span class="imgshado"></span>';
   html += '<div class="add-photo-btn">';
   html += '<h2 id="take-photo-header">Add your own photo</h2>';
@@ -806,7 +809,7 @@ function renderOfferDetail(offer) {
   html += '<div class="opt-icon">';
   var local = getDisplayLocation(offer.locations);
   if (local != 'undefined') {
-    html += '<a href="' + generateMapUrl(offer.merchantName, local) + '"><img class="website-img" src="images/ic_map@2x.png" />' + '&nbsp;' + computeDistance(local) + '</a>';
+    html += '<a href="' + generateMapUrl(offer.merchantName, local) + '"><img class="website-img" src="images/ic_map@2x.png" />' + '&nbsp;' + offer.dist + ' mile </a>';
     html += '<a href="' + offer.merchantUrl + '"><img class="website-img" src="images/ic_web@2x.png" /></a>';
     html += '<a href="tel:' + local.phoneNumber + '"><img class="website-img" src="images/ic_phone@2x.png" /></a>';
   } else {

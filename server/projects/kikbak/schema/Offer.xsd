@@ -51,6 +51,15 @@
             <xsd:element name="endDate" type="xsd:long" minOccurs="1" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
+     
+    <xsd:element name="HasUserOffersResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="hasOffer" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+                <xsd:element name="status" type="st:StatusType" minOccurs="1" maxOccurs="1"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
     
     <xsd:element name="GetUserOffersResponse">
         <xsd:complexType>
