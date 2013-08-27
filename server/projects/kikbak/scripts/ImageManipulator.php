@@ -54,17 +54,23 @@ class ImageManipulator
 
         switch ($type) {
             case IMAGETYPE_GIF  :
-                $this->image = imagecreatefromgif($file);
+                $tmp = imagecreatefromgif($file);
                 break;
             case IMAGETYPE_JPEG :
-                $this->image = imagecreatefromjpeg($file);
+                $tmp = imagecreatefromjpeg($file);
                 break;
             case IMAGETYPE_PNG  :
-                $this->image = imagecreatefrompng($file);
+                $tmp = imagecreatefrompng($file);
                 break;
             default             :
                 throw new InvalidArgumentException("Image type $type not supported");
         }
+
+        $this->image = imagerotate($tmp, 270, 0);
+        $this->width = imagesx($this->image);
+        $this->height = imagesy($this->image);
+
+    imagedestroy($tmp); 
 
         return $this;
     }
@@ -82,11 +88,13 @@ class ImageManipulator
             imagedestroy($this->image);
         }
 
-        if (!$this->image = imagecreatefromstring($data)) {
+        if (!$this->image= imagecreatefromstring($data)) {
             throw new RuntimeException('Cannot create image from data string');
         }
+    
         $this->width = imagesx($this->image);
         $this->height = imagesy($this->image);
+
         return $this;
     }
 
@@ -225,7 +233,6 @@ class ImageManipulator
         }
         
         try {
-            $image = imagerotate($this->image, 270, 0);
             switch ($type) {
                 case IMAGETYPE_GIF  :
                     if (!imagegif($this->image, $fileName)) {
