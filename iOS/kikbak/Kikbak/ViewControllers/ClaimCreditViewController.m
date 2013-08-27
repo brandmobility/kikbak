@@ -187,7 +187,7 @@
     self.submitBtn.frame = CGRectMake(11, 462, 298, 40);
     [self.submitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.submitBtn setBackgroundImage:[UIImage imageNamed:@"btn_blue"] forState:UIControlStateNormal];
-    [self.submitBtn setTitle:NSLocalizedString(@"Let us know", nil) forState:UIControlStateNormal];
+    [self.submitBtn setTitle:NSLocalizedString(@"Submit", nil) forState:UIControlStateNormal];
     [self.submitBtn addTarget:self action:@selector(onSubmitBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.scrollView addSubview:self.submitBtn];
     
