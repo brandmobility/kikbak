@@ -23,6 +23,7 @@ import com.kikbak.jaxb.friends.UpdateFriendResponse;
 import com.kikbak.jaxb.friends.UpdateFriendsRequest;
 import com.kikbak.jaxb.offer.GetUserOffersRequest;
 import com.kikbak.jaxb.offer.GetUserOffersResponse;
+import com.kikbak.jaxb.offer.HasUserOffersResponse;
 import com.kikbak.jaxb.register.RegisterUserRequest;
 import com.kikbak.jaxb.register.RegisterUserResponse;
 import com.kikbak.jaxb.register.UserType;
@@ -142,6 +143,25 @@ public class UserController extends AbstractController {
 		}
 		return response;
 	}
+
+
+	@RequestMapping( value = "/hasoffer", method = RequestMethod.POST)
+	public HasUserOffersResponse hasOffersRequest( 
+					@RequestBody GetUserOffersRequest request, final HttpServletResponse httpResponse){
+		
+		HasUserOffersResponse response = new HasUserOffersResponse();
+		StatusType status = new StatusType();
+		status.setCode(StatusCode.OK.ordinal());
+		response.setStatus(status);
+		try {
+			response.setHasOffer(userService.hasOffers(request.getUserLocation()));
+		} catch (Exception e) {
+			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			status.setCode(StatusCode.ERROR.ordinal());
+			logger.error(e,e);
+		}
+		return response;
+	}	
 	
 	@RequestMapping( value="/devicetoken/{userId}", method = RequestMethod.POST)
 	public DeviceTokenUpdateResponse deviceTokenUpdate(@PathVariable("userId") Long userId,

@@ -180,7 +180,15 @@ public class UserServiceImpl implements UserService {
             rwU2FDao.batchInsert(friendAssociations);
         }
     }
-    
+     
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public boolean hasOffers(UserLocationType userLocation) {
+		Coordinate origin = new Coordinate(userLocation.getLatitude(), userLocation.getLongitude());
+		GeoFence fence = GeoBoundaries.getGeoFence(origin, config.getDouble("geo.fence.distance.hasoffer"));
+		return !roOfferDao.listValidOffersInGeoFence(fence).isEmpty();
+	}
+	
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public Collection<ClientOfferType> getOffers(Long userId,
@@ -189,7 +197,7 @@ public class UserServiceImpl implements UserService {
 		Coordinate origin = new Coordinate(userLocation.getLatitude(), userLocation.getLongitude());
 		GeoFence fence = GeoBoundaries.getGeoFence(origin, config.getDouble("geo.fence.distance"));
 		Collection<Offer> offers = roOfferDao.listValidOffersInGeoFence(fence);
-		Collection<ClientOfferType> ots = new ArrayList<ClientOfferType>();
+		Collection<ClientOfferType> ots = new ArrayList<ClientOfferType>(offers.size());
 		for(Offer offer : offers){
 		    Gift gift = roGiftDao.findByOfferId(offer.getId());
 		    Kikbak kikbak = roKikbakDao.findByOfferId(offer.getId());
