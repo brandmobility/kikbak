@@ -19,9 +19,11 @@ import com.flurry.android.FlurryAgent;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.RegisterUserRequest;
 import com.referredlabs.kikbak.data.RegisterUserResponse;
+import com.referredlabs.kikbak.data.StatusType;
 import com.referredlabs.kikbak.data.UserType;
 import com.referredlabs.kikbak.fb.Fb;
 import com.referredlabs.kikbak.http.Http;
+import com.referredlabs.kikbak.http.HttpStatusException;
 import com.referredlabs.kikbak.log.Log;
 import com.referredlabs.kikbak.utils.Register;
 
@@ -96,8 +98,38 @@ public class LoginActivity extends KikbakActivity implements StatusCallback,
     task.execute();
   }
 
+  protected void onRegistrationSuccess() {
+    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+    finish();
+  }
+
+  protected void onRegistrationFailed(Exception exception) {
+    Session session = Session.getActiveSession();
+    session.closeAndClearTokenInformation();
+    mLoginButton.setEnabled(true);
+
+    boolean handeled = false;
+    if (exception instanceof HttpStatusException) {
+      HttpStatusException statusEx = (HttpStatusException) exception;
+      if (statusEx.getServerStatusCode() == StatusType.TOO_FEW_FRIENDS) {
+        showTooFewFriendsDialog();
+        handeled = true;
+      }
+    }
+
+    // show generic error
+    if (!handeled) {
+      Toast.makeText(LoginActivity.this, R.string.registration_failed, Toast.LENGTH_LONG).show();
+    }
+  }
+
+  private void showTooFewFriendsDialog() {
+    new TooFewFriendsDialog().show(getSupportFragmentManager(), null);
+  }
+
   class RegisterTask extends AsyncTask<Void, Void, Void> {
     GraphUser mFacebookUser;
+    private Exception mException;
     private String mAccessToken;
     private long mUserId;
     private boolean mSuccess = false;
@@ -123,6 +155,7 @@ public class LoginActivity extends KikbakActivity implements StatusCallback,
 
         mSuccess = true;
       } catch (Exception e) {
+        mException = e;
         FlurryAgent.onError(Log.E_REGISTRATION, e.getMessage(), Log.CLASS_NETWORK);
       }
       return null;
@@ -131,13 +164,9 @@ public class LoginActivity extends KikbakActivity implements StatusCallback,
     @Override
     protected void onPostExecute(Void result) {
       if (mSuccess) {
-        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-        finish();
+        onRegistrationSuccess();
       } else {
-        Session session = Session.getActiveSession();
-        session.closeAndClearTokenInformation();
-        mLoginButton.setEnabled(true);
-        Toast.makeText(LoginActivity.this, R.string.registration_failed, Toast.LENGTH_LONG).show();
+        onRegistrationFailed(mException);
       }
     }
   };

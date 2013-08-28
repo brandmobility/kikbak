@@ -11,6 +11,8 @@
     <!-- Login -->
     <string name="registration_failed">Registration failed. Try again.</string>
     <string name="login_never_post_to_facebook">We will never post to Facebook\nwithout your permission.</string>
+    <string name="too_few_friends">"For security purposes, Kikbak requires that your Facebook account have a certain minimum friend count. Unfortunately your chosen account does not qualify."</string>
+    <string name="ok">OK</string>
 
     <!-- Main activity -->
     <string name="title_offers">Give</string>
@@ -88,6 +90,10 @@
     <string name="share_in_progress">Sharing gift&#8230;</string>
     <string name="share_pick_button_email">Generate email</string>
     <string name="share_pick_button_sms">Generate SMS</string>
+
+    <!-- Share success -->
+    <string name="share_thank_you">Thank you!</string>
+    <string name="share_success_note">We will notify you when a friend uses your gift and you earn a reward</string>
 
     <!-- Rewards -->
     <string name="reward_gift_label">USE RECEIVED GIFT</string>

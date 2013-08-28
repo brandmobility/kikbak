@@ -8,6 +8,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
+import com.referredlabs.kikbak.R;
+
 public class ShareSuccessDialog extends DialogFragment {
 
   public interface OnShareSuccessListener {
@@ -25,9 +27,9 @@ public class ShareSuccessDialog extends DialogFragment {
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
-    b.setTitle("Thank you!");
-    b.setMessage("We will notify you when a friend uses your gift and you earn a reward");
-    b.setPositiveButton("OK", null);
+    b.setTitle(R.string.share_thank_you);
+    b.setMessage(R.string.share_success_note);
+    b.setPositiveButton(R.string.ok, null);
     return b.show();
   }
 
