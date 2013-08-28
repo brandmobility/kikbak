@@ -85,7 +85,7 @@ public class RewardServiceImpl implements RewardService{
     ReadOnlyCreditDAO roCreditDao;
 
     @Autowired
-    ReadWriteCreditDAO rwKikbakDao;
+    ReadWriteCreditDAO rwCreditDao;
 
     @Autowired
     ReadOnlyOfferDAO roOfferDao;
@@ -223,7 +223,7 @@ public class RewardServiceImpl implements RewardService{
         throw new RedemptionException("Invalid verifcation code");
     }
     
-    CreditManager km = new CreditManager(roOfferDao, roKikbakDAO, roCreditDao, rwKikbakDao, rwTxnDao);
+    CreditManager km = new CreditManager(roOfferDao, roKikbakDAO, roCreditDao, rwCreditDao, rwTxnDao);
     km.manageCredit(giftType.getFriendUserId(), gift.getOfferId(), gift.getMerchantId(), giftType.getLocationId());
 
     // send notification for kikbak when gift is redeemed
@@ -261,7 +261,7 @@ public class RewardServiceImpl implements RewardService{
         txn.setDate(new Date());
         txn.setAuthorizationCode(generateAuthorizationCode());
 
-        rwKikbakDao.makePersistent(credit);
+        rwCreditDao.makePersistent(credit);
         rwTxnDao.makePersistent(txn);
 
         CreditRedemptionResponseType response = new CreditRedemptionResponseType();
@@ -440,9 +440,11 @@ public class RewardServiceImpl implements RewardService{
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void claimCredit(Long userId, ClaimType ct) throws Exception {
         Credit credit = roCreditDao.findById(ct.getCreditId());
+        
         Claim claim = new Claim();
         claim.setKikbakId(credit.getKikbakId());
         claim.setOfferId(credit.getOfferId());
+        claim.setAmount(credit.getValue());
         claim.setName(ct.getName());
         claim.setStreet(ct.getStreet());
         claim.setApt(ct.getApt());
@@ -453,7 +455,23 @@ public class RewardServiceImpl implements RewardService{
         claim.setUserId(userId);
         claim.setRequestDate(new Date());
         
+        Transaction txn = new Transaction();
+        txn.setAmount(credit.getValue());
+        txn.setVerificationCode("");
+        txn.setMerchantId(credit.getMerchantId());
+        txn.setLocationId(txn.getLocationId());
+        txn.setUserId(userId);
+        txn.setTransactionType((short)TransactionType.Debit.ordinal());
+        txn.setOfferId(credit.getOfferId());
+        txn.setCreditId(credit.getId());
+        txn.setDate(new Date());
+        txn.setAuthorizationCode(generateAuthorizationCode());
+
+        credit.setValue(0);
+
         rwClaimDao.makePersistent(claim);
+        rwTxnDao.makePersistent(txn);
+        rwCreditDao.makePersistent(credit);
     }
 
     @Override

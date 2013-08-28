@@ -174,6 +174,7 @@ create TABLE `claim`
     user_id BIGINT NOT NULL,
     kikbak_id BIGINT NOT NULL,
     offer_id BIGINT NOT NULL,
+    amount DOUBLE NOT NULL, 
     phone_number VARCHAR(24) NOT NULL,
     name VARCHAR(32) CHARACTER SET utf8 NOT NULL,
     street VARCHAR(32) CHARACTER SET utf8 NOT NULL,
