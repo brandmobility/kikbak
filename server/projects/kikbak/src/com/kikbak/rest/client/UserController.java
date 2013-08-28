@@ -26,6 +26,7 @@ import com.kikbak.jaxb.offer.GetUserOffersResponse;
 import com.kikbak.jaxb.offer.HasUserOffersResponse;
 import com.kikbak.jaxb.register.RegisterUserRequest;
 import com.kikbak.jaxb.register.RegisterUserResponse;
+import com.kikbak.jaxb.register.UserIdType;
 import com.kikbak.jaxb.register.UserType;
 import com.kikbak.jaxb.statustype.StatusType;
 import com.kikbak.rest.StatusCode;
@@ -48,6 +49,8 @@ public class UserController extends AbstractController {
 	private static final String USER_COOKIE_SECURE = "user.cookie.secure";
 		
 	private static final int COOKIE_EXPIRE_TIME = 10 * 365 * 24 * 60 * 60;
+	
+    private static final String USER_FRIENDS_MINIMUM_COUNT = "user.friends.minimum.count";
 
     private static final Logger logger = Logger.getLogger(UserController.class);
 		
@@ -58,9 +61,21 @@ public class UserController extends AbstractController {
 		status.setCode(StatusCode.OK.ordinal());
 		response.setStatus(status);
 		try {
-			UserType user = fbLoginService.getUserInfo(request.getUser().getAccessToken());
-			response.setUserId(userService.registerUser(user));
-			String token = userService.getUserToken(response.getUserId().getUserId());
+            UserType user = fbLoginService.getUserInfo(request.getUser().getAccessToken());
+            Collection<Long> friends = fbLoginService.getFriends(request.getUser().getAccessToken());
+
+            if (friends.size() < config.getInt(USER_FRIENDS_MINIMUM_COUNT)) {
+                logger.error("User " + user.getId() + " has too few friends: " + friends.size());
+                httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                status.setCode(StatusCode.TOO_FEW_FRIENDS.ordinal());
+                return response;
+            }
+            
+            UserIdType userId = userService.registerUser(user);
+            userService.updateFriendsList(userId.getUserId(), friends);
+
+            response.setUserId(userId);
+			String token = userService.getUserToken(userId.getUserId());
 			Cookie cookie = new Cookie(CookieAuthenticationFilter.COOKIE_TOKEN_KEY, token);
 			if (config.getBoolean(USER_COOKIE_SECURE)) {
 				cookie.setSecure(true);
@@ -69,16 +84,13 @@ public class UserController extends AbstractController {
 			cookie.setMaxAge(COOKIE_EXPIRE_TIME);
 			httpResponse.addCookie(cookie);
 			
-			cookie = new Cookie(CookieAuthenticationFilter.COOKIE_USER_ID_KEY, Long.toString(response.getUserId().getUserId()));
+			cookie = new Cookie(CookieAuthenticationFilter.COOKIE_USER_ID_KEY, Long.toString(userId.getUserId()));
 			if (config.getBoolean(USER_COOKIE_SECURE)) {
 				cookie.setSecure(true);
 			}
 			cookie.setPath("/");
 			cookie.setMaxAge(COOKIE_EXPIRE_TIME);
 			httpResponse.addCookie(cookie);
-
-            Collection<Long> friends = fbLoginService.getFriends(request.getUser().getAccessToken());
-            userService.updateFriendsList(response.getUserId().getUserId(), friends);
 
 		} catch (Exception e) {
 			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
