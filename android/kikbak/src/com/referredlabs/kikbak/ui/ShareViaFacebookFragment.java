@@ -36,7 +36,6 @@ public class ShareViaFacebookFragment extends SharingDialog {
   private static final String ARG_PHOTO_PATH = "photo_uri";
   private static final String ARG_EMPLYOYEE = "emplyee";
   private static final String ARG_LOCATION_ID = "location_id";
-  private static final String ARG_OTHER_ADDRESS = "other";
 
   private static final int REQUEST_FB_AUTH = 1;
 
@@ -53,15 +52,14 @@ public class ShareViaFacebookFragment extends SharingDialog {
   };
 
   public static ShareViaFacebookFragment newInstance(ClientOfferType offer, String comment,
-      String photoPath, String employee, long locationId, String address) {
+      String photoPath, String employee, long locationId) {
     ShareViaFacebookFragment fragment = new ShareViaFacebookFragment();
     Bundle args = new Bundle();
     args.putString(ARG_OFFER, new Gson().toJson(offer));
     args.putString(ARG_COMMENT, comment);
     args.putString(ARG_PHOTO_PATH, photoPath);
     args.putString(ARG_EMPLYOYEE, employee);
-    args.putLong(ARG_LOCATION_ID, locationId); // may be -1
-    args.putString(ARG_OTHER_ADDRESS, address); // may be null
+    args.putLong(ARG_LOCATION_ID, locationId);
     fragment.setArguments(args);
     fragment.setRetainInstance(true);
     return fragment;

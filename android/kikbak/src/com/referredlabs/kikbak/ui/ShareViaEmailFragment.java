@@ -26,7 +26,6 @@ public class ShareViaEmailFragment extends SharingDialog {
   private static final String ARG_PHOTO_PATH = "photo_path";
   private static final String ARG_EMPLYOYEE = "emplyee";
   private static final String ARG_LOCATION_ID = "location_id";
-  private static final String ARG_OTHER_ADDRESS = "other";
 
   private static final int REQUEST_SELECT_CONTACTS = 1;
   private static final int REQUEST_SEND_EMAIL = 2;
@@ -37,15 +36,14 @@ public class ShareViaEmailFragment extends SharingDialog {
   private ArrayList<String> mContacts;
 
   public static ShareViaEmailFragment newInstance(ClientOfferType offer, String comment,
-      String photoPath, String employee, long locationId, String address) {
+      String photoPath, String employee, long locationId) {
     ShareViaEmailFragment fragment = new ShareViaEmailFragment();
     Bundle args = new Bundle();
     args.putString(ARG_OFFER, new Gson().toJson(offer));
     args.putString(ARG_COMMENT, comment);
     args.putString(ARG_PHOTO_PATH, photoPath);
     args.putString(ARG_EMPLYOYEE, employee);
-    args.putLong(ARG_LOCATION_ID, locationId); // may be -1
-    args.putString(ARG_OTHER_ADDRESS, address); // may be null
+    args.putLong(ARG_LOCATION_ID, locationId);
     fragment.setArguments(args);
     fragment.setRetainInstance(true);
     return fragment;

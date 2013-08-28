@@ -35,11 +35,11 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
   private Spinner mStoreSpinner;
 
   public interface OnShareMethodSelectedListener {
-    public void onSendViaEmail(String id, MerchantLocationType location, String address);
+    public void onSendViaEmail(String id, MerchantLocationType location);
 
-    public void onSendViaFacebook(String id, MerchantLocationType location, String address);
+    public void onSendViaFacebook(String id, MerchantLocationType location);
 
-    public void onSendViaSms(String id, MerchantLocationType location, String address);
+    public void onSendViaSms(String id, MerchantLocationType location);
   }
 
   private OnShareMethodSelectedListener mListener;
@@ -115,22 +115,16 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
       location = (MerchantLocationType) mStoreSpinner.getSelectedItem();
     }
 
-    String address = null;
-    EditText other = (EditText) getView().findViewById(R.id.other_store_address);
-    if (other != null) {
-      address = other.getText().toString();
-    }
-
     switch (v.getId()) {
       case R.id.via_email:
-        mListener.onSendViaEmail(employee, location, address);
+        mListener.onSendViaEmail(employee, location);
         break;
       case R.id.via_facebook:
         mListener.
-            onSendViaFacebook(employee, location, address);
+            onSendViaFacebook(employee, location);
         break;
       case R.id.via_sms:
-        mListener.onSendViaSms(employee, location, address);
+        mListener.onSendViaSms(employee, location);
         break;
     }
     dismiss();
@@ -150,48 +144,26 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
 
     @Override
     public int getCount() {
-      return mLocations.size() + 1;
+      return mLocations.size();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
       MerchantLocationType location = getItem(position);
-      if (location != null) {
-        TextView tv = (TextView) mInflater.inflate(R.layout.fragment_share_options_store_view,
-            parent, false);
-        tv.setText(location.address1);
-        return tv;
-      } else {
-        View v = mInflater.inflate(R.layout.fragment_share_options_store_edit, parent, false);
-        return v;
-      }
-    }
-
-    @Override
-    public View getDropDownView(int position, View convertView, ViewGroup parent) {
       TextView tv = (TextView) mInflater.inflate(R.layout.fragment_share_options_store_view,
           parent, false);
-      MerchantLocationType location = getItem(position);
-      if (location != null) {
-        tv.setText(location.address1);
-      } else {
-        tv.setText(R.string.share_option_other_location);
-      }
+      tv.setText(location.address1);
       return tv;
     }
 
     @Override
     public MerchantLocationType getItem(int position) {
-      if (position < mLocations.size())
-        return mLocations.get(position);
-      return null;
+      return mLocations.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-      if (position < mLocations.size())
-        return mLocations.get(position).locationId;
-      return -1;
+      return mLocations.get(position).locationId;
     }
 
   }

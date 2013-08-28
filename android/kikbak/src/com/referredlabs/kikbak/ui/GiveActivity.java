@@ -206,32 +206,32 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
   }
 
   @Override
-  public void onSendViaEmail(String employee, MerchantLocationType location, String address) {
+  public void onSendViaEmail(String employee, MerchantLocationType location) {
     String comment = mComment.getText().toString();
     String path = mCroppedPhotoUri == null ? null : mCroppedPhotoUri.getPath();
     long locationId = location == null ? -1 : location.locationId;
     ShareViaEmailFragment shareFrag = ShareViaEmailFragment.newInstance(mOffer, comment, path,
-        employee, locationId, address);
+        employee, locationId);
     shareFrag.show(getSupportFragmentManager(), null);
   }
 
   @Override
-  public void onSendViaSms(String employee, MerchantLocationType location, String address) {
+  public void onSendViaSms(String employee, MerchantLocationType location) {
     String comment = mComment.getText().toString();
     String path = mCroppedPhotoUri == null ? null : mCroppedPhotoUri.getPath();
     long locationId = location == null ? -1 : location.locationId;
     ShareViaSmsFragment shareFrag = ShareViaSmsFragment.newInstance(mOffer, comment, path,
-        employee, locationId, address);
+        employee, locationId);
     shareFrag.show(getSupportFragmentManager(), null);
   }
 
   @Override
-  public void onSendViaFacebook(String employee, MerchantLocationType location, String address) {
+  public void onSendViaFacebook(String employee, MerchantLocationType location) {
     String comment = mComment.getText().toString();
     String path = mCroppedPhotoUri == null ? null : mCroppedPhotoUri.getPath();
     long locationId = location == null ? -1 : location.locationId;
     ShareViaFacebookFragment publish = ShareViaFacebookFragment.newInstance(mOffer, comment, path,
-        employee, locationId, address);
+        employee, locationId);
     publish.show(getSupportFragmentManager(), null);
   }
 
