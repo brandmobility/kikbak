@@ -182,4 +182,9 @@
     <string name="suggest_confirmation_toast">"Thanks for your suggestion.\nWe'll pass it along and let you know when the business joins Kikbak."</string> <!-- Select friend -->
     <string name="select_friend_label">Select the friend whose gift you would like to redeem</string>
 
+    
+    <!-- Status bar notifications -->
+    <string name="notification_gift_title">You have received a gift!</string>
+    <string name="notification_kikbak_title">You have received a kikbak!</string>
+    
 </resources>

@@ -20,6 +20,7 @@ import android.widget.ViewFlipper;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.AvailableCreditType;
 import com.referredlabs.kikbak.data.GiftType;
+import com.referredlabs.kikbak.gcm.NotificationController;
 import com.referredlabs.kikbak.store.RewardsLoader;
 import com.referredlabs.kikbak.store.TheReward;
 import com.referredlabs.kikbak.ui.RedeemChooserDialog.OnRedeemOptionSelectedListener;
@@ -44,6 +45,8 @@ public class RewardListFragment extends Fragment implements OnItemClickListener,
   private RewardAdapter mAdapter;
   private OnRedeemListener mListener;
   private TheReward mSelectedReward;
+  private boolean mResumed;
+  private boolean mActive;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -87,6 +90,33 @@ public class RewardListFragment extends Fragment implements OnItemClickListener,
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     getLoaderManager().initLoader(0, null, this);
+  }
+
+  public void setActive(boolean active) {
+    mActive = active;
+    updateNotifications();
+  }
+
+  public void onResume() {
+    super.onResume();
+    mResumed = true;
+    updateNotifications();
+  };
+
+  @Override
+  public void onPause() {
+    super.onPause();
+    mResumed = false;
+    updateNotifications();
+  }
+
+  void updateNotifications() {
+    if (mActive && mResumed) {
+      NotificationController.getInstance().clearRewardNotifications();
+      NotificationController.getInstance().setAllowNotifications(false);
+    } else {
+      NotificationController.getInstance().setAllowNotifications(true);
+    }
   }
 
   @Override

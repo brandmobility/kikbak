@@ -28,11 +28,13 @@ import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.AvailableCreditType;
 import com.referredlabs.kikbak.data.GiftType;
 import com.referredlabs.kikbak.gcm.GcmHelper;
+import com.referredlabs.kikbak.gcm.NotificationController;
 import com.referredlabs.kikbak.service.LocationFinder;
 import com.referredlabs.kikbak.service.LocationFinder.LocationFinderListener;
 import com.referredlabs.kikbak.store.DataService;
 import com.referredlabs.kikbak.store.TheOffer;
 import com.referredlabs.kikbak.store.TheReward;
+import com.referredlabs.kikbak.test.Launcher;
 import com.referredlabs.kikbak.ui.OfferListFragment.OnOfferClickedListener;
 import com.referredlabs.kikbak.ui.RewardListFragment.OnRedeemListener;
 import com.referredlabs.kikbak.utils.Register;
@@ -40,6 +42,8 @@ import com.referredlabs.kikbak.utils.Register;
 public class MainActivity extends KikbakActivity implements ActionBar.TabListener,
     OnOfferClickedListener, OnRedeemListener,
     LocationFinderListener {
+
+  public static final String ARG_SHOW_REWARDS = "rewards";
 
   SectionsPagerAdapter mSectionsPagerAdapter;
   ViewFlipper mViewFlipper;
@@ -73,6 +77,10 @@ public class MainActivity extends KikbakActivity implements ActionBar.TabListene
     mViewPager = (ViewPager) findViewById(R.id.pager);
     mViewPager.setAdapter(mSectionsPagerAdapter);
 
+    if (getIntent().getBooleanExtra(ARG_SHOW_REWARDS, false)) {
+      mViewPager.setCurrentItem(1);
+    }
+
     mViewFlipper = (ViewFlipper) findViewById(R.id.flipper);
     if (!isConnected()) {
       mViewFlipper.setDisplayedChild(1);
@@ -87,6 +95,9 @@ public class MainActivity extends KikbakActivity implements ActionBar.TabListene
       @Override
       public void onPageSelected(int position) {
         actionBar.setSelectedNavigationItem(position);
+        RewardListFragment rl = mSectionsPagerAdapter.getRewardFragment();
+        if (rl != null)
+          rl.setActive(position == 1);
       }
     });
 
@@ -94,8 +105,9 @@ public class MainActivity extends KikbakActivity implements ActionBar.TabListene
       Tab tab = actionBar.newTab();
       tab.setText(mSectionsPagerAdapter.getPageTitle(i));
       tab.setTabListener(this);
-      actionBar.addTab(tab);
+      actionBar.addTab(tab, false);
     }
+    actionBar.setSelectedNavigationItem(mViewPager.getCurrentItem());
   }
 
   @Override
