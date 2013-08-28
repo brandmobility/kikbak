@@ -299,7 +299,7 @@ function initPage() {
     $('#suggest-btn-div').show('');
     $('#heading').html('Gift');
     $('#offer-btn-div').css('background', 'url("img/btn_highlighted.png")');
-    getOffers();
+    getOffers(pageType !== 'offer');
   }
 
   setWrapperSize();
@@ -327,15 +327,15 @@ function claimGift(code) {
   });
 }
 
-function getOffers() {
+function getOffers(force) {
   s.pageType = 'offer';
   var userId = 0;
 
   if ( typeof userId !== 'undefined' && userId !== null && userId !== '') {
     if ( typeof initPage.p !== 'undefined') {
-      getOffersByLocation(userId, initPage.p);
+      getOffersByLocation(userId, initPage.p, force);
     } else {
-      getOffersByLocation(userId, null);
+      getOffersByLocation(userId, null, force);
     }
   }
 }
@@ -410,10 +410,15 @@ function computeDistance(local) {
 }
 
 function getDisplayLocation(locations) {
-  return locations[0];
+  $.each(locations, function(i, local) {
+    if (typeof local.dist === 'undefined') {
+      local.dist = computeDistanceDigit(local);
+    }
+  });
+  return locations.sort(function(a, b) {return a.dist - b.dist})[0];
 }
 
-function getOffersByLocation(userId, position) {
+function getOffersByLocation(userId, position, force) {
   var location = {};
   if (position != null) {
     location['longitude'] = config.longitude ? config.longitude : position.longitude;
@@ -434,8 +439,7 @@ function getOffersByLocation(userId, position) {
       var offers = json.getUserOffersResponse.offers;
       s.offerCount = offers.length;
       
-      if (offers.length == 1) {
-        s.offerDetail = escape(JSON.stringify(offers[0]));
+      if (offers.length == 1) {        s.offerDetail = escape(JSON.stringify(offers[0]));
         s.pageType = 'offer-detail';
         initPage();
         $('back-btn').hide();
@@ -445,8 +449,8 @@ function getOffersByLocation(userId, position) {
       var availOffer = null;
       $.each(offers, function(i, offer) {
         var local = getDisplayLocation(offer.locations);
-        offer.dist = computeDistanceDigit(local);
-        if (computeDistanceDigit(local) < 0.5) {
+        offer.dist = local.dist;
+        if (local.dist < 0.5) {
           ++availCount;
           availOffer = offer;
         }
@@ -454,7 +458,7 @@ function getOffersByLocation(userId, position) {
       
       offers = offers.sort(function(a, b) {return a.dist - b.dist});
       
-      if (availCount == 1) {
+      if (availCount == 1 && !force) {
         s.offerDetail = escape(JSON.stringify(availOffer));
         s.pageType = 'offer-detail';
         initPage();
@@ -729,7 +733,7 @@ function getOfferDetail() {
     $('#back-btn').unbind();
     $('#back-btn').click(function(e) {
       e.preventDefault();
-      s.pageType = 'offer';
+      s.pageType = 'offer-force';
       initPage();
     });
     
@@ -849,6 +853,7 @@ function renderOfferDetail(offer) {
   });
   
   var options = '';
+  var locations = offer.locations.sort(function(a, b) {return a.dist - b.dist});
   $.each(offer.locations, function(i, l) {
     var selected = '';
     if (i === 0) {
@@ -973,7 +978,7 @@ function shareOffer() {
           $('#back-btn').unbind();
           $('#back-btn').click(function(e) {
             e.preventDefault();
-            s.pageType = 'offer';
+            s.pageType = 'offer-force';
             initPage();
           });
         };

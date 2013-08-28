@@ -58,6 +58,7 @@ public class LandingController {
 			final HttpServletResponse httpResponse) {
 		
 		try {
+			request.setCharacterEncoding("UTF-8");
 			String code = request.getParameter("code");
 			GiftType gift = rewardService.getGiftByReferredCode(code);
 			
@@ -86,6 +87,7 @@ public class LandingController {
 			final HttpServletResponse httpResponse) {
 		
 		try {
+			request.setCharacterEncoding("UTF-8");
 			String code = request.getParameter("code");
 			long userId = Long.parseLong(request.getParameter("user"));
 			long agId = Long.parseLong(request.getParameter("gid"));
