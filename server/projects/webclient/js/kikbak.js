@@ -60,6 +60,11 @@ $(document).ready(function() {
     $('.popup').hide();
   });
 
+  $('#suggest-form input[name="suggest"]').click(function(e) {
+    e.preventDefault();
+    doSuggest();
+  });
+  
   $('#suggest-form input[name="source"]').change(function(e) {
     var files = e.target.files;
     var file;
@@ -993,6 +998,7 @@ function shareOffer() {
           goback();
           req.append('file', file);
           req.append('userId', userId);
+          req.append('ios', getBrowserName() === 'Safari');
           req.append('x', x / parseInt(cropImage.css('width')));
           req.append('y', y / parseInt(cropImage.css('height')));
           req.append('w', w / parseInt(cropImage.css('width')));

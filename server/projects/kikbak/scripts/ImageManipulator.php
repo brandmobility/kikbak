@@ -22,11 +22,11 @@ class ImageManipulator
      * @param string $file OPTIONAL Path to image file or image data as string
      * @return void
      */
-    public function __construct($file = null)
+    public function __construct($file = null, $ios)
     {
         if (null !== $file) {
             if (is_file($file)) {
-                $this->setImageFile($file);
+                $this->setImageFile($file, $ios);
             } else {
                 $this->setImageString($file);
             }
@@ -40,7 +40,7 @@ class ImageManipulator
      * @return ImageManipulator for a fluent interface
      * @throws InvalidArgumentException
      */
-    public function setImageFile($file)
+    public function setImageFile($file, $ios)
     {
         if (!(is_readable($file) && is_file($file))) {
             throw new InvalidArgumentException("Image file $file is not readable");
@@ -66,11 +66,14 @@ class ImageManipulator
                 throw new InvalidArgumentException("Image type $type not supported");
         }
 
-        $this->image = imagerotate($tmp, 270, 0);
+        if ($ios) {
+            $this->image = imagerotate($tmp, 270, 0);
+        }
+
         $this->width = imagesx($this->image);
         $this->height = imagesy($this->image);
 
-    imagedestroy($tmp); 
+        imagedestroy($tmp); 
 
         return $this;
     }

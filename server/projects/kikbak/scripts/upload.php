@@ -28,6 +28,8 @@ if (preg_match($pattern, $_POST['userId']) || preg_match($pattern, $_FILES['file
   exit(-1);
 }
 
+$manipulator = new ImageManipulator($_FILES['file']['tmp_name'], isset($_POST['ios']));
+
 $width  = $manipulator->getWidth();
 $height = $manipulator->getHeight();
 
