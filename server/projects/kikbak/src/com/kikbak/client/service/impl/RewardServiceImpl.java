@@ -228,7 +228,7 @@ public class RewardServiceImpl implements RewardService{
 
     // send notification for kikbak when gift is redeemed
     Kikbak kikbak = roKikbakDAO.findByOfferId(gift.getOfferId());
-    pushNotifier.sendKikbakNotification(userId, kikbak);    
+    pushNotifier.sendKikbakNotification(giftType.getFriendUserId(), kikbak);    
 
     return generateAuthorizationCode();
     }
