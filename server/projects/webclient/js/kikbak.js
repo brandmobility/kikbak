@@ -171,8 +171,7 @@ function fbInit() {
   initPosition(initPage);
 }
 
-function connectFb(accessToken) {
-  s.accessToken = accessToken;
+function connectFb(accessToken, share) {
   var userId = s.userId;
   if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
     initPosition(initPage);
@@ -193,32 +192,34 @@ function connectFb(accessToken) {
     data: str,
     url: config.backend + 'kikbak/user/register/fb/',
     success: function(json) {
-      updateFbFriends(json.registerUserResponse.userId.userId, initPage);
+      if (share) {
+        updateFbFriends(json.registerUserResponse.userId.userId, shareOfferAfterLogin);
+      } else {
+        updateFbFriends(json.registerUserResponse.userId.userId, initPage);
+      }
     },
     error: showError
   });
 }
 
 function updateFbFriends(userId, cb) {
-  FB.api('/me/friends', {fields: 'name,id,first_name,last_name,username'}, function(friend_response) {
-    var data = {};
-    data['friends'] = friend_response.data;
-    var req = {};
-    req['UpdateFriendsRequest'] = data;
-    var str = JSON.stringify(req);
+  var data = {};
+  data['access_token'] = s.accessToken;
+  var req = {};
+  req['UpdateFriendsRequest'] = data;
+  var str = JSON.stringify(req);
 
-    $.ajax({
-      dataType: 'json',
-      type: 'POST',
-      contentType: 'application/json',
-      data: str,
-      url: config.backend + 'kikbak/user/friends/fb/' + userId,
-      success: function(json) {
-        s.userId = userId;
-        cb();
-      },
-      error: showError
-    });
+  $.ajax({
+    dataType: 'json',
+    type: 'POST',
+    contentType: 'application/json',
+    data: str,
+    url: config.backend + 'kikbak/user/friends/fb/' + userId,
+    success: function(json) {
+      s.userId = userId;
+      cb();
+    },
+    error: showError
   });
 }
 
@@ -936,111 +937,113 @@ function onSuggestResponse(url) {
 function shareOffer() {
   var userId = s.userId;
   if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
-    updateFbFriends(userId, function() {
-      var message = $('#share-form input[name="comment"]').val();
-      var msg = 'Visit getkikbak.com for an exclusive offer shared by your friend';
-      if (!$('#take-picture')[0].files || $('#take-picture')[0].files.length == 0) {
-        var src = $('#share-form .image-add img').attr('src');
-        onShareResponse(src);
-      } else {
-        var req = new FormData();
-        var file = $('#take-picture')[0].files[0];
-        
-        $('#back-btn').unbind();
-        
-        $('#heading').html('Resize image');
-        $('#offer-details-view').hide();
-        $('#crop-image-div').show();
-        var URL = window.webkitURL || window.URL;
-        var imgUrl = URL.createObjectURL(file);
-        var cropImage = $('#crop-image-div .tkpoto img');
-        cropImage.attr('src', imgUrl);
-        
-        var jcrop_api, x, y, w, h;
-        var options = {
-          bgColor: 'black',
-          bgOpacity: .4,
-          setSelect: [ 260, 300, 60, 100 ],
-          allowResize: false,
-          allowSelect: false,
-          onChange: function updateCoords(c) {
-            x = c.x;
-            y = c.y;
-            w = c.w;
-            h = c.h;
-          }
-        };
-        cropImage.Jcrop(options,function(){
-          jcrop_api = this;
-        });
-        
-        var goback = function(){
-          URL.revokeObjectURL(imgUrl);
-          jcrop_api.destroy();
-          $('#heading').html('Gift');
-          $('#offer-details-view').show();
-          $('#crop-image-div').hide();
-          $('#back-btn').unbind();
-          $('#back-btn').click(function(e) {
-            e.preventDefault();
-            s.pageType = 'offer-force';
-            initPage();
-          });
-        };
-        
-        $('#back-btn').click(function(e) {
-          e.preventDefault();
-          goback();
-        });
-        
-        $('#crop-image').unbind('click');
-        $('#crop-image').click(function() {
-          goback();
-          req.append('file', file);
-          req.append('userId', userId);
-          req.append('ios', getBrowserName() === 'Safari');
-          req.append('x', x / parseInt(cropImage.css('width')));
-          req.append('y', y / parseInt(cropImage.css('height')));
-          req.append('w', w / parseInt(cropImage.css('width')));
-          req.append('h', h / parseInt(cropImage.css('height')));
-          $.ajax({
-            url : config.backend + '/s/upload.php',
-            data : req,
-            processData : false,
-            cache : false,
-            contentType : false,
-            dataType : 'json',
-            type : 'POST',
-            success : function(response) {
-              if (response && response.url) {
-                onShareResponse(response.url);
-              }
-            },
-            error : showError
-          }); 
-        });
-      }
-    });
+    updateFbFriends(userId, shareOfferAfterLogin); 
   } else {
-    loginFb();
+    loginFb(true);
   }
 }
 
-function loginFb() {
+function shareOfferAfterLogin() {
   var userId = s.userId;
-  if ( typeof userId == 'undefined' || userId == null || userId == '') {
-    FB.login(function(response) {
-      if (response.status === 'connected') {
-        connectFb(response.authResponse.accessToken);
-      } else if (response.status === 'not_authorized') {
-        FB.login();
-      } else {
-        FB.login();
-      }
-    }, {
-      scope : "email,read_friendlists,publish_stream,publish_actions"
-    });
-  }
+  var message = $('#share-form input[name="comment"]').val();
+  var msg = 'Visit getkikbak.com for an exclusive offer shared by your friend';
+    if (!$('#take-picture')[0].files || $('#take-picture')[0].files.length == 0) {
+      var src = $('#share-form .image-add img').attr('src');
+      onShareResponse(src);
+    } else {
+      var req = new FormData();
+      var file = $('#take-picture')[0].files[0];
+
+      $('#back-btn').unbind();
+
+      $('#heading').html('Resize image');
+      $('#offer-details-view').hide();
+      $('#crop-image-div').show();
+      var URL = window.webkitURL || window.URL;
+      var imgUrl = URL.createObjectURL(file);
+      var cropImage = $('#crop-image-div .tkpoto img');
+      cropImage.attr('src', imgUrl);
+
+      var jcrop_api, x, y, w, h;
+      var options = {
+        bgColor : 'black',
+        bgOpacity : .4,
+        setSelect : [260, 300, 60, 100],
+        allowResize : false,
+        allowSelect : false,
+        onChange : function updateCoords(c) {
+          x = c.x;
+          y = c.y;
+          w = c.w;
+          h = c.h;
+        }
+      };
+      cropImage.Jcrop(options, function() {
+        jcrop_api = this;
+      });
+
+      var goback = function() {
+        URL.revokeObjectURL(imgUrl);
+        jcrop_api.destroy();
+        $('#heading').html('Gift');
+        $('#offer-details-view').show();
+        $('#crop-image-div').hide();
+        $('#back-btn').unbind();
+        $('#back-btn').click(function(e) {
+          e.preventDefault();
+          s.pageType = 'offer-force';
+          initPage();
+        });
+      };
+
+      $('#back-btn').click(function(e) {
+        e.preventDefault();
+        goback();
+      });
+
+      $('#crop-image').unbind('click');
+      $('#crop-image').click(function() {
+        goback();
+        req.append('file', file);
+        req.append('userId', userId);
+        req.append('ios', getBrowserName() === 'Safari');
+        req.append('x', x / parseInt(cropImage.css('width')));
+        req.append('y', y / parseInt(cropImage.css('height')));
+        req.append('w', w / parseInt(cropImage.css('width')));
+        req.append('h', h / parseInt(cropImage.css('height')));
+        $.ajax({
+          url : config.backend + '/s/upload.php',
+          data : req,
+          processData : false,
+          cache : false,
+          contentType : false,
+          dataType : 'json',
+          type : 'POST',
+          success : function(response) {
+            if (response && response.url) {
+              onShareResponse(response.url);
+            }
+          },
+          error : showError
+        });
+      });
+    }
+
+}
+
+function loginFb(share) {
+  var userId = s.userId;
+  FB.login(function(response) {
+    if (response.status === 'connected') {
+      connectFb(response.authResponse.accessToken, share);
+    } else if (response.status === 'not_authorized') {
+      FB.login();
+    } else {
+      FB.login();
+    }
+  }, {
+    scope : "email,read_friendlists,publish_stream,publish_actions"
+  });
 }
 
 function onShareResponse(url) {
