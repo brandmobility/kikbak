@@ -168,12 +168,20 @@ function fbInit() {
     cookie: true,
     xfbml: true
   });
+  if (s.accessToken) {
+    FB.login(function(response) {
+      if (response.status === 'connected') {
+        s.accessToken = authResponse.accessToken; 
+      }
+    });
+  }
   initPosition(initPage);
 }
 
 function connectFb(accessToken, share) {
+  s.accessToken = accessToken;
   var userId = s.userId;
-  if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
+  if (userId) {
     initPosition(initPage);
     return;
   }
@@ -193,6 +201,8 @@ function connectFb(accessToken, share) {
     url: config.backend + 'kikbak/user/register/fb/',
     success: function(json) {
       if (share) {
+        $('#share-fb-div').hide();
+        $('#share-login-div').show();
         updateFbFriends(json.registerUserResponse.userId.userId, shareOfferAfterLogin);
       } else {
         updateFbFriends(json.registerUserResponse.userId.userId, initPage);
@@ -744,6 +754,7 @@ function getOfferDetail() {
     });
     
     $('#share-btn').click(shareOffer);
+    $('#share-btn-fb').click(shareOffer);
 
     $('#take-picture').change(function(e) {
       var icon = $('.camicon');
@@ -846,9 +857,14 @@ function renderOfferDetail(offer) {
   if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
     html += '<input id="share-btn" name="share" type="button" class="btn grd3 botm-position" value="Give To Friends" />';
   } else {
-    html += '<input id="share-btn" name="share" type="button" class="btn grd3" value="Connect with Facebook to share" />';
+    html += '<div id="share-login-div" style="display:none;">';
+    html += '<input id="share-btn" name="share" type="button" class="btn grd3 botm-position" value="Give To Friends" />';
+    html += '</div>';
+    html += '<div id="share-fb-div">'
+    html += '<input id="share-btn-fb" name="share" type="button" class="btn grd3" value="Connect with Facebook to share" />';
     html += '<div class="crt">';
     html += '<p><font size="2">We use Facebook to make it easy for you to store, redeem, and share gifts.  We will never post on Facebook with your permission.</font></p>';
+    html += '</div>';
     html += '</div>';
   }
   html += '</form>';
@@ -936,7 +952,7 @@ function onSuggestResponse(url) {
 
 function shareOffer() {
   var userId = s.userId;
-  if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
+  if (userId) {
     updateFbFriends(userId, shareOfferAfterLogin); 
   } else {
     loginFb(true);
