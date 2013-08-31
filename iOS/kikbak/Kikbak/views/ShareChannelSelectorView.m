@@ -84,6 +84,7 @@
     self.backgroundView = [[UIView alloc] initWithFrame:CGRectMake(23, backgroundY, self.frame.size.width - 46, 356-locationOffset)];
     self.backgroundView.backgroundColor = UIColorFromRGB(0xE0E0E0);
     self.backgroundView.layer.cornerRadius = 10;
+    self.backgroundView.layer.masksToBounds = YES;
     [self addSubview:self.backgroundView];
     
     self.helped = [[UILabel alloc]initWithFrame:CGRectMake(0, 15, self.backgroundView.frame.size.width, 19)];
@@ -114,6 +115,7 @@
     self.employee.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
     self.employee.backgroundColor = [UIColor clearColor];
     self.employee.layer.cornerRadius = 5;
+    self.employee.layer.masksToBounds = YES;
     self.employee.layer.borderWidth = 1;
     self.employee.layer.borderColor = [UIColorFromRGB(0xb9b9b9) CGColor];
     self.employeeShadow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"bg_textview_suggest_business"]];
@@ -124,6 +126,7 @@
     if( locationOffset == 0 ){
         self.location = [[UIView alloc]initWithFrame:CGRectMake(12, 114, self.backgroundView.frame.size.width-24, 35)];
         self.location.layer.cornerRadius = 4;
+        self.location.layer.masksToBounds = YES;
         self.location.layer.borderColor = [UIColorFromRGB(0xa0a0a0) CGColor];
         self.location.layer.borderWidth = 1;
         self.location.layer.shadowRadius = 1;

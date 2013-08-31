@@ -166,7 +166,7 @@
     [self.view addSubview:self.seperator];
     
     self.qrCode = [[UIImageView alloc]initWithFrame:CGRectMake(106, 321, 109, 109)];
-    self.qrCode.image = [UIImage imageNamed:@"img_code"];
+    self.qrCode.image = [UIImage imageWithContentsOfFile:self.imagePath];
     [self.view addSubview:self.qrCode];
     
     self.couponCode = [[UILabel alloc] initWithFrame:CGRectMake(0, 445, 320, 46)];

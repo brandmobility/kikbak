@@ -65,7 +65,7 @@
 		3C329C5D170178F70007345E /* ShareSuccessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C329C5C170178F70007345E /* ShareSuccessView.m */; };
 		3C339E1F1792575900CD0C7B /* Offer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C339E1E1792575900CD0C7B /* Offer.m */; };
 		3C339E221792933900CD0C7B /* ShareChannelSelectorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C339E211792933900CD0C7B /* ShareChannelSelectorView.m */; };
-		3C4068991751D0110001C724 /* RedeemCreditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C4068971751D0110001C724 /* RedeemCreditViewController.m */; };
+		3C4068991751D0110001C724 /* RedeemCreditViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3C4068971751D0110001C724 /* RedeemCreditViewController.mm */; };
 		3C4A2414174C8D0800B8C5F0 /* SpinnerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C4A2413174C8D0800B8C5F0 /* SpinnerView.m */; };
 		3C4A2417174DDE7400B8C5F0 /* RedeemChooserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C4A2416174DDE7400B8C5F0 /* RedeemChooserView.m */; };
 		3C4A241E1751C6BA00B8C5F0 /* CreditChooserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C4A241D1751C6BA00B8C5F0 /* CreditChooserViewController.m */; };
@@ -349,7 +349,7 @@
 		3C339E1E1792575900CD0C7B /* Offer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Offer.m; sourceTree = "<group>"; };
 		3C339E201792933900CD0C7B /* ShareChannelSelectorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareChannelSelectorView.h; sourceTree = "<group>"; };
 		3C339E211792933900CD0C7B /* ShareChannelSelectorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareChannelSelectorView.m; sourceTree = "<group>"; };
-		3C4068971751D0110001C724 /* RedeemCreditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedeemCreditViewController.m; sourceTree = "<group>"; };
+		3C4068971751D0110001C724 /* RedeemCreditViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RedeemCreditViewController.mm; sourceTree = "<group>"; };
 		3C4068981751D0110001C724 /* RedeemCreditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedeemCreditViewController.h; sourceTree = "<group>"; };
 		3C4A2410174B3C5000B8C5F0 /* KikbakOpenGraphProtocols.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KikbakOpenGraphProtocols.h; sourceTree = "<group>"; };
 		3C4A2412174C8D0800B8C5F0 /* SpinnerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpinnerView.h; sourceTree = "<group>"; };
@@ -748,7 +748,7 @@
 				3CA1B30F17040374005D2918 /* OfferListViewController.h */,
 				3CA1B31017040374005D2918 /* OfferListViewController.mm */,
 				3C4068981751D0110001C724 /* RedeemCreditViewController.h */,
-				3C4068971751D0110001C724 /* RedeemCreditViewController.m */,
+				3C4068971751D0110001C724 /* RedeemCreditViewController.mm */,
 				3CCCBC5516EC5C2400FA71A2 /* RedeemGiftViewController.h */,
 				3CCCBC5616EC5C2400FA71A2 /* RedeemGiftViewController.mm */,
 				3CA1B312170405B9005D2918 /* RedeemListViewController.h */,
@@ -1463,7 +1463,7 @@
 				3C4A2414174C8D0800B8C5F0 /* SpinnerView.m in Sources */,
 				3C4A2417174DDE7400B8C5F0 /* RedeemChooserView.m in Sources */,
 				3C4A241E1751C6BA00B8C5F0 /* CreditChooserViewController.m in Sources */,
-				3C4068991751D0110001C724 /* RedeemCreditViewController.m in Sources */,
+				3C4068991751D0110001C724 /* RedeemCreditViewController.mm in Sources */,
 				3C052BFC17698568003B9429 /* SuggestViewController.m in Sources */,
 				3C052BFF176986A9003B9429 /* UIButton+Util.m in Sources */,
 				3C0A5C21177AAD43007D4E18 /* RedeemGiftSuccessViewController.m in Sources */,

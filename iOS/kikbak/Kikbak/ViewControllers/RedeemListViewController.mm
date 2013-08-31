@@ -281,6 +281,7 @@ const int CELL_HEIGHT = 206;
         RedeemChooserView* chooser = [[RedeemChooserView alloc]initWithFrame:frame];
         chooser.credit = redeemCell.creditValue.text;
         chooser.gift = redeemCell.giftValue.text;
+        chooser.collection = collection;
         [chooser manuallyLayoutSubviews];
         chooser.delegate = self;
         [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:chooser];

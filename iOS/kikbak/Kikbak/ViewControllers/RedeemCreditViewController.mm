@@ -9,6 +9,7 @@
 #import "RedeemCreditViewController.h"
 #import "CreditChooserViewController.h"
 #import "NotificationContstants.h"
+#import "QRCodeReader.h"
 #import "util.h"
 #import "Credit.h"
 #import "UIDevice+Screen.h"
@@ -39,8 +40,6 @@
 
 @property (nonatomic,strong) UIButton* termsBtn;
 @property (nonatomic,strong) UIButton* redeemBtn;
-
--(NSDictionary*)setupKikbakRequest;
 
 -(void)createSubviews;
 -(void)manuallyLayoutSubviews;
@@ -81,15 +80,15 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onRedeemKikbakSuccess:) name:kKikbakRedeemKikbakSuccess object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onRedeemKikbakError:) name:kKikbakRedeemKikbakError object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onRedeemKikbakSuccess:) name:kKikbakRedeemCreditSuccess object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onRedeemKikbakError:) name:kKikbakRedeemCreditError object:nil];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
  
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakRedeemKikbakSuccess object:nil];
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakRedeemKikbakError object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakRedeemCreditSuccess object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakRedeemCreditError object:nil];
 
 }
 
@@ -222,11 +221,14 @@
 }
 
 -(IBAction)onRedeem:(id)sender{
-    if(self.credit != nil){
-        RedeemCreditRequest* rcr = [[RedeemCreditRequest alloc]init];
-        rcr.credit = self.credit;
-        [rcr restRequest:[self setupKikbakRequest]];
-    }
+    ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO];
+    
+    NSMutableSet *readers = [[NSMutableSet alloc ] init];
+    QRCodeReader* qrcodeReader = [[QRCodeReader alloc] init];
+    [readers addObject:qrcodeReader];
+    
+    widController.readers = readers;
+    [self presentViewController:widController animated:YES completion:nil];
 }
 
 -(void)onTermsBtn:(id)sender{
@@ -237,24 +239,14 @@
     [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:view];
 }
 
--(NSDictionary*)setupKikbakRequest{
-    NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:3];
-    [dict setObject:self.credit.creditId forKey:@"id"];
-    Location* location = [self.credit.location anyObject];
-    [dict setObject:location.locationId forKey:@"locationId"];
-    [dict setObject:self.creditToUse forKey:@"amount"];
-    [dict setObject:@"fwttt" forKey:@"verificationCode"];
-    
-    return dict;
-}
-
 
 #pragma mark - NSNotification Handlers
 -(void) onRedeemKikbakSuccess:(NSNotification*)notification{
     RedeemCreditSuccessViewController* vc = [[RedeemCreditSuccessViewController alloc] init];
     vc.creditUsed = self.creditToUse;
     vc.merchantName = self.retailerName.text;
-    vc.validationCode = [notification object];
+    vc.validationCode = [[notification object] objectForKey:@"authorizationCode"];
+    vc.imagePath = [[notification object] objectForKey:@"imagePath"];
     [self.navigationController pushViewController:vc animated:YES];
     
 }
@@ -267,6 +259,26 @@
 -(void)onUpdateAmount:(NSNumber*)amount{
     self.creditToUse = amount;
     self.creditAmount.text = [NSString stringWithFormat:NSLocalizedString(@"Redeem Amount", nil),[self.creditToUse doubleValue]];
+}
+
+#pragma mark - zxing qrcode reader
+- (void)zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)result{
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:3];
+    [dict setObject:self.credit.creditId forKey:@"id"];
+    Location* location = [self.credit.location anyObject];
+    [dict setObject:location.locationId forKey:@"locationId"];
+    [dict setObject:self.creditToUse forKey:@"amount"];
+    [dict setObject:result forKey:@"verificationCode"];
+    
+    if(self.credit != nil){
+        RedeemCreditRequest* rcr = [[RedeemCreditRequest alloc]init];
+        rcr.credit = self.credit;
+        [rcr restRequest:dict];
+    }
+}
+
+- (void)zxingControllerDidCancel:(ZXingWidgetController*)controller{
+    
 }
 
 @end

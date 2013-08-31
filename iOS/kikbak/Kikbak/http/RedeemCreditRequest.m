@@ -11,6 +11,7 @@
 #import "SBJson.h"
 #import "NotificationContstants.h"
 #import "Credit.h"
+#import "QRCodeImageReqest.h"
 
 static NSString* resource = @"rewards/redeem/credit";
 
@@ -56,6 +57,7 @@ static NSString* resource = @"rewards/redeem/credit";
     NSManagedObjectContext* context = self.credit.managedObjectContext;
 
     NSString* authorizationCode;
+    NSNumber* creditId = self.credit.creditId;
     id dict = [json JSONValue];
     if( dict) {
         id kikbakResponse = [dict objectForKey:@"redeemCreditResponse"];
@@ -83,11 +85,15 @@ static NSString* resource = @"rewards/redeem/credit";
     }
 
 
-    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakRedeemKikbakSuccess object:authorizationCode];
+    QRCodeImageReqest* qrRequest = [[QRCodeImageReqest alloc]init];
+    qrRequest.type = @"credit";
+    qrRequest.code = authorizationCode;
+    qrRequest.fileId = creditId;
+    [qrRequest requestQRCode];
 }
 
 -(void)handleError:(NSInteger)statusCode withData:(NSData*)data{
-    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakRedeemKikbakError object:nil];
+    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakRedeemCreditError object:nil];
 }
 
 @end

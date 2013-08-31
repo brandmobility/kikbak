@@ -12,11 +12,13 @@
 #import "RestProtocol.h"
 
 @class Gift;
+@class ShareInfo;
 
 @interface RedeemGiftRequest : NSObject<RestProtocol, ResponseHandlerProtocol>{
   HttpRequest* request;
 }
 
 @property (nonatomic, strong) Gift* gift;
+@property (nonatomic, strong) ShareInfo* shareInfo;
 
 @end

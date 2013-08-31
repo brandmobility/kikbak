@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <ZXingWidgetController.h>
 
 @protocol UserCreditUpdate <NSObject>
 
@@ -16,7 +17,7 @@
 
 @class Credit;
 
-@interface RedeemCreditViewController : UIViewController<UserCreditUpdate>
+@interface RedeemCreditViewController : UIViewController<UserCreditUpdate, ZXingDelegate>
 
 @property(nonatomic,strong)Credit* credit;
 

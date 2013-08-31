@@ -11,6 +11,8 @@
 #import "SBJson.h"
 #import "Gift.h"
 #import "NotificationContstants.h"
+#import "QRCodeImageReqest.h"
+#import "ShareInfo.h"
 
 static NSString* resource = @"rewards/redeem/gift";
 
@@ -49,9 +51,10 @@ static NSString* resource = @"rewards/redeem/gift";
 
 -(void)parseResponse:(NSData*)data{
     NSString* json = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-//    NSLog(@"RedeemGiftRequest: %@", json);
+    NSLog(@"RedeemGiftRequest: %@", json);
     
     self.gift.location = nil;
+    NSNumber* giftId = self.shareInfo.allocatedGiftId;
     NSManagedObjectContext* context = self.gift.managedObjectContext;
     [context deleteObject:self.gift];
     
@@ -64,7 +67,12 @@ static NSString* resource = @"rewards/redeem/gift";
 
     id dict = [json JSONValue];
     id giftResponse = [dict objectForKey:@"redeemGiftResponse"];
-    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakRedeemGiftSuccess object:[giftResponse objectForKey:@"authorizationCode"]];
+    
+    QRCodeImageReqest* qrRequest = [[QRCodeImageReqest alloc]init];
+    qrRequest.type = @"gift";
+    qrRequest.code = [giftResponse objectForKey:@"authorizationCode"];
+    qrRequest.fileId = giftId;
+    [qrRequest requestQRCode];
 }
 
 -(void)handleError:(NSInteger)statusCode withData:(NSData*)data{

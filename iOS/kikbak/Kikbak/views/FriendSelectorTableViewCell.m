@@ -44,7 +44,7 @@
     self.friendImage.layer.borderColor= [UIColorFromRGB(0xBABABA) CGColor];
     [self addSubview:self.friendImage];
     
-    self.displayName = [[UILabel alloc]initWithFrame:CGRectMake(56, 18, 177, 14)];
+    self.displayName = [[UILabel alloc]initWithFrame:CGRectMake(56, 18, 177, 18)];
     self.displayName.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16];
     self.displayName.text = self.name;
     self.displayName.textAlignment = NSTextAlignmentLeft;

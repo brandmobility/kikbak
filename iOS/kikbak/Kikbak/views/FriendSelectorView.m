@@ -39,9 +39,10 @@
 }
 
 -(void)createSubviews{
-    self.backgroundView = [[UIView alloc] initWithFrame:CGRectMake(23, 60, self.frame.size.width - 46, 356)];
+    self.backgroundView = [[UIView alloc] initWithFrame:CGRectMake(23, 90, self.frame.size.width - 46, 336)];
     self.backgroundView.backgroundColor = UIColorFromRGB(0xE0E0E0);
     self.backgroundView.layer.cornerRadius = 10;
+    self.backgroundView.layer.masksToBounds = YES;
     [self addSubview:self.backgroundView];
     
     self.ammount = [[UILabel alloc]initWithFrame:CGRectMake(0, 15, self.backgroundView.frame.size.width, 24)];

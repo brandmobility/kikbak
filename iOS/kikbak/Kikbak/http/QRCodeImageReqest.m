@@ -24,7 +24,7 @@ static NSString* resource = @"rewards/generateQrcode";
         return;
     }
     request = [[HttpRequest alloc]init];
-    request.resource = [NSString stringWithFormat:@"http://%s/%s/%@/%@/%d/", service_host, kikbak_service, resource, self.code, 175 ];
+    request.resource = [NSString stringWithFormat:@"http://%s/%s/%@/%@/%d/", service_host, kikbak_service, resource, self.code, 250 ];
     
     
     request.restDelegate = self;
@@ -42,7 +42,14 @@ static NSString* resource = @"rewards/generateQrcode";
     NSString* imagePath = [ImagePersistor persisttImage:data fileId:self.fileId imageType:type];
     NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:2];
     [dict setObject:imagePath forKey:@"imagePath"];
-    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakQrcodeSuccess object:dict];
+    [dict setObject:self.code forKey:@"authorizationCode"];
+    
+    if( type == QRCODE_GIFT_IMAGE_TYPE ){
+        [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakRedeemGiftSuccess object:dict];
+    }
+    else{
+        [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakRedeemCreditSuccess object:dict];
+    }
 }
 
 -(void)handleError:(NSInteger)statusCode withData:(NSData*)data{

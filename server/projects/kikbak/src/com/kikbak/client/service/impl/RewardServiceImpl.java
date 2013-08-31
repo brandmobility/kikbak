@@ -475,7 +475,7 @@ public class RewardServiceImpl implements RewardService{
     }
 
     @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
     public String getBarcode(Long userId, Long allocatedGiftId) throws Exception {
 
         Barcode barcode = roBarcodeDao.findByUserIdAndAllocatedGift(userId, allocatedGiftId);

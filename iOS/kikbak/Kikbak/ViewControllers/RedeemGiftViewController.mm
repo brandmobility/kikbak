@@ -399,6 +399,16 @@
 }
 
 -(void) onRedeemGiftSuccess:(NSNotification*)notification{
+
+    RedeemGiftSuccessViewController* vc = [[RedeemGiftSuccessViewController alloc]init];
+    vc.validationCode = [[notification object] objectForKey:@"authorizationCode"];
+    vc.imagePath = [[notification object] objectForKey:@"imagePath"];
+    vc.merchantName = self.retailerName.text;
+    vc.value = self.value;
+    vc.giftType = self.giftType;
+    vc.optionalDesc = self.giftDetails.text;
+    vc.validationType = self.gift.validationType;
+    
     self.gift.location = nil;
     NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
     [context deleteObject:self.gift];
@@ -410,12 +420,6 @@
     self.gift = nil;
 
     
-    RedeemGiftSuccessViewController* vc = [[RedeemGiftSuccessViewController alloc]init];
-    vc.validationCode = [notification object];
-    vc.merchantName = self.retailerName.text;
-    vc.value = self.value;
-    vc.giftType = self.giftType;
-    vc.optionalDesc = self.giftDetails.text;
     [self.navigationController pushViewController:vc animated:YES];
 
 }

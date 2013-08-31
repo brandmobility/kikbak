@@ -48,6 +48,7 @@
     self.backgroundView = [[UIView alloc] initWithFrame:CGRectMake(17, 38, self.frame.size.width - 34, self.frame.size.height - 56)];
     self.backgroundView.backgroundColor = UIColorFromRGB(0xE0E0E0);
     self.backgroundView.layer.cornerRadius = 10;
+    self.backgroundView.layer.masksToBounds = YES;
     [self addSubview:self.backgroundView];
     
     self.terms = [[UILabel alloc]initWithFrame:CGRectMake(35, 25, self.backgroundView.frame.size.width - 70, 44)];

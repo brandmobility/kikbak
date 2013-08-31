@@ -324,7 +324,9 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     self.captionTextView.textColor = UIColorFromRGB(0x9f9f9f);
 	self.captionTextView.delegate = self;
     self.captionTextView.layer.cornerRadius = 5;
+    self.captionTextView.layer.masksToBounds = YES;
     self.captionTextView.internalTextView.layer.cornerRadius = 5;
+    self.captionTextView.internalTextView.layer.masksToBounds = YES;
     self.captionTextView.backgroundColor = [UIColor whiteColor];
     [self.captionContainerView addSubview:self.captionTextView];
     

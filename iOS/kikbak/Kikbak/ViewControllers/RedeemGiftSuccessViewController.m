@@ -81,7 +81,13 @@
         self.seperator.frame = CGRectMake(11, 265, 298, 1);
         self.validationImage.frame = CGRectMake(60, 275, 200, 75);
         self.couponCode.frame = CGRectMake(0, 352, 320, 12);
-//        self.couponCode.textAlignment = NSTextAlignmentLeft;
+
+        if( [self.validationType compare:@"qrcode"] == NSOrderedSame){
+            self.validationImage.frame = CGRectMake(42, 275, 100, 100);
+            self.couponCode.frame = CGRectMake(180, 314, 150, 23);
+            self.couponCode.textAlignment = NSTextAlignmentLeft;
+            self.couponCode.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:21];
+        }
     }
 }
 
@@ -182,6 +188,12 @@
     self.couponCode.font = [UIFont fontWithName:@"HelveticaNeue" size:11];
     [self.view addSubview:self.couponCode];
     
+    if( [self.validationType compare:@"qrcode"] == NSOrderedSame){
+        self.validationImage.frame = CGRectMake(35, 335, 125, 125);
+        self.couponCode.frame = CGRectMake(185, 380, 150, 33);
+        self.couponCode.textAlignment = NSTextAlignmentLeft;
+        self.couponCode.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:30];
+    }
 }
 
 #pragma mark - on back btn

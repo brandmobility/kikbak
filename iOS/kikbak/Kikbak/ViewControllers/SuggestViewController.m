@@ -154,6 +154,7 @@
     self.business.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
     self.business.backgroundColor = [UIColor clearColor];
     self.business.layer.cornerRadius = 5;
+    self.business.layer.masksToBounds = YES;
     self.business.layer.borderWidth = 1;
     self.business.layer.borderColor = [UIColorFromRGB(0xb9b9b9) CGColor];
     self.businessShadow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"bg_textview_suggest_business"]];
@@ -171,6 +172,7 @@
     self.about.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
     self.about.backgroundColor = [UIColor clearColor];
     self.about.layer.cornerRadius = 5;
+    self.about.layer.masksToBounds = YES;
     self.about.layer.borderWidth = 1;
     self.about.layer.borderColor = [UIColorFromRGB(0xb9b9b9) CGColor];
     self.aboutShadow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"bg_textview_suggest_great"]];

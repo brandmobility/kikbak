@@ -59,6 +59,7 @@
     self.backgroundView = [[UIView alloc]initWithFrame:frame];
     self.backgroundView.backgroundColor = UIColorFromRGB(0xE0E0E0);
     self.backgroundView.layer.cornerRadius = 10;
+    self.backgroundView.layer.masksToBounds = YES;
     [self addSubview:self.backgroundView];
     
     self.cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
