@@ -68,12 +68,13 @@ class ImageManipulator
 
         if ($ios) {
             $this->image = imagerotate($tmp, 270, 0);
+            imagedestroy($tmp); 
+        } else {
+            $this->image = $tmp;
         }
 
         $this->width = imagesx($this->image);
         $this->height = imagesy($this->image);
-
-        imagedestroy($tmp); 
 
         return $this;
     }
