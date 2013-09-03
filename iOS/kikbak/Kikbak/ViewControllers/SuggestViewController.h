@@ -7,13 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <MessageUI/MessageUI.h>
-#import <MessageUI/MFMailComposeViewController.h>
 
 @interface SuggestViewController : UIViewController<UINavigationControllerDelegate,
                                                     UIImagePickerControllerDelegate,
                                                     UITextViewDelegate,
-                                                    MFMailComposeViewControllerDelegate,
                                                     UIAlertViewDelegate>
 
 @end

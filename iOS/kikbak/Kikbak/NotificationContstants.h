@@ -34,4 +34,6 @@ KIKBAK_EXTERN NSString *const kKikbakFBStoryPostSuccess;
 KIKBAK_EXTERN NSString *const kKikbakFBStoryPostError;
 KIKBAK_EXTERN NSString *const kKikbakQrcodeSuccess;
 KIKBAK_EXTERN NSString *const kKikbakQrcodeError;
+KIKBAK_EXTERN NSString *const kKikbakSuggestSuccess;
+KIKBAK_EXTERN NSString *const kKikbakSuggestError;
 

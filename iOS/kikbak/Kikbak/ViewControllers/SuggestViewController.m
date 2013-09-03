@@ -13,12 +13,19 @@
 #import "Flurry.h"
 #import "UIDevice+Screen.h"
 #import "UIImage+Manipulate.h"
+#import "NotificationContstants.h"
+#import "ImageUploadRequest.h"
+#import "SuggestBusinessRequest.h"
+#import "SpinnerView.h"
+#import "AppDelegate.h"
 
 @interface SuggestViewController (){
     bool photoTaken;
     float keyboardHeight;
     float keyboardOrigin;
 }
+
+@property(nonatomic, strong)SpinnerView* spinnerView;
 
 @property (nonatomic, strong) UIScrollView* scrollView;
 @property (nonatomic, strong) UIImageView* photoImage;
@@ -48,6 +55,11 @@
 -(IBAction)onBackBtn:(id)sender;
 -(IBAction)onTakePhotoBtn:(id)sender;
 -(IBAction)onSubmit:(id)sender;
+
+-(void) onImageUploadSuccess:(NSNotification*)notification;
+-(void) onImageUploadError:(NSNotification*)notification;
+-(void) onSuggestSuccess:(NSNotification*)notification;
+-(void) onSuggestError:(NSNotification*)notification;
 
 @end
 
@@ -88,6 +100,11 @@
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onImageUploadSuccess:) name:kKikbakImagePostSuccess object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onImageUploadError:) name:kKikbakImagePostError object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onSuggestSuccess:) name:kKikbakSuggestSuccess object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onSuggestError:) name:kKikbakSuggestError object:nil];
+    
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -99,6 +116,11 @@
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakImagePostSuccess object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakImagePostError object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakSuggestSuccess object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakSuggestError object:nil];
+
 
 }
 
@@ -317,27 +339,16 @@
         return;
     }
     
-    if(! [MFMailComposeViewController canSendMail]){
-        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:nil message:NSLocalizedString(@"configure mail", nil)
-                                                      delegate:self
-                                             cancelButtonTitle:nil
-                                             otherButtonTitles:NSLocalizedString(@"Ok", nil), nil];
-        [alert show];
-        return;
-    }
+    CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+    self.spinnerView = [[SpinnerView alloc]initWithFrame:frame];
+    [self.spinnerView startActivity];
+    [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:self.spinnerView];
+
     
-    MFMailComposeViewController* picker = [[MFMailComposeViewController alloc]init];
-    picker.mailComposeDelegate = self;
-    
-    NSArray* toRecipients = [[NSArray alloc]initWithObjects:@"ian.barile@gmail.com", nil];
-    [picker setToRecipients: toRecipients];
-    
-    [picker setSubject:self.business.text];
-    [picker setMessageBody:self.about.text isHTML:NO];
-    
-    [picker addAttachmentData:UIImagePNGRepresentation(self.photoImage.image) mimeType:@"image/png" fileName:@"suggested.png"];
-    
-    [self presentViewController:picker animated:YES completion:nil];
+    self.submit.enabled = NO;
+    ImageUploadRequest* request = [[ImageUploadRequest alloc]init];
+    request.image = self.photoImage.image;
+    [request postImage];
     
 }
 
@@ -345,6 +356,10 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     CGRect cropRect = CGRectMake(10, 50, 500, 500);
     
+    [self.takePhoto removeFromSuperview];
+    self.photoBtn.frame = CGRectMake(265, 11, 55, 55);
+    [self.photoBtn setImage:[UIImage imageNamed:@"ic_post_give_camera"] forState:UIControlStateNormal];
+
     UIImage* image = [info valueForKey:UIImagePickerControllerOriginalImage];
     image = [image imageByScalingAndCroppingForSize:CGSizeMake(640, 960)];
     self.photoImage.image =  [image imageCropToRect:cropRect];
@@ -383,25 +398,44 @@
 }
 
 
-#pragma mark - MFMailComposer Delegates
-// Dismisses the email composition interface when users tap Cancel or Send. Proceeds to update the message field with the result of the operation.
-- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
-{
-	// Notifies users about errors associated with the interface
-	switch (result)
-	{
-		case MFMailComposeResultCancelled:
-			break;
-		case MFMailComposeResultSaved:
-			break;
-		case MFMailComposeResultSent:
-			break;
-		case MFMailComposeResultFailed:
-			break;
-		default:
-			break;
-	}
-	[self dismissViewControllerAnimated:YES completion:nil];
+#pragma mark - notifications
+-(void) onImageUploadSuccess:(NSNotification*)notification{
+    SuggestBusinessRequest* request = [[SuggestBusinessRequest alloc]init];
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:3];
+    [dict setObject:[notification object] forKey:@"image_url"];
+    [dict setObject:self.about.text forKey:@"why"];
+    [dict setObject:self.business.text forKey:@"business_name"];
+    [request restRequest:dict];
+}
+
+-(void) onImageUploadError:(NSNotification*)notification{
+    [self.spinnerView removeFromSuperview];
+    self.submit.enabled = YES;
+    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:nil message:NSLocalizedString(@"Unable to suggest", nil)
+                                                  delegate:self
+                                         cancelButtonTitle:nil
+                                         otherButtonTitles:NSLocalizedString(@"Ok", nil), nil];
+    [alert show];
+}
+
+-(void) onSuggestSuccess:(NSNotification*)notification{
+    [self.spinnerView removeFromSuperview];
+    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:nil message:NSLocalizedString(@"Thank you", nil)
+                                                  delegate:self
+                                         cancelButtonTitle:nil
+                                         otherButtonTitles:NSLocalizedString(@"Ok", nil), nil];
+
+    [alert show];
+}
+
+-(void) onSuggestError:(NSNotification*)notification{
+    [self.spinnerView removeFromSuperview];
+    self.submit.enabled = YES;
+    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:nil message:NSLocalizedString(@"Unable to suggest", nil)
+                                                  delegate:self
+                                         cancelButtonTitle:nil
+                                         otherButtonTitles:NSLocalizedString(@"Ok", nil), nil];
+    [alert show];
 }
 
 

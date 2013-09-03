@@ -698,19 +698,18 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
             [self presentViewController:message animated:YES completion:nil];
         }
     }
+    [self.spinnerView removeFromSuperview];
 }
 
 -(void) onShareError:(NSNotification*)notification{
     UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:@"Wasn't able to reach kikbak servers. Try again later." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     alert.tag = CALL_URL_TAG;
     [alert show];
-
+    [self.spinnerView removeFromSuperview];
 }
 
 
 -(void) onImageUploadSuccess:(NSNotification*)notification{
-    [self.spinnerView removeFromSuperview];
-
     self.imageUrl = [notification object];
     CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
     ShareChannelSelectorView* view = [[ShareChannelSelectorView alloc]initWithFrame:frame];
@@ -721,7 +720,10 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 }
 
 -(void) onImageUploadError:(NSNotification*)notification{
-    
+    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:@"Wasn't able to reach kikbak servers. Try again later." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    alert.tag = CALL_URL_TAG;
+    [alert show];
+    [self.spinnerView removeFromSuperview];
 }
 
 -(void) onLocationUpdate:(NSNotification*)notification{
@@ -762,10 +764,16 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     }
     [request restRequest:dict];
     
+    [self.spinnerView removeFromSuperview];
+
 }
 
 -(void) onFBStoryPostError:(NSNotification *)notification{
+    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:@"Wasn't able to reach kikbak servers. Try again later." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    alert.tag = CALL_URL_TAG;
+    [alert show];
     
+    [self.spinnerView removeFromSuperview];
 }
 
 #pragma mark - ShareComplete Delegate
@@ -832,6 +840,9 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     obj.gift = self.giftDesctription.text;
     obj.detailedDescription = self.giftDescriptionOptional.text;
     [obj postCoupon:self.imageUrl];
+    
+    [self.spinnerView removeFromSuperview];
+
 }
 
 #pragma mark - MFMailComposer Delegates

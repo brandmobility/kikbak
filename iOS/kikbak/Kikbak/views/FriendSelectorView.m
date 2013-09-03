@@ -11,6 +11,7 @@
 #import "util.h"
 #import "Gift.h"
 #import <QuartzCore/QuartzCore.h>
+#import "UIDevice+Screen.h"
 #import "ShareInfo.h"
 
 @interface FriendSelectorView()
@@ -39,7 +40,10 @@
 }
 
 -(void)createSubviews{
-    self.backgroundView = [[UIView alloc] initWithFrame:CGRectMake(23, 90, self.frame.size.width - 46, 336)];
+    self.backgroundView = [[UIView alloc] initWithFrame:CGRectMake(23, 50, self.frame.size.width - 46, 336)];
+    if( ![UIDevice hasFourInchDisplay] ){
+        self.backgroundView.frame = CGRectMake(23, 50, self.frame.size.width - 46, 250);
+    }
     self.backgroundView.backgroundColor = UIColorFromRGB(0xE0E0E0);
     self.backgroundView.layer.cornerRadius = 10;
     self.backgroundView.layer.masksToBounds = YES;

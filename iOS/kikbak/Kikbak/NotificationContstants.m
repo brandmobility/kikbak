@@ -28,3 +28,5 @@ NSString *const kKikbakFBStoryPostSuccess = @"kKikbakFBStoryPostSuccess";
 NSString *const kKikbakFBStoryPostError = @"kKikbakFBStoryPostError";
 NSString *const kKikbakQrcodeSuccess = @"kKikbakQrcodeSuccess";
 NSString *const kKikbakQrcodeError = @"kKikbakQrcodeError";
+NSString *const kKikbakSuggestSuccess = @"kKikbakSuggestSuccess";
+NSString *const kKikbakSuggestError = @"kKikbakSuggestError";

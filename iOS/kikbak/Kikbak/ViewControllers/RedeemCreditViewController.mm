@@ -205,7 +205,7 @@
     self.redeemBtn.frame = CGRectMake(11, 453, 298, 40);
     [self.redeemBtn setBackgroundImage:[UIImage imageNamed:@"btn_blue"] forState:UIControlStateNormal];
     [self.redeemBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.redeemBtn setTitle:NSLocalizedString(@"Redeem QR Code", nil) forState:UIControlStateNormal];
+    [self.redeemBtn setTitle:NSLocalizedString(@"Redeem in Store", nil) forState:UIControlStateNormal];
     [self.redeemBtn addTarget:self action:@selector(onRedeem:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.redeemBtn];
     
