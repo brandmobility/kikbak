@@ -5,7 +5,7 @@
 var config = {
   backend: '',
   appId: 493383324061333,
-  landing: 'http://test.kikbak.me/m/kikbak/landing.html?code=',
+  landing: 'http://test.kikbak.me/c/',
   latitude: 37.42082770,
   longitude: -122.13043270
 }
