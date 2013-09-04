@@ -126,7 +126,7 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onBarcodeGeneratedSuccess:) name:kKikbakBarcodeSuccess object:nil];
     
     [self updateDistance];
-
+    [self manuallyLayoutSubviews];
     
     if(self.gift){
         NSString* imagePath = [ImagePersistor imageFileExists:self.shareInfo.allocatedGiftId imageType:UGC_GIVE_IMAGE_TYPE];
@@ -142,9 +142,15 @@
         self.friendName.text = self.shareInfo.friendName;
         self.caption.text = self.shareInfo.caption;
         self.retailerName.text = self.gift.merchantName;
+        
+        CGSize size = [self.caption.text sizeWithFont:self.caption.font
+                             constrainedToSize:CGSizeMake(self.caption.frame.size.width, self.caption.frame.size.height)
+                                 lineBreakMode:NSLineBreakByWordWrapping];
+        CGRect fr = self.caption.frame;
+        fr.size.height = size.height;
+        self.caption.frame = fr;
     }
     
-    [self manuallyLayoutSubviews];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
