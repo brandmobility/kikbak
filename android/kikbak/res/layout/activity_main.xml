@@ -10,15 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <FrameLayout
-        android:id="@+id/no_connection"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="no connection" />
-    </FrameLayout>
+    <include layout="@layout/no_connection" />
 
 </ViewFlipper>

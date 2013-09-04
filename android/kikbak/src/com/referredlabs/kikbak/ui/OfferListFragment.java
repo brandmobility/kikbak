@@ -1,6 +1,8 @@
 
 package com.referredlabs.kikbak.ui;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.location.Location;
 import android.os.Bundle;
@@ -20,11 +22,9 @@ import android.widget.ViewFlipper;
 import com.referredlabs.kikbak.C;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.service.LocationFinder;
-import com.referredlabs.kikbak.store.DataService;
+import com.referredlabs.kikbak.store.DataStore;
 import com.referredlabs.kikbak.store.OffersLoader;
 import com.referredlabs.kikbak.store.TheOffer;
-
-import java.util.List;
 
 public class OfferListFragment extends Fragment implements OnItemClickListener,
     LoaderCallbacks<List<TheOffer>>, OnClickListener {
@@ -105,14 +105,12 @@ public class OfferListFragment extends Fragment implements OnItemClickListener,
     } else {
       // if location is significantly better then fetch new list from server
       if (C.REFETCH_DISTANCE < mLastLocation.distanceTo(location)) {
-        DataService.getInstance().refreshOffers(true);
+        DataStore.getInstance().refreshOffers();
       }
       if (C.RECALCULATE_DISTANCE < mLastLocation.distanceTo(location)) {
         Loader<Object> l = getLoaderManager().getLoader(0);
         l.onContentChanged();
       }
-      // just recalculate distance map
-
     }
     mLastLocation = location;
   }
@@ -133,8 +131,7 @@ public class OfferListFragment extends Fragment implements OnItemClickListener,
 
   @Override
   public void onLoadFinished(Loader<List<TheOffer>> loader, List<TheOffer> result) {
-    OffersLoader myLoader = (OffersLoader) loader;
-    if (!myLoader.isPending() && result.isEmpty()) {
+    if (result == null || result.isEmpty()) {
       showEmpty();
     } else {
       mAdapter.swap(result);

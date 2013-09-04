@@ -199,8 +199,7 @@ public class RewardListFragment extends Fragment implements OnItemClickListener,
   @Override
   public void onLoadFinished(Loader<List<TheReward>> loader, List<TheReward> result) {
     mAdapter.swap(result);
-    RewardsLoader myLoader = (RewardsLoader) loader;
-    if (!myLoader.isPending() && result.isEmpty()) {
+    if (result == null || result.isEmpty()) {
       showEmpty();
     } else {
       mAdapter.swap(result);
