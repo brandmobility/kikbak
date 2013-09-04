@@ -1,3 +1,30 @@
+a.fb-button {
+    color: #FFF;
+    display: inline-block;
+    text-decoration: none;
+    margin-left:100px;
+}
+.fb-button {
+    background: #5F78AB;
+    background-image: url('https://static.xx.fbcdn.net/rsrc.php/v2/yx/r/j_i0CTUUUEe.png');
+    background-repeat: no-repeat;
+    background-position: -1px -1px;
+    border-top: 1px solid #29447E;
+    border-right: 1px solid #29447E;
+    border-bottom: 1px solid #1A356E;
+    border-left: 1px solid #29447E;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), inset 0 1px 0 #8A9CC2;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), inset 0 1px 0 #8a9cc2;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), inset 0 1px 0 #8A9CC2;
+    cursor: pointer;
+    font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
+    font-size: 18px;
+    height: 35px;
+    line-height: 35px;
+    padding: 0px 5px 0px 30px;
+    text-align: center;
+    width: 300px;
+}
 body { float:left; width:100%; margin:0; padding:0; font-family:Arial, Helvetica, sans-serif; color:#3a3a3a; font-size:16px; background:url(../img/bodyback-ptrn.png) 0 0  repeat;}
 a { text-decoration:none;}
 input, textarea {background:none repeat scroll 0 0 #fff;
@@ -55,7 +82,7 @@ border-radius: 10px; border:1px solid #69b4f6;
 box-shadow:         0 1px 2px #807E7E;
  font-size:22px;text-shadow: 0px -1px 0px #214e79;font-weight: bold;} .printbtn img { float:left; margin-right:15px;}
 
-.bdy-wpr {width:900px; margin:0 auto;min-height:600px;position:relative;}
+.bdy-wpr {width:900px; margin:0 auto;min-height:500px;position:relative;}
 .lft-colm {width:335px; padding:15px;background:#fff;
 -webkit-border-radius: 10px;
 -moz-border-radius: 10px;
@@ -254,5 +281,4 @@ p.ap-srt {
     margin: 0 2%;
     width: 96%;
 }
-
-		}
+}
