@@ -438,7 +438,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 
 #pragma mark - btn actions
 -(IBAction)onBackBtn:(id)sender{
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 
 }
 

@@ -18,10 +18,13 @@
 #import "Location.h"
 #import "TermsAndConditionsView.h"
 #import "AppDelegate.h"
+#import "SpinnerView.h"
 
 @interface RedeemCreditViewController ()
 
-@property(nonatomic,strong)NSNumber* creditToUse;
+@property (nonatomic,strong) NSNumber* creditToUse;
+
+@property (nonatomic,strong) SpinnerView* spinnerView;
 
 @property (nonatomic,strong) UIImageView* retailerImage;
 @property (nonatomic,strong) UIImageView* dropShadow;
@@ -242,6 +245,8 @@
 
 #pragma mark - NSNotification Handlers
 -(void) onRedeemKikbakSuccess:(NSNotification*)notification{
+    [self.spinnerView removeFromSuperview];
+    
     RedeemCreditSuccessViewController* vc = [[RedeemCreditSuccessViewController alloc] init];
     vc.creditUsed = self.creditToUse;
     vc.merchantName = self.retailerName.text;
@@ -252,7 +257,9 @@
 }
 
 -(void) onRedeemKikbakError:(NSNotification*)notification{
-    
+    [self.spinnerView removeFromSuperview];
+    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:@"Wasn't able to reach kikbak servers. Try again later." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    [alert show];
 }
 
 #pragma mark - UserCreditUpdate
@@ -263,6 +270,13 @@
 
 #pragma mark - zxing qrcode reader
 - (void)zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)result{
+    
+    CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+    self.spinnerView = [[SpinnerView alloc]initWithFrame:frame];
+    [self.spinnerView startActivity];
+    [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:self.spinnerView];
+    [self dismissViewControllerAnimated:NO completion:nil];
+    
     NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:3];
     [dict setObject:self.credit.creditId forKey:@"id"];
     Location* location = [self.credit.location anyObject];
@@ -278,7 +292,7 @@
 }
 
 - (void)zxingControllerDidCancel:(ZXingWidgetController*)controller{
-    
+    [self dismissViewControllerAnimated:YES completion:nil];   
 }
 
 @end

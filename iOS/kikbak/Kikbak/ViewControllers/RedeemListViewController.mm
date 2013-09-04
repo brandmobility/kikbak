@@ -209,7 +209,7 @@ const int CELL_HEIGHT = 206;
     self.seeOffersBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.seeOffersBtn.frame = CGRectMake(45, 285, 230, 40);
     [self.seeOffersBtn setBackgroundImage:[UIImage imageNamed:@"btn_blue"] forState:UIControlStateNormal];
-    [self.seeOffersBtn setTitle:NSLocalizedString(@"Share with friends", nil) forState:UIControlStateNormal];
+    [self.seeOffersBtn setTitle:NSLocalizedString(@"See Offers", nil) forState:UIControlStateNormal];
     [self.seeOffersBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.seeOffersBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15];
     [self.seeOffersBtn addTarget:self action:@selector(onGiveBtn:) forControlEvents:UIControlEventTouchUpInside];

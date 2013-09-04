@@ -11,6 +11,8 @@
 #import "Gift.h"
 #import "util.h"
 #import "UIButton+Util.h"
+#import "GiveViewController.h"
+#import "OfferService.h"
 
 @interface RedeemGiftSuccessViewController ()
 
@@ -32,8 +34,15 @@
 @property (nonatomic, strong) UIImageView* validationImage;
 @property (nonatomic, strong) UILabel* couponCode;
 
+@property (nonatomic, strong) UILabel* share;
+@property (nonatomic, strong) UILabel* earn;
+
+@property (nonatomic, strong) UIButton* giveBtn;
+
 -(void)createSubviews;
 -(void)manuallyLayoutSubviews;
+
+-(IBAction)onGiveBtn:(id)sender;
 
 @end
 
@@ -70,24 +79,33 @@
         self.retailerBG.frame = CGRectMake(0, 0, 320, 59);
         self.dropShadow.frame = CGRectMake(0, 0, 320, 4);
         self.retailerName.frame = CGRectMake(0, 17, 320, 34);
-        self.successBG.frame = CGRectMake(0, 59, 320, 79);
-        self.success.frame = CGRectMake(0, 14, 320, 23);
-        self.claimedGift.frame = CGRectMake(0, 40, 320, 15);
-        self.showScreen.frame = CGRectMake(0, 55, 320, 15);
-        self.dottedSeperator.frame = CGRectMake(0, 138, 320, 2);
-        self.offer.frame = CGRectMake(0, 157, 320, 28);
-        self.desc.frame = CGRectMake(0, 185, 320, 48);
-        self.details.frame = CGRectMake(0, 225, 320, 26);
-        self.seperator.frame = CGRectMake(11, 265, 298, 1);
-        self.validationImage.frame = CGRectMake(60, 275, 200, 75);
-        self.couponCode.frame = CGRectMake(0, 352, 320, 12);
+        self.successBG.frame = CGRectMake(0, 59, 320, 50);
+
+        self.success.frame = CGRectMake(50, 10, 320, 15);
+        self.success.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:13];
+        self.success.textAlignment = NSTextAlignmentLeft;
+        self.claimedGift.frame = CGRectMake(111, 10, 320, 15);
+        self.claimedGift.textAlignment = NSTextAlignmentLeft;
+        self.showScreen.frame = CGRectMake(0, 27, 320, 15);
+        self.dottedSeperator.frame = CGRectMake(0, 109, 320, 2);
+        
+        self.offer.frame = CGRectMake(0, 122, 320, 28);
+        self.desc.frame = CGRectMake(0, 146, 320, 48);
+        self.details.frame = CGRectMake(0, 184, 320, 26);
+        self.seperator.frame = CGRectMake(11, 208, 298, 1);
+        self.validationImage.frame = CGRectMake(60, 232, 200, 75);
+        self.couponCode.frame = CGRectMake(0, 307, 320, 12);
 
         if( [self.validationType compare:@"qrcode"] == NSOrderedSame){
-            self.validationImage.frame = CGRectMake(42, 275, 100, 100);
-            self.couponCode.frame = CGRectMake(180, 314, 150, 23);
+            self.validationImage.frame = CGRectMake(42, 220, 100, 100);
+            self.couponCode.frame = CGRectMake(180, 255, 150, 23);
             self.couponCode.textAlignment = NSTextAlignmentLeft;
-            self.couponCode.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:21];
+            self.couponCode.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:22];
         }
+        
+        self.earn.frame = CGRectMake(0, 325, 320, 15);
+        self.earn.frame = CGRectMake(0, 342, 320, 15);
+        self.giveBtn.frame = CGRectMake(11, 365, 298, 40);
     }
 }
 
@@ -143,7 +161,7 @@
     self.dottedSeperator.image = [UIImage imageNamed:@"separater_dots_gift_success"];
     [self.view addSubview:self.dottedSeperator];
     
-    self.offer = [[UILabel alloc]initWithFrame:CGRectMake(0, 194, 320, 28)];
+    self.offer = [[UILabel alloc]initWithFrame:CGRectMake(0, 190, 320, 28)];
     self.offer.text = NSLocalizedString(@"Gift", nil);
     self.offer.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:26];
     self.offer.textColor = UIColorFromRGB(0x9c9c9c);
@@ -151,7 +169,7 @@
     self.offer.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.offer];
     
-    self.desc = [[UILabel alloc]initWithFrame:CGRectMake(0, 220, 320, 44)];
+    self.desc = [[UILabel alloc]initWithFrame:CGRectMake(0, 215, 320, 44)];
     if ([self.giftType compare:@"percentage"] == NSOrderedSame) {
         self.desc.text = [NSString stringWithFormat:NSLocalizedString(@"gift percent", nil), [self.value integerValue]];
     }
@@ -164,7 +182,7 @@
     self.desc.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:41];
     [self.view addSubview:self.desc];
     
-    self.details = [[UILabel alloc]initWithFrame:CGRectMake(0, 255, 320, 26)];
+    self.details = [[UILabel alloc]initWithFrame:CGRectMake(0, 259, 320, 15)];
     self.details.text = self.optionalDesc;
     self.details.textAlignment = NSTextAlignmentCenter;
     self.details.backgroundColor = [UIColor clearColor];
@@ -172,15 +190,15 @@
     self.details.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
     [self.view addSubview:self.details];
     
-    self.seperator = [[UIImageView alloc]initWithFrame:CGRectMake(11, 298, 298, 1)];
+    self.seperator = [[UIImageView alloc]initWithFrame:CGRectMake(11, 406, 298, 1)];
     self.seperator.image = [UIImage imageNamed:@"separator_gray_line"];
     [self.view addSubview:self.seperator];
     
-    self.validationImage = [[UIImageView alloc]initWithFrame:CGRectMake(60, 321, 200, 75)];
+    self.validationImage = [[UIImageView alloc]initWithFrame:CGRectMake(60, 295, 200, 75)];
     self.validationImage.image = [UIImage imageWithContentsOfFile:self.imagePath];
     [self.view addSubview:self.validationImage];
     
-    self.couponCode = [[UILabel alloc] initWithFrame:CGRectMake(0, 397, 320, 12)];
+    self.couponCode = [[UILabel alloc] initWithFrame:CGRectMake(0, 376, 320, 12)];
     self.couponCode.text = self.validationCode;
     self.couponCode.textAlignment = NSTextAlignmentCenter;
     self.couponCode.backgroundColor = [UIColor clearColor];
@@ -189,17 +207,47 @@
     [self.view addSubview:self.couponCode];
     
     if( [self.validationType compare:@"qrcode"] == NSOrderedSame){
-        self.validationImage.frame = CGRectMake(35, 335, 125, 125);
-        self.couponCode.frame = CGRectMake(185, 380, 150, 33);
+        self.validationImage.frame = CGRectMake(35, 285, 100, 100);
+        self.couponCode.frame = CGRectMake(185, 324, 150, 33);
         self.couponCode.textAlignment = NSTextAlignmentLeft;
         self.couponCode.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:30];
     }
+    
+    self.share = [[UILabel alloc] initWithFrame:CGRectMake(0, 415, 320, 15)];
+    self.share.text = NSLocalizedString(@"Share with friends", nil);
+    self.share.textAlignment = NSTextAlignmentCenter;
+    self.share.backgroundColor = [UIColor clearColor];
+    self.share.textColor = UIColorFromRGB(0x3a3a3a);
+    self.share.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
+    [self.view addSubview:self.share];
+
+    self.earn = [[UILabel alloc] initWithFrame:CGRectMake(0, 429, 320, 15)];
+    self.earn.text = NSLocalizedString(@"Earn for friend", nil);
+    self.earn.textAlignment = NSTextAlignmentCenter;
+    self.earn.backgroundColor = [UIColor clearColor];
+    self.earn.textColor = UIColorFromRGB(0x3a3a3a);
+    self.earn.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
+    [self.view addSubview:self.earn];
+    
+    self.giveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.giveBtn setBackgroundImage:[UIImage imageNamed:@"btn_blue"] forState:UIControlStateNormal];
+    [self.giveBtn setTitle:NSLocalizedString(@"Give to Friends", nil) forState:UIControlStateNormal];
+    [self.giveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.giveBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:15];
+    self.giveBtn.frame = CGRectMake(11, 453, 298, 40);
+    [self.giveBtn addTarget:self action:@selector(onGiveBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.giveBtn];
 }
 
-#pragma mark - on back btn
+#pragma mark - btn actions
 -(IBAction)onBackBtn:(id)sender{
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
+-(IBAction)onGiveBtn:(id)sender{
+    GiveViewController* vc = [[GiveViewController alloc]init];
+    vc.offer = [OfferService findOfferById:self.offerId];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 @end

@@ -59,6 +59,7 @@
     gift.tosUrl = [dict objectForKey:@"tosUrl"];
     gift.defaultGiveImageUrl = [dict objectForKey:@"defaultGiveImageUrl"];
     gift.value = [dict objectForKey:@"value"];
+    gift.offerId = [dict objectForKey:@"offerId"];
     
     NSArray* shares = [dict objectForKey:@"shareInfo"];
     for( id shareInfo in shares){
