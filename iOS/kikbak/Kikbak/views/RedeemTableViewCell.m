@@ -213,10 +213,18 @@ const int CELL_HEIGHT = 147;
     if( self.rewards.gift){
         [self.rewardBackground addSubview:self.gift];
         [self.rewardBackground addSubview:self.giftValue];
+        
+        ShareInfo* shareInfo = [self.rewards.gift.shareInfo anyObject];
+        NSString* imagePath = [ImagePersistor imageFileExists:shareInfo.fbFriendId imageType:FRIEND_IMAGE_TYPE];
+        if(imagePath != nil){
+            self.friendImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
+        }
+        
         if( [self.rewards.gift.shareInfo count] > 1){
             [self.rewardBackground addSubview:self.friendFrame];
         }
         [self.rewardBackground addSubview:self.friendImage];
+        
         [self setupGift];
     }
     
@@ -295,17 +303,6 @@ const int CELL_HEIGHT = 147;
         [self addSubview:self.creditBtn];
     }
     else{
-        ShareInfo* shareInfo = [self.rewards.gift.shareInfo anyObject];
-        NSString* imagePath = [ImagePersistor imageFileExists:shareInfo.fbFriendId imageType:FRIEND_IMAGE_TYPE];
-        if(imagePath != nil){
-            self.friendImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
-        }
-        
-        if( [self.rewards.gift.shareInfo count] > 1){
-            [self addSubview:self.friendFrame];
-        }
-        [self addSubview:self.friendImage];
-
         self.giftBtn.frame = CGRectMake(0, 140, 320, 47);
         [self addSubview:self.giftBtn];
     }

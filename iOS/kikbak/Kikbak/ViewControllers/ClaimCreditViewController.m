@@ -12,6 +12,7 @@
 #import "AppDelegate.h"
 #import "util.h"
 #import "NotificationContstants.h"
+#import "UIDevice+Screen.h"
 
 @interface ClaimCreditViewController ()
 
@@ -194,7 +195,9 @@
 }
 
 -(void)manuallyLayoutSubviews{
-    
+    if( ![UIDevice hasFourInchDisplay]){
+        [self.scrollView setContentSize: CGSizeMake(320, 560)];
+    }
 }
 
 
@@ -215,11 +218,21 @@
 }
 
 -(IBAction)keyboardWillShow:(NSNotification*)notification{
-    
+    if( ![UIDevice hasFourInchDisplay]){
+        [self.scrollView setContentSize: CGSizeMake(320, 820)];
+    }
+    else{
+        [self.scrollView setContentSize: CGSizeMake(320, 730)];
+    }
 }
 
 -(IBAction)keyboardWillHide:(NSNotification*)notification{
-    
+    if( ![UIDevice hasFourInchDisplay]){
+        [self.scrollView setContentSize: CGSizeMake(320, 560)];
+    }
+    else{
+        [self.scrollView setContentSize: CGSizeMake(320, 515)];
+    }
 }
 
 -(void)showError{

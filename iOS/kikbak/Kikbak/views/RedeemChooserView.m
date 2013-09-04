@@ -73,7 +73,7 @@
     self.selectOne.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:21];
     self.selectOne.textAlignment = NSTextAlignmentCenter;
     self.selectOne.backgroundColor = [UIColor clearColor];
-    self.selectOne.text = NSLocalizedString(@"Redeem Select", nil);
+    self.selectOne.text = NSLocalizedString(@"Select One", nil);
     [self.backgroundView addSubview:self.selectOne];
 
     self.redeem = [[UILabel alloc]initWithFrame:CGRectMake(12, 40, frame.size.width - 24, 23)];

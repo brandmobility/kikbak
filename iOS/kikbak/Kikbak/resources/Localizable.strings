@@ -38,6 +38,7 @@
 "suggest required" = "Please tell us about the business you want to suggest";
 "configure mail" = "Please configure phone to send email";
 "Wasn't able to reach kikbak servers. Try again later." = "Wasn't able to reach kikbak servers. Try again later.";
+"Thank you" = "Thank you for suggesting a business.";
 
 "miles away" = "%@ mi";
 "call" = "call";
@@ -94,6 +95,7 @@
 "You haven't received any gifts or earned any credit" = "You haven't received any gifts or earned any credit";
 "Change empty gifts" = "You can change that by giving an offer to your friends. You'll earn credit for every friend that redeems.";
 "See Offers" = "See offers to give to friends";
+"Unable to suggest" = "Unable to contact kikbak servers. Please check your network connect.";
 
 //terms screen
 "Done" = "Done";

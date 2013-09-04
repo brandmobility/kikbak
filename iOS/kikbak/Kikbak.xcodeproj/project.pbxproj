@@ -46,6 +46,7 @@
 		3C0F26DA1787686B00472352 /* grd_offer_cell_bottom@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C0F26D81787686B00472352 /* grd_offer_cell_bottom@2x.png */; };
 		3C2261B617434974001F0681 /* HPGrowingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C2261B317434974001F0681 /* HPGrowingTextView.m */; };
 		3C2261B717434974001F0681 /* HPTextViewInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C2261B517434974001F0681 /* HPTextViewInternal.m */; };
+		3C254BB317D3260500B279C7 /* SuggestBusinessRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C254BB217D3260500B279C7 /* SuggestBusinessRequest.m */; };
 		3C2980331772C73300026E14 /* separator_redeem_gift.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C2980311772C73300026E14 /* separator_redeem_gift.png */; };
 		3C2980341772C73300026E14 /* separator_redeem_gift@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C2980321772C73300026E14 /* separator_redeem_gift@2x.png */; };
 		3C29803D177570D100026E14 /* img.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C29803B177570D100026E14 /* img.png */; };
@@ -325,6 +326,8 @@
 		3C2261B317434974001F0681 /* HPGrowingTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPGrowingTextView.m; sourceTree = "<group>"; };
 		3C2261B417434974001F0681 /* HPTextViewInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPTextViewInternal.h; sourceTree = "<group>"; };
 		3C2261B517434974001F0681 /* HPTextViewInternal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTextViewInternal.m; sourceTree = "<group>"; };
+		3C254BB117D3260500B279C7 /* SuggestBusinessRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuggestBusinessRequest.h; sourceTree = "<group>"; };
+		3C254BB217D3260500B279C7 /* SuggestBusinessRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuggestBusinessRequest.m; sourceTree = "<group>"; };
 		3C2980311772C73300026E14 /* separator_redeem_gift.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = separator_redeem_gift.png; sourceTree = "<group>"; };
 		3C2980321772C73300026E14 /* separator_redeem_gift@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "separator_redeem_gift@2x.png"; sourceTree = "<group>"; };
 		3C29803B177570D100026E14 /* img.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img.png; sourceTree = "<group>"; };
@@ -1094,6 +1097,8 @@
 				3CB9FC7317B6189A0071B8B4 /* ShareResult.m */,
 				3C6D4F9417CC815F00BB5425 /* QRCodeImageReqest.h */,
 				3C6D4F9517CC815F00BB5425 /* QRCodeImageReqest.m */,
+				3C254BB117D3260500B279C7 /* SuggestBusinessRequest.h */,
+				3C254BB217D3260500B279C7 /* SuggestBusinessRequest.m */,
 			);
 			name = http;
 			path = Kikbak/http;
@@ -1488,6 +1493,7 @@
 				3CB9FC9417C7541E0071B8B4 /* KikbakTextField.m in Sources */,
 				3CB9FC9717C9EE9F0071B8B4 /* ClaimSuccessView.m in Sources */,
 				3C6D4F9617CC815F00BB5425 /* QRCodeImageReqest.m in Sources */,
+				3C254BB317D3260500B279C7 /* SuggestBusinessRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1553,7 +1559,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/FacebookSDK/3.5.3\"",
+					"\"$(SRCROOT)/FacebookSDK/3.7.1\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Kikbak/Kikbak-Prefix.pch";
@@ -1629,7 +1635,7 @@
 				CLANG_CXX_LIBRARY = "compiler-default";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/FacebookSDK/3.5.3\"",
+					"\"$(SRCROOT)/FacebookSDK/3.7.1\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Kikbak/Kikbak-Prefix.pch";
@@ -1654,7 +1660,7 @@
 				CLANG_CXX_LIBRARY = "compiler-default";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/FacebookSDK/3.5.3\"",
+					"\"$(SRCROOT)/FacebookSDK/3.7.1\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Kikbak/Kikbak-Prefix.pch";
