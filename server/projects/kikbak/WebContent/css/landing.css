@@ -2,7 +2,7 @@ a.fb-button {
     color: #FFF;
     display: inline-block;
     text-decoration: none;
-    margin-left:100px;
+    margin-left:8%;
 }
 .fb-button {
     background: #5F78AB;
@@ -23,7 +23,7 @@ a.fb-button {
     line-height: 35px;
     padding: 0px 5px 0px 30px;
     text-align: center;
-    width: 300px;
+    width: 72%;
 }
 body { float:left; width:100%; margin:0; padding:0; font-family:Arial, Helvetica, sans-serif; color:#3a3a3a; font-size:16px; background:url(../img/bodyback-ptrn.png) 0 0  repeat;}
 a { text-decoration:none;}
