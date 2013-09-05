@@ -1135,7 +1135,7 @@ function shareViaEmail() {
 function shareViaFacebook() {
   $('#spinner h2').html('Sharing gift');
   doShare(function(code, msg, imageUrl, resp) {
-    var fbUrl = resp.template.body;
+    var fbUrl = resp.template.landingUrl;
     var o = {
       'app_id' : config.appId,
       'url' : fbUrl.replace(/\//g, '\/'),

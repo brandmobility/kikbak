@@ -125,9 +125,7 @@ public class SharedController extends AbstractController {
 						template.setBody(body);
 					}
 				}
-				if (StringUtils.isBlank(template.getBody())) {
-					template.setBody(loginUrl);
-				}
+				template.setLandingUrl(loginUrl);
 			} catch (Exception e) {
 				httpResponse
 						.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
