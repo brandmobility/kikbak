@@ -25,6 +25,7 @@
         <attribute name="merchantName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="merchantUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="offerId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="redemptionLocationType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="tosUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="validationType" optional="YES" attributeType="String" syncable="YES"/>
@@ -75,7 +76,7 @@
     </entity>
     <elements>
         <element name="Credit" positionX="160" positionY="192" width="128" height="255"/>
-        <element name="Gift" positionX="-5807" positionY="-495" width="128" height="253"/>
+        <element name="Gift" positionX="-5807" positionY="-495" width="128" height="270"/>
         <element name="Location" positionX="-5544" positionY="-567" width="128" height="163"/>
         <element name="Offer" positionX="-5247" positionY="-585" width="128" height="345"/>
         <element name="ShareInfo" positionX="-873" positionY="-135" width="128" height="150"/>

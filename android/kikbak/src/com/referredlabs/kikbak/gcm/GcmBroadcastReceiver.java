@@ -7,7 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.referredlabs.kikbak.store.DataService;
+import com.referredlabs.kikbak.store.DataStore;
 
 public class GcmBroadcastReceiver extends BroadcastReceiver {
 
@@ -26,7 +26,7 @@ public class GcmBroadcastReceiver extends BroadcastReceiver {
       String msg = intent.getStringExtra(KEY_MSG);
 
       NotificationController.getInstance().showNotification(type, msg);
-      DataService.getInstance().refreshRewards(true);
+      DataStore.getInstance().refreshRewards();
     }
     setResultCode(Activity.RESULT_OK);
   }

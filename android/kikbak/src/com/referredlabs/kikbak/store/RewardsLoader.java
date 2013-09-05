@@ -1,6 +1,12 @@
 
 package com.referredlabs.kikbak.store;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.location.Location;
@@ -10,17 +16,10 @@ import com.referredlabs.kikbak.data.AvailableCreditType;
 import com.referredlabs.kikbak.data.GiftType;
 import com.referredlabs.kikbak.service.LocationFinder;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-
 public class RewardsLoader extends AsyncTaskLoader<List<TheReward>> {
 
   Observer mObserver;
   DataStore mStore;
-  boolean mPendingUpdate;
 
   public RewardsLoader(Context context) {
     super(context);
@@ -41,39 +40,43 @@ public class RewardsLoader extends AsyncTaskLoader<List<TheReward>> {
   @Override
   public List<TheReward> loadInBackground() {
 
-    mPendingUpdate = DataService.getInstance().refreshRewards(false);
-    List<GiftType> gifts = mStore.getGifts();
-    List<AvailableCreditType> credits = mStore.getCredits();
+    try {
+      List<GiftType> gifts = mStore.getGifts();
+      List<AvailableCreditType> credits = mStore.getCredits();
 
-    Location current = LocationFinder.getLastLocation();
-    double latitude = current.getLatitude();
-    double longitude = current.getLongitude();
+      Location current = LocationFinder.getLastLocation();
+      double latitude = current.getLatitude();
+      double longitude = current.getLongitude();
 
-    HashMap<Long, TheReward> map = new HashMap<Long, TheReward>();
+      HashMap<Long, TheReward> map = new HashMap<Long, TheReward>();
 
-    for (GiftType gift : gifts) {
-      long id = gift.offerId;
-      TheReward entry = map.get(id);
-      if (entry == null) {
-        entry = new TheReward(id, gift.merchant, latitude, longitude);
-        map.put(id, entry);
+      for (GiftType gift : gifts) {
+        long id = gift.offerId;
+        TheReward entry = map.get(id);
+        if (entry == null) {
+          entry = new TheReward(id, gift.merchant, latitude, longitude);
+          map.put(id, entry);
+        }
+        entry.addGift(gift);
       }
-      entry.addGift(gift);
-    }
 
-    for (AvailableCreditType credit : credits) {
-      long id = credit.offerId;
-      TheReward entry = map.get(id);
-      if (entry == null) {
-        entry = new TheReward(id, credit.merchant, latitude, longitude);
-        map.put(id, entry);
+      for (AvailableCreditType credit : credits) {
+        long id = credit.offerId;
+        TheReward entry = map.get(id);
+        if (entry == null) {
+          entry = new TheReward(id, credit.merchant, latitude, longitude);
+          map.put(id, entry);
+        }
+        entry.addCredit(credit);
       }
-      entry.addCredit(credit);
-    }
 
-    ArrayList<TheReward> result = new ArrayList<TheReward>(map.values());
-    sort(result);
-    return result;
+      ArrayList<TheReward> result = new ArrayList<TheReward>(map.values());
+      sort(result);
+      return result;
+    } catch (Exception e) {
+      // ignore
+    }
+    return null;
   }
 
   private void sort(ArrayList<TheReward> result) {
@@ -93,14 +96,9 @@ public class RewardsLoader extends AsyncTaskLoader<List<TheReward>> {
     mStore.unregisterRewardsObserver(mObserver);
   }
 
-  public boolean isPending() {
-    return mPendingUpdate;
-  }
-
   private class Observer extends DataSetObserver {
     public void onChanged() {
       onContentChanged();
     };
   }
-
 }

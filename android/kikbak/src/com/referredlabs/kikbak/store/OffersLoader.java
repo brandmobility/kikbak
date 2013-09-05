@@ -18,7 +18,6 @@ public class OffersLoader extends AsyncTaskLoader<List<TheOffer>> {
 
   Observer mObserver;
   DataStore mStore;
-  boolean mPendingUpdate;
 
   public OffersLoader(Context context) {
     super(context);
@@ -38,22 +37,26 @@ public class OffersLoader extends AsyncTaskLoader<List<TheOffer>> {
 
   @Override
   public ArrayList<TheOffer> loadInBackground() {
-    mPendingUpdate = DataService.getInstance().refreshOffers(false);
 
-    Location current = LocationFinder.getLastLocation();
-    double latitude = current.getLatitude();
-    double longitude = current.getLongitude();
+    try {
+      List<ClientOfferType> offers = mStore.getOffers();
 
-    ArrayList<TheOffer> result = new ArrayList<TheOffer>();
-    List<ClientOfferType> offers = mStore.getOffers();
+      Location current = LocationFinder.getLastLocation();
+      double latitude = current.getLatitude();
+      double longitude = current.getLongitude();
 
-    for (ClientOfferType offer : offers) {
-      TheOffer theOffer = new TheOffer(offer.id, offer, latitude, longitude);
-      result.add(theOffer);
+      ArrayList<TheOffer> result = new ArrayList<TheOffer>();
+      for (ClientOfferType offer : offers) {
+        TheOffer theOffer = new TheOffer(offer.id, offer, latitude, longitude);
+        result.add(theOffer);
+      }
+
+      sort(result);
+      return result;
+    } catch (Exception e) {
+      // ignore for now
     }
-
-    sort(result);
-    return result;
+    return null;
   }
 
   private void sort(ArrayList<TheOffer> result) {
@@ -71,10 +74,6 @@ public class OffersLoader extends AsyncTaskLoader<List<TheOffer>> {
   protected void onReset() {
     super.onReset();
     mStore.unregisterOffersObserver(mObserver);
-  }
-
-  public boolean isPending() {
-    return mPendingUpdate;
   }
 
   private class Observer extends DataSetObserver {

@@ -20,5 +20,6 @@
 @property (nonatomic, strong) NSString* validationCode;
 @property (nonatomic, strong) NSString* imagePath;
 @property (nonatomic, strong) NSString* validationType;
+@property (nonatomic, strong) NSNumber* offerId;
 
 @end

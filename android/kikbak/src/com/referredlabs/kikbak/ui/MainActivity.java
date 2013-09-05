@@ -16,7 +16,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -28,13 +27,11 @@ import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.AvailableCreditType;
 import com.referredlabs.kikbak.data.GiftType;
 import com.referredlabs.kikbak.gcm.GcmHelper;
-import com.referredlabs.kikbak.gcm.NotificationController;
 import com.referredlabs.kikbak.service.LocationFinder;
 import com.referredlabs.kikbak.service.LocationFinder.LocationFinderListener;
-import com.referredlabs.kikbak.store.DataService;
+import com.referredlabs.kikbak.store.DataStore;
 import com.referredlabs.kikbak.store.TheOffer;
 import com.referredlabs.kikbak.store.TheReward;
-import com.referredlabs.kikbak.test.Launcher;
 import com.referredlabs.kikbak.ui.OfferListFragment.OnOfferClickedListener;
 import com.referredlabs.kikbak.ui.RewardListFragment.OnRedeemListener;
 import com.referredlabs.kikbak.utils.Register;
@@ -67,8 +64,6 @@ public class MainActivity extends KikbakActivity implements ActionBar.TabListene
     GcmHelper.getInstance().registerIfNeeded();
     mLocationFinder = new LocationFinder(this);
     setupViews();
-    DataService.getInstance().refreshOffers(true);
-    DataService.getInstance().refreshRewards(true);
   }
 
   void setupViews() {
@@ -82,10 +77,12 @@ public class MainActivity extends KikbakActivity implements ActionBar.TabListene
     }
 
     mViewFlipper = (ViewFlipper) findViewById(R.id.flipper);
-    if (!isConnected()) {
+    setupActionBar();
+
+    mIsConnected = isConnected();
+    if (!mIsConnected && DataStore.getInstance().isEmpty()) {
       mViewFlipper.setDisplayedChild(1);
     }
-    setupActionBar();
   }
 
   void setupActionBar() {
@@ -167,8 +164,8 @@ public class MainActivity extends KikbakActivity implements ActionBar.TabListene
       case R.id.action_fixed_location:
         C.USE_FIXED_LOCATION = !C.USE_FIXED_LOCATION;
         item.setChecked(C.USE_FIXED_LOCATION);
-        DataService.getInstance().refreshRewards(true);
-        DataService.getInstance().refreshOffers(true);
+        DataStore.getInstance().refreshRewards();
+        DataStore.getInstance().refreshOffers();
         return true;
 
       case R.id.action_demo_server:
@@ -265,19 +262,31 @@ public class MainActivity extends KikbakActivity implements ActionBar.TabListene
     mNetworkStateReceiver = new BroadcastReceiver() {
       @Override
       public void onReceive(Context context, Intent intent) {
-        boolean isConnected = isConnected();
-        // if (isConnected != mIsConnected) {
-        // mIsConnected = isConnected;
-        // mViewFlipper.setDisplayedChild(isConnected ? 0 : 1);
-        // }
-        Log.w("MMM", "connected:" + isConnected);
+        connectionChanged();
       }
     };
 
     IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
     registerReceiver(mNetworkStateReceiver, filter);
+  }
+
+  private void connectionChanged() {
+    boolean wasConnected = mIsConnected;
     mIsConnected = isConnected();
-    mViewFlipper.setDisplayedChild(mIsConnected ? 0 : 1);
+
+    if (wasConnected && !mIsConnected) {
+      // disconnected
+      if (DataStore.getInstance().isEmpty()) {
+        // no connection and no offers or rewards, let show no connection
+        mViewFlipper.setDisplayedChild(1);
+      }
+    }
+    if (!wasConnected && mIsConnected) {
+      // re-connected
+      mViewFlipper.setDisplayedChild(0);
+      DataStore.getInstance().refreshOffers();
+      DataStore.getInstance().refreshRewards();
+    }
   }
 
   @Override

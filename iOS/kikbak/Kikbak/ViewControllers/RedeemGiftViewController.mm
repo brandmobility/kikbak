@@ -25,6 +25,7 @@
 #import "BarcodeImageRequest.h"
 #import "TermsAndConditionsView.h"
 #import "ShareInfo.h"
+#import "SpinnerView.h"
 
 
 @interface RedeemGiftViewController (){
@@ -32,6 +33,8 @@
 }
 
 @property(nonatomic,strong) Location* location;
+
+@property(nonatomic, strong)SpinnerView* spinnerView;
 
 @property(nonatomic,strong) UIImageView* giftImage;
 @property(nonatomic,strong) UIImageView* giftGradient;
@@ -369,6 +372,11 @@
 
 #pragma mark - qrcode scanner callbacks
 - (void)zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)result {
+    
+    CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+    self.spinnerView = [[SpinnerView alloc]initWithFrame:frame];
+    [self.spinnerView startActivity];
+    [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:self.spinnerView];
     [self dismissViewControllerAnimated:NO completion:nil];
     
     RedeemGiftRequest *request = [[RedeemGiftRequest alloc]init];
@@ -414,6 +422,7 @@
     vc.giftType = self.giftType;
     vc.optionalDesc = self.giftDetails.text;
     vc.validationType = self.gift.validationType;
+    vc.offerId = self.gift.offerId;
     
     self.gift.location = nil;
     NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
@@ -425,13 +434,14 @@
     }
     self.gift = nil;
 
-    
+    [self.spinnerView removeFromSuperview];
     [self.navigationController pushViewController:vc animated:YES];
-
 }
 
 -(void) onRedeemGiftError:(NSNotification*)notification{
-    
+    [self.spinnerView removeFromSuperview];
+    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:@"Wasn't able to reach kikbak servers. Try again later." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    [alert show];
 }
 
 -(void) onBarcodeGeneratedSuccess:(NSNotification*)notification{
@@ -441,6 +451,7 @@
     vc.giftType = self.giftType;
     vc.validationType = self.gift.validationType;
     vc.optionalDesc = self.giftDetails.text;
+    vc.offerId = self.gift.offerId;
     vc.imagePath = [[notification object] objectForKey:@"imagePath"];
     vc.validationCode = [[notification object] objectForKey:@"barcode"];
     [self.navigationController pushViewController:vc animated:YES];
