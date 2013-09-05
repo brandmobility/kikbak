@@ -75,13 +75,31 @@ static NSString* resource = @"user/register/fb/";
                 
                 RewardRequest* rewaredRequest = [[RewardRequest alloc]init];
                 [rewaredRequest restRequest:[[NSDictionary alloc]init]];
+                
+                // get the app delegate, so that we can reference the session property
+                AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
+                if (appDelegate.session.isOpen) {
+                    // valid account UI is shown whenever the session is open
+                    UIStoryboard* mainBoard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+                    UIViewController* postView = [mainBoard instantiateViewControllerWithIdentifier:@"RootViewController"];
+                    appDelegate.window.rootViewController = postView;
+                }
             }
         }
     }
 }
 
 -(void)handleError:(NSInteger)statusCode withData:(NSData*)data{
-    
+    if( statusCode == 403 ){
+        [[FBSession activeSession]closeAndClearTokenInformation];
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:nil message:NSLocalizedString(@"qualify", nil) delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alert show];
+    }
+    else{
+        [[FBSession activeSession]closeAndClearTokenInformation];
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:NSLocalizedString(@"Unreachable", nil) delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alert show];
+    }
 }
 
 @end
