@@ -175,27 +175,25 @@ public class Http {
 
   public static String uploadImage(long userId, String filePath) throws IOException {
     HttpClient httpClient = HttpClientHelper.getHttpClient();
-    String uri = "http://" + C.SCRIPT_SERVER + "/s/upload.php";
-    HttpPost postRequest = new HttpPost(uri);
+    HttpPost postRequest = new HttpPost(C.UPLOAD_URI);
     MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
     reqEntity.addPart("userId", new StringBody(Long.toString(userId)));
     reqEntity.addPart("file", new FileBody(new File(filePath), "image/png"));
     postRequest.setEntity(reqEntity);
     HttpResponse resp = httpClient.execute(postRequest);
-    UploadImageResponse r = parseResponse(uri, resp, UploadImageResponse.class, false);
+    UploadImageResponse r = parseResponse(C.UPLOAD_URI, resp, UploadImageResponse.class, false);
     return r.url;
   }
 
   public static String uploadImage(long userId, Bitmap image) throws IOException {
     HttpClient httpClient = HttpClientHelper.getHttpClient();
-    String uri = "http://" + C.SCRIPT_SERVER + "/s/upload.php";
-    HttpPost postRequest = new HttpPost(uri);
+    HttpPost postRequest = new HttpPost(C.UPLOAD_URI);
     MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
     reqEntity.addPart("userId", new StringBody(Long.toString(userId)));
     reqEntity.addPart("file", new BitmapBody(image));
     postRequest.setEntity(reqEntity);
     HttpResponse resp = httpClient.execute(postRequest);
-    UploadImageResponse r = parseResponse(uri, resp, UploadImageResponse.class, false);
+    UploadImageResponse r = parseResponse(C.UPLOAD_URI, resp, UploadImageResponse.class, false);
     return r.url;
   }
 

@@ -144,17 +144,19 @@ public class ShareViaFacebookFragment extends SharingDialog {
           long userId = Register.getInstance().getUserId();
           imageUrl = Http.uploadImage(userId, photoPath);
         }
-        String code = reportToKikbak(imageUrl);
+        ShareExperienceResponse resp = reportToKikbak(imageUrl);
         mKikbakSuccess = true;
-        FbObjectApi.publishStory(session, offer, imageUrl, comment, code);
+        FbObjectApi.publishStory(session, offer, resp.template.landingUrl, imageUrl, comment,
+            resp.referrerCode);
         mFbSuccess = true;
       } catch (Exception e) {
+        android.util.Log.w("MMM", e.getMessage(), e);
         FlurryAgent.onError(Log.E_PUBLISH_STORY, e.getMessage(), Log.CLASS_NETWORK);
       }
       return null;
     }
 
-    private String reportToKikbak(String imageUrl) throws IOException {
+    private ShareExperienceResponse reportToKikbak(String imageUrl) throws IOException {
       final long userId = Register.getInstance().getUserId();
       Bundle args = getArguments();
       ShareExperienceRequest req = new ShareExperienceRequest();
@@ -168,8 +170,7 @@ public class ShareViaFacebookFragment extends SharingDialog {
       req.experience.type = SharedType.SHARE_MODE_FACEBOOK;
 
       String uri = Http.getUri(ShareExperienceRequest.PATH + userId);
-      ShareExperienceResponse resp = Http.execute(uri, req, ShareExperienceResponse.class);
-      return resp.referrerCode;
+      return Http.execute(uri, req, ShareExperienceResponse.class);
     }
 
     @Override
@@ -177,6 +178,7 @@ public class ShareViaFacebookFragment extends SharingDialog {
       dismiss();
       if (mListener != null) {
         if (mFbSuccess && mKikbakSuccess) {
+          android.util.Log.w("MMM", "kikbak:" + mKikbakSuccess + " fb:" + mFbSuccess);
           mListener.onShareFinished();
         } else {
           mListener.onShareFailed();

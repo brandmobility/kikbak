@@ -7,21 +7,16 @@ public class C {
   public static final String INST_DEV = "kikbak";
   public static final String INST_DEMO = "k2";
 
-  public static boolean USE_FIXED_LOCATION = true;
-
-  public static final double LATITUDE = 37.44;
-  public static final double LONGITUDE = -122.17;
-  public static final String SERVER = "54.244.124.116";
-  public static final String SERVER_DOMAIN = "test.kikbak.me";
-  public static final String LANDING_PAGE = "/m/kikbak/landing.html?code=";
-  public static final String SCRIPT_SERVER = "54.244.124.116";
   public static String SERVER_INSTANCE = INST_DEV;
 
-  // public static final double LATITUDE = 50.01250;
-  // public static final double LONGITUDE = 20.98833;
-  // public static final String SERVER = "192.168.0.100";
-
+  public static final String SERVER = "54.244.124.116";
+  // public static final String SERVER = "192.168.2.102";
   public static final short PORT = 8080;
+  public static final String UPLOAD_URI = "http://54.244.124.116/s/upload.php";
+
+  public static boolean USE_FIXED_LOCATION = true;
+  public static final double LATITUDE = 37.44;
+  public static final double LONGITUDE = -122.17;
 
   public static final boolean BYPASS_STORE_CHECK = true;
   public static final float IN_STORE_DISTANCE = 100; // 100 meters
