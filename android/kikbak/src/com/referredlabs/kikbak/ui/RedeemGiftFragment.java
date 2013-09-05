@@ -27,8 +27,8 @@ import com.referredlabs.kikbak.data.GiftRedemptionType;
 import com.referredlabs.kikbak.data.GiftType;
 import com.referredlabs.kikbak.data.RedeemGiftRequest;
 import com.referredlabs.kikbak.data.RedeemGiftResponse;
+import com.referredlabs.kikbak.data.RedeemGiftStatus;
 import com.referredlabs.kikbak.data.ShareInfoType;
-import com.referredlabs.kikbak.data.StatusType;
 import com.referredlabs.kikbak.data.ValidationType;
 import com.referredlabs.kikbak.fb.Fb;
 import com.referredlabs.kikbak.http.Http;
@@ -54,7 +54,7 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
 
   private static final int REQUEST_NOT_IN_STORE = 1;
   private static final int REQUEST_SCAN_CONFIRMATION = 2;
-
+  private static final int REQUEST_INVALID_CODE = 3;
   private GiftType mGift;
   private int mShareIdx;
   private TextView mName;
@@ -199,6 +199,7 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
         onRedeemInStoreClicked();
         break;
       case REQUEST_SCAN_CONFIRMATION:
+      case REQUEST_INVALID_CODE:
         showScanner();
         break;
     }
@@ -254,9 +255,28 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
     mCallback.onRedeemGiftSuccess(code);
   }
 
-  public void onRegistrationFailed() {
+  public void onRegistrationFailed(String status) {
     mRedeemInStore.setEnabled(true);
-    Toast.makeText(getActivity(), "failed to report to kikbak", Toast.LENGTH_SHORT).show();
+
+    if (RedeemGiftStatus.INVALID_CODE.equals(status)) {
+      showInvalidCodeDialog();
+      return;
+    }
+
+    if (RedeemGiftStatus.LIMIT_REACH.equals(status)) {
+      // TODO: implement me
+      return;
+    }
+
+    // default
+    Toast.makeText(getActivity(), R.string.redeem_failure, Toast.LENGTH_SHORT).show();
+  }
+
+  private void showInvalidCodeDialog() {
+    String msg = getString(R.string.redeem_invalid_code);
+    ConfirmationDialog dialog = ConfirmationDialog.newInstance(msg);
+    dialog.setTargetFragment(this, REQUEST_INVALID_CODE);
+    dialog.show(getFragmentManager(), null);
   }
 
   private class RedeemTask extends AsyncTask<RedeemGiftRequest, Void, RedeemGiftResponse> {
@@ -282,13 +302,17 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
 
     @Override
     protected void onPostExecute(RedeemGiftResponse result) {
-      if (result == null || result.status.code != StatusType.OK) {
-        onRegistrationFailed();
+      if (result == null) {
+        onRegistrationFailed(null);
         return;
       }
-      onRegistrationSuccess(result.authorizationCode);
-    }
 
+      if (RedeemGiftStatus.OK.equals(result.redeemGiftStatus)) {
+        onRegistrationSuccess(result.authorizationCode);
+      } else {
+        onRegistrationFailed(result.redeemGiftStatus);
+      }
+    }
   }
 
   private class BarcodeTask extends AsyncTask<Void, Void, Void> {

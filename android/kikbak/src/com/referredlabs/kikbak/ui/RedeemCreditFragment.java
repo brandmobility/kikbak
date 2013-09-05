@@ -271,7 +271,7 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
 
   public void onRegistrationFailed() {
     mRedeemInStore.setEnabled(true);
-    Toast.makeText(getActivity(), "failed to report to kikbak", Toast.LENGTH_SHORT).show();
+    Toast.makeText(getActivity(), R.string.redeem_failure, Toast.LENGTH_SHORT).show();
   }
 
   private class RedeemCreditTask extends AsyncTask<RedeemCreditRequest, Void, RedeemCreditResponse> {
