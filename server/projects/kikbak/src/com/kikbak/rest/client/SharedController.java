@@ -153,8 +153,8 @@ public class SharedController extends AbstractController {
 				+ (StringUtils.isBlank(user.getFirstName()) ? StringUtils.trimToEmpty(user.getLastName()) : ""));
 		result = result.replace("%ADDRESS%", StringUtils.trimToEmpty(location.getAddress1())
 				+ (StringUtils.isBlank(location.getAddress2()) ? "" : " " + location.getAddress2())
-				+ ", " + StringUtils.trimToEmpty(location.getCity()))
-				+ ", " + StringUtils.trimToEmpty(location.getState());
+				+ ", " + StringUtils.trimToEmpty(location.getCity())
+				+ ", " + StringUtils.trimToEmpty(location.getState()));
 		
 		return result;
 	}
