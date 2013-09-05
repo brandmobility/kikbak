@@ -5,7 +5,6 @@
 var config = {
   backend: '',
   appId: 493383324061333,
-  landing: 'http://test.kikbak.me/c/',
   latitude: 37.42082770,
   longitude: -122.13043270
 }
@@ -1136,7 +1135,7 @@ function shareViaEmail() {
 function shareViaFacebook() {
   $('#spinner h2').html('Sharing gift');
   doShare(function(code, msg, imageUrl, resp) {
-    var fbUrl = config.landing + code;
+    var fbUrl = resp.template.body;
     var o = {
       'app_id' : config.appId,
       'url' : fbUrl.replace(/\//g, '\/'),
