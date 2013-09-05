@@ -440,7 +440,7 @@
 
 -(void) onRedeemGiftError:(NSNotification*)notification{
     [self.spinnerView removeFromSuperview];
-    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:@"Wasn't able to reach kikbak servers. Try again later." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:NSLocalizedString(@"Unreachable", nil) delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     [alert show];
 }
 

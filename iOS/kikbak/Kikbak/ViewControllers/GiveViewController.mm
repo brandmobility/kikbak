@@ -702,7 +702,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 }
 
 -(void) onShareError:(NSNotification*)notification{
-    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:@"Wasn't able to reach kikbak servers. Try again later." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:NSLocalizedString(@"Unreachable", nil) delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     alert.tag = CALL_URL_TAG;
     [alert show];
     [self.spinnerView removeFromSuperview];
@@ -710,6 +710,8 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 
 
 -(void) onImageUploadSuccess:(NSNotification*)notification{
+    [self.spinnerView removeFromSuperview];
+    
     self.imageUrl = [notification object];
     CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
     ShareChannelSelectorView* view = [[ShareChannelSelectorView alloc]initWithFrame:frame];
@@ -720,7 +722,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 }
 
 -(void) onImageUploadError:(NSNotification*)notification{
-    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:@"Wasn't able to reach kikbak servers. Try again later." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:NSLocalizedString(@"Unreachable", nil) delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     alert.tag = CALL_URL_TAG;
     [alert show];
     [self.spinnerView removeFromSuperview];
@@ -769,7 +771,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 }
 
 -(void) onFBStoryPostError:(NSNotification *)notification{
-    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:@"Wasn't able to reach kikbak servers. Try again later." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:NSLocalizedString(@"Unreachable", nil) delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     alert.tag = CALL_URL_TAG;
     [alert show];
     
@@ -829,6 +831,11 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 }
 
 -(void)onTimelineSelected:(NSNumber*)locationId withEmployeeName:(NSString*)name{
+    CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+    self.spinnerView = [[SpinnerView alloc]initWithFrame:frame];
+    [self.spinnerView startActivity];
+    [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:self.spinnerView];
+
     shareViaEmail = NO;
     shareViaSMS = NO;
     [FBSettings setLoggingBehavior:[NSSet setWithObject:FBLoggingBehaviorFBRequests]];
@@ -840,9 +847,6 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     obj.gift = self.giftDesctription.text;
     obj.detailedDescription = self.giftDescriptionOptional.text;
     [obj postCoupon:self.imageUrl];
-    
-    [self.spinnerView removeFromSuperview];
-
 }
 
 #pragma mark - MFMailComposer Delegates
