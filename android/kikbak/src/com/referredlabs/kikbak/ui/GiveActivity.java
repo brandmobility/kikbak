@@ -256,6 +256,6 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
 
   @Override
   public void onShareSuccessDismissed() {
-    finish();
+    // do nothing, stay on give screen
   }
 }
