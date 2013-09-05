@@ -179,12 +179,12 @@
     <string name="businnes_name_hint">Business name</string>
     <string name="businnes_why_hint">What makes them great</string>
     <string name="suggest_send">Let us know</string>
-    <string name="suggest_confirmation_toast">"Thanks for your suggestion.\nWe'll pass it along and let you know when the business joins Kikbak."</string> <!-- Select friend -->
     <string name="select_friend_label">Select the friend whose gift you would like to redeem</string>
+    <string name="suggest_success_title">Thanks for your suggestion</string>
+    <string name="suggest_success_note">"We'll pass it along and let you know when the business joins Kikbak."</string>
 
-    
     <!-- Status bar notifications -->
     <string name="notification_gift_title">You have received a gift!</string>
     <string name="notification_kikbak_title">You have received a kikbak!</string>
-    
+
 </resources>

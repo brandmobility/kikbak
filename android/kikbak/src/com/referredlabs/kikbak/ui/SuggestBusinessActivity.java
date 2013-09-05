@@ -14,18 +14,20 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
+import com.flurry.android.FlurryAgent;
 import com.referredlabs.kikbak.Kikbak;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.SuggestBusinessRequest;
 import com.referredlabs.kikbak.data.SuggestBusinessResponse;
 import com.referredlabs.kikbak.data.SuggestBusinessType;
 import com.referredlabs.kikbak.http.Http;
+import com.referredlabs.kikbak.log.Log;
+import com.referredlabs.kikbak.ui.SuggestSuccessDialog.SuggestSuccessListener;
 import com.referredlabs.kikbak.utils.Register;
 
 public class SuggestBusinessActivity extends KikbakActivity implements
-    OnClickListener {
+    OnClickListener, SuggestSuccessListener {
   private static final String STATE_PHOTO_URI = "photo_uri";
   private static final String STATE_CROP_URI = "crop_uri";
 
@@ -168,14 +170,17 @@ public class SuggestBusinessActivity extends KikbakActivity implements
   }
 
   private void onSendClicked() {
-    Toast.makeText(this, R.string.suggest_confirmation_toast, Toast.LENGTH_LONG).show();
-    finish();
+    showSuccessDialog();
 
     String name = ((EditText) findViewById(R.id.business_name)).getText().toString();
     String why = ((EditText) findViewById(R.id.business_greatness)).getText().toString();
     String path = mCroppedPhotoUri != null ? mCroppedPhotoUri.getPath() : null;
     new SuggestTask(name, why, path).execute();
     mCroppedPhotoUri = null;
+  }
+
+  private void showSuccessDialog() {
+    new SuggestSuccessDialog().show(getSupportFragmentManager(), null);
   }
 
   private static class SuggestTask extends AsyncTask<Void, Void, Void> {
@@ -208,7 +213,7 @@ public class SuggestBusinessActivity extends KikbakActivity implements
         String uri = Http.getUri(SuggestBusinessRequest.PATH + userId);
         SuggestBusinessResponse resp = Http.execute(uri, req, SuggestBusinessResponse.class);
       } catch (Exception e) {
-        android.util.Log.d("MMM", "Sending failed.");
+        FlurryAgent.onError(Log.E_SUGGEST_BUSINNES, e.getMessage(), Log.CLASS_NETWORK);
       } finally {
         if (mPhotoPath != null) {
           new File(mPhotoPath).delete();
@@ -216,6 +221,11 @@ public class SuggestBusinessActivity extends KikbakActivity implements
       }
       return null;
     }
+  }
+
+  @Override
+  public void onSuggestSuccessDismissed() {
+    finish();
   };
 
 }
