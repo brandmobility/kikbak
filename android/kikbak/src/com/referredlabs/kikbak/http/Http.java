@@ -73,7 +73,7 @@ public class Http {
     int code = resp.getStatusLine().getStatusCode();
     String content = getContent(resp.getEntity());
     try {
-      V response = parseContent(new StringReader(content), responseType, true);
+      V response = parseContent(new StringReader(content), responseType, extraTyped);
       return response;
     } catch (IOException e) {
       if (code == 200)

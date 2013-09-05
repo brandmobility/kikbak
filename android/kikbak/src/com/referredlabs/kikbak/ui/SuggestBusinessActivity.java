@@ -129,6 +129,8 @@ public class SuggestBusinessActivity extends KikbakActivity implements
         intent.putExtra(MediaStore.EXTRA_OUTPUT, mCroppedPhotoUri);
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
+        intent.putExtra("outputX", 800);
+        intent.putExtra("outputY", 800);
         startActivityForResult(intent, REQUEST_CROP_PHOTO);
       } catch (IOException e) {
         e.printStackTrace();
