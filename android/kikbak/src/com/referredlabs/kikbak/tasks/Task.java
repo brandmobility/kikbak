@@ -7,25 +7,28 @@ import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.referredlabs.kikbak.Kikbak;
 
-public abstract class Task<V> implements Future<V> {
+public abstract class Task implements Future<Void> {
 
-  private final FutureTask<V> mFuture;
+  private final FutureTask<Void> mFuture;
   private volatile boolean mSuccessful = false;
   private volatile Exception mException = null;
   private volatile long mCompletionTimeMillis = 0;
+  private final AtomicBoolean mCancelled = new AtomicBoolean();
 
   public Task() {
-    final Callable<V> call = new Callable<V>() {
+    final Callable<Void> call = new Callable<Void>() {
       @Override
-      public V call() throws Exception {
-        return doInBackground();
+      public Void call() throws Exception {
+        doInBackground();
+        return null;
       }
     };
 
-    mFuture = new FutureTask<V>(call) {
+    mFuture = new FutureTask<Void>(call) {
       protected void done() {
         processDone();
       };
@@ -50,16 +53,17 @@ public abstract class Task<V> implements Future<V> {
     Kikbak.PARALLEL_EXECUTOR.execute(mFuture);
   }
 
-  protected abstract V doInBackground() throws Exception;
+  protected abstract void doInBackground() throws Exception;
 
   @Override
   public boolean cancel(boolean mayInterruptIfRunning) {
+    mCancelled.set(true);
     return mFuture.cancel(mayInterruptIfRunning);
   }
 
   @Override
   public boolean isCancelled() {
-    return mFuture.isCancelled();
+    return mCancelled.get();
   }
 
   @Override
@@ -68,12 +72,12 @@ public abstract class Task<V> implements Future<V> {
   }
 
   @Override
-  public V get() throws InterruptedException, ExecutionException {
+  public Void get() throws InterruptedException, ExecutionException {
     return mFuture.get();
   }
 
   @Override
-  public V get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException,
+  public Void get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException,
       TimeoutException {
     return mFuture.get(timeout, unit);
   }
