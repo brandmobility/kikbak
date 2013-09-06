@@ -48,7 +48,6 @@
     <xsd:element name="ShareExperienceResponse">
         <xsd:complexType>
            <xsd:sequence>
-               <xsd:element name="status" type="st:StatusType" minOccurs="1" maxOccurs="1"/>
                <xsd:element name="referrerCode" type="xsd:string" minOccurs="1" maxOccurs="1"/>
                <xsd:element name="template" type="kikbak:MessageTemplateType" minOccurs="0" maxOccurs="1"/>
            </xsd:sequence>

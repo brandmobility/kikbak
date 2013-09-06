@@ -26,183 +26,148 @@ import com.kikbak.jaxb.offer.GetUserOffersResponse;
 import com.kikbak.jaxb.offer.HasUserOffersResponse;
 import com.kikbak.jaxb.register.RegisterUserRequest;
 import com.kikbak.jaxb.register.RegisterUserResponse;
+import com.kikbak.jaxb.register.RegisterUserResponseStatus;
 import com.kikbak.jaxb.register.UserIdType;
 import com.kikbak.jaxb.register.UserType;
-import com.kikbak.jaxb.statustype.StatusType;
-import com.kikbak.rest.StatusCode;
+import com.kikbak.jaxb.statustype.SuccessStatus;
 
 @Controller
 @RequestMapping("/user")
 public class UserController extends AbstractController {
 
-	@Autowired
-	private UserService userService;
-	
-	@Autowired
-	private FbLoginService fbLoginService;
+    @Autowired
+    private UserService userService;
 
-	@Autowired
-	private PropertiesConfiguration config;
-    
+    @Autowired
+    private FbLoginService fbLoginService;
+
+    @Autowired
+    private PropertiesConfiguration config;
+
     static final String REFERRAL_CODE_KEY = "rc";
-	
-	private static final String USER_COOKIE_SECURE = "user.cookie.secure";
-		
-	private static final int COOKIE_EXPIRE_TIME = 10 * 365 * 24 * 60 * 60;
-	
+
+    private static final String USER_COOKIE_SECURE = "user.cookie.secure";
+
+    private static final int COOKIE_EXPIRE_TIME = 10 * 365 * 24 * 60 * 60;
+
     private static final String USER_FRIENDS_MINIMUM_COUNT = "user.friends.minimum.count";
 
     private static final Logger logger = Logger.getLogger(UserController.class);
-		
-	@RequestMapping(value = "/register/fb/",  method = RequestMethod.POST)
-	public RegisterUserResponse registerFacebookUser(@RequestBody RegisterUserRequest request, final HttpServletResponse httpResponse){
-		RegisterUserResponse response = new RegisterUserResponse();
-		StatusType status = new StatusType();
-		status.setCode(StatusCode.OK.ordinal());
-		response.setStatus(status);
-		try {
+
+    @RequestMapping(value = "/register/fb/", method = RequestMethod.POST)
+    public RegisterUserResponse registerFacebookUser(@RequestBody RegisterUserRequest request,
+            final HttpServletResponse httpResponse) {
+        try {
+            RegisterUserResponse response = new RegisterUserResponse();
+            response.setStatus(RegisterUserResponseStatus.OK);
             UserType user = fbLoginService.getUserInfo(request.getUser().getAccessToken());
             Collection<Long> friends = fbLoginService.getFriends(request.getUser().getAccessToken());
 
             if (friends.size() < config.getInt(USER_FRIENDS_MINIMUM_COUNT)) {
                 logger.error("User " + user.getId() + " has too few friends: " + friends.size());
-                httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                status.setCode(StatusCode.TOO_FEW_FRIENDS.ordinal());
+                response.setStatus(RegisterUserResponseStatus.TOO_FEW_FRIENDS);
                 return response;
             }
-            
+
             UserIdType userId = userService.registerUser(user);
             userService.updateFriendsList(userId.getUserId(), friends);
 
             response.setUserId(userId);
-			String token = userService.getUserToken(userId.getUserId());
-			Cookie cookie = new Cookie(CookieAuthenticationFilter.COOKIE_TOKEN_KEY, token);
-			if (config.getBoolean(USER_COOKIE_SECURE)) {
-				cookie.setSecure(true);
-			}
-			cookie.setPath("/");
-			cookie.setMaxAge(COOKIE_EXPIRE_TIME);
-			httpResponse.addCookie(cookie);
-			
-			cookie = new Cookie(CookieAuthenticationFilter.COOKIE_USER_ID_KEY, Long.toString(userId.getUserId()));
-			if (config.getBoolean(USER_COOKIE_SECURE)) {
-				cookie.setSecure(true);
-			}
-			cookie.setPath("/");
-			cookie.setMaxAge(COOKIE_EXPIRE_TIME);
-			httpResponse.addCookie(cookie);
-
-		} catch (Exception e) {
-			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			status.setCode(StatusCode.ERROR.ordinal());
-			logger.error(e,e);
-		}
-		return response;
-	}
-	
-	@RequestMapping(value="/friends/fb/{userId}", method=RequestMethod.POST)
-	public UpdateFriendResponse updateFriends(@PathVariable("userId") Long userId,@RequestBody UpdateFriendsRequest request,
-			final HttpServletResponse httpResponse){
-
-    	try {
-    		Long actualUserId = getCurrentUserId();
-    		if (!userId.equals(actualUserId)) {
-                logger.error("Wrong user expect " + userId + " actually " + actualUserId);
-    			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                return null;
-    		}
-    	} catch (Exception e) {
-            logger.error(e,e);
-			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            return null;
-    	}
-		
-		UpdateFriendResponse response = new UpdateFriendResponse();
-		StatusType status = new StatusType();
-		status.setCode(StatusCode.OK.ordinal());
-		response.setStatus(status);
-        try {
-            String accessToken = request.getAccessToken();
-            if (accessToken != null) {
-                Collection<Long> friends = fbLoginService.getFriends(accessToken);
-                userService.updateFriendsList(userId, friends);
-            } else {
-                userService.updateFriends(userId, request.getFriends());
+            String token = userService.getUserToken(userId.getUserId());
+            Cookie cookie = new Cookie(CookieAuthenticationFilter.COOKIE_TOKEN_KEY, token);
+            if (config.getBoolean(USER_COOKIE_SECURE)) {
+                cookie.setSecure(true);
             }
-		} catch (Exception e) {
-			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			status.setCode(StatusCode.ERROR.ordinal());
-			logger.error(e,e);
-		}
-		
-		return response;
-	}
+            cookie.setPath("/");
+            cookie.setMaxAge(COOKIE_EXPIRE_TIME);
+            httpResponse.addCookie(cookie);
 
-	@RequestMapping( value = "/offer/{userId}", method = RequestMethod.POST)
-	public GetUserOffersResponse offersRequest(@PathVariable("userId") Long userId, 
-					@RequestBody GetUserOffersRequest request, final HttpServletResponse httpResponse){
-		
-		GetUserOffersResponse response = new GetUserOffersResponse();
-		StatusType status = new StatusType();
-		status.setCode(StatusCode.OK.ordinal());
-		response.setStatus(status);
-		try {
-			response.getOffers().addAll(userService.getOffers(userId, request.getUserLocation()));
-		} catch (Exception e) {
-			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			status.setCode(StatusCode.ERROR.ordinal());
-			logger.error(e,e);
-		}
-		return response;
-	}
+            cookie = new Cookie(CookieAuthenticationFilter.COOKIE_USER_ID_KEY, Long.toString(userId.getUserId()));
+            if (config.getBoolean(USER_COOKIE_SECURE)) {
+                cookie.setSecure(true);
+            }
+            cookie.setPath("/");
+            cookie.setMaxAge(COOKIE_EXPIRE_TIME);
+            httpResponse.addCookie(cookie);
 
-
-	@RequestMapping( value = "/hasoffer", method = RequestMethod.POST)
-	public HasUserOffersResponse hasOffersRequest( 
-					@RequestBody GetUserOffersRequest request, final HttpServletResponse httpResponse){
-		
-		HasUserOffersResponse response = new HasUserOffersResponse();
-		StatusType status = new StatusType();
-		status.setCode(StatusCode.OK.ordinal());
-		response.setStatus(status);
-		try {
-			response.setHasOffer(userService.hasOffers(request.getUserLocation()));
-		} catch (Exception e) {
-			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			status.setCode(StatusCode.ERROR.ordinal());
-			logger.error(e,e);
-		}
-		return response;
-	}	
-	
-	@RequestMapping( value="/devicetoken/{userId}", method = RequestMethod.POST)
-	public DeviceTokenUpdateResponse deviceTokenUpdate(@PathVariable("userId") Long userId,
-					@RequestBody DeviceTokenUpdateRequest request, final HttpServletResponse httpResponse){
-
-    	try {
-    		Long actualUserId = getCurrentUserId();
-    		if (!userId.equals(actualUserId)) {
-                logger.error("Wrong user expect " + userId + " actually " + actualUserId);
-    			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                return null;
-    		}
-    	} catch (Exception e) {
-            logger.error(e,e);
-			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return response;
+        } catch (Exception e) {
+            httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            logger.error(e, e);
             return null;
-    	}
-    	
-		DeviceTokenUpdateResponse response = new DeviceTokenUpdateResponse();
-		StatusType status = new StatusType();
-		status.setCode(StatusCode.OK.ordinal());
-		response.setStatus(status);
-		try {
-			userService.persistDeviceToken(userId, request.getToken());
-		} catch (Exception e) {
-			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			status.setCode(StatusCode.ERROR.ordinal());
-			logger.error(e,e);
-		}
-		return response;
-	}
+        }
+    }
+
+    @RequestMapping(value = "/friends/fb/{userId}", method = RequestMethod.POST)
+    public UpdateFriendResponse updateFriends(@PathVariable("userId") Long userId,
+            @RequestBody UpdateFriendsRequest request, final HttpServletResponse httpResponse) {
+        try {
+            ensureCorrectUser(userId);
+
+            String accessToken = request.getAccessToken();
+            Collection<Long> friends = fbLoginService.getFriends(accessToken);
+            userService.updateFriendsList(userId, friends);
+
+            UpdateFriendResponse response = new UpdateFriendResponse();
+            response.setStatus(SuccessStatus.OK);
+            return response;
+        } catch (WrongUserException e) {
+            logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return null;
+        } catch (Exception e) {
+            logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return null;
+        }
+    }
+
+    @RequestMapping(value = "/offer/{userId}", method = RequestMethod.POST)
+    public GetUserOffersResponse offersRequest(@PathVariable("userId") Long userId,
+            @RequestBody GetUserOffersRequest request, final HttpServletResponse httpResponse) {
+        try {
+            GetUserOffersResponse response = new GetUserOffersResponse();
+            response.getOffers().addAll(userService.getOffers(userId, request.getUserLocation()));
+            return response;
+        } catch (Exception e) {
+            logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return null;
+        }
+    }
+
+    @RequestMapping(value = "/hasoffer", method = RequestMethod.POST)
+    public HasUserOffersResponse hasOffersRequest(@RequestBody GetUserOffersRequest request,
+            final HttpServletResponse httpResponse) {
+        try {
+            HasUserOffersResponse response = new HasUserOffersResponse();
+            response.setHasOffer(userService.hasOffers(request.getUserLocation()));
+            return response;
+        } catch (Exception e) {
+            logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return null;
+        }
+    }
+
+    @RequestMapping(value = "/devicetoken/{userId}", method = RequestMethod.POST)
+    public DeviceTokenUpdateResponse deviceTokenUpdate(@PathVariable("userId") Long userId,
+            @RequestBody DeviceTokenUpdateRequest request, final HttpServletResponse httpResponse) {
+        try {
+            ensureCorrectUser(userId);
+            userService.persistDeviceToken(userId, request.getToken());
+
+            DeviceTokenUpdateResponse response = new DeviceTokenUpdateResponse();
+            response.setStatus(SuccessStatus.OK);
+            return response;
+        } catch (WrongUserException e) {
+            logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return null;
+        } catch (Exception e) {
+            logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return null;
+        }
+    }
 }

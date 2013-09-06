@@ -386,7 +386,7 @@ public class RewardServiceImpl implements RewardService{
     }
 
 
-    protected synchronized void createGifts(Long userId) throws RewardException {
+    protected void createGifts(Long userId) throws RewardException {
 
         User user = roUserDao.findById(userId);
         if (user == null) {

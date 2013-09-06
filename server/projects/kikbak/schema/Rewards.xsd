@@ -89,7 +89,6 @@
             <xsd:sequence>
                 <xsd:element name="credits" type="kikbak:AvailableCreditType" minOccurs="0" maxOccurs="unbounded"/>
                 <xsd:element name="gifts" type="kikbak:GiftType" minOccurs="0" maxOccurs="unbounded"/>
-                <xsd:element name="status" type="st:StatusType" minOccurs="1" maxOccurs="1"/>
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
@@ -106,10 +105,9 @@
     <xsd:element name="ClaimGiftResponse">
         <xsd:complexType>
             <xsd:sequence>
+                <xsd:element name="status" type="kikbak:ClaimStatusType" minOccurs="1" maxOccurs="1"/>
                 <xsd:element name="gifts" type="kikbak:GiftType" minOccurs="0" maxOccurs="unbounded"/>
-                <xsd:element name="claimStatus" type="kikbak:ClaimStatusType" minOccurs="1" maxOccurs="1"/>
                 <xsd:element name="agId" type="xsd:long" minOccurs="0" maxOccurs="1"/>
-                <xsd:element name="status" type="st:StatusType" minOccurs="1" maxOccurs="1"/>
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
