@@ -7,38 +7,42 @@ import java.util.concurrent.ExecutionException;
 import android.os.Handler;
 import android.os.Message;
 
-public abstract class TaskEx<V> extends Task<V> {
+public abstract class TaskEx extends Task {
 
   private Handler mHandler = new TaskHandler();
 
   @Override
   protected void done() {
     Message msg = mHandler.obtainMessage(0, this);
-    mHandler.dispatchMessage(msg);
+    msg.sendToTarget();
   }
 
-  protected void onSuccess(V result) {
+  protected void onSuccess() {
   }
 
   protected void onFailed(Exception exception) {
   }
 
-  protected void onCancell() {
+  protected void onCancelled() {
   }
 
   private static class TaskHandler extends Handler {
     @Override
     public void handleMessage(Message msg) {
-      @SuppressWarnings("unchecked")
-      TaskEx<Object> task = (TaskEx<Object>) msg.obj;
-      try {
-        task.onSuccess(task.get());
-      } catch (CancellationException e) {
-        task.onCancell();
-      } catch (InterruptedException e) {
-        task.onCancell();
-      } catch (ExecutionException e) {
-        task.onFailed((Exception) e.getCause());
+      TaskEx task = (TaskEx) msg.obj;
+      if (task.isCancelled()) {
+        task.onCancelled();
+      } else {
+        try {
+          task.get();
+          task.onSuccess();
+        } catch (CancellationException e) {
+          task.onCancelled();
+        } catch (InterruptedException e) {
+          task.onCancelled();
+        } catch (ExecutionException e) {
+          task.onFailed((Exception) e.getCause());
+        }
       }
     }
   }

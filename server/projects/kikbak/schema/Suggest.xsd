@@ -35,7 +35,7 @@
     <xsd:element name="SuggestBusinessResponse">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="status" type="st:StatusType" minOccurs="1" maxOccurs="1"/>
+                <xsd:element name="status" type="st:SuccessStatus" minOccurs="1" maxOccurs="1"/>
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>

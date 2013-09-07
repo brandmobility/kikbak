@@ -12,9 +12,6 @@
         </xsd:appinfo>
     </xsd:annotation>
     
-    <xsd:import namespace="com:kikbak:jaxb:statustype" schemaLocation="./StatusType.xsd" />
-    
-    <!--  Client API -->
     <xsd:complexType name="UserType">
         <xsd:sequence>
             <xsd:element name="email" type="xsd:string" minOccurs="0" maxOccurs="1" />
@@ -46,11 +43,19 @@
         </xsd:complexType>
     </xsd:element>
     
+    <xsd:simpleType name="RegisterUserResponseStatus">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="OK"/>
+            <xsd:enumeration value="TOO_FEW_FRIENDS"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    
     <xsd:element name="RegisterUserResponse">
        <xsd:complexType>
            <xsd:sequence>
-               <xsd:element name="userId" type="kikbak:UserIdType" minOccurs="1" maxOccurs="1"/>
-               <xsd:element name="status" type="st:StatusType" minOccurs="1" maxOccurs="1"/>
+               <xsd:element name="status" type="kikbak:RegisterUserResponseStatus" minOccurs="1" maxOccurs="1"/>
+               <xsd:element name="userId" type="kikbak:UserIdType" minOccurs="0" maxOccurs="1"/>
            </xsd:sequence>
         </xsd:complexType>
     </xsd:element>

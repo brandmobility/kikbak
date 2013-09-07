@@ -42,9 +42,8 @@
     <xsd:element name="RedeemGiftResponse">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="authorizationCode" type="xsd:string" minOccurs="1" maxOccurs="1"/>
-                <xsd:element name="redeemGiftStatus" type="kikbak:RedeemGiftStatus" minOccurs="1" maxOccurs="1"/>
-                <xsd:element name="status" type="st:StatusType" minOccurs="1" maxOccurs="1"/> 
+                <xsd:element name="status" type="kikbak:RedeemGiftStatus" minOccurs="1" maxOccurs="1"/>
+                <xsd:element name="authorizationCode" type="xsd:string" minOccurs="0" maxOccurs="1"/>
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>

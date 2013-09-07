@@ -12,10 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.kikbak.client.service.SuggestService;
-import com.kikbak.jaxb.statustype.StatusType;
+import com.kikbak.jaxb.statustype.SuccessStatus;
 import com.kikbak.jaxb.suggest.SuggestBusinessRequest;
 import com.kikbak.jaxb.suggest.SuggestBusinessResponse;
-import com.kikbak.rest.StatusCode;
 
 @Controller
 @RequestMapping("/suggest")
@@ -32,17 +31,16 @@ public class SuggestController extends AbstractController {
     @RequestMapping(value = "/business/{userId}", method = RequestMethod.POST)
     public SuggestBusinessResponse registerFacebookUser(@PathVariable("userId") Long userId,
             @RequestBody SuggestBusinessRequest request, final HttpServletResponse httpResponse) {
-        SuggestBusinessResponse response = new SuggestBusinessResponse();
-        StatusType status = new StatusType();
-        status.setCode(StatusCode.OK.ordinal());
-        response.setStatus(status);
         try {
             suggestService.suggestBusiness(userId, request.getBusiness());
+
+            SuggestBusinessResponse response = new SuggestBusinessResponse();
+            response.setStatus(SuccessStatus.OK);
+            return response;
         } catch (Exception e) {
-            httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            status.setCode(StatusCode.ERROR.ordinal());
             logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return null;
         }
-        return response;
     }
 }

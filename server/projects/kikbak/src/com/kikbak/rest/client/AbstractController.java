@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class AbstractController {
 
-	protected long getCurrentUserId() {
+    protected long getCurrentUserId() {
         // Get the principal from the Spring security context
         final SecurityContext secCtx = SecurityContextHolder.getContext();
         final Authentication auth = (null == secCtx) ? null : secCtx.getAuthentication();
@@ -22,6 +22,20 @@ public class AbstractController {
         }
 
         return Long.parseLong(username);
+    }
+
+    protected void ensureCorrectUser(Long userId) throws WrongUserException {
+        Long currentUserId;
+
+        try {
+            currentUserId = getCurrentUserId();
+        } catch (Exception e) {
+            throw new WrongUserException("No current user!", e);
+        }
+
+        if (!userId.equals(currentUserId)) {
+            throw new WrongUserException("Wrong user, expected:" + userId + " current:" + currentUserId);
+        }
     }
 
 }

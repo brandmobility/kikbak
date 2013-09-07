@@ -220,9 +220,9 @@ public class DataStore {
     mRewardsObservable.notifyChanged();
   }
 
-  private class GetOffersTask extends Task<Void> {
+  private class GetOffersTask extends Task {
     @Override
-    protected Void doInBackground() throws IOException {
+    protected void doInBackground() throws IOException {
       long userId = Register.getInstance().getUserId();
       Location loc = LocationFinder.getLastLocation();
       String uri = Http.getUri(GetUserOffersRequest.PATH + userId);
@@ -230,19 +230,17 @@ public class DataStore {
           GetUserOffersRequest.create(loc.getLatitude(), loc.getLongitude());
       GetUserOffersResponse result = Http.execute(uri, req, GetUserOffersResponse.class);
       swapOffers(Arrays.asList(result.offers));
-      return null;
     }
   }
 
-  private class GetRewardsTask extends Task<Void> {
+  private class GetRewardsTask extends Task {
     @Override
-    protected Void doInBackground() throws Exception {
+    protected void doInBackground() throws Exception {
       long userId = Register.getInstance().getUserId();
       String uri = Http.getUri(RewardsRequest.PATH + userId);
       RewardsRequest req = new RewardsRequest();
       RewardsResponse response = Http.execute(uri, req, RewardsResponse.class);
       swapRewards(Arrays.asList(response.gifts), Arrays.asList(response.credits));
-      return null;
     }
   }
 

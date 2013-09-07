@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringReader;
 import java.io.StringWriter;
 
 import org.apache.http.HttpEntity;
@@ -50,55 +52,35 @@ public class Http {
     AndroidHttpClient.modifyRequestToAcceptGzipResponse(post);
 
     HttpResponse resp = httpClient.execute(post);
-    int code = resp.getStatusLine().getStatusCode();
-    if (code == 200) {
-      V response = getResponse(resp.getEntity(), responseType, true);
-      return response;
-    }
-
-    String content = getContent(resp.getEntity());
-    throw new HttpStatusException(uri, code, content);
+    return parseResponse(uri, resp, responseType, true);
   }
 
-  public static <T, V> SafeResponse<T, V> executeSafe(String uri, T request, Class<V> responseType) {
-    long startTime = System.currentTimeMillis();
-    try {
-      V response = execute(uri, request, responseType);
-      long endTime = System.currentTimeMillis();
-      return new SafeResponse<T, V>(request, startTime, endTime, response);
-    } catch (Exception exception) {
-      long endTime = System.currentTimeMillis();
-      return new SafeResponse<T, V>(request, startTime, endTime, exception);
-    }
+  private static <T> String writeRequest(T request) throws IOException {
+    Gson gson = new Gson();
+    StringWriter out = new StringWriter();
+    JsonWriter writer = new JsonWriter(out);
+    writer.beginObject();
+    writer.name(request.getClass().getSimpleName());
+    gson.toJson(request, request.getClass(), writer);
+    writer.endObject();
+    writer.close();
+    return out.toString();
   }
 
-  public static <T, V> V execute(String uri, Class<V> responseType) throws IOException {
-    HttpClient httpClient = HttpClientHelper.getHttpClient();
-    HttpGet get = new HttpGet(uri);
-    AndroidHttpClient.modifyRequestToAcceptGzipResponse(get);
-    HttpResponse resp = httpClient.execute(get);
-    int code = resp.getStatusLine().getStatusCode();
-    if (code == 200) {
-      V response = getResponse(resp.getEntity(), responseType, false);
-      return response;
-    }
-
-    String content = getContent(resp.getEntity());
-    throw new HttpStatusException(uri, code, content);
-  }
-
-  private static <V> V getResponse(HttpEntity entity, Class<V> responseType, boolean extraTyped)
+  private static <V> V parseResponse(String uri, HttpResponse resp, Class<V> responseType,
+      boolean extraTyped)
       throws IOException {
-    if (entity != null) {
-      try {
-        InputStream in = AndroidHttpClient.getUngzippedContent(entity);
-        V respone = readResponse(in, responseType, extraTyped);
-        return respone;
-      } finally {
-        closeHttpEntity(entity);
-      }
+    int code = resp.getStatusLine().getStatusCode();
+    String content = getContent(resp.getEntity());
+    try {
+      V response = parseContent(new StringReader(content), responseType, extraTyped);
+      return response;
+    } catch (IOException e) {
+      if (code == 200)
+        throw e;
+
+      throw new HttpStatusException(uri, code, content);
     }
-    throw new IOException("Empty response from server.");
   }
 
   private static String getContent(HttpEntity entity)
@@ -117,22 +99,20 @@ public class Http {
     return data;
   }
 
-  public static <T> String writeRequest(T request) throws IOException {
-    Gson gson = new Gson();
-    StringWriter out = new StringWriter();
-    JsonWriter writer = new JsonWriter(out);
-    writer.beginObject();
-    writer.name(request.getClass().getSimpleName());
-    gson.toJson(request, request.getClass(), writer);
-    writer.endObject();
-    writer.close();
-    return out.toString();
+  private static void closeHttpEntity(HttpEntity entity) {
+    if (entity != null) {
+      try {
+        entity.consumeContent();
+      } catch (Exception e) {
+        // ignore
+      }
+    }
   }
 
-  private static <T> T readResponse(InputStream in, Class<T> responseType, boolean extraTyped)
+  private static <T> T parseContent(Reader in, Class<T> responseType, boolean extraTyped)
       throws IOException {
     Gson gson = new Gson();
-    JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
+    JsonReader reader = new JsonReader(in);
     if (extraTyped) {
       reader.beginObject();
       String typeName = getJsonName(responseType);
@@ -151,16 +131,6 @@ public class Http {
     String name = type.getSimpleName();
     char first = Character.toLowerCase(name.charAt(0));
     return first + name.substring(1);
-  }
-
-  private static void closeHttpEntity(HttpEntity entity) {
-    if (entity != null) {
-      try {
-        entity.consumeContent();
-      } catch (Exception e) {
-        // ignore
-      }
-    }
   }
 
   public static Pair<String, Bitmap> fetchBarcode(long userId, long allocatedGiftId)
@@ -205,41 +175,26 @@ public class Http {
 
   public static String uploadImage(long userId, String filePath) throws IOException {
     HttpClient httpClient = HttpClientHelper.getHttpClient();
-    String uri = "http://" + C.SCRIPT_SERVER + "/s/upload.php";
-    HttpPost postRequest = new HttpPost(uri);
+    HttpPost postRequest = new HttpPost(C.UPLOAD_URI);
     MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
     reqEntity.addPart("userId", new StringBody(Long.toString(userId)));
     reqEntity.addPart("file", new FileBody(new File(filePath), "image/png"));
     postRequest.setEntity(reqEntity);
     HttpResponse resp = httpClient.execute(postRequest);
-    int code = resp.getStatusLine().getStatusCode();
-    if (code == 200) {
-      UploadImageResponse r = getResponse(resp.getEntity(), UploadImageResponse.class, false);
-      return r.url;
-    }
-
-    String content = getContent(resp.getEntity());
-    throw new HttpStatusException(uri, code, content);
-
+    UploadImageResponse r = parseResponse(C.UPLOAD_URI, resp, UploadImageResponse.class, false);
+    return r.url;
   }
 
   public static String uploadImage(long userId, Bitmap image) throws IOException {
     HttpClient httpClient = HttpClientHelper.getHttpClient();
-    String uri = "http://" + C.SCRIPT_SERVER + "/s/upload.php";
-    HttpPost postRequest = new HttpPost(uri);
+    HttpPost postRequest = new HttpPost(C.UPLOAD_URI);
     MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
     reqEntity.addPart("userId", new StringBody(Long.toString(userId)));
     reqEntity.addPart("file", new BitmapBody(image));
     postRequest.setEntity(reqEntity);
     HttpResponse resp = httpClient.execute(postRequest);
-    int code = resp.getStatusLine().getStatusCode();
-    if (code == 200) {
-      UploadImageResponse r = getResponse(resp.getEntity(), UploadImageResponse.class, false);
-      return r.url;
-    }
-
-    String content = getContent(resp.getEntity());
-    throw new HttpStatusException(uri, code, content);
+    UploadImageResponse r = parseResponse(C.UPLOAD_URI, resp, UploadImageResponse.class, false);
+    return r.url;
   }
 
 }

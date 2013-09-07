@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import android.os.Bundle;
 
+import com.facebook.FacebookException;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.RequestBatch;
@@ -23,12 +24,12 @@ public class FbObjectApi {
   private final static String COUPON_PATH = "me/objects/referredlabs:coupon";
   private final static String SHARE_PATH = "me/referredlabs:share";
 
-  public static void publishStory(Session session, ClientOfferType offer, String imageUrl,
+  public static void publishStory(Session session, ClientOfferType offer, String landingPage, String imageUrl,
       String userMessage, String code)
       throws IOException {
     RequestBatch requestBatch = new RequestBatch();
 
-    Request giftReq = createGiftRequest(session, offer, imageUrl, code);
+    Request giftReq = createGiftRequest(session, offer, landingPage, imageUrl, code);
     giftReq.setBatchEntryName("objectCreate");
     requestBatch.add(giftReq);
 
@@ -41,23 +42,24 @@ public class FbObjectApi {
 
     for (Response r : responses) {
       if (r.getError() != null) {
+        FacebookException fb = r.getError().getException();
+        fb.printStackTrace(); //TODO: remove
         throw new IOException("FB error:" + r.getError().getErrorMessage());
       }
     }
   }
 
-  private static Request createGiftRequest(Session session, ClientOfferType offer, String imageUrl,
+  private static Request createGiftRequest(Session session, ClientOfferType offer, String landingPage, String imageUrl,
       String code) {
     JSONObject gift = new JSONObject();
     try {
       // common properties
       String title = offer.merchantName + ":" + offer.giftDesc;
       String description = offer.giftDetailedDesc;
-      String url = "http://" + C.SERVER_DOMAIN + C.LANDING_PAGE + code;
       gift.put("title", title);
       gift.put("description", description);
       gift.put("image", imageUrl);
-      gift.put("url", url);
+      gift.put("url", landingPage);
 
       // kikbak specific properties
       JSONObject data = new JSONObject();

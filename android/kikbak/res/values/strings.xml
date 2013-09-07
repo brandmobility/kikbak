@@ -113,7 +113,7 @@
 
     <string name="credit_label">Credit to be applied to purchase</string>
     <string name="credit_change">Change</string>
-    <string name="credit_warning">WARNING: If you apply more credit then your purchase total, you will pernamently lose all execess credit applied.</string>
+    <string name="credit_warning">WARNING: If you apply more credit than your purchase total, you will pernamently lose all execess credit applied.</string>
     <string name="scan_code">Scan QR code to Redeem</string>
     <string name="redeem_card_ready">You have a reward ready to be claimed!</string>
     <string name="gift_card">Gift Card</string>
@@ -130,8 +130,10 @@
 
     <!-- Confirmation dialogs -->
     <string name="redeem_gift_confirmation">You must be at the register to redeem.\n\nAre you ready to redeem this offer?</string>
+    <string name="redeem_invalid_code">Sorry, that QR code is not recognized or is invalid.\n\nWould you like to try again?</string>
     <string name="redeem_not_in_store">Oops! You have to be in the store to redeem.\n\nLooks like you might not be there yet. Try again?</string>
     <string name="redeem_credit_confirmation">If you use more credit then your purchase total, you will lose all excess credit.\n\nYou have chosen to redeem $%.2f credit. Is this right?</string>
+    <string name="redeem_failure">Something went wrong, please try again.</string>
 
     <!-- Redeem success -->
     <string name="redeem_success_title">Success!</string>
@@ -179,12 +181,12 @@
     <string name="businnes_name_hint">Business name</string>
     <string name="businnes_why_hint">What makes them great</string>
     <string name="suggest_send">Let us know</string>
-    <string name="suggest_confirmation_toast">"Thanks for your suggestion.\nWe'll pass it along and let you know when the business joins Kikbak."</string> <!-- Select friend -->
     <string name="select_friend_label">Select the friend whose gift you would like to redeem</string>
+    <string name="suggest_success_title">Thanks for your suggestion</string>
+    <string name="suggest_success_note">"We'll pass it along and let you know when the business joins Kikbak."</string>
 
-    
     <!-- Status bar notifications -->
     <string name="notification_gift_title">You have received a gift!</string>
     <string name="notification_kikbak_title">You have received a kikbak!</string>
-    
+
 </resources>

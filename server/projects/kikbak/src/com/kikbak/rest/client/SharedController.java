@@ -26,136 +26,111 @@ import com.kikbak.jaxb.share.MessageTemplateType;
 import com.kikbak.jaxb.share.ShareExperienceRequest;
 import com.kikbak.jaxb.share.ShareExperienceResponse;
 import com.kikbak.jaxb.share.SharedType;
-import com.kikbak.jaxb.statustype.StatusType;
-import com.kikbak.rest.StatusCode;
 
 @Controller
 @RequestMapping("/ShareExperience")
 public class SharedController extends AbstractController {
 
-	private static final Logger logger = Logger.getLogger(SharedController.class);
-	
-	@Autowired
-	private PropertiesConfiguration config;
-	
-	@Autowired
-	private SharedExperienceService sharedExperienceService;
+    private static final Logger logger = Logger.getLogger(SharedController.class);
 
-	@Autowired
-	RewardService rewardService;
-	
-	@Autowired
-	private ReadOnlyUserDAO readOnlyUserDAO;
-	
-	@Autowired
-	private ReadOnlyMerchantDAO readOnlyMerchantDAO;
-	
-	@Autowired
-	private ReadOnlyLocationDAO readOnlyLocationDAO;
-	
-	@Autowired
-	private ReadOnlyGiftDAO readOnlyGiftDAO;
-	
-	@RequestMapping( value = "/{userId}", method = RequestMethod.POST)
-	public ShareExperienceResponse postShareExperience(@PathVariable("userId") Long userId,
-			@RequestBody ShareExperienceRequest experienceRequest, final HttpServletResponse httpResponse)
-	{
-    	try {
-    		Long actualUserId = getCurrentUserId();
-    		if (!userId.equals(actualUserId)) {
-                logger.error("Wrong user expect " + userId + " actually " + actualUserId);
-    			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                return null;
-    		}
-    	} catch (Exception e) {
-            logger.error(e,e);
-			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+    @Autowired
+    private PropertiesConfiguration config;
+
+    @Autowired
+    private SharedExperienceService sharedExperienceService;
+
+    @Autowired
+    RewardService rewardService;
+
+    @Autowired
+    private ReadOnlyUserDAO readOnlyUserDAO;
+
+    @Autowired
+    private ReadOnlyMerchantDAO readOnlyMerchantDAO;
+
+    @Autowired
+    private ReadOnlyLocationDAO readOnlyLocationDAO;
+
+    @Autowired
+    private ReadOnlyGiftDAO readOnlyGiftDAO;
+
+    @RequestMapping(value = "/{userId}", method = RequestMethod.POST)
+    public ShareExperienceResponse postShareExperience(@PathVariable("userId") Long userId,
+            @RequestBody ShareExperienceRequest experienceRequest, final HttpServletResponse httpResponse) {
+        try {
+            ensureCorrectUser(userId);
+
+            ShareExperienceResponse response = new ShareExperienceResponse();
+            SharedType experience = experienceRequest.getExperience();
+            response.setReferrerCode(sharedExperienceService.registerSharing(userId, experience));
+
+            if (StringUtils.isNotBlank(experience.getType()) && StringUtils.isNotBlank(experience.getPlatform())) {
+                String titleKey = "share.template.title." + experience.getType().toLowerCase() + "."
+                        + experience.getPlatform().toLowerCase();
+                String bodyKey = "share.template.body." + experience.getType().toLowerCase() + "."
+                        + experience.getPlatform().toLowerCase();
+                String loginUrl = config.getString("share.template.login.url").replace("%CODE%",
+                        response.getReferrerCode());
+
+                String titleTemplate = config.getString(titleKey, "");
+                String bodyTemplate = config.getString(bodyKey, "");
+
+                MessageTemplateType template = new MessageTemplateType();
+                response.setTemplate(template);
+
+                if (StringUtils.isNotBlank(bodyTemplate)) {
+                    User user = readOnlyUserDAO.findById(userId);
+                    Location location = readOnlyLocationDAO.findById(experience.getLocationId());
+                    Merchant merchant = readOnlyMerchantDAO.findById(experience.getMerchantId());
+                    Gift gift = readOnlyGiftDAO.findByOfferId(experience.getOfferId());
+                    if (StringUtils.isNotBlank(titleTemplate)) {
+                        String title = fillTemplate(experience, loginUrl, titleTemplate, user, location, merchant, gift);
+                        template.setSubject(title);
+                    }
+                    if (StringUtils.isNotBlank(bodyTemplate)) {
+                        String body = fillTemplate(experience, loginUrl, bodyTemplate, user, location, merchant, gift);
+                        template.setBody(body);
+                    }
+                }
+                template.setLandingUrl(loginUrl);
+            }
+
+            return response;
+        } catch (WrongUserException e) {
+            logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return null;
-    	}
-    	
-		ShareExperienceResponse response = new ShareExperienceResponse();
-		StatusType status = new StatusType();
-		status.setCode(StatusCode.OK.ordinal());
-		response.setStatus(status);
-		SharedType experience = experienceRequest.getExperience();
-		try {
-			response.setReferrerCode(sharedExperienceService.registerSharing(userId, experience));
-		} catch (Exception e) {
-			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			status.setCode(StatusCode.ERROR.ordinal());
-			logger.error(e,e);
-			return response;
-		}
-		
-		if (StringUtils.isNotBlank(experience.getType())
-				&& StringUtils.isNotBlank(experience.getPlatform())) {
-			String titleKey = "share.template.title."
-					+ experience.getType().toLowerCase() + "."
-					+ experience.getPlatform().toLowerCase();
-			String bodyKey = "share.template.body."
-					+ experience.getType().toLowerCase() + "."
-					+ experience.getPlatform().toLowerCase();
+        } catch (Exception e) {
+            logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return null;
+        }
+    }
 
-			String loginUrl = config.getString("share.template.login.url")
-					.replace("%CODE%", response.getReferrerCode());
+    private String fillTemplate(SharedType experience, String loginUrl, String template, User user, Location location,
+            Merchant merchant, Gift gift) {
+        String result;
+        result = template.replace("%CAPTION%", StringUtils.trimToEmpty(experience.getCaption()));
+        result = result.replace("%EMPLOYEE_ID%",
+                StringUtils.isNotBlank(experience.getEmployeeId()) ? experience.getEmployeeId() : "employee");
+        result = result.replace("%IMAGE_URL%", StringUtils.trimToEmpty(experience.getImageUrl()));
+        result = result.replace("%DESC%", StringUtils.trimToEmpty(gift.getDescription()));
+        result = result.replace("%DESC_DETAIL%", StringUtils.trimToEmpty(gift.getDetailedDesc()));
+        result = result.replace("%LOGIN_URL%", loginUrl);
+        result = result.replace("%MERCHANT%", StringUtils.trimToEmpty(merchant.getName()));
+        result = result
+                .replace(
+                        "%NAME%",
+                        StringUtils.trimToEmpty(user.getFirstName())
+                                + (StringUtils.isBlank(user.getFirstName()) ? StringUtils.trimToEmpty(user
+                                        .getLastName()) : ""));
+        result = result.replace(
+                "%ADDRESS%",
+                StringUtils.trimToEmpty(location.getAddress1())
+                        + (StringUtils.isBlank(location.getAddress2()) ? "" : " " + location.getAddress2()) + ", "
+                        + StringUtils.trimToEmpty(location.getCity()) + ", "
+                        + StringUtils.trimToEmpty(location.getState()));
 
-			String titleTemplate = config.getString(titleKey, "");
-			String bodyTemplate = config.getString(bodyKey, "");
-
-			MessageTemplateType template = new MessageTemplateType();
-			response.setTemplate(template);
-
-			try {
-				if (StringUtils.isNotBlank(bodyTemplate)) {
-					User user = readOnlyUserDAO.findById(userId);
-					Location location = readOnlyLocationDAO.findById(experience
-							.getLocationId());
-					Merchant merchant = readOnlyMerchantDAO.findById(experience
-							.getMerchantId());
-					Gift gift = readOnlyGiftDAO.findByOfferId(experience
-							.getOfferId());
-					if (StringUtils.isNotBlank(titleTemplate)) {
-						String title = fillTemplate(experience, loginUrl, titleTemplate, user,
-								location, merchant, gift);
-						template.setSubject(title);
-					}
-					if (StringUtils.isNotBlank(bodyTemplate)) {
-						String body = fillTemplate(experience, loginUrl, bodyTemplate, user,
-								location, merchant, gift);
-						template.setBody(body);
-					}
-				}
-			} catch (Exception e) {
-				httpResponse
-						.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-				status.setCode(StatusCode.ERROR.ordinal());
-				logger.error(e, e);
-				return response;
-			}
-		}
-		
-		return response;
-	}
-	
-	private String fillTemplate(SharedType experience, String loginUrl,
-			String template, User user, Location location,
-			Merchant merchant, Gift gift) {
-		String result;
-		result = template.replace("%CAPTION%", StringUtils.trimToEmpty(experience.getCaption()));
-		result = result.replace("%EMPLOYEE_ID%", StringUtils.isNotBlank(experience.getEmployeeId()) ?
-				experience.getEmployeeId() : "employee");
-		result = result.replace("%IMAGE_URL%", StringUtils.trimToEmpty(experience.getImageUrl()));
-		result = result.replace("%DESC%", StringUtils.trimToEmpty(gift.getDescription()));
-		result = result.replace("%DESC_DETAIL%", StringUtils.trimToEmpty(gift.getDetailedDesc()));
-		result = result.replace("%LOGIN_URL%", loginUrl);
-		result = result.replace("%MERCHANT%", StringUtils.trimToEmpty(merchant.getName()));
-		result = result.replace("%NAME%", StringUtils.trimToEmpty(user.getFirstName())
-				+ (StringUtils.isBlank(user.getFirstName()) ? StringUtils.trimToEmpty(user.getLastName()) : ""));
-		result = result.replace("%ADDRESS%", StringUtils.trimToEmpty(location.getAddress1())
-				+ (StringUtils.isBlank(location.getAddress2()) ? "" : " " + location.getAddress2())
-				+ ", " + StringUtils.trimToEmpty(location.getCity())
-				+ ", " + StringUtils.trimToEmpty(location.getState()));
-		
-		return result;
-	}
+        return result;
+    }
 }

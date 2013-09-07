@@ -147,16 +147,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public void updateFriends(final long userId, final Collection<FriendType> friends) {
-        Collection<Long> currentFriendIds = new ArrayList<Long>();
-        for (FriendType ft : friends) {
-            currentFriendIds.add(ft.getId());
-        }
-        updateFriendsList(userId, currentFriendIds);
-    }
-
-    @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void updateFriendsList(final long userId, final Collection<Long> friends) {
         // delete old
         Collection<Long> friendsToDelete = roU2FDao.listFriendsToDelete(userId, friends);

@@ -171,6 +171,8 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
         intent.putExtra(MediaStore.EXTRA_OUTPUT, mCroppedPhotoUri);
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
+        intent.putExtra("outputX", 800);
+        intent.putExtra("outputY", 800);
         startActivityForResult(intent, REQUEST_CROP_PHOTO);
       } catch (IOException e) {
         e.printStackTrace();
@@ -256,6 +258,6 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
 
   @Override
   public void onShareSuccessDismissed() {
-    finish();
+    // do nothing, stay on give screen
   }
 }

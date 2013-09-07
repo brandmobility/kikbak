@@ -39,77 +39,48 @@ import com.kikbak.jaxb.rewards.ClaimStatusType;
 import com.kikbak.jaxb.rewards.GiftType;
 import com.kikbak.jaxb.rewards.RewardsRequest;
 import com.kikbak.jaxb.rewards.RewardsResponse;
-import com.kikbak.jaxb.statustype.StatusType;
-import com.kikbak.rest.StatusCode;
+import com.kikbak.jaxb.statustype.SuccessStatus;
 
 @Controller
 @RequestMapping("/rewards")
 public class RewardController extends AbstractController {
 
-	private static final Logger logger = Logger.getLogger(RewardController.class);
-	
-	@Autowired
-	RewardService service;
-    
+    private static final Logger logger = Logger.getLogger(RewardController.class);
+
+    @Autowired
+    RewardService service;
+
     @RequestMapping(value = "/claim/{userId}/{referralCode}", method = RequestMethod.GET)
     public ClaimGiftResponse claimGift(@PathVariable("userId") Long userId,
-                        @PathVariable("referralCode") String referralCode, final HttpServletResponse httpResponse){
-
-    	try {
-    		Long actualUserId = getCurrentUserId();
-    		if (!userId.equals(actualUserId)) {
-                logger.error("Wrong user expect " + userId + " actually " + actualUserId);
-    			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                return null;
-    		}
-    	} catch (Exception e) {
-            logger.error(e,e);
-			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            return null;
-    	}
-    	
-    	ClaimGiftResponse response = new ClaimGiftResponse();
-    	StatusType status = new StatusType();
-    	status.setCode(StatusCode.OK.ordinal());
-    	response.setStatus(status);
-        
+            @PathVariable("referralCode") String referralCode, final HttpServletResponse httpResponse) {
         try {
+            ensureCorrectUser(userId);
+
+            ClaimGiftResponse response = new ClaimGiftResponse();
             List<GiftType> gifts = new LinkedList<GiftType>();
             List<Long> agIds = new LinkedList<Long>();
-            ClaimStatusType claimStatusType = service.claimGift(userId, referralCode, gifts, agIds);
+            ClaimStatusType status = service.claimGift(userId, referralCode, gifts, agIds);
+            response.setStatus(status);
             response.getGifts().addAll(gifts);
-            response.setClaimStatus(claimStatusType);
-            if (response.getGifts().isEmpty()) {
-                status.setCode(StatusCode.ERROR.ordinal());
-            }
             if (!agIds.isEmpty()) {
-            	response.setAgId(agIds.get(0));
+                response.setAgId(agIds.get(0));
             }
-        } catch (Exception e) {
-            httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            status.setCode(StatusCode.ERROR.ordinal());
-            logger.error(e,e);
-        }
-        return response;
-    }
-    
-    @RequestMapping(value = "/claim/{userId}", method = RequestMethod.GET)
-    public ClaimGiftResponse claimGiftViaCookie(@PathVariable("userId") Long userId,
-            final HttpServletRequest request,  final HttpServletResponse httpResponse){
-
-    	try {
-    		Long actualUserId = getCurrentUserId();
-    		if (!userId.equals(actualUserId)) {
-                logger.error("Wrong user expect " + userId + " actually " + actualUserId);
-    			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                return null;
-    		}
-    	} catch (Exception e) {
-            logger.error(e,e);
-			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return response;
+        } catch (WrongUserException e) {
+            logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return null;
-    	}
-    	
+        } catch (Exception e) {
+            logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return null;
+        }
+    }
+
+    @RequestMapping(value = "/claim/{userId}", method = RequestMethod.GET)
+    public ClaimGiftResponse claimGiftViaCookie(@PathVariable("userId") Long userId, final HttpServletRequest request,
+            final HttpServletResponse httpResponse) {
+
         Cookie[] cookies = request.getCookies();
         String referralCode = null;
         for (Cookie cookie : cookies) {
@@ -118,184 +89,125 @@ public class RewardController extends AbstractController {
                 break;
             }
         }
-        
+
         return claimGift(userId, referralCode, httpResponse);
     }
-	
-	@RequestMapping(value = "/request/{userId}", method = RequestMethod.POST)
-	public RewardsResponse rewards(@PathVariable("userId") Long userId,
-						@RequestBody RewardsRequest request, final HttpServletResponse httpResponse){
 
-    	try {
-    		Long actualUserId = getCurrentUserId();
-    		if (!userId.equals(actualUserId)) {
-                logger.error("Wrong user expect " + userId + " actually " + actualUserId);
-    			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                return null;
-    		}
-    	} catch (Exception e) {
-            logger.error(e,e);
-			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            return null;
-    	}
-    	
-		RewardsResponse response = new RewardsResponse();
-		StatusType status = new StatusType();
-		status.setCode(StatusCode.OK.ordinal());
-		response.setStatus(status);
-		try {
-			response.getGifts().addAll(service.getGifts(userId));
-			response.getCredits().addAll(service.getCredits(userId));
-		} catch (Exception e) {
-			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			status.setCode(StatusCode.ERROR.ordinal());
-			logger.error(e,e);
-		}
-		return response;
-	}
-	
-	@RequestMapping(value="/redeem/gift/{userId}", method = RequestMethod.POST)
-	public RedeemGiftResponse redeemGift(@PathVariable("userId") Long userId,
-						@RequestBody RedeemGiftRequest request, final HttpServletResponse httpResponse){
+    @RequestMapping(value = "/request/{userId}", method = RequestMethod.POST)
+    public RewardsResponse rewards(@PathVariable("userId") Long userId, @RequestBody RewardsRequest request,
+            final HttpServletResponse httpResponse) {
+        try {
+            ensureCorrectUser(userId);
 
-    	try {
-    		Long actualUserId = getCurrentUserId();
-    		if (!userId.equals(actualUserId)) {
-                logger.error("Wrong user expect " + userId + " actually " + actualUserId);
-    			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                return null;
-    		}
-    	} catch (Exception e) {
-            logger.error(e,e);
-			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            RewardsResponse response = new RewardsResponse();
+            response.getGifts().addAll(service.getGifts(userId));
+            response.getCredits().addAll(service.getCredits(userId));
+            return response;
+        } catch (WrongUserException e) {
+            logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return null;
-    	}
-		
-		RedeemGiftResponse response = new RedeemGiftResponse();
-		StatusType status = new StatusType();
-		status.setCode(StatusCode.OK.ordinal());
-		response.setStatus(status);
-		try {
-			response.setAuthorizationCode(service.registerGiftRedemption(userId, request.getGift()));
-		}
-		catch(RedemptionException e){
-			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			response.setRedeemGiftStatus(RedeemGiftStatus.INVALID_CODE);
-			status.setCode(StatusCode.ERROR.ordinal());
-			logger.error(e,e);
-		}
-        catch(RateLimitException e){
+        } catch (Exception e) {
+            logger.error(e, e);
             httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.setRedeemGiftStatus(RedeemGiftStatus.LIMIT_REACH);
-            status.setCode(StatusCode.ERROR.ordinal());
-            logger.error(e,e);
-        }
-		catch (RuntimeException e) {
-			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			status.setCode(StatusCode.ERROR.ordinal());
-			logger.error(e,e);
-		}
-		
-		return response;
-	}
-	
-	@RequestMapping(value="/redeem/credit/{userId}", method = RequestMethod.POST)
-	public RedeemCreditResponse redeemKikbak(@PathVariable("userId") Long userId,
-						@RequestBody RedeemCreditRequest request, final HttpServletResponse httpResponse){
-
-    	try {
-    		Long actualUserId = getCurrentUserId();
-    		if (!userId.equals(actualUserId)) {
-                logger.error("Wrong user expect " + userId + " actually " + actualUserId);
-    			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                return null;
-    		}
-    	} catch (Exception e) {
-            logger.error(e,e);
-			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return null;
-    	}
-    	
-	    RedeemCreditResponse response = new RedeemCreditResponse();
-		StatusType status = new StatusType();
-		status.setCode(StatusCode.OK.ordinal());
-		response.setStatus(status);
-		try {
-			response.setResponse(service.redeemCredit(userId, request.getCredit()));
-		} catch (Exception e) {
-			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			status.setCode(StatusCode.ERROR.ordinal());
-			logger.error(e,e);
-		}
-		return response;
-	}
-    
-    @RequestMapping(value="/generateBarcode/{userId}/{allocatedGiftId}/{height}/{width}/", method = RequestMethod.GET)
+        }
+    }
+
+    @RequestMapping(value = "/redeem/gift/{userId}", method = RequestMethod.POST)
+    public RedeemGiftResponse redeemGift(@PathVariable("userId") Long userId, @RequestBody RedeemGiftRequest request,
+            final HttpServletResponse httpResponse) {
+
+        RedeemGiftResponse response = new RedeemGiftResponse();
+        try {
+            ensureCorrectUser(userId);
+
+            response.setStatus(RedeemGiftStatus.OK);
+            response.setAuthorizationCode(service.registerGiftRedemption(userId, request.getGift()));
+            return response;
+        } catch (RedemptionException e) {
+            logger.error(e, e);
+            response.setStatus(RedeemGiftStatus.INVALID_CODE);
+            return response;
+        } catch (RateLimitException e) {
+            logger.error(e, e);
+            response.setStatus(RedeemGiftStatus.LIMIT_REACH);
+            return response;
+        } catch (WrongUserException e) {
+            logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return null;
+        } catch (Exception e) {
+            logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return null;
+        }
+    }
+
+    @RequestMapping(value = "/redeem/credit/{userId}", method = RequestMethod.POST)
+    public RedeemCreditResponse redeemKikbak(@PathVariable("userId") Long userId,
+            @RequestBody RedeemCreditRequest request, final HttpServletResponse httpResponse) {
+        try {
+            ensureCorrectUser(userId);
+
+            RedeemCreditResponse response = new RedeemCreditResponse();
+            response.setResponse(service.redeemCredit(userId, request.getCredit()));
+            return response;
+        } catch (WrongUserException e) {
+            logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return null;
+        } catch (Exception e) {
+            logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return null;
+        }
+    }
+
+    @RequestMapping(value = "/generateBarcode/{userId}/{allocatedGiftId}/{height}/{width}/", method = RequestMethod.GET)
     public void generateBarcode(@PathVariable("userId") Long userId,
             @PathVariable("allocatedGiftId") Long allocatedGiftId, @PathVariable("height") Integer height,
-            @PathVariable("width") Integer width, final HttpServletResponse response) {
+            @PathVariable("width") Integer width, final HttpServletResponse httpResponse) {
 
-    	try {
-    		Long actualUserId = getCurrentUserId();
-    		if (!userId.equals(actualUserId)) {
-                logger.error("Wrong user expect " + userId + " actually " + actualUserId);
-                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                return;
-    		}
-    	} catch (Exception e) {
-            logger.error(e,e);
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            return;
-    	}
-    	
-    	try {
+        try {
+            ensureCorrectUser(userId);
+
             String barcode = service.getBarcode(userId, allocatedGiftId);
             BitMatrix result = new UPCAWriter().encode(barcode, BarcodeFormat.UPC_A, width, height);
-            response.setContentType("image/png");
-            response.addHeader("barcode", barcode);
-            
-            MatrixToImageWriter.writeToStream(result, "png", response.getOutputStream());
-            
-        } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            logger.error("cannot generate barcode", e);
-        }
-       
-    }
-    
-    @RequestMapping(value="/claim/{userId}/", method = RequestMethod.POST)
-    public ClaimCreditResponse claimCredit(@PathVariable("userId") Long userId, 
-            @RequestBody ClaimCreditRequest request, 
-            final HttpServletResponse httpResponse){
-
-    	try {
-    		Long actualUserId = getCurrentUserId();
-    		if (!userId.equals(actualUserId)) {
-                logger.error("Wrong user expect " + userId + " actually " + actualUserId);
-    			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                return null;
-    		}
-    	} catch (Exception e) {
-            logger.error(e,e);
-			httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            return null;
-    	}
-    	
-        ClaimCreditResponse response = new ClaimCreditResponse();
-        StatusType status = new StatusType();
-        status.setCode(StatusCode.OK.ordinal());
-        response.setStatus(status);
-        try {
-            service.claimCredit(userId, request.getClaim());
-        }
-        catch(Exception e) {
-            httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            status.setCode(StatusCode.ERROR.ordinal());
+            httpResponse.setContentType("image/png");
+            httpResponse.addHeader("barcode", barcode);
+            MatrixToImageWriter.writeToStream(result, "png", httpResponse.getOutputStream());
+        } catch (WrongUserException e) {
             logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        } catch (Exception e) {
+            logger.error("cannot generate barcode", e);
+            httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return;
         }
-        
-        return response;
-    }    
+    }
+
+    @RequestMapping(value = "/claim/{userId}/", method = RequestMethod.POST)
+    public ClaimCreditResponse claimCredit(@PathVariable("userId") Long userId,
+            @RequestBody ClaimCreditRequest request, final HttpServletResponse httpResponse) {
+        try {
+            ensureCorrectUser(userId);
+
+            ClaimCreditResponse response = new ClaimCreditResponse();
+            response.setStatus(SuccessStatus.OK);
+            service.claimCredit(userId, request.getClaim());
+            return response;
+        } catch (WrongUserException e) {
+            logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return null;
+        } catch (Exception e) {
+            logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return null;
+        }
+    }
 
     @RequestMapping(value = "/generateQrcode/{code}/{size}", method = RequestMethod.GET)
     public void generateQrcode(@PathVariable("code") String code, @PathVariable("size") Integer size,
@@ -306,12 +218,10 @@ public class RewardController extends AbstractController {
             BitMatrix result = new QRCodeWriter().encode(code, BarcodeFormat.QR_CODE, size, size, hints);
             response.setContentType("image/png");
             response.addHeader("qrcode", code);
-
             MatrixToImageWriter.writeToStream(result, "png", response.getOutputStream());
-
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             logger.error("cannot generate barcode", e);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 }
