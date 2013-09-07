@@ -37,7 +37,7 @@
 "What makes them great" = "What makes them great";
 "suggest required" = "Please tell us about the business you want to suggest";
 "configure mail" = "Please configure phone to send email";
-"Unreachable" = "Wasn't able to reach kikbak servers. Please try again later.";
+"Unreachable" = "Can't connect to Kikbak servers. Please try again later.";
 "Thank you" = "Thank you for suggesting a business.";
 
 "miles away" = "%@ mi";
@@ -140,3 +140,5 @@
 
 //qualify error
 "qualify" = "For security purposes, Kikbak requires that your Facebook account have a certain minimum friend count. Unfortunately your chosen account does not qualify.";
+
+"invalid qrcode" = "An invalid authorization code was used. Please try again with valid authorization.";

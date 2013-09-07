@@ -52,11 +52,11 @@ static NSString* resource = @"ShareExperience";
 
 -(void)parseResponse:(NSData*)data{
     NSString* json = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"Share Experience Request: %@", json);
+//    NSLog(@"Share Experience Request: %@", json);
     id dict = [json JSONValue];
 
     ShareResult* result = [[ShareResult alloc]init];
-    result.refcode = [[dict objectForKey:@"shareExperienceResponse"] objectForKey:@"referrerCode"];
+    result.landingUrl = [[[dict objectForKey:@"shareExperienceResponse"] objectForKey:@"template"] objectForKey:@"landingUrl"];
     result.subject = [[[dict objectForKey:@"shareExperienceResponse"] objectForKey:@"template"] objectForKey:@"subject"];
     result.body = [[[dict objectForKey:@"shareExperienceResponse"] objectForKey:@"template"] objectForKey:@"body"];
     [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakShareSuccess object:result];

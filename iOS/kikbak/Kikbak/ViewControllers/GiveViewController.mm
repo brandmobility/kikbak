@@ -28,7 +28,6 @@
 #import "ImageUploadRequest.h"
 #import "FBCouponObject.h"
 #import "ShareResult.h"
-#import "ShareData.h"
 
 #define DEFAULT_CONTAINER_VIEW_HEIGHT 50
 #define PHOTO_TAG  1000
@@ -82,6 +81,9 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 @property(nonatomic, strong) UIButton* giveBtn;
 
 @property(nonatomic, strong) NSString* imageUrl;
+
+@property(nonatomic, strong) NSString* employeeName;
+@property(nonatomic, strong) NSNumber* chosenlocation;
 
 
 -(void)createSubviews;
@@ -689,6 +691,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
             
             [self presentViewController:picker animated:YES completion:nil];
         }
+        [self.spinnerView removeFromSuperview];
     }
     else if( shareViaSMS ){
         if( [MFMessageComposeViewController canSendText] ){
@@ -697,8 +700,21 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
             [message setBody:result.body];
             [self presentViewController:message animated:YES completion:nil];
         }
+        [self.spinnerView removeFromSuperview];
     }
-    [self.spinnerView removeFromSuperview];
+    else{
+        [FBSettings setLoggingBehavior:[NSSet setWithObject:FBLoggingBehaviorFBRequests]];
+        FBCouponObject* obj = [[FBCouponObject alloc]init];
+        obj.caption = self.captionTextView.text;
+        obj.merchant = self.retailerName.text;
+        obj.locationId = self.chosenlocation;
+        obj.employeeName = self.employeeName;
+        obj.landingUrl = result.landingUrl;
+        obj.gift = self.giftDesctription.text;
+        obj.detailedDescription = self.giftDescriptionOptional.text;
+        [obj postCoupon:self.imageUrl];
+    }
+    
 }
 
 -(void) onShareError:(NSNotification*)notification{
@@ -746,25 +762,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     shareView.delegate = self;
     [shareView manuallyLayoutSubviews];
     [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:shareView];
-    ShareExperienceRequest* request = [[ShareExperienceRequest alloc]init];
-    NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:5];
     
-    ShareData* data = [notification object];
-    
-    [dict setObject:self.offer.merchantId forKey:@"merchantId"];
-    [dict setObject:data.locationId forKey:@"locationId"];
-    [dict setObject:self.offer.offerId forKey:@"offerId"];
-    [dict setObject:data.employeeName forKey:@"employeeId"];
-    [dict setObject:self.imageUrl forKey:@"imageUrl"];
-    [dict setObject:@"fb" forKey:@"type"];
-    [dict setObject:@"ios" forKey:@"platform"];
-    if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
-        [dict setObject:@"" forKey:@"caption"];
-    }
-    else{
-        [dict setObject:self.captionTextView.text forKey:@"caption"];
-    }
-    [request restRequest:dict];
     
     [self.spinnerView removeFromSuperview];
 
@@ -838,15 +836,27 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 
     shareViaEmail = NO;
     shareViaSMS = NO;
-    [FBSettings setLoggingBehavior:[NSSet setWithObject:FBLoggingBehaviorFBRequests]];
-    FBCouponObject* obj = [[FBCouponObject alloc]init];
-    obj.caption = self.captionTextView.text;
-    obj.merchant = self.retailerName.text;
-    obj.locationId = locationId;
-    obj.employeeName = name;
-    obj.gift = self.giftDesctription.text;
-    obj.detailedDescription = self.giftDescriptionOptional.text;
-    [obj postCoupon:self.imageUrl];
+    
+    self.employeeName = name;
+    self.chosenlocation = locationId;
+    
+    ShareExperienceRequest* request = [[ShareExperienceRequest alloc]init];
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:5];
+    [dict setObject:self.offer.merchantId forKey:@"merchantId"];
+    [dict setObject:locationId forKey:@"locationId"];
+    [dict setObject:self.offer.offerId forKey:@"offerId"];
+    [dict setObject:name forKey:@"employeeId"];
+    [dict setObject:self.imageUrl forKey:@"imageUrl"];
+    [dict setObject:@"fb" forKey:@"type"];
+    [dict setObject:@"ios" forKey:@"platform"];
+    if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
+        [dict setObject:@"" forKey:@"caption"];
+    }
+    else{
+        [dict setObject:self.captionTextView.text forKey:@"caption"];
+    }
+    [request restRequest:dict];
+    
 }
 
 #pragma mark - MFMailComposer Delegates

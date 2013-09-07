@@ -50,6 +50,7 @@ static NSString* resource = @"user/register/fb/";
 
 -(void)parseResponse:(NSData*)data{
     NSString* json = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@"Register User Request: %@", json);
     id dict = [json JSONValue];
     if( dict != [NSNull null] ){
         id registerResponse = [dict objectForKey:@"registerUserResponse"];
@@ -85,21 +86,23 @@ static NSString* resource = @"user/register/fb/";
                     appDelegate.window.rootViewController = postView;
                 }
             }
+            else{
+                NSString* status = [registerResponse objectForKey:@"status"];
+                if( [status compare:@"TOO_FEW_FRIENDS"] == NSOrderedSame ){
+                    [[FBSession activeSession]closeAndClearTokenInformation];
+                    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:nil message:NSLocalizedString(@"qualify", nil) delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+                    [alert show];
+                }
+            }
         }
     }
 }
 
 -(void)handleError:(NSInteger)statusCode withData:(NSData*)data{
-    if( statusCode == 403 ){
-        [[FBSession activeSession]closeAndClearTokenInformation];
-        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:nil message:NSLocalizedString(@"qualify", nil) delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-        [alert show];
-    }
-    else{
-        [[FBSession activeSession]closeAndClearTokenInformation];
-        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:NSLocalizedString(@"Unreachable", nil) delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-        [alert show];
-    }
+
+    [[FBSession activeSession]closeAndClearTokenInformation];
+    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:NSLocalizedString(@"Unreachable", nil) delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    [alert show];
 }
 
 @end

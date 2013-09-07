@@ -183,7 +183,6 @@
 		3CB9FC8717BDF7B20071B8B4 /* FriendSelectorTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9FC8617BDF7B10071B8B4 /* FriendSelectorTableViewCell.m */; };
 		3CB9FC8B17C330800071B8B4 /* LocationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9FC8A17C330800071B8B4 /* LocationTableViewCell.m */; };
 		3CB9FC8E17C336DE0071B8B4 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9FC8D17C336DE0071B8B4 /* Location.m */; };
-		3CB9FC9117C362500071B8B4 /* ShareData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9FC9017C362500071B8B4 /* ShareData.m */; };
 		3CB9FC9417C7541E0071B8B4 /* KikbakTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9FC9317C7541D0071B8B4 /* KikbakTextField.m */; };
 		3CB9FC9717C9EE9F0071B8B4 /* ClaimSuccessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9FC9617C9EE9E0071B8B4 /* ClaimSuccessView.m */; };
 		3CBCBF2617127468007B4249 /* OfferService.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF2517127468007B4249 /* OfferService.mm */; };
@@ -501,8 +500,6 @@
 		3CB9FC8A17C330800071B8B4 /* LocationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationTableViewCell.m; sourceTree = "<group>"; };
 		3CB9FC8C17C336DE0071B8B4 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
 		3CB9FC8D17C336DE0071B8B4 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
-		3CB9FC8F17C362500071B8B4 /* ShareData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareData.h; sourceTree = "<group>"; };
-		3CB9FC9017C362500071B8B4 /* ShareData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareData.m; sourceTree = "<group>"; };
 		3CB9FC9217C7541C0071B8B4 /* KikbakTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KikbakTextField.h; sourceTree = "<group>"; };
 		3CB9FC9317C7541D0071B8B4 /* KikbakTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KikbakTextField.m; sourceTree = "<group>"; };
 		3CB9FC9517C9EE9E0071B8B4 /* ClaimSuccessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClaimSuccessView.h; sourceTree = "<group>"; };
@@ -770,8 +767,6 @@
 				3C0A5C23177AAD91007D4E18 /* RedeemCreditSuccessViewController.m */,
 				3C638156179506B600E10594 /* ClaimCreditViewController.h */,
 				3C638157179506B600E10594 /* ClaimCreditViewController.m */,
-				3CB9FC8F17C362500071B8B4 /* ShareData.h */,
-				3CB9FC9017C362500071B8B4 /* ShareData.m */,
 			);
 			name = ViewControllers;
 			path = Kikbak/ViewControllers;
@@ -1489,7 +1484,6 @@
 				3CB9FC8717BDF7B20071B8B4 /* FriendSelectorTableViewCell.m in Sources */,
 				3CB9FC8B17C330800071B8B4 /* LocationTableViewCell.m in Sources */,
 				3CB9FC8E17C336DE0071B8B4 /* Location.m in Sources */,
-				3CB9FC9117C362500071B8B4 /* ShareData.m in Sources */,
 				3CB9FC9417C7541E0071B8B4 /* KikbakTextField.m in Sources */,
 				3CB9FC9717C9EE9F0071B8B4 /* ClaimSuccessView.m in Sources */,
 				3C6D4F9617CC815F00BB5425 /* QRCodeImageReqest.m in Sources */,

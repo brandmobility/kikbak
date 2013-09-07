@@ -44,7 +44,8 @@
     self.userInfo = [[FBUserInfo alloc]init];
     [FBQuery createFBSession];
 
-    if( self.session.isOpen ){
+    NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
+    if( self.session.isOpen && [prefs objectForKey:KIKBAK_USER_ID] != nil ){
         [FBQuery fbMe];
         UIStoryboard* mainBoard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
         UIViewController* postView = [mainBoard instantiateViewControllerWithIdentifier:@"RootViewController"];
@@ -53,7 +54,6 @@
   
     [application registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge|UIRemoteNotificationTypeSound|UIRemoteNotificationTypeAlert)];
   
-    NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
     if( [prefs objectForKey:KIKBAK_USER_ID] != nil ){
         RewardRequest* request = [[RewardRequest alloc]init];
         [request restRequest:[[NSDictionary alloc]init]];
@@ -112,8 +112,6 @@
   // attempt to extract a token from the url
   
   [self.session handleOpenURL:url];  
-  [FBSession setActiveSession:self.session];
-  [FBQuery fbMe];
   return YES;
 }
 

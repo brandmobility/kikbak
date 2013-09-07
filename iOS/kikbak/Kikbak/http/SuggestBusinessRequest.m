@@ -51,8 +51,8 @@ static NSString* resource = @"suggest/business";
 
 
 -(void)parseResponse:(NSData*)data{
-    NSString* json = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"Suggest Business Request: %@", json);
+//    NSString* json = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+//    NSLog(@"Suggest Business Request: %@", json);
     
     [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakSuggestSuccess object:nil];
 }

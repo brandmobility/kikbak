@@ -18,6 +18,7 @@
 @property (nonatomic,strong) NSString* detailedDescription;
 @property (nonatomic,strong) NSNumber* locationId;
 @property (nonatomic,strong) NSString* employeeName;
+@property (nonatomic,strong) NSString* landingUrl;
 
 -(void)postCoupon:(NSString*)url;
 

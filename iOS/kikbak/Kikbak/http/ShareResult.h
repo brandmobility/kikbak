@@ -10,7 +10,7 @@
 
 @interface ShareResult : NSObject
 
-@property (nonatomic,strong) NSString* refcode;
+@property (nonatomic,strong) NSString* landingUrl;
 @property (nonatomic,strong) NSString* subject;
 @property (nonatomic,strong) NSString* body;
 

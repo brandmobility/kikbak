@@ -71,7 +71,7 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
-  NSLog(@"Error: %@", error);
+  [self.restDelegate handleError:404 withData:self.receivedData];
 }
 
 - (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)response{

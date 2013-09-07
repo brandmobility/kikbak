@@ -51,32 +51,38 @@ static NSString* resource = @"rewards/redeem/gift";
 
 -(void)parseResponse:(NSData*)data{
     NSString* json = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"RedeemGiftRequest: %@", json);
-    
-    self.gift.location = nil;
-    NSNumber* giftId = self.shareInfo.allocatedGiftId;
-    NSManagedObjectContext* context = self.gift.managedObjectContext;
-    [context deleteObject:self.gift];
-    
-    NSError* error;
-    [context save:&error];
-    
-    if(error){
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-    }
+//    NSLog(@"RedeemGiftRequest: %@", json);
 
     id dict = [json JSONValue];
     id giftResponse = [dict objectForKey:@"redeemGiftResponse"];
-    
-    QRCodeImageReqest* qrRequest = [[QRCodeImageReqest alloc]init];
-    qrRequest.type = @"gift";
-    qrRequest.code = [giftResponse objectForKey:@"authorizationCode"];
-    qrRequest.fileId = giftId;
-    [qrRequest requestQRCode];
+
+    NSString* status = [giftResponse objectForKey:@"status"];
+    if( [status compare:@"OK"] == NSOrderedSame){
+        self.gift.location = nil;
+        NSNumber* giftId = self.shareInfo.allocatedGiftId;
+        NSManagedObjectContext* context = self.gift.managedObjectContext;
+        [context deleteObject:self.gift];
+        
+        NSError* error;
+        [context save:&error];
+        
+        if(error){
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        }
+        
+        QRCodeImageReqest* qrRequest = [[QRCodeImageReqest alloc]init];
+        qrRequest.type = @"gift";
+        qrRequest.code = [giftResponse objectForKey:@"authorizationCode"];
+        qrRequest.fileId = giftId;
+        [qrRequest requestQRCode];
+    }
+    else{
+        [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakRedeemGiftError object:NSLocalizedString(@"invalid qrcode", nil)];
+    }
 }
 
 -(void)handleError:(NSInteger)statusCode withData:(NSData*)data{
-    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakRedeemGiftError object:nil];
+    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakRedeemGiftError object:NSLocalizedString(@"Unreachable", nil)];
 }
 
 @end

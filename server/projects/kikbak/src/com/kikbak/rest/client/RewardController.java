@@ -31,6 +31,7 @@ import com.kikbak.jaxb.claim.ClaimCreditRequest;
 import com.kikbak.jaxb.claim.ClaimCreditResponse;
 import com.kikbak.jaxb.redeemcredit.RedeemCreditRequest;
 import com.kikbak.jaxb.redeemcredit.RedeemCreditResponse;
+import com.kikbak.jaxb.redeemcredit.RedeemCreditStatus;
 import com.kikbak.jaxb.redeemgift.RedeemGiftRequest;
 import com.kikbak.jaxb.redeemgift.RedeemGiftResponse;
 import com.kikbak.jaxb.redeemgift.RedeemGiftStatus;
@@ -152,15 +153,17 @@ public class RewardController extends AbstractController {
 
             RedeemCreditResponse response = new RedeemCreditResponse();
             response.setResponse(service.redeemCredit(userId, request.getCredit()));
+            response.setStatus(RedeemCreditStatus.OK);
             return response;
         } catch (WrongUserException e) {
             logger.error(e, e);
             httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return null;
-        } catch (Exception e) {
+        } catch (RedemptionException e) {
             logger.error(e, e);
-            httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            return null;
+            RedeemCreditResponse response = new RedeemCreditResponse();
+            response.setStatus(RedeemCreditStatus.INVALID_CODE);
+            return response;
         }
     }
 

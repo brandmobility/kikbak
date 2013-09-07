@@ -52,18 +52,18 @@ static NSString* resource = @"rewards/redeem/credit";
 
 -(void)parseResponse:(NSData*)data{
     NSString* json = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"RedeemCreditRequest: %@", json);
+//    NSLog(@"RedeemCreditRequest: %@", json);
 
     NSManagedObjectContext* context = self.credit.managedObjectContext;
 
     NSString* authorizationCode;
     NSNumber* creditId = self.credit.creditId;
     id dict = [json JSONValue];
-    if( dict) {
+    if( dict != [NSNull null] ) {
         id kikbakResponse = [dict objectForKey:@"redeemCreditResponse"];
-        if(kikbakResponse){
+        if(kikbakResponse != [NSNull null]){
             id response = [kikbakResponse objectForKey:@"response"];
-            if( response ){
+            if( response != [NSNull null]){
                 authorizationCode = [response objectForKey:@"authorizationCode"];
                 NSNumber* balance = [response objectForKey:@"balance"];
                 if( [balance integerValue ] == 0){
@@ -73,27 +73,31 @@ static NSString* resource = @"rewards/redeem/credit";
                 else{
                     self.credit.value = balance;
                 }
+                
+                NSError* error;
+                [context save:&error];
+                
+                if(error){
+                    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                }
+                
+                
+                QRCodeImageReqest* qrRequest = [[QRCodeImageReqest alloc]init];
+                qrRequest.type = @"credit";
+                qrRequest.code = authorizationCode;
+                qrRequest.fileId = creditId;
+                [qrRequest requestQRCode];
+            }
+            else{
+               [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakRedeemCreditError object:NSLocalizedString(@"invalid qrcode", nil)];
             }
         }
     }
     
-    NSError* error;
-    [context save:&error];
-    
-    if(error){
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-    }
-
-
-    QRCodeImageReqest* qrRequest = [[QRCodeImageReqest alloc]init];
-    qrRequest.type = @"credit";
-    qrRequest.code = authorizationCode;
-    qrRequest.fileId = creditId;
-    [qrRequest requestQRCode];
 }
 
 -(void)handleError:(NSInteger)statusCode withData:(NSData*)data{
-    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakRedeemCreditError object:nil];
+    [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakRedeemCreditError object:NSLocalizedString(@"Unreachable", nil)];
 }
 
 @end

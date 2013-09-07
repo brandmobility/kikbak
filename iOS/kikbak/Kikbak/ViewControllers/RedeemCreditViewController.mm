@@ -259,7 +259,7 @@
 
 -(void) onRedeemKikbakError:(NSNotification*)notification{
     [self.spinnerView removeFromSuperview];
-    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:NSLocalizedString(@"Unreachable", nil) delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:[notification object] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     [alert show];
 }
 

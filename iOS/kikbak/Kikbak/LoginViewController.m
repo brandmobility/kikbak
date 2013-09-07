@@ -107,6 +107,10 @@
                                                      FBSessionState status,
                                                      NSError *error) {
         // and here we make sure to update our UX according to the new session state
+        if( !error && status == FBSessionStateOpen ){
+            [FBSession setActiveSession:appDelegate.session];
+            [FBQuery fbMe];
+        }
     }];
 }
 

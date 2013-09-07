@@ -11,7 +11,6 @@
 #import "SBJson.h"
 #import "NotificationContstants.h"
 #import "Location.h"
-#import "ShareData.h"
 
 @implementation FBCouponObject
 
@@ -26,7 +25,7 @@
         [gift setObject:self.detailedDescription forKey:@"description"];
     }
     [gift setObject:url forKey:@"image"];
-    [gift setObject:@"http://test.kikbak.me/m/index.html" forKey:@"url"];
+    [gift setObject:self.landingUrl forKey:@"url"];
     
   
     NSDictionary *request1Params = [[NSDictionary alloc]
@@ -60,10 +59,7 @@
          completionHandler:
      ^(FBRequestConnection *connection, id result, NSError *error) {
        if (!error) {
-           ShareData* data = [[ShareData alloc]init];
-           data.locationId = self.locationId;
-           data.employeeName = self.employeeName;
-           [[NSNotificationCenter defaultCenter]postNotificationName:@"kKikbakFBStoryPostSuccess" object:data];
+           [[NSNotificationCenter defaultCenter]postNotificationName:@"kKikbakFBStoryPostSuccess" object:nil];
        }else{
            [[NSNotificationCenter defaultCenter]postNotificationName:@"kKikbakFBStoryPostError" object:nil];
        }
