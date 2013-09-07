@@ -130,6 +130,7 @@ const int CELL_HEIGHT = 156;
 }
 
 -(void)viewDidLayoutSubviews{
+    [self manuallyLayoutSubviews];
 }
 
 -(void) createSuggestBtn{
