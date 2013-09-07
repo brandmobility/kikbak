@@ -36,7 +36,7 @@ static NSString* resource = @"rewards/generateQrcode";
 
 -(void)parseResponse:(NSData*)data{
     ImageType type = QRCODE_GIFT_IMAGE_TYPE;
-    if( [self.code compare:@"credit"] == NSOrderedSame ){
+    if( [self.type compare:@"credit"] == NSOrderedSame ){
         type = QRCODE_CREDIT_IMAGE_TYPE;
     }
     NSString* imagePath = [ImagePersistor persisttImage:data fileId:self.fileId imageType:type];

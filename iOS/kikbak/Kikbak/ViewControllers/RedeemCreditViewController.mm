@@ -252,6 +252,7 @@
     vc.merchantName = self.retailerName.text;
     vc.validationCode = [[notification object] objectForKey:@"authorizationCode"];
     vc.imagePath = [[notification object] objectForKey:@"imagePath"];
+    vc.offerId = self.credit.offerId;
     [self.navigationController pushViewController:vc animated:YES];
     
 }

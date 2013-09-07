@@ -63,6 +63,8 @@
     
     self.navigationItem.hidesBackButton = YES;
     self.navigationItem.leftBarButtonItem = [UIButton blackBackBtn:self];
+    
+    self.title = NSLocalizedString(@"Success", nil);
 	
     [self createSubviews];
     [self manuallyLayoutSubviews];

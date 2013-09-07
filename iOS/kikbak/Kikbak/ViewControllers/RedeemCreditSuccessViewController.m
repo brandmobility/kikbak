@@ -11,6 +11,8 @@
 #import "Credit.h"
 #import "UIDevice+Screen.h"
 #import "UIButton+Util.h"
+#import "GiveViewController.h"
+#import "OfferService.h"
 
 @interface RedeemCreditSuccessViewController ()
 
@@ -32,8 +34,15 @@
 @property (nonatomic, strong) UIImageView* qrCode;
 @property (nonatomic, strong) UILabel* couponCode;
 
+@property (nonatomic, strong) UILabel* share;
+@property (nonatomic, strong) UILabel* earn;
+
+@property (nonatomic, strong) UIButton* giveBtn;
+
 -(void)createSubviews;
 -(void)manuallyLayoutSubviews;
+
+-(IBAction)onGiveBtn:(id)sender;
 
 @end
 
@@ -55,6 +64,8 @@
     self.navigationItem.hidesBackButton = YES;
     self.navigationItem.leftBarButtonItem = [UIButton blackBackBtn:self];
     
+    self.title = NSLocalizedString(@"Success", nil);
+    
     [self createSubviews];
     [self manuallyLayoutSubviews];
 }
@@ -75,13 +86,19 @@
         self.claimedCredit.frame = CGRectMake(0, 40, 320, 15);
         self.showScreen.frame = CGRectMake(0, 55, 320, 15);
         self.dottedSeperator.frame = CGRectMake(0, 138, 320, 2);
-        self.offer.frame = CGRectMake(0, 157, 320, 28);
-        self.desc.frame = CGRectMake(0, 185, 320, 48);
-        self.optionalDesc.frame = CGRectMake(0, 225, 320, 26);
-        self.seperator.frame = CGRectMake(11, 265, 298, 1);
-        self.qrCode.frame = CGRectMake(33, 287, 109, 109);
-        self.couponCode.frame = CGRectMake(175, 322, 320, 46);
+     
+        self.offer.frame = CGRectMake(0, 122, 320, 28);
+        self.desc.frame = CGRectMake(0, 146, 320, 48);
+        self.optionalDesc.frame = CGRectMake(0, 184, 320, 26);
+        self.seperator.frame = CGRectMake(11, 208, 298, 1);
+        self.qrCode.frame = CGRectMake(42, 220, 100, 100);
+        self.couponCode.frame = CGRectMake(180, 255, 150, 23);
         self.couponCode.textAlignment = NSTextAlignmentLeft;
+        
+        self.earn.frame = CGRectMake(0, 325, 320, 15);
+        self.earn.frame = CGRectMake(0, 342, 320, 15);
+        self.giveBtn.frame = CGRectMake(11, 365, 298, 40);
+        
     }
 }
 
@@ -161,21 +178,47 @@
     self.optionalDesc.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
     [self.view addSubview:self.optionalDesc];
 
-    self.seperator = [[UIImageView alloc]initWithFrame:CGRectMake(11, 298, 298, 1)];
-    self.seperator.image = [UIImage imageNamed:@"separator_gray_line"];
-    [self.view addSubview:self.seperator];
     
-    self.qrCode = [[UIImageView alloc]initWithFrame:CGRectMake(106, 321, 109, 109)];
+    self.qrCode = [[UIImageView alloc]initWithFrame:CGRectMake(40, 285, 109, 109)];
     self.qrCode.image = [UIImage imageWithContentsOfFile:self.imagePath];
     [self.view addSubview:self.qrCode];
     
-    self.couponCode = [[UILabel alloc] initWithFrame:CGRectMake(0, 445, 320, 46)];
+    self.couponCode = [[UILabel alloc] initWithFrame:CGRectMake(180, 324, 320, 46)];
     self.couponCode.text = self.validationCode;
-    self.couponCode.textAlignment = NSTextAlignmentCenter;
+    self.couponCode.textAlignment = NSTextAlignmentLeft;
     self.couponCode.backgroundColor = [UIColor clearColor];
     self.couponCode.textColor = UIColorFromRGB(0x3a3a3a);
     self.couponCode.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:41];
     [self.view addSubview:self.couponCode];
+    
+    self.seperator = [[UIImageView alloc]initWithFrame:CGRectMake(11, 406, 298, 1)];
+    self.seperator.image = [UIImage imageNamed:@"separator_gray_line"];
+    [self.view addSubview:self.seperator];
+    
+    self.share = [[UILabel alloc] initWithFrame:CGRectMake(0, 415, 320, 15)];
+    self.share.text = NSLocalizedString(@"Share with friends", nil);
+    self.share.textAlignment = NSTextAlignmentCenter;
+    self.share.backgroundColor = [UIColor clearColor];
+    self.share.textColor = UIColorFromRGB(0x3a3a3a);
+    self.share.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
+    [self.view addSubview:self.share];
+    
+    self.earn = [[UILabel alloc] initWithFrame:CGRectMake(0, 429, 320, 15)];
+    self.earn.text = NSLocalizedString(@"Earn for friend", nil);
+    self.earn.textAlignment = NSTextAlignmentCenter;
+    self.earn.backgroundColor = [UIColor clearColor];
+    self.earn.textColor = UIColorFromRGB(0x3a3a3a);
+    self.earn.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
+    [self.view addSubview:self.earn];
+    
+    self.giveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.giveBtn setBackgroundImage:[UIImage imageNamed:@"btn_blue"] forState:UIControlStateNormal];
+    [self.giveBtn setTitle:NSLocalizedString(@"Give to Friends", nil) forState:UIControlStateNormal];
+    [self.giveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.giveBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:15];
+    self.giveBtn.frame = CGRectMake(11, 453, 298, 40);
+    [self.giveBtn addTarget:self action:@selector(onGiveBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.giveBtn];
 }
 
 #pragma mark - on back btn
@@ -183,5 +226,10 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
+-(IBAction)onGiveBtn:(id)sender{
+    GiveViewController* vc = [[GiveViewController alloc]init];
+    vc.offer = [OfferService findOfferById:self.offerId];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 @end

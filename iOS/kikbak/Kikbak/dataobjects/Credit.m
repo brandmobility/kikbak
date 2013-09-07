@@ -2,7 +2,7 @@
 //  Credit.m
 //  Kikbak
 //
-//  Created by Ian Barile on 7/13/13.
+//  Created by Ian Barile on 9/6/13.
 //  Copyright (c) 2013 Ian Barile. All rights reserved.
 //
 
@@ -25,6 +25,7 @@
 @dynamic tosUrl;
 @dynamic validationType;
 @dynamic value;
+@dynamic offerId;
 @dynamic location;
 
 @end

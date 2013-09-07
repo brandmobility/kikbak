@@ -2,7 +2,7 @@
 //  Credit.h
 //  Kikbak
 //
-//  Created by Ian Barile on 7/13/13.
+//  Created by Ian Barile on 9/6/13.
 //  Copyright (c) 2013 Ian Barile. All rights reserved.
 //
 
@@ -26,6 +26,7 @@
 @property (nonatomic, retain) NSString * tosUrl;
 @property (nonatomic, retain) NSString * validationType;
 @property (nonatomic, retain) NSNumber * value;
+@property (nonatomic, retain) NSNumber * offerId;
 @property (nonatomic, retain) NSSet *location;
 @end
 

@@ -51,6 +51,7 @@
     credit.validationType = [dict objectForKey:@"validationType"];
     credit.rewardType = [dict objectForKey:@"rewardType"];
     credit.imageUrl = [dict objectForKey:@"imageUrl"];
+    credit.offerId = [dict objectForKey:@"offerId"];
     
     
     NSError *error = nil;

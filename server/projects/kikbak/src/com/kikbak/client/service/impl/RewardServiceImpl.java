@@ -408,7 +408,7 @@ public class RewardServiceImpl implements RewardService{
 
 
     protected String generateAuthorizationCode(){
-        return new BigInteger(16,random).toString(16);
+        return new BigInteger(130,random).toString(16);
     }
 
     protected ClientMerchantType fillClientMerchantType(Merchant merchant){

@@ -13,6 +13,7 @@
 @interface RedeemCreditSuccessViewController : UIViewController
 
 @property(nonatomic,strong)NSNumber* creditUsed;
+@property(nonatomic,strong)NSNumber* offerId;
 @property(nonatomic,strong)NSString* merchantName;
 @property(nonatomic,strong)NSString* validationCode;
 @property(nonatomic,strong)NSString* imagePath;
