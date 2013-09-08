@@ -25,6 +25,7 @@ import com.referredlabs.kikbak.data.AvailableCreditType;
 import com.referredlabs.kikbak.data.CreditRedemptionType;
 import com.referredlabs.kikbak.data.RedeemCreditRequest;
 import com.referredlabs.kikbak.data.RedeemCreditResponse;
+import com.referredlabs.kikbak.data.RedeemCreditStatus;
 import com.referredlabs.kikbak.data.ValidationType;
 import com.referredlabs.kikbak.http.Http;
 import com.referredlabs.kikbak.store.DataStore;
@@ -35,6 +36,7 @@ import com.referredlabs.kikbak.ui.ChangeAmountDialog.OnCreditChangedListener;
 import com.referredlabs.kikbak.ui.ConfirmationDialog.ConfirmationListener;
 import com.referredlabs.kikbak.utils.Nearest;
 import com.referredlabs.kikbak.utils.Register;
+import com.referredlabs.kikbak.utils.StatusException;
 import com.squareup.picasso.Picasso;
 
 public class RedeemCreditFragment extends Fragment implements OnClickListener,
@@ -51,6 +53,7 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
   private static final int REQUEST_CONFIRM_CREDIT = 1;
   private static final int REQUEST_NOT_IN_STORE = 2;
   private static final int REQUEST_SCAN_CONFIRMATION = 3;
+  private static final int REQUEST_INVALID_CODE = 4;
 
   private AvailableCreditType mCredit;
   private double mCreditToUse;
@@ -230,6 +233,7 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
         onRedeemInStoreClicked();
         break;
       case REQUEST_SCAN_CONFIRMATION:
+      case REQUEST_INVALID_CODE:
         showScanner();
         break;
     }
@@ -277,9 +281,26 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
     mCallback.onRedeemCreditSuccess(mCreditToUse, code);
   }
 
-  public void onRegistrationFailed() {
+  public void onRegistrationFailed(Exception exception) {
     mRedeemInStore.setEnabled(true);
+
+    if (exception instanceof StatusException) {
+      StatusException e = (StatusException) exception;
+      RedeemCreditStatus status = e.getStatus();
+      if (status == RedeemCreditStatus.INVALID_CODE) {
+        showInvalidCodeDialog();
+        return;
+      }
+    }
+
     Toast.makeText(getActivity(), R.string.redeem_failure, Toast.LENGTH_SHORT).show();
+  }
+
+  private void showInvalidCodeDialog() {
+    String msg = getString(R.string.redeem_invalid_code);
+    ConfirmationDialog dialog = ConfirmationDialog.newInstance(msg);
+    dialog.setTargetFragment(this, REQUEST_INVALID_CODE);
+    dialog.show(getFragmentManager(), null);
   }
 
   private class RedeemCreditTask extends TaskEx {
@@ -299,9 +320,12 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
     }
 
     @Override
-    protected void doInBackground() throws IOException {
+    protected void doInBackground() throws IOException, StatusException {
       String uri = Http.getUri(RedeemCreditRequest.PATH + mUserId);
       mResponse = Http.execute(uri, mReq, RedeemCreditResponse.class);
+      if (mResponse.status != RedeemCreditStatus.OK) {
+        throw new StatusException(mResponse.status);
+      }
     }
 
     @Override
@@ -311,7 +335,7 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
 
     @Override
     protected void onFailed(Exception exception) {
-      onRegistrationFailed();
+      onRegistrationFailed(exception);
     }
   }
 

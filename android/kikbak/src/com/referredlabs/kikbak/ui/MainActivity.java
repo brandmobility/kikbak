@@ -64,6 +64,8 @@ public class MainActivity extends KikbakActivity implements ActionBar.TabListene
     GcmHelper.getInstance().registerIfNeeded();
     mLocationFinder = new LocationFinder(this);
     setupViews();
+    DataStore.getInstance().refreshOffers();
+    DataStore.getInstance().refreshRewards();
   }
 
   void setupViews() {
