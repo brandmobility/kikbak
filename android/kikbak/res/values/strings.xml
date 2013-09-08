@@ -132,7 +132,7 @@
     <string name="redeem_gift_confirmation">You must be at the register to redeem.\n\nAre you ready to redeem this offer?</string>
     <string name="redeem_invalid_code">Sorry, that QR code is not recognized or is invalid.\n\nWould you like to try again?</string>
     <string name="redeem_not_in_store">Oops! You have to be in the store to redeem.\n\nLooks like you might not be there yet. Try again?</string>
-    <string name="redeem_credit_confirmation">If you use more credit then your purchase total, you will lose all excess credit.\n\nYou have chosen to redeem $%.2f credit. Is this right?</string>
+    <string name="redeem_credit_confirmation">If you use more credit than your purchase total, you will lose all excess credit.\n\nYou have chosen to redeem $%.2f credit. Is this right?</string>
     <string name="redeem_failure">Something went wrong, please try again.</string>
 
     <!-- Redeem success -->
