@@ -55,6 +55,14 @@ function connectFb(accessToken) {
     data: str,
     url: config.backend + 'user/register/fb/',
     success: function(json) {
+      if (json && json.registerUserResponse && json.registerUserResponse.status === 'TOO_FEW_FRIENDS') {
+        alert('For security purposes, Kikbak requires that your Facebook account have a certain minimum friend count. Unfortunately your chosen account does not qualify.');
+        return;
+      }
+      if (!json || !json.registerUserResponse || !json.registerUserResponse.userId || !json.registerUserResponse.userId.userId) {
+    	showError();
+    	return;
+      }
       updateFbFriends(json.registerUserResponse.userId.userId);
     },
     error: showError
@@ -66,35 +74,17 @@ function updateFbFriends(userId) {
 	alert('Cannot redeem the gift you shared');
 	return;
   }
-  FB.api('/me/friends', {fields: 'name,id,first_name,last_name,username'}, function(friend_response) {
-    var data = {};
-    data['friends'] = friend_response.data;
-    var req = {};
-    req['UpdateFriendsRequest'] = data;
-    var str = JSON.stringify(req);
-
-    $.ajax({
-      dataType: 'json',
-      type: 'POST',
-      contentType: 'application/json',
-      data: str,
-      url: config.backend + 'user/friends/fb/' + userId,
-      success: function(json) {
-    	$('#facebook-div').hide();
-    	$('#redeem-div').show();
-    	localStorage.userId = userId;
-      },
-      error: showError
-    });
-  });
+  localStorage.userId = userId;
+  $('#facebook-div').hide();
+  $('#redeem-div').show();
 }
 
 function redeemGift() {
-  if (window.mobilecheck()) {
-    window.location.href = config.mobileUrl;
-  } else {
+//  if (window.mobilecheck()) {
+//    window.location.href = config.mobileUrl;
+//  } else {
     claimCode(localStorage.userId);
-  }
+//  }
 }
 
 function claimCode(userId) {
@@ -105,8 +95,24 @@ function claimCode(userId) {
     contentType: 'application/json',
     url: url,
     success: function(json) {
-      if (json.claimGiftResponse.agId) {
-        window.location.href = 'gift/success.html?user=' + userId + '&gid=' + json.claimGiftResponse.agId + '&code=' + localStorage.code;
+      if (json && json.claimGiftResponse) {
+    	var resp = json.claimGiftResponse;
+        if (resp.status && resp.status === 'EXPIRED') {
+          alert('The gift has expired');
+          return;
+        } else if (resp.status && resp.status === 'LIMIT_REACH') {
+          alert('The gift is not available anymore');
+          return;
+        } else if (resp.status && resp.status === 'LIMIT_REACH') {
+          alert('The gift is not available anymore');
+          return;
+        } else if (resp.status !== 'OK') {
+          showError();
+          return;
+        }
+    	if (resp.agId) {
+          window.location.href = 'gift/success.html?user=' + userId + '&gid=' + json.claimGiftResponse.agId + '&code=' + localStorage.code;
+        }
       } else {
     	showError();
       }

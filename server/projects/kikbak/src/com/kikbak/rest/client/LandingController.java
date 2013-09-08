@@ -62,6 +62,10 @@ public class LandingController {
 			String code = request.getParameter("code");
 			GiftType gift = rewardService.getGiftByReferredCode(code);
 			
+			if (gift == null) {
+				httpResponse.sendRedirect(config.getString("landing.code_not_found.url"));
+			}
+			
 			String title = config.getString(SHARE_TEMPLATE_TITLE_FB).replace("%NAME%", gift.getShareInfo().get(0).getFriendName());
 			String body = config.getString(SHARE_TEMPLATE_BODY_FB).replace("%MERCHANT%", gift.getMerchant().getName())
 					.replace("%DESC%", gift.getDesc())
@@ -75,6 +79,8 @@ public class LandingController {
 			request.setAttribute("title", title);
 			request.setAttribute("body", body);
 			request.setAttribute("location", gift.getMerchant().getLocations().get(0));
+			request.setAttribute("validationType", gift.getValidationType());
+			request.setAttribute("locationType", gift.getRedemptionLocationType());
 			return new ModelAndView("landing.jsp");
 		} catch (Exception e) {
 			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

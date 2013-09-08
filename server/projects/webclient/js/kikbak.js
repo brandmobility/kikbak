@@ -199,12 +199,21 @@ function connectFb(accessToken, share) {
     data: str,
     url: config.backend + 'kikbak/user/register/fb/',
     success: function(json) {
+      if (json && json.registerUserResponse && json.registerUserResponse.status === 'TOO_FEW_FRIENDS') {
+        alert('For security purposes, Kikbak requires that your Facebook account have a certain minimum friend count. Unfortunately your chosen account does not qualify.');
+        return;
+      }
+      if (!json || !json.registerUserResponse || !json.registerUserResponse.userId || !json.registerUserResponse.userId.userId) {
+        showError();
+        return;
+      }
       if (share) {
         $('#share-fb-div').hide();
         $('#share-login-div').show();
         updateFbFriends(json.registerUserResponse.userId.userId, shareOfferAfterLogin);
       } else {
-        updateFbFriends(json.registerUserResponse.userId.userId, initPage);
+        s.userId = json.registerUserResponse.userId.userId;
+        initPage();
       }
     },
     error: showError

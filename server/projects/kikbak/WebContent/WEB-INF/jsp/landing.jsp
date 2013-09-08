@@ -19,7 +19,6 @@
 <title>Kikbak</title>
 </head>
 <body>
-<div>
 <div id="bdy" class="bdy"></div>
 <div class="hedr-wpr"><a href="${gift.merchant.url}" class="logo"><img src="${merchantDefaultUrl}" /></a></div>
 <div class="main-bdy">
@@ -87,21 +86,36 @@ an exclusive offer for <strong>${gift.merchant.name}</strong>.</p>
 <br /><font size="1">We will never post on Facebook without your permission.</font></p>
 </div>
 </div>
-<div id="redeem-div" style="display:none;"> 
-<!-- 
-<div class="blue-btn">
+<div id="redeem-div" style="display:none;">
+<div class="blue-btn" id="redeem-div-btn">
+<c:choose>
+<c:when test="${(validationType == 'barcode')}">
 <a id="redeemGift" href="#" class="btnn">Generate offer to use in store</a>
-</div>
--->
+</c:when>
+</c:choose>
 <div class="blue-btn" style="margin:0">
-<p style="margin-left:3%;">The Kikbak app makes it easy to access your gift. 
-Download it now -- your gift is already there.</p>
+<c:choose>
+<c:when test="${(validationType == 'qrcode') and (locationType == 'store')}">
+<p style="margin-left:3%;">To access your gift, download the Kikbak app for iOS or Android. Your gift will be waiting for whenever you're ready to use it.</p>
+</c:when>
+</c:choose>
+<c:choose>
+<c:when test="${(validationType == 'qrcode') and (locationType == 'all')}">
+<p style="margin-left:3%;">To use your gift in the store, download the Kikbak app for iOS or Android. Your gift will be waiting for whenever you're ready to use it.</p>
+</c:when>
+</c:choose>
+<c:choose>
+<c:when test="${(validationType == 'barcode')}">
+<p style="margin-left:3%;">Or download the Kikbak app for iOS or Android. Your gift will be waiting for whenever you're ready to use it.</p>
+</c:when>
+</c:choose>
 </div>
 <div class="blue-btn">
 <p class="ap-srt">
 <a href="#" class="lft"><img src="img/app-store.png" /></a> 
 <a href="#" class="rit"><img src="img/google-play.png" /></a>
 </p>
+</div>
 </div>
 </div>
 </div>
