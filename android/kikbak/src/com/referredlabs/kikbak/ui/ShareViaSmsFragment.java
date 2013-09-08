@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.google.gson.Gson;
@@ -17,6 +16,7 @@ import com.referredlabs.kikbak.data.ShareExperienceRequest;
 import com.referredlabs.kikbak.data.ShareExperienceResponse;
 import com.referredlabs.kikbak.data.SharedType;
 import com.referredlabs.kikbak.http.Http;
+import com.referredlabs.kikbak.tasks.TaskEx;
 import com.referredlabs.kikbak.utils.Register;
 
 public class ShareViaSmsFragment extends SharingDialog {
@@ -31,7 +31,6 @@ public class ShareViaSmsFragment extends SharingDialog {
   private static final int REQUEST_SEND_SMS = 2;
 
   private ClientOfferType mOffer;
-  private ShareTask mTask;
   private ShareStatusListener mListener;
   private ArrayList<String> mContacts;
 
@@ -86,13 +85,6 @@ public class ShareViaSmsFragment extends SharingDialog {
     }
   }
 
-  @Override
-  public void onDestroy() {
-    super.onDestroy();
-    if (mTask != null)
-      mTask.cancel(false);
-  }
-
   private void share() {
     if (mTask == null) {
       mTask = new ShareTask();
@@ -122,29 +114,22 @@ public class ShareViaSmsFragment extends SharingDialog {
     return b.toString();
   }
 
-  private class ShareTask extends AsyncTask<Void, Void, Void> {
+  private class ShareTask extends TaskEx {
 
     private String mBody;
-    private boolean mKikbakSuccess = false;
 
     @Override
-    protected Void doInBackground(Void... params) {
+    protected void doInBackground() throws IOException {
       Bundle args = getArguments();
       String photoPath = args.getString(ARG_PHOTO_PATH);
       ClientOfferType offer = new Gson().fromJson(args.getString(ARG_OFFER), ClientOfferType.class);
 
-      try {
-        String imageUrl = offer.giveImageUrl;
-        if (photoPath != null) {
-          long userId = Register.getInstance().getUserId();
-          imageUrl = Http.uploadImage(userId, photoPath);
-        }
-        reportToKikbak(imageUrl);
-        mKikbakSuccess = true;
-      } catch (Exception e) {
-        android.util.Log.d("MMM", "exception " + e);
+      String imageUrl = offer.giveImageUrl;
+      if (photoPath != null) {
+        long userId = Register.getInstance().getUserId();
+        imageUrl = Http.uploadImage(userId, photoPath);
       }
-      return null;
+      reportToKikbak(imageUrl);
     }
 
     private void reportToKikbak(String imageUrl) throws IOException {
@@ -166,12 +151,13 @@ public class ShareViaSmsFragment extends SharingDialog {
     }
 
     @Override
-    protected void onPostExecute(Void result) {
-      if (mKikbakSuccess) {
-        onShareFinished(mBody);
-      } else {
-        onShareFailed();
-      }
+    protected void onSuccess() {
+      onShareFinished(mBody);
+    }
+
+    @Override
+    protected void onFailed(Exception exception) {
+      onShareFailed();
     }
   }
 }

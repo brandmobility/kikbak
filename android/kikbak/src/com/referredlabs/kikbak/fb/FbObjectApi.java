@@ -9,7 +9,6 @@ import org.json.JSONObject;
 
 import android.os.Bundle;
 
-import com.facebook.FacebookException;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.RequestBatch;
@@ -24,7 +23,27 @@ public class FbObjectApi {
   private final static String COUPON_PATH = "me/objects/referredlabs:coupon";
   private final static String SHARE_PATH = "me/referredlabs:share";
 
-  public static void publishStory(Session session, ClientOfferType offer, String landingPage, String imageUrl,
+  public static void publishStory(Session session, ClientOfferType offer, String landingPage,
+      String imageUrl, String userMessage, String code) throws IOException {
+
+    // For some reasons publishing story failed with IOException from FB internals
+    // Until resolved lets try 3 times
+
+    IOException exception = null;
+    for (int i = 0; i < 3; i++) {
+      try {
+        publishStoryImpl(session, offer, landingPage, imageUrl, userMessage, code);
+        return;
+      } catch (IOException e) {
+        android.util.Log.w("MMM", "publish story failed ");
+        exception = e;
+      }
+    }
+    throw exception;
+  }
+
+  public static void publishStoryImpl(Session session, ClientOfferType offer, String landingPage,
+      String imageUrl,
       String userMessage, String code)
       throws IOException {
     RequestBatch requestBatch = new RequestBatch();
@@ -42,14 +61,13 @@ public class FbObjectApi {
 
     for (Response r : responses) {
       if (r.getError() != null) {
-        FacebookException fb = r.getError().getException();
-        fb.printStackTrace(); //TODO: remove
         throw new IOException("FB error:" + r.getError().getErrorMessage());
       }
     }
   }
 
-  private static Request createGiftRequest(Session session, ClientOfferType offer, String landingPage, String imageUrl,
+  private static Request createGiftRequest(Session session, ClientOfferType offer,
+      String landingPage, String imageUrl,
       String code) {
     JSONObject gift = new JSONObject();
     try {

@@ -1,9 +1,10 @@
 
 package com.referredlabs.kikbak.gcm;
 
+import java.io.IOException;
+
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -14,9 +15,8 @@ import com.referredlabs.kikbak.data.DeviceTokenUpdateRequest;
 import com.referredlabs.kikbak.data.DeviceTokenUpdateResponse;
 import com.referredlabs.kikbak.data.UserIdType;
 import com.referredlabs.kikbak.http.Http;
+import com.referredlabs.kikbak.tasks.Task;
 import com.referredlabs.kikbak.utils.Register;
-
-import java.io.IOException;
 
 public class GcmHelper {
 
@@ -81,22 +81,16 @@ public class GcmHelper {
     new RegisterTask().execute();
   }
 
-  private class RegisterTask extends AsyncTask<Void, Void, Void> {
+  private class RegisterTask extends Task {
 
     @Override
-    protected Void doInBackground(Void... params) {
+    protected void doInBackground() throws IOException {
       Context ctx = Kikbak.getInstance();
-      try {
-        GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(ctx);
-        String senderId = ctx.getString(R.string.gcm_sender_id);
-        String regId = gcm.register(senderId);
-        reportToServer(regId);
-        save(regId);
-        Log.i("Kikbak", "GCM registration id:" + regId);
-      } catch (IOException ex) {
-        Log.e(TAG, "GCM registration failed.");
-      }
-      return null;
+      GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(ctx);
+      String senderId = ctx.getString(R.string.gcm_sender_id);
+      String regId = gcm.register(senderId);
+      reportToServer(regId);
+      save(regId);
     }
 
     private void reportToServer(String regId) throws IOException {
@@ -122,6 +116,14 @@ public class GcmHelper {
       editor.putInt(KEY_APP_VERSION, appVersion);
       editor.putLong(KEY_EXPIRATION_TIME, expirationTime);
       editor.commit();
+    }
+
+    @Override
+    protected void done() {
+      if (!isSuccessful()) {
+        Exception e = getException();
+        Log.e(TAG, "Registration failed:" + e.getMessage(), e);
+      }
     }
   }
 }

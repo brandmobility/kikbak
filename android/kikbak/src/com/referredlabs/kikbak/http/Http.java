@@ -72,15 +72,12 @@ public class Http {
       throws IOException {
     int code = resp.getStatusLine().getStatusCode();
     String content = getContent(resp.getEntity());
-    try {
+    if (code == 200) {
       V response = parseContent(new StringReader(content), responseType, extraTyped);
       return response;
-    } catch (IOException e) {
-      if (code == 200)
-        throw e;
-
-      throw new HttpStatusException(uri, code, content);
     }
+
+    throw new HttpStatusException(uri, code, content);
   }
 
   private static String getContent(HttpEntity entity)

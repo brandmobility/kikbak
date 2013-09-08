@@ -6,9 +6,9 @@ import java.io.IOException;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,21 +25,22 @@ import com.referredlabs.kikbak.data.AvailableCreditType;
 import com.referredlabs.kikbak.data.CreditRedemptionType;
 import com.referredlabs.kikbak.data.RedeemCreditRequest;
 import com.referredlabs.kikbak.data.RedeemCreditResponse;
-import com.referredlabs.kikbak.data.StatusType;
+import com.referredlabs.kikbak.data.RedeemCreditStatus;
 import com.referredlabs.kikbak.data.ValidationType;
 import com.referredlabs.kikbak.http.Http;
 import com.referredlabs.kikbak.store.DataStore;
-import com.referredlabs.kikbak.tasks.FetchBarcodeTask;
-import com.referredlabs.kikbak.tasks.FetchBarcodeTask.OnBarcodeFetched;
+import com.referredlabs.kikbak.tasks.Task;
+import com.referredlabs.kikbak.tasks.TaskEx;
 import com.referredlabs.kikbak.ui.BarcodeScannerFragment.OnBarcodeScanningListener;
 import com.referredlabs.kikbak.ui.ChangeAmountDialog.OnCreditChangedListener;
 import com.referredlabs.kikbak.ui.ConfirmationDialog.ConfirmationListener;
 import com.referredlabs.kikbak.utils.Nearest;
 import com.referredlabs.kikbak.utils.Register;
+import com.referredlabs.kikbak.utils.StatusException;
 import com.squareup.picasso.Picasso;
 
 public class RedeemCreditFragment extends Fragment implements OnClickListener,
-    OnCreditChangedListener, ConfirmationListener, OnBarcodeScanningListener, OnBarcodeFetched {
+    OnCreditChangedListener, ConfirmationListener, OnBarcodeScanningListener {
 
   public interface RedeemCreditCallback {
     // overlay
@@ -52,6 +53,7 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
   private static final int REQUEST_CONFIRM_CREDIT = 1;
   private static final int REQUEST_NOT_IN_STORE = 2;
   private static final int REQUEST_SCAN_CONFIRMATION = 3;
+  private static final int REQUEST_INVALID_CODE = 4;
 
   private AvailableCreditType mCredit;
   private double mCreditToUse;
@@ -63,6 +65,7 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
   private Button mRedeemOnline;
   private boolean mCreditConfirmed;
   private RedeemCreditCallback mCallback;
+  private Task mTask;
 
   @Override
   public void onAttach(Activity activity) {
@@ -92,6 +95,19 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
 
     setupViews();
     return root;
+  }
+
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    resetTask();
+  }
+
+  private void resetTask() {
+    if (mTask != null) {
+      mTask.cancel(true);
+      mTask = null;
+    }
   }
 
   private void setupViews() {
@@ -150,7 +166,9 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
       // barcode generation
       mRedeemInStore.setEnabled(false);
       long userId = Register.getInstance().getUserId();
-      new FetchBarcodeTask(this, userId, mCredit.id).execute();
+
+      mTask = new FetchBarcodeTask(userId, mCredit.id);
+      mTask.execute();
     }
   }
 
@@ -215,6 +233,7 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
         onRedeemInStoreClicked();
         break;
       case REQUEST_SCAN_CONFIRMATION:
+      case REQUEST_INVALID_CODE:
         showScanner();
         break;
     }
@@ -232,31 +251,15 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
   }
 
   @Override
-  public void onBarcodeFetched(String barcode, Bitmap bitmap) {
-    mCallback.onRedeemCreditSuccess(mCreditToUse, barcode, bitmap);
-  }
-
-  @Override
-  public void onBarcodeFetchFailed() {
-    mRedeemInStore.setEnabled(true);
-    Toast.makeText(getActivity(), "Please try again", Toast.LENGTH_SHORT).show();
-  }
-
-  @Override
   public void onBarcodeScanned(String code) {
     registerRedemption(code);
   }
 
   private void registerRedemption(String code) {
-    RedeemCreditRequest req = new RedeemCreditRequest();
-    req.credit = new CreditRedemptionType();
-    req.credit.id = mCredit.id;
-    req.credit.locationId = new Nearest(mCredit.merchant.locations).get().locationId;
-    req.credit.amount = mCreditToUse;
-    req.credit.verificationCode = code;
     long userId = Register.getInstance().getUserId();
-    RedeemCreditTask task = new RedeemCreditTask(userId);
-    task.execute(req);
+    long locationId = new Nearest(mCredit.merchant.locations).get().locationId;
+    mTask = new RedeemCreditTask(userId, mCredit.id, locationId, mCreditToUse, code);
+    mTask.execute();
   }
 
   @Override
@@ -264,47 +267,106 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
     // do nothing
   }
 
+  public void onBarcodeFetched(String barcode, Bitmap bitmap) {
+    mCallback.onRedeemCreditSuccess(mCreditToUse, barcode, bitmap);
+  }
+
+  public void onBarcodeFetchFailed() {
+    mRedeemInStore.setEnabled(true);
+    Toast.makeText(getActivity(), R.string.redeem_failure, Toast.LENGTH_SHORT).show();
+  }
+
   public void onRegistrationSuccess(String code) {
     DataStore.getInstance().creditUsed(mCredit.id, mCreditToUse);
     mCallback.onRedeemCreditSuccess(mCreditToUse, code);
   }
 
-  public void onRegistrationFailed() {
+  public void onRegistrationFailed(Exception exception) {
     mRedeemInStore.setEnabled(true);
+
+    if (exception instanceof StatusException) {
+      StatusException e = (StatusException) exception;
+      RedeemCreditStatus status = e.getStatus();
+      if (status == RedeemCreditStatus.INVALID_CODE) {
+        showInvalidCodeDialog();
+        return;
+      }
+    }
+
     Toast.makeText(getActivity(), R.string.redeem_failure, Toast.LENGTH_SHORT).show();
   }
 
-  private class RedeemCreditTask extends AsyncTask<RedeemCreditRequest, Void, RedeemCreditResponse> {
+  private void showInvalidCodeDialog() {
+    String msg = getString(R.string.redeem_invalid_code);
+    ConfirmationDialog dialog = ConfirmationDialog.newInstance(msg);
+    dialog.setTargetFragment(this, REQUEST_INVALID_CODE);
+    dialog.show(getFragmentManager(), null);
+  }
+
+  private class RedeemCreditTask extends TaskEx {
 
     private long mUserId;
+    private RedeemCreditRequest mReq;
+    private RedeemCreditResponse mResponse;
 
-    public RedeemCreditTask(long userId) {
+    public RedeemCreditTask(long userId, long creditId, long locationId, double amount, String code) {
       mUserId = userId;
+      mReq = new RedeemCreditRequest();
+      mReq.credit = new CreditRedemptionType();
+      mReq.credit.id = creditId;
+      mReq.credit.locationId = locationId;
+      mReq.credit.amount = amount;
+      mReq.credit.verificationCode = code;
     }
 
     @Override
-    protected RedeemCreditResponse doInBackground(RedeemCreditRequest... params) {
-      try {
-        RedeemCreditRequest req = params[0];
-        String uri = Http.getUri(RedeemCreditRequest.PATH + mUserId);
-        RedeemCreditResponse resp = Http.execute(uri, req, RedeemCreditResponse.class);
-        return resp;
-      } catch (IOException e) {
-        android.util.Log.d("MMM", "exception:" + e);
+    protected void doInBackground() throws IOException, StatusException {
+      String uri = Http.getUri(RedeemCreditRequest.PATH + mUserId);
+      mResponse = Http.execute(uri, mReq, RedeemCreditResponse.class);
+      if (mResponse.status != RedeemCreditStatus.OK) {
+        throw new StatusException(mResponse.status);
       }
-      return null;
     }
 
     @Override
-    protected void onPostExecute(RedeemCreditResponse result) {
-      if (result == null || result.status.code != StatusType.OK) {
-        onRegistrationFailed();
-        return;
-      }
-
-      onRegistrationSuccess(result.response.authorizationCode);
+    protected void onSuccess() {
+      onRegistrationSuccess(mResponse.response.authorizationCode);
     }
 
+    @Override
+    protected void onFailed(Exception exception) {
+      onRegistrationFailed(exception);
+    }
+  }
+
+  private class FetchBarcodeTask extends TaskEx {
+
+    private long mUserId;
+    private long mAllocatedGiftId;
+    private String mBarcode;
+    private Bitmap mBitmap;
+
+    public FetchBarcodeTask(long userId, long allocatedGiftId) {
+      mUserId = userId;
+      mAllocatedGiftId = allocatedGiftId;
+    }
+
+    @Override
+    protected void doInBackground() throws IOException {
+      Pair<String, Bitmap> result = Http.fetchBarcode(mUserId, mAllocatedGiftId);
+      mBarcode = result.first;
+      mBitmap = result.second;
+    }
+
+    @Override
+    protected void onSuccess() {
+      onBarcodeFetched(mBarcode, mBitmap);
+    }
+
+    @Override
+    protected void onFailed(Exception exception) {
+      onBarcodeFetchFailed();
+    }
   }
 
 }

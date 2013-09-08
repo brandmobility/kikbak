@@ -6,7 +6,6 @@ import java.io.IOException;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -23,6 +22,7 @@ import com.referredlabs.kikbak.data.SuggestBusinessResponse;
 import com.referredlabs.kikbak.data.SuggestBusinessType;
 import com.referredlabs.kikbak.http.Http;
 import com.referredlabs.kikbak.log.Log;
+import com.referredlabs.kikbak.tasks.Task;
 import com.referredlabs.kikbak.ui.SuggestSuccessDialog.SuggestSuccessListener;
 import com.referredlabs.kikbak.utils.Register;
 
@@ -185,43 +185,46 @@ public class SuggestBusinessActivity extends KikbakActivity implements
     new SuggestSuccessDialog().show(getSupportFragmentManager(), null);
   }
 
-  private static class SuggestTask extends AsyncTask<Void, Void, Void> {
+  private static class SuggestTask extends Task {
 
     private String mBusinessName;
     private String mWhy;
     private String mPhotoPath;
+    private long mUserId;
 
     public SuggestTask(String name, String why, String path) {
+      mUserId = Register.getInstance().getUserId();
       mBusinessName = name;
       mWhy = why;
       mPhotoPath = path;
     }
 
     @Override
-    protected Void doInBackground(Void... arg0) {
-      try {
-        long userId = Register.getInstance().getUserId();
+    protected void doInBackground() throws IOException {
 
-        String imageUrl = null;
-        if (mPhotoPath != null) {
-          imageUrl = Http.uploadImage(userId, mPhotoPath);
-        }
-        SuggestBusinessType business = new SuggestBusinessType();
-        business.business_name = mBusinessName;
-        business.why = mWhy;
-        business.image_url = imageUrl;
-        SuggestBusinessRequest req = new SuggestBusinessRequest();
-        req.business = business;
-        String uri = Http.getUri(SuggestBusinessRequest.PATH + userId);
-        SuggestBusinessResponse resp = Http.execute(uri, req, SuggestBusinessResponse.class);
-      } catch (Exception e) {
-        FlurryAgent.onError(Log.E_SUGGEST_BUSINNES, e.getMessage(), Log.CLASS_NETWORK);
-      } finally {
-        if (mPhotoPath != null) {
-          new File(mPhotoPath).delete();
-        }
+      String imageUrl = null;
+      if (mPhotoPath != null) {
+        imageUrl = Http.uploadImage(mUserId, mPhotoPath);
       }
-      return null;
+      SuggestBusinessType business = new SuggestBusinessType();
+      business.business_name = mBusinessName;
+      business.why = mWhy;
+      business.image_url = imageUrl;
+      SuggestBusinessRequest req = new SuggestBusinessRequest();
+      req.business = business;
+      String uri = Http.getUri(SuggestBusinessRequest.PATH + mUserId);
+      Http.execute(uri, req, SuggestBusinessResponse.class);
+    }
+
+    @Override
+    protected void done() {
+      if (mPhotoPath != null) {
+        new File(mPhotoPath).delete();
+      }
+      if (!isSuccessful()) {
+        Exception e = getException();
+        FlurryAgent.onError(Log.E_SUGGEST_BUSINNES, e.getMessage(), Log.CLASS_NETWORK);
+      }
     }
   }
 
@@ -229,5 +232,4 @@ public class SuggestBusinessActivity extends KikbakActivity implements
   public void onSuggestSuccessDismissed() {
     finish();
   };
-
 }

@@ -1,8 +1,7 @@
 
 package com.referredlabs.kikbak.data;
 
-public enum RedeemGiftStatus {
+public enum RedeemCreditStatus {
   OK,
-  LIMIT_REACH,
   INVALID_CODE
 }

@@ -4,40 +4,35 @@ package com.referredlabs.kikbak.ui;
 import java.util.Arrays;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import com.facebook.Session;
-import com.facebook.Session.StatusCallback;
-import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
 import com.facebook.widget.LoginButton.UserInfoChangedCallback;
-import com.flurry.android.FlurryAgent;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.RegisterUserRequest;
 import com.referredlabs.kikbak.data.RegisterUserResponse;
-import com.referredlabs.kikbak.data.StatusType;
+import com.referredlabs.kikbak.data.RegisterUserResponseStatus;
 import com.referredlabs.kikbak.data.UserType;
 import com.referredlabs.kikbak.fb.Fb;
 import com.referredlabs.kikbak.http.Http;
-import com.referredlabs.kikbak.http.HttpStatusException;
-import com.referredlabs.kikbak.log.Log;
+import com.referredlabs.kikbak.tasks.TaskEx;
 import com.referredlabs.kikbak.utils.Register;
+import com.referredlabs.kikbak.utils.StatusException;
 
-public class LoginActivity extends KikbakActivity implements StatusCallback,
+public class LoginActivity extends KikbakActivity implements
     UserInfoChangedCallback {
 
   private UiLifecycleHelper mUiHelper;
-  LoginButton mLoginButton;
-  boolean mFriendsUpdated;
+  private LoginButton mLoginButton;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    mUiHelper = new UiLifecycleHelper(this, this);
+    mUiHelper = new UiLifecycleHelper(this, null);
     mUiHelper.onCreate(savedInstanceState);
 
     setContentView(R.layout.activity_login);
@@ -78,13 +73,6 @@ public class LoginActivity extends KikbakActivity implements StatusCallback,
   }
 
   @Override
-  public void call(Session session, SessionState state, Exception exception) {
-    if (session.isOpened() && !mFriendsUpdated && Register.getInstance().isRegistered()) {
-      mFriendsUpdated = true;
-    }
-  }
-
-  @Override
   public void onUserInfoFetched(GraphUser user) {
     if (user != null && !Register.getInstance().isRegistered()) {
       mLoginButton.setEnabled(false);
@@ -94,8 +82,8 @@ public class LoginActivity extends KikbakActivity implements StatusCallback,
   }
 
   private void registerUser(GraphUser fbUser, String accessToken) {
-    RegisterTask task = new RegisterTask(fbUser, accessToken);
-    task.execute();
+    mTask = new RegisterTask(fbUser, accessToken);
+    mTask.execute();
   }
 
   protected void onRegistrationSuccess() {
@@ -106,33 +94,26 @@ public class LoginActivity extends KikbakActivity implements StatusCallback,
   protected void onRegistrationFailed(Exception exception) {
     Session session = Session.getActiveSession();
     session.closeAndClearTokenInformation();
-    mLoginButton.setEnabled(true);
 
-    boolean handeled = false;
-    if (exception instanceof HttpStatusException) {
-      HttpStatusException statusEx = (HttpStatusException) exception;
-      if (statusEx.getServerStatusCode() == StatusType.TOO_FEW_FRIENDS) {
+    if (exception instanceof StatusException) {
+      StatusException e = (StatusException) exception;
+      RegisterUserResponseStatus status = e.getStatus();
+      if (status == RegisterUserResponseStatus.TOO_FEW_FRIENDS) {
         showTooFewFriendsDialog();
-        handeled = true;
+        return;
       }
     }
 
-    // show generic error
-    if (!handeled) {
-      Toast.makeText(LoginActivity.this, R.string.registration_failed, Toast.LENGTH_LONG).show();
-    }
+    Toast.makeText(LoginActivity.this, R.string.registration_failed, Toast.LENGTH_LONG).show();
   }
 
   private void showTooFewFriendsDialog() {
     new TooFewFriendsDialog().show(getSupportFragmentManager(), null);
   }
 
-  class RegisterTask extends AsyncTask<Void, Void, Void> {
+  class RegisterTask extends TaskEx {
     GraphUser mFacebookUser;
-    private Exception mException;
     private String mAccessToken;
-    private long mUserId;
-    private boolean mSuccess = false;
 
     RegisterTask(GraphUser fbUser, String accessToken) {
       mFacebookUser = fbUser;
@@ -140,35 +121,32 @@ public class LoginActivity extends KikbakActivity implements StatusCallback,
     }
 
     @Override
-    protected Void doInBackground(Void... arg0) {
-      try {
-        UserType user = new UserType();
-        user.access_token = mAccessToken;
-        RegisterUserRequest req = new RegisterUserRequest();
-        req.user = user;
-        String uri = Http.getUri("/user/register/fb/");
-        RegisterUserResponse resp = Http.execute(uri, req, RegisterUserResponse.class);
-        mUserId = resp.userId.userId;
+    protected void doInBackground() throws Exception {
+      UserType user = new UserType();
+      user.access_token = mAccessToken;
 
-        String userName = mFacebookUser.getName();
-        Register.getInstance().registerUser(mUserId, userName);
+      RegisterUserRequest req = new RegisterUserRequest();
+      req.user = user;
 
-        mSuccess = true;
-      } catch (Exception e) {
-        mException = e;
-        FlurryAgent.onError(Log.E_REGISTRATION, e.getMessage(), Log.CLASS_NETWORK);
+      String uri = Http.getUri("/user/register/fb/");
+      RegisterUserResponse resp = Http.execute(uri, req, RegisterUserResponse.class);
+
+      if (resp.status != RegisterUserResponseStatus.OK) {
+        throw new StatusException(resp.status);
       }
-      return null;
+
+      String userName = mFacebookUser.getName();
+      Register.getInstance().registerUser(resp.userId.userId, userName);
     }
 
     @Override
-    protected void onPostExecute(Void result) {
-      if (mSuccess) {
-        onRegistrationSuccess();
-      } else {
-        onRegistrationFailed(mException);
-      }
+    protected void onSuccess() {
+      onRegistrationSuccess();
     }
-  };
 
+    @Override
+    protected void onFailed(Exception exception) {
+      onRegistrationFailed(exception);
+    }
+  }
 }

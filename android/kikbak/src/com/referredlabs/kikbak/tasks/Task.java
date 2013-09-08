@@ -40,7 +40,7 @@ public abstract class Task implements Future<Void> {
       get();
       mSuccessful = true;
     } catch (Exception e) {
-      // ignore
+      mException = e;
     }
     mCompletionTimeMillis = System.currentTimeMillis();
     done();
