@@ -8,8 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.referredlabs.kikbak.R;
+import com.referredlabs.kikbak.tasks.Task;
 
 public class SharingDialog extends DialogFragment {
+
+  protected Task mTask;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -22,4 +25,18 @@ public class SharingDialog extends DialogFragment {
     View v = inflater.inflate(R.layout.sharing_progress, container, false);
     return v;
   }
+
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    resetTask();
+  }
+
+  protected void resetTask() {
+    if (mTask != null) {
+      mTask.cancel(true);
+      mTask = null;
+    }
+  }
+
 }

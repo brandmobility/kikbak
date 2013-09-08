@@ -6,10 +6,7 @@ import java.io.IOException;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,15 +30,18 @@ import com.referredlabs.kikbak.data.ValidationType;
 import com.referredlabs.kikbak.fb.Fb;
 import com.referredlabs.kikbak.http.Http;
 import com.referredlabs.kikbak.store.DataStore;
+import com.referredlabs.kikbak.tasks.TaskEx;
 import com.referredlabs.kikbak.ui.BarcodeScannerFragment.OnBarcodeScanningListener;
 import com.referredlabs.kikbak.ui.ConfirmationDialog.ConfirmationListener;
 import com.referredlabs.kikbak.utils.LocaleUtils;
 import com.referredlabs.kikbak.utils.Nearest;
 import com.referredlabs.kikbak.utils.Register;
+import com.referredlabs.kikbak.utils.StatusException;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-public class RedeemGiftFragment extends Fragment implements OnClickListener, ConfirmationListener,
+public class RedeemGiftFragment extends KikbakFragment implements OnClickListener,
+    ConfirmationListener,
     OnBarcodeScanningListener {
 
   public interface RedeemGiftCallback {
@@ -165,7 +165,8 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
     } else if (ValidationType.BARCODE.equals(mGift.validationType)) {
       // barcode generation
       mRedeemInStore.setEnabled(false);
-      new BarcodeTask().execute();
+      mTask = new BarcodeTask();
+      mTask.execute();
     }
   }
 
@@ -223,19 +224,12 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
   }
 
   private void registerRedemption(String code) {
-    RedeemGiftRequest req = new RedeemGiftRequest();
-    req.gift = new GiftRedemptionType();
-    req.gift.id = mGift.shareInfo[mShareIdx].allocatedGiftId;
-    req.gift.friendUserId = mGift.shareInfo[mShareIdx].friendUserId;
-    req.gift.locationId = mGift.merchant.locations[0].locationId;
-    req.gift.verificationCode = code;
-    long userId = Register.getInstance().getUserId();
-    new RedeemTask(userId).execute(req);
+    mTask = new RedeemTask(code);
+    mTask.execute();
   }
 
   @Override
   public void onScanningCancelled() {
-    // do nothing
     mRedeemInStore.setEnabled(true);
   }
 
@@ -245,7 +239,7 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
 
   public void onBarcodeFetchFailed() {
     mRedeemInStore.setEnabled(true);
-    Toast.makeText(getActivity(), "Please try again", Toast.LENGTH_SHORT).show();
+    Toast.makeText(getActivity(), R.string.redeem_failure, Toast.LENGTH_SHORT).show();
   }
 
   public void onRegistrationSuccess(String code) {
@@ -255,17 +249,20 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
     mCallback.onRedeemGiftSuccess(code);
   }
 
-  public void onRegistrationFailed(String status) {
+  public void onRegistrationFailed(Exception exception) {
     mRedeemInStore.setEnabled(true);
 
-    if (RedeemGiftStatus.INVALID_CODE.equals(status)) {
-      showInvalidCodeDialog();
-      return;
-    }
-
-    if (RedeemGiftStatus.LIMIT_REACH.equals(status)) {
-      // TODO: implement me
-      return;
+    if (exception instanceof StatusException) {
+      StatusException e = (StatusException) exception;
+      RedeemGiftStatus status = e.getStatus();
+      if (status == RedeemGiftStatus.INVALID_CODE) {
+        showInvalidCodeDialog();
+        return;
+      }
+      if (status == RedeemGiftStatus.LIMIT_REACH) {
+        // TODO: implement me
+        return;
+      }
     }
 
     // default
@@ -279,75 +276,72 @@ public class RedeemGiftFragment extends Fragment implements OnClickListener, Con
     dialog.show(getFragmentManager(), null);
   }
 
-  private class RedeemTask extends AsyncTask<RedeemGiftRequest, Void, RedeemGiftResponse> {
+  private class RedeemTask extends TaskEx {
 
     private long mUserId;
+    private RedeemGiftRequest mReq;
+    private String mAuthorizationCode;
 
-    public RedeemTask(long userId) {
-      mUserId = userId;
+    public RedeemTask(String code) {
+      mUserId = Register.getInstance().getUserId();
+
+      mReq = new RedeemGiftRequest();
+      mReq.gift = new GiftRedemptionType();
+      mReq.gift.id = mGift.shareInfo[mShareIdx].allocatedGiftId;
+      mReq.gift.friendUserId = mGift.shareInfo[mShareIdx].friendUserId;
+      mReq.gift.locationId = mGift.merchant.locations[0].locationId;
+      mReq.gift.verificationCode = code;
     }
 
     @Override
-    protected RedeemGiftResponse doInBackground(RedeemGiftRequest... params) {
-      try {
-        RedeemGiftRequest req = params[0];
-        String uri = Http.getUri(RedeemGiftRequest.PATH + mUserId);
-        RedeemGiftResponse resp = Http.execute(uri, req, RedeemGiftResponse.class);
-        return resp;
-      } catch (IOException e) {
-        android.util.Log.d("MMM", "exception:" + e);
+    protected void doInBackground() throws IOException, StatusException {
+      String uri = Http.getUri(RedeemGiftRequest.PATH + mUserId);
+      RedeemGiftResponse resp = Http.execute(uri, mReq, RedeemGiftResponse.class);
+      if (resp.status != RedeemGiftStatus.OK) {
+        throw new StatusException(resp.status);
       }
-      return null;
+
+      mAuthorizationCode = resp.authorizationCode;
     }
 
     @Override
-    protected void onPostExecute(RedeemGiftResponse result) {
-      if (result == null) {
-        onRegistrationFailed(null);
-        return;
-      }
+    protected void onSuccess() {
+      onRegistrationSuccess(mAuthorizationCode);
+    }
 
-      if (RedeemGiftStatus.OK.equals(result.redeemGiftStatus)) {
-        onRegistrationSuccess(result.authorizationCode);
-      } else {
-        onRegistrationFailed(result.redeemGiftStatus);
-      }
+    @Override
+    protected void onFailed(Exception exception) {
+      onRegistrationFailed(exception);
     }
   }
 
-  private class BarcodeTask extends AsyncTask<Void, Void, Void> {
+  private class BarcodeTask extends TaskEx {
 
     private long mUserId;
-    private long allocatedGiftId;
+    private long mAllocatedGiftId;
     private String mBarcode;
     private Bitmap mBitmap;
 
-    @Override
-    protected void onPreExecute() {
+    BarcodeTask() {
       mUserId = Register.getInstance().getUserId();
-      allocatedGiftId = mGift.shareInfo[mShareIdx].allocatedGiftId;
+      mAllocatedGiftId = mGift.shareInfo[mShareIdx].allocatedGiftId;
     }
 
     @Override
-    protected Void doInBackground(Void... params) {
-      try {
-        Pair<String, Bitmap> result = Http.fetchBarcode(mUserId, allocatedGiftId);
-        mBarcode = result.first;
-        mBitmap = result.second;
-      } catch (Exception e) {
-        Log.e("MMM", "Exception: " + e);
-      }
-      return null;
+    protected void doInBackground() throws IOException {
+      Pair<String, Bitmap> result = Http.fetchBarcode(mUserId, mAllocatedGiftId);
+      mBarcode = result.first;
+      mBitmap = result.second;
     }
 
     @Override
-    protected void onPostExecute(Void result) {
-      if (mBitmap != null) {
-        onBarcodeFetched(mBarcode, mBitmap);
-      } else {
-        onBarcodeFetchFailed();
-      }
+    protected void onSuccess() {
+      onBarcodeFetched(mBarcode, mBitmap);
+    }
+
+    @Override
+    protected void onFailed(Exception exception) {
+      onBarcodeFetchFailed();
     }
   }
-
 }

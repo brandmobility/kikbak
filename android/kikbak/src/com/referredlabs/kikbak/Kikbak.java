@@ -14,6 +14,8 @@ import android.app.Application;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 
 import com.referredlabs.kikbak.http.HttpClientHelper;
 
@@ -21,19 +23,27 @@ public class Kikbak extends Application {
 
   private static Kikbak mInstance;
 
-  private static final ThreadFactory sThreadFactory = new ThreadFactory() {
-    private final AtomicInteger mCount = new AtomicInteger(1);
-
-    public Thread newThread(Runnable r) {
-      return new Thread(r, "GlobalTh#" + mCount.getAndIncrement());
+  public static final Executor PARALLEL_EXECUTOR;
+  static {
+    if (Build.VERSION.SDK_INT < 11) {
+      PARALLEL_EXECUTOR = createExecutor();
+    } else {
+      PARALLEL_EXECUTOR = AsyncTask.THREAD_POOL_EXECUTOR;
     }
-  };
+  }
 
-  private static final BlockingQueue<Runnable> sPoolWorkQueue =
-      new LinkedBlockingQueue<Runnable>(10);
+  private static Executor createExecutor() {
+    ThreadFactory threadFactory = new ThreadFactory() {
+      private final AtomicInteger mCount = new AtomicInteger(1);
 
-  public static final Executor PARALLEL_EXECUTOR =
-      new ThreadPoolExecutor(4, 128, 0, TimeUnit.SECONDS, sPoolWorkQueue, sThreadFactory);
+      public Thread newThread(Runnable r) {
+        return new Thread(r, "GlobalTh#" + mCount.getAndIncrement());
+      }
+    };
+
+    BlockingQueue<Runnable> poolWorkQueue = new LinkedBlockingQueue<Runnable>(10);
+    return new ThreadPoolExecutor(4, 128, 0, TimeUnit.SECONDS, poolWorkQueue, threadFactory);
+  }
 
   public static Kikbak getInstance() {
     return mInstance;

@@ -1,6 +1,7 @@
 
 package com.referredlabs.kikbak.ui;
 
+import java.io.IOException;
 import java.util.regex.Pattern;
 
 import android.app.Activity;
@@ -8,12 +9,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.telephony.PhoneNumberUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,10 +27,11 @@ import com.referredlabs.kikbak.data.ClaimCreditResponse;
 import com.referredlabs.kikbak.data.ClaimType;
 import com.referredlabs.kikbak.http.Http;
 import com.referredlabs.kikbak.store.DataStore;
+import com.referredlabs.kikbak.tasks.TaskEx;
 import com.referredlabs.kikbak.utils.Register;
 import com.squareup.picasso.Picasso;
 
-public class ClaimInputFragment extends Fragment implements OnClickListener {
+public class ClaimInputFragment extends KikbakFragment implements OnClickListener {
   private static final String TAG_INVALID_INFO = "tag_invalid_info";
   private static final String TAG_CLAIM_SUBMITTED = "tag_claim_submitted";
 
@@ -108,7 +107,9 @@ public class ClaimInputFragment extends Fragment implements OnClickListener {
   @Override
   public void onClick(View v) {
     if (validateData()) {
-      new ClaimTask().execute();
+      resetTask();
+      mTask = new ClaimTask();
+      mTask.execute();
     }
   }
 
@@ -207,14 +208,12 @@ public class ClaimInputFragment extends Fragment implements OnClickListener {
     }
   }
 
-  private class ClaimTask extends AsyncTask<Void, Void, Void> {
+  private class ClaimTask extends TaskEx {
 
     private ClaimCreditRequest mRequest;
-    ClaimCreditResponse mResponse;
     private long mUserId;
 
-    @Override
-    protected void onPreExecute() {
+    ClaimTask() {
       mRequest = new ClaimCreditRequest();
       mRequest.claim = new ClaimType();
       mRequest.claim.creditId = mCredit.id;
@@ -231,24 +230,19 @@ public class ClaimInputFragment extends Fragment implements OnClickListener {
     }
 
     @Override
-    protected Void doInBackground(Void... params) {
-
-      try {
-        String uri = Http.getUri(ClaimCreditRequest.PATH + mUserId + "/");
-        mResponse = Http.execute(uri, mRequest, ClaimCreditResponse.class);
-      } catch (Exception e) {
-        Log.d("MMM", "Exception e");
-      }
-      return null;
+    protected void doInBackground() throws IOException {
+      String uri = Http.getUri(ClaimCreditRequest.PATH + mUserId + "/");
+      Http.execute(uri, mRequest, ClaimCreditResponse.class);
     }
 
     @Override
-    protected void onPostExecute(Void result) {
-      if (mResponse != null && mResponse.status.code == 0) {
-        onClaimSuccess();
-      } else {
-        onClaimFailed();
-      }
+    protected void onSuccess() {
+      onClaimSuccess();
+    }
+
+    @Override
+    protected void onFailed(Exception exception) {
+      onClaimFailed();
     }
   }
 }

@@ -7,7 +7,6 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.facebook.Session;
@@ -24,6 +23,7 @@ import com.referredlabs.kikbak.fb.Fb;
 import com.referredlabs.kikbak.fb.FbObjectApi;
 import com.referredlabs.kikbak.http.Http;
 import com.referredlabs.kikbak.log.Log;
+import com.referredlabs.kikbak.tasks.TaskEx;
 import com.referredlabs.kikbak.tasks.UpdateFriendsTask;
 import com.referredlabs.kikbak.utils.Register;
 
@@ -40,7 +40,6 @@ public class ShareViaFacebookFragment extends SharingDialog {
   private static final int REQUEST_FB_AUTH = 1;
 
   private boolean mPermissionRequested;
-  private PublishTask mTask;
   private ShareStatusListener mListener;
   private ClientOfferType mOffer;
 
@@ -98,13 +97,6 @@ public class ShareViaFacebookFragment extends SharingDialog {
     Session.getActiveSession().onActivityResult(getActivity(), requestCode, resultCode, data);
   }
 
-  @Override
-  public void onDestroy() {
-    super.onDestroy();
-    if (mTask != null)
-      mTask.cancel(false);
-  }
-
   private void publishStory() {
     if (mTask == null) {
       mTask = new PublishTask();
@@ -122,13 +114,10 @@ public class ShareViaFacebookFragment extends SharingDialog {
     }
   }
 
-  private class PublishTask extends AsyncTask<Void, Void, Void> {
-
-    private boolean mFbSuccess = false;
-    private boolean mKikbakSuccess = false;
+  private class PublishTask extends TaskEx {
 
     @Override
-    protected Void doInBackground(Void... params) {
+    protected void doInBackground() throws IOException {
       Bundle args = getArguments();
       Session session = Session.getActiveSession();
       String comment = args.getString(ARG_COMMENT);
@@ -138,22 +127,15 @@ public class ShareViaFacebookFragment extends SharingDialog {
       UpdateFriendsTask update = new UpdateFriendsTask(session.getAccessToken());
       update.execute();
 
-      try {
-        String imageUrl = offer.giveImageUrl;
-        if (photoPath != null) {
-          long userId = Register.getInstance().getUserId();
-          imageUrl = Http.uploadImage(userId, photoPath);
-        }
-        ShareExperienceResponse resp = reportToKikbak(imageUrl);
-        mKikbakSuccess = true;
-        FbObjectApi.publishStory(session, offer, resp.template.landingUrl, imageUrl, comment,
-            resp.referrerCode);
-        mFbSuccess = true;
-      } catch (Exception e) {
-        android.util.Log.w("MMM", e.getMessage(), e);
-        FlurryAgent.onError(Log.E_PUBLISH_STORY, e.getMessage(), Log.CLASS_NETWORK);
+      String imageUrl = offer.giveImageUrl;
+      if (photoPath != null) {
+        long userId = Register.getInstance().getUserId();
+        imageUrl = Http.uploadImage(userId, photoPath);
       }
-      return null;
+
+      ShareExperienceResponse resp = reportToKikbak(imageUrl);
+      FbObjectApi.publishStory(session, offer, resp.template.landingUrl, imageUrl, comment,
+          resp.referrerCode);
     }
 
     private ShareExperienceResponse reportToKikbak(String imageUrl) throws IOException {
@@ -174,17 +156,17 @@ public class ShareViaFacebookFragment extends SharingDialog {
     }
 
     @Override
-    protected void onPostExecute(Void result) {
+    protected void onSuccess() {
       dismiss();
-      if (mListener != null) {
-        if (mFbSuccess && mKikbakSuccess) {
-          android.util.Log.w("MMM", "kikbak:" + mKikbakSuccess + " fb:" + mFbSuccess);
-          mListener.onShareFinished();
-        } else {
-          mListener.onShareFailed();
-        }
-      }
+      mListener.onShareFinished();
+    }
+
+    @Override
+    protected void onFailed(Exception e) {
+      dismiss();
+      android.util.Log.w("MMM", e.getMessage(), e);
+      FlurryAgent.onError(Log.E_PUBLISH_STORY, e.getMessage(), Log.CLASS_NETWORK);
+      mListener.onShareFailed();
     }
   }
-
 }
