@@ -96,7 +96,7 @@ an exclusive offer for <strong>${gift.merchant.name}</strong>.</p>
 <div class="blue-btn" style="margin:0">
 <c:choose>
 <c:when test="${(validationType == 'qrcode') and (locationType == 'store')}">
-<p style="margin-left:3%;">To access your gift, download the Kikbak app for iOS or Android. Your gift will be waiting for whenever you're ready to use it.</p>
+<p style="margin-left:3%;">Awesome! Your gift is now stored to your Facebook account.  To use your gift, download the Kikbak app. It’ll be waiting for whenever you’re ready to use it.</p>
 </c:when>
 </c:choose>
 <c:choose>
