@@ -85,6 +85,8 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 @property(nonatomic, strong) NSString* employeeName;
 @property(nonatomic, strong) NSNumber* chosenlocation;
 
+@property(nonatomic, strong) UIImage* imageToPost;
+
 
 -(void)createSubviews;
 -(void)manuallyLayoutSubviews;
@@ -147,8 +149,15 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     
     NSString* imagePath = [ImagePersistor imageFileExists:self.offer.merchantId imageType:DEFAULT_GIVE_IMAGE_TYPE];
     if(imagePath != nil){
-        self.giveImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
+        self.giveImage.image = self.imageToPost = [[UIImage alloc]initWithContentsOfFile:imagePath];
     }
+    
+    if( ![UIDevice hasFourInchDisplay] ){
+        CGRect retina35CropRect = CGRectMake(0, 74, 640, 436);
+        self.giveImage.image = [self.imageToPost imageCropToRect:retina35CropRect];
+    }
+    
+
     
     self.navigationItem.hidesBackButton = YES;
     self.navigationItem.leftBarButtonItem = [UIButton blackBackBtn:self];
@@ -180,6 +189,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onImageUploadError:) name:kKikbakImagePostError object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onFBStoryPostSuccess:) name:kKikbakFBStoryPostSuccess object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onFBStoryPostError:) name:kKikbakFBStoryPostError object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onImageDownloaded:) name:kKikbakImageDownloaded object:nil];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -198,6 +208,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakImagePostError object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakFBStoryPostSuccess object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakFBStoryPostError object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakImageDownloaded object:nil];
 }
 
 -(void)viewDidLayoutSubviews{
@@ -456,7 +467,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
         [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:self.spinnerView];
 
         ImageUploadRequest* request = [[ImageUploadRequest alloc]init];
-        request.image = self.giveImage.image;
+        request.image = self.imageToPost;
         [request postImage];
     }
     else{
@@ -555,10 +566,18 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     self.takePictureBtn.frame = CGRectMake(265, 11, 55, 55);
     [self.takePictureBtn setImage:[UIImage imageNamed:@"ic_post_give_camera"] forState:UIControlStateNormal];
     
-    CGRect cropRect = CGRectMake(10, 50, 500, 500);
+    CGRect cropRect = CGRectMake(8, 94, 624, 624);
     UIImage* image = [info valueForKey:UIImagePickerControllerOriginalImage];
     image = [image imageByScalingAndCroppingForSize:CGSizeMake(640, 960)];
-    self.giveImage.image =  [image imageCropToRect:cropRect];
+    
+    self.imageToPost = [image imageCropToRect:cropRect];
+    if( [UIDevice hasFourInchDisplay]){
+        self.giveImage.image = self.imageToPost;
+    }
+    else{
+        CGRect retina35CropRect = CGRectMake(8, 131, 624, 587);
+        self.giveImage.image = [image imageCropToRect:retina35CropRect];
+    }
     [self dismissViewControllerAnimated:YES completion:nil];
     photoTaken = YES;
 }
@@ -774,6 +793,13 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [alert show];
     
     [self.spinnerView removeFromSuperview];
+}
+
+-(void)onImageDownloaded:(NSNotification*)notification{
+    NSString* imagePath = [ImagePersistor imageFileExists:self.offer.merchantId imageType:DEFAULT_GIVE_IMAGE_TYPE];
+    if(imagePath != nil){
+        self.giveImage.image = self.imageToPost = [[UIImage alloc]initWithContentsOfFile:imagePath];
+    }
 }
 
 #pragma mark - ShareComplete Delegate

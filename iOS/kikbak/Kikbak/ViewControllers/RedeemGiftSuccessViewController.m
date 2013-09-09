@@ -100,12 +100,12 @@
 
         if( [self.validationType compare:@"qrcode"] == NSOrderedSame){
             self.validationImage.frame = CGRectMake(42, 220, 100, 100);
-            self.couponCode.frame = CGRectMake(180, 255, 150, 23);
+            self.couponCode.frame = CGRectMake(185, 255, 150, 34);
             self.couponCode.textAlignment = NSTextAlignmentLeft;
-            self.couponCode.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:22];
+            self.couponCode.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:30];
         }
         
-        self.earn.frame = CGRectMake(0, 325, 320, 15);
+        self.share.frame = CGRectMake(0, 325, 320, 15);
         self.earn.frame = CGRectMake(0, 342, 320, 15);
         self.giveBtn.frame = CGRectMake(11, 365, 298, 40);
     }
@@ -164,7 +164,7 @@
     [self.view addSubview:self.dottedSeperator];
     
     self.offer = [[UILabel alloc]initWithFrame:CGRectMake(0, 190, 320, 28)];
-    self.offer.text = NSLocalizedString(@"Gift", nil);
+    self.offer.text = NSLocalizedString(@"Offer", nil);
     self.offer.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:26];
     self.offer.textColor = UIColorFromRGB(0x9c9c9c);
     self.offer.textAlignment = NSTextAlignmentCenter;
