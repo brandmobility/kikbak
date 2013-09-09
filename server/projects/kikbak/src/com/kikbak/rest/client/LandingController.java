@@ -1,5 +1,6 @@
 package com.kikbak.rest.client;
 
+import java.io.IOException;
 import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +30,8 @@ public class LandingController {
 	private static final String SHARE_TEMPLATE_TITLE_FB = "share.template.title.fb";
 
 	private static final String SHARE_TEMPLATE_BODY_FB = "share.template.body.fb";
+	
+	private static final Logger log = Logger.getLogger(LandingController.class);
 
 	@Autowired
 	private PropertiesConfiguration config;
@@ -56,14 +60,15 @@ public class LandingController {
 	@RequestMapping( value = "/landing", method = RequestMethod.GET)
 	public ModelAndView getLandingPage(final HttpServletRequest request,
 			final HttpServletResponse httpResponse) {
-		
+
+		String code = request.getParameter("code");
 		try {
 			request.setCharacterEncoding("UTF-8");
-			String code = request.getParameter("code");
 			GiftType gift = rewardService.getGiftByReferredCode(code);
 			
 			if (gift == null) {
 				httpResponse.sendRedirect(config.getString("landing.code_not_found.url"));
+				return new ModelAndView();
 			}
 			
 			String title = config.getString(SHARE_TEMPLATE_TITLE_FB).replace("%NAME%", gift.getShareInfo().get(0).getFriendName());
@@ -83,7 +88,13 @@ public class LandingController {
 			request.setAttribute("locationType", gift.getRedemptionLocationType());
 			return new ModelAndView("landing.jsp");
 		} catch (Exception e) {
-			httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			log.error("Error to get gift of code " + code, e);
+			try {
+				httpResponse.sendRedirect(config.getString("landing.code_not_found.url"));
+			} catch (IOException e1) {
+				log.error("Error to get gift of code " + code, e);
+				httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			}
 			return new ModelAndView();
 		}
 	}
