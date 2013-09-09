@@ -134,8 +134,8 @@ public class MainActivity extends KikbakActivity implements ActionBar.TabListene
     MenuItem item = menu.findItem(R.id.action_fixed_location);
     item.setChecked(C.USE_FIXED_LOCATION);
 
-    item = menu.findItem(R.id.action_demo_server);
-    item.setChecked(C.SERVER_INSTANCE == C.INST_DEMO);
+    item = menu.findItem(R.id.action_bypass_geo_fence);
+    item.setChecked(C.BYPASS_STORE_CHECK);
 
     return super.onPrepareOptionsMenu(menu);
   }
@@ -170,10 +170,9 @@ public class MainActivity extends KikbakActivity implements ActionBar.TabListene
         DataStore.getInstance().refreshOffers();
         return true;
 
-      case R.id.action_demo_server:
-        C.toggleServerInstance();
-        Register.getInstance().clear();
-        finish();
+      case R.id.action_bypass_geo_fence:
+        C.BYPASS_STORE_CHECK = !C.BYPASS_STORE_CHECK;
+        item.setChecked(C.BYPASS_STORE_CHECK);
         return true;
 
       case R.id.action_who:
