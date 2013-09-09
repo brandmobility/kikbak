@@ -104,7 +104,8 @@
     <string name="reward_credit_purchase_amount_fmt">$%.2f</string>
     <string name="reward_credit_claim_label">CLAIM REWARD</string>
     <string name="reward_credit_claim_amount_fmt">$%.0f Gift Card</string>
-
+    <string name="reward_credit_claim_simple_amount_fmt">$%.0f</string>
+    
     <!-- Redeem -->
     <plurals name="credit_redeem_count">
         <item quantity="one">Your gift has been redeemed by one friend</item>

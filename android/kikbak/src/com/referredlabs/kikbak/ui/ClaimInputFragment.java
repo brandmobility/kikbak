@@ -91,7 +91,7 @@ public class ClaimInputFragment extends KikbakFragment implements OnClickListene
   }
 
   private void setCreditAmount(double value) {
-    String txt = getString(R.string.credit_amount_fmt, value);
+    String txt = getString(R.string.reward_credit_claim_simple_amount_fmt, value);
     mRewardValueTv.setText(txt);
   }
 
