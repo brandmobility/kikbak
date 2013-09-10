@@ -177,7 +177,7 @@ const int CELL_HEIGHT = 147;
 
     
     self.credit = [[UILabel alloc]initWithFrame:CGRectMake(160, 9, 149, 13)];
-    self.credit.text = NSLocalizedString(@"Earned Credit", nil);
+    self.credit.text = NSLocalizedString(@"Claim Reward", nil);
     self.credit.backgroundColor = [UIColor clearColor];
     self.credit.textColor = UIColorFromRGB(0X767676);
     self.credit.font = [UIFont fontWithName:@"HelveticaNeue" size:11];

@@ -563,7 +563,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     self.imageOverlay.frame = fr;
 
     [self.takePhoto removeFromSuperview];
-    self.takePictureBtn.frame = CGRectMake(265, 11, 55, 55);
+    self.takePictureBtn.frame = CGRectMake(265, 0, 55, 55);
     [self.takePictureBtn setImage:[UIImage imageNamed:@"ic_post_give_camera"] forState:UIControlStateNormal];
     
     CGRect cropRect = CGRectMake(8, 94, 624, 624);

@@ -94,16 +94,17 @@
         self.offer.frame = CGRectMake(0, 122, 320, 28);
         self.desc.frame = CGRectMake(0, 146, 320, 48);
         self.details.frame = CGRectMake(0, 184, 320, 26);
-        self.seperator.frame = CGRectMake(11, 208, 298, 1);
         self.validationImage.frame = CGRectMake(60, 232, 200, 75);
         self.couponCode.frame = CGRectMake(0, 307, 320, 12);
 
         if( [self.validationType compare:@"qrcode"] == NSOrderedSame){
-            self.validationImage.frame = CGRectMake(42, 220, 100, 100);
-            self.couponCode.frame = CGRectMake(185, 255, 150, 34);
+            self.validationImage.frame = CGRectMake(42, 210, 100, 100);
+            self.couponCode.frame = CGRectMake(185, 245, 150, 34);
             self.couponCode.textAlignment = NSTextAlignmentLeft;
             self.couponCode.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:30];
         }
+
+        self.seperator.frame = CGRectMake(11, 318, 298, 1);
         
         self.share.frame = CGRectMake(0, 325, 320, 15);
         self.earn.frame = CGRectMake(0, 342, 320, 15);

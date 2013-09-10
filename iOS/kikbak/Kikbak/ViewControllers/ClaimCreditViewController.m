@@ -68,6 +68,7 @@
 	// Do any additional setup after loading the view.
     
     [self createSubviews];
+    [self manuallyLayoutSubviews];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -196,7 +197,7 @@
 
 -(void)manuallyLayoutSubviews{
     if( ![UIDevice hasFourInchDisplay]){
-        [self.scrollView setContentSize: CGSizeMake(320, 560)];
+        [self.scrollView setContentSize: CGSizeMake(320, 600)];
     }
 }
 
@@ -289,20 +290,28 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField{
     self.active = textField;
+    int base = 0;
+    if( ![UIDevice hasFourInchDisplay]){
+        base = 80;
+    }
+    
+    if( textField == self.name){
+        self.scrollView.contentOffset = CGPointMake(0, base);
+    }
     if( textField == self.street){
-        self.scrollView.contentOffset = CGPointMake(0, 40);
+        self.scrollView.contentOffset = CGPointMake(0, base + 40);
     }
     else if( textField == self.apt){
-        self.scrollView.contentOffset = CGPointMake(0, 80);
+        self.scrollView.contentOffset = CGPointMake(0, base + 80);
     }
     else if(textField == self.city){
-        self.scrollView.contentOffset = CGPointMake(0, 120);
+        self.scrollView.contentOffset = CGPointMake(0, base + 120);
     }
     else if(textField == self.state){
-        self.scrollView.contentOffset = CGPointMake(0, 170);
+        self.scrollView.contentOffset = CGPointMake(0, base + 170);
     }
     else if(textField == self.zip){
-        self.scrollView.contentOffset = CGPointMake(0, 230);
+        self.scrollView.contentOffset = CGPointMake(0, base + 230);
     }
 }
 

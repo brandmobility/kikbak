@@ -28,7 +28,7 @@
 
 @property (nonatomic, strong) UILabel* offer;
 @property (nonatomic, strong) UILabel* desc;
-@property (nonatomic, strong) UILabel* optionalDesc;
+@property (nonatomic, strong) UILabel* details;
 @property (nonatomic, strong) UIImageView* seperator;
 
 @property (nonatomic, strong) UIImageView* qrCode;
@@ -81,22 +81,33 @@
         self.retailerBG.frame = CGRectMake(0, 0, 320, 59);
         self.dropShadow.frame = CGRectMake(0, 0, 320, 4);
         self.retailerName.frame = CGRectMake(0, 17, 320, 34);
-        self.successBG.frame = CGRectMake(0, 59, 320, 79);
-        self.success.frame = CGRectMake(0, 14, 320, 23);
-        self.claimedCredit.frame = CGRectMake(0, 40, 320, 15);
-        self.showScreen.frame = CGRectMake(0, 55, 320, 15);
-        self.dottedSeperator.frame = CGRectMake(0, 138, 320, 2);
-     
+        
+        
+        self.successBG.frame = CGRectMake(0, 59, 320, 50);
+        
+        self.success.frame = CGRectMake(50, 10, 320, 15);
+        self.success.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:13];
+        self.success.textAlignment = NSTextAlignmentLeft;
+        self.claimedCredit.frame = CGRectMake(111, 10, 320, 15);
+        self.claimedCredit.textAlignment = NSTextAlignmentLeft;
+        self.showScreen.frame = CGRectMake(0, 27, 320, 15);
+        self.dottedSeperator.frame = CGRectMake(0, 109, 320, 2);
+        
         self.offer.frame = CGRectMake(0, 122, 320, 28);
         self.desc.frame = CGRectMake(0, 146, 320, 48);
-        self.optionalDesc.frame = CGRectMake(0, 184, 320, 26);
-        self.seperator.frame = CGRectMake(11, 208, 298, 1);
-        self.qrCode.frame = CGRectMake(42, 220, 100, 100);
-        self.couponCode.frame = CGRectMake(180, 255, 150, 23);
-        self.couponCode.textAlignment = NSTextAlignmentLeft;
+        self.details.frame = CGRectMake(0, 184, 320, 26);
+        self.couponCode.frame = CGRectMake(0, 307, 320, 12);
         
-        self.earn.frame = CGRectMake(0, 325, 320, 15);
+        self.qrCode.frame = CGRectMake(42, 210, 100, 100);
+        self.couponCode.frame = CGRectMake(185, 245, 150, 34);
+        self.couponCode.textAlignment = NSTextAlignmentLeft;
+        self.couponCode.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:30];
+
+        self.seperator.frame = CGRectMake(11, 318, 298, 1);
+        
+        self.share.frame = CGRectMake(0, 325, 320, 15);
         self.earn.frame = CGRectMake(0, 342, 320, 15);
+        
         self.giveBtn.frame = CGRectMake(11, 365, 298, 40);
         
     }
@@ -170,13 +181,13 @@
     self.desc.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:41];
     [self.view addSubview:self.desc];
     
-    self.optionalDesc = [[UILabel alloc]initWithFrame:CGRectMake(0, 255, 320, 26)];
-    self.optionalDesc.text = NSLocalizedString(@"Your Purchase", nil);
-    self.optionalDesc.textAlignment = NSTextAlignmentCenter;
-    self.optionalDesc.backgroundColor = [UIColor clearColor];
-    self.optionalDesc.textColor = UIColorFromRGB(0x3a3a3a);
-    self.optionalDesc.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
-    [self.view addSubview:self.optionalDesc];
+    self.details = [[UILabel alloc]initWithFrame:CGRectMake(0, 255, 320, 26)];
+    self.details.text = NSLocalizedString(@"Your Purchase", nil);
+    self.details.textAlignment = NSTextAlignmentCenter;
+    self.details.backgroundColor = [UIColor clearColor];
+    self.details.textColor = UIColorFromRGB(0x3a3a3a);
+    self.details.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
+    [self.view addSubview:self.details];
 
     
     self.qrCode = [[UIImageView alloc]initWithFrame:CGRectMake(40, 285, 109, 109)];
@@ -204,7 +215,7 @@
     [self.view addSubview:self.share];
     
     self.earn = [[UILabel alloc] initWithFrame:CGRectMake(0, 429, 320, 15)];
-    self.earn.text = NSLocalizedString(@"Earn for friend", nil);
+    self.earn.text = NSLocalizedString(@"Earn more credit", nil);
     self.earn.textAlignment = NSTextAlignmentCenter;
     self.earn.backgroundColor = [UIColor clearColor];
     self.earn.textColor = UIColorFromRGB(0x3a3a3a);

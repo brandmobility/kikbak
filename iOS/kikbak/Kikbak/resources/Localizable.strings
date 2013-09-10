@@ -50,7 +50,7 @@
 "recommend business" = "Want to recommend a business with a special offer? Tell us and we'll let them know they should join Kikbak.";
 
 "Received Gift" = "RECEIVED GIFT";
-"Earned Credit" = "EARNED CREDIT";
+"Claim Reward" = "CLAIM REWARD";
 "gift percent" = "%d%% OFF";
 "amount off" = "$%d OFF";
 "credit" = "$%@ Credit";
@@ -70,6 +70,7 @@
 "Redeem Amount" = "$%.2f";
 "Share with friends" = "Share the same offer with your friends.";
 "Earn for friend" = "You earn for every friend that redeems.";
+"Earn more credit" = "and earn even more credit.";
 "Give to Friends" = "Give to friends";
 
 //credit amount
