@@ -38,7 +38,7 @@ import com.referredlabs.kikbak.utils.BitmapBody;
 public class Http {
 
   public static String getUri(String path) {
-    return "http://" + C.SERVER + ":" + C.PORT + "/" + C.SERVER_INSTANCE + path;
+    return C.REST_URI + path;
   }
 
   public static <T, V> V execute(String uri, T request, Class<V> responseType) throws IOException {

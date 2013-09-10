@@ -13,11 +13,11 @@
         android:showAsAction="never"
         android:title="use fixed location"/>
     <item
-        android:id="@+id/action_demo_server"
+        android:id="@+id/action_bypass_geo_fence"
         android:checkable="true"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="demo server"
+        android:title="bypass geo fence"
         android:visible="true"/>
     <item
         android:id="@+id/action_login"

@@ -101,6 +101,7 @@ public class ShareViaSmsFragment extends SharingDialog {
 
   protected void onShareFailed() {
     mListener.onShareFailed();
+    dismiss();
   }
 
   private String getSmsRecipients() {

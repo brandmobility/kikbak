@@ -3,6 +3,7 @@ package com.referredlabs.kikbak.ui;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,13 +13,17 @@ import com.google.gson.Gson;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.AvailableCreditType;
 import com.referredlabs.kikbak.data.RewardType;
+import com.referredlabs.kikbak.service.LocationFinder;
+import com.referredlabs.kikbak.service.LocationFinder.LocationFinderListener;
 import com.referredlabs.kikbak.ui.ClaimInputFragment.ClaimCompletedCallback;
 import com.referredlabs.kikbak.ui.RedeemCreditFragment.RedeemCreditCallback;
 
 public class RedeemCreditActivity extends KikbakActivity implements RedeemCreditCallback,
-    ClaimCompletedCallback {
+    ClaimCompletedCallback, LocationFinderListener {
 
   public static final String EXTRA_CREDIT = "credit";
+
+  private LocationFinder mLocationFinder;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +36,23 @@ public class RedeemCreditActivity extends KikbakActivity implements RedeemCredit
       t.add(R.id.main, frag);
       t.commit();
     }
+    mLocationFinder = new LocationFinder(this);
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    mLocationFinder.startLocating();
+  }
+
+  @Override
+  protected void onPause() {
+    super.onPause();
+    mLocationFinder.stopLocating();
+  }
+
+  @Override
+  public void onLocationUpdated(Location location) {
   }
 
   Fragment getFragment() {

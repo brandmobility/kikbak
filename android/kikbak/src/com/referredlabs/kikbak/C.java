@@ -4,21 +4,14 @@ package com.referredlabs.kikbak;
 import android.location.Location;
 
 public class C {
-  public static final String INST_DEV = "kikbak";
-  public static final String INST_DEMO = "k2";
+  public static final String REST_URI = "http://prod.kikbak.me/m/kikbak";
+  public static final String UPLOAD_URI = "http://prod.kikbak.me/s/upload.php";
 
-  public static String SERVER_INSTANCE = INST_DEV;
+  public static boolean USE_FIXED_LOCATION = false;
+  public static final double LATITUDE = 37.7602;
+  public static final double LONGITUDE = -122.4351;
 
-  public static final String SERVER = "54.244.124.116";
-  // public static final String SERVER = "192.168.2.102";
-  public static final short PORT = 8080;
-  public static final String UPLOAD_URI = "http://54.244.124.116/s/upload.php";
-
-  public static boolean USE_FIXED_LOCATION = true;
-  public static final double LATITUDE = 37.44;
-  public static final double LONGITUDE = -122.17;
-
-  public static final boolean BYPASS_STORE_CHECK = true;
+  public static boolean BYPASS_STORE_CHECK = false;
   public static final float IN_STORE_DISTANCE = 100; // 100 meters
 
   public static final float REFETCH_DISTANCE = 2000; // 2 km
@@ -31,12 +24,4 @@ public class C {
     FIXED_LOCATION.setLatitude(LATITUDE);
     FIXED_LOCATION.setLongitude(LONGITUDE);
   }
-
-  public static void toggleServerInstance() {
-    if (SERVER_INSTANCE == INST_DEMO)
-      SERVER_INSTANCE = INST_DEV;
-    else
-      SERVER_INSTANCE = INST_DEMO;
-  }
-
 }

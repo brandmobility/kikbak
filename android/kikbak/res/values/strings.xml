@@ -104,7 +104,8 @@
     <string name="reward_credit_purchase_amount_fmt">$%.2f</string>
     <string name="reward_credit_claim_label">CLAIM REWARD</string>
     <string name="reward_credit_claim_amount_fmt">$%.0f Gift Card</string>
-
+    <string name="reward_credit_claim_simple_amount_fmt">$%.0f</string>
+    
     <!-- Redeem -->
     <plurals name="credit_redeem_count">
         <item quantity="one">Your gift has been redeemed by one friend</item>
@@ -132,7 +133,7 @@
     <string name="redeem_gift_confirmation">You must be at the register to redeem.\n\nAre you ready to redeem this offer?</string>
     <string name="redeem_invalid_code">Sorry, that QR code is not recognized or is invalid.\n\nWould you like to try again?</string>
     <string name="redeem_not_in_store">Oops! You have to be in the store to redeem.\n\nLooks like you might not be there yet. Try again?</string>
-    <string name="redeem_credit_confirmation">If you use more credit then your purchase total, you will lose all excess credit.\n\nYou have chosen to redeem $%.2f credit. Is this right?</string>
+    <string name="redeem_credit_confirmation">If you use more credit than your purchase total, you will lose all excess credit.\n\nYou have chosen to redeem $%.2f credit. Is this right?</string>
     <string name="redeem_failure">Something went wrong, please try again.</string>
 
     <!-- Redeem success -->
@@ -142,7 +143,7 @@
     <string name="redeem_success_note_second_integrated">Your code will expire in 24 hours.</string>
     <string name="redeem_success_note_first_credit">You have claimed your credit.</string>
     <string name="redeem_success_your_code">YOUR CODE</string>
-    <string name="redeem_success_share_note">Share the same offer with our friends.\nYou earn for every friend that redeems.</string>
+    <string name="redeem_success_share_note">Share the same offer with your friends.\nYou earn for every friend that redeems.</string>
 
     <!-- Redeem chooser -->
     <string name="redeem_chooser_title">Select one to redeem</string>
