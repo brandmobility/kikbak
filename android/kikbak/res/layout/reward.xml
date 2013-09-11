@@ -26,7 +26,7 @@
             android:layout_alignLeft="@id/reward_image"
             android:layout_alignRight="@id/reward_image"
             android:layout_alignTop="@id/reward_image"
-            android:background="@drawable/grd_imgredeem" />
+            android:background="@drawable/grd_redeem" />
 
         <com.referredlabs.kikbak.widget.TtfTextView
             android:id="@+id/name"

@@ -12,8 +12,7 @@
         android:adjustViewBounds="true"
         android:maxHeight="@dimen/qr_code_size"
         android:maxWidth="@dimen/qr_code_size"
-        android:scaleType="centerInside"
-        android:src="@drawable/qr_code" />
+        android:scaleType="centerInside" />
 
     <com.referredlabs.kikbak.widget.TtfTextView
         android:id="@+id/text_code"
