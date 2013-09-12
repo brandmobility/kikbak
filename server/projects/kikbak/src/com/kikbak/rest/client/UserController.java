@@ -21,6 +21,7 @@ import com.kikbak.jaxb.devicetoken.DeviceTokenUpdateRequest;
 import com.kikbak.jaxb.devicetoken.DeviceTokenUpdateResponse;
 import com.kikbak.jaxb.friends.UpdateFriendResponse;
 import com.kikbak.jaxb.friends.UpdateFriendsRequest;
+import com.kikbak.jaxb.offer.ClientOfferType;
 import com.kikbak.jaxb.offer.GetUserOffersRequest;
 import com.kikbak.jaxb.offer.GetUserOffersResponse;
 import com.kikbak.jaxb.offer.HasUserOffersResponse;
@@ -141,7 +142,15 @@ public class UserController extends AbstractController {
             final HttpServletResponse httpResponse) {
         try {
             HasUserOffersResponse response = new HasUserOffersResponse();
-            response.setHasOffer(userService.hasOffers(request.getUserLocation()));
+            Collection<ClientOfferType> offers = userService.hasOffers(request.getUserLocation());
+            if (offers.isEmpty()) {
+            	response.setHasOffer(false);
+            	return response;
+            }
+            response.setHasOffer(true);
+            if (offers.size() == 1) {
+            	response.setBrandName(offers.iterator().next().getMerchantName());
+            }
             return response;
         } catch (Exception e) {
             logger.error(e, e);

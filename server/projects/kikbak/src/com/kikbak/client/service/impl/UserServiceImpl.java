@@ -39,7 +39,6 @@ import com.kikbak.dto.User;
 import com.kikbak.dto.UserToken;
 import com.kikbak.dto.User2friend;
 import com.kikbak.jaxb.devicetoken.DeviceTokenType;
-import com.kikbak.jaxb.friends.FriendType;
 import com.kikbak.jaxb.merchantlocation.MerchantLocationType;
 import com.kikbak.jaxb.offer.ClientOfferType;
 import com.kikbak.jaxb.register.UserIdType;
@@ -173,10 +172,10 @@ public class UserServiceImpl implements UserService {
      
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	public boolean hasOffers(UserLocationType userLocation) {
+	public Collection<ClientOfferType> hasOffers(UserLocationType userLocation) {
 		Coordinate origin = new Coordinate(userLocation.getLatitude(), userLocation.getLongitude());
 		GeoFence fence = GeoBoundaries.getGeoFence(origin, config.getDouble("geo.fence.distance.hasoffer"));
-		return !roOfferDao.listValidOffersInGeoFence(fence).isEmpty();
+		return getOffersByLocation(fence);
 	}
 	
 	@Override
@@ -186,6 +185,10 @@ public class UserServiceImpl implements UserService {
 		
 		Coordinate origin = new Coordinate(userLocation.getLatitude(), userLocation.getLongitude());
 		GeoFence fence = GeoBoundaries.getGeoFence(origin, config.getDouble("geo.fence.distance"));
+		return getOffersByLocation(fence);
+	}
+
+	private Collection<ClientOfferType> getOffersByLocation(GeoFence fence) {
 		Collection<Offer> offers = roOfferDao.listValidOffersInGeoFence(fence);
 		Collection<ClientOfferType> ots = new ArrayList<ClientOfferType>(offers.size());
 		for(Offer offer : offers){
