@@ -67,9 +67,11 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
     Uri uri = Uri.parse(mOffer.giveImageUrl);
     Picasso.with(this).load(uri).into(mImage);
     ((TextView) findViewById(R.id.name)).setText(mOffer.merchantName);
-    ((TextView) findViewById(R.id.gift_desc)).setText(mOffer.giftDesc);
+    String give = getString(R.string.give_give, mOffer.giftDesc);
+    ((TextView) findViewById(R.id.gift_desc)).setText(give);
     ((TextView) findViewById(R.id.gift_desc_opt)).setText(mOffer.giftDetailedDesc);
-    ((TextView) findViewById(R.id.reward_desc)).setText(mOffer.kikbakDesc);
+    String get = getString(R.string.give_get, mOffer.kikbakDesc);
+    ((TextView) findViewById(R.id.reward_desc)).setText(get);
     ((TextView) findViewById(R.id.reward_desc_opt)).setText(mOffer.kikbakDetailedDesc);
 
     IconBarHelper iconBar = new IconBarHelper(findViewById(R.id.icon_bar),

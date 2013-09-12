@@ -23,7 +23,7 @@
         android:layout_marginRight="13dp"
         android:layout_marginTop="13dp"
         android:background="@drawable/btn_blue"
-        android:text="@string/give"
+        android:text="@string/give_to_friends"
         android:textColor="@android:color/white"
         android:textSize="15dp"
         kikbak:typeface="Roboto-Medium.ttf" />
