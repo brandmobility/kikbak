@@ -49,6 +49,7 @@
 		3C254BB317D3260500B279C7 /* SuggestBusinessRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C254BB217D3260500B279C7 /* SuggestBusinessRequest.m */; };
 		3C254BB717D7254A00B279C7 /* Gift.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C254BB617D7254A00B279C7 /* Gift.m */; };
 		3C254BBA17D9BE2300B279C7 /* Credit.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C254BB917D9BE2300B279C7 /* Credit.m */; };
+		3C254BBF17E18A1D00B279C7 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C254BBE17E18A1D00B279C7 /* Location.m */; };
 		3C2980331772C73300026E14 /* separator_redeem_gift.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C2980311772C73300026E14 /* separator_redeem_gift.png */; };
 		3C2980341772C73300026E14 /* separator_redeem_gift@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C2980321772C73300026E14 /* separator_redeem_gift@2x.png */; };
 		3C29803D177570D100026E14 /* img.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C29803B177570D100026E14 /* img.png */; };
@@ -182,7 +183,6 @@
 		3CB9FC8417BCC41F0071B8B4 /* FriendSelectorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9FC8317BCC41F0071B8B4 /* FriendSelectorView.m */; };
 		3CB9FC8717BDF7B20071B8B4 /* FriendSelectorTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9FC8617BDF7B10071B8B4 /* FriendSelectorTableViewCell.m */; };
 		3CB9FC8B17C330800071B8B4 /* LocationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9FC8A17C330800071B8B4 /* LocationTableViewCell.m */; };
-		3CB9FC8E17C336DE0071B8B4 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9FC8D17C336DE0071B8B4 /* Location.m */; };
 		3CB9FC9417C7541E0071B8B4 /* KikbakTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9FC9317C7541D0071B8B4 /* KikbakTextField.m */; };
 		3CB9FC9717C9EE9F0071B8B4 /* ClaimSuccessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9FC9617C9EE9E0071B8B4 /* ClaimSuccessView.m */; };
 		3CBCBF2617127468007B4249 /* OfferService.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCBF2517127468007B4249 /* OfferService.mm */; };
@@ -332,6 +332,8 @@
 		3C254BB617D7254A00B279C7 /* Gift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gift.m; sourceTree = "<group>"; };
 		3C254BB817D9BE2300B279C7 /* Credit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Credit.h; sourceTree = "<group>"; };
 		3C254BB917D9BE2300B279C7 /* Credit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Credit.m; sourceTree = "<group>"; };
+		3C254BBD17E18A1D00B279C7 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
+		3C254BBE17E18A1D00B279C7 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
 		3C2980311772C73300026E14 /* separator_redeem_gift.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = separator_redeem_gift.png; sourceTree = "<group>"; };
 		3C2980321772C73300026E14 /* separator_redeem_gift@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "separator_redeem_gift@2x.png"; sourceTree = "<group>"; };
 		3C29803B177570D100026E14 /* img.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img.png; sourceTree = "<group>"; };
@@ -498,8 +500,6 @@
 		3CB9FC8817C0C2210071B8B4 /* RedeemGiftFriendChooserProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RedeemGiftFriendChooserProtocol.h; sourceTree = "<group>"; };
 		3CB9FC8917C3307F0071B8B4 /* LocationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationTableViewCell.h; sourceTree = "<group>"; };
 		3CB9FC8A17C330800071B8B4 /* LocationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationTableViewCell.m; sourceTree = "<group>"; };
-		3CB9FC8C17C336DE0071B8B4 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
-		3CB9FC8D17C336DE0071B8B4 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
 		3CB9FC9217C7541C0071B8B4 /* KikbakTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KikbakTextField.h; sourceTree = "<group>"; };
 		3CB9FC9317C7541D0071B8B4 /* KikbakTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KikbakTextField.m; sourceTree = "<group>"; };
 		3CB9FC9517C9EE9E0071B8B4 /* ClaimSuccessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClaimSuccessView.h; sourceTree = "<group>"; };
@@ -688,12 +688,12 @@
 		3C752BD917113B710092CFB1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3C254BBD17E18A1D00B279C7 /* Location.h */,
+				3C254BBE17E18A1D00B279C7 /* Location.m */,
 				3C254BB817D9BE2300B279C7 /* Credit.h */,
 				3C254BB917D9BE2300B279C7 /* Credit.m */,
 				3C254BB517D7254A00B279C7 /* Gift.h */,
 				3C254BB617D7254A00B279C7 /* Gift.m */,
-				3CB9FC8C17C336DE0071B8B4 /* Location.h */,
-				3CB9FC8D17C336DE0071B8B4 /* Location.m */,
 				3CB9FC7817BB47C10071B8B4 /* ShareInfo.h */,
 				3CB9FC7917BB47C10071B8B4 /* ShareInfo.m */,
 				3C339E1D1792575900CD0C7B /* Offer.h */,
@@ -1483,13 +1483,13 @@
 				3CB9FC8417BCC41F0071B8B4 /* FriendSelectorView.m in Sources */,
 				3CB9FC8717BDF7B20071B8B4 /* FriendSelectorTableViewCell.m in Sources */,
 				3CB9FC8B17C330800071B8B4 /* LocationTableViewCell.m in Sources */,
-				3CB9FC8E17C336DE0071B8B4 /* Location.m in Sources */,
 				3CB9FC9417C7541E0071B8B4 /* KikbakTextField.m in Sources */,
 				3CB9FC9717C9EE9F0071B8B4 /* ClaimSuccessView.m in Sources */,
 				3C6D4F9617CC815F00BB5425 /* QRCodeImageReqest.m in Sources */,
 				3C254BB317D3260500B279C7 /* SuggestBusinessRequest.m in Sources */,
 				3C254BB717D7254A00B279C7 /* Gift.m in Sources */,
 				3C254BBA17D9BE2300B279C7 /* Credit.m in Sources */,
+				3C254BBF17E18A1D00B279C7 /* Location.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

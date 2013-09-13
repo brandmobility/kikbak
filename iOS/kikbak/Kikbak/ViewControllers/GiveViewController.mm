@@ -72,10 +72,10 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 
 @property(nonatomic, strong) UIImageView* giftIcon;
 @property(nonatomic, strong) UILabel* giftDesctription;
-@property(nonatomic, strong) UILabel* giftDescriptionOptional;
+@property(nonatomic, strong) UILabel* giftDetailedDescription;
 @property(nonatomic, strong) UIImageView* seperator;
 @property(nonatomic, strong) UILabel* rewardDescription;
-@property(nonatomic, strong) UILabel* rewardDescriptionOptional;
+@property(nonatomic, strong) UILabel* rewardDetailedDescription;
 @property(nonatomic, strong) UIButton* termsBtn;
 
 @property(nonatomic, strong) UIButton* giveBtn;
@@ -226,19 +226,19 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
         self.mapIcon.frame = CGRectMake(14, 152, 10, 14);
         self.distance.frame = CGRectMake(30, 151, 70, 18);
         self.mapBtn.frame = CGRectMake(14, 149, 70, 30);
-        self.webIcon.frame = CGRectMake(109, 148, 19, 19);
+        self.webIcon.frame = CGRectMake(109, 153, 16, 16);
         self.webBtn.frame = CGRectMake(99, 148, 30, 30);
-        self.callIcon.frame = CGRectMake(145, 148, 15, 18);
+        self.callIcon.frame = CGRectMake(145, 152, 12, 16);
         self.callBtn.frame = CGRectMake(140, 148, 30, 30);
         self.captionContainerView.frame = CGRectMake(0, TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN, 320, 48);
         self.captionTextView.frame = CGRectMake(10, 8, 300, 32);
         self.dottedSeperator.frame = CGRectMake(0, 216, 320, 2);
         self.giftDesctription.frame = CGRectMake(0, 230, 320, 33);
         self.giftIcon.frame = CGRectMake(self.giftIcon.frame.origin.x, 237, 19, 18);
-        self.giftDescriptionOptional.frame = CGRectMake(0, 264, 320, 15);
+        self.giftDetailedDescription.frame = CGRectMake(0, 264, 320, 15);
         self.seperator.frame = CGRectMake(11, 287, 298, 1);
         self.rewardDescription.frame = CGRectMake(0, 292, 320, 30);
-        self.rewardDescriptionOptional.frame = CGRectMake(0, 322, 320, 15);
+        self.rewardDetailedDescription.frame = CGRectMake(0, 322, 320, 15);
         self.termsBtn.frame = CGRectMake(11, 344, 150, 16);
         self.giveBtn.frame = CGRectMake(11, 366, 298, 40);
     }
@@ -296,7 +296,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [self.mapBtn addTarget:self action:@selector(onMapBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.mapBtn];
     
-    self.webIcon = [[UIImageView alloc]initWithFrame:CGRectMake(109, 221, 19, 19)];
+    self.webIcon = [[UIImageView alloc]initWithFrame:CGRectMake(109, 224, 16, 16)];
     self.webIcon.image = [UIImage imageNamed:@"ic_web_give"];
     [self.view addSubview:self.webIcon];
     
@@ -309,7 +309,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [self.view addSubview:self.webBtn];
     
     
-    self.callIcon = [[UIImageView alloc]initWithFrame:CGRectMake(150, 221, 15, 19)];
+    self.callIcon = [[UIImageView alloc]initWithFrame:CGRectMake(150, 224, 12, 16)];
     self.callIcon.image = [UIImage imageNamed:@"ic_phone_give"];
     [self.view addSubview: self.callIcon];
     
@@ -350,7 +350,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     
     self.giftDesctription = [[UILabel alloc]initWithFrame:CGRectMake(0, 305, 320, 33)];
     self.giftDesctription.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:27];
-    self.giftDesctription.text = self.offer.giftDescription;
+    self.giftDesctription.text = [NSString stringWithFormat:NSLocalizedString(@"Give", nil), self.offer.giftDescription];
     self.giftDesctription.textColor = UIColorFromRGB(0x2A80E6);
     self.giftDesctription.textAlignment = NSTextAlignmentCenter;
     self.giftDesctription.backgroundColor = [UIColor clearColor];
@@ -361,13 +361,13 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     self.giftIcon.image = [UIImage imageNamed:@"ic_gift"];
     [self.view addSubview:self.giftIcon];
 
-    self.giftDescriptionOptional = [[UILabel alloc]initWithFrame:CGRectMake(0, 338, 320, 15)];
-    self.giftDescriptionOptional.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
-    self.giftDescriptionOptional.text = self.offer.giftDescriptionOptional;
-    self.giftDescriptionOptional.textColor = UIColorFromRGB(0x898989);
-    self.giftDescriptionOptional.textAlignment = NSTextAlignmentCenter;
-    self.giftDescriptionOptional.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:self.giftDescriptionOptional];
+    self.giftDetailedDescription = [[UILabel alloc]initWithFrame:CGRectMake(0, 338, 320, 15)];
+    self.giftDetailedDescription.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
+    self.giftDetailedDescription.text = self.offer.giftDescriptionOptional;
+    self.giftDetailedDescription.textColor = UIColorFromRGB(0x898989);
+    self.giftDetailedDescription.textAlignment = NSTextAlignmentCenter;
+    self.giftDetailedDescription.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:self.giftDetailedDescription];
 
     self.seperator = [[UIImageView alloc]initWithFrame:CGRectMake(11, 364, 298, 1)];
     self.seperator.image = [UIImage imageNamed:@"separator_gray_line"];
@@ -375,20 +375,20 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 
     self.rewardDescription = [[UILabel alloc]initWithFrame:CGRectMake(0, 370, 320, 30)];
     self.rewardDescription.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:25];
-    self.rewardDescription.text = self.offer.kikbakDescription;
+    self.rewardDescription.text = [NSString stringWithFormat:NSLocalizedString(@"Get", nil), self.offer.kikbakDescription];
     self.rewardDescription.textColor = UIColorFromRGB(0x3a3a3a);
     self.rewardDescription.textAlignment = NSTextAlignmentCenter;
     self.rewardDescription.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.rewardDescription];
 
     
-    self.rewardDescriptionOptional = [[UILabel alloc]initWithFrame:CGRectMake(0, 401, 320, 15)];
-    self.rewardDescriptionOptional.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
-    self.rewardDescriptionOptional.text = self.offer.kikbakDescriptionOptional;
-    self.rewardDescriptionOptional.textColor = UIColorFromRGB(0x898989);
-    self.rewardDescriptionOptional.textAlignment = NSTextAlignmentCenter;
-    self.rewardDescriptionOptional.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:self.rewardDescriptionOptional];
+    self.rewardDetailedDescription = [[UILabel alloc]initWithFrame:CGRectMake(0, 401, 320, 15)];
+    self.rewardDetailedDescription.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
+    self.rewardDetailedDescription.text = self.offer.kikbakDescriptionOptional;
+    self.rewardDetailedDescription.textColor = UIColorFromRGB(0x898989);
+    self.rewardDetailedDescription.textAlignment = NSTextAlignmentCenter;
+    self.rewardDetailedDescription.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:self.rewardDetailedDescription];
     
     self.termsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.termsBtn.frame = CGRectMake(11, 424, 150, 16);
@@ -722,15 +722,15 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
         [self.spinnerView removeFromSuperview];
     }
     else{
-        [FBSettings setLoggingBehavior:[NSSet setWithObject:FBLoggingBehaviorFBRequests]];
+//        [FBSettings setLoggingBehavior:[NSSet setWithObject:FBLoggingBehaviorFBRequests]];
         FBCouponObject* obj = [[FBCouponObject alloc]init];
         obj.caption = self.captionTextView.text;
         obj.merchant = self.retailerName.text;
         obj.locationId = self.chosenlocation;
         obj.employeeName = self.employeeName;
         obj.landingUrl = result.landingUrl;
-        obj.gift = self.giftDesctription.text;
-        obj.detailedDescription = self.giftDescriptionOptional.text;
+        obj.gift = self.offer.giftDescription;
+        obj.detailedDescription = self.offer.giftDescriptionOptional;
         [obj postCoupon:self.imageUrl];
     }
     

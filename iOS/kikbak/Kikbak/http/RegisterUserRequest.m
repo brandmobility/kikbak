@@ -50,7 +50,7 @@ static NSString* resource = @"user/register/fb/";
 
 -(void)parseResponse:(NSData*)data{
     NSString* json = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"Register User Request: %@", json);
+//    NSLog(@"Register User Request: %@", json);
     id dict = [json JSONValue];
     if( dict != [NSNull null] ){
         id registerResponse = [dict objectForKey:@"registerUserResponse"];

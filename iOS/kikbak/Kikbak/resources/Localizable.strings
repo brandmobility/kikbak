@@ -39,6 +39,8 @@
 "configure mail" = "Please configure phone to send email";
 "Unreachable" = "Can't connect to Kikbak servers. Please try again later.";
 "Thank you" = "Thank you for suggesting a business.";
+"Give" = "Give %@";
+"Get"  = "Get %@";
 
 "miles away" = "%@ mi";
 "call" = "call";
@@ -54,6 +56,7 @@
 "gift percent" = "%d%% OFF";
 "amount off" = "$%d OFF";
 "credit" = "$%@ Credit";
+"Fb coupon title" = "%@ for %@";
 
 //redeem chooser
 "Select One" = "Please select one";
@@ -142,5 +145,4 @@
 
 //qualify error
 "qualify" = "For security purposes, Kikbak requires that your Facebook account have a certain minimum friend count. Unfortunately your chosen account does not qualify.";
-
 "invalid qrcode" = "An invalid authorization code was used. Please try again with valid authorization.";

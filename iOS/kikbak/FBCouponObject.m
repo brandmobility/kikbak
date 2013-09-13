@@ -11,19 +11,24 @@
 #import "SBJson.h"
 #import "NotificationContstants.h"
 #import "Location.h"
+#import "LocationService.h"
 
 @implementation FBCouponObject
 
 -(void)postCoupon:(NSString*)url{
   
-    NSString* title = [NSString stringWithFormat:@"%@: %@", self.merchant, self.gift];
+    NSString* title = [NSString stringWithFormat:NSLocalizedString(@"Fb coupon title", nil), self.gift, self.merchant];
     
     FBRequestConnection *connection = [[FBRequestConnection alloc] init];
     NSMutableDictionary* gift = [[NSMutableDictionary alloc]initWithCapacity:5];
     [gift setObject:title forKey:@"title"];
-    if( self.detailedDescription){
-        [gift setObject:self.detailedDescription forKey:@"description"];
-    }
+    
+    Location* location = [LocationService findById:self.locationId];
+    
+    //only do shared from if near story
+    NSString* body = [NSString stringWithFormat:@"%@ %@\nShared from %@ at %@ in %@, %@", self.gift, self.detailedDescription, self.merchant, location.address, location.city, location.state];
+    
+    [gift setObject:body forKey:@"description"];
     [gift setObject:url forKey:@"image"];
     [gift setObject:self.landingUrl forKey:@"url"];
     
