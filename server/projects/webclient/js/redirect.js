@@ -45,7 +45,7 @@
 			type : 'POST',
 			contentType : 'application/json',
 			data : str,
-			url : 'kikbak/user/hasoffer',
+			url : 'https://m.kikbak.me/m/kikbak/user/hasoffer',
 			success : function(json) {
 				if (json.hasUserOffersResponse.hasOffer) {
 					if (json.hasUserOffersResponse.brandName) {
