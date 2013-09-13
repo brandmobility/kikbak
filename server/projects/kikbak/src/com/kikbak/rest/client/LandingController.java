@@ -71,7 +71,9 @@ public class LandingController {
 				return new ModelAndView();
 			}
 			
-			String title = config.getString(SHARE_TEMPLATE_TITLE_FB).replace("%NAME%", gift.getShareInfo().get(0).getFriendName());
+			String title = config.getString(SHARE_TEMPLATE_TITLE_FB).replace("%MERCHANT%", gift.getMerchant().getName())
+					.replace("%DESC%", gift.getDesc())
+					.replace("%DESC_DETAIL%", gift.getDetailedDesc());
 			String body = config.getString(SHARE_TEMPLATE_BODY_FB).replace("%MERCHANT%", gift.getMerchant().getName())
 					.replace("%DESC%", gift.getDesc())
 					.replace("%DESC_DETAIL%", gift.getDetailedDesc());
