@@ -35,7 +35,6 @@
 		var location = {};
 		location['longitude'] = local.longitude;
 		location['latitude'] = local.latitude;
-        alert('longitude:' + local.longitude + ' latitude:' + local.latitude);
 		var data = {};
 		data['userLocation'] = location;
 		var req = {};
