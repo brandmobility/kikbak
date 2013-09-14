@@ -85,7 +85,7 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
 
   void enableStoreSelection(LayoutInflater inflater) {
     mStoreSpinner.setVisibility(View.VISIBLE);
-    mStoreSpinner.setAdapter(new Adapter(inflater, mOffer.locations));
+    mStoreSpinner.setAdapter(new Adapter(inflater, mOffer.locations.clone()));
     mStoreSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
       @Override
