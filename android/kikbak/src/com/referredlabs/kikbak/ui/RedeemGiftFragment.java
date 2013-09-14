@@ -2,6 +2,7 @@
 package com.referredlabs.kikbak.ui;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.flurry.android.FlurryAgent;
 import com.google.gson.Gson;
 import com.referredlabs.kikbak.C;
 import com.referredlabs.kikbak.R;
@@ -29,6 +31,7 @@ import com.referredlabs.kikbak.data.ShareInfoType;
 import com.referredlabs.kikbak.data.ValidationType;
 import com.referredlabs.kikbak.fb.Fb;
 import com.referredlabs.kikbak.http.Http;
+import com.referredlabs.kikbak.log.Log;
 import com.referredlabs.kikbak.store.DataStore;
 import com.referredlabs.kikbak.tasks.TaskEx;
 import com.referredlabs.kikbak.ui.BarcodeScannerFragment.OnBarcodeScanningListener;
@@ -77,6 +80,7 @@ public class RedeemGiftFragment extends KikbakFragment implements OnClickListene
     mGift = new Gson().fromJson(data, GiftType.class);
     mShareIdx = getActivity().getIntent().getIntExtra(RedeemGiftActivity.EXTRA_SHARE_IDX, 0);
     mCallback = (RedeemGiftCallback) activity;
+    reportSeen();
   }
 
   @Override
@@ -274,6 +278,14 @@ public class RedeemGiftFragment extends KikbakFragment implements OnClickListene
     ConfirmationDialog dialog = ConfirmationDialog.newInstance(msg);
     dialog.setTargetFragment(this, REQUEST_INVALID_CODE);
     dialog.show(getFragmentManager(), null);
+  }
+
+  private void reportSeen() {
+    HashMap<String, String> map = new HashMap<String, String>();
+    map.put(Log.ARG_OFFER_ID, Long.toString(mGift.offerId));
+    float distance = new Nearest(mGift.merchant.locations).getDistance();
+    map.put(Log.ARG_DISTANCE, Float.toString(distance));
+    FlurryAgent.logEvent(Log.EVENT_GIFT_SEEN, map);
   }
 
   private class RedeemTask extends TaskEx {

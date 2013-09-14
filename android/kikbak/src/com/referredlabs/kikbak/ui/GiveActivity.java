@@ -3,12 +3,15 @@ package com.referredlabs.kikbak.ui;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -17,10 +20,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.flurry.android.FlurryAgent;
 import com.google.gson.Gson;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ClientOfferType;
 import com.referredlabs.kikbak.data.MerchantLocationType;
+import com.referredlabs.kikbak.log.Log;
 import com.referredlabs.kikbak.ui.ShareOptionsFragment.OnShareMethodSelectedListener;
 import com.referredlabs.kikbak.ui.ShareSuccessDialog.OnShareSuccessListener;
 import com.referredlabs.kikbak.utils.Nearest;
@@ -61,6 +66,9 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
     String data = getIntent().getStringExtra(ARG_OFFER);
     mOffer = new Gson().fromJson(data, ClientOfferType.class);
     setupViews();
+
+    reportSeen();
+    mComment.addTextChangedListener(new ChangeWatcher());
   }
 
   private void setupViews() {
@@ -144,6 +152,7 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
   }
 
   protected void onPhotoTaken() {
+    reportPhotoTaken();
     mTakePhoto.setVisibility(View.INVISIBLE);
     findViewById(R.id.take_photo_label).setVisibility(View.INVISIBLE);
     mRetakePhoto.setVisibility(View.VISIBLE);
@@ -211,6 +220,7 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
 
   @Override
   public void onSendViaEmail(String employee, MerchantLocationType location) {
+    reportShared(Log.CONST_CHANNEL_EMAIL);
     String comment = mComment.getText().toString();
     String path = mCroppedPhotoUri == null ? null : mCroppedPhotoUri.getPath();
     long locationId = location == null ? -1 : location.locationId;
@@ -221,6 +231,7 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
 
   @Override
   public void onSendViaSms(String employee, MerchantLocationType location) {
+    reportShared(Log.CONST_CHANNEL_SMS);
     String comment = mComment.getText().toString();
     String path = mCroppedPhotoUri == null ? null : mCroppedPhotoUri.getPath();
     long locationId = location == null ? -1 : location.locationId;
@@ -231,6 +242,7 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
 
   @Override
   public void onSendViaFacebook(String employee, MerchantLocationType location) {
+    reportShared(Log.CONST_CHANNEL_FACEBOOK);
     String comment = mComment.getText().toString();
     String path = mCroppedPhotoUri == null ? null : mCroppedPhotoUri.getPath();
     long locationId = location == null ? -1 : location.locationId;
@@ -254,6 +266,7 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
   }
 
   private void showShareSuccess() {
+    reportShareSuccess();
     ShareSuccessDialog dialog = new ShareSuccessDialog();
     dialog.show(getSupportFragmentManager(), null);
   }
@@ -261,5 +274,60 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
   @Override
   public void onShareSuccessDismissed() {
     // do nothing, stay on give screen
+  }
+
+  // ANALITICS
+
+  private void reportSeen() {
+    HashMap<String, String> map = new HashMap<String, String>();
+    map.put(Log.ARG_OFFER_ID, Long.toString(mOffer.id));
+    FlurryAgent.logEvent(Log.EVENT_OFFER_SEEN, map);
+  }
+
+  private void reportPhotoTaken() {
+    HashMap<String, String> map = new HashMap<String, String>();
+    map.put(Log.ARG_OFFER_ID, Long.toString(mOffer.id));
+    FlurryAgent.logEvent(Log.EVENT_OFFER_PHOTO_TAKEN, map);
+  }
+
+  private void reportShared(String channel) {
+    HashMap<String, String> map = new HashMap<String, String>();
+    map.put(Log.ARG_OFFER_ID, Long.toString(mOffer.id));
+    map.put(Log.ARG_CHANNEL, channel);
+    FlurryAgent.logEvent(Log.EVENT_OFFER_SHARED, map);
+  }
+
+  private void reportShareSuccess() {
+    HashMap<String, String> map = new HashMap<String, String>();
+    map.put(Log.ARG_OFFER_ID, Long.toString(mOffer.id));
+    // map.put(Log.ARG_CHANNEL, channel);
+    FlurryAgent.logEvent(Log.EVENT_OFFER_SHARE_SUCCESS, map);
+  }
+
+  private void reportTextChanged() {
+    HashMap<String, String> map = new HashMap<String, String>();
+    map.put(Log.ARG_OFFER_ID, Long.toString(mOffer.id));
+    FlurryAgent.logEvent(Log.EVENT_OFFER_COMMENT, map);
+  }
+
+  private class ChangeWatcher implements TextWatcher {
+
+    private boolean mReported;
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+      if (!mReported) {
+        reportTextChanged();
+        mReported = true;
+      }
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+    }
   }
 }

@@ -21,12 +21,14 @@ import android.view.MenuItem;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.flurry.android.FlurryAgent;
 import com.google.gson.Gson;
 import com.referredlabs.kikbak.C;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.AvailableCreditType;
 import com.referredlabs.kikbak.data.GiftType;
 import com.referredlabs.kikbak.gcm.GcmHelper;
+import com.referredlabs.kikbak.log.Log;
 import com.referredlabs.kikbak.service.LocationFinder;
 import com.referredlabs.kikbak.service.LocationFinder.LocationFinderListener;
 import com.referredlabs.kikbak.store.DataStore;
@@ -93,6 +95,7 @@ public class MainActivity extends KikbakActivity implements ActionBar.TabListene
     mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
       @Override
       public void onPageSelected(int position) {
+        FlurryAgent.logEvent(position == 0 ? Log.EVENT_OFFERS_LIST : Log.EVENT_REWARDS_LIST);
         actionBar.setSelectedNavigationItem(position);
         RewardListFragment rl = mSectionsPagerAdapter.getRewardFragment();
         if (rl != null)

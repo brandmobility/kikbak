@@ -2,6 +2,7 @@
 package com.referredlabs.kikbak.ui;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -18,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.flurry.android.FlurryAgent;
 import com.google.gson.Gson;
 import com.referredlabs.kikbak.C;
 import com.referredlabs.kikbak.R;
@@ -28,6 +30,7 @@ import com.referredlabs.kikbak.data.RedeemCreditResponse;
 import com.referredlabs.kikbak.data.RedeemCreditStatus;
 import com.referredlabs.kikbak.data.ValidationType;
 import com.referredlabs.kikbak.http.Http;
+import com.referredlabs.kikbak.log.Log;
 import com.referredlabs.kikbak.store.DataStore;
 import com.referredlabs.kikbak.tasks.Task;
 import com.referredlabs.kikbak.tasks.TaskEx;
@@ -74,6 +77,7 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
     mCredit = new Gson().fromJson(data, AvailableCreditType.class);
     mCreditToUse = mCredit.value;
     mCallback = (RedeemCreditCallback) activity;
+    reportSeen();
   }
 
   @Override
@@ -301,6 +305,14 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
     ConfirmationDialog dialog = ConfirmationDialog.newInstance(msg);
     dialog.setTargetFragment(this, REQUEST_INVALID_CODE);
     dialog.show(getFragmentManager(), null);
+  }
+
+  private void reportSeen() {
+    HashMap<String, String> map = new HashMap<String, String>();
+    map.put(Log.ARG_OFFER_ID, Long.toString(mCredit.offerId));
+    float distance = new Nearest(mCredit.merchant.locations).getDistance();
+    map.put(Log.ARG_DISTANCE, Float.toString(distance));
+    FlurryAgent.logEvent(Log.EVENT_CREDIT_SEEN, map);
   }
 
   private class RedeemCreditTask extends TaskEx {

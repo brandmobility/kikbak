@@ -12,6 +12,7 @@ import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
 import com.facebook.widget.LoginButton.UserInfoChangedCallback;
+import com.flurry.android.FlurryAgent;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.RegisterUserRequest;
 import com.referredlabs.kikbak.data.RegisterUserResponse;
@@ -19,6 +20,7 @@ import com.referredlabs.kikbak.data.RegisterUserResponseStatus;
 import com.referredlabs.kikbak.data.UserType;
 import com.referredlabs.kikbak.fb.Fb;
 import com.referredlabs.kikbak.http.Http;
+import com.referredlabs.kikbak.log.Log;
 import com.referredlabs.kikbak.tasks.TaskEx;
 import com.referredlabs.kikbak.utils.Register;
 import com.referredlabs.kikbak.utils.StatusException;
@@ -137,6 +139,11 @@ public class LoginActivity extends KikbakActivity implements
 
       String userName = mFacebookUser.getName();
       Register.getInstance().registerUser(resp.userId.userId, userName);
+    }
+
+    @Override
+    protected void done() {
+      FlurryAgent.logEvent(isSuccessful() ? Log.EVENT_REG_OK : Log.EVENT_REG_FAILED);
     }
 
     @Override

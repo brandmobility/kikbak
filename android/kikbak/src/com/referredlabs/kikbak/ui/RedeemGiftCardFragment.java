@@ -1,6 +1,8 @@
 
 package com.referredlabs.kikbak.ui;
 
+import java.util.HashMap;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,10 +15,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.flurry.android.FlurryAgent;
 import com.google.gson.Gson;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.AvailableCreditType;
 import com.referredlabs.kikbak.data.RewardType;
+import com.referredlabs.kikbak.log.Log;
+import com.referredlabs.kikbak.utils.Nearest;
 import com.squareup.picasso.Picasso;
 
 public class RedeemGiftCardFragment extends Fragment implements OnClickListener {
@@ -33,6 +38,7 @@ public class RedeemGiftCardFragment extends Fragment implements OnClickListener 
     String data = getArguments().getString(RedeemCreditActivity.EXTRA_CREDIT);
     mCredit = new Gson().fromJson(data, AvailableCreditType.class);
     assert (RewardType.GIFT_CARD.equals(mCredit.rewardType));
+    reportSeen();
   }
 
   @Override
@@ -95,4 +101,13 @@ public class RedeemGiftCardFragment extends Fragment implements OnClickListener 
     t.addToBackStack(null);
     t.commit();
   }
+
+  private void reportSeen() {
+    HashMap<String, String> map = new HashMap<String, String>();
+    map.put(Log.ARG_OFFER_ID, Long.toString(mCredit.offerId));
+    float distance = new Nearest(mCredit.merchant.locations).getDistance();
+    map.put(Log.ARG_DISTANCE, Float.toString(distance));
+    FlurryAgent.logEvent(Log.EVENT_CREDIT_SEEN, map);
+  }
+
 }
