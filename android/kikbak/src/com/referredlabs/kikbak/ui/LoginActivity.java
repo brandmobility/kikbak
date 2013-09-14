@@ -142,17 +142,14 @@ public class LoginActivity extends KikbakActivity implements
     }
 
     @Override
-    protected void done() {
-      FlurryAgent.logEvent(isSuccessful() ? Log.EVENT_REG_OK : Log.EVENT_REG_FAILED);
-    }
-
-    @Override
     protected void onSuccess() {
+      FlurryAgent.logEvent(Log.EVENT_REG_OK);
       onRegistrationSuccess();
     }
 
     @Override
     protected void onFailed(Exception exception) {
+      FlurryAgent.logEvent(Log.EVENT_REG_FAILED);
       onRegistrationFailed(exception);
     }
   }
