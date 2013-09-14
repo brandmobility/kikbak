@@ -18,6 +18,8 @@ public class C {
 
   public static final float RECALCULATE_DISTANCE = 200; // 200 meters
 
+  public static final float FB_STORY_DISTANCE = 804; // 804 meters = 0.5 mile
+
   public static Location FIXED_LOCATION;
   static {
     FIXED_LOCATION = new Location("fake");

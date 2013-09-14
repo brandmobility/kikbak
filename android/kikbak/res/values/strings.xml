@@ -87,6 +87,12 @@
     <string name="share_thank_you">Thank you!</string>
     <string name="share_success_note">We will notify you when a friend uses your gift and you earn a reward</string>
 
+    <!-- Facebook story -->
+    <string name="facebook_story_title_fmt">%1$s for %2$s</string> <!-- [gift_desc] for [merchant] -->
+    <string name="facebook_story_first_line_fmt">%1$s %2$s</string> <!-- [gift_desc] [gift_detail_desc] -->
+    <string name="facebook_story_second_line_fmt">%1$s at %2$s in %3$s, %4$s</string> <!-- [merchant] at [address] in [city], [state] -->
+
+
     <!-- Rewards -->
     <string name="reward_gift_label">USE RECEIVED GIFT</string>
     <string name="reward_gift_type_percentage_fmt">%.0f%% OFF</string>

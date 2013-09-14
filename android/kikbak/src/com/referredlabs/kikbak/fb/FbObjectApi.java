@@ -7,6 +7,7 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import com.facebook.HttpMethod;
@@ -15,7 +16,10 @@ import com.facebook.RequestBatch;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.referredlabs.kikbak.C;
+import com.referredlabs.kikbak.Kikbak;
+import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ClientOfferType;
+import com.referredlabs.kikbak.data.MerchantLocationType;
 import com.referredlabs.kikbak.utils.Nearest;
 
 public class FbObjectApi {
@@ -71,9 +75,13 @@ public class FbObjectApi {
       String code) {
     JSONObject gift = new JSONObject();
     try {
+      Context ctx = Kikbak.getInstance();
       // common properties
-      String title = offer.merchantName + ":" + offer.giftDesc;
-      String description = offer.giftDetailedDesc;
+      String title = ctx.getString(R.string.facebook_story_title_fmt, offer.giftDesc,
+          offer.merchantName);
+      String description = ctx.getString(R.string.facebook_story_first_line_fmt, offer.giftDesc,
+          offer.giftDetailedDesc);
+
       gift.put("title", title);
       gift.put("description", description);
       gift.put("image", imageUrl);
@@ -81,8 +89,17 @@ public class FbObjectApi {
 
       // kikbak specific properties
       JSONObject data = new JSONObject();
-      data.put("merchant_name", offer.merchantName);
-      data.put("detailed_desc", offer.giftDetailedDesc);
+      data.put("merchant", offer.merchantName);
+      data.put("gift_desc", offer.giftDesc);
+      data.put("gift_detailed_desc", offer.giftDetailedDesc);
+
+      Nearest nearest = new Nearest(offer.locations);
+      if (nearest.getDistance() < C.FB_STORY_DISTANCE) {
+        MerchantLocationType loc = nearest.get();
+        String secondLine = ctx.getString(R.string.facebook_story_second_line_fmt,
+            offer.merchantName, loc.address1, loc.city, loc.state);
+        data.put("second_line", secondLine);
+      }
       gift.put("data", data);
     } catch (JSONException e) {
       // ignore
