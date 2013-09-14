@@ -70,61 +70,61 @@
     self.locationId = ((Location*)[[self.locations allObjects]objectAtIndex:0]).locationId;
     self.employeeName = [[NSString alloc]init];
     
-    int locationOffset = 0;
+    int locationOffset = 40;
     if( [self.locations count] > 1){
         locationOffset = 0;
     }
     
-    int backgroundY = 80;
+    int backgroundY = 120;
     if( ![UIDevice hasFourInchDisplay]){
-        backgroundY = 40;
+        backgroundY = 80;
     }
     
     
-    self.backgroundView = [[UIView alloc] initWithFrame:CGRectMake(23, backgroundY, self.frame.size.width - 46, 356-locationOffset)];
+    self.backgroundView = [[UIView alloc] initWithFrame:CGRectMake(23, backgroundY, self.frame.size.width - 46, 256-locationOffset)];
     self.backgroundView.backgroundColor = UIColorFromRGB(0xE0E0E0);
     self.backgroundView.layer.cornerRadius = 10;
     self.backgroundView.layer.masksToBounds = YES;
     [self addSubview:self.backgroundView];
     
-    self.helped = [[UILabel alloc]initWithFrame:CGRectMake(0, 15, self.backgroundView.frame.size.width, 19)];
-    self.helped.font = [UIFont fontWithName:@"HelveticaNeue" size:16];
-    self.helped.text = NSLocalizedString(@"Helped", nil);
-    self.helped.textAlignment = NSTextAlignmentCenter;
-    self.helped.backgroundColor = [UIColor clearColor];
-    self.helped.textColor = UIColorFromRGB(0x3a3a3a);
-    [self.backgroundView addSubview:self.helped];
-
-    self.byWhom = [[UILabel alloc]initWithFrame:CGRectMake(40, 38, self.backgroundView.frame.size.width-80, 28)];
-    self.byWhom.font = [UIFont fontWithName:@"HelveticaNeue" size:12];
-    self.byWhom.text = NSLocalizedString(@"Let your nearby friends know", nil);
-    self.byWhom.textAlignment = NSTextAlignmentCenter;
-    self.byWhom.numberOfLines = 2;
-    self.byWhom.backgroundColor = [UIColor clearColor];
-    self.byWhom.textColor = UIColorFromRGB(0x808080);
-    [self.backgroundView addSubview:self.byWhom];
-    
-    
-    self.employee = [[UITextView alloc]initWithFrame:CGRectMake(12, 72, self.backgroundView.frame.size.width-24, 35)];
-    self.employee.delegate = self;
-    self.employee.text = NSLocalizedString(@"Employee", nil);
-    self.employee.textColor = UIColorFromRGB(0x7F7F7F);
-    self.employee.scrollEnabled = NO;
-    self.employee.returnKeyType = UIReturnKeyDone;
-    self.employee.contentInset = UIEdgeInsetsMake(2, 5, 2, 5);
-    self.employee.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
-    self.employee.backgroundColor = [UIColor clearColor];
-    self.employee.layer.cornerRadius = 5;
-    self.employee.layer.masksToBounds = YES;
-    self.employee.layer.borderWidth = 1;
-    self.employee.layer.borderColor = [UIColorFromRGB(0xb9b9b9) CGColor];
-    self.employeeShadow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"bg_textview_suggest_business"]];
-    self.employeeShadow.frame = CGRectMake(11, 72, self.backgroundView.frame.size.width-22, 35);
-    [self.backgroundView addSubview:self.employeeShadow];
-    [self.backgroundView addSubview:self.employee];
+//    self.helped = [[UILabel alloc]initWithFrame:CGRectMake(0, 15, self.backgroundView.frame.size.width, 19)];
+//    self.helped.font = [UIFont fontWithName:@"HelveticaNeue" size:16];
+//    self.helped.text = NSLocalizedString(@"Helped", nil);
+//    self.helped.textAlignment = NSTextAlignmentCenter;
+//    self.helped.backgroundColor = [UIColor clearColor];
+//    self.helped.textColor = UIColorFromRGB(0x3a3a3a);
+//    [self.backgroundView addSubview:self.helped];
+//
+//    self.byWhom = [[UILabel alloc]initWithFrame:CGRectMake(40, 38, self.backgroundView.frame.size.width-80, 28)];
+//    self.byWhom.font = [UIFont fontWithName:@"HelveticaNeue" size:12];
+//    self.byWhom.text = NSLocalizedString(@"Let your nearby friends know", nil);
+//    self.byWhom.textAlignment = NSTextAlignmentCenter;
+//    self.byWhom.numberOfLines = 2;
+//    self.byWhom.backgroundColor = [UIColor clearColor];
+//    self.byWhom.textColor = UIColorFromRGB(0x808080);
+//    [self.backgroundView addSubview:self.byWhom];
+//    
+//    
+//    self.employee = [[UITextView alloc]initWithFrame:CGRectMake(12, 72, self.backgroundView.frame.size.width-24, 35)];
+//    self.employee.delegate = self;
+//    self.employee.text = NSLocalizedString(@"Employee", nil);
+//    self.employee.textColor = UIColorFromRGB(0x7F7F7F);
+//    self.employee.scrollEnabled = NO;
+//    self.employee.returnKeyType = UIReturnKeyDone;
+//    self.employee.contentInset = UIEdgeInsetsMake(2, 5, 2, 5);
+//    self.employee.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
+//    self.employee.backgroundColor = [UIColor clearColor];
+//    self.employee.layer.cornerRadius = 5;
+//    self.employee.layer.masksToBounds = YES;
+//    self.employee.layer.borderWidth = 1;
+//    self.employee.layer.borderColor = [UIColorFromRGB(0xb9b9b9) CGColor];
+//    self.employeeShadow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"bg_textview_suggest_business"]];
+//    self.employeeShadow.frame = CGRectMake(11, 72, self.backgroundView.frame.size.width-22, 35);
+//    [self.backgroundView addSubview:self.employeeShadow];
+//    [self.backgroundView addSubview:self.employee];
     
     if( locationOffset == 0 ){
-        self.location = [[UIView alloc]initWithFrame:CGRectMake(12, 114, self.backgroundView.frame.size.width-24, 35)];
+        self.location = [[UIView alloc]initWithFrame:CGRectMake(12, 15, self.backgroundView.frame.size.width-24, 35)];
         self.location.layer.cornerRadius = 4;
         self.location.layer.masksToBounds = YES;
         self.location.layer.borderColor = [UIColorFromRGB(0xa0a0a0) CGColor];
@@ -138,7 +138,7 @@
         self.address.backgroundColor = [UIColor clearColor];
         self.address.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
         self.address.textColor = UIColorFromRGB(0x5a5a5a);
-        self.address.textAlignment = NSTextAlignmentCenter;
+        self.address.textAlignment = NSTextAlignmentLeft;
         [self.location addSubview:self.address];
         
         self.chevron = [[UIImageView alloc] initWithFrame:CGRectMake(self.location.frame.size.width-22, 10, 11, 16)];
@@ -200,17 +200,17 @@
 }
 
 -(IBAction)onEmail:(id)sender{
-    [self.delegate onEmailSelected:self.locationId withEmployeeName:self.employeeName];
+    [self.delegate onEmailSelected:self.locationId withEmployeeName:@""];
     [self removeFromSuperview];
 }
 
 -(IBAction)onTimeline:(id)sender{
-    [self.delegate onTimelineSelected:self.locationId withEmployeeName:self.employeeName];
+    [self.delegate onTimelineSelected:self.locationId withEmployeeName:@""];
     [self removeFromSuperview];
 }
 
 -(IBAction)onSms:(id)sender{
-    [self.delegate onSmsSelected:self.locationId withEmployeeName:self.employeeName];
+    [self.delegate onSmsSelected:self.locationId withEmployeeName:@""];
     [self removeFromSuperview];
 }
 

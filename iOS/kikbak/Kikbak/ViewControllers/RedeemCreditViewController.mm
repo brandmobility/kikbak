@@ -19,6 +19,8 @@
 #import "TermsAndConditionsView.h"
 #import "AppDelegate.h"
 #import "SpinnerView.h"
+#import "ImagePersistor.h"
+#import "UIImage+Manipulate.h"
 
 @interface RedeemCreditViewController ()
 
@@ -43,6 +45,7 @@
 
 @property (nonatomic,strong) UIButton* termsBtn;
 @property (nonatomic,strong) UIButton* redeemBtn;
+@property (nonatomic,strong) NSNumber* offerId;
 
 -(void)createSubviews;
 -(void)manuallyLayoutSubviews;
@@ -75,6 +78,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     self.creditToUse = self.credit.value;
+    self.offerId = self.credit.offerId;
     [self createSubviews];
     [self manuallyLayoutSubviews];
 }
@@ -82,6 +86,15 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
+    NSString* imagePath = [ImagePersistor imageFileExists:self.credit.merchantId imageType:DEFAULT_MERCHANT_IMAGE_TYPE];
+    if(imagePath != nil){
+        self.retailerImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
+    }
+    if( ![UIDevice hasFourInchDisplay] ){
+        CGRect retina35CropRect = CGRectMake(0, 74, 640, self.retailerImage.image.size.height-148);
+        self.retailerImage.image = [self.retailerImage.image imageCropToRect:retina35CropRect];
+    }
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onRedeemKikbakSuccess:) name:kKikbakRedeemCreditSuccess object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onRedeemKikbakError:) name:kKikbakRedeemCreditError object:nil];
@@ -252,7 +265,7 @@
     vc.merchantName = self.retailerName.text;
     vc.validationCode = [[notification object] objectForKey:@"authorizationCode"];
     vc.imagePath = [[notification object] objectForKey:@"imagePath"];
-    vc.offerId = self.credit.offerId;
+    vc.offerId = self.offerId;
     [self.navigationController pushViewController:vc animated:YES];
     
 }

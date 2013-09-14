@@ -23,7 +23,6 @@
 "Redeem" = "Redeem";
 "Back" = "Back";
 "Suggest" = "Suggest";
-"Give" = "Give";
 "Get" = "Get";
 
 "currency format" = "$%@";
@@ -39,8 +38,8 @@
 "configure mail" = "Please configure phone to send email";
 "Unreachable" = "Can't connect to Kikbak servers. Please try again later.";
 "Thank you" = "Thank you for suggesting a business.";
-"Give" = "Give %@";
-"Get"  = "Get %@";
+"Give description" = "Give %@";
+"Get description"  = "Get %@";
 
 "miles away" = "%@ mi";
 "call" = "call";
@@ -53,9 +52,11 @@
 
 "Received Gift" = "RECEIVED GIFT";
 "Claim Reward" = "CLAIM REWARD";
+"Earned Credit" = "USE EARNED CREDIT";
 "gift percent" = "%d%% OFF";
 "amount off" = "$%d OFF";
 "credit" = "$%@ Credit";
+"Gift card" = "$%@ Gift Card";
 "Fb coupon title" = "%@ for %@";
 
 //redeem chooser

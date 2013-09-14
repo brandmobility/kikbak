@@ -173,8 +173,18 @@
     self.offer.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.offer];
     
+    
+    NSNumberFormatter *numberFormatter;
+    numberFormatter = [[NSNumberFormatter alloc] init];
+    numberFormatter.numberStyle           = NSNumberFormatterDecimalStyle;
+    numberFormatter.maximumFractionDigits = 2;
+    numberFormatter.minimumFractionDigits = 2;
+    numberFormatter.decimalSeparator      = @".";
+    numberFormatter.usesGroupingSeparator = NO;
+    numberFormatter.allowsFloats = YES;
+    
     self.desc = [[UILabel alloc]initWithFrame:CGRectMake(0, 220, 320, 42)];
-    self.desc.text = [NSString stringWithFormat:NSLocalizedString(@"amount off", nil), [self.creditUsed integerValue]];
+    self.desc.text = [NSString stringWithFormat:NSLocalizedString(@"$%@", nil), [numberFormatter stringFromNumber:self.creditUsed]];
     self.desc.textAlignment = NSTextAlignmentCenter;
     self.desc.backgroundColor = [UIColor clearColor];
     self.desc.textColor = UIColorFromRGB(0x3a3a3a);

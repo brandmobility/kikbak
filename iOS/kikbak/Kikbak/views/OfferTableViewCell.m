@@ -104,7 +104,7 @@
     [self addSubview:self.mapBtn];
 
     self.webBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.webBtn.frame = CGRectMake(81, 126, 26, 30);
+    self.webBtn.frame = CGRectMake(81, 128, 26, 30);
     self.webBtn.contentMode = UIViewContentModeCenter;
     //self.webBtn.backgroundColor = [UIColor redColor];
     [self.webBtn setImage:[UIImage imageNamed:@"ic_web"] forState:UIControlStateNormal];
@@ -112,7 +112,7 @@
     [self addSubview:self.webBtn];
     
     self.callBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.callBtn.frame = CGRectMake(109, 125, 26, 31);
+    self.callBtn.frame = CGRectMake(109, 126, 26, 31);
     self.callBtn.contentMode = UIViewContentModeLeft;
     //self.callBtn.backgroundColor = [UIColor greenColor];
     [self.callBtn setImage:[UIImage imageNamed:@"ic_phone"] forState:UIControlStateNormal];

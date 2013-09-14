@@ -21,9 +21,9 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.locationAddress = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 250, 35)];
+        self.locationAddress = [[UILabel alloc]initWithFrame:CGRectMake(8, 0, 244, 35)];
         self.locationAddress.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
-        self.locationAddress.textAlignment = NSTextAlignmentCenter;
+        self.locationAddress.textAlignment = NSTextAlignmentLeft;
         self.locationAddress.backgroundColor = [UIColor clearColor];
         self.locationAddress.textColor = UIColorFromRGB(0x808080);
         [self addSubview:self.locationAddress];

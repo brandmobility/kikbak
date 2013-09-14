@@ -73,11 +73,11 @@
     }
     
     //default give
-    if(![ImagePersistor imageFileExists:offer.merchantId imageType:DEFAULT_GIVE_IMAGE_TYPE]) {
+    if(![ImagePersistor imageFileExists:offer.merchantId imageType:DEFAULT_MERCHANT_IMAGE_TYPE]) {
         ImageDownloadRequest* request = [[ImageDownloadRequest alloc]init];
         request.url = offer.giveImageUrl;
         request.fileId = offer.merchantId;
-        request.type = DEFAULT_GIVE_IMAGE_TYPE;
+        request.type = DEFAULT_MERCHANT_IMAGE_TYPE;
         [request requestImage];
     }
     

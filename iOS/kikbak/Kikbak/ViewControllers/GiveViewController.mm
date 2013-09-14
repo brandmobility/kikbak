@@ -74,6 +74,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 @property(nonatomic, strong) UILabel* giftDesctription;
 @property(nonatomic, strong) UILabel* giftDetailedDescription;
 @property(nonatomic, strong) UIImageView* seperator;
+@property(nonatomic, strong) UIImageView* rewardIcon;
 @property(nonatomic, strong) UILabel* rewardDescription;
 @property(nonatomic, strong) UILabel* rewardDetailedDescription;
 @property(nonatomic, strong) UIButton* termsBtn;
@@ -147,18 +148,16 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [self updateDisance];
     
     
-    NSString* imagePath = [ImagePersistor imageFileExists:self.offer.merchantId imageType:DEFAULT_GIVE_IMAGE_TYPE];
+    NSString* imagePath = [ImagePersistor imageFileExists:self.offer.merchantId imageType:DEFAULT_MERCHANT_IMAGE_TYPE];
     if(imagePath != nil){
         self.giveImage.image = self.imageToPost = [[UIImage alloc]initWithContentsOfFile:imagePath];
     }
     
     if( ![UIDevice hasFourInchDisplay] ){
-        CGRect retina35CropRect = CGRectMake(0, 74, 640, 436);
+        CGRect retina35CropRect = CGRectMake(0, 74, 640, self.giveImage.image.size.height-148);
         self.giveImage.image = [self.imageToPost imageCropToRect:retina35CropRect];
     }
-    
-
-    
+        
     self.navigationItem.hidesBackButton = YES;
     self.navigationItem.leftBarButtonItem = [UIButton blackBackBtn:self];
 }
@@ -238,6 +237,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
         self.giftDetailedDescription.frame = CGRectMake(0, 264, 320, 15);
         self.seperator.frame = CGRectMake(11, 287, 298, 1);
         self.rewardDescription.frame = CGRectMake(0, 292, 320, 30);
+        self.rewardIcon.frame = CGRectMake(self.rewardIcon.frame.origin.x, 298, 19, 18);
         self.rewardDetailedDescription.frame = CGRectMake(0, 322, 320, 15);
         self.termsBtn.frame = CGRectMake(11, 344, 150, 16);
         self.giveBtn.frame = CGRectMake(11, 366, 298, 40);
@@ -350,7 +350,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     
     self.giftDesctription = [[UILabel alloc]initWithFrame:CGRectMake(0, 305, 320, 33)];
     self.giftDesctription.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:27];
-    self.giftDesctription.text = [NSString stringWithFormat:NSLocalizedString(@"Give", nil), self.offer.giftDescription];
+    self.giftDesctription.text = [NSString stringWithFormat:NSLocalizedString(@"Give description", nil), self.offer.giftDescription];
     self.giftDesctription.textColor = UIColorFromRGB(0x2A80E6);
     self.giftDesctription.textAlignment = NSTextAlignmentCenter;
     self.giftDesctription.backgroundColor = [UIColor clearColor];
@@ -375,12 +375,16 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 
     self.rewardDescription = [[UILabel alloc]initWithFrame:CGRectMake(0, 370, 320, 30)];
     self.rewardDescription.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:25];
-    self.rewardDescription.text = [NSString stringWithFormat:NSLocalizedString(@"Get", nil), self.offer.kikbakDescription];
+    self.rewardDescription.text = [NSString stringWithFormat:NSLocalizedString(@"Get description", nil), self.offer.kikbakDescription];
     self.rewardDescription.textColor = UIColorFromRGB(0x3a3a3a);
     self.rewardDescription.textAlignment = NSTextAlignmentCenter;
     self.rewardDescription.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.rewardDescription];
 
+    gdSize = [self.rewardDescription.text sizeWithFont:self.rewardDescription.font];
+    self.rewardIcon = [[UIImageView alloc]initWithFrame:CGRectMake((self.view.frame.size.width/2) - (gdSize.width/2)- 24, 376, 20, 20)];
+    self.rewardIcon.image = [UIImage imageNamed:@"ic_give_trophy"];
+    [self.view addSubview:self.rewardIcon];
     
     self.rewardDetailedDescription = [[UILabel alloc]initWithFrame:CGRectMake(0, 401, 320, 15)];
     self.rewardDetailedDescription.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
@@ -559,7 +563,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     self.imageOverlay.image = grd;
     CGRect fr = self.imageOverlay.frame;
     fr.origin.y =  self.retailerName.frame.origin.y - 20;//self.captionContainerView.frame.origin.y - grd.size.height;
-    fr.size.height = self.imageOverlay.frame.size.height - fr.origin.y;
+    fr.size.height = self.giveImage.frame.size.height - fr.origin.y;
     self.imageOverlay.frame = fr;
 
     [self.takePhoto removeFromSuperview];
@@ -575,9 +579,10 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
         self.giveImage.image = self.imageToPost;
     }
     else{
-        CGRect retina35CropRect = CGRectMake(8, 131, 624, 587);
+        CGRect retina35CropRect = CGRectMake(8, 168, 624, 436);
         self.giveImage.image = [image imageCropToRect:retina35CropRect];
     }
+    
     [self dismissViewControllerAnimated:YES completion:nil];
     photoTaken = YES;
 }
@@ -796,7 +801,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 }
 
 -(void)onImageDownloaded:(NSNotification*)notification{
-    NSString* imagePath = [ImagePersistor imageFileExists:self.offer.merchantId imageType:DEFAULT_GIVE_IMAGE_TYPE];
+    NSString* imagePath = [ImagePersistor imageFileExists:self.offer.merchantId imageType:DEFAULT_MERCHANT_IMAGE_TYPE];
     if(imagePath != nil){
         self.giveImage.image = self.imageToPost = [[UIImage alloc]initWithContentsOfFile:imagePath];
     }

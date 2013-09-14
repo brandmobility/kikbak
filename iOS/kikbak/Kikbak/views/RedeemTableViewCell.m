@@ -150,7 +150,7 @@ const int CELL_HEIGHT = 147;
     self.gift = [[UILabel alloc]initWithFrame:CGRectMake(11, 9, 150, 13)];
     self.gift.text = NSLocalizedString(@"Received Gift", nil);
     self.gift.backgroundColor = [UIColor clearColor];
-    self.gift.textColor = UIColorFromRGB(0X3A3A3A);
+    self.gift.textColor = UIColorFromRGB(0X767676);
     self.gift.font = [UIFont fontWithName:@"HelveticaNeue" size:11];
     self.gift.textAlignment = NSTextAlignmentLeft;
     
@@ -161,7 +161,7 @@ const int CELL_HEIGHT = 147;
     self.giftValue.text = [NSString stringWithFormat:NSLocalizedString(@"gift percent", nil),
                                     [NSNumber numberWithInt:10]];
     self.giftValue.backgroundColor = [UIColor clearColor];
-    self.giftValue.textColor = UIColorFromRGB(0X767676);
+    self.giftValue.textColor = UIColorFromRGB(0X3A3A3A);
     self.giftValue.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16];
     self.giftValue.textAlignment = NSTextAlignmentLeft;
     
@@ -187,7 +187,7 @@ const int CELL_HEIGHT = 147;
     [self.creditBtn addTarget:self action:@selector(onCreditBtn:) forControlEvents:UIControlEventTouchUpInside];
     
     self.creditValue = [[UILabel alloc]initWithFrame:CGRectMake(160, 21, 149, 18)];
-    self.creditValue.text = [NSString stringWithFormat:NSLocalizedString(@"gift percent", nil),
+    self.creditValue.text = [NSString stringWithFormat:NSLocalizedString(@"credit", nil),
                            [NSNumber numberWithInt:10]];
     self.creditValue.backgroundColor = [UIColor clearColor];
     self.creditValue.textColor = UIColorFromRGB(0X3A3A3A);
@@ -269,12 +269,34 @@ const int CELL_HEIGHT = 147;
 
 -(void)setupKikbak{
     self.retailerName.text = self.rewards.credit.merchantName;
-    self.creditValue.text = [NSString stringWithFormat:NSLocalizedString(@"credit", nil),
-                             self.rewards.credit.value];
 
-    //todo: find closest location
-    if (self.rewards.credit.location.count > 0) {
-        self.location = [self.rewards.credit.location anyObject];
+    if( [self.rewards.credit.rewardType compare:@"gift_card"] == NSOrderedSame){
+        self.credit.text = NSLocalizedString(@"Claim Reward", nil);
+        self.creditValue.text = [NSString stringWithFormat:NSLocalizedString(@"Gift card", nil),
+                                 self.rewards.credit.value];
+    }
+    else{
+        self.credit.text = NSLocalizedString(@"Earned Credit", nil);
+        NSNumberFormatter *numberFormatter;
+        numberFormatter = [[NSNumberFormatter alloc] init];
+        numberFormatter.numberStyle           = NSNumberFormatterDecimalStyle;
+        numberFormatter.maximumFractionDigits = 2;
+        numberFormatter.minimumFractionDigits = 2;
+        numberFormatter.decimalSeparator      = @".";
+        numberFormatter.usesGroupingSeparator = NO;
+        numberFormatter.allowsFloats = YES;
+        
+        self.creditValue.text = [NSString stringWithFormat:NSLocalizedString(@"$%@", nil),
+                                 [numberFormatter stringFromNumber:self.rewards.credit.value]];
+    }
+    
+    self.location = [self.rewards.credit.location anyObject];
+    for( Location* location in self.rewards.credit.location){
+        CLLocation* current = [[CLLocation alloc]initWithLatitude:[self.location.latitude doubleValue] longitude:[self.location.longitude doubleValue]];
+        CLLocation* next = [[CLLocation alloc]initWithLatitude:[location.latitude doubleValue] longitude:[location.longitude doubleValue]];
+        if ([Distance distanceToInFeet:current] > [Distance distanceToInFeet:next]) {
+            self.location = location;
+        }
     }
     
     self.distance.text = [NSString stringWithFormat:NSLocalizedString(@"miles away", nil),

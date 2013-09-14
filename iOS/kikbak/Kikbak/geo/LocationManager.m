@@ -90,8 +90,8 @@
 //            [data setObject:[NSNumber numberWithDouble:20.98833] forKey:@"longitude"];
             
             //Palo Alto
-            [data setObject:[NSNumber numberWithDouble:37.42082770] forKey:@"latitude"];
-            [data setObject:[NSNumber numberWithDouble:-122.13043270] forKey:@"longitude"];
+//            [data setObject:[NSNumber numberWithDouble:37.42082770] forKey:@"latitude"];
+//            [data setObject:[NSNumber numberWithDouble:-122.13043270] forKey:@"longitude"];
             //SF
 //            [data setObject:[NSNumber numberWithDouble:37.7602556 ] forKey:@"latitude"];
 //            [data setObject:[NSNumber numberWithDouble:-122.4349466] forKey:@"longitude"];

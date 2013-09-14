@@ -26,12 +26,17 @@
     Location* location = [LocationService findById:self.locationId];
     
     //only do shared from if near story
-    NSString* body = [NSString stringWithFormat:@"%@ %@\nShared from %@ at %@ in %@, %@", self.gift, self.detailedDescription, self.merchant, location.address, location.city, location.state];
+    NSString* body = [NSString stringWithFormat:@"%@ %@\n", self.gift, self.detailedDescription];
     
     [gift setObject:body forKey:@"description"];
     [gift setObject:url forKey:@"image"];
     [gift setObject:self.landingUrl forKey:@"url"];
     
+    NSMutableDictionary* data = [[NSMutableDictionary alloc]initWithCapacity:1];
+    NSString* merchant = [NSString stringWithFormat:@"Shared from %@ at %@ in %@, %@",self.merchant, location.address, location.city, location.state];
+    [data setObject:merchant forKey:@"merchant"];
+    
+    [gift setObject:data forKey:@"data"];
   
     NSDictionary *request1Params = [[NSDictionary alloc]
                                   initWithObjectsAndKeys:

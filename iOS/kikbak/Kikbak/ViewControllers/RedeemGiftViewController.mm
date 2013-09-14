@@ -26,6 +26,7 @@
 #import "TermsAndConditionsView.h"
 #import "ShareInfo.h"
 #import "SpinnerView.h"
+#import "UIImage+Manipulate.h"
 
 
 @interface RedeemGiftViewController (){
@@ -135,6 +136,11 @@
         NSString* imagePath = [ImagePersistor imageFileExists:self.shareInfo.allocatedGiftId imageType:UGC_GIVE_IMAGE_TYPE];
         if(imagePath != nil){
             self.giftImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
+        }
+        
+        if( ![UIDevice hasFourInchDisplay] ){
+            CGRect retina35CropRect = CGRectMake(0, 74, 640, self.giftImage.image.size.height-148);
+            self.giftImage.image = [self.giftImage.image imageCropToRect:retina35CropRect];
         }
         
         imagePath = [ImagePersistor imageFileExists:self.shareInfo.fbFriendId imageType:FRIEND_IMAGE_TYPE];

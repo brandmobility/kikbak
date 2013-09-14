@@ -242,13 +242,20 @@
     {
 
         NSNumber *number = [numberFormatter numberFromString:text];
+        NSNumber *update = [numberFormatter numberFromString:replacement];
         if (number == nil)
         {
             number = self.credit;
             numberFormatter.minimumFractionDigits = 2;
         }
-        textField.text = [numberFormatter stringFromNumber:number];
-        numberFormatter.minimumFractionDigits = 0;
+        else if( [update intValue] == 0 ){
+            numberFormatter.minimumFractionDigits = 1;
+            textField.text = [numberFormatter stringFromNumber:number];
+        }
+        else{
+            textField.text = [numberFormatter stringFromNumber:number];
+            numberFormatter.minimumFractionDigits = 0;
+        }
     }
 
     return NO; // we return NO because we have manually edited the textField contents.
