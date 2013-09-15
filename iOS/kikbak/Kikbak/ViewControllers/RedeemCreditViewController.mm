@@ -21,6 +21,7 @@
 #import "SpinnerView.h"
 #import "ImagePersistor.h"
 #import "UIImage+Manipulate.h"
+#import "Distance.h"
 
 @interface RedeemCreditViewController ()
 
@@ -46,6 +47,8 @@
 @property (nonatomic,strong) UIButton* termsBtn;
 @property (nonatomic,strong) UIButton* redeemBtn;
 @property (nonatomic,strong) NSNumber* offerId;
+
+@property (nonatomic,strong) Location* location;
 
 -(void)createSubviews;
 -(void)manuallyLayoutSubviews;
@@ -94,6 +97,15 @@
     if( ![UIDevice hasFourInchDisplay] ){
         CGRect retina35CropRect = CGRectMake(0, 74, 640, self.retailerImage.image.size.height-148);
         self.retailerImage.image = [self.retailerImage.image imageCropToRect:retina35CropRect];
+    }
+    
+    self.location = [self.credit.location anyObject];
+    for( Location* location in self.credit.location){
+        CLLocation* current = [[CLLocation alloc]initWithLatitude:[self.location.latitude doubleValue] longitude:[self.location.longitude doubleValue]];
+        CLLocation* next = [[CLLocation alloc]initWithLatitude:[location.latitude doubleValue] longitude:[location.longitude doubleValue]];
+        if ([Distance distanceToInFeet:current] > [Distance distanceToInFeet:next]) {
+            self.location = location;
+        }
     }
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onRedeemKikbakSuccess:) name:kKikbakRedeemCreditSuccess object:nil];
@@ -237,6 +249,15 @@
 }
 
 -(IBAction)onRedeem:(id)sender{
+    double distance = [Distance distanceToInFeet:[[CLLocation alloc]initWithLatitude:self.location.latitude.doubleValue
+                                                                           longitude:self.location.longitude.doubleValue]];
+    //2000 feet
+    if( distance > 2000){
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:nil message:NSLocalizedString(@"In store credit", nil) delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    
     ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO];
     
     NSMutableSet *readers = [[NSMutableSet alloc ] init];
@@ -293,8 +314,7 @@
     
     NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:3];
     [dict setObject:self.credit.creditId forKey:@"id"];
-    Location* location = [self.credit.location anyObject];
-    [dict setObject:location.locationId forKey:@"locationId"];
+    [dict setObject:self.location.locationId forKey:@"locationId"];
     [dict setObject:self.creditToUse forKey:@"amount"];
     [dict setObject:result forKey:@"verificationCode"];
     

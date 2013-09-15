@@ -12,7 +12,7 @@
 #import "LocationTableViewCell.h"
 #import "Location.h"
 #import "UIDevice+Screen.h"
-
+#import "Distance.h"
 
 @interface ShareChannelSelectorView ()
 
@@ -133,8 +133,18 @@
         self.location.backgroundColor = [UIColor clearColor];
         [self.backgroundView addSubview:self.location];
         
+        Location* location = [self.locations anyObject];
+        for( Location* store in self.locations){
+            CLLocation* current = [[CLLocation alloc]initWithLatitude:[location.latitude doubleValue] longitude:[location.longitude doubleValue]];
+            CLLocation* next = [[CLLocation alloc]initWithLatitude:[store.latitude doubleValue] longitude:[store.longitude doubleValue]];
+            if ([Distance distanceToInFeet:current] > [Distance distanceToInFeet:next]) {
+                location = store;
+            }
+        }
+
+        
         self.address = [[UILabel alloc]initWithFrame:CGRectMake(8, 8, self.location.frame.size.width-16, 20)];
-        self.address.text = ((Location*)[self.locations anyObject]).address;
+        self.address.text = location.address;
         self.address.backgroundColor = [UIColor clearColor];
         self.address.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
         self.address.textColor = UIColorFromRGB(0x5a5a5a);

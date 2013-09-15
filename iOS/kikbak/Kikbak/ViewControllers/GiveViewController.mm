@@ -140,7 +140,15 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     
     if (self.offer.location.count > 0) {
         self.location = [self.offer.location anyObject];
+        for( Location* location in self.offer.location){
+            CLLocation* current = [[CLLocation alloc]initWithLatitude:[self.location.latitude doubleValue] longitude:[self.location.longitude doubleValue]];
+            CLLocation* next = [[CLLocation alloc]initWithLatitude:[location.latitude doubleValue] longitude:[location.longitude doubleValue]];
+            if ([Distance distanceToInFeet:current] > [Distance distanceToInFeet:next]) {
+                self.location = location;
+            }
+        }
     }
+    
     
     
     [self createSubviews];

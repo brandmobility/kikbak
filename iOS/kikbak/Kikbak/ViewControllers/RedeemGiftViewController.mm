@@ -30,7 +30,6 @@
 
 
 @interface RedeemGiftViewController (){
-    double distanceToLocation;
 }
 
 @property(nonatomic,strong) Location* location;
@@ -106,6 +105,13 @@
 	// Do any additional setup after loading the view.
     self.title = NSLocalizedString(@"Redeem", nil);
     self.location = [self.gift.location anyObject];
+    for( Location* location in self.gift.location){
+        CLLocation* current = [[CLLocation alloc]initWithLatitude:[self.location.latitude doubleValue] longitude:[self.location.longitude doubleValue]];
+        CLLocation* next = [[CLLocation alloc]initWithLatitude:[location.latitude doubleValue] longitude:[location.longitude doubleValue]];
+        if ([Distance distanceToInFeet:current] > [Distance distanceToInFeet:next]) {
+            self.location = location;
+        }
+    }
     self.view.backgroundColor = [UIColor whiteColor];
         
     self.navigationItem.hidesBackButton = YES;
@@ -345,7 +351,7 @@
 }
 
 -(IBAction)onRedeemBtn:(id)sender{
-
+    
     self.value = self.gift.value;
     self.giftType = self.gift.discountType;
     
@@ -355,6 +361,16 @@
         [request requestBarcode];
     }
     else{
+        
+        double distance = [Distance distanceToInFeet:[[CLLocation alloc]initWithLatitude:self.location.latitude.doubleValue
+                                                                               longitude:self.location.longitude.doubleValue]];
+        //2000 feet
+        if( distance > 2000){
+            UIAlertView* alert = [[UIAlertView alloc]initWithTitle:nil message:NSLocalizedString(@"In store redeem", nil) delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+            [alert show];
+            return;
+        }
+        
         ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO];
 
         NSMutableSet *readers = [[NSMutableSet alloc ] init];
@@ -404,9 +420,6 @@
 
 -(void)updateDistance{
 
-    //todo move to a function
-    distanceToLocation = [Distance distanceToInFeet:[[CLLocation alloc]initWithLatitude:self.location.latitude.doubleValue
-                                                                              longitude:self.location.longitude.doubleValue]];
 }
 
 #pragma mark - NSNotification

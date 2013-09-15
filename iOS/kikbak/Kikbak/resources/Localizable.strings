@@ -147,3 +147,7 @@
 //qualify error
 "qualify" = "For security purposes, Kikbak requires that your Facebook account have a certain minimum friend count. Unfortunately your chosen account does not qualify.";
 "invalid qrcode" = "An invalid authorization code was used. Please try again with valid authorization.";
+
+//in store
+"In store redeem" = "You must be in the store to redeem the offer";
+"In store credit" = "You must be in the store to use your credit";

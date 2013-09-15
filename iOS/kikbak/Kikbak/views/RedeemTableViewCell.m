@@ -251,9 +251,15 @@ const int CELL_HEIGHT = 147;
                                     [self.rewards.gift.value integerValue]];
     }
 
-    //todo: find closest location
     if (self.rewards.gift.location.count > 0) {
         self.location = [self.rewards.gift.location anyObject];
+        for( Location* location in self.rewards.gift.location){
+            CLLocation* current = [[CLLocation alloc]initWithLatitude:[self.location.latitude doubleValue] longitude:[self.location.longitude doubleValue]];
+            CLLocation* next = [[CLLocation alloc]initWithLatitude:[location.latitude doubleValue] longitude:[location.longitude doubleValue]];
+            if ([Distance distanceToInFeet:current] > [Distance distanceToInFeet:next]) {
+                self.location = location;
+            }
+        }
     }
     
     CLLocation* current = [[CLLocation alloc]initWithLatitude:self.location.latitude.doubleValue longitude:self.location.longitude.doubleValue];
