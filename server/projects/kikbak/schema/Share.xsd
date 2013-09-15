@@ -16,7 +16,7 @@
     
     <xsd:complexType name="SharedType">
         <xsd:sequence>
-            <xsd:element name="locationId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="locationId" type="xsd:long" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="merchantId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="offerId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="employeeId" type="xsd:string" minOccurs="1" maxOccurs="1"/>

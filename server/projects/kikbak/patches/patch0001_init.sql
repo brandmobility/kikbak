@@ -191,7 +191,7 @@ CREATE TABLE `shared`
     id BIGINT NOT NULL UNIQUE AUTO_INCREMENT,
     user_id BIGINT NOT NULL,
     merchant_id BIGINT NOT NULL,
-    location_id BIGINT NOT NULL,
+    location_id BIGINT,
     offer_id BIGINT NOT NULL,
     employee_id VARCHAR(32) CHARACTER SET utf8,
     type VARCHAR(16) CHARACTER SET utf8 NOT NULL,

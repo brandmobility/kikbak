@@ -54,6 +54,7 @@
             <xsd:element name="imageUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="employeeId" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="caption" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="location" type="ml:MerchantLocationType" minOccurs="0" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
     
