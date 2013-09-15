@@ -17,6 +17,7 @@ import org.springframework.web.portlet.ModelAndView;
 
 import com.kikbak.client.service.RewardService;
 import com.kikbak.client.service.SharedExperienceService;
+import com.kikbak.client.util.UAgentInfo;
 import com.kikbak.dao.ReadOnlyAllocatedGiftDAO;
 import com.kikbak.dao.ReadOnlyGiftDAO;
 import com.kikbak.dao.ReadOnlyLocationDAO;
@@ -63,6 +64,10 @@ public class LandingController {
 
 		String code = request.getParameter("code");
 		try {
+		    String userAgent = request.getHeader("User-Agent");
+		    String httpAccept = request.getHeader("Accept");
+		    UAgentInfo detector = new UAgentInfo(userAgent, httpAccept);
+		    
 			request.setCharacterEncoding("UTF-8");
 			GiftType gift = rewardService.getGiftByReferredCode(code);
 			
@@ -85,10 +90,11 @@ public class LandingController {
 			request.setAttribute("encodeMerchantName", URLEncoder.encode(gift.getMerchant().getName(), "UTF-8"));
 			request.setAttribute("title", title);
 			request.setAttribute("body", body);
-			request.setAttribute("location", gift.getMerchant().getLocations().get(0));
+			request.setAttribute("location", gift.getShareInfo().get(0).getLocation());
 			request.setAttribute("validationType", gift.getValidationType());
 			request.setAttribute("locationType", gift.getRedemptionLocationType());
-			return new ModelAndView("landing.jsp");
+			request.setAttribute("mobile", detector.detectMobileQuick());
+	    	return new ModelAndView();
 		} catch (Exception e) {
 			log.error("Error to get gift of code " + code, e);
 			try {

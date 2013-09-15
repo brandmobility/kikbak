@@ -335,9 +335,10 @@ public class RewardServiceImpl implements RewardService{
         Merchant merchant = roMerchantDao.findById(offer.getMerchantId());
         Gift gift = roGiftDao.findById(shared.getOfferId());
         User friend = roUserDao.findById(shared.getUserId());
-
+        
         GiftType gt = createGiftType(merchant, gift, offer);
         addShareInfoToGift(gt, shared, friend, 0);
+        
         return gt;
     } 
 
@@ -366,6 +367,25 @@ public class RewardServiceImpl implements RewardService{
         sit.setFriendUserId(friend.getId());
         sit.setFbFriendId(friend.getFacebookId());
         sit.setFriendName(friend.getFirstName() + " " + friend.getLastName());
+
+        Location location = null;
+        if (shared.getLocationId() != null) {
+        	location = roLocationDao.findById(shared.getLocationId());
+        }
+        MerchantLocationType sharedLocation = new MerchantLocationType();
+        sharedLocation.setAddress1(location.getAddress1());
+        sharedLocation.setAddress2(location.getAddress2());
+        sharedLocation.setCity(location.getCity());
+        sharedLocation.setLatitude(location.getLatitude());
+        sharedLocation.setLongitude(location.getLongitude());
+        sharedLocation.setLocationId(location.getId());
+        sharedLocation.setPhoneNumber(location.getPhoneNumber());
+        sharedLocation.setSiteName(location.getSiteName());
+        sharedLocation.setState(location.getState());
+        sharedLocation.setZip4(location.getZipPlusFour());
+        sharedLocation.setZipcode(Integer.toString(location.getZipcode()));
+		sit.setLocation(sharedLocation);
+        
         gt.getShareInfo().add(sit);
     }
 
