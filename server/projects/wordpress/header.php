@@ -37,12 +37,19 @@
   wf_theme_body_class();
   echo '>';
 ?>
-<div class="alert alert-info" id="has-offer-div" style="display: none;">
-    <button type="button" class="close" data-dismiss="alert">×</button>
-    <div id="has-offer-div-text">
+
+<div id="hasOffer" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width:96%;left:2%;margin:0; ">
+    <div class="modal-header" style="border:0;">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="opacity:1;padding:0;">
+            <img src="<?php template_directory_uri(); ?>/images/close.png">
+        </button>
+        <p id="myModalLabel"></p>
     </div>
-    <button onclick="window.location.href='https://m.kikbak.me/m/'"></button>
+    <div class="modal-footer" style="border:0;">
+        <button id="redirect-btn" class="btn btn-primary" data-dismiss="modal" style="width:100%;font-size:20px;"></button>
+    </div>
 </div>
+
 <?php
   if (is_front_page() && wf_theme_get_option('front_page_menu')) {
     global $primary_menu_options;

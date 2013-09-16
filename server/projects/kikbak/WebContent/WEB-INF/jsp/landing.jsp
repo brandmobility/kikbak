@@ -267,7 +267,7 @@ h3 {
 									</div>
 								</div>
 							</div>
-							<img src="${shareInfo.imageUrl}" width="340px" height="350px" style="padding-top: 10px;" />
+							<img src="${shareInfo.imageUrl}" width="340px" height="350px" style="margin-top:10px;border-radius:10px;" />
 							<div class="widget">
 								<div class="span4">
 									<h3 style="padding: 0px; margin: 0px; font-family: HelveticaNeueLTPro-Lt">${gift.merchant.name}</h3>
@@ -285,7 +285,7 @@ h3 {
 								<div class="clearfix"></div>
 							</div>
 							<ul class="info">
-								<li>${shareInfo.friendName} at ${gift.merchant.name} store<br />
+								<li style="min-height:20px;">${shareInfo.friendName} at ${gift.merchant.name} store<br />
 									<c:choose>
 										<c:when test="${not empty location}">
 											<strong>${location.address1}, ${location.city}, ${location.state}</strong>
