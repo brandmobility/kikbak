@@ -63,6 +63,7 @@
 
     <!-- Share options -->
     <string name="share_options_title">How would you like to share?</string>
+    <string name="share_options_title_multistore">Share your preferred location?</string>
     <string name="share_option_email_header">Email</string>
     <string name="share_option_email_send_to_friends">Send to selected friends</string>
     <string name="share_option_facebook_header">Facebook</string>
@@ -71,7 +72,7 @@
     <string name="share_option_via_email">Share via email</string>
     <string name="share_option_via_sms">Share via SMS</string>
     <string name="share_option_via_facebook">Post on Facebook</string>
-    <string name="share_option_other_location">Other</string>
+    <string name="share_option_pick_location"><i>pick location</i></string>
 
     <!-- Customized -->
     <string name="share_options_helped_title">Helped by an employee ?</string>

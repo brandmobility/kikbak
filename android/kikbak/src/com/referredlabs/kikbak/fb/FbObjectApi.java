@@ -94,7 +94,7 @@ public class FbObjectApi {
       data.put("gift_detailed_desc", offer.giftDetailedDesc);
 
       Nearest nearest = new Nearest(offer.locations);
-      if (nearest.getDistance() < C.FB_STORY_DISTANCE) {
+      if (nearest.getDistance() < C.CLOSE_TO_STORE_DISTANCE) {
         MerchantLocationType loc = nearest.get();
         String secondLine = ctx.getString(R.string.facebook_story_second_line_fmt,
             offer.merchantName, loc.address1, loc.city, loc.state);

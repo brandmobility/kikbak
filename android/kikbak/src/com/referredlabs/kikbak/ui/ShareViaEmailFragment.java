@@ -139,7 +139,7 @@ public class ShareViaEmailFragment extends SharingDialog {
       req.experience.caption = args.getString(ARG_COMMENT);
       req.experience.employeeId = args.getString(ARG_EMPLYOYEE);
       req.experience.imageUrl = imageUrl;
-      req.experience.locationId = args.getLong(ARG_LOCATION_ID);
+      req.experience.locationId = longOrNull(args.getLong(ARG_LOCATION_ID));
       req.experience.merchantId = mOffer.merchantId;
       req.experience.offerId = mOffer.id;
       req.experience.type = SharedType.SHARE_MODE_EMAIL;
@@ -149,7 +149,7 @@ public class ShareViaEmailFragment extends SharingDialog {
       mSubject = resp.template.subject;
       mBody = resp.template.body;
     }
-
+    
     @Override
     protected void onSuccess() {
       onShareFinished(mSubject, mBody);

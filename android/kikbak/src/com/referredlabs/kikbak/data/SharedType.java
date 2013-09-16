@@ -7,7 +7,7 @@ public class SharedType {
   public static final String SHARE_MODE_EMAIL = "email";
   public static final String SHARE_MODE_FACEBOOK = "fb";
 
-  public long locationId;
+  public Long locationId;
   public long merchantId;
   public long offerId;
   public String employeeId;

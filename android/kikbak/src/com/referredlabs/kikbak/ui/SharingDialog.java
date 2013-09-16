@@ -39,4 +39,8 @@ public class SharingDialog extends DialogFragment {
     }
   }
 
+  protected Long longOrNull(long l) {
+    return l == -1 ? null : l;
+  }
+
 }

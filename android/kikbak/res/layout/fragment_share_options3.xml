@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:kikbak="http://schemas.android.com/apk/res/com.referredlabs.kikbak"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/share_options_title"
+        android:textColor="#247de9"
+        android:textSize="23dp"
+        kikbak:typeface="Roboto-Bold.ttf" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="15dp"
+        android:background="#0061e5" />
+
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/share_options_helped_note"
+        android:textColor="#3a3a3a"
+        android:textSize="15dp"
+        android:visibility="gone"
+        kikbak:typeface="Roboto-Regular.ttf" />
+
+    <com.referredlabs.kikbak.widget.TtfEditText
+        android:id="@+id/employee_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="20dp"
+        android:hint="@string/share_options_employee_name_hint"
+        android:textSize="17dp"
+        android:visibility="gone"
+        kikbak:typeface="Roboto-Regular.ttf" />
+
+    <Spinner
+        android:id="@+id/store_selection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="20dp"
+        android:visibility="gone" />
+
+    <com.referredlabs.kikbak.widget.TtfButton
+        android:id="@+id/via_facebook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_blue"
+        android:text="@string/share_option_via_facebook"
+        android:textColor="@android:color/white"
+        android:textSize="21dp"
+        kikbak:typeface="Roboto-Light.ttf" />
+
+    <com.referredlabs.kikbak.widget.TtfButton
+        android:id="@+id/via_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_grey"
+        android:text="@string/share_option_via_email"
+        android:textColor="@android:color/white"
+        android:textSize="21dp"
+        kikbak:typeface="Roboto-Light.ttf" />
+
+    <com.referredlabs.kikbak.widget.TtfButton
+        android:id="@+id/via_sms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_grey"
+        android:text="@string/share_option_via_sms"
+        android:textColor="@android:color/white"
+        android:textSize="21dp"
+        kikbak:typeface="Roboto-Light.ttf" />
+
+</LinearLayout>

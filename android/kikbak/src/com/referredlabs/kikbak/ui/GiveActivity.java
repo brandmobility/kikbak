@@ -26,7 +26,7 @@ import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ClientOfferType;
 import com.referredlabs.kikbak.data.MerchantLocationType;
 import com.referredlabs.kikbak.log.Log;
-import com.referredlabs.kikbak.ui.ShareOptionsFragment.OnShareMethodSelectedListener;
+import com.referredlabs.kikbak.ui.ShareOptionsFragment3.OnShareMethodSelectedListener;
 import com.referredlabs.kikbak.ui.ShareSuccessDialog.OnShareSuccessListener;
 import com.referredlabs.kikbak.utils.Nearest;
 import com.squareup.picasso.Picasso;
@@ -201,7 +201,7 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
   }
 
   protected void onShareClicked() {
-    ShareOptionsFragment dialog = ShareOptionsFragment.newInstance(mOffer);
+    ShareOptionsFragment3 dialog = ShareOptionsFragment3.newInstance(mOffer);
     dialog.show(getSupportFragmentManager(), null);
   }
 
