@@ -202,7 +202,6 @@
         numberFormatter.allowsFloats = YES;
 
         [numberFormatter setMaximum:self.credit];
-//        [numberFormatter setRoundingIncrement:[NSNumber numberWithDouble:0.01]];
     }
     
     
@@ -237,16 +236,22 @@
     }
     else if(text.length < textField.text.length){
         textField.text = text;
+        numberFormatter.minimumFractionDigits = 1;
     }
     else
     {
 
         NSNumber *number = [numberFormatter numberFromString:text];
         NSNumber *update = [numberFormatter numberFromString:replacement];
+
         if (number == nil)
         {
             number = self.credit;
             numberFormatter.minimumFractionDigits = 2;
+        }
+        else if([textField.text rangeOfString:@".0"].location != NSNotFound){
+            numberFormatter.minimumFractionDigits = 2;
+            textField.text = [numberFormatter stringFromNumber:number];
         }
         else if( [update intValue] == 0 ){
             numberFormatter.minimumFractionDigits = 1;

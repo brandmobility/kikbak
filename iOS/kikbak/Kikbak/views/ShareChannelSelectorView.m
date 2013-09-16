@@ -133,6 +133,22 @@
 //    [self.backgroundView addSubview:self.employeeShadow];
 //    [self.backgroundView addSubview:self.employee];
     
+    Location* location = [self.locations anyObject];
+    CLLocation* current = [[CLLocation alloc]initWithLatitude:[location.latitude doubleValue] longitude:[location.longitude doubleValue]];
+    self.distanceToClosestLocation = [Distance distanceToInFeet:current];
+    for( Location* store in self.locations){
+        CLLocation* next = [[CLLocation alloc]initWithLatitude:[store.latitude doubleValue] longitude:[store.longitude doubleValue]];
+        if (self.distanceToClosestLocation > [Distance distanceToInFeet:next]) {
+            location = store;
+            self.distanceToClosestLocation = [Distance distanceToInFeet:next];
+        }
+    }
+    
+    //half mile in feet
+    if( self.distanceToClosestLocation < 2640){
+        self.locationId = location.locationId;
+    }
+    
     if( locationOffset == 0 ){
         self.location = [[UIView alloc]initWithFrame:CGRectMake(12, 38, self.backgroundView.frame.size.width-24, 35)];
         self.location.layer.cornerRadius = 4;
@@ -142,22 +158,6 @@
         self.location.layer.shadowRadius = 1;
         self.location.backgroundColor = [UIColor clearColor];
         [self.backgroundView addSubview:self.location];
-        
-        Location* location = [self.locations anyObject];
-        CLLocation* current = [[CLLocation alloc]initWithLatitude:[location.latitude doubleValue] longitude:[location.longitude doubleValue]];
-        self.distanceToClosestLocation = [Distance distanceToInFeet:current];
-        for( Location* store in self.locations){
-            CLLocation* next = [[CLLocation alloc]initWithLatitude:[store.latitude doubleValue] longitude:[store.longitude doubleValue]];
-            if (self.distanceToClosestLocation > [Distance distanceToInFeet:next]) {
-                location = store;
-                self.distanceToClosestLocation = [Distance distanceToInFeet:next];
-            }
-        }
-
-        //half mile in feet
-        if( self.distanceToClosestLocation < 2640){
-            self.locationId = location.locationId;
-        }
         
         self.address = [[UILabel alloc]initWithFrame:CGRectMake(8, 8, self.location.frame.size.width-16, 20)];
         self.address.backgroundColor = [UIColor clearColor];

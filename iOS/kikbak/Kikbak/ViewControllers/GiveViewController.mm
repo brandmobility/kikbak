@@ -578,10 +578,11 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     self.takePictureBtn.frame = CGRectMake(265, 0, 55, 55);
     [self.takePictureBtn setImage:[UIImage imageNamed:@"ic_post_give_camera"] forState:UIControlStateNormal];
     
-    CGRect cropRect = CGRectMake(0, 94, 640, 640);
+
     UIImage* image = [info valueForKey:UIImagePickerControllerOriginalImage];
-    image = [image imageByScalingAndCroppingForSize:CGSizeMake(640, 960)];
-    
+    image = [image imageByScalingAndCroppingForSize:CGSizeMake(640, 853)];
+
+    CGRect cropRect = CGRectMake(8, 94, 640, 624);
     self.imageToPost = [image imageCropToRect:cropRect];
     if( [UIDevice hasFourInchDisplay]){
         self.giveImage.image = self.imageToPost;
@@ -704,9 +705,10 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     adjustTextview = YES;
     if( [growingTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
         growingTextView.text = @"";
-        growingTextView.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0];
-        growingTextView.textColor = [UIColor blackColor];
     }
+    growingTextView.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0];
+    growingTextView.textColor = [UIColor blackColor];
+    
     return YES;
 }
 
@@ -735,7 +737,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
         [self.spinnerView removeFromSuperview];
     }
     else{
-        [FBSettings setLoggingBehavior:[NSSet setWithObject:FBLoggingBehaviorFBRequests]];
+//        [FBSettings setLoggingBehavior:[NSSet setWithObject:FBLoggingBehaviorFBRequests]];
         FBCouponObject* obj = [[FBCouponObject alloc]init];
         obj.caption = self.captionTextView.text;
         obj.merchant = self.retailerName.text;
