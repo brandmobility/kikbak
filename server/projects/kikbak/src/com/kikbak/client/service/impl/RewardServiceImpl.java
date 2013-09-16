@@ -371,20 +371,20 @@ public class RewardServiceImpl implements RewardService{
         Location location = null;
         if (shared.getLocationId() != null) {
         	location = roLocationDao.findById(shared.getLocationId());
+            MerchantLocationType sharedLocation = new MerchantLocationType();
+            sharedLocation.setAddress1(location.getAddress1());
+            sharedLocation.setAddress2(location.getAddress2());
+            sharedLocation.setCity(location.getCity());
+            sharedLocation.setLatitude(location.getLatitude());
+            sharedLocation.setLongitude(location.getLongitude());
+            sharedLocation.setLocationId(location.getId());
+            sharedLocation.setPhoneNumber(location.getPhoneNumber());
+            sharedLocation.setSiteName(location.getSiteName());
+            sharedLocation.setState(location.getState());
+            sharedLocation.setZip4(location.getZipPlusFour());
+            sharedLocation.setZipcode(Integer.toString(location.getZipcode()));
+    		sit.setLocation(sharedLocation);
         }
-        MerchantLocationType sharedLocation = new MerchantLocationType();
-        sharedLocation.setAddress1(location.getAddress1());
-        sharedLocation.setAddress2(location.getAddress2());
-        sharedLocation.setCity(location.getCity());
-        sharedLocation.setLatitude(location.getLatitude());
-        sharedLocation.setLongitude(location.getLongitude());
-        sharedLocation.setLocationId(location.getId());
-        sharedLocation.setPhoneNumber(location.getPhoneNumber());
-        sharedLocation.setSiteName(location.getSiteName());
-        sharedLocation.setState(location.getState());
-        sharedLocation.setZip4(location.getZipPlusFour());
-        sharedLocation.setZipcode(Integer.toString(location.getZipcode()));
-		sit.setLocation(sharedLocation);
         
         gt.getShareInfo().add(sit);
     }
