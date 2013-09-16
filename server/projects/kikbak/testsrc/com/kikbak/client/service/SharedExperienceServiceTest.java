@@ -26,7 +26,7 @@ public class SharedExperienceServiceTest extends KikbakBaseTest{
 	public void testRegisteringSharing(){
 	
 		SharedType st = new SharedType();
-		st.setLocationId(12);
+		st.setLocationId(12L);
 		st.setMerchantId(12);
 		st.setOfferId(432);
 		st.setType("email");

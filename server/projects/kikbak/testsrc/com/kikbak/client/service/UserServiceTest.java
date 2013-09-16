@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -52,6 +53,7 @@ public class UserServiceTest extends KikbakBaseTest{
 	}
 	
 	@Test
+	@Ignore("This test relies on fb token")
 	public void testUpdateNewFriends(){
 		Collection<FriendType> fts = generateFriends(2);
 		
@@ -62,6 +64,7 @@ public class UserServiceTest extends KikbakBaseTest{
 	}
 	
 	@Test
+	@Ignore("This test relies on fb token")
 	public void testAddNewFriends(){
 		Collection<FriendType> fts = generateFriends(2);
 //		service.updateFriends(4L, fts);
@@ -75,6 +78,7 @@ public class UserServiceTest extends KikbakBaseTest{
 	}
 	
 	@Test
+	@Ignore("This test relies on fb token")
 	public void testDeleteOldFriends(){
 		Collection<FriendType> fts = generateFriends(2);
 //		service.updateFriends(4L, fts);

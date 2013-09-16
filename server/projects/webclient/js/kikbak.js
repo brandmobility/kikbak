@@ -4,9 +4,7 @@
 
 var config = {
   backend: '',
-  appId: 493383324061333,
-  latitude: 37.42082770,
-  longitude: -122.13043270
+  appId: 493383324061333
 }
 
 var s = (Storage) ? localStorage : {};
@@ -303,7 +301,7 @@ function initPage() {
     loginFb();
     $('#suggest-view').show('');
     $('#back-btn-div').show('');
-    $('#heading').html('Gift');
+    $('#heading').html('Give');
     $('#show-picture-suggest').removeAttr('src');
     $('#add-photo-suggest').show();
     $('#back-btn').unbind();
@@ -315,14 +313,15 @@ function initPage() {
   } else if (pageType === 'offer-detail') {
     $('#offer-details-view').show('');
     $('#back-btn-div').hide('');
-    $('#heading').html('Gift');
-    $('#back-btn-div').show('');
+    $('#heading').html('Give');
+    if (s.offerCount > 1) {
+      $('#back-btn-div').show('');
+    }
     getOfferDetail();
   } else {// Default
     $('#offer-view').show('');
     $('#suggest-btn-div').show('');
-    $('#heading').html('Gift');
-    $('#offer-btn-div').css('background', 'url("img/btn_highlighted.png")');
+    $('#heading').html('Give');    $('#offer-btn-div').css('background', 'url("img/btn_highlighted.png")');
     getOffers(pageType !== 'offer');
   }
 
@@ -462,13 +461,7 @@ function getOffersByLocation(userId, position, force) {
     success: function(json) {
       var offers = json.getUserOffersResponse.offers;
       s.offerCount = offers.length;
-      
-      if (offers.length == 1) {        s.offerDetail = escape(JSON.stringify(offers[0]));
-        s.pageType = 'offer-detail';
-        initPage();
-        $('back-btn').hide();
-      }
-      
+            
       var availCount = 0;
       var availOffer = null;
       $.each(offers, function(i, offer) {
@@ -479,6 +472,13 @@ function getOffersByLocation(userId, position, force) {
           availOffer = offer;
         }
       });
+      
+      if (offers.length == 1) {
+        s.offerDetail = escape(JSON.stringify(offers[0]));
+        s.pageType = 'offer-detail';
+        initPage();
+        $('back-btn').hide();
+      }
       
       offers = offers.sort(function(a, b) {return a.dist - b.dist});
       
@@ -1009,7 +1009,7 @@ function shareOfferAfterLogin() {
       var goback = function() {
         URL.revokeObjectURL(imgUrl);
         jcrop_api.destroy();
-        $('#heading').html('Gift');
+        $('#heading').html('Give');
         $('#offer-details-view').show();
         $('#crop-image-div').hide();
         $('#back-btn').unbind();

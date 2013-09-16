@@ -27,7 +27,7 @@ public class SharedDAOTest extends KikbakBaseTest{
 	@Test
 	public void testFindById(){
 		Shared shared = roDao.findById(1L);
-		assertEquals(13, shared.getLocationId());
+		assertEquals(13, shared.getLocationId().longValue());
 	}
 	
 	@Test
@@ -49,7 +49,7 @@ public class SharedDAOTest extends KikbakBaseTest{
 		Shared shared = new Shared();
 		shared.setMerchantId(12);
 		shared.setOfferId(13);
-		shared.setLocationId(1234);
+		shared.setLocationId(1234L);
 		shared.setUserId(12342);
 		shared.setSharedDate(new Date());
 		shared.setType("email");
@@ -63,7 +63,7 @@ public class SharedDAOTest extends KikbakBaseTest{
 		}
 		
 		Shared s = roDao.findById(shared.getId());
-		assertEquals(1234, s.getLocationId());
+		assertEquals(1234, s.getLocationId().longValue());
         assertEquals("code4", s.getReferralCode());
 	}
 	

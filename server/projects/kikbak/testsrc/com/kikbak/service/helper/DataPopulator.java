@@ -119,7 +119,7 @@ public class DataPopulator {
 	protected void createShared(int count, long userId, long merchantIdBase, long offerBaseId) throws ReferralCodeUniqueException {
 		for(long i = 0; i < count; i ++){
 			Shared shared = new Shared();
-			shared.setLocationId(12);
+			shared.setLocationId(12L);
 			shared.setMerchantId(merchantIdBase + i);
 			shared.setOfferId(offerBaseId + i);
 			shared.setUserId(userId);

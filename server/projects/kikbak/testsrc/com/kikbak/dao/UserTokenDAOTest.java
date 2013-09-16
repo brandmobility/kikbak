@@ -2,7 +2,7 @@ package com.kikbak.dao;
 
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +23,7 @@ public class UserTokenDAOTest extends KikbakBaseTest{
 	@Test
 	public void testTokenDAO(){
 		UserToken token = roDao.findByUserId(1L);
-		assertNull(token);
-		token = new UserToken();
-		token.setUserId(userId);
+		assertNotNull(token);
 		token.setToken("token");
 
 		rwDAO.makePersistent(token);
