@@ -121,6 +121,8 @@
 "Helped" = "Helped by an employee?";
 "Employee" = "Employee Name";
 "Let your nearby friends know" = "Let your nearby friends know who to ask for when they visit the store.";
+"Preferred Location" = "Share your preferred location?";
+"Pick Location" = "Pick a location";
 
 //friend Selector
 "Select friend" = "Select the friend whose gift you would like to redeem";

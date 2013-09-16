@@ -578,7 +578,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     self.takePictureBtn.frame = CGRectMake(265, 0, 55, 55);
     [self.takePictureBtn setImage:[UIImage imageNamed:@"ic_post_give_camera"] forState:UIControlStateNormal];
     
-    CGRect cropRect = CGRectMake(8, 94, 624, 624);
+    CGRect cropRect = CGRectMake(0, 94, 640, 640);
     UIImage* image = [info valueForKey:UIImagePickerControllerOriginalImage];
     image = [image imageByScalingAndCroppingForSize:CGSizeMake(640, 960)];
     
@@ -735,7 +735,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
         [self.spinnerView removeFromSuperview];
     }
     else{
-//        [FBSettings setLoggingBehavior:[NSSet setWithObject:FBLoggingBehaviorFBRequests]];
+        [FBSettings setLoggingBehavior:[NSSet setWithObject:FBLoggingBehaviorFBRequests]];
         FBCouponObject* obj = [[FBCouponObject alloc]init];
         obj.caption = self.captionTextView.text;
         obj.merchant = self.retailerName.text;
@@ -829,7 +829,9 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:5];
     
     [dict setObject:self.offer.merchantId forKey:@"merchantId"];
-    [dict setObject:locationId forKey:@"locationId"];
+    if( locationId != nil){
+        [dict setObject:locationId forKey:@"locationId"];
+    }
     [dict setObject:self.offer.offerId forKey:@"offerId"];
     [dict setObject:self.imageUrl forKey:@"imageUrl"];
     [dict setObject:@"email" forKey:@"type"];
@@ -852,7 +854,9 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:5];
     
     [dict setObject:self.offer.merchantId forKey:@"merchantId"];
-    [dict setObject:locationId forKey:@"locationId"];
+    if( locationId != nil){
+        [dict setObject:locationId forKey:@"locationId"];
+    }
     [dict setObject:self.offer.offerId forKey:@"offerId"];
     [dict setObject:self.imageUrl forKey:@"imageUrl"];
     [dict setObject:@"sms" forKey:@"type"];
@@ -882,7 +886,9 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     ShareExperienceRequest* request = [[ShareExperienceRequest alloc]init];
     NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:5];
     [dict setObject:self.offer.merchantId forKey:@"merchantId"];
-    [dict setObject:locationId forKey:@"locationId"];
+    if( locationId != nil){
+        [dict setObject:locationId forKey:@"locationId"];
+    }
     [dict setObject:self.offer.offerId forKey:@"offerId"];
     [dict setObject:name forKey:@"employeeId"];
     [dict setObject:self.imageUrl forKey:@"imageUrl"];

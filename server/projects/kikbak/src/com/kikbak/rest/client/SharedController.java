@@ -80,7 +80,10 @@ public class SharedController extends AbstractController {
 
                 if (StringUtils.isNotBlank(bodyTemplate)) {
                     User user = readOnlyUserDAO.findById(userId);
-                    Location location = readOnlyLocationDAO.findById(experience.getLocationId());
+                    Location location = null;
+                    if( experience.getLocationId() != null ) {
+                        readOnlyLocationDAO.findById(experience.getLocationId());
+                    }
                     Merchant merchant = readOnlyMerchantDAO.findById(experience.getMerchantId());
                     Gift gift = readOnlyGiftDAO.findByOfferId(experience.getOfferId());
                     if (StringUtils.isNotBlank(titleTemplate)) {
@@ -124,12 +127,19 @@ public class SharedController extends AbstractController {
                         StringUtils.trimToEmpty(user.getFirstName())
                                 + (StringUtils.isBlank(user.getFirstName()) ? StringUtils.trimToEmpty(user
                                         .getLastName()) : ""));
-        result = result.replace(
-                "%ADDRESS%",
-                StringUtils.trimToEmpty(location.getAddress1())
-                        + (StringUtils.isBlank(location.getAddress2()) ? "" : " " + location.getAddress2()) + ", "
-                        + StringUtils.trimToEmpty(location.getCity()) + ", "
-                        + StringUtils.trimToEmpty(location.getState()));
+        
+        if( location != null){
+            result = result.replace(
+                    "%ADDRESS%",
+                    StringUtils.trimToEmpty(location.getAddress1())
+                            + (StringUtils.isBlank(location.getAddress2()) ? "" : " " + location.getAddress2()) + ", "
+                            + StringUtils.trimToEmpty(location.getCity()) + ", "
+                            + StringUtils.trimToEmpty(location.getState()));
+        }
+        else {
+            result = result.replace(
+                    "%ADDRESS%","");
+        }
 
         return result;
     }

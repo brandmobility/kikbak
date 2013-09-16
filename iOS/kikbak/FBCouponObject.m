@@ -12,6 +12,7 @@
 #import "NotificationContstants.h"
 #import "Location.h"
 #import "LocationService.h"
+#import "FBConstants.h"
 
 @implementation FBCouponObject
 
@@ -23,20 +24,24 @@
     NSMutableDictionary* gift = [[NSMutableDictionary alloc]initWithCapacity:5];
     [gift setObject:title forKey:@"title"];
     
-    Location* location = [LocationService findById:self.locationId];
-    
     //only do shared from if near story
-    NSString* body = [NSString stringWithFormat:@"%@ %@\n", self.gift, self.detailedDescription];
+    NSString* body = [NSString stringWithFormat:@"%@ %@.", self.gift, self.detailedDescription];
     
     [gift setObject:body forKey:@"description"];
     [gift setObject:url forKey:@"image"];
     [gift setObject:self.landingUrl forKey:@"url"];
     
-    NSMutableDictionary* data = [[NSMutableDictionary alloc]initWithCapacity:1];
-    NSString* merchant = [NSString stringWithFormat:@"Shared from %@ at %@ in %@, %@",self.merchant, location.address, location.city, location.state];
-    [data setObject:merchant forKey:@"merchant"];
+    Location* location = [LocationService findById:self.locationId];
+    if( location ){
+        NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
+        NSString* first = [prefs objectForKey:@(FB_FIRST_NAME_KEY)];
+        NSMutableDictionary* data = [[NSMutableDictionary alloc]initWithCapacity:1];
+        NSString* merchant = [NSString stringWithFormat:@"%@ was at %@ at %@ in %@, %@", first, self.merchant, location.address, location.city, location.state];
+        [data setObject:merchant forKey:@"second_line"];
+        [gift setObject:data forKey:@"data"];
+    }
     
-    [gift setObject:data forKey:@"data"];
+    
   
     NSDictionary *request1Params = [[NSDictionary alloc]
                                   initWithObjectsAndKeys:
