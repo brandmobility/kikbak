@@ -5,7 +5,7 @@ import com.kikbak.dto.Kikbak;
 
 public interface PushNotifier {
 
-    public void sendKikbakNotification(Long toUserId, Kikbak kikbak);
+    public void sendKikbakNotification(Long fromUserId, Long toUserId, Kikbak kikbak);
 
     public void sendGiftNotification(Long fromUserId, Gift gift);
 }

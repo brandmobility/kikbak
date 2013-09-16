@@ -12,9 +12,14 @@ import org.springframework.stereotype.Service;
 import com.kikbak.client.service.impl.types.PlatformType;
 import com.kikbak.config.ContextUtil;
 import com.kikbak.dao.ReadOnlyDeviceTokenDAO;
+import com.kikbak.dao.ReadOnlyMerchantDAO;
+import com.kikbak.dao.ReadOnlyOfferDAO;
+import com.kikbak.dao.ReadOnlyUserDAO;
 import com.kikbak.dto.Devicetoken;
 import com.kikbak.dto.Gift;
 import com.kikbak.dto.Kikbak;
+import com.kikbak.dto.Merchant;
+import com.kikbak.dto.User;
 import com.kikbak.jaxb.applepushnotification.AppleNotificationPayload;
 import com.kikbak.jaxb.applepushnotification.ApsType;
 import com.kikbak.push.apple.ApsConnection;
@@ -37,8 +42,17 @@ public class PushNotifierImpl implements PushNotifier {
     @Autowired
     ReadOnlyDeviceTokenDAO roDeviceToken;
 
+    @Autowired
+    ReadOnlyUserDAO roUserDAO;
+
+    @Autowired
+    ReadOnlyMerchantDAO roMerchantDAO;
+
+    @Autowired
+    ReadOnlyOfferDAO roOfferDAO;
+
     @Override
-    public void sendKikbakNotification(Long toUserId, Kikbak kikbak) {
+    public void sendKikbakNotification(Long fromUserId, Long toUserId, Kikbak kikbak) {
         Devicetoken deviceToken = roDeviceToken.findByUserId(toUserId);
         if (deviceToken == null)
             return;
@@ -47,7 +61,7 @@ public class PushNotifierImpl implements PushNotifier {
             sendKikbakNotificationApple(deviceToken.getToken(), kikbak.getNotificationText());
             return;
         } else if (deviceToken.getPlatformType() == PlatformType.Android.ordinal()) {
-            sendKikbakNotificationGoogle(deviceToken, kikbak);
+            sendKikbakNotificationGoogle(fromUserId, deviceToken, kikbak);
             return;
         }
     }
@@ -74,15 +88,29 @@ public class PushNotifierImpl implements PushNotifier {
         }
     }
 
-    private void sendKikbakNotificationGoogle(Devicetoken deviceToken, Kikbak kikbak) {
+    private void sendKikbakNotificationGoogle(Long fromUserId, Devicetoken deviceToken, Kikbak kikbak) {
         try {
+
+            User user = roUserDAO.findById(fromUserId);
+            String who = user.getFirstName() + " " + user.getLastName();
+
+            long oid = kikbak.getOfferId();
+            long mid = roOfferDAO.findById(oid).getMerchantId();
+            Merchant merchant = roMerchantDAO.findById(mid);
+
+            String tmpl = config.getString("notification.android.kikbak");
+            tmpl = tmpl.replace("%USER%", who);
+            tmpl = tmpl.replace("%RETAILER%", merchant.getName());
+            tmpl = tmpl.replace("%REWARD%", kikbak.getDescription());
+
             String key = config.getString("gcm.key");
             Sender sender = new Sender(key);
             Message msg = new Message.Builder() //
                     .delayWhileIdle(true) //
                     .addData("type", "kikbak") //
                     .addData("for", Long.toString(deviceToken.getUserId())) //
-                    .addData("msg", kikbak.getNotificationText()) //
+                    .addData("title", "You’ve earned a Kikbak reward!") //
+                    .addData("msg", tmpl) //
                     .addData("offerId", Long.toString(kikbak.getOfferId())).build();
             sender.sendNoRetry(msg, deviceToken.getToken());
         } catch (Exception e) {
@@ -107,20 +135,31 @@ public class PushNotifierImpl implements PushNotifier {
             }
         }
         sendGiftNotificationApple(ios, gift);
-        sendGiftNotificationGoogle(android, gift);
+        sendGiftNotificationGoogle(android, fromUserId, gift);
     }
 
     private void sendGiftNotificationApple(List<String> tokens, Gift gift) {
         if (tokens.isEmpty())
             return;
-        for(String token : tokens) {
+        for (String token : tokens) {
             sendKikbakNotificationApple(token, gift.getNotificationText());
         }
     }
 
-    private void sendGiftNotificationGoogle(List<String> tokens, Gift gift) {
+    private void sendGiftNotificationGoogle(List<String> tokens, Long fromUserId, Gift gift) {
         if (tokens.isEmpty())
             return;
+
+        User user = roUserDAO.findById(fromUserId);
+        String who = user.getFirstName() + " " + user.getLastName();
+
+        long oid = gift.getOfferId();
+        long mid = roOfferDAO.findById(oid).getMerchantId();
+        Merchant merchant = roMerchantDAO.findById(mid);
+
+        String tmpl = config.getString("notification.android.gift");
+        tmpl = tmpl.replace("%RETAILER%", merchant.getName());
+        tmpl = tmpl.replace("%GIFT%", gift.getDescription());
 
         try {
             String key = config.getString("gcm.key");
@@ -128,7 +167,8 @@ public class PushNotifierImpl implements PushNotifier {
             Message msg = new Message.Builder() //
                     .delayWhileIdle(true) //
                     .addData("type", "gift") //
-                    .addData("msg", gift.getNotificationText()) //
+                    .addData("title", who) //
+                    .addData("msg", tmpl) //
                     .addData("offerId", Long.toString(gift.getOfferId())) //
                     .build();
             sender.sendNoRetry(msg, tokens);
@@ -136,5 +176,4 @@ public class PushNotifierImpl implements PushNotifier {
             log.error("Failed to send gift notification via google:" + e, e);
         }
     }
-
 }
