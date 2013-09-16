@@ -9,12 +9,11 @@
             return check;
         }
         if (window.mobilecheck()) {
+            $('#redirect-btn').click(function() {
+            	window.location.href = 'https://m.kikbak.me/m/';
+            })
 		    initPosition(testOffer);
         }
-        $('#dismiss-btn').click(function() {
-			$('#has-offer-div').hide();
-			$('#header').css('top', '0');
-        });
 	});
 
 	function initPosition(callback) {
@@ -53,14 +52,13 @@
 			success : function(json) {
 				if (json.hasUserOffersResponse.hasOffer) {
 					if (json.hasUserOffersResponse.brandName) {
-						$('#has-offer-div-text').html('<p>At a ' + json.hasUserOffersResponse.brandName + ' store?</p><p>Give your friends an exclusive gift now!</p>');
-						$('#has-offer-div button').html('Give offer');
+						$('#hasOffer .modal-header p').html('At a ' + json.hasUserOffersResponse.brandName + ' store?<br />Give your friends an exclusive gift now!');
+						$('#hasOffer .modal-footer button').html('Give offer');
 					} else {
-						$('#has-offer-div-text').html('<p>Give your friends an exclusive gift now!</p><p>Check out your nearby Kikbak offers!');
-						$('#has-offer-div button').html('See nearby offers');
+						$('#hasOffer .modal-header p').html('Give your friends an exclusive gift now!<br >Check out your nearby Kikbak offers!');
+						$('#hasOffer .modal-footer button').html('See nearby offers');
 					}
-					$('#header').css('top', '80px');
-					$('#has-offer-div').show();
+					$('#hasOffer').modal('show');
 				}
 			}
 		});
