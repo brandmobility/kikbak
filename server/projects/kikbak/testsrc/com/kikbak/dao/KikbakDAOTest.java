@@ -21,7 +21,6 @@ public class KikbakDAOTest extends KikbakBaseTest{
         kikbak.setDescription("desc");
         kikbak.setDetailedDesc("detailed");
         kikbak.setImageUrl("url");
-        kikbak.setNotificationText("notification");
         kikbak.setOfferId(30);
         kikbak.setRewardType("claim");
         kikbak.setValidationType("pos");

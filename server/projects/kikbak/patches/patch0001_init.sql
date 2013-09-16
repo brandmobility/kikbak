@@ -120,7 +120,6 @@ CREATE TABLE `gift`
     validation_type VARCHAR(16) CHARACTER SET utf8 NOT NULL,
     image_url VARCHAR(256) NOT NULL,
     default_give_image_url VARCHAR(256) NOT NULL,
-    notification_text VARCHAR(200) CHARACTER SET utf8 NOT NULL,
     PRIMARY KEY (id)
 )ENGINE = InnoDB DEFAULT CHARACTER SET latin1 COLLATE latin1_bin;
 
@@ -135,7 +134,6 @@ CREATE TABLE `kikbak`
     reward_type VARCHAR (16) CHARACTER SET utf8 NOT NULL,
     validation_type VARCHAR(16) CHARACTER SET utf8 NOT NULL,
     image_url VARCHAR(256) NOT NULL,
-    notification_text VARCHAR(200) CHARACTER SET utf8 NOT NULL,
     PRIMARY KEY (id)
 )ENGINE = InnoDB DEFAULT CHARACTER SET latin1 COLLATE latin1_bin;
 

@@ -58,7 +58,7 @@ public class PushNotifierImpl implements PushNotifier {
             return;
 
         if (deviceToken.getPlatformType() == PlatformType.iOS.ordinal()) {
-            sendKikbakNotificationApple(deviceToken.getToken(), kikbak.getNotificationText());
+            sendKikbakNotificationApple(fromUserId, deviceToken, kikbak);
             return;
         } else if (deviceToken.getPlatformType() == PlatformType.Android.ordinal()) {
             sendKikbakNotificationGoogle(fromUserId, deviceToken, kikbak);
@@ -66,7 +66,23 @@ public class PushNotifierImpl implements PushNotifier {
         }
     }
 
-    private void sendKikbakNotificationApple(String encodedToken, String notification) {
+    private void sendKikbakNotificationApple(Long fromUserId, Devicetoken deviceToken, Kikbak kikbak) {
+        User user = roUserDAO.findById(fromUserId);
+        String who = user.getFirstName() + " " + user.getLastName();
+
+        long oid = kikbak.getOfferId();
+        long mid = roOfferDAO.findById(oid).getMerchantId();
+        Merchant merchant = roMerchantDAO.findById(mid);
+
+        String tmpl = config.getString("notification.ios.kikbak");
+        tmpl = tmpl.replace("%USER%", who);
+        tmpl = tmpl.replace("%RETAILER%", merchant.getName());
+        tmpl = tmpl.replace("%REWARD%", kikbak.getDescription());
+
+        sendNotificationApple(deviceToken.getToken(), tmpl);
+    }
+
+    private void sendNotificationApple(String encodedToken, String notification) {
         try {
             if (config.getInt("aps.enabled", 0) == 0) {
                 return;
@@ -134,15 +150,28 @@ public class PushNotifierImpl implements PushNotifier {
                 continue;
             }
         }
-        sendGiftNotificationApple(ios, gift);
+        sendGiftNotificationApple(ios, fromUserId, gift);
         sendGiftNotificationGoogle(android, fromUserId, gift);
     }
 
-    private void sendGiftNotificationApple(List<String> tokens, Gift gift) {
+    private void sendGiftNotificationApple(List<String> tokens, Long fromUserId, Gift gift) {
         if (tokens.isEmpty())
             return;
+
+        User user = roUserDAO.findById(fromUserId);
+        String who = user.getFirstName() + " " + user.getLastName();
+
+        long oid = gift.getOfferId();
+        long mid = roOfferDAO.findById(oid).getMerchantId();
+        Merchant merchant = roMerchantDAO.findById(mid);
+
+        String tmpl = config.getString("notification.ios.gift");
+        tmpl = tmpl.replace("%USER%", who);
+        tmpl = tmpl.replace("%RETAILER%", merchant.getName());
+        tmpl = tmpl.replace("%GIFT%", gift.getDescription());
+
         for (String token : tokens) {
-            sendKikbakNotificationApple(token, gift.getNotificationText());
+            sendNotificationApple(token, tmpl);
         }
     }
 
