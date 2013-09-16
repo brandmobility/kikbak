@@ -44,7 +44,7 @@ public class NotificationController {
     mgr.cancel(TYPE_KIKBAK, NOTIFICATION_ID);
   }
 
-  public void showNotification(String type, String msg) {
+  public void showNotification(String type, String title, String msg) {
     if (!mAllowNotifications || type == null || msg == null)
       return;
 
@@ -58,7 +58,7 @@ public class NotificationController {
         new NotificationCompat.Builder(ctx)
             .setAutoCancel(true)
             .setSmallIcon(R.drawable.ic_notification)
-            .setContentTitle(getTitleForType(ctx, type))
+            .setContentTitle(title)
             .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
             .setContentText(msg);
     mBuilder.setContentIntent(contentIntent);
@@ -68,16 +68,4 @@ public class NotificationController {
         .getSystemService(Context.NOTIFICATION_SERVICE);
     mgr.notify(type, NOTIFICATION_ID, notification);
   }
-
-  private String getTitleForType(Context ctx, String type) {
-    String title = null;
-    if (TYPE_GIFT.equals(type)) {
-      title = ctx.getString(R.string.notification_gift_title);
-    }
-    if (TYPE_KIKBAK.equals(type)) {
-      title = ctx.getString(R.string.notification_kikbak_title);
-    }
-    return title;
-  }
-
 }

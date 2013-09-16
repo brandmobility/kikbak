@@ -89,8 +89,8 @@
 
     <!-- Facebook story -->
     <string name="facebook_story_title_fmt">%1$s for %2$s</string> <!-- [gift_desc] for [merchant] -->
-    <string name="facebook_story_first_line_fmt">%1$s %2$s</string> <!-- [gift_desc] [gift_detail_desc] -->
-    <string name="facebook_story_second_line_fmt">%1$s at %2$s in %3$s, %4$s</string> <!-- [merchant] at [address] in [city], [state] -->
+    <string name="facebook_story_first_line_fmt">%1$s %2$s.</string> <!-- [gift_desc] [gift_detail_desc]. -->
+    <string name="facebook_story_second_line_fmt">Shared from %1$s at %2$s in %3$s, %4$s.</string> <!-- Shared from [merchant] at [address] in [city], [state]. -->
 
 
     <!-- Rewards -->
@@ -182,9 +182,5 @@
     <string name="select_friend_label">Select the friend whose gift you would like to redeem</string>
     <string name="suggest_success_title">Thanks for your suggestion</string>
     <string name="suggest_success_note">"We'll pass it along and let you know when the business joins Kikbak."</string>
-
-    <!-- Status bar notifications -->
-    <string name="notification_gift_title">You have received a gift!</string>
-    <string name="notification_kikbak_title">You have received a kikbak!</string>
 
 </resources>

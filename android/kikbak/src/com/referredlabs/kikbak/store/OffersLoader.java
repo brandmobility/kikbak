@@ -73,7 +73,10 @@ public class OffersLoader extends AsyncTaskLoader<List<TheOffer>> {
   @Override
   protected void onReset() {
     super.onReset();
-    mStore.unregisterOffersObserver(mObserver);
+    if (mObserver != null) {
+      mStore.unregisterOffersObserver(mObserver);
+      mObserver = null;
+    }
   }
 
   private class Observer extends DataSetObserver {
