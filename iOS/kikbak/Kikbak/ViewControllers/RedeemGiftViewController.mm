@@ -145,7 +145,7 @@
         }
         
         if( ![UIDevice hasFourInchDisplay] ){
-            CGRect retina35CropRect = CGRectMake(0, 74, 640, self.giftImage.image.size.height-148);
+            CGRect retina35CropRect = CGRectMake(0, 89, 640, self.giftImage.image.size.height-178);
             self.giftImage.image = [self.giftImage.image imageCropToRect:retina35CropRect];
         }
         

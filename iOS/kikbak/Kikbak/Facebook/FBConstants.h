@@ -12,4 +12,6 @@
 #define FB_USER_ID_KEY "id"
 #define FB_USERNAME_KEY "username"
 #define FB_NAME_KEY "name"
+#define FB_FIRST_NAME_KEY "first_name"
+
 #endif

@@ -17,9 +17,10 @@
 @interface ShareChannelSelectorView ()
 
 @property (nonatomic,strong) UIView* backgroundView;
-@property (nonatomic,strong) UILabel* helped;
-@property (nonatomic,strong) UILabel* byWhom;
-@property (nonatomic,strong) UITextView* employee;
+//@property (nonatomic,strong) UILabel* helped;
+//@property (nonatomic,strong) UILabel* byWhom;
+//@property (nonatomic,strong) UITextView* employee;
+@property (nonatomic,strong) UILabel* preferredLocation;
 @property (nonatomic,strong) UIImageView* employeeShadow;
 @property (nonatomic,strong) UIView* location;
 @property (nonatomic,strong) UILabel* address;
@@ -35,6 +36,8 @@
 @property (nonatomic,strong) NSString* employeeName;
 
 @property (nonatomic,strong) UITableView* locationsTable;
+@property (nonatomic) double distanceToClosestLocation;
+
 
 -(IBAction)onEmail:(id)sender;
 -(IBAction)onSms:(id)sender;
@@ -67,7 +70,6 @@
 */
 -(void)createsubviews{
     
-    self.locationId = ((Location*)[[self.locations allObjects]objectAtIndex:0]).locationId;
     self.employeeName = [[NSString alloc]init];
     
     int locationOffset = 40;
@@ -81,11 +83,19 @@
     }
     
     
-    self.backgroundView = [[UIView alloc] initWithFrame:CGRectMake(23, backgroundY, self.frame.size.width - 46, 256-locationOffset)];
+    self.backgroundView = [[UIView alloc] initWithFrame:CGRectMake(23, backgroundY, self.frame.size.width - 46, 285-locationOffset)];
     self.backgroundView.backgroundColor = UIColorFromRGB(0xE0E0E0);
     self.backgroundView.layer.cornerRadius = 10;
     self.backgroundView.layer.masksToBounds = YES;
     [self addSubview:self.backgroundView];
+    
+    self.preferredLocation = [[UILabel alloc]initWithFrame:CGRectMake(0, 15, self.backgroundView.frame.size.width, 19)];
+    self.preferredLocation.font = [UIFont fontWithName:@"HelveticaNeue" size:16];
+    self.preferredLocation.text = NSLocalizedString(@"Preferred Location", nil);
+    self.preferredLocation.textAlignment = NSTextAlignmentCenter;
+    self.preferredLocation.backgroundColor = [UIColor clearColor];
+    self.preferredLocation.textColor = UIColorFromRGB(0x3a3a3a);
+    [self.backgroundView addSubview:self.preferredLocation];
     
 //    self.helped = [[UILabel alloc]initWithFrame:CGRectMake(0, 15, self.backgroundView.frame.size.width, 19)];
 //    self.helped.font = [UIFont fontWithName:@"HelveticaNeue" size:16];
@@ -124,7 +134,7 @@
 //    [self.backgroundView addSubview:self.employee];
     
     if( locationOffset == 0 ){
-        self.location = [[UIView alloc]initWithFrame:CGRectMake(12, 15, self.backgroundView.frame.size.width-24, 35)];
+        self.location = [[UIView alloc]initWithFrame:CGRectMake(12, 38, self.backgroundView.frame.size.width-24, 35)];
         self.location.layer.cornerRadius = 4;
         self.location.layer.masksToBounds = YES;
         self.location.layer.borderColor = [UIColorFromRGB(0xa0a0a0) CGColor];
@@ -134,22 +144,35 @@
         [self.backgroundView addSubview:self.location];
         
         Location* location = [self.locations anyObject];
+        CLLocation* current = [[CLLocation alloc]initWithLatitude:[location.latitude doubleValue] longitude:[location.longitude doubleValue]];
+        self.distanceToClosestLocation = [Distance distanceToInFeet:current];
         for( Location* store in self.locations){
-            CLLocation* current = [[CLLocation alloc]initWithLatitude:[location.latitude doubleValue] longitude:[location.longitude doubleValue]];
             CLLocation* next = [[CLLocation alloc]initWithLatitude:[store.latitude doubleValue] longitude:[store.longitude doubleValue]];
-            if ([Distance distanceToInFeet:current] > [Distance distanceToInFeet:next]) {
+            if (self.distanceToClosestLocation > [Distance distanceToInFeet:next]) {
                 location = store;
+                self.distanceToClosestLocation = [Distance distanceToInFeet:next];
             }
         }
 
+        //half mile in feet
+        if( self.distanceToClosestLocation < 2640){
+            self.locationId = location.locationId;
+        }
         
         self.address = [[UILabel alloc]initWithFrame:CGRectMake(8, 8, self.location.frame.size.width-16, 20)];
-        self.address.text = location.address;
         self.address.backgroundColor = [UIColor clearColor];
         self.address.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
         self.address.textColor = UIColorFromRGB(0x5a5a5a);
         self.address.textAlignment = NSTextAlignmentLeft;
         [self.location addSubview:self.address];
+        
+        //chose text based on distance
+        if( self.distanceToClosestLocation > 2640){// half mile in feet
+            self.address.text = NSLocalizedString(@"Pick Location", nil);
+        }
+        else{
+            self.address.text = location.address;
+        }
         
         self.chevron = [[UIImageView alloc] initWithFrame:CGRectMake(self.location.frame.size.width-22, 10, 11, 16)];
         self.chevron.image = [UIImage imageNamed:@"ic_friend_chevron"];
@@ -231,7 +254,7 @@
 #pragma mark - text view
 -(void)resignTextView
 {
-    [self.employee resignFirstResponder];
+//    [self.employee resignFirstResponder];
 }
 
 - (BOOL)textView:(UITextView *)textView
@@ -261,13 +284,13 @@
 
 - (void)textViewDidEndEditing:(UITextView *)textView{
     
-    if(textView == self.employee && [textView.text compare:@""] == NSOrderedSame){
-        self.employee.text = NSLocalizedString(@"Employee", nil);
-        self.employee.textColor = UIColorFromRGB(0x7F7F7F);
-    }
-    else{
-        self.employeeName = self.employee.text;
-    }
+//    if(textView == self.employee && [textView.text compare:@""] == NSOrderedSame){
+//        self.employee.text = NSLocalizedString(@"Employee", nil);
+//        self.employee.textColor = UIColorFromRGB(0x7F7F7F);
+//    }
+//    else{
+//        self.employeeName = self.employee.text;
+//    }
 }
 
 #pragma mark - table datasource methods

@@ -98,6 +98,7 @@
 //        [prefs setValue:testUser forKeyPath:@(FB_USER_ID_KEY)];
         [prefs setValue:[delegate.userInfo.me objectForKey:@(FB_USERNAME_KEY)] forKeyPath:@(FB_USERNAME_KEY)];
         [prefs setValue:[delegate.userInfo.me objectForKey:@(FB_NAME_KEY)] forKeyPath:@(FB_NAME_KEY)];
+        [prefs setValue:[delegate.userInfo.me objectForKey:@(FB_FIRST_NAME_KEY)] forKeyPath:@(FB_FIRST_NAME_KEY)];
         [prefs synchronize];
         [Flurry logEvent:@"MeRequestEvent" timed:YES];
 
