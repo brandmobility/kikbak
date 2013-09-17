@@ -73,7 +73,7 @@ public class LandingController {
 			
 			if (gift == null) {
 				httpResponse.sendRedirect(config.getString("landing.code_not_found.url"));
-				return new ModelAndView();
+				return null; 
 			}
 			
 			String title = config.getString(SHARE_TEMPLATE_TITLE_FB).replace("%MERCHANT%", gift.getMerchant().getName())
@@ -103,7 +103,7 @@ public class LandingController {
 				log.error("Error to get gift of code " + code, e);
 				httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			}
-			return new ModelAndView();
+			return null; 
 		}
 	}
 	
