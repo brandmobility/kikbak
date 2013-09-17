@@ -246,7 +246,9 @@ h3 {
 <body>
 <c:choose>
 <c:when test="${not mobile}">
-	<div id="container"><div class="wit-grd">
+	<div id="container">
+	</div>
+	<div class="main-bdy">
 		<div id="subcontainer">
 			<div id="header">
 				<h1>${gift.merchant.name}</h1>
@@ -284,15 +286,15 @@ h3 {
 								</div>
 								<div class="clearfix"></div>
 							</div>
+                                    <c:choose>
+                                        <c:when test="${not empty location}">
 							<ul class="info">
-								<li style="min-height:20px;">${shareInfo.friendName} at ${gift.merchant.name} store<br />
-									<c:choose>
-										<c:when test="${not empty location}">
-											<strong>${location.address1}, ${location.city}, ${location.state}</strong>
-										</c:when>
-									</c:choose>
+								<li style="min-height:20px;">${shareInfo.friendName} was at ${gift.merchant.name}<br />
+											at <strong>${location.address1}, ${location.city}, ${location.state}</strong>
 								</li>
 							</ul>
+                                        </c:when>
+                                    </c:choose>
 						</div>
 					</div>
 				</div>
@@ -341,7 +343,7 @@ h3 {
 			</div>
 			<div class="clearfix"></div>
 		</div>
-	</div></div>
+	</div>
 	<div id="footer">
 		<div id="footer-content">
 			<div class="row show-grid">
@@ -362,15 +364,15 @@ h3 {
             &nbsp;&nbsp;you an exclusive offer for <strong>${gift.merchant.name}.</strong></p>
         </div>
         <img src="${shareInfo.imageUrl}" width="100%" />
-        <div class="wit-grd-overlay">
-            <p style="margin-top:10px">&nbsp;&nbsp;${shareInfo.friendName} at ${gift.merchant.name} store<br />
             <c:choose>
             <c:when test="${not empty location}">
-            <strong>&nbsp;&nbsp;${location.address1}, ${location.city}, ${location.state}</strong>
-            </c:when>
-            </c:choose>
+        <div class="wit-grd-overlay">
+            <p style="margin-top:10px">&nbsp;&nbsp;${shareInfo.friendName} at ${gift.merchant.name}<br />
+            &nbsp;&nbsp;at <strong>${location.address1}, ${location.city}, ${location.state}</strong>
             </p>
         </div>
+            </c:when>
+            </c:choose>
         <div class="widget">
             <div class="span4">
                 <h3 style="padding: 0px; margin: 0px; font-family: HelveticaNeueLTPro-Lt">${gift.merchant.name}</h3>
@@ -468,7 +470,7 @@ h3 {
         }
         if (!window.mobilecheck()) {
             $('#container').css('background', 'url(${gift.defaultGiveImageUrl})');
-            $('#container').css('background-size', 'cover');
+            $('#container').css('background-size', '100%');
             $('#header h1').css('background', 'url(${gift.merchant.imageUrl})');
         }
     </script>

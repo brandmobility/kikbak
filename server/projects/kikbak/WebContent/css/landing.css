@@ -11,17 +11,27 @@ html, body {
     background-repeat: no-repeat;
     background-position: top center;
     height: 100%;
+    -webkit-filter: blur(4px);
 }
 
-.wit-grd {
+.main-bdy { 
+    float:left;
+    width:100%;
     height: 100%;
-    background:-moz-linear-gradient(bottom,rgba(255,255,255,1) 0,rgba(254,254,254,1) 71%,rgba(239,239,239,0.98) 74%,rgba(209,209,209,0.87) 80%,rgba(194,194,194,0.78) 83%,rgba(189,189,189,0.75) 84%,rgba(171,171,171,0.57) 88%,rgba(169,169,169,0.52) 89%,rgba(166,166,166,0.46) 90%,rgba(159,159,159,0.35) 92%,rgba(151,151,151,0.24) 94%,rgba(151,151,151,0.13) 96%,rgba(151,151,151,0.1) 97%,rgba(128,128,128,0.07) 98%,rgba(128,128,128,0.03) 99%,rgba(1,1,1,0) 100%);
-    background:-webkit-gradient(linear,left,bottom,left,top,color-stop(0,rgba(255,255,255,1)),color-stop(71%,rgba(254,254,254,1)),color-stop(74%,rgba(239,239,239,0.98)),color-stop(80%,rgba(209,209,209,0.87)),color-stop(83%,rgba(194,194,194,0.78)),color-stop(84%,rgba(189,189,189,0.75)),color-stop(88%,rgba(171,171,171,0.57)),color-stop(89%,rgba(169,169,169,0.52)),color-stop(90%,rgba(166,166,166,0.46)),color-stop(92%,rgba(159,159,159,0.35)),color-stop(94%,rgba(151,151,151,0.24)),color-stop(96%,rgba(151,151,151,0.13)),color-stop(97%,rgba(151,151,151,0.1)),color-stop(98%,rgba(128,128,128,0.07)),color-stop(99%,rgba(128,128,128,0.03)),color-stop(100%,rgba(1,1,1,0)));
-    background:-webkit-linear-gradient(bottom,rgba(255,255,255,1) 0,rgba(254,254,254,1) 71%,rgba(239,239,239,0.98) 74%,rgba(209,209,209,0.87) 80%,rgba(194,194,194,0.78) 83%,rgba(189,189,189,0.75) 84%,rgba(171,171,171,0.57) 88%,rgba(169,169,169,0.52) 89%,rgba(166,166,166,0.46) 90%,rgba(159,159,159,0.35) 92%,rgba(151,151,151,0.24) 94%,rgba(151,151,151,0.13) 96%,rgba(151,151,151,0.1) 97%,rgba(128,128,128,0.07) 98%,rgba(128,128,128,0.03) 99%,rgba(1,1,1,0) 100%);
-    background:-o-linear-gradient(bottom,rgba(255,255,255,1) 0,rgba(254,254,254,1) 71%,rgba(239,239,239,0.98) 74%,rgba(209,209,209,0.87) 80%,rgba(194,194,194,0.78) 83%,rgba(189,189,189,0.75) 84%,rgba(171,171,171,0.57) 88%,rgba(169,169,169,0.52) 89%,rgba(166,166,166,0.46) 90%,rgba(159,159,159,0.35) 92%,rgba(151,151,151,0.24) 94%,rgba(151,151,151,0.13) 96%,rgba(151,151,151,0.1) 97%,rgba(128,128,128,0.07) 98%,rgba(128,128,128,0.03) 99%,rgba(1,1,1,0) 100%);
-    background:-ms-linear-gradient(bottom,rgba(255,255,255,1) 0,rgba(254,254,254,1) 71%,rgba(239,239,239,0.98) 74%,rgba(209,209,209,0.87) 80%,rgba(194,194,194,0.78) 83%,rgba(189,189,189,0.75) 84%,rgba(171,171,171,0.57) 88%,rgba(169,169,169,0.52) 89%,rgba(166,166,166,0.46) 90%,rgba(159,159,159,0.35) 92%,rgba(151,151,151,0.24) 94%,rgba(151,151,151,0.13) 96%,rgba(151,151,151,0.1) 97%,rgba(128,128,128,0.07) 98%,rgba(128,128,128,0.03) 99%,rgba(1,1,1,0) 100%);
-    background:linear-gradient(to top,rgba(255,255,255,1) 0,rgba(254,254,254,1) 71%,rgba(239,239,239,0.98) 74%,rgba(209,209,209,0.87) 80%,rgba(194,194,194,0.78) 83%,rgba(189,189,189,0.75) 84%,rgba(171,171,171,0.57) 88%,rgba(169,169,169,0.52) 89%,rgba(166,166,166,0.46) 90%,rgba(159,159,159,0.35) 92%,rgba(151,151,151,0.24) 94%,rgba(151,151,151,0.13) 96%,rgba(151,151,151,0.1) 97%,rgba(128,128,128,0.07) 98%,rgba(128,128,128,0.03) 99%,rgba(1,1,1,0) 100%);
+    background:-moz-linear-gradient(bottom,rgba(255,255,255,1) 0%,rgba(254,254,254,1) 50%,rgba(228,228,228,0.8) 60%,rgba(228,228,228,0.8) 80%,rgba(1,1,1,0) 80%,rgba(1,1,1,0) 100%);
+    background:-webkit-gradient(linear,left,bottom,left,top,color-stop(0,rgba(255,255,255,1)),color-stop(50%,rgba(254,254,254,1)),color-stop(60%,rgba(228,228,228,0.8)),color-stop(80%,rgba(228,228,228,0.8)),color-stop(80%,rgba(1,1,1,0)),color-stop(100%,rgba(1,1,1,0)));
+    background:-webkit-linear-gradient(bottom,rgba(255,255,255,1) 0%,rgba(254,254,254,1) 50%,rgba(228,228,228,0.8) 60%,rgba(228,228,228,0.8) 80%,rgba(1,1,1,0) 80%,rgba(1,1,1,0) 100%);
+    background:-o-linear-gradient(bottom,rgba(255,255,255,1) 0%,rgba(254,254,254,1) 50%,rgba(228,228,228,0.8) 60%,rgba(228,228,228,0.8) 80%,rgba(1,1,1,0) 80%,rgba(1,1,1,0) 100%);
+    background:-ms-linear-gradient(bottom,rgba(255,255,255,1) 0%,rgba(254,254,254,1) 50%,rgba(228,228,228,0.8) 60%,rgba(228,228,228,0.8) 80%,rgba(1,1,1,0) 80%,rgba(1,1,1,0) 100%);
+    background:linear-gradient(to top,rgba(255,255,255,1) 0%,rgba(254,254,254,1) 50%,rgba(228,228,228,0.8) 60%,rgba(228,228,228,0.8) 80%,rgba(1,1,1,0) 80%,rgba(1,1,1,0) 100%)
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#00010101',GradientType=1);
+    position: absolute;
+    top: 0;
+}
+
+.main-bdy-grn { float:left; width:100%; background:url(../img/wit-gren-shad.png) left top repeat-x;}
+
+.wit-grd {
 }
 
 .wit-grd-overlay {
