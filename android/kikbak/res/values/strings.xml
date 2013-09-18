@@ -72,7 +72,7 @@
     <string name="share_option_via_email">Share via email</string>
     <string name="share_option_via_sms">Share via SMS</string>
     <string name="share_option_via_facebook">Post on Facebook</string>
-    <string name="share_option_pick_location"><i>pick location</i></string>
+    <string name="share_option_pick_location">Select location</string>
 
     <!-- Customized -->
     <string name="share_options_helped_title">Helped by an employee ?</string>

@@ -158,8 +158,11 @@ public class ShareOptionsFragment3 extends DialogFragment implements OnClickList
       TextView tv = (TextView) mInflater.inflate(R.layout.fragment_share_options_store_view,
           parent, false);
       if (location == null) {
+        int color = tv.getHintTextColors().getDefaultColor();
+        tv.setTextColor(color);
         tv.setText(R.string.share_option_pick_location);
       } else {
+        tv.setTextColor(getResources().getColor(android.R.color.black));
         tv.setText(location.address1);
       }
       return tv;
