@@ -39,12 +39,6 @@ public class AllocatedGiftDAOTest extends KikbakBaseTest {
 		assertEquals(1, gifts.size());
 	}
 	
-	@Test 
-	public void testListOfferIdsForUser(){
-		Multimap<Long, Long> mapMultimap = roDao.listOfferIdsByFriendsForUser(12L);	
-		assertEquals(1, mapMultimap.size());
-	}
-	
 	@Test
 	public void testListByFriendUserId(){
 		Collection<Allocatedgift> gifts = roDao.listByFriendUserId(13L);

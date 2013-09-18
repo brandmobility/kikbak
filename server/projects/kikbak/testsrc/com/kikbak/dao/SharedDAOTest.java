@@ -68,13 +68,6 @@ public class SharedDAOTest extends KikbakBaseTest{
 	}
 	
 	@Test
-	public void testListAvailableFOrGifting(){
-		
-		Collection<Shared> s = roDao.listAvailableForGifting(1L);
-		assertEquals(1, s.size());
-	}
-	
-	@Test
 	public void testListUserAndOfferId(){
 		Collection<Shared> shared = roDao.listByUserIdAndOfferId(6L, 3L);
 		assertEquals(1, shared.size());

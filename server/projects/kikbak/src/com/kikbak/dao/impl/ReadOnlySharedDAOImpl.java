@@ -15,10 +15,17 @@ import com.kikbak.dto.Shared;
 @Repository
 public class ReadOnlySharedDAOImpl extends ReadOnlyGenericDAOImpl<Shared, Long> implements ReadOnlySharedDAO{
 
-	private static final String find_gifts="select shared.* from offer, shared where begin_date < now() and end_date > now() " + 
-			"and offer.id=shared.offer_id and offer.id in (select offer_id from shared where user_id in " +
-			"(select user_id from user2friend where facebook_friend_id=?) group by offer_id) " +
-			"and user_id in (select user_id from user2friend where facebook_friend_id=?)";
+    static final String SHARES_FOR_NEW_GIFTS = "select * from shared where "
+            // offer is still active
+            + "offer_id in (select id from offer where begin_date < now() and end_date > now()) AND "
+            // user has not redeemed that gift yet
+            + "offer_id not in (select distinct offer_id from allocatedgift where user_id = :userId and redemption_date is not null) AND "
+            // user is actually a friend of person who shared
+            + "user_id in (select user2friend.user_id from user,user2friend where user.id = :userId and user.facebook_id = user2friend.facebook_friend_id) AND "
+            // gift was not created yet
+            + "id in (select shared.id from shared left join allocatedgift on shared.offer_id = allocatedgift.offer_id and shared.user_id = allocatedgift.friend_user_id where allocatedgift.offer_id is null) "
+            // then group to filter multiple shares
+            + "group by offer_id, user_id";
 
 	@Override
 	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
@@ -38,19 +45,20 @@ public class ReadOnlySharedDAOImpl extends ReadOnlyGenericDAOImpl<Shared, Long> 
 		return listByCriteria(Restrictions.and(Restrictions.eq("userId", userId),Restrictions.eq("offerId", offerId)));
 	}
 
-	@Override
-	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
-	public Collection<Shared> listAvailableForGifting(Long userId) {
-		Session session = sessionFactory.getCurrentSession();
-		@SuppressWarnings("unchecked")
-		Collection<Shared> shared = session.createSQLQuery(find_gifts).addEntity(Shared.class).setLong(0, userId).setLong(1, userId).list();
-		return shared;
-	}
-
     @Override
     @Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
     public Shared findAvailableForGiftingByReferralCode(String referralCode) {
         return findByCriteria(Restrictions.eq("referralCode", referralCode));
+    }
+
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public Collection<Shared> listSharesForNewGifts(Long userId) {
+        Session session = sessionFactory.getCurrentSession();
+        @SuppressWarnings("unchecked")
+        Collection<Shared> shared = session.createSQLQuery(SHARES_FOR_NEW_GIFTS).addEntity(Shared.class)
+                .setLong("userId", userId).list();
+        return shared;
     }
 
 }

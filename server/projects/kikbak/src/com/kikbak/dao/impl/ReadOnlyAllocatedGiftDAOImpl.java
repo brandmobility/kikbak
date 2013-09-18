@@ -45,19 +45,6 @@ public class ReadOnlyAllocatedGiftDAOImpl extends ReadOnlyGenericDAOImpl<Allocat
 	public Collection<Long> listSharedIdsForUser(Long userId) {
 		return sessionFactory.getCurrentSession().createSQLQuery(gift_shared_ids).addScalar("shared_id",  StandardBasicTypes.LONG ).setLong(0, userId).list();
 	}
-	   
-	@Override
-    @Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
-	public Multimap<Long,Long> listOfferIdsByFriendsForUser(Long userId){
-	    @SuppressWarnings("rawtypes")
-        List results = sessionFactory.getCurrentSession().createSQLQuery(gift_offer_ids).addScalar("offer_id",  StandardBasicTypes.LONG ).addScalar("friend_user_id",  StandardBasicTypes.LONG ).setLong(0, userId).list();
-	    Multimap<Long, Long> mmap = HashMultimap.create();
-	    for( Object obj : results) {
-	        Object[] arr = (Object[])obj;
-	        mmap.put((Long)arr[0], (Long)arr[1]);
-	    }
-	    return mmap;
-	}
 
 	@Override
 	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
