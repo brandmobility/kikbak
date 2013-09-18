@@ -4,8 +4,8 @@ package com.referredlabs.kikbak;
 import android.location.Location;
 
 public class C {
-  public static final String REST_URI = "http://prod.kikbak.me/m/kikbak";
-  public static final String UPLOAD_URI = "http://prod.kikbak.me/s/upload.php";
+  public static final String REST_URI = "https://m.kikbak.me/m/kikbak";
+  public static final String UPLOAD_URI = "http://m.kikbak.me/s/upload.php";
 
   public static boolean USE_FIXED_LOCATION = false;
   public static final double LATITUDE = 37.7602;

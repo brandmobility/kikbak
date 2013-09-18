@@ -107,6 +107,7 @@ public class LoginActivity extends KikbakActivity implements
     }
 
     Toast.makeText(LoginActivity.this, R.string.registration_failed, Toast.LENGTH_LONG).show();
+    mLoginButton.setEnabled(true);
   }
 
   private void showTooFewFriendsDialog() {
