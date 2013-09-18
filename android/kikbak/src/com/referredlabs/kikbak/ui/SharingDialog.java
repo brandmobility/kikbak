@@ -22,6 +22,7 @@ public class SharingDialog extends DialogFragment {
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    getDialog().setCanceledOnTouchOutside(false);
     View v = inflater.inflate(R.layout.sharing_progress, container, false);
     return v;
   }
