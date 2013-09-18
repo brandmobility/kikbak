@@ -1,12 +1,21 @@
 package com.kikbak.push.apple;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
 import java.net.Socket;
+
+import javax.net.ssl.SSLSocket;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 
 import com.kikbak.config.ContextUtil;
+
+//class MyHandshakeListener implements HandshakeCompletedListener {
+//    @Override
+//    public void handshakeCompleted(HandshakeCompletedEvent e) {
+//      System.out.println("Handshake succesful!");
+//      System.out.println("Using cipher suite: " + e.getCipherSuite());
+//    }
+//}
 
 public class ApsConnection {
 
@@ -16,6 +25,8 @@ public class ApsConnection {
 	private KeyLoader keyLoader;
 	private ApsResponseHandler handler;
 	private Socket socket;
+//	private Socket feedbackSocket;
+//	private ApsResponseHandler feedbackHandler;
 	
 	public ApsConnection() {
 		if(config.getString("aps.gateway.type").equals(ServerType.development.name())){
@@ -29,11 +40,20 @@ public class ApsConnection {
 	}
 	
 	public void connect() throws IOException, Exception{
-		socket = keyLoader.getSSLContext().getSocketFactory().createSocket();
+		socket = keyLoader.getSSLContext().getSocketFactory().createSocket(connectionType.getHost(), connectionType.getPort());
 		socket.setTcpNoDelay(true);
-        socket.connect(new InetSocketAddress(connectionType.getHost(), connectionType.getPort()), config.getInteger("aps.connect.timeout_ms", 3000));
+//		((SSLSocket)socket).addHandshakeCompletedListener(new MyHandshakeListener());
+		((SSLSocket)socket).startHandshake();
+//        socket.connect(new InetSocketAddress(connectionType.getHost(), connectionType.getPort()), config.getInteger("aps.connect.timeout_ms", 3000));
         handler = new ApsResponseHandler(socket);
         handler.start();
+        
+//        feedbackSocket = keyLoader.getSSLContext().getSocketFactory().createSocket(connectionType.getFeedbackHost(), connectionType.getFeedbackPort());
+//        feedbackSocket.setTcpNoDelay(true);
+//        ((SSLSocket)feedbackSocket).addHandshakeCompletedListener(new MyHandshakeListener());
+//        ((SSLSocket)feedbackSocket).startHandshake();
+//        feedbackHandler = new ApsResponseHandler(socket);
+//        feedbackHandler.start();
 	}
 	
 	

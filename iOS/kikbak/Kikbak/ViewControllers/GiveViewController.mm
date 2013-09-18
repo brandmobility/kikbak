@@ -582,14 +582,11 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     UIImage* image = [info valueForKey:UIImagePickerControllerOriginalImage];
     image = [image imageByScalingAndCroppingForSize:CGSizeMake(640, 853)];
 
-    CGRect cropRect = CGRectMake(8, 94, 640, 624);
+    CGRect cropRect = CGRectMake(8, 94, 624, 624);
     self.imageToPost = [image imageCropToRect:cropRect];
-    if( [UIDevice hasFourInchDisplay]){
-        self.giveImage.image = self.imageToPost;
-    }
-    else{
-        CGRect retina35CropRect = CGRectMake(8, 168, 624, 436);
-        self.giveImage.image = [image imageCropToRect:retina35CropRect];
+    self.giveImage.image = self.imageToPost;
+    if( ![UIDevice hasFourInchDisplay]){
+        self.giveImage.frame = CGRectMake(51, 0, 218, 218);
     }
     
     [self dismissViewControllerAnimated:YES completion:nil];
