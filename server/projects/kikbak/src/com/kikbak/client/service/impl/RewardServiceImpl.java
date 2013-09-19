@@ -405,27 +405,13 @@ public class RewardServiceImpl implements RewardService{
         return ag;
     }
 
-
     protected void createGifts(Long userId) throws RewardException {
-
-        User user = roUserDao.findById(userId);
-        if (user == null) {
-            throw new RewardException("user id " + userId + " doesn't exist");
-        }
-        Collection<Shared> shareds = roSharedDao.listAvailableForGifting(user.getFacebookId());
-
-        Multimap<Long, Long> friendsToOffersMultimap = roAllocatedGiftDao.listOfferIdsByFriendsForUser(userId);
-        for(Shared shared : shareds){
-            logger.trace("Shared id:" + shared.getId() + " offerId:"+ shared.getOfferId() + " user id:"+shared.getUserId());
-            if(!friendsToOffersMultimap.containsEntry(shared.getOfferId(),shared.getUserId())){
-                logger.trace("Created gift");
-                Offer offer = roOfferDao.findById(shared.getOfferId());
-                createAllocateOffer(userId, shared, offer);
-                friendsToOffersMultimap.put(shared.getOfferId(),shared.getUserId());
-            }
+        Collection<Shared> shareds = roSharedDao.listSharesForNewGifts(userId);
+        for (Shared shared : shareds) {
+            Offer offer = roOfferDao.findById(shared.getOfferId());
+            createAllocateOffer(userId, shared, offer);
         }
     }
-
 
     protected String generateAuthorizationCode(){
         return new BigInteger(16, random).toString(16);

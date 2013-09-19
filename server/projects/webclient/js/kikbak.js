@@ -375,7 +375,7 @@ function renderOffer(offer) {
   
   var local = getDisplayLocation(offer.locations);
   if (local != 'undefined') {
-    html += '<div class="opt-icon"><a href="' + generateMapUrl(offer.merchantName, local) + '"><img src="images/ic_map@2x.png">' + '&nbsp;' + offer.dist + ' mile</a>';
+    html += '<div class="opt-icon"><a href="' + generateMapUrl(offer.merchantName, local) + '"><img src="images/ic_map@2x.png">' + '&nbsp;' + offer.dist + ' mi</a>';
     html += '<a href="' + offer.merchantUrl + '"><img src="images/ic_web@2x.png" /></a>';
     html += '<a href="tel:' + local.phoneNumber + '"><img src="images/ic_phone@2x.png" /></a>';
   } else {
@@ -429,7 +429,7 @@ function computeDistanceDigit(local) {
 }
 
 function computeDistance(local) {
-  return computeDistanceDigit(local) + ' mile';
+  return computeDistanceDigit(local) + ' mi';
 }
 
 function getDisplayLocation(locations) {
@@ -702,9 +702,9 @@ function renderRedeem(gifts, credits) {
   html += '<h3>' + m.name + '</h3><div class="opt-icon">';
   var local = getDisplayLocation(m.locations);
   if (local != 'undefined') {
-    html += '<a href="tel:' + local.phoneNumber + '"><img src="images/ic_phone@2x.png" /></a>';
+    html += '<a href="tel:' + local.phoneNumber + '"><img src="images/ic_phone@2x.png"  /></a>';
     html += '<a href="' + m.url + '"><img src="images/ic_web@2x.png" /></a>';
-    html += '<a href="' + generateMapUrl(m.name, local) + '"><img src="images/ic_map@2x.png" />' + '&nbsp;' + computeDistance(local) + '</a>';
+    html += '<a href="' + generateMapUrl(m.name, local) + '><img src="images/ic_map@2x.png" />' + '&nbsp;' + computeDistance(local) + '</a>';
   } else {
     html += '<a href="' + m.url + '"><img src="images/ic_web@2x.png" /></a>';
   }
@@ -838,9 +838,9 @@ function renderOfferDetail(offer) {
   html += '<div class="opt-icon">';
   var local = getDisplayLocation(offer.locations);
   if (local != 'undefined') {
-    html += '<a href="' + generateMapUrl(offer.merchantName, local) + '"><img class="website-img" src="images/ic_map@2x.png" />' + '&nbsp;' + offer.dist + ' mile </a>';
-    html += '<a href="' + offer.merchantUrl + '"><img class="website-img" src="images/ic_web@2x.png" /></a>';
-    html += '<a href="tel:' + local.phoneNumber + '"><img class="website-img" src="images/ic_phone@2x.png" /></a>';
+    html += '<a href="' + generateMapUrl(offer.merchantName, local) + '" style="margin-right:10%;"><img class="website-img" src="images/ic_map@2x.png" />' + '&nbsp;' + offer.dist + ' mi </a>';
+    html += '<a href="' + offer.merchantUrl + '"><img class="website-img" src="images/ic_web@2x.png" style="margin-top:3px;"/></a>';
+    html += '<a href="tel:' + local.phoneNumber + '"><img class="website-img" src="images/ic_phone@2x.png" style="margin-top:3px;" /></a>';
   } else {
     html += '<a href="' + offer.merchantUrl + '"><img class="website-img" src="images/ic_web@2x.png" /></a>';
   }
@@ -850,16 +850,17 @@ function renderOfferDetail(offer) {
   html += '</div>';
   html += '<div class="img-botm-patrn"></div>';
   html += '<div class="gv">';
-  html += '<h2><img src="images/ic_gift@2x.png" />';
+  html += '<h2><img src="images/ic_gift@2x.png" /> ';
   html += offer.giftDesc + '</h2>';
   html += '<h4>' + offer.giftDetailedDesc + '</h4>';
   html += '</div>';
   html += '<div class="crt">';
-  html += '<h2>' + offer.kikbakDesc + '</h2>';
+  html += '<h2><img width="19px" src="images/ic_give_trophy.png" /> ';
+  html += offer.kikbakDesc + '</h2>';
   html += '<h4>' + offer.kikbakDetailedDesc + '</h4>';
   html += '</div>';
-  html += '<div class="crt">';
-  html += '<a href="#" class="trm" id="term-btn" >Terms and Conditions</a>';
+  html += '<div class="crt" style="margin:0;">';
+  html += '<a href="#" class="trm" id="term-btn" >&nbsp;Terms and Conditions</a>';
   html += '</div>';
   var userId = s.userId;
   if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
@@ -869,9 +870,9 @@ function renderOfferDetail(offer) {
     html += '<input id="share-btn" name="share" type="button" class="btn grd3 botm-position" value="Give To Friends" />';
     html += '</div>';
     html += '<div id="share-fb-div">'
-    html += '<input id="share-btn-fb" name="share" type="button" class="btn grd3" value="Connect with Facebook to share" />';
+    html += '<input id="share-btn-fb" name="share" type="button" class="fb-share" value="Connect with Facebook to share" />';
     html += '<div class="crt">';
-    html += '<p><font size="2">We use Facebook to make it easy for you to store, redeem, and share gifts.  We will never post on Facebook with your permission.</font></p>';
+    html += '<p style="font-size:10px;">We use Facebook to make it easy for you to store, redeem and share gifts.  We will never post on Facebook with your permission.</p>';
     html += '</div>';
     html += '</div>';
   }
