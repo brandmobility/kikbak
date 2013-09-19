@@ -87,6 +87,14 @@
         }
     }
     
+    if(![ImagePersistor imageFileExists:gift.offerId imageType:OFFER_LIST_IMAGE_TYPE]) {
+        ImageDownloadRequest* request = [[ImageDownloadRequest alloc]init];
+        request.url = gift.defaultGiveImageUrl;
+        request.fileId = gift.offerId;
+        request.type = OFFER_LIST_IMAGE_TYPE;
+        [request requestImage];
+    }
+    
     NSError *error = nil;
     if (![context save:&error]) {
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);

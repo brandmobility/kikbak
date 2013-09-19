@@ -586,7 +586,9 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     self.imageToPost = [image imageCropToRect:cropRect];
     self.giveImage.image = self.imageToPost;
     if( ![UIDevice hasFourInchDisplay]){
-        self.giveImage.frame = CGRectMake(51, 0, 218, 218);
+        cropRect = CGRectMake(0, 118, 640, 624);
+        self.giveImage.image = [image imageCropToRect:cropRect];
+        self.giveImage.frame = CGRectMake(0, 0, 320, 218);
     }
     
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -821,6 +823,11 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 
 #pragma mark - ShareChannelSelector
 -(void)onEmailSelected:(NSNumber*)locationId withEmployeeName:(NSString*)name{
+    CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+    self.spinnerView = [[SpinnerView alloc]initWithFrame:frame];
+    [self.spinnerView startActivity];
+    [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:self.spinnerView];
+    
     //todo: upload email
     shareViaEmail = YES;
     shareViaSMS = NO;
@@ -847,6 +854,11 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 }
 
 -(void)onSmsSelected:(NSNumber*)locationId withEmployeeName:(NSString*)name{
+    CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+    self.spinnerView = [[SpinnerView alloc]initWithFrame:frame];
+    [self.spinnerView startActivity];
+    [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:self.spinnerView];
+    
     shareViaEmail = NO;
     shareViaSMS = YES;
     ShareExperienceRequest* request = [[ShareExperienceRequest alloc]init];
