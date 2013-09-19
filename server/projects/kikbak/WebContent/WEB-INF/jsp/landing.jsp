@@ -358,7 +358,7 @@ h3 {
 	</div>
 </c:when>
 <c:otherwise>
-    <div id="container">
+    <div>
         <div id="jumbotron">
             <p style="font-family:HelveticaNeueLTPro-Roman;padding-top:10px;padding-bottom:5px;"><strong>&nbsp;&nbsp;${shareInfo.friendName}</strong> used <strong>Kikbak</strong> to give<br />
             &nbsp;&nbsp;you an exclusive offer for <strong>${gift.merchant.name}.</strong></p>
@@ -367,7 +367,7 @@ h3 {
             <c:choose>
             <c:when test="${not empty location}">
         <div class="wit-grd-overlay">
-            <p style="margin-top:10px">&nbsp;&nbsp;${shareInfo.friendName} at ${gift.merchant.name}<br />
+            <p style="margin-top:10px">&nbsp;&nbsp;${shareInfo.friendName} was at ${gift.merchant.name}<br />
             &nbsp;&nbsp;at <strong>${location.address1}, ${location.city}, ${location.state}</strong>
             </p>
         </div>
@@ -380,7 +380,7 @@ h3 {
             <div class="span4">
                 <div class="pull-left">
                     <a href="https://maps.google.com/maps?q=${encodeMerchantName}%40${location.latitude},${location.longitude}">
-                        <span class="glyphicon glyphicon-map-marker" style="color:#FFFFFF;font-size:20px;margin-right: 20px;position:relative;"></span>
+                        <span class="glyphicon glyphicon-map-marker" style="color:#FFFFFF;font-size:22px;margin-right: 20px;position:relative;"></span>
                     </a>
                 </div>
                 <div class="pull-left">
@@ -388,7 +388,7 @@ h3 {
                 </div>
                 <div class="pull-left">
                     <a href="tel:${location.phoneNumber}">
-                        <span class="glyphicon glyphicon-earphone" style="color:#FFFFFF;font-size:20px;position:relative;"></span>
+                        <span class="glyphicon glyphicon-earphone" style="color:#FFFFFF;font-size:22px;position:relative;"></span>
                     </a>
                 </div>
             </div>

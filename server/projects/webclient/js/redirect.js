@@ -35,20 +35,14 @@
 			return;
 		}
 		
-		var location = {};
-		location['longitude'] = local.longitude;
-		location['latitude'] = local.latitude;
-		var data = {};
-		data['userLocation'] = location;
-		var req = {};
-		req['GetUserOffersRequest'] = data;
-		var str = JSON.stringify(req);
+		var lon = parseInt(local.longitude * 10000000, 10);
+		var lat = parseInt(local.latitude * 10000000, 10);
 		$.ajax({
+			crossDomain: true,
 			dataType : 'json',
-			type : 'POST',
+			type : 'GET',
 			contentType : 'application/json',
-			data : str,
-			url : 'https://m.kikbak.me/m/kikbak/user/hasoffer',
+			url : 'https://m.kikbak.me/m/kikbak/user/hasoffer/' + lon + '/' + lat,
 			success : function(json) {
 				if (json.hasUserOffersResponse.hasOffer) {
 					if (json.hasUserOffersResponse.brandName) {

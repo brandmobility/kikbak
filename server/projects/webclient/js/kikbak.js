@@ -241,12 +241,18 @@ function updateFbFriends(userId, cb) {
 
 function initPosition(callback) {
   if (navigator.geolocation) {
+    $('#spinner').show();
     navigator.geolocation.getCurrentPosition(function(p) {
       initPage.p = p.coords;
+      $('#spinner').hide();
       callback();
     }, function() {
+      $('#spinner').hide();
+      alert('Cannot get your location');
     },
     { enableHighAccuracy:true,maximumAge:600000 });
+  } else {
+    aert('Cannot get your location, to use kikbak.me please enable location for the website');
   }
 }
 
@@ -851,12 +857,12 @@ function renderOfferDetail(offer) {
   html += '<div class="img-botm-patrn"></div>';
   html += '<div class="gv">';
   html += '<h2><img src="images/ic_gift@2x.png" /> ';
-  html += offer.giftDesc + '</h2>';
+  html += 'Give' + offer.giftDesc + '</h2>';
   html += '<h4>' + offer.giftDetailedDesc + '</h4>';
   html += '</div>';
   html += '<div class="crt">';
   html += '<h2><img width="19px" src="images/ic_give_trophy.png" /> ';
-  html += offer.kikbakDesc + '</h2>';
+  html += 'Get' + offer.kikbakDesc + '</h2>';
   html += '<h4>' + offer.kikbakDetailedDesc + '</h4>';
   html += '</div>';
   html += '<div class="crt" style="margin:0;">';
