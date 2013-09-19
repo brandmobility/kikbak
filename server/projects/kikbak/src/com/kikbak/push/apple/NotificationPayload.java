@@ -43,7 +43,7 @@ public class NotificationPayload {
         ByteArrayOutputStream bao = new ByteArrayOutputStream(size);
 
         bao.write(command);
-        int tokenLength = token.getTokenBytes().length;
+        short tokenLength = (short) token.getTokenBytes().length;
         bao.write((byte) (tokenLength & 0xFF00) >> 8);
         bao.write((byte) (tokenLength & 0xFF));
         bao.write(token.getTokenBytes());
@@ -51,12 +51,12 @@ public class NotificationPayload {
         short payloadLength = (short) payload.length();
         bao.write((byte) ((payloadLength & 0xFF00) >> 8));
         bao.write((byte) (payloadLength & 0xFF));
-
         bao.write(payload.getBytes("UTF-8"));
 
         if (logger.isTraceEnabled()) {
             logger.trace("payload length " + payload.length() + " payload " + payload);
         }
+        
         return bao.toByteArray();
 	}
 

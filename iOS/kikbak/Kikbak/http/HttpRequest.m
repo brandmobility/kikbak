@@ -19,7 +19,7 @@
 
 -(void)restPostRequest{
   
-    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%s/%s/%@",service_host, kikbak_service, _resource]];
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%s://%s/%s/%@",http_protocol_type, service_host, kikbak_service, _resource]];
 
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
                                                          cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60.0];
@@ -125,7 +125,7 @@
 #pragma mark - authentication -
 
 - (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace{
-  NSLog(@"canAuthenticateAgainstProtectionSpace: \n authenticationMethod - %@\n distinguishedNames - %@\nprotocol - %@,\nserverTrust - %@", [protectionSpace authenticationMethod], [protectionSpace distinguishedNames], [protectionSpace protocol], [protectionSpace serverTrust]);
+//  NSLog(@"canAuthenticateAgainstProtectionSpace: \n authenticationMethod - %@\n distinguishedNames - %@\nprotocol - %@,\nserverTrust - %@", [protectionSpace authenticationMethod], [protectionSpace distinguishedNames], [protectionSpace protocol], [protectionSpace serverTrust]);
   return true;
 }
 

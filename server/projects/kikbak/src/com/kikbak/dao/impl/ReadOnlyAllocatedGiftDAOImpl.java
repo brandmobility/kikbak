@@ -20,11 +20,13 @@ public class ReadOnlyAllocatedGiftDAOImpl extends ReadOnlyGenericDAOImpl<Allocat
 
 	private static final String gift_shared_ids = "select shared_id from allocatedgift where user_id=?";
 	private static final String gift_offer_ids = "select offer_id, friend_user_id from allocatedgift where user_id=?";
-	
+	private static final String get_valid_offer_ids = "select * from allocatedgift where user_id=? and offer_id not in (select offer_id from allocatedgift where user_id=? and redemption_date is not null)";
+
+        @SuppressWarnings("unchecked")
 	@Override
 	@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
 	public Collection<Allocatedgift> listValidByUserId(Long userId) {
-		return listByCriteria(Restrictions.and(Restrictions.eq("userId", userId), Restrictions.isNull("redemptionDate")));
+		return sessionFactory.getCurrentSession().createSQLQuery(get_valid_offer_ids).addEntity(Allocatedgift.class).setLong(0, userId).setLong(1, userId).list();
 	}
 
 	@Override
