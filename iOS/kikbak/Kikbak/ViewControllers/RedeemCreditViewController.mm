@@ -252,7 +252,7 @@
     double distance = [Distance distanceToInFeet:[[CLLocation alloc]initWithLatitude:self.location.latitude.doubleValue
                                                                            longitude:self.location.longitude.doubleValue]];
     //2000 feet
-    if( distance > 2000){
+    if( distance > 2600){
         UIAlertView* alert = [[UIAlertView alloc]initWithTitle:nil message:NSLocalizedString(@"In store credit", nil) delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         [alert show];
         return;
