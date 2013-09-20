@@ -845,8 +845,8 @@ function renderOfferDetail(offer) {
   var local = getDisplayLocation(offer.locations);
   if (local != 'undefined') {
     html += '<a href="' + generateMapUrl(offer.merchantName, local) + '" style="margin-right:10%;"><img class="website-img" src="images/ic_map@2x.png" />' + '&nbsp;' + offer.dist + ' mi </a>';
-    html += '<a href="' + offer.merchantUrl + '"><img class="website-img" src="images/ic_web@2x.png" style="margin-top:3px;"/></a>';
-    html += '<a href="tel:' + local.phoneNumber + '"><img class="website-img" src="images/ic_phone@2x.png" style="margin-top:3px;" /></a>';
+    html += '<a href="' + offer.merchantUrl + '"><img class="website-img" src="images/ic_web@2x.png" style="margin-top:1px;"/></a>';
+    html += '<a href="tel:' + local.phoneNumber + '"><img class="website-img" src="images/ic_phone@2x.png" style="margin-top:1px;" /></a>';
   } else {
     html += '<a href="' + offer.merchantUrl + '"><img class="website-img" src="images/ic_web@2x.png" /></a>';
   }
@@ -875,8 +875,8 @@ function renderOfferDetail(offer) {
     html += '<div id="share-login-div" style="display:none;">';
     html += '<input id="share-btn" name="share" type="button" class="btn grd3 botm-position" value="Give To Friends" />';
     html += '</div>';
-    html += '<div id="share-fb-div">'
-    html += '<input id="share-btn-fb" name="share" type="button" class="fb-share" value="Connect with Facebook to share" />';
+    html += '<div id="share-fb-div" style="text-align:center;">'
+    html += '<input id="share-btn-fb" name="share" type="button" class="fb-share" value="        Connect with Facebook to share" />';
     html += '<div class="crt">';
     html += '<p style="font-size:10px;">We use Facebook to make it easy for you to store, redeem and share gifts.  We will never post on Facebook with your permission.</p>';
     html += '</div>';

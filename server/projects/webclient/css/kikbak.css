@@ -309,7 +309,7 @@ input:focus, textarea:focus {
 }
 .image-add {
     float: left;
-    height: 250px;
+    height: 290px;
     overflow: hidden;
     position: relative;
     width: 100%;
@@ -354,9 +354,9 @@ p.msg {
     color: rgb(255,255,255);
     height: 40px;
     margin-left: 4%;
-    width: 92%;
-    font-size: 16px;
-    text-align: right;
+    width: 298px;
+    font-size: 17px;
+    text-align: center;
 }
 .camicon {
     left: 0;
@@ -399,7 +399,7 @@ p.msg {
 .image-add h3 {
     bottom: 30%;
     color: #fff;
-    font-size: 24px;
+    font-size: 26px;
     font-weight: normal;
     left: 2%;
     position: absolute;
