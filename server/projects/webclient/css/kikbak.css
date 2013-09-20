@@ -353,10 +353,8 @@ p.msg {
     background: url('../images/btn_facebook.png');
     color: rgb(255,255,255);
     height: 40px;
-    margin-left: 4%;
     width: 298px;
-    font-size: 17px;
-    text-align: center;
+    font-size: 16px;
 }
 .camicon {
     left: 0;
@@ -1458,6 +1456,9 @@ to {
     .popin .cntnt {
         height: 357px;
     }
+    .image-add {
+        height: 250px;
+    }
     .image-add h3.post {
         bottom: 47%;
     }
@@ -1559,7 +1560,7 @@ to {
 
 @media screen and (max-height: 360px) {
     .image-add {
-        height: 170px;
+        height: 166px;
     }
     .image-add h2 {
         display: none;
@@ -1588,11 +1589,11 @@ to {
         font-size: 16px;
     }
     .gv h2 {
-        font-size: 18px;
+        font-size: 22px;
         margin-top: 0;
     }
     .crt h2 {
-        font-size: 18px;
+        font-size: 22px;
     }
     .gv h4, .crt h4 {
         font-size: 12px;
@@ -1607,5 +1608,8 @@ to {
     .btn {
         padding: 0 2%;
         font-size: 18px;
+    }
+    .opt-icon a {
+        font-size: 16px;
     }
 }

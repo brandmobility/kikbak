@@ -856,13 +856,13 @@ function renderOfferDetail(offer) {
   html += '</div>';
   html += '<div class="img-botm-patrn"></div>';
   html += '<div class="gv">';
-  html += '<h2><img src="images/ic_gift@2x.png" /> ';
-  html += 'Give' + offer.giftDesc + '</h2>';
+  html += '<h2><img src="images/ic_gift@2x.png" />';
+  html += 'Give ' + offer.giftDesc + '</h2>';
   html += '<h4>' + offer.giftDetailedDesc + '</h4>';
   html += '</div>';
   html += '<div class="crt">';
   html += '<h2><img width="19px" src="images/ic_give_trophy.png" /> ';
-  html += 'Get' + offer.kikbakDesc + '</h2>';
+  html += 'Get ' + offer.kikbakDesc + '</h2>';
   html += '<h4>' + offer.kikbakDetailedDesc + '</h4>';
   html += '</div>';
   html += '<div class="crt" style="margin:0;">';
@@ -876,7 +876,7 @@ function renderOfferDetail(offer) {
     html += '<input id="share-btn" name="share" type="button" class="btn grd3 botm-position" value="Give To Friends" />';
     html += '</div>';
     html += '<div id="share-fb-div" style="text-align:center;">'
-    html += '<input id="share-btn-fb" name="share" type="button" class="fb-share" value="        Connect with Facebook to share" />';
+    html += '<input id="share-btn-fb" name="share" type="button" class="fb-share" value="         Connect with Facebook to share" />';
     html += '<div class="crt">';
     html += '<p style="font-size:10px;">We use Facebook to make it easy for you to store, redeem and share gifts.  We will never post on Facebook with your permission.</p>';
     html += '</div>';
