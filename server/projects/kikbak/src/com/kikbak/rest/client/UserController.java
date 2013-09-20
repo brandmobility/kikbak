@@ -31,6 +31,7 @@ import com.kikbak.jaxb.register.RegisterUserResponseStatus;
 import com.kikbak.jaxb.register.UserIdType;
 import com.kikbak.jaxb.register.UserType;
 import com.kikbak.jaxb.statustype.SuccessStatus;
+import com.kikbak.jaxb.userlocation.UserLocationType;
 
 @Controller
 @RequestMapping("/user")
@@ -136,13 +137,29 @@ public class UserController extends AbstractController {
             return null;
         }
     }
+    
+    @RequestMapping(value = "/hasoffer/{longitude}/{latitude}", method = RequestMethod.OPTIONS)
+    public HasUserOffersResponse hasOffersRequestOptions(@PathVariable("longitude") int longitude, @PathVariable("latitude") int latitude,
+    		final HttpServletResponse httpResponse) {
+        httpResponse.addHeader("Access-Control-Allow-Origin", "*");
+        httpResponse.addHeader("Access-Control-Allow-Methods", "GET");
+        httpResponse.addHeader("Access-Control-Allow-Headers", "Content-Type");
+        return null;
+    }
 
-    @RequestMapping(value = "/hasoffer", method = RequestMethod.POST)
-    public HasUserOffersResponse hasOffersRequest(@RequestBody GetUserOffersRequest request,
-            final HttpServletResponse httpResponse) {
+    @RequestMapping(value = "/hasoffer/{longitude}/{latitude}", method = RequestMethod.GET)
+    public HasUserOffersResponse hasOffersRequest(@PathVariable("longitude") int longitude, @PathVariable("latitude") int latitude,
+    		final HttpServletResponse httpResponse) {
         try {
+            httpResponse.addHeader("Access-Control-Allow-Origin", "*");
+            httpResponse.addHeader("Access-Control-Allow-Methods", "GET");
+            httpResponse.addHeader("Access-Control-Allow-Headers", "Content-Type");
+            
             HasUserOffersResponse response = new HasUserOffersResponse();
-            Collection<ClientOfferType> offers = userService.hasOffers(request.getUserLocation());
+            UserLocationType location = new UserLocationType();
+            location.setLatitude(latitude / 10000000.0);
+            location.setLongitude(longitude / 10000000.0);
+            Collection<ClientOfferType> offers = userService.hasOffers(location);
             if (offers.isEmpty()) {
             	response.setHasOffer(false);
             	return response;

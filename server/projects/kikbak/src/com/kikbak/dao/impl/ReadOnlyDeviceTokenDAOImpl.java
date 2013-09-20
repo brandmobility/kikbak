@@ -27,6 +27,12 @@ public class ReadOnlyDeviceTokenDAOImpl extends ReadOnlyGenericDAOImpl<Devicetok
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public Collection<Devicetoken> listDeviceTokens(Collection<Long> userIds) {
+        return listByCriteria(Restrictions.in("userId", userIds));
+    }
+
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public Collection<Devicetoken> listFriendsDeviceTokens(Long userId) {
         Session session = sessionFactory.getCurrentSession();
 

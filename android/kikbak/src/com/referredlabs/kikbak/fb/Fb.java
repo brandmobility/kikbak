@@ -12,6 +12,6 @@ public class Fb {
   };
 
   public static Uri getFriendPhotoUri(long friendId) {
-    return Uri.parse("https://graph.facebook.com/" + friendId + "/picture?type=square");
+    return Uri.parse("https://graph.facebook.com/" + friendId + "/picture?width=200&height=200");
   }
 }

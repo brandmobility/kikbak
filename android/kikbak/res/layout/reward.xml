@@ -108,6 +108,7 @@
                 android:paddingLeft="1.5dp"
                 android:paddingRight="5dp"
                 android:paddingTop="1.5dp"
+                android:scaleType="centerCrop"
                 app:border_color="#cacaca"
                 app:border_width="1dip"
                 app:corner_radius="6dip" />

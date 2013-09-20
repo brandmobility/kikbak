@@ -16,6 +16,8 @@ import com.kikbak.dto.Shared;
 public class ReadOnlySharedDAOImpl extends ReadOnlyGenericDAOImpl<Shared, Long> implements ReadOnlySharedDAO{
 
     static final String SHARES_FOR_NEW_GIFTS = "select * from shared where "
+            // not self shared
+            + "user_id != :userId AND "
             // offer is still active
             + "offer_id in (select id from offer where begin_date < now() and end_date > now()) AND "
             // user has not redeemed that gift yet
@@ -23,7 +25,7 @@ public class ReadOnlySharedDAOImpl extends ReadOnlyGenericDAOImpl<Shared, Long> 
             // user is actually a friend of person who shared
             + "user_id in (select user2friend.user_id from user,user2friend where user.id = :userId and user.facebook_id = user2friend.facebook_friend_id) AND "
             // gift was not created yet
-            + "id in (select shared.id from shared left join allocatedgift on shared.offer_id = allocatedgift.offer_id and shared.user_id = allocatedgift.friend_user_id where allocatedgift.offer_id is null) "
+            + "id in (select shared.id from shared left join allocatedgift on :userId = allocatedgift.user_id and shared.offer_id = allocatedgift.offer_id and shared.user_id = allocatedgift.friend_user_id where allocatedgift.offer_id is null and shared.user_id != :userId) "
             // then group to filter multiple shares
             + "group by offer_id, user_id";
 
