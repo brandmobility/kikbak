@@ -12,8 +12,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -92,25 +90,6 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
     iconBar.setPhone(Long.toString(nearest.get().phoneNumber));
     iconBar.setLocation(nearest);
   }
-
-  // TO BEREMOVED
-  // ---begin---
-  
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    MenuItem item = menu.add("spa");
-    return super.onCreateOptionsMenu(menu);
-  }
-
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    onPhotoTaken();
-    mOffer.giveImageUrl = "http://m.kikbak.me/images/serenity_spa_user.png";
-    Picasso.with(this).load(Uri.parse(mOffer.giveImageUrl)).into(mImage);
-    return super.onOptionsItemSelected(item);
-  }
-
-  // ---end---
 
   @Override
   public void onClick(View v) {

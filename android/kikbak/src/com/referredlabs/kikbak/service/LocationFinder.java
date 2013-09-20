@@ -1,16 +1,16 @@
 
 package com.referredlabs.kikbak.service;
 
+import java.util.List;
+
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
-import com.referredlabs.kikbak.C;
+import com.referredlabs.kikbak.D;
 import com.referredlabs.kikbak.Kikbak;
-
-import java.util.List;
 
 public class LocationFinder implements LocationListener {
 
@@ -71,8 +71,8 @@ public class LocationFinder implements LocationListener {
       }
     }
 
-    if (C.USE_FIXED_LOCATION)
-      return C.FIXED_LOCATION;
+    if (D.USE_FIXED_LOCATION)
+      return D.FIXED_LOCATION;
 
     return bestLocation;
   }
@@ -135,10 +135,9 @@ public class LocationFinder implements LocationListener {
 
   @Override
   public void onLocationChanged(Location location) {
-    if (C.USE_FIXED_LOCATION)
-      location = C.FIXED_LOCATION;
+    if (D.USE_FIXED_LOCATION)
+      location = D.FIXED_LOCATION;
 
-    android.util.Log.d("MMM", "onLocationChanged:" + location);
     if (isBetterLocation(location, mBestLocation)) {
       mBestLocation = location;
       mListener.onLocationUpdated(location);
@@ -148,19 +147,15 @@ public class LocationFinder implements LocationListener {
   @Override
   public void onStatusChanged(String provider, int status, Bundle extras) {
     // TODO Auto-generated method stub
-    android.util.Log.d("MMM", "onStatusChanged:" + status);
-
   }
 
   @Override
   public void onProviderEnabled(String provider) {
     // TODO Auto-generated method stub
-    android.util.Log.d("MMM", "onProviderEnabled:" + provider);
   }
 
   @Override
   public void onProviderDisabled(String provider) {
     // TODO Auto-generated method stub
-    android.util.Log.d("MMM", "onProviderDisabled:" + provider);
   }
 }

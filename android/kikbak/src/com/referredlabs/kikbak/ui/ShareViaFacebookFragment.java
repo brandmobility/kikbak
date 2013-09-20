@@ -164,7 +164,6 @@ public class ShareViaFacebookFragment extends SharingDialog {
     @Override
     protected void onFailed(Exception e) {
       dismiss();
-      android.util.Log.w("MMM", e.getMessage(), e);
       FlurryAgent.onError(Log.E_PUBLISH_STORY, e.getMessage(), Log.CLASS_NETWORK);
       mListener.onShareFailed();
     }

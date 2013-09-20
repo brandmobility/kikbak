@@ -21,6 +21,7 @@ import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ClientOfferType;
 import com.referredlabs.kikbak.data.MerchantLocationType;
 import com.referredlabs.kikbak.utils.Nearest;
+import com.referredlabs.kikbak.utils.Register;
 
 public class FbObjectApi {
 
@@ -39,7 +40,6 @@ public class FbObjectApi {
         publishStoryImpl(session, offer, landingPage, imageUrl, userMessage, code);
         return;
       } catch (IOException e) {
-        android.util.Log.w("MMM", "publish story failed ");
         exception = e;
       }
     }
@@ -96,7 +96,8 @@ public class FbObjectApi {
       Nearest nearest = new Nearest(offer.locations);
       if (nearest.getDistance() < C.CLOSE_TO_STORE_DISTANCE) {
         MerchantLocationType loc = nearest.get();
-        String secondLine = ctx.getString(R.string.facebook_story_second_line_fmt,
+        String who = Register.getInstance().getFirstName();
+        String secondLine = ctx.getString(R.string.facebook_story_second_line_fmt, who,
             offer.merchantName, loc.address1, loc.city, loc.state);
         data.put("second_line", secondLine);
       }
@@ -128,11 +129,13 @@ public class FbObjectApi {
 
   private static String getLocationString(ClientOfferType offer) {
     String result = null;
+    /*
     Nearest nearest = new Nearest(offer.locations);
     if (nearest.getDistance() < C.IN_STORE_DISTANCE) {
       // FIXME
       // result = "http://young-springs-3453.herokuapp.com/coupon.html?loc=3";
     }
+    */
     return result;
   }
 

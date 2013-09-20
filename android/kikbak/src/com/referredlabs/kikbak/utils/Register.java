@@ -13,7 +13,8 @@ public class Register {
   private static final String REG = "registration";
   private static final String KEY_IS_REGISTERED = "is_registered";
   private static final String KEY_USER_ID = "user_id";
-  private static final String KEY_USER_NAME = "user_name";
+  private static final String KEY_FIRST_NAME = "first_name";
+  private static final String KEY_FULL_NAME = "full_name";
   private static Register sInstance;
 
   private Context mContext;
@@ -39,15 +40,20 @@ public class Register {
     return mPref.getLong(KEY_USER_ID, -1);
   }
 
-  public String getUserName() {
-    return mPref.getString(KEY_USER_NAME, "");
+  public String getFirstName() {
+    return mPref.getString(KEY_FIRST_NAME, "");
   }
 
-  public void registerUser(long userId, String userName) {
+  public String getFullName() {
+    return mPref.getString(KEY_FULL_NAME, "");
+  }
+
+  public void registerUser(long userId, String firstName, String fullName) {
     Editor editor = mPref.edit();
     editor.putBoolean(KEY_IS_REGISTERED, true);
     editor.putLong(KEY_USER_ID, userId);
-    editor.putString(KEY_USER_NAME, userName);
+    editor.putString(KEY_FIRST_NAME, firstName);
+    editor.putString(KEY_FULL_NAME, fullName);
     editor.commit();
   }
 
