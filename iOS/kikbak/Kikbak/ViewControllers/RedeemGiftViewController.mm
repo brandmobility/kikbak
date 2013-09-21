@@ -367,10 +367,7 @@
                                                                                longitude:self.location.longitude.doubleValue]];
         //2000 feet
         if( distance > 2600){
-            NSString* formatted = [NSString stringWithFormat:@"distance to store, %f", distance];
-            CLLocation* currentLocation = ((AppDelegate*)[UIApplication sharedApplication].delegate).locationMgr.currentLocation;
-            NSString* msg = [NSString stringWithFormat:@"lat: %@\nlong: %@\nYour lat: %f\nYour long:%f", self.location.latitude, self.location.longitude, currentLocation.coordinate.latitude, currentLocation.coordinate.longitude];
-            UIAlertView* alert = [[UIAlertView alloc]initWithTitle:formatted message:msg delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+            UIAlertView* alert = [[UIAlertView alloc]initWithTitle:nil message:NSLocalizedString(@"In store redeem", nil) delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
             [alert show];
             return;
         }
