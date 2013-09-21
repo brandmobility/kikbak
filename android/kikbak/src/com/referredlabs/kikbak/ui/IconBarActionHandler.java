@@ -8,6 +8,8 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 
+import com.flurry.android.FlurryAgent;
+import com.referredlabs.kikbak.log.Log;
 import com.referredlabs.kikbak.ui.IconBarHelper.IconBarListener;
 import com.referredlabs.kikbak.utils.Nearest;
 
@@ -47,7 +49,7 @@ public class IconBarActionHandler implements IconBarListener {
     try {
       mActivity.startActivity(intent);
     } catch (ActivityNotFoundException e) {
-      android.util.Log.d("MMM", "Can not start activity for:" + intent);
+      FlurryAgent.onError(Log.E_START_ACTIVITY, e.toString(), Log.CLASS_LOCAL);
     }
   }
 

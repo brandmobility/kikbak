@@ -23,7 +23,8 @@ import android.widget.ViewFlipper;
 
 import com.flurry.android.FlurryAgent;
 import com.google.gson.Gson;
-import com.referredlabs.kikbak.C;
+import com.referredlabs.kikbak.BuildConfig;
+import com.referredlabs.kikbak.D;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.AvailableCreditType;
 import com.referredlabs.kikbak.data.GiftType;
@@ -129,16 +130,21 @@ public class MainActivity extends KikbakActivity implements ActionBar.TabListene
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.main, menu);
+    if (BuildConfig.DEBUG) {
+      getMenuInflater().inflate(R.menu.debug, menu);
+    }
     return true;
   }
 
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
-    MenuItem item = menu.findItem(R.id.action_fixed_location);
-    item.setChecked(C.USE_FIXED_LOCATION);
+    MenuItem item = menu.findItem(R.id.action_debug_fixed_location);
+    if (item != null)
+      item.setChecked(D.USE_FIXED_LOCATION);
 
-    item = menu.findItem(R.id.action_bypass_geo_fence);
-    item.setChecked(C.BYPASS_STORE_CHECK);
+    item = menu.findItem(R.id.action_debug_bypass_geo_fence);
+    if (item != null)
+      item.setChecked(D.BYPASS_STORE_CHECK);
 
     return super.onPrepareOptionsMenu(menu);
   }
@@ -149,37 +155,31 @@ public class MainActivity extends KikbakActivity implements ActionBar.TabListene
       case R.id.action_suggest:
         onSuggestClicked();
         break;
-      case R.id.action_settings:
-        break;
 
-      case R.id.action_login:
-        startActivity(new Intent(this, LoginActivity.class));
-        return true;
-
-      case R.id.action_clear_registration:
+      case R.id.action_debug_clear_registration:
         Register.getInstance().clear();
         GcmHelper.getInstance().clear();
         finish();
         return true;
 
-      case R.id.action_gcm:
-        actionGcm();
+      case R.id.action_debug_gcm:
+        debugGcm();
         return true;
 
-      case R.id.action_fixed_location:
-        C.USE_FIXED_LOCATION = !C.USE_FIXED_LOCATION;
-        item.setChecked(C.USE_FIXED_LOCATION);
+      case R.id.action_debug_fixed_location:
+        D.USE_FIXED_LOCATION = !D.USE_FIXED_LOCATION;
+        item.setChecked(D.USE_FIXED_LOCATION);
         DataStore.getInstance().refreshRewards();
         DataStore.getInstance().refreshOffers();
         return true;
 
-      case R.id.action_bypass_geo_fence:
-        C.BYPASS_STORE_CHECK = !C.BYPASS_STORE_CHECK;
-        item.setChecked(C.BYPASS_STORE_CHECK);
+      case R.id.action_debug_bypass_geo_fence:
+        D.BYPASS_STORE_CHECK = !D.BYPASS_STORE_CHECK;
+        item.setChecked(D.BYPASS_STORE_CHECK);
         return true;
 
-      case R.id.action_who:
-        actionWhoAmI();
+      case R.id.action_debug_who:
+        debugWhoAmI();
         return true;
 
     }
@@ -300,7 +300,7 @@ public class MainActivity extends KikbakActivity implements ActionBar.TabListene
       frag.setUserLocation(location);
   }
 
-  private void actionGcm() {
+  private void debugGcm() {
     GcmHelper helper = GcmHelper.getInstance();
     String regId = helper.getRegistrationId();
     if (regId != null) {
@@ -310,8 +310,8 @@ public class MainActivity extends KikbakActivity implements ActionBar.TabListene
     }
   }
 
-  private void actionWhoAmI() {
-    String user = Register.getInstance().getUserName();
+  private void debugWhoAmI() {
+    String user = Register.getInstance().getFullName();
     long id = Register.getInstance().getUserId();
     Toast.makeText(this, user + " (" + id + ")", Toast.LENGTH_LONG).show();
   }

@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.flurry.android.FlurryAgent;
 import com.google.gson.Gson;
 import com.referredlabs.kikbak.C;
+import com.referredlabs.kikbak.D;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.GiftRedemptionType;
 import com.referredlabs.kikbak.data.GiftType;
@@ -180,7 +181,7 @@ public class RedeemGiftFragment extends KikbakFragment implements OnClickListene
 
   private boolean isInStore() {
     Nearest nearest = new Nearest(mGift.merchant.locations);
-    return C.BYPASS_STORE_CHECK || nearest.getDistance() < C.IN_STORE_DISTANCE;
+    return D.BYPASS_STORE_CHECK || nearest.getDistance() < C.IN_STORE_DISTANCE;
   }
 
   private void showNotInStore() {

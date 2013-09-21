@@ -19,15 +19,13 @@
         kikbak:typeface="Roboto-Light.ttf" />
 
     <LinearLayout
-        android:id="@+id/success_frame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/success_gift_background"
+        android:background="#86d18b"
         android:gravity="center"
         android:orientation="vertical" >
 
         <com.referredlabs.kikbak.widget.TtfTextView
-            android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -38,11 +36,10 @@
             kikbak:typeface="Roboto-Bold.ttf" />
 
         <com.referredlabs.kikbak.widget.TtfTextView
-            android:id="@+id/redeem_note_first"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/redeem_success_note_first_gift"
+            android:text="@string/redeem_gift_success_note_first"
             android:textColor="#135317"
             android:textSize="17dp"
             kikbak:typeface="Roboto-Regular.ttf" />
@@ -100,7 +97,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:text="@string/redeem_success_share_note"
+        android:text="@string/redeem_gift_success_share_note"
         android:textColor="#3a3a3a"
         android:textSize="17dp"
         kikbak:typeface="Roboto-Regular.ttf" />
@@ -114,7 +111,7 @@
         android:layout_marginRight="14dp"
         android:layout_marginTop="14dp"
         android:background="@drawable/btn_blue"
-        android:text="@string/give_to_friends"
+        android:text="@string/redeem_gift_success_share_button"
         android:textColor="@android:color/white"
         android:textSize="21dp"
         kikbak:typeface="Roboto-Light.ttf" />

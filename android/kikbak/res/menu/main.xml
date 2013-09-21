@@ -3,41 +3,8 @@
 
     <item
         android:id="@+id/action_suggest"
-        android:orderInCategory="99"
+        android:orderInCategory="101"
         android:title="@string/action_suggest"
         compat:showAsAction="always|withText"/>
-    <item
-        android:id="@+id/action_fixed_location"
-        android:checkable="true"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="use fixed location"/>
-    <item
-        android:id="@+id/action_bypass_geo_fence"
-        android:checkable="true"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="bypass geo fence"
-        android:visible="true"/>
-    <item
-        android:id="@+id/action_login"
-        android:orderInCategory="101"
-        android:showAsAction="ifRoom"
-        android:title="@string/action_login"/>
-    <item
-        android:id="@+id/action_clear_registration"
-        android:orderInCategory="102"
-        android:showAsAction="never"
-        android:title="clear registration"/>
-    <item
-        android:id="@+id/action_gcm"
-        android:orderInCategory="103"
-        android:showAsAction="never"
-        android:title="cloud messaging"/>
-    <item
-        android:id="@+id/action_who"
-        android:orderInCategory="104"
-        android:showAsAction="never"
-        android:title="who am I"/>
 
 </menu>

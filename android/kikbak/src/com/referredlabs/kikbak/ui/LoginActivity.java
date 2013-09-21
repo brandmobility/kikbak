@@ -138,8 +138,9 @@ public class LoginActivity extends KikbakActivity implements
         throw new StatusException(resp.status);
       }
 
-      String userName = mFacebookUser.getName();
-      Register.getInstance().registerUser(resp.userId.userId, userName);
+      String firstName = mFacebookUser.getFirstName();
+      String fullName = mFacebookUser.getName();
+      Register.getInstance().registerUser(resp.userId.userId, firstName, fullName);
     }
 
     @Override
