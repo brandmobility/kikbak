@@ -449,9 +449,9 @@ h3 {
 </c:choose>
     <div id="fb-root"></div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script>
         if (typeof localStorage !== 'undefined') {
             localStorage.friendUserId = ${shareInfo.friendUserId};
@@ -471,7 +471,8 @@ h3 {
         if (!window.mobilecheck()) {
             $('#container').css('background', 'url(${gift.defaultGiveImageUrl})');
             $('#container').css('background-size', '100%');
-            $('#header h1').css('background', 'url(${gift.merchant.imageUrl})');
+            $('#header h1').css('background', 'url(${merchantUrl})');
+            $('#header h1').css('background-size', '100%');
         }
     </script>
     <script src="js/landing.js"></script>

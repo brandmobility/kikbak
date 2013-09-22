@@ -343,7 +343,8 @@ p.msg {
     z-index: 999;
 }
 .fb-share {
-    background: url('../images/btn_facebook.png');
+    background: url('../images/btn_facebook@2x.png');
+    background-size: 100%;
     color: rgb(255,255,255);
     height: 40px;
     width: 298px;
@@ -611,15 +612,16 @@ p.msg {
     color: #247de9
 }
 .btn {
-    border: 1px solid #175db4;
     color: #fff;
     font-size: 17px;
     margin: 1% 2%;
     padding: 2%;
     text-align: center;
     width: 95.5%;
+    height: 40px;
     font-weight: bold;
     text-shadow: -1px -1px 1px #204d78;
+    border-radius: 5px;
     filter: dropshadow(color=#050505,offx=-1,offy=-1)
 }
 .botm-position {
@@ -934,27 +936,24 @@ p.msg {
 
 .cls-popup h3 {
     color: #3A3A3A;
-    float: left;
-    font-size: 13px;
-    font-weight: bold;;
+    font-size: 20px;
     margin: 2% 10%;
     text-align: center;
-    width: 80%;
 }
 .cls-popup h1 {
     color: #3A3A3A;
-    float: left;
-    font-size: 22px;
+    font-size: 30px;
     margin: 2% 7%;
     text-align: center;
-    width: 85%;
 }
 .cls-popup p {
     float: left;
     width: 100%;
     color: #3a3a3a;
-    font-size: 23px;
+    font-size: 16px;
     text-align: center;
+    margin-top:28px;
+    margin-bottom:28px;
 }
 .brd {
     border: 2px solid #333;
@@ -1372,9 +1371,9 @@ h1.pg-hedng {
     background: url(../images/btn-lit.png) center 20% no-repeat;
 }
 .location-sel {
-    width: 170px;
-    height: 25px;
-    font-size: 12;
+    width: 95%;
+    height: 30px;
+    font-size: 15px;
     margin-top: 10px;
 }
 .spinner {
@@ -1394,6 +1393,19 @@ h1.pg-hedng {
     -webkit-animation-iteration-count: infinite;
     -webkit-animation-timing-function: linear;
 }
+.share-btn {
+    width: 95%;
+    height: 40px;
+    border-radius: 5px;
+    border:0;
+}
+
+.sep {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color:rgb(110,110,110);
+    font-weight: lighter;
+}
 
 @-webkit-keyframes spinnerRotate {
 from {
@@ -1404,7 +1416,7 @@ to {
 }
 }
 
-@media screen and (max-device-height: 500px) {
+@media screen and (max-aspect-ratio: 1/1) and (max-height: 500px) {
     p.msg {
         display: none;
     }
@@ -1544,16 +1556,10 @@ to {
 
 }
 
-@media screen and (max-device-height: 450px) {
+@media screen and (max-aspect-ratio: 1/1) and (max-height: 450px) {
 
     .image-add {
-        height: 175px;
-    }
-}
-
-@media screen and (max-device-height: 360px) {
-    .image-add {
-        height: 166px;
+        height: 168px;
     }
     .image-add h2 {
         display: none;

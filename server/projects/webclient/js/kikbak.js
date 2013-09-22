@@ -381,11 +381,11 @@ function renderOffer(offer) {
   
   var local = getDisplayLocation(offer.locations);
   if (local != 'undefined') {
-    html += '<div class="opt-icon"><a href="' + generateMapUrl(offer.merchantName, local) + '"><img src="images/ic_map@2x.png">' + '&nbsp;' + offer.dist + ' mi</a>';
-    html += '<a href="' + offer.merchantUrl + '"><img src="images/ic_web@2x.png" /></a>';
-    html += '<a href="tel:' + local.phoneNumber + '"><img src="images/ic_phone@2x.png" /></a>';
+    html += '<div class="opt-icon"><a href="' + generateMapUrl(offer.merchantName, local) + '"><img class="website-img" src="images/ic_map@2x.png">' + '&nbsp;' + offer.dist + ' mi</a>';
+    html += '<a href="' + offer.merchantUrl + '"><img class="website-img" src="images/ic_web@2x.png" /></a>';
+    html += '<a href="tel:' + local.phoneNumber + '"><img class="website-img" src="images/ic_phone@2x.png" /></a>';
   } else {
-    html += '<a href="' + offer.merchantUrl + '"><img src="images/ic_web@2x.png" /></a>';
+    html += '<a href="' + offer.merchantUrl + '"><img class="website-img" src="images/ic_web@2x.png" /></a>';
   }
   html += '</div>';
   html += '<div class="ribn"><img src="images/ribncorn.png" class="crn">';
@@ -708,11 +708,11 @@ function renderRedeem(gifts, credits) {
   html += '<h3>' + m.name + '</h3><div class="opt-icon">';
   var local = getDisplayLocation(m.locations);
   if (local != 'undefined') {
-    html += '<a href="tel:' + local.phoneNumber + '"><img src="images/ic_phone@2x.png"  /></a>';
-    html += '<a href="' + m.url + '"><img src="images/ic_web@2x.png" /></a>';
-    html += '<a href="' + generateMapUrl(m.name, local) + '><img src="images/ic_map@2x.png" />' + '&nbsp;' + computeDistance(local) + '</a>';
+    html += '<a href="tel:' + local.phoneNumber + '"><img class="website-img" src="images/ic_phone@2x.png"  /></a>';
+    html += '<a href="' + m.url + '"><img class="website-img" src="images/ic_web@2x.png" /></a>';
+    html += '<a href="' + generateMapUrl(m.name, local) + '><img class="website-img" src="images/ic_map@2x.png" />' + '&nbsp;' + computeDistance(local) + '</a>';
   } else {
-    html += '<a href="' + m.url + '"><img src="images/ic_web@2x.png" /></a>';
+    html += '<a href="' + m.url + '"><img class="website-img" src="images/ic_web@2x.png" /></a>';
   }
 
   var valid = false;
@@ -870,10 +870,10 @@ function renderOfferDetail(offer) {
   html += '</div>';
   var userId = s.userId;
   if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
-    html += '<input id="share-btn" name="share" type="button" class="btn grd3 botm-position" value="Give To Friends" />';
+    html += '<input id="share-btn" name="share" type="button" class="btn grd3 botm-position" value="Give to friends" />';
   } else {
     html += '<div id="share-login-div" style="display:none;">';
-    html += '<input id="share-btn" name="share" type="button" class="btn grd3 botm-position" value="Give To Friends" />';
+    html += '<input id="share-btn" name="share" type="button" class="btn grd3 botm-position" value="Give to friends" />';
     html += '</div>';
     html += '<div id="share-fb-div" style="text-align:center;">'
     html += '<input id="share-btn-fb" name="share" type="button" class="fb-share" value="         Connect with Facebook to share" />';
@@ -1231,10 +1231,10 @@ function renderRedeemGiftDetail(data) {
   var local = getDisplayLocation(gift.merchant.locations);
   if (local != 'undefined') {
     html += '<a href="' + generateMapUrl(gift.merchant.name, local) + '"><img src="images/ic_map@2x.png" />' + '&nbsp;' + computeDistance(local) + '</a>';
-    html += '<a href="' + gift.merchant.url + '"><img src="images/ic_web@2x.png" /></a>';
-    html += '<a href="tel:' + local.phoneNumber + '"><img src="images/ic_phone@2x.png" /></a>';
+    html += '<a href="' + gift.merchant.url + '"><img class="website-img" src="images/ic_web@2x.png" /></a>';
+    html += '<a href="tel:' + local.phoneNumber + '"><img class="website-img" src="images/ic_phone@2x.png" /></a>';
   } else {
-    html += '<a href="' + gift.merchant.url + '"><img src="images/ic_web@2x.png" /></a>';
+    html += '<a href="' + gift.merchant.url + '"><img class="website-img" src="images/ic_web@2x.png" /></a>';
   }
   html += '</div></div>';
   html += '<div class="gvrdm">';
