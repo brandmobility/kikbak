@@ -76,6 +76,7 @@ $(document).ready(function() {
         });
         $('#show-picture-suggest').attr('src', imgUrl);
         $('#add-photo-suggest').hide();
+
       } catch (e) {
         try {
           var fileReader = new FileReader();
@@ -787,6 +788,61 @@ function getOfferDetail() {
           icon.removeClass('camicon');
           icon.addClass('smallcamicon');
           $('#take-photo-header').hide();
+
+          $('#back-btn').unbind();
+          $('#heading').html('Resize image');
+          $('#offer-details-view').hide();
+          $('#crop-image-div').show();
+          var cropImage = $('#crop-image-div .tkpoto img');
+          cropImage.attr('src', imgUrl);
+
+          var width = window.innerWidth;
+          var jcrop_api, x, y, w, h;
+          var options = {
+            bgColor : 'black',
+            bgOpacity : .4,
+            setSelect : [width - 10, width - 10, 10, 10],
+            allowResize : false,
+            allowSelect : false,
+            onChange : function updateCoords(c) {
+              x = c.x;
+              y = c.y;
+              w = c.w;
+              h = c.h;
+            }
+          };
+          cropImage.Jcrop(options, function() {
+            jcrop_api = this;
+          });
+
+          var goback = function() {
+            URL.revokeObjectURL(imgUrl);
+            jcrop_api.destroy();
+            $('#heading').html('Give');
+            $('#offer-details-view').show();
+            $('#crop-image-div').hide();
+            $('#back-btn').unbind();
+            $('#back-btn').click(function(e) {
+              e.preventDefault();
+              s.pageType = 'offer-force';
+              initPage();
+            });
+          };
+
+          $('#back-btn').click(function(e) {
+            e.preventDefault();
+            goback();
+          });
+
+          $('#crop-image').unbind('click');
+          $('#crop-image').click(function() {
+            goback();
+            $('#photo-x').val(x);
+            $('#photo-y').val(y);
+            $('#photo-w').val(w);
+            $('#photo-h').val(h);
+          });
+
         } catch (e) {
           try {
             var fileReader = new FileReader();
@@ -838,7 +894,11 @@ function renderOfferDetail(offer) {
   html += '<div class="add-photo-btn">';
   html += '<h2 id="take-photo-header">Add your own photo</h2>';
   html += '<div class="camicon"><img src="images/camicon.png">';
-  html += '<input name="source" type="file" id="take-picture" class="camicon take-picture" style="height:60px;width:100%;opacity:0;" accept="image/*" /></div>';
+  html += '<input name="source" type="file" id="take-picture" class="camicon take-picture" style="height:60px;width:100%;opacity:0;" accept="image/*" />';
+  html += '<input name="x" id="photo-x" type="hidden" />';
+  html += '<input name="x" id="photo-y" type="hidden" />';
+  html += '<input name="x" id="photo-w" type="hidden" />';
+  html += '<input name="x" id="photo-h" type="hidden" /></div>';
   html += '</div>';
   html += '<h3>' + offer.merchantName + '</h3>';
   html += '<div class="opt-icon">';
@@ -984,83 +1044,30 @@ function shareOfferAfterLogin() {
     } else {
       var req = new FormData();
       var file = $('#take-picture')[0].files[0];
-
-      $('#back-btn').unbind();
-
-      $('#heading').html('Resize image');
-      $('#offer-details-view').hide();
-      $('#crop-image-div').show();
-      var URL = window.webkitURL || window.URL;
-      var imgUrl = URL.createObjectURL(file);
       var cropImage = $('#crop-image-div .tkpoto img');
-      cropImage.attr('src', imgUrl);
-
-      var width = window.innerWidth;
-      var jcrop_api, x, y, w, h;
-      var options = {
-        bgColor : 'black',
-        bgOpacity : .4,
-        setSelect : [width - 10, width - 10, 10, 10],
-        allowResize : false,
-        allowSelect : false,
-        onChange : function updateCoords(c) {
-          x = c.x;
-          y = c.y;
-          w = c.w;
-          h = c.h;
-        }
-      };
-      cropImage.Jcrop(options, function() {
-        jcrop_api = this;
-      });
-
-      var goback = function() {
-        URL.revokeObjectURL(imgUrl);
-        jcrop_api.destroy();
-        $('#heading').html('Give');
-        $('#offer-details-view').show();
-        $('#crop-image-div').hide();
-        $('#back-btn').unbind();
-        $('#back-btn').click(function(e) {
-          e.preventDefault();
-          s.pageType = 'offer-force';
-          initPage();
-        });
-      };
-
-      $('#back-btn').click(function(e) {
-        e.preventDefault();
-        goback();
-      });
-
-      $('#crop-image').unbind('click');
-      $('#crop-image').click(function() {
-        goback();
-        req.append('file', file);
-        req.append('userId', userId);
-        req.append('ios', getBrowserName() === 'Safari');
-        req.append('x', x / parseInt(cropImage.css('width')));
-        req.append('y', y / parseInt(cropImage.css('height')));
-        req.append('w', w / parseInt(cropImage.css('width')));
-        req.append('h', h / parseInt(cropImage.css('height')));
-        $.ajax({
-          url : config.backend + '/s/upload.php',
-          data : req,
-          processData : false,
-          cache : false,
-          contentType : false,
-          dataType : 'json',
-          type : 'POST',
-          success : function(response) {
-            if (response && response.url) {
-              onShareResponse(response.url);
-            }
-          },
-          error : showError
-        });
+      req.append('file', file);
+      req.append('userId', userId);
+      req.append('ios', getBrowserName() === 'Safari');
+      req.append('x', $('#photo-x').val() / parseInt(cropImage.css('width')));
+      req.append('y', $('#photo-y').val() / parseInt(cropImage.css('height')));
+      req.append('w', $('#photo-w').val() / parseInt(cropImage.css('width')));
+      req.append('h', $('#photo-h').val() / parseInt(cropImage.css('height')));
+      $.ajax({
+        url : config.backend + '/s/upload.php',
+        data : req,
+        processData : false,
+        cache : false,
+        contentType : false,
+        dataType : 'json',
+        type : 'POST',
+        success : function(response) {
+          if (response && response.url) {
+            onShareResponse(response.url);
+          }
+        },
+        error : showError
       });
     }
-
 }
 
 function loginFb(share) {
