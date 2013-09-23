@@ -312,10 +312,11 @@ input, textarea {
     height: 380px;
 }
 .image-add img {
-    max-width: 100%
+    max-width: 100%;
 }
 .addimg {
-    width: 100%
+    width: 100%;
+    height: 100%;
 }
 p.msg {
     font-size: 14px;
