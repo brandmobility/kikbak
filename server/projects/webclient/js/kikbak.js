@@ -1142,15 +1142,14 @@ function shareViaSms() {
 }
 
 function shareViaEmail() {
-  $('#spinner h2').html('Waiting');
   doShare(function(code, msg, url, resp) {
+    $('#spinner h2').html('Waiting');
     window.location.href = 'mailto:?content-type=text/html&subject=' + encodeURIComponent(resp.template.subject) 
         + '&body=' + encodeURIComponent(resp.template.body);
   }, 'email');
 }
 
 function shareViaFacebook() {
-  $('#spinner h2').html('Sharing gift');
   doShare(function(code, msg, imageUrl, resp) {
     var fbUrl = resp.template.landingUrl;
     var o = {
