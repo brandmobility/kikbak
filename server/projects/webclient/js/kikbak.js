@@ -870,7 +870,7 @@ function renderOfferDetail(offer) {
   html += '</div>';
   var userId = s.userId;
   if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
-    html += '<input id="share-btn" name="share" type="button" class="btn grd3 botm-position" value="Give to friends" />';
+    html += '<input id="share-btn" name="share" type="button" class="btn grd3 botm-position" style="margin-top:15px;" value="Give to friends" />';
   } else {
     html += '<div id="share-login-div" style="display:none;">';
     html += '<input id="share-btn" name="share" type="button" class="btn grd3 botm-position" value="Give to friends" />';
@@ -995,11 +995,12 @@ function shareOfferAfterLogin() {
       var cropImage = $('#crop-image-div .tkpoto img');
       cropImage.attr('src', imgUrl);
 
+      var width = window.innerWidth;
       var jcrop_api, x, y, w, h;
       var options = {
         bgColor : 'black',
         bgOpacity : .4,
-        setSelect : [260, 300, 60, 100],
+        setSelect : [width - 10, width - 10, 10, 10],
         allowResize : false,
         allowSelect : false,
         onChange : function updateCoords(c) {
