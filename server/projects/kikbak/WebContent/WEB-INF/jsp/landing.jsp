@@ -153,7 +153,7 @@ h3 {
 }
 
 .col-md-4 {
-	width: 27%;
+	width: 70px;
 	float: left;
 }
 
@@ -205,6 +205,7 @@ h3 {
 	background-image: url(img/ribbon-right-bkg.png);
 	background-repeat: repeat-y;
 	background-position: right;
+	padding-left: 0;
 	padding-right: 7px;
 	color: #FFFFFF;
 	text-align: center;
@@ -239,6 +240,15 @@ h3 {
 	margin-top: 5px;
 	position: relative;
 }
+
+.page-header {
+    margin: 10px 0;
+}
+#footer {
+    position: relative;
+    height: 40px;
+    margin: 0;
+}
 </style>
 </c:otherwise>
 </c:choose>
@@ -270,6 +280,7 @@ h3 {
 								</div>
 							</div>
 							<img src="${shareInfo.imageUrl}" width="340px" height="350px" style="margin-top:10px;border-radius:10px;" />
+							<img src="img/blk-shad.png" width="340px" height="350px" style="margin-top:10px;border-radius:10px;position:absolute;top:90px;" />
 							<div class="widget">
 								<div class="span4">
 									<h3 style="padding: 0px; margin: 0px; font-family: HelveticaNeueLTPro-Lt">${gift.merchant.name}</h3>
@@ -290,7 +301,7 @@ h3 {
                                         <c:when test="${not empty location}">
 							<ul class="info">
 								<li style="min-height:20px;">${shareInfo.friendName} was at ${gift.merchant.name}<br />
-											at <strong>${location.address1}, ${location.city}, ${location.state}</strong>
+											<strong>${location.address1}, ${location.city}, ${location.state}</strong>
 								</li>
 							</ul>
                                         </c:when>
@@ -363,12 +374,13 @@ h3 {
             <p style="font-family:HelveticaNeueLTPro-Roman;padding-top:10px;padding-bottom:5px;"><strong>&nbsp;&nbsp;${shareInfo.friendName}</strong> used <strong>Kikbak</strong> to give<br />
             &nbsp;&nbsp;you an exclusive offer for <strong>${gift.merchant.name}.</strong></p>
         </div>
-        <img src="${shareInfo.imageUrl}" width="100%" />
+        <img src="${shareInfo.imageUrl}" width="100%" height="350px" />
+        <img src="img/blk-shad.png" width="100%" height="350px" style="position:absolute;top:67px;" />
             <c:choose>
             <c:when test="${not empty location}">
         <div class="wit-grd-overlay">
             <p style="margin-top:10px">&nbsp;&nbsp;${shareInfo.friendName} was at ${gift.merchant.name}<br />
-            &nbsp;&nbsp;at <strong>${location.address1}, ${location.city}, ${location.state}</strong>
+            &nbsp;&nbsp;<strong>${location.address1}, ${location.city}, ${location.state}</strong>
             </p>
         </div>
             </c:when>
@@ -394,13 +406,13 @@ h3 {
             </div>
             <div class="clearfix"></div>
         </div>
-        <div class="page-header" style="padding-top:10px;margin-top:10px;">
-            <div class="row show-grid" style="margin:0;">
+        <div class="page-header">
+            <div class="row show-grid" style="margin:0;padding-top:10px;">
                 <div class="col-md-4" style="padding-left:10px">
                     <img src="https://graph.facebook.com/${shareInfo.fbFriendId}/picture?type=square" class="img-rounded" />
                 </div>
                 <div class="col-md-8">
-                    <h3 style="font-family:HelveticaNeueLTPro-Lt;font-weight:bold;color:#3a3a3a;font-size:18px;">${shareInfo.friendName}</h3>
+                    <h3 style="color:#3a3a3a;font-size:18px;">${shareInfo.friendName}</h3>
                     <p>${shareInfo.caption}</p>
                 </div>
             </div>
@@ -417,7 +429,7 @@ h3 {
             <div class="clearfix"></div>
             <div id="facebook-div">
             <div class="page-header" style="padding-left:10px;padding-right:10px;text-align:center">
-                <p style="font-size:15px;font-family:HelveticaNeueLTPro-Lt;padding-bottom:10px;">Connect with Facebook to access your gift. </p>
+                <p style="font-size:15px;font-family:HelveticaNeueLTPro-Lt;">Connect with Facebook to access your gift. </p>
                 <a id="loginFb" href="#"><img src="img/facebook-button.png" /></a>
                 <p align="center" style="padding-top:10px;font-family:HelveticaNeueLTPro-Lt;font-size:10px;">
                     We use Facebook to make it easy for you to store,<br />
@@ -434,6 +446,7 @@ h3 {
                 for whenever you’re ready to use it.
                 </p>
             </div>
+            </div>
             <div class="clearfix"></div>
             <div id="footer">
             <div class="pull-left">
@@ -441,6 +454,7 @@ h3 {
             </div>
             <div class="pull-right">
                 <a href="https://kikbak.me" class="rit" style="color:#FFFFFF;">@ Referred Labs, 2013</a>
+            </div>
             </div>
             <div class="clearfix"></div>
         </div>

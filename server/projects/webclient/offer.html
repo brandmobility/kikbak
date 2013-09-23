@@ -48,25 +48,24 @@ to recommend to friends with a special offer</h3></div>
 <span id="share-popup" class="popup" style="display:none;">
 <div class="cls-popup">
 <a href="#" class="cls-btn popup-close-btn"><img src="images/closebtn.png"></a>
-<h3 style="font-size:18px">Share your preferred location?</h3>
+<h3 style="font-size:15px;font-weight:normal;">Share your preferred location?</h3>
 <form id="share-help-form">
   <div style="margin-bottom:15px;" align="center">
-    <input type="text" class="bsnm" name="associateName" placeholder="Associate name">
     <div id="location-sel-div"><select id="location-sel" class="location-sel"></select></div>
     <input type="hidden" name="msg">
     <input type="hidden" name="url">
     <input type="hidden" name="code">
   </div>
   <div id="share-facebook-div" align="center">
-    <a id="share-facebook" class="btn grd3">Post on Facebook</a>
+    <input type="button" id="share-facebook" class="btn grd3 share-btn" value="Post on Facebook"/>
   </div>
   <div id="share-email-div" align="center">
-    <h4 style="margin-top:10px;margin-bottom:10px;">OR</h4>
-    <a id="share-email" class="btn drkgra brd">Share via email</a>
+    <h4 class="sep"><span style="text-decoration:line-through;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>&nbsp; OR &nbsp; <span style="text-decoration:line-through;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span></h4>
+    <input type="button" id="share-email" class="btn drkgra brd share-btn" value="Share via email" />
   </div>
   <div id="share-sms-div" align="center">
-    <h4 style="margin-top:10px;margin-bottom:10px;">OR</h4>
-    <a id="share-sms" class="btn drkgra brd">Share via SMS</a>
+    <h4 class="sep"><span style="text-decoration:line-through;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>&nbsp; OR &nbsp; <span style="text-decoration:line-through;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span></h4>
+    <input type="button" id="share-sms" class="btn drkgra brd share-btn" value="Share via SMS" />
   </div>
 </form>
 </div>
