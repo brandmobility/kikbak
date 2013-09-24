@@ -823,79 +823,73 @@ function getOfferDetail() {
         try {
           var URL = window.webkitURL || window.URL;
           var imgUrl = URL.createObjectURL(file);
-          $('#show-picture').load(function(e) {
-            URL.revokeObjectURL(this.src);
-          });
-          $('#show-picture').attr('src', imgUrl);
-          icon.removeClass('camicon');
-          icon.addClass('smallcamicon');
-          $('#take-photo-header').hide();
+          var images = $('#show-picture');
+          images.load(function(e) {
+            icon.removeClass('camicon');
+            icon.addClass('smallcamicon');
+            $('#take-photo-header').hide();
 
-          $('#back-btn').unbind();
-          $('#heading').html('Resize image');
-          $('#offer-details-view').hide();
-          $('#crop-image-div').show();
-          var cropImage = $('#crop-image-div .tkpoto img');
-          cropImage.attr('src', imgUrl);
-
-          var width = window.innerWidth;
-          var jcrop_api, x, y, w, h;
-          var options = {
-            bgColor : 'black',
-            bgOpacity : .4,
-            setSelect : [width - 10, width - 10, 10, 10],
-            allowResize : false,
-            allowSelect : false,
-            onChange : function updateCoords(c) {
-              x = c.x;
-              y = c.y;
-              w = c.w;
-              h = c.h;
-            }
-          };
-          cropImage.Jcrop(options, function() {
-            jcrop_api = this;
-          });
-
-          var goback = function() {
-            URL.revokeObjectURL(imgUrl);
-            jcrop_api.destroy();
-            $('#heading').html('Give');
-            $('#offer-details-view').show();
-            $('#crop-image-div').hide();
             $('#back-btn').unbind();
+            $('#heading').html('Resize image');
+            $('#offer-details-view').hide();
+            $('#crop-image-div').show();
+            var cropImage = $('#crop-image-div .tkpoto img');
+            cropImage.attr('src', imgUrl);
+
+            var width = window.innerWidth;
+            var jcrop_api, x, y, w, h;
+            var options = {
+              bgColor : 'black',
+              bgOpacity : .4,
+              setSelect : [width - 10, width - 10, 10, 10],
+              allowResize : false,
+              allowSelect : false,
+              onChange : function updateCoords(c) {
+                x = c.x;
+                y = c.y;
+                w = c.w;
+                h = c.h;
+              }
+            };
+            cropImage.Jcrop(options, function() {
+              jcrop_api = this;
+            });
+
+            var goback = function() {
+              URL.revokeObjectURL(imgUrl);
+              jcrop_api.destroy();
+              $('#heading').html('Give');
+              $('#offer-details-view').show();
+              $('#crop-image-div').hide();
+              $('#back-btn').unbind();
+              $('#back-btn').click(function(e) {
+                e.preventDefault();
+                history.pushState({}, 'offer-list', '#offer-list');
+                initPage();
+              });
+            };
+
             $('#back-btn').click(function(e) {
               e.preventDefault();
-              history.pushState({}, 'offer-list', '#offer-list');
-              initPage();
+              goback();
             });
-          };
 
-          $('#back-btn').click(function(e) {
-            e.preventDefault();
-            goback();
-          });
+            $('#crop-image').unbind('click');
+            $('#crop-image').click(function(e) {
+              e.preventDefault();
+              goback();
+              $('#photo-x').val(x);
+              $('#photo-y').val(y);
+              $('#photo-w').val(w);
+              $('#photo-h').val(h);
+            });
 
-          $('#crop-image').unbind('click');
-          $('#crop-image').click(function(e) {
-            e.preventDefault();
-            goback();
-            $('#photo-x').val(x);
-            $('#photo-y').val(y);
-            $('#photo-w').val(w);
-            $('#photo-h').val(h);
+            URL.revokeObjectURL(this.src);
           });
+          images.attr('src', imgUrl);
 
         } catch (e) {
-          try {
-            var fileReader = new FileReader();
-            fileReader.onload = function(e) {
-              $('#show-picture').src = e.target.result;
-            }
-            fileReader.readAsDataUrl(file);
-          } catch (e) {
-            alert('Unsupported browser');
-          }
+          alert('Unsupported browser');
         }
       }
     });
@@ -1076,18 +1070,39 @@ function shareOffer() {
   }
 }
 
+function dataURItoBlob(dataURI, dataTYPE) {
+  var binary = atob(dataURI.split(',')[1]), array = [];
+  for(var i = 0; i < binary.length; i++) array.push(binary.charCodeAt(i));
+  return new Blob([new Uint8Array(array)], {type: dataTYPE});
+}
+
 function shareOfferAfterLogin() {
   var userId = s.userId;
   var message = $('#share-form input[name="comment"]').val();
   var msg = 'Visit getkikbak.com for an exclusive offer shared by your friend';
-    if (!$('#take-picture')[0].files || $('#take-picture')[0].files.length == 0) {
-      var src = $('#share-form .image-add img').attr('src');
-      onShareResponse(src);
-    } else {
-      var req = new FormData();
-      var file = $('#take-picture')[0].files[0];
+  if (!$('#take-picture')[0].files || $('#take-picture')[0].files.length == 0) {
+    var src = $('#share-form .image-add img').attr('src');
+    onShareResponse(src);
+  } else {
+    var req = new FormData();
+    var file = $('#take-picture')[0].files[0];
+    var img = new Image();
+    var URL = window.webkitURL || window.URL;
+    var imgUrl = URL.createObjectURL(file);
+    img.onload = function() {
+      var max = 1024;
+      var r = 0.25;//max / ((img.width > img.height) ? img.width : img.height);
+      var h = img.height * r;
+      var w = img.width * r;
+      var canvas = document.createElement("canvas");
+      canvas.setAttribute('width', w);
+      canvas.setAttribute('height', h);
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+      var dataurl = canvas.toDataURL("image/jpeg");
+
       var cropImage = $('#crop-image-div .tkpoto img');
-      req.append('file', file);
+      req.append('file', dataURItoBlob(dataurl, 'image/jpeg'));
       req.append('userId', userId);
       req.append('ios', getBrowserName() === 'Safari');
       req.append('x', $('#photo-x').val() / parseInt(cropImage.css('width')));
@@ -1109,7 +1124,10 @@ function shareOfferAfterLogin() {
         },
         error : showError
       });
-    }
+      URL.revokeObjectURL(this.src);
+    };
+    img.src = imgUrl;
+  }
 }
 
 function loginFb(share) {

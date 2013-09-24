@@ -1556,8 +1556,14 @@ to {
 
 }
 
-@media screen and (max-aspect-ratio: 1/1) and (max-height: 450px) {
+@media screen and (max-aspect-ratio: 1/1) and (max-height: 480px) {
+    .camicon img {
+        width: 20%;
+        margin-top:10px;
+    }
+}
 
+@media screen and (max-aspect-ratio: 1/1) and (max-height: 450px) {
     .image-add {
         height: 168px;
     }
