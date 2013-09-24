@@ -10,6 +10,16 @@ var config = {
 var s = (Storage) ? localStorage : {};
 
 $(document).ready(function() {
+  $(window).bind('popstate', function(event) {
+    if (s.pageType == 'offer-detail') {
+	  s.pageType = 'offer';
+	} else if (s.pageType == 'redeem-gift-detail') {
+	  s.pageType = 'redeem';
+	} else if (s.pageType == 'redeem-credit-detail') {
+	  s.pageType = 'redeem';
+    }
+	initPage();
+  });
   if (s.pageType == 'offer-detail') {
     s.pageType = 'offer';
   } else if (s.pageType == 'redeem-gift-detail') {
@@ -28,19 +38,23 @@ $(document).ready(function() {
   $.getScript('//connect.facebook.net/en_US/all.js', function(){
     window.fbAsyncInit = fbInit;
   });
-  $('.offer-btn').click(function(){
+  $('.offer-btn').click(function(e){
+	e.preventDefault();
     s.pageType = 'offer';
     initPage();
   });
-  $('.redeem-btn').click(function(){
+  $('.redeem-btn').click(function(e){
+	e.preventDefault();
     s.pageType = 'redeem';
     initPage();
   });
-  $('.suggest-btn').click(function(){
+  $('.suggest-btn').click(function(e){
+	e.preventDefault();
     s.pageType = 'suggest';
     initPage();
   });
-  $('.offer-list-btn').click(function(){
+  $('.offer-list-btn').click(function(e){
+	e.preventDefault();
     s.pageType = 'offer';
     initPage();
   });
@@ -49,11 +63,21 @@ $(document).ready(function() {
   $('#suggest-form input[name="name"]').bind('keyup', adjustSuggest);
   $('#suggest-form textarea[name="reason"]').bind('keyup', adjustSuggest);
   
-  $('#share-facebook').click(shareViaFacebook);
-  $('#share-email').click(shareViaEmail);
-  $('#share-sms').click(shareViaSms);
+  $('#share-facebook').click(function(e) {
+	e.preventDefault();
+	shareViaFacebook();
+  });
+  $('#share-email').click(function(e) {
+	e.preventDefault();
+	shareViaEmail();
+  });
+  $('#share-sms').click(function(e) {
+	e.preventDefault();
+    shareViaSms();
+  });
 
-  $(".popup-close-btn").click(function() {
+  $(".popup-close-btn").click(function(e) {
+	e.preventDefault();
     $('.popup').hide();
   });
 
@@ -108,7 +132,8 @@ $(document).ready(function() {
     }
   });
   
-  $('#claim-credit-btn').click(function() {
+  $('#claim-credit-btn').click(function(e) {
+    e.preventDefault();
     var o = {};
     var form = $('#claim-credit-form');
     $.each(form.serializeArray(), function() { 
@@ -262,6 +287,8 @@ function initPage() {
   if (window.location.href.indexOf(suffix, window.location.href.length - suffix.length) !== -1) {
     window.location.href = 'offer.html';
   }
+  $('.popup').hide();
+  $('#crop-image-div').hide();
   $('#offer-view').hide();
   $('#offer-details-view').hide();
   $('#redeem-view').hide();
@@ -506,6 +533,7 @@ function getOffersByLocation(userId, position, force) {
         $("#no-offer-list").hide();
       }
       $('.offer-details-btn').click(function(e) {
+    	history.pushState({}, 'offer-detail', '#detail');
         e.preventDefault();
         s.offerDetail = $(this).attr('data-object');
         s.pageType = 'offer-detail';
@@ -669,6 +697,7 @@ function onClickRedeemGift(gifts) {
 
       $('#friend-popup').show();
       $('.select-gift-btn').click(function() {
+        e.preventDefault();
         $('#friend-popup').hide();
         s.giftDetail = $(this).attr('data-object');
         s.pageType = 'redeem-gift-detail';
@@ -763,13 +792,20 @@ function getOfferDetail() {
 
     $('#back-btn').unbind();
     $('#back-btn').click(function(e) {
+      window.history.back();
       e.preventDefault();
       s.pageType = 'offer-force';
       initPage();
     });
     
-    $('#share-btn').click(shareOffer);
-    $('#share-btn-fb').click(shareOffer);
+    $('#share-btn').click(function(e){
+      e.preventDefault();
+      shareOffer();
+    });
+    $('#share-btn-fb').click(function(e){
+      e.preventDefault();
+      shareOffer();
+    });
 
     $('#take-picture').change(function(e) {
       var icon = $('.camicon');
@@ -835,7 +871,8 @@ function getOfferDetail() {
           });
 
           $('#crop-image').unbind('click');
-          $('#crop-image').click(function() {
+          $('#crop-image').click(function(e) {
+            e.preventDefault();
             goback();
             $('#photo-x').val(x);
             $('#photo-y').val(y);
@@ -945,7 +982,8 @@ function renderOfferDetail(offer) {
   html += '</form>';
   $('#offer-details-view').html(html);
     
-  $('#term-btn').click(function() {
+  $('#term-btn').click(function(e) {
+	e.preventDefault();
     showTerms(offer.tosUrl);
   });
   
@@ -1261,11 +1299,13 @@ function renderRedeemGiftDetail(data) {
   
   $('#redeem-details-view').html(html);
   
-  $('#term-btn').click(function() {
+  $('#term-btn').click(function(e) {
+	e.preventDefault();
     showTerms(gift.tosUrl);
   });
   
-  $('#redeem-gift-instore-btn').click(function() {
+  $('#redeem-gift-instore-btn').click(function(e) {
+	e.preventDefault();
     doRedeemGift(gift);
   });
 }
@@ -1300,11 +1340,13 @@ function renderRedeemCreditDetail(credit) {
   
   $('#redeem-details-view').html(html);
   
-  $('#term-btn').click(function() {
+  $('#term-btn').click(function(e) {
+	e.preventDefault();
     showTerms(credit.tosUrl);
   });
   
-  $("#claim-credit-form-btn").click(function() {
+  $("#claim-credit-form-btn").click(function(e) {
+	e.preventDefault();
     claimCreditForm(credit);
   });
 }
