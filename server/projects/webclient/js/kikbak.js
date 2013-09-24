@@ -12,12 +12,12 @@ var s = (Storage) ? localStorage : {};
 $(document).ready(function() {
   $(window).bind('popstate', initPage);
   var pageType = window.location.hash;
-  if (pageType == 'offer-detail') {
-    window.location.hash = 'offer';
-  } else if (pageType == 'redeem-gift-detail') {
-    window.location.hash = 'redeem';
-  } else if (pageType == 'redeem-credit-detail') {
-    window.location.hash = 'redeem';
+  if (pageType === '#offer-detail') {
+   	history.pushState({}, 'offer', '#offer');
+  } else if (pageType === '#redeem-gift-detail') {
+   	history.pushState({}, 'redeem', '#redeem');
+  } else if (pageType === '#redeem-credit-detail') {
+   	history.pushState({}, 'redeem', '#redeem');
   }
   $(document).ajaxStart(function (){
     $('#spinner').show();
@@ -184,9 +184,11 @@ function fbInit() {
     xfbml: true
   });
   if (s.accessToken) {
-    FB.login(function(response) {
+    FB.getLoginStatus(function(response) {
       if (response.status === 'connected') {
-        s.accessToken = authResponse.accessToken; 
+        s.accessToken = response.authResponse.accessToken; 
+      } else {
+        s.accessToken = null;
       }
     });
   }
