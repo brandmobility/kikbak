@@ -10,22 +10,14 @@ var config = {
 var s = (Storage) ? localStorage : {};
 
 $(document).ready(function() {
-  $(window).bind('popstate', function(event) {
-    if (s.pageType == 'offer-detail') {
-	  s.pageType = 'offer';
-	} else if (s.pageType == 'redeem-gift-detail') {
-	  s.pageType = 'redeem';
-	} else if (s.pageType == 'redeem-credit-detail') {
-	  s.pageType = 'redeem';
-    }
-	initPage();
-  });
-  if (s.pageType == 'offer-detail') {
-    s.pageType = 'offer';
-  } else if (s.pageType == 'redeem-gift-detail') {
-    s.pageType = 'redeem';
-  } else if (s.pageType == 'redeem-credit-detail') {
-    s.pageType = 'redeem';
+  $(window).bind('popstate', initPage);
+  var pageType = window.location.hash;
+  if (pageType == 'offer-detail') {
+    window.location.hash = 'offer';
+  } else if (pageType == 'redeem-gift-detail') {
+    window.location.hash = 'redeem';
+  } else if (pageType == 'redeem-credit-detail') {
+    window.location.hash = 'redeem';
   }
   $(document).ajaxStart(function (){
     $('#spinner').show();
@@ -40,22 +32,22 @@ $(document).ready(function() {
   });
   $('.offer-btn').click(function(e){
 	e.preventDefault();
-    s.pageType = 'offer';
+   	history.pushState({}, 'offer', '#offer');
     initPage();
   });
   $('.redeem-btn').click(function(e){
 	e.preventDefault();
-    s.pageType = 'redeem';
+   	history.pushState({}, 'redeem', '#redeem');
     initPage();
   });
   $('.suggest-btn').click(function(e){
 	e.preventDefault();
-    s.pageType = 'suggest';
+   	history.pushState({}, 'suggest', '#suggest');
     initPage();
   });
   $('.offer-list-btn').click(function(e){
 	e.preventDefault();
-    s.pageType = 'offer';
+   	history.pushState({}, 'offer', '#offer');
     initPage();
   });
   setWrapperSize();
@@ -308,14 +300,14 @@ function initPage() {
     return;
   }
 
-  var pageType = s.pageType;
-  if (pageType === 'redeem') {
+  var pageType = window.location.hash;
+  if (pageType === '#redeem') {
     loginFb();
     $('#redeem-view').show('');
     $('#redeem-btn-div').css('background', 'url("img/btn_highlighted.png")');
     $('#heading').html('Kikbak');
     getRedeems();
-  } else if (pageType === 'redeem-gift-detail') {
+  } else if (pageType === '#redeem-gift-detail') {
     loginFb();
     $('#redeem-details-view').show('');
     if (getRedeems.counter > 1) {
@@ -323,7 +315,7 @@ function initPage() {
     }
     $('#heading').html('Redeem');
     getRedeemGiftDetail();
-  } else if (pageType === 'redeem-credit-detail') {
+  } else if (pageType === '#redeem-credit-detail') {
     loginFb();
     $('#redeem-details-view').show('');
     if (getRedeems.counter > 1) {
@@ -331,7 +323,7 @@ function initPage() {
     }
     $('#heading').html('Redeem');
     getRedeemCreditDetail();
-  } else if (pageType === 'suggest') {
+  } else if (pageType === '#suggest') {
     loginFb();
     $('#suggest-view').show('');
     $('#back-btn-div').show('');
@@ -340,11 +332,9 @@ function initPage() {
     $('#add-photo-suggest').show();
     $('#back-btn').unbind();
     $('#back-btn').click(function(e) {
-      e.preventDefault();
-      s.pageType = 'offer';
-      initPage();
+      window.history.back();
     });
-  } else if (pageType === 'offer-detail') {
+  } else if (pageType === '#offer-detail') {
     $('#offer-details-view').show('');
     $('#back-btn-div').hide('');
     $('#heading').html('Give');
@@ -375,7 +365,7 @@ function claimGift(code) {
     contentType: 'application/json',
     url: url,
     success: function(json) {
-      s.pageType = 'redeem';
+   	  history.pushState({}, 'redeem', '#redeem');
       initPage();
     },
     error: function() {
@@ -385,7 +375,7 @@ function claimGift(code) {
 }
 
 function getOffers(force) {
-  s.pageType = 'offer';
+  history.pushState({}, 'offer', '#offer');
   var userId = 0;
 
   if ( typeof userId !== 'undefined' && userId !== null && userId !== '') {
@@ -509,7 +499,7 @@ function getOffersByLocation(userId, position, force) {
       
       if (offers.length == 1) {
         s.offerDetail = escape(JSON.stringify(offers[0]));
-        s.pageType = 'offer-detail';
+        history.pushState({}, 'offer-detail', '#offer-detail');
         initPage();
         $('back-btn').hide();
       }
@@ -518,7 +508,7 @@ function getOffersByLocation(userId, position, force) {
       
       if (availCount == 1 && !force) {
         s.offerDetail = escape(JSON.stringify(availOffer));
-        s.pageType = 'offer-detail';
+        history.pushState({}, 'offer-detail', '#offer-detail');
         initPage();
       }
       
@@ -533,10 +523,9 @@ function getOffersByLocation(userId, position, force) {
         $("#no-offer-list").hide();
       }
       $('.offer-details-btn').click(function(e) {
-    	history.pushState({}, 'offer-detail', '#detail');
+    	history.pushState({}, 'offer-detail', '#offer-detail');
         e.preventDefault();
         s.offerDetail = $(this).attr('data-object');
-        s.pageType = 'offer-detail';
         initPage();
       });
     },
@@ -673,7 +662,7 @@ function onClickRedeem(redeemData) {
 
 function onClickRedeemCredit(credits) {
   s.creditDetail = escape(JSON.stringify(credits));
-  s.pageType = 'redeem-credit-detail';
+  history.pushState({}, 'redeem-credit-detail', '#redeem-credit-detail');
   initPage();
 }
 
@@ -700,7 +689,7 @@ function onClickRedeemGift(gifts) {
         e.preventDefault();
         $('#friend-popup').hide();
         s.giftDetail = $(this).attr('data-object');
-        s.pageType = 'redeem-gift-detail';
+        history.pushState({}, 'redeem-gift-detail', '#redeem-gift-detail');
         initPage();
       });
 
@@ -711,7 +700,7 @@ function onClickRedeemGift(gifts) {
       };
       var j = escape(JSON.stringify(data));
       s.giftDetail = j;
-      s.pageType = 'redeem-gift-detail';
+      history.pushState({}, 'redeem-gift-detail', '#redeem-gift-detail');
       initPage();
     }
 }
@@ -792,9 +781,8 @@ function getOfferDetail() {
 
     $('#back-btn').unbind();
     $('#back-btn').click(function(e) {
-      window.history.back();
       e.preventDefault();
-      s.pageType = 'offer-force';
+      history.pushState({}, 'offer-list', '#offer-list');
       initPage();
     });
     
@@ -860,7 +848,7 @@ function getOfferDetail() {
             $('#back-btn').unbind();
             $('#back-btn').click(function(e) {
               e.preventDefault();
-              s.pageType = 'offer-force';
+              history.pushState({}, 'offer-list', '#offer-list');
               initPage();
             });
           };
@@ -904,8 +892,7 @@ function getRedeemGiftDetail() {
     $('#back-btn').unbind();
     $('#back-btn').click(function(e){
       e.preventDefault();
-      s.pageType = 'redeem';
-      initPage();
+      window.history.back();
     });
   }
 }
@@ -918,8 +905,7 @@ function getRedeemCreditDetail() {
     $('#back-btn').unbind();
     $('#back-btn').click(function(e){
       e.preventDefault();
-      s.pageType = 'redeem';
-      initPage();
+      window.history.back();
     });
   }
 }
@@ -1055,7 +1041,7 @@ function onSuggestResponse(url) {
       contentType: 'application/json',
       data: str,
       success : function(response) {
-        s.pageType = 'offer';
+        history.pushState({}, 'offer', '#offer');
         initPage();
       },
       error : showError
@@ -1365,9 +1351,7 @@ function claimCreditForm(credit) {
   $('#back-btn').unbind();
   $('#back-btn').click(function(e) {
     e.preventDefault();
-    $('#claim-credit-div').hide();
-    s.pageType = 'redeem-credit-detail';
-    initPage();
+    window.history.back();
   })
 }
 
