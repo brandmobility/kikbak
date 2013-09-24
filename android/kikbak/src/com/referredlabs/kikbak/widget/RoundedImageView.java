@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.util.AttributeSet;
 
 import com.squareup.picasso.Target;
+import com.squareup.picasso.Picasso.LoadedFrom;
 
 public class RoundedImageView extends com.makeramen.RoundedImageView implements Target {
 
@@ -22,11 +23,11 @@ public class RoundedImageView extends com.makeramen.RoundedImageView implements 
   }
 
   @Override
-  public void onError() {
+  public void onBitmapLoaded(Bitmap bmp, LoadedFrom from) {
+    setImageBitmap(bmp);
   }
 
   @Override
-  public void onSuccess(Bitmap bmp) {
-    setImageBitmap(bmp);
+  public void onBitmapFailed() {
   }
 }

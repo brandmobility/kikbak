@@ -93,7 +93,10 @@ public class RewardsLoader extends AsyncTaskLoader<List<TheReward>> {
   @Override
   protected void onReset() {
     super.onReset();
-    mStore.unregisterRewardsObserver(mObserver);
+    if (mObserver != null) {
+      mStore.unregisterRewardsObserver(mObserver);
+      mObserver = null;
+    }
   }
 
   private class Observer extends DataSetObserver {
