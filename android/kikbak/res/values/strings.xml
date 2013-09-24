@@ -96,8 +96,8 @@
 
     <!-- Rewards -->
     <string name="reward_gift_label">USE RECEIVED GIFT</string>
-    <string name="reward_gift_type_percentage_fmt">%.0f%% OFF</string>
-    <string name="reward_gift_type_amount_fmt">$%.0f OFF</string>
+    <string name="reward_gift_type_percentage_fmt">%.0f%% off</string>
+    <string name="reward_gift_type_amount_fmt">$%.0f off</string>
     <string name="reward_credit_purchase_label">USE EARNED CREDIT</string>
     <string name="reward_credit_purchase_amount_fmt">$%.2f</string>
     <string name="reward_credit_claim_label">CLAIM REWARD</string>
@@ -141,7 +141,7 @@
     <string name="redeem_success_your_code">YOUR CODE</string>
     <string name="redeem_gift_success_note_first">You have claimed your gift.</string>
     <string name="redeem_gift_success_share_note">Share the same offer with your friends.\nYou earn for every friend that redeems.</string>
-    <string name="redeem_gift_success_share_button">"I'am ready to give to others"</string>
+    <string name="redeem_gift_success_share_button">"I am ready to give to others"</string>
     <string name="redeem_credit_success_note_first">You have claimed your credit.</string>
     <string name="redeem_credit_success_value_desc">can now be applied to your purchase</string>
     <string name="redeem_credit_success_share_note">Share the offer with more friends\nand earn even more credit</string>
