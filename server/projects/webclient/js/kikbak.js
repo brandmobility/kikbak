@@ -975,7 +975,7 @@ function renderOfferDetail(offer) {
     html += '<div id="share-fb-div" style="text-align:center;">'
     html += '<input id="share-btn-fb" name="share" type="button" class="fb-share" value="         Connect with Facebook to share" />';
     html += '<div class="crt">';
-    html += '<p style="font-size:10px;">We use Facebook to make it easy for you to store, redeem and share gifts.  We will never post on Facebook with your permission.</p>';
+    html += '<p style="font-size:10px;">We use Facebook to make it easy for you to store, redeem and share gifts.<br />We will never post on Facebook with your permission.</p>';
     html += '</div>';
     html += '</div>';
   }

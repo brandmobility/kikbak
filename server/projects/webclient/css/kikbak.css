@@ -396,7 +396,7 @@ p.msg {
     color: #fff;
     font-size: 26px;
     font-weight: normal;
-    left: 2%;
+    left: 4%;
     position: absolute;
     z-index: 999
 }
@@ -407,7 +407,7 @@ p.msg {
 
 .opt-icon {
     bottom: 20%;
-    left: 2%;
+    left: 4%;
     position: absolute;
     width: 85%;
     z-index: 999
@@ -426,7 +426,7 @@ p.msg {
 }
 .addcmt {
     bottom: 5%;
-    left: 2%;
+    left: 4%;
     padding: 2%;
     position: absolute;
     width: 92%;
@@ -450,6 +450,7 @@ p.msg {
     background: url(../images/botampatter.png) left bottom repeat-x;
     height: 2px;
     font-size: 0
+    background-size: 8px;
 }
 .gv {
     border-bottom: 1px solid #C4C4C4;
@@ -595,7 +596,7 @@ p.msg {
 }
 
 .crt .trm {
-    color: #666666;
+    color: #999;
     float: left;
     font-size: 13px;
     margin: 2% 0;
@@ -959,7 +960,6 @@ p.msg {
 }
 .brd {
     border: 2px solid #333;
-    margin-top: 5%;
 }
 .cd-scn {
     border: 2px solid #999;
@@ -1375,8 +1375,8 @@ h1.pg-hedng {
 }
 .location-sel {
     width: 95%;
-    height: 30px;
-    font-size: 15px;
+    height: 40px;
+    font-size: 18px;
     margin-top: 10px;
 }
 .spinner {
@@ -1406,7 +1406,7 @@ h1.pg-hedng {
 .sep {
     margin-top: 5px;
     margin-bottom: 5px;
-    color:rgb(110,110,110);
+    color: #999;
     font-weight: lighter;
 }
 
