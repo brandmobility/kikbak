@@ -29,10 +29,6 @@ html, body {
     top: 0;
 }
 
-.image-grad {
-    position:absolute; left:0; top:0; width:100%; height:100%; background:url(../img/blk-shad.png) bottom left  repeat-x;
-}
-
 .main-bdy-grn { float:left; width:100%; background:url(../img/wit-gren-shad.png) left top repeat-x;}
 
 .wit-grd {
@@ -130,10 +126,8 @@ html, body {
 
 #footer .w1 {
     color: #FFFFFF;
-    text-shadow: 2px 2px #323232;
 }
 
 #footer .w2 {
     color: #c3c3c3;
-    text-shadow: 2px 2px #323232;
 }
