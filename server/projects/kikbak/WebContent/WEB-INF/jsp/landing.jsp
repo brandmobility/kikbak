@@ -186,12 +186,10 @@ h3 {
 
 #footer .pull-left {
 	color: #FFFFFF;
-	text-shadow: 2px 2px #323232;
 }
 
 #footer .pull-right {
 	color: #c3c3c3;
-	text-shadow: 2px 2px #323232;
 }
 
 .col-md-1 {
@@ -439,12 +437,16 @@ h3 {
             </div>
             </div>
             <div id="redeem-div" style="display:none;">
-            <div style="padding-left:145px;padding-right:30px;text-align:center;padding-top:20px;">
+            <div style="text-align:center;padding-top:20px;">
                 <p>Awesome! Your gift is now stored to <br />
                 your Facebook account. To use your gift, <br />
                 download the Kikbak app. It’ll be waiting <br />
                 for whenever you’re ready to use it.
                 </p>
+            </div>
+            <div style="text-align:center;">
+                <a href="#"><img src="img/app-store.png" width="40%" /></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="#"><img src="img/google-play.png" width="40%" /></a>
             </div>
             </div>
             <div class="clearfix"></div>
