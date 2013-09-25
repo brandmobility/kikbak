@@ -330,9 +330,8 @@ h3 {
 					</div>
 					<div style="padding-left: 145px; padding-right: 30px; text-align: center; padding-top: 20px;">
 						<p style="font-family: HelveticaNeueLTPro-Lt; font-size: 12px;">
-							We use Facebook to make it easy for you to store, redeem, and
-							share gifts. <br /> We will never post on Facebook without your
-							permission.
+                            We use Facebook to make it easy for you to share, store and redeem gifts and rewards. <br /> 
+                            We will never post on Facebook with your permission.
 						</p>
 					</div>
 					</div>
@@ -360,29 +359,26 @@ h3 {
 					<a href="${gift.tosUrl}" class="lft" style="color:#FFFFFF;">Terms & Conditions</a>
 				</div>
 				<div class="col-md-6 w2" style="text-align: right">
-					<a href="https://kikbak.me" class="rit" style="color:#FFFFFF;">@ Referred Labs, 2013</a>
+					<a href="https://kikbak.me" class="rit" style="color:#FFFFFF;">&copy; Referred Labs, 2013</a>
 				</div>
 			</div>
 		</div>
 	</div>
 </c:when>
 <c:otherwise>
-    <div>
-        <div id="jumbotron">
-            <p style="font-family:HelveticaNeueLTPro-Roman;padding-top:10px;padding-bottom:5px;"><strong>&nbsp;&nbsp;${shareInfo.friendName}</strong> used <strong>Kikbak</strong> to give<br />
-            &nbsp;&nbsp;you an exclusive offer for <strong>${gift.merchant.name}.</strong></p>
-        </div>
-        <img src="${shareInfo.imageUrl}" width="100%" height="350px" />
-        <img src="img/blk-shad.png" width="100%" height="350px" style="position:absolute;top:67px;" />
+<div>
             <c:choose>
             <c:when test="${not empty location}">
-        <div class="wit-grd-overlay">
+        <div id="jumbotron">
             <p style="margin-top:10px">&nbsp;&nbsp;${shareInfo.friendName} was at ${gift.merchant.name}<br />
             &nbsp;&nbsp;<strong>${location.address1}, ${location.city}, ${location.state}</strong>
             </p>
         </div>
             </c:when>
             </c:choose>
+
+        <img src="${shareInfo.imageUrl}" width="100%" height="350px" />
+        <img src="img/blk-shad.png" width="100%" height="350px" style="position:absolute;top:67px;" />
         <div class="widget">
             <div class="span4">
                 <h3 style="padding: 0px; margin: 0px; font-family: HelveticaNeueLTPro-Lt">${gift.merchant.name}</h3>
@@ -404,13 +400,13 @@ h3 {
             </div>
             <div class="clearfix"></div>
         </div>
-        <div class="page-header">
+        <div class="page-header" style="padding:0;">
             <div class="row show-grid" style="margin:0;padding-top:10px;">
                 <div class="col-md-4" style="padding-left:10px">
                     <img src="https://graph.facebook.com/${shareInfo.fbFriendId}/picture?type=square" class="img-rounded" />
                 </div>
                 <div class="col-md-8">
-                    <h3 style="color:#3a3a3a;font-size:18px;">${shareInfo.friendName}</h3>
+                    <h3 style="color:#3a3a3a;font-size:20px;font-weight:bold;">${shareInfo.friendName}</h3>
                     <p>${shareInfo.caption}</p>
                 </div>
             </div>
@@ -426,13 +422,12 @@ h3 {
             </div>
             <div class="clearfix"></div>
             <div id="facebook-div">
-            <div class="page-header" style="padding-left:10px;padding-right:10px;text-align:center">
+            <div class="page-header" style="padding-left:10px;padding-right:10px;margin-top:25px;text-align:center">
                 <p style="font-size:15px;font-family:HelveticaNeueLTPro-Lt;">Connect with Facebook to access your gift. </p>
                 <a id="loginFb" href="#"><img src="img/facebook-button.png" /></a>
                 <p align="center" style="padding-top:10px;font-family:HelveticaNeueLTPro-Lt;font-size:10px;">
-                    We use Facebook to make it easy for you to store,<br />
-                    redeem, and share gifts. We will never post<br />
-                    on Facebook with your permission.
+                We use Facebook to make it easy for you to share, store and redeem gifts and rewards. <br /> 
+                We will never post on Facebook with your permission.
                 </p>
             </div>
             </div>
@@ -455,7 +450,7 @@ h3 {
                 <a href="${gift.tosUrl}" class="lft" style="color:#FFFFFF;">Terms & Conditions</a>
             </div>
             <div class="pull-right">
-                <a href="https://kikbak.me" class="rit" style="color:#FFFFFF;">@ Referred Labs, 2013</a>
+                <a href="https://kikbak.me" class="rit" style="color:#FFFFFF;">&copy; Referred Labs, 2013</a>
             </div>
             </div>
             <div class="clearfix"></div>
