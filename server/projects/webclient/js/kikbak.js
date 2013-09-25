@@ -947,7 +947,7 @@ function renderOfferDetail(offer) {
     html += '<a href="' + offer.merchantUrl + '"><img class="website-img" src="images/ic_web@2x.png" /></a>';
   }
   html += '</div>';
-  html += '<input name="comment" placeholder="Add comment" class="addcmt" />';
+  html += '<input name="comment" placeholder="Add comment" class="addcmt" style="width:94%;"/>';
   html += '<input name="message" type="hidden" value="Visit getkikbak.com for an exclusive offer shared by your friend" />';
   html += '</div>';
   html += '<div class="img-botm-patrn"></div>';
@@ -961,7 +961,7 @@ function renderOfferDetail(offer) {
   html += 'Get ' + offer.kikbakDesc + '</h2>';
   html += '<h4>' + offer.kikbakDetailedDesc + '</h4>';
   html += '</div>';
-  html += '<div class="crt" style="margin:0;">';
+  html += '<div class="crt" style="margin:0 3%;">';
   html += '<a href="#" class="trm" id="term-btn" >&nbsp;Terms and Conditions</a>';
   html += '</div>';
   html += '<input id="share-btn" name="share" type="button" class="btn grd3 botm-position" value="Give to friends" />';
