@@ -586,7 +586,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     self.imageToPost = [image imageCropToRect:cropRect];
     self.giveImage.image = self.imageToPost;
     if( ![UIDevice hasFourInchDisplay]){
-        cropRect = CGRectMake(0, 118, 640, 624);
+        cropRect = CGRectMake(0, 198, 640, 436);
         self.giveImage.image = [image imageCropToRect:cropRect];
         self.giveImage.frame = CGRectMake(0, 0, 320, 218);
     }

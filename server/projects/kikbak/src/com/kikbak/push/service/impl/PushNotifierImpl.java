@@ -137,6 +137,10 @@ public class PushNotifierImpl implements PushNotifier {
     @Override
     public void sendGiftNotification(Long fromUserId, Gift gift) {
         Collection<Long> usersToNotify = roUserDAO.listEligibleForOfferFromUser(gift.getOfferId(), fromUserId); 
+        if( usersToNotify.size() == 0) {
+            return;
+        }
+        
         Collection<Devicetoken> tokens = roDeviceToken.listDeviceTokens(usersToNotify);
         ArrayList<String> ios = new ArrayList<String>(tokens.size());
         ArrayList<String> android = new ArrayList<String>(tokens.size());

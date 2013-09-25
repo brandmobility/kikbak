@@ -1,9 +1,9 @@
-set @server="http://prod.kikbak.me";
+set @server="http://m.kikbak.me";
 
 #Mud Puppys
 
 insert into merchant (name,           description,    url) values 
-                     ('Mudpuppy’s',  'pet groomer', 'http://www.mudpuppys.com');
+                     ('Mudpuppy\'s',  'pet groomer', 'http://www.mudpuppys.com');
 
 set @id := (select LAST_INSERT_ID());
 
@@ -17,13 +17,13 @@ insert into offer (merchant_id, name,        image_url,                         
 
 set @offer_id := (select LAST_INSERT_ID());
 
-insert into gift ( offer_id,  description,     detailed_desc,                    value, discount_type, redemption_location_type, validation_type, image_url,                                   default_give_image_url,                     notification_text) values
-                 (@offer_id, '$10 Off',  'any first-time dog or cat wash',  50,    'amount',  'store',                  'qrcode',        concat(@server, '/images/mud_puppy_g.png'),  concat(@server, '/images/mud_puppy_d.png'), 'Mud Puppy’s: 50% OFF woof-woof');
+insert into gift ( offer_id,  description,     detailed_desc,                    value, discount_type, redemption_location_type, validation_type, image_url,                                   default_give_image_url) values
+                 (@offer_id, '$10 off',  'any first-time dog or cat wash',  50,    'amount',  'store',                  'qrcode',        concat(@server, '/images/mud_puppy_g.png'),  concat(@server, '/images/mud_puppy_d.png'));
 
 set @gift_id := (select LAST_INSERT_ID());                 
 
-insert into kikbak (offer_id,  description,         detailed_desc,                                value, reward_type, validation_type, image_url,                                   notification_text) values
-                   (@offer_id, '$5 store credit', 'for every friend that redeems your gift' , 5.00, 'purchase',  'qrcode',         concat(@server, '/images/mud_puppy_k.png'),  'Mud Puppy’s: $5 store credit woof-woof');
+insert into kikbak (offer_id,  description,         detailed_desc,                                value, reward_type, validation_type, image_url) values
+                   (@offer_id, '$5 store credit', 'for every friend that redeems your gift' , 5.00, 'purchase',  'qrcode',         concat(@server, '/images/mud_puppy_k.png'));
 
 
 
