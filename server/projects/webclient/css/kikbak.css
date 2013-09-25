@@ -1557,7 +1557,7 @@ to {
 @media screen and (max-aspect-ratio: 1/1) and (max-height: 480px) {
     .camicon img {
         width: 20%;
-        margin-top:-10px;
+        margin-top:10px;
     }
    .image-add {
         height: 255px;
@@ -1579,6 +1579,7 @@ to {
     }
     .camicon img {
         width: 16%;
+        margin-top:-10px;
     }
     .image-add h3 {
         font-size: 22px;
