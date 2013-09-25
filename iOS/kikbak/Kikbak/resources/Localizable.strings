@@ -53,8 +53,8 @@
 "Received Gift" = "RECEIVED GIFT";
 "Claim Reward" = "CLAIM REWARD";
 "Earned Credit" = "USE EARNED CREDIT";
-"gift percent" = "%d%% OFF";
-"amount off" = "$%d OFF";
+"gift percent" = "%d%% off";
+"amount off" = "$%d off";
 "credit" = "$%@ Credit";
 "Gift card" = "$%@ Gift Card";
 "Fb coupon title" = "%@ for %@";
