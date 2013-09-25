@@ -302,7 +302,7 @@ public class RedeemGiftFragment extends KikbakFragment implements OnClickListene
       mReq.gift = new GiftRedemptionType();
       mReq.gift.id = mGift.shareInfo[mShareIdx].allocatedGiftId;
       mReq.gift.friendUserId = mGift.shareInfo[mShareIdx].friendUserId;
-      mReq.gift.locationId = mGift.merchant.locations[0].locationId;
+      mReq.gift.locationId = new Nearest(mGift.merchant.locations).get().locationId;
       mReq.gift.verificationCode = code;
     }
 
