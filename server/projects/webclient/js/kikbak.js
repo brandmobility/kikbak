@@ -208,7 +208,7 @@ function fbInit() {
   initPosition(initPage);
 }
 
-function connectFb(accessToken, share) {
+function connectFb(accessToken) {
   s.accessToken = accessToken;
   var userId = s.userId;
   if (userId) {
@@ -238,14 +238,8 @@ function connectFb(accessToken, share) {
         showError();
         return;
       }
-      if (share) {
-        $('#share-fb-div').hide();
-        $('#share-login-div').show();
-        updateFbFriends(json.registerUserResponse.userId.userId, shareOfferAfterLogin);
-      } else {
-        s.userId = json.registerUserResponse.userId.userId;
-        initPage();
-      }
+      s.userId = json.registerUserResponse.userId.userId;
+      initPage();
     },
     error: showError
   });
@@ -807,12 +801,11 @@ function getOfferDetail() {
     });
     $('#share-btn-fb').click(function(e){
       e.preventDefault();
-      shareOffer();
+      loginFb();
     });
 
     $('#take-picture').change(function(e) {
       $("#share-btn").attr('disabled', 'disabled');
-      $("#share-btn-fb").attr('disabled', 'disabled');
       var icon = $('.camicon');
       var files = e.target.files;
       var file;
@@ -876,7 +869,6 @@ function getOfferDetail() {
             $('#crop-image').click(function(e) {
               e.preventDefault();
               $("#share-btn").removeAttr('disabled');
-              $("#share-btn-fb").removeAttr('disabled');
               goback();
               $('#photo-x').val(x);
               $('#photo-y').val(y);
@@ -921,7 +913,18 @@ function getRedeemCreditDetail() {
 }
 
 function renderOfferDetail(offer) {
-  var html = '<form id="share-form" type="POST" enctype="multipart/form-data">';
+  var html = '';
+  var userId = s.userId;
+  if (!userId) {
+    html += '<div id="share-fb-div" style="text-align:center;height:90px;margin-top:5px;">'
+    html += '<input id="share-btn-fb" name="share" type="button" class="fb-share" value="         Connect with Facebook to share" />';
+    html += '<div class="crt">';
+    html += '<p style="font-size:10px;">We use Facebook to make it easy for you to share, store and redeem gifts and rewards.<br />We will never post on Facebook with your permission.</p>';
+    html += '</div>';
+    html += '</div>';
+  }
+  html += '<div id="share-after-login-div">';
+  html += '<form id="share-form" type="POST" enctype="multipart/form-data" style="margin-bottom:0px;">';
   html += '<div class="image-add"><img src="' + offer.giveImageUrl + '" class="addimg add-photo show-picture" id="show-picture">';
   html += '<span class="imgshado"></span>';
   html += '<div class="add-photo-btn">';
@@ -961,23 +964,15 @@ function renderOfferDetail(offer) {
   html += '<div class="crt" style="margin:0;">';
   html += '<a href="#" class="trm" id="term-btn" >&nbsp;Terms and Conditions</a>';
   html += '</div>';
-  var userId = s.userId;
-  if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
-    html += '<input id="share-btn" name="share" type="button" class="btn grd3 botm-position" style="margin-top:18px;" value="Give to friends" />';
-  } else {
-    html += '<div id="share-login-div" style="display:none;">';
-    html += '<input id="share-btn" name="share" type="button" class="btn grd3 botm-position" style="margin-top:18px;" value="Give to friends" />';
-    html += '</div>';
-    html += '<div id="share-fb-div" style="text-align:center;">'
-    html += '<input id="share-btn-fb" name="share" type="button" class="fb-share" value="         Connect with Facebook to share" />';
-    html += '<div class="crt">';
-    html += '<p style="font-size:10px;">We use Facebook to make it easy for you to share, store and redeem gifts and rewards.<br />We will never post on Facebook with your permission.</p>';
-    html += '</div>';
-    html += '</div>';
-  }
+  html += '<input id="share-btn" name="share" type="button" class="btn grd3 botm-position" value="Give to friends" />';
   html += '</form>';
+  html += '</div>';
   $('#offer-details-view').html(html);
-    
+  
+  if (!userId) {
+    $('#share-after-login-div').block({ message: null }); 
+  }
+  
   $('#term-btn').click(function(e) {
 	e.preventDefault();
     showTerms(offer.tosUrl);
@@ -1060,12 +1055,7 @@ function onSuggestResponse(url) {
 }
 
 function shareOffer() {
-  var userId = s.userId;
-  if (userId) {
-    updateFbFriends(userId, shareOfferAfterLogin); 
-  } else {
-    loginFb(true);
-  }
+  updateFbFriends(userId, shareOfferAfterLogin); 
 }
 
 function dataURItoBlob(dataURI, dataTYPE) {
@@ -1127,11 +1117,11 @@ function shareOfferAfterLogin() {
   }
 }
 
-function loginFb(share) {
+function loginFb() {
   var userId = s.userId;
   FB.login(function(response) {
     if (response.status === 'connected') {
-      connectFb(response.authResponse.accessToken, share);
+      connectFb(response.authResponse.accessToken);
     } else if (response.status === 'not_authorized') {
       FB.login();
     } else {
