@@ -944,7 +944,7 @@ function renderOfferDetail(offer) {
     html += '<a href="' + offer.merchantUrl + '"><img class="website-img" src="images/ic_web@2x.png" /></a>';
   }
   html += '</div>';
-  html += '<input name="comment" placeholder="Add Comment..." class="addcmt" />';
+  html += '<input name="comment" placeholder="Add comment" class="addcmt" />';
   html += '<input name="message" type="hidden" value="Visit getkikbak.com for an exclusive offer shared by your friend" />';
   html += '</div>';
   html += '<div class="img-botm-patrn"></div>';
@@ -963,10 +963,10 @@ function renderOfferDetail(offer) {
   html += '</div>';
   var userId = s.userId;
   if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
-    html += '<input id="share-btn" name="share" type="button" class="btn grd3 botm-position" style="margin-top:15px;" value="Give to friends" />';
+    html += '<input id="share-btn" name="share" type="button" class="btn grd3 botm-position" style="margin-top:18px;" value="Give to friends" />';
   } else {
     html += '<div id="share-login-div" style="display:none;">';
-    html += '<input id="share-btn" name="share" type="button" class="btn grd3 botm-position" value="Give to friends" />';
+    html += '<input id="share-btn" name="share" type="button" class="btn grd3 botm-position" style="margin-top:18px;" value="Give to friends" />';
     html += '</div>';
     html += '<div id="share-fb-div" style="text-align:center;">'
     html += '<input id="share-btn-fb" name="share" type="button" class="fb-share" value="         Connect with Facebook to share" />';

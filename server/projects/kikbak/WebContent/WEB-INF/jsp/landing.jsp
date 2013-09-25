@@ -278,7 +278,7 @@ h3 {
 								</div>
 							</div>
 							<img src="${shareInfo.imageUrl}" width="340px" height="350px" style="margin-top:10px;border-radius:10px;" />
-							<img src="img/blk-shad.png" width="340px" height="350px" style="margin-top:10px;border-radius:10px;position:absolute;top:90px;" />
+							<img src="img/blk-shad.png" width="340px" height="350px" style="margin-top:10px;border-radius:10px;position:absolute;top:90px;left:10px;" />
 							<div class="widget">
 								<div class="span4">
 									<h3 style="padding: 0px; margin: 0px; font-family: HelveticaNeueLTPro-Lt">${gift.merchant.name}</h3>
