@@ -103,9 +103,6 @@ $(document).ready(function() {
       try {
         var URL = window.webkitURL || window.URL;
         var imgUrl = URL.createObjectURL(file);
-        $('#show-picture-suggest').load(function(e){
-          URL.revokeObjectURL(this.src);
-        });
         $('#show-picture-suggest').attr('src', imgUrl);
         $('#add-photo-suggest').hide();
 
@@ -814,6 +811,8 @@ function getOfferDetail() {
     });
 
     $('#take-picture').change(function(e) {
+      $("#share-btn").attr('disabled', 'disabled');
+      $("#share-btn-fb").attr('disabled', 'disabled');
       var icon = $('.camicon');
       var files = e.target.files;
       var file;
@@ -824,7 +823,7 @@ function getOfferDetail() {
           var URL = window.webkitURL || window.URL;
           var imgUrl = URL.createObjectURL(file);
           var images = $('#show-picture');
-          images.load(function(e) {
+          images.one('load', function(e) {
             icon.removeClass('camicon');
             icon.addClass('smallcamicon');
             $('#take-photo-header').hide();
@@ -856,7 +855,6 @@ function getOfferDetail() {
             });
 
             var goback = function() {
-              URL.revokeObjectURL(imgUrl);
               jcrop_api.destroy();
               $('#heading').html('Give');
               $('#offer-details-view').show();
@@ -877,14 +875,14 @@ function getOfferDetail() {
             $('#crop-image').unbind('click');
             $('#crop-image').click(function(e) {
               e.preventDefault();
+              $("#share-btn").removeAttr('disabled');
+              $("#share-btn-fb").removeAttr('disabled');
               goback();
               $('#photo-x').val(x);
               $('#photo-y').val(y);
               $('#photo-w').val(w);
               $('#photo-h').val(h);
             });
-
-            URL.revokeObjectURL(this.src);
           });
           images.attr('src', imgUrl);
 
@@ -1124,7 +1122,6 @@ function shareOfferAfterLogin() {
         },
         error : showError
       });
-      URL.revokeObjectURL(this.src);
     };
     img.src = imgUrl;
   }
