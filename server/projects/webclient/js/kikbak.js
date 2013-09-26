@@ -26,7 +26,6 @@ $(document).ready(function() {
     window.location.href = "https://kikbak.me";
   }
 
-  $(window).bind('popstate', initPage);
   var pageType = window.location.hash;
   if (pageType === '#offer-detail') {
    	history.pushState({}, 'offer', '#offer');
@@ -273,21 +272,18 @@ function initPosition(callback) {
       initPage.p = p.coords;
       $('#spinner').hide();
       callback();
+      $(window).bind('popstate', callback);
     }, function() {
       $('#spinner').hide();
       alert('Cannot get your location');
     },
     { enableHighAccuracy:true,maximumAge:600000 });
   } else {
-    aert('Cannot get your location, to use kikbak.me please enable location for the website');
+    alert('Cannot get your location, to use kikbak.me please enable location for the website');
   }
 }
 
 function initPage() {
-  var suffix = 'index.html';
-  if (window.location.href.indexOf(suffix, window.location.href.length - suffix.length) !== -1) {
-    window.location.href = 'offer.html';
-  }
   $('.popup').hide();
   $('#crop-image-div').hide();
   $('#offer-view').hide();
