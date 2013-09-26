@@ -101,10 +101,12 @@ CREATE TABLE `merchant`
 (
     id BIGINT NOT NULL AUTO_INCREMENT,
     name VARCHAR(64) CHARACTER SET utf8 NOT NULL,
+    shortname VARCHAR(64) NOT NULL,
     description VARCHAR(4096) CHARACTER SET utf8,
     url VARCHAR(256),
     image_url VARCHAR(256),
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    UNIQUE INDEX (shortname)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET latin1 COLLATE latin1_bin;
 
 

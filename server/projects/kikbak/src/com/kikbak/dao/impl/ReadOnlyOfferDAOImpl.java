@@ -38,8 +38,10 @@ public class ReadOnlyOfferDAOImpl extends ReadOnlyGenericDAOImpl<Offer, Long> im
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public Collection<Offer> listOffers(Merchant merchant) {
-		
-		return listByCriteria(Restrictions.eq("merchantId", merchant.getId()));
+        Date now = new Date();
+		return listByCriteria(Restrictions.eq("merchantId", merchant.getId()),
+                Restrictions.le("beginDate", now),
+                Restrictions.ge("endDate", now));
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -177,7 +178,13 @@ public class UserServiceImpl implements UserService {
 		GeoFence fence = GeoBoundaries.getGeoFence(origin, config.getDouble("geo.fence.distance.hasoffer"));
 		return getOffersByLocation(fence);
 	}
-	
+
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public Collection<ClientOfferType> getOffers(final Long userId, String merchantName) {
+		return getOffersByMerchant(merchantName);
+    }
+
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public Collection<ClientOfferType> getOffers(Long userId,
@@ -186,6 +193,59 @@ public class UserServiceImpl implements UserService {
 		Coordinate origin = new Coordinate(userLocation.getLatitude(), userLocation.getLongitude());
 		GeoFence fence = GeoBoundaries.getGeoFence(origin, config.getDouble("geo.fence.distance"));
 		return getOffersByLocation(fence);
+	}
+
+	private Collection<ClientOfferType> getOffersByMerchant(String merchantName) {
+        Merchant merchant = roMerchantDao.findByName(merchantName);
+        if (merchant == null) {
+            return Collections.emptyList();
+        }
+		Collection<Offer> offers = roOfferDao.listOffers(merchant);
+		Collection<ClientOfferType> ots = new ArrayList<ClientOfferType>(offers.size());
+		for(Offer offer : offers){
+		    Gift gift = roGiftDao.findByOfferId(offer.getId());
+		    Kikbak kikbak = roKikbakDao.findByOfferId(offer.getId());
+			ClientOfferType ot = new ClientOfferType();
+			ot.setBeginDate(offer.getBeginDate().getTime());
+			ot.setEndDate(offer.getEndDate().getTime());
+			ot.setId(offer.getId());
+			ot.setName(offer.getName());
+			ot.setTosUrl(offer.getTosUrl());
+			ot.setGiftDesc(gift.getDescription());
+			ot.setGiftDetailedDesc(gift.getDetailedDesc());
+			ot.setGiftValue(gift.getValue());
+			ot.setGiftDiscountType(gift.getDiscountType());
+			ot.setKikbakDesc(kikbak.getDescription());
+			ot.setKikbakDetailedDesc(kikbak.getDetailedDesc());
+			ot.setKikbakValue(kikbak.getValue());
+			ot.setOfferImageUrl(offer.getImageUrl());
+			ot.setMerchantId(offer.getMerchantId());
+			ot.setGiveImageUrl(gift.getImageUrl());
+			
+			ot.setMerchantName(merchant.getName());
+			ot.setMerchantUrl(merchant.getUrl());
+			
+			Collection<Location> locations = roLocationDao.listByMerchant(offer.getMerchantId());
+			for( Location location: locations){
+			    MerchantLocationType ml = new MerchantLocationType();
+				ml.setLocationId(location.getId());
+				ml.setSiteName(location.getSiteName());
+				ml.setAddress1(location.getAddress1());
+				ml.setAddress2(location.getAddress2());
+				ml.setCity(location.getCity());
+				ml.setState(location.getState());
+				ml.setZipcode(String.valueOf(location.getZipcode()));
+				ml.setZip4(location.getZipPlusFour());
+				ml.setLatitude(location.getLatitude());
+				ml.setLongitude(location.getLongitude());
+				ml.setPhoneNumber(location.getPhoneNumber());
+				ot.getLocations().add(ml);
+			}
+			
+			ots.add(ot);
+		}
+		
+		return ots;
 	}
 
 	private Collection<ClientOfferType> getOffersByLocation(GeoFence fence) {
