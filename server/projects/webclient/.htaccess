@@ -1,1 +1,4 @@
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
 DirectoryIndex offer.html index.html
