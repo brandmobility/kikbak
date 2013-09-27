@@ -1087,6 +1087,7 @@ function onSuggestResponse(url) {
 }
 
 function shareOffer() {
+  var userId = s.userId;
   updateFbFriends(userId, shareOfferAfterLogin); 
 }
 
