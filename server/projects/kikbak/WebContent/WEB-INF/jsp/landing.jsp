@@ -298,7 +298,7 @@ h3 {
                                     <c:choose>
                                         <c:when test="${not empty location}">
 							<ul class="info">
-								<li style="min-height:20px;">${shareInfo.friendName} was at ${gift.merchant.name}<br />
+								<li style="min-height:20px;">${shareInfo.friendName} was at ${gift.merchant.name} at<br />
 											<strong>${location.address1}, ${location.city}, ${location.state}</strong>
 								</li>
 							</ul>
@@ -370,7 +370,7 @@ h3 {
             <c:choose>
             <c:when test="${not empty location}">
         <div id="jumbotron">
-            <p style="margin-top:10px">&nbsp;&nbsp;${shareInfo.friendName} was at ${gift.merchant.name}<br />
+            <p style="margin-top:10px">&nbsp;&nbsp;${shareInfo.friendName} was at ${gift.merchant.name} at<br />
             &nbsp;&nbsp;<strong>${location.address1}, ${location.city}, ${location.state}</strong>
             </p>
         </div>

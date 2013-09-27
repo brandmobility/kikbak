@@ -317,35 +317,16 @@ function initPage() {
     if (strArray.length == 2) {
       getOffersByMerchant(strArray[1]);
     } else {
-      $('#offer-details-view').show('');
-      $('#back-btn-div').hide('');
-      $('#heading').html('Give');
-      if (s.offerCount > 1) {
-        $('#back-btn-div').show('');
-      }
       getOfferDetail();
     }
   } else if (pageType === '#redeem') {
     loginFb();
-    $('#redeem-view').show('');
-    $('#redeem-btn-div').css('background', 'url("img/btn_highlighted.png")');
-    $('#heading').html('Kikbak');
     getRedeems();
   } else if (pageType === '#redeem-gift-detail') {
     loginFb();
-    $('#redeem-details-view').show('');
-    if (getRedeems.counter > 1) {
-      $('#back-btn-div').show('');
-    }
-    $('#heading').html('Redeem');
     getRedeemGiftDetail();
   } else if (pageType === '#redeem-credit-detail') {
     loginFb();
-    $('#redeem-details-view').show('');
-    if (getRedeems.counter > 1) {
-      $('#back-btn-div').show('');
-    }
-    $('#heading').html('Redeem');
     getRedeemCreditDetail();
   } else if (pageType === '#suggest') {
     loginFb();
@@ -359,24 +340,10 @@ function initPage() {
       window.history.back();
     });
   } else if (pageType === '#offer-detail') {
-    $('#offer-details-view').show('');
-    $('#back-btn-div').hide('');
-    $('#heading').html('Give');
-    if (s.offerCount > 1) {
-      $('#back-btn-div').show('');
-    }
     getOfferDetail();
   } else {// Default
-    $('#offer-view').show('');
-    $('#suggest-btn-div').show('');
-    $('#heading').html('Give');    $('#offer-btn-div').css('background', 'url("img/btn_highlighted.png")');
     getOffers(pageType !== 'offer');
   }
-
-  setWrapperSize();
-  setTimeout(function(){
-    reload();
-  }, 500);
 }
 
 function claimGift(code) {
@@ -489,7 +456,7 @@ function getDisplayLocation(locations) {
   return locations.sort(function(a, b) {return a.dist - b.dist})[0];
 }
 
-function renderOfferList(json, tagname, tag) {
+function renderOfferList(json, tagname, tag, force) {
   var offers = json.getUserOffersResponse.offers;
   s.offerCount = offers.length;
             
@@ -507,8 +474,9 @@ function renderOfferList(json, tagname, tag) {
   if (offers.length == 1) {
     s.offerDetail = escape(JSON.stringify(offers[0]));
 	history.pushState({}, tagname, tag);
-    initPage();
     $('back-btn').hide();
+    initPage();
+    return;
   }
   
   offers = offers.sort(function(a, b) {return a.dist - b.dist});
@@ -517,12 +485,17 @@ function renderOfferList(json, tagname, tag) {
     s.offerDetail = escape(JSON.stringify(availOffer));
 	history.pushState({}, tagname, tag);
     initPage();
+    return;
   }
   
   $('#offer-list').html('');
   $.each(offers, function(i, offer) {
     renderOffer(offer);
   });
+      
+  $('#offer-view').show('');
+  $('#suggest-btn-div').show('');
+  $('#heading').html('Give');  $('#offer-btn-div').css('background', 'url("img/btn_highlighted.png")');
   
   if (offers.length == 0) {
     $("#no-offer-list").show();
@@ -568,7 +541,7 @@ function getOffersByLocation(userId, position, force) {
     data: str,
     url: config.backend + 'kikbak/user/offer/' + userId,
     success: function(json) {
-      renderOfferList(json, 'offer-detail', '#offer-detail');
+      renderOfferList(json, 'offer-detail', '#offer-detail', force);
     },
     error: showError
   });
@@ -633,6 +606,10 @@ function getRedeems() {
             }
           }
         }
+
+        $('#redeem-view').show('');
+        $('#redeem-btn-div').css('background', 'url("img/btn_highlighted.png")');
+        $('#heading').html('Kikbak');
         
         if (getRedeems.counter == 0) {
           $("#no-redeem-list").show();
@@ -993,7 +970,7 @@ function renderOfferDetail(offer) {
   html += 'Get ' + offer.kikbakDesc + '</h2>';
   html += '<h4>' + offer.kikbakDetailedDesc + '</h4>';
   html += '</div>';
-  html += '<div class="crt" style="margin:0 3%;">';
+  html += '<div class="crt" style="margin:0 2%;">';
   html += '<a href="#" class="trm" id="term-btn" >&nbsp;Terms and Conditions</a>';
   html += '</div>';
   html += '<input id="share-btn" name="share" type="button" class="btn grd3 botm-position" value="Give to friends" />';
@@ -1023,6 +1000,13 @@ function renderOfferDetail(offer) {
   $('#location-sel').html(options);
   if (offer.locations.length <= 1) {
     $('#location-sel-div').hide();
+  }
+  
+  $('#offer-details-view').show('');
+  $('#back-btn-div').hide('');
+  $('#heading').html('Give');
+  if (s.offerCount > 1) {
+    $('#back-btn-div').show('');
   }
 }
 
@@ -1350,6 +1334,12 @@ function renderRedeemGiftDetail(data) {
 	e.preventDefault();
     doRedeemGift(gift);
   });
+  
+  $('#redeem-details-view').show('');
+  if (getRedeems.counter > 1) {
+    $('#back-btn-div').show('');
+  }
+  $('#heading').html('Redeem');
 }
 
 function doRedeemGift(gift) {
@@ -1391,6 +1381,12 @@ function renderRedeemCreditDetail(credit) {
 	e.preventDefault();
     claimCreditForm(credit);
   });
+  
+  $('#redeem-details-view').show('');
+  if (getRedeems.counter > 1) {
+    $('#back-btn-div').show('');
+  }
+  $('#heading').html('Redeem');
 }
 
 function claimCreditForm(credit) {
@@ -1409,11 +1405,6 @@ function claimCreditForm(credit) {
     e.preventDefault();
     window.history.back();
   })
-}
-
-function reload() {
-  adjustAddPhoto();
-  window.scrollTo(0, 1);
 }
 
 function getBrowserName() {

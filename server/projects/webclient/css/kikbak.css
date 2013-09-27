@@ -335,7 +335,7 @@ p.msg {
 }
 .image-add h2 {
     color: #FFFFFF;
-    font-size: 20px;
+    font-size: 16px;
     left: 0;
     margin: 0;
     position: absolute;
@@ -393,7 +393,7 @@ p.msg {
 .image-add h3 {
     bottom: 30%;
     color: #fff;
-    font-size: 26px;
+    font-size: 23px;
     font-weight: normal;
     left: 3%;
     position: absolute;
@@ -622,7 +622,7 @@ p.msg {
     padding: 2%;
     border: 0px;
     text-align: center;
-    width: 95%;
+    width: 94%;
     height: 40px;
     font-weight: bold;
     border-radius: 5px;
