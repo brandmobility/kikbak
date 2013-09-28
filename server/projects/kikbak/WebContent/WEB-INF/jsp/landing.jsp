@@ -298,7 +298,7 @@ h3 {
                                     <c:choose>
                                         <c:when test="${not empty location}">
 							<ul class="info">
-								<li style="min-height:20px;">${shareInfo.friendName} was at ${gift.merchant.name}<br />
+								<li style="min-height:20px;">${shareInfo.friendName} was at ${gift.merchant.name} at<br />
 											<strong>${location.address1}, ${location.city}, ${location.state}</strong>
 								</li>
 							</ul>
@@ -331,7 +331,7 @@ h3 {
 					<div style="padding-left: 145px; padding-right: 30px; text-align: center; padding-top: 20px;">
 						<p style="font-family: HelveticaNeueLTPro-Lt; font-size: 12px;">
                             We use Facebook to make it easy for you to share, store and redeem gifts and rewards. <br /> 
-                            We will never post on Facebook with your permission.
+                            We will never post on Facebook without your permission.
 						</p>
 					</div>
 					</div>
@@ -370,7 +370,7 @@ h3 {
             <c:choose>
             <c:when test="${not empty location}">
         <div id="jumbotron">
-            <p style="margin-top:10px">&nbsp;&nbsp;${shareInfo.friendName} was at ${gift.merchant.name}<br />
+            <p style="margin-top:10px">&nbsp;&nbsp;${shareInfo.friendName} was at ${gift.merchant.name} at<br />
             &nbsp;&nbsp;<strong>${location.address1}, ${location.city}, ${location.state}</strong>
             </p>
         </div>
@@ -427,7 +427,7 @@ h3 {
                 <a id="loginFb" href="#"><img src="img/facebook-button.png" /></a>
                 <p align="center" style="padding-top:10px;font-family:HelveticaNeueLTPro-Lt;font-size:10px;">
                 We use Facebook to make it easy for you to share, store and redeem gifts and rewards. <br /> 
-                We will never post on Facebook with your permission.
+                We will never post on Facebook without your permission.
                 </p>
             </div>
             </div>

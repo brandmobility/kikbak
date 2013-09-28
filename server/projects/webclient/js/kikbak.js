@@ -26,9 +26,13 @@ $(document).ready(function() {
     window.location.href = "https://kikbak.me";
   }
 
-  $(window).bind('popstate', initPage);
   var pageType = window.location.hash;
-  if (pageType === '#offer-detail') {
+  var merchantTypePrefix = "#merchant-";
+  if (pageType.indexOf(merchantTypePrefix) === 0) {
+    var strArray = pageType.split('-', 2);
+    var merchantTag = strArray[0] + '-' + strArray[1];
+   	history.pushState({}, 'merchant', merchantTag);
+  } else if (pageType === '#offer-detail') {
    	history.pushState({}, 'offer', '#offer');
   } else if (pageType === '#redeem-gift-detail') {
    	history.pushState({}, 'redeem', '#redeem');
@@ -273,21 +277,18 @@ function initPosition(callback) {
       initPage.p = p.coords;
       $('#spinner').hide();
       callback();
+      $(window).bind('popstate', callback);
     }, function() {
       $('#spinner').hide();
       alert('Cannot get your location');
     },
     { enableHighAccuracy:true,maximumAge:600000 });
   } else {
-    aert('Cannot get your location, to use kikbak.me please enable location for the website');
+    alert('Cannot get your location, to use kikbak.me please enable location for the website');
   }
 }
 
 function initPage() {
-  var suffix = 'index.html';
-  if (window.location.href.indexOf(suffix, window.location.href.length - suffix.length) !== -1) {
-    window.location.href = 'offer.html';
-  }
   $('.popup').hide();
   $('#crop-image-div').hide();
   $('#offer-view').hide();
@@ -310,27 +311,22 @@ function initPage() {
   }
 
   var pageType = window.location.hash;
-  if (pageType === '#redeem') {
+  var merchantTypePrefix = "#merchant-";
+  if (pageType.indexOf(merchantTypePrefix) === 0) {
+    var strArray = pageType.split('-');
+    if (strArray.length == 2) {
+      getOffersByMerchant(strArray[1]);
+    } else {
+      getOfferDetail();
+    }
+  } else if (pageType === '#redeem') {
     loginFb();
-    $('#redeem-view').show('');
-    $('#redeem-btn-div').css('background', 'url("img/btn_highlighted.png")');
-    $('#heading').html('Kikbak');
     getRedeems();
   } else if (pageType === '#redeem-gift-detail') {
     loginFb();
-    $('#redeem-details-view').show('');
-    if (getRedeems.counter > 1) {
-      $('#back-btn-div').show('');
-    }
-    $('#heading').html('Redeem');
     getRedeemGiftDetail();
   } else if (pageType === '#redeem-credit-detail') {
     loginFb();
-    $('#redeem-details-view').show('');
-    if (getRedeems.counter > 1) {
-      $('#back-btn-div').show('');
-    }
-    $('#heading').html('Redeem');
     getRedeemCreditDetail();
   } else if (pageType === '#suggest') {
     loginFb();
@@ -344,24 +340,10 @@ function initPage() {
       window.history.back();
     });
   } else if (pageType === '#offer-detail') {
-    $('#offer-details-view').show('');
-    $('#back-btn-div').hide('');
-    $('#heading').html('Give');
-    if (s.offerCount > 1) {
-      $('#back-btn-div').show('');
-    }
     getOfferDetail();
   } else {// Default
-    $('#offer-view').show('');
-    $('#suggest-btn-div').show('');
-    $('#heading').html('Give');    $('#offer-btn-div').css('background', 'url("img/btn_highlighted.png")');
     getOffers(pageType !== 'offer');
   }
-
-  setWrapperSize();
-  setTimeout(function(){
-    reload();
-  }, 500);
 }
 
 function claimGift(code) {
@@ -474,6 +456,73 @@ function getDisplayLocation(locations) {
   return locations.sort(function(a, b) {return a.dist - b.dist})[0];
 }
 
+function renderOfferList(json, tagname, tag, force) {
+  var offers = json.getUserOffersResponse.offers;
+  s.offerCount = offers.length;
+            
+  var availCount = 0;
+  var availOffer = null;
+  $.each(offers, function(i, offer) {
+    var local = getDisplayLocation(offer.locations);
+    offer.dist = local.dist;
+    if (local.dist < 0.5) {
+      ++availCount;
+      availOffer = offer;
+    }
+  });
+  
+  if (offers.length == 1) {
+    s.offerDetail = escape(JSON.stringify(offers[0]));
+	history.pushState({}, tagname, tag);
+    $('back-btn').hide();
+    initPage();
+    return;
+  }
+  
+  offers = offers.sort(function(a, b) {return a.dist - b.dist});
+  
+  if (availCount == 1 && !force) {
+    s.offerDetail = escape(JSON.stringify(availOffer));
+	history.pushState({}, tagname, tag);
+    initPage();
+    return;
+  }
+  
+  $('#offer-list').html('');
+  $.each(offers, function(i, offer) {
+    renderOffer(offer);
+  });
+      
+  $('#offer-view').show('');
+  $('#suggest-btn-div').show('');
+  $('#heading').html('Give');  $('#offer-btn-div').css('background', 'url("img/btn_highlighted.png")');
+  
+  if (offers.length == 0) {
+    $("#no-offer-list").show();
+  } else {
+    $("#no-offer-list").hide();
+  }
+  $('.offer-details-btn').click(function(e) {
+	history.pushState({}, tagname, tag);
+    e.preventDefault();
+    s.offerDetail = $(this).attr('data-object');
+    initPage();
+  });
+}
+
+function getOffersByMerchant(merchant) {
+  $.ajax({
+    dataType: 'json',
+    type: 'GET',
+    contentType: 'application/json',
+    url: config.backend + 'kikbak/user/offer/0/' + merchant,
+    success: function(json) {
+      renderOfferList(json, 'merchant-offer-detail', '#merchant-' + merchant + '-offer');
+    },
+    error: showError
+  });
+}
+
 function getOffersByLocation(userId, position, force) {
   var location = {};
   if (position != null) {
@@ -492,51 +541,7 @@ function getOffersByLocation(userId, position, force) {
     data: str,
     url: config.backend + 'kikbak/user/offer/' + userId,
     success: function(json) {
-      var offers = json.getUserOffersResponse.offers;
-      s.offerCount = offers.length;
-            
-      var availCount = 0;
-      var availOffer = null;
-      $.each(offers, function(i, offer) {
-        var local = getDisplayLocation(offer.locations);
-        offer.dist = local.dist;
-        if (local.dist < 0.5) {
-          ++availCount;
-          availOffer = offer;
-        }
-      });
-      
-      if (offers.length == 1) {
-        s.offerDetail = escape(JSON.stringify(offers[0]));
-        history.pushState({}, 'offer-detail', '#offer-detail');
-        initPage();
-        $('back-btn').hide();
-      }
-      
-      offers = offers.sort(function(a, b) {return a.dist - b.dist});
-      
-      if (availCount == 1 && !force) {
-        s.offerDetail = escape(JSON.stringify(availOffer));
-        history.pushState({}, 'offer-detail', '#offer-detail');
-        initPage();
-      }
-      
-      $('#offer-list').html('');
-      $.each(offers, function(i, offer) {
-        renderOffer(offer);
-      });
-      
-      if (offers.length == 0) {
-        $("#no-offer-list").show();
-      } else {
-        $("#no-offer-list").hide();
-      }
-      $('.offer-details-btn').click(function(e) {
-    	history.pushState({}, 'offer-detail', '#offer-detail');
-        e.preventDefault();
-        s.offerDetail = $(this).attr('data-object');
-        initPage();
-      });
+      renderOfferList(json, 'offer-detail', '#offer-detail', force);
     },
     error: showError
   });
@@ -601,6 +606,10 @@ function getRedeems() {
             }
           }
         }
+
+        $('#redeem-view').show('');
+        $('#redeem-btn-div').css('background', 'url("img/btn_highlighted.png")');
+        $('#heading').html('Kikbak');
         
         if (getRedeems.counter == 0) {
           $("#no-redeem-list").show();
@@ -919,7 +928,7 @@ function renderOfferDetail(offer) {
     html += '<div id="share-fb-div" style="text-align:center;height:90px;margin-top:5px;">'
     html += '<input id="share-btn-fb" name="share" type="button" class="fb-share" value="         Connect with Facebook to share" />';
     html += '<div class="crt">';
-    html += '<p style="font-size:10px;">We use Facebook to make it easy for you to share, store and redeem gifts and rewards.<br />We will never post on Facebook with your permission.</p>';
+    html += '<p style="font-size:10px;">We use Facebook to make it easy for you to share, store and redeem gifts and rewards. We will never post on Facebook without your permission.</p>';
     html += '</div>';
     html += '</div>';
   }
@@ -961,7 +970,7 @@ function renderOfferDetail(offer) {
   html += 'Get ' + offer.kikbakDesc + '</h2>';
   html += '<h4>' + offer.kikbakDetailedDesc + '</h4>';
   html += '</div>';
-  html += '<div class="crt" style="margin:0 3%;">';
+  html += '<div class="crt" style="margin:0 2%;">';
   html += '<a href="#" class="trm" id="term-btn" >&nbsp;Terms and Conditions</a>';
   html += '</div>';
   html += '<input id="share-btn" name="share" type="button" class="btn grd3 botm-position" value="Give to friends" />';
@@ -991,6 +1000,13 @@ function renderOfferDetail(offer) {
   $('#location-sel').html(options);
   if (offer.locations.length <= 1) {
     $('#location-sel-div').hide();
+  }
+  
+  $('#offer-details-view').show('');
+  $('#back-btn-div').hide('');
+  $('#heading').html('Give');
+  if (s.offerCount > 1) {
+    $('#back-btn-div').show('');
   }
 }
 
@@ -1055,6 +1071,7 @@ function onSuggestResponse(url) {
 }
 
 function shareOffer() {
+  var userId = s.userId;
   updateFbFriends(userId, shareOfferAfterLogin); 
 }
 
@@ -1317,6 +1334,12 @@ function renderRedeemGiftDetail(data) {
 	e.preventDefault();
     doRedeemGift(gift);
   });
+  
+  $('#redeem-details-view').show('');
+  if (getRedeems.counter > 1) {
+    $('#back-btn-div').show('');
+  }
+  $('#heading').html('Redeem');
 }
 
 function doRedeemGift(gift) {
@@ -1358,6 +1381,12 @@ function renderRedeemCreditDetail(credit) {
 	e.preventDefault();
     claimCreditForm(credit);
   });
+  
+  $('#redeem-details-view').show('');
+  if (getRedeems.counter > 1) {
+    $('#back-btn-div').show('');
+  }
+  $('#heading').html('Redeem');
 }
 
 function claimCreditForm(credit) {
@@ -1376,11 +1405,6 @@ function claimCreditForm(credit) {
     e.preventDefault();
     window.history.back();
   })
-}
-
-function reload() {
-  adjustAddPhoto();
-  window.scrollTo(0, 1);
 }
 
 function getBrowserName() {

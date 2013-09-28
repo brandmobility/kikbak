@@ -2,7 +2,7 @@
  <user id="1" first_name="fn1" last_name="ln1" email="e@e.com" facebook_id="1234" gender="0" create_date="2012-11-13 22:00:00"/>
  <accounttype id="1" type="admin"/>
  <account id="1" first_name="fn1" last_name="ln1" email="test@kikbak.com" phone_number="1234" verified="0" password="1234" account_type_id="1" create_date="2012-11-13 22:00:00"/>
- <merchant id="1" name="Pied Piper" description="23" />
+ <merchant id="1" name="Pied Piper" description="23" shortname="pp" />
  <location id="1" verification_code="4343" address_1="332 test" city="SF" state="CA" zipcode="43231" phone_number="6505551212" merchant_id="1" latitude="37.42706140" longitude="-122.1444120" status="participating"/>
  <offer id="1" merchant_id="1" name="kikit" image_url="url" tos_url="tos" begin_date="2012-11-13 22:00:00" end_date="2014-11-13 22:00:00" /> 
  <friend id="1" first_name="test" last_name="bob" facebook_id="12" username="testbob" />
@@ -11,8 +11,8 @@
  <allocatedgift id="3" offer_id="14" user_id="14" gift_id="2"  friend_user_id="15" merchant_id="3" value="0.21" shared_id="1" redemption_date="2012-11-13 22:00:00" expiration_date="2013-11-13 22:00:00"/>
  <allocatedgift id="4" offer_id="1" user_id="52" gift_id="12"  friend_user_id="15" merchant_id="3" value="0.21" shared_id="1" redemption_date="2012-11-13 22:00:00" expiration_date="2013-11-13 22:00:00"/>
  <allocatedgift id="5" offer_id="1" user_id="52" gift_id="4"  friend_user_id="15" merchant_id="3" value="0.21" shared_id="1" redemption_date="2012-11-13 22:00:00" expiration_date="2013-11-13 22:00:00"/>
- <kikbak id="1" offer_id="1" description="test" detailed_desc="foo" value="10.0" reward_type="claim" validation_type="pos" image_url="foo" notification_text="noti"/>
- <kikbak id="2" offer_id="2" description="test" detailed_desc="foo" value="10.0" reward_type="claim" validation_type="pos" image_url="foo" notification_text="noti"/>
+ <kikbak id="1" offer_id="1" description="test" detailed_desc="foo" value="10.0" reward_type="claim" validation_type="pos" image_url="foo" />
+ <kikbak id="2" offer_id="2" description="test" detailed_desc="foo" value="10.0" reward_type="claim" validation_type="pos" image_url="foo" />
  <credit id="1" merchant_id="3" location_id="14" user_id="2" offer_id="4" kikbak_id="1" reward_type="claim" begin_date="2012-11-13 22:00:00" end_date="2013-11-13 22:00:00" value="12.23"/>
  <credit id="2" merchant_id="3" location_id="12" user_id="4" offer_id="4" kikbak_id="2" reward_type="claim" begin_date="2012-11-13 22:00:00" end_date="2013-11-13 22:00:00" value="12.23"/>
  <shared id="1" user_id="1" type="email" location_id="13" offer_id="1" merchant_id="2" shared_date="2012-11-13 22:00:00" referral_code="code1"/>
@@ -21,6 +21,7 @@
  <transaction id="2" offer_id="9" user_id="2" credit_id="12" transaction_type="1" amount="12.2" date="2012-11-13 22:00:00" merchant_id="8" location_id="12" verification_code="1231" authorization_code="1231"/>
  <transaction id="3" offer_id="9" user_id="1" credit_id="12" transaction_type="1" amount="12.2" date="2012-11-13 22:00:00" merchant_id="8" location_id="11" verification_code="1231" authorization_code="1231"/>
  <devicetoken id="1" user_id="1" token="testtoken" platform_type="0" last_update_time="2012-11-13 22:00:00" />
+ <userToken id="1" user_id="1" token="testtoken" />
  <user2friend id="1" user_id="1" facebook_friend_id="1"/>
  <claim id="1" user_id="3" kikbak_id="12" offer_id="13" phone_number="1234" name="name" street="123" apt="123" city="1234" state="CA" zipcode="12345" request_date="2012-11-13 22:00:00" amount="0" />
  <barcode id="1" merchant_id="1" offer_id="1" allocated_gift_id="12" gift_id="12" code="123456"  value="12.32" association_date="2012-11-13 22:00:00" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00"/>
@@ -41,5 +42,5 @@
  <barcode id="17" merchant_id="1" offer_id="1" gift_id="12" code="6012345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00"/>
  <barcode id="18" merchant_id="1" offer_id="1" gift_id="4" code="222222222222"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00"/>
 
- <gift id="1" offer_id="12" description="test" detailed_desc="12" value="14" discount_type="amount" redemption_location_type="store" validation_type="pos" image_url="url" default_give_image_url="url" notification_text="notification"/>
+ <gift id="1" offer_id="12" description="test" detailed_desc="12" value="14" discount_type="amount" redemption_location_type="store" validation_type="pos" image_url="url" default_give_image_url="url" />
 </dataset>

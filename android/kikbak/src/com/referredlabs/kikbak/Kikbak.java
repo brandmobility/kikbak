@@ -2,6 +2,7 @@
 package com.referredlabs.kikbak;
 
 import java.io.File;
+import java.net.URL;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -18,6 +19,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 
 import com.referredlabs.kikbak.http.HttpClientHelper;
+import com.squareup.okhttp.OkHttpClient;
 
 public class Kikbak extends Application {
 
@@ -56,6 +58,7 @@ public class Kikbak extends Application {
   @Override
   public void onCreate() {
     super.onCreate();
+    URL.setURLStreamHandlerFactory(new OkHttpClient()); // https://github.com/square/okhttp/issues/184
     HttpClientHelper.createInstance(this);
     setInstance(this);
   }
