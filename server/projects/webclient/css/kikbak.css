@@ -949,7 +949,7 @@ p.msg {
 }
 .cls-popup h1 {
     color: #3A3A3A;
-    font-size: 40px;
+    font-size: 30px;
     margin: 2% 7%;
     text-align: center;
 }
@@ -957,7 +957,7 @@ p.msg {
     float: left;
     width: 100%;
     color: #3a3a3a;
-    font-size: 18px;
+    font-size: 16px;
     text-align: center;
     margin-top:28px;
     margin-bottom:28px;
