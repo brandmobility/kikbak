@@ -188,7 +188,12 @@ input, textarea {
 }
 
 .website-img {
-    height: 19px;
+    height: 16px;
+    margin-top: 2px;
+}
+
+.map-img {
+    margin-top: 0;
 }
 
 .classname {
@@ -302,7 +307,7 @@ input, textarea {
 }
 .image-add {
     float: left;
-    height: 270px;
+    height: 340px;
     overflow: hidden;
     position: relative;
     width: 100%;
@@ -661,7 +666,7 @@ p.msg {
 .imglist h3 {
     bottom: 25%;
     color: #FFFFFF;
-    font-size: 18px;
+    font-size: 23px;
     font-weight: normal;
     left: 2%;
     position: absolute;
@@ -677,7 +682,7 @@ p.msg {
 }
 
 .imglist .opt-icon a {
-    font-size: 20px;
+    font-size: 18px;
 }
 .ribn {
     float: right;
@@ -1379,7 +1384,7 @@ h1.pg-hedng {
 }
 .spinner {
     position: absolute;
-    top: 55%;
+    top: 50%;
     left: 72%;
     margin: -100px 0 0 -100px;
     height: 40px;
@@ -1415,6 +1420,12 @@ from {
 to {
     -webkit-transform: rotate(360deg);
 }
+}
+
+@media screen and (max-aspect-ratio: 1/1) and (max-height: 520px) {
+    .image-add {
+        height: 300px;
+    }
 }
 
 @media screen and (max-aspect-ratio: 1/1) and (max-height: 500px) {
