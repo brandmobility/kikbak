@@ -96,6 +96,9 @@
 //            [data setObject:[NSNumber numberWithDouble:37.7602556 ] forKey:@"latitude"];
 //            [data setObject:[NSNumber numberWithDouble:-122.4349466] forKey:@"longitude"];
 
+            //NYC
+//            [data setObject:[NSNumber numberWithDouble:40.71448 ] forKey:@"latitude"];
+//            [data setObject:[NSNumber numberWithDouble: -74.00598] forKey:@"longitude"];
             
 //            self.currentLocation = [[CLLocation alloc]initWithLatitude:37.4207480 longitude:-122.1303430];
 //            self.currentLocation = [[CLLocation alloc]initWithLatitude:37.7602556 longitude:-122.4349466];

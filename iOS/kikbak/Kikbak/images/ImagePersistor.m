@@ -30,7 +30,7 @@ const char* IMAGE_PNG = "image.png";
 
 +(NSString*)persisttImage:(NSData*)imageData fileId:(NSNumber*)fileId imageType:(ImageType)type
 {
-    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString* fullPath = [NSString stringWithFormat:@"%@/%@/%@",[paths objectAtIndex:0],[ImagePersistor getDirectory:type], fileId];
     if(![ImagePersistor fileExists:fullPath]){
         [ImagePersistor createDirectory:fullPath];
@@ -60,7 +60,7 @@ const char* IMAGE_PNG = "image.png";
 }
 
 +(NSString*)imageFileExists:(NSNumber*)fileId imageType:(ImageType)type{
-    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString* filepath = [NSString stringWithFormat:@"%@/%@/%@/%s",[paths objectAtIndex:0],[ImagePersistor getDirectory:type], fileId,IMAGE_PNG];
     if( [ImagePersistor fileExists:filepath] ){
         return filepath;
