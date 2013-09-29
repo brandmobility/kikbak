@@ -452,10 +452,10 @@ p.msg {
 .img-botm-patrn {
     float: left;
     width: 100%;
-    background: url(../images/botampatter.png) left bottom repeat-x;
+    background: url(../images/botampatter.png) left bottom;
     height: 2px;
     font-size: 0;
-    background-size: 8px;
+    background-size: 6px;
 }
 .gv {
     border-bottom: 1px solid #C4C4C4;
