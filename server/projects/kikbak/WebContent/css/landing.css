@@ -64,12 +64,12 @@ html, body {
 
 #header h1 {
     background-repeat: no-repeat;
-    width: 200px;
-    height: 80px;
+    width: 150px;
+    height: 60px;
     top: 20px;
     text-indent: -99999px;
     float: right;
-    margin-right: 170px;
+    margin-right: 177px;
     position: relative;
 }
 

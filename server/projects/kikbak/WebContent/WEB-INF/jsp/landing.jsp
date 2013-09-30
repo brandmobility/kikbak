@@ -313,7 +313,7 @@
                             </h3>
                         </div>
                         <div class="ribbon">
-                            <div style="background-color: #767676; padding-top: 10px; padding-bottom: 10px;">
+                            <div style="background-color: #767676; padding-top: 10px; padding-bottom: 10px; padding-left:40px;">
                                 <h3>${gift.desc}</h3>
                                 <p style="font-family: HelveticaNeueLTPro-Lt; font-size: 22px; margin: 0px; padding: 0px;">${gift.detailedDesc}</p>
                                 <small style="font-family: HelveticaNeueLTPro-Lt; font-size: 12px; margin: 0px; padding: 0px;">offer valid in-store only</small>
@@ -326,7 +326,7 @@
                                     <a id="loginFb" href="#"><img src="img/facebook-button.png" /></a>
                                 </div>
                             </div>
-                            <div style="padding-left: 145px; padding-right: 30px; text-align: center; padding-top: 20px;">
+                            <div style="padding-left: 165px; padding-right: 30px; text-align: center; padding-top: 20px;">
                                 <p style="font-family: HelveticaNeueLTPro-Lt; font-size: 12px;">
                                 We use Facebook to make it easy for you to share, store and redeem gifts and rewards. <br /> 
                                 We will never post on Facebook without your permission.
@@ -334,13 +334,13 @@
                             </div>
                         </div>
                         <div id="redeem-div" style="display:none;">
-                            <div style="padding-left:145px;padding-right:30px;text-align:center;padding-top:20px;">
+                            <div style="padding-left:165px;padding-right:30px;text-align:center;padding-top:20px;">
                                 <p>Awesome! Your gift is now stored to your Facebook <br /> 
                                 account. To use your gift, download the Kikbak app. It’ll be <br />
                                 waiting for whenever you’re ready to use it.
                                 </p>
                             </div>
-                            <div style="padding-left:145px;padding-right:10px;text-align:center;">
+                            <div style="padding-left:165px;padding-right:10px;text-align:center;">
                                 <a href="#"><img src="img/app-store.png" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <a href="#"><img src="img/google-play.png" /></a>
                             </div>
