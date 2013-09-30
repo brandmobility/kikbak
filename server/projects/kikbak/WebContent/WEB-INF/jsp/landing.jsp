@@ -30,7 +30,7 @@
 
             .widget h3 {
             color: #FFFFFF;
-            font-size: 32px;
+            font-size: 26px;
             }
 
             .info {
@@ -90,10 +90,11 @@
             .globe {
             background-image: url(img/icon-globe.png);
             background-repeat: no-repeat;
-            width: 22px;
-            height: 22px;
+            background-size: 100%;
+            width: 18px;
+            height: 18px;
             margin-right: 20px;
-            margin-top: 5px;
+            margin-top: 7px;
             position: relative;
             }
         </style>
@@ -375,7 +376,14 @@
             </c:choose>
 
             <img src="${shareInfo.imageUrl}" width="100%" height="330px" />
+            <c:choose>
+            <c:when test="${not empty location}">
             <img src="img/blk-shad.png" width="100%" height="330px" style="position:absolute;top:65px;" />
+            </c:when>
+            <c:otherwise>
+            <img src="img/blk-shad.png" width="100%" height="330px" style="position:absolute;top:0;" />
+            </c:otherwise>
+            </c:choose>
             <div class="widget">
                 <div class="span4">
                     <h3 style="padding: 0px; margin: 0px; font-family: HelveticaNeueLTPro-Lt">${gift.merchant.name}</h3>

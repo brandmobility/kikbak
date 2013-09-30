@@ -28,27 +28,25 @@
             android:layout_alignTop="@id/reward_image"
             android:background="@drawable/grd_redeem" />
 
-        <com.referredlabs.kikbak.widget.TtfTextView
-            android:id="@+id/name"
+        <include
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_marginBottom="6dp"
+            android:layout_marginLeft="13dp"
+            layout="@layout/icons_bar_mini" />
+
+        <com.referredlabs.kikbak.widget.TtfTextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/icon_bar"
+            android:layout_alignParentLeft="true"
             android:layout_marginLeft="13dp"
             android:text="Verizon Wireless"
             android:textColor="@android:color/white"
             android:textSize="26dp"
             kikbak:typeface="Roboto-Light.ttf" />
-
-        <include
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="4dp"
-            android:layout_marginRight="13dp"
-            layout="@layout/icons_bar_mini" />
     </RelativeLayout>
 
     <ImageView
