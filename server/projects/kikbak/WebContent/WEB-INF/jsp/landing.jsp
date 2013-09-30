@@ -38,7 +38,6 @@
             padding: 0px;
             list-style-type: none;
             padding-top: 10px;
-            text-align: center;
             }
 
             .info li {
@@ -48,6 +47,7 @@
             background-repeat: no-repeat;
             background-position: top left;
             width: 100%;
+            padding-left: 30px;
             }
 
             .info li strong {
@@ -296,8 +296,7 @@
                                 <c:choose>
                                 <c:when test="${not empty location}">
                                 <ul class="info">
-                                    <li style="min-height:20px;">${shareInfo.friendName} was at <strong>${gift.merchant.name}</strong> at<br />
-                                    <strong>${location.address1}, ${location.city}, ${location.state}</strong>
+                                    <li style="min-height:20px;">${shareInfo.friendName} was at <strong>${gift.merchant.name}</strong> at <strong>${location.address1}, ${location.city}, ${location.state}</strong>
                                     </li>
                                 </ul>
                                 </c:when>
