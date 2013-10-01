@@ -973,7 +973,7 @@ function renderOfferDetail(offer) {
   html += '<div class="crt" style="margin:0 2%;">';
   html += '<a href="#" class="trm" id="term-btn" >&nbsp;Terms and Conditions</a>';
   html += '</div>';
-  html += '<input id="share-btn" name="share" type="button" class="btn grd3 botm-position" value="Give to friends" />';
+  html += '<input id="share-btn" name="share" type="button" class="btn grd-btn botm-position" value="Give to friends" />';
   html += '</form>';
   html += '</div>';
   $('#offer-details-view').html(html);
@@ -1321,7 +1321,7 @@ function renderRedeemGiftDetail(data) {
   html += '<div class="crt">';
   html += '<a href="#" class="trm" id="term-btn" >Terms and Conditions</a>';
   html += '</div>';
-  html += '<button id="redeem-gift-instore-btn" class="btn grd3 botm-position">Redeem now in store</button>';
+  html += '<button id="redeem-gift-instore-btn" class="btn grd-btn botm-position">Redeem now in store</button>';
   
   $('#redeem-details-view').html(html);
   
@@ -1368,7 +1368,7 @@ function renderRedeemCreditDetail(credit) {
   html += '<h5>' + credit.rewardType + '</h5>';
   html += '<a href="#" class="trm" id="term-btn">Terms and Conditions</a>';
   html += '</div>';
-  html += '<button id="claim-credit-form-btn" class="btn grd3 botm-position">Claim reward now</button>';
+  html += '<button id="claim-credit-form-btn" class="btn grd-btn botm-position">Claim reward now</button>';
   
   $('#redeem-details-view').html(html);
   
