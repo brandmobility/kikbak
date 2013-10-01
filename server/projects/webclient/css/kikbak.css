@@ -1350,7 +1350,9 @@ h1.pg-hedng {
     float: none;
     margin: 2% auto;
     width: 95px;
-    height: 25px;
+    height: 22px;
+    font-size:18px;
+    font-weight: normal;
 }
 .giv-btn {
     float: left;
