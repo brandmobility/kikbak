@@ -97,7 +97,7 @@ input, textarea {
 
 .grd-btn {
     background: url('../images/btn_blue.png');
-    background-size: 100%;
+    background-size: cover;
 }
 
 /* --- */
