@@ -12,5 +12,6 @@ public interface ReadOnlySharedDAO {
 	public Collection<Shared> listByLocationId(Long locationId);
 	public Collection<Shared> listByUserIdAndOfferId(Long userId, Long offerId);
     public Shared findAvailableForGiftingByReferralCode(String referralCode);
+    public Shared findLastShareByUserAndOffer(long userId, long offerId);
     public Collection<Shared> listSharesForNewGifts(Long userId);
 }

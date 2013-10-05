@@ -68,9 +68,20 @@ public class SharedDAOTest extends KikbakBaseTest{
 	}
 	
 	@Test
-	public void testListUserAndOfferId(){
-		Collection<Shared> shared = roDao.listByUserIdAndOfferId(6L, 3L);
-		assertEquals(1, shared.size());
+	public void testListUserAndOfferId() throws Exception {
+		Collection<Shared> shareds = roDao.listByUserIdAndOfferId(6L, 3L);
+		assertEquals(2, shareds.size());
+		
+		Shared shared = rwDao.findLastShareByUserAndOffer(6L, 3L);
+		assertEquals(3, shared.getId());
+	
+		shared.setSharedDate(new Date(0));
+		rwDao.saveShared(shared);
+		
+		shared = rwDao.findLastShareByUserAndOffer(6L, 3L);
+		assertEquals(2, shared.getId());
+		
+		
 	}
 }
 
