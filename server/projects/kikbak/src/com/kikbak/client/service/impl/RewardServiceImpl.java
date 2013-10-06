@@ -17,12 +17,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.google.common.collect.Multimap;
 import com.kikbak.client.service.RateLimitException;
 import com.kikbak.client.service.RedemptionException;
 import com.kikbak.client.service.RewardException;
 import com.kikbak.client.service.RewardService;
 import com.kikbak.client.service.impl.types.TransactionType;
+import com.kikbak.client.util.CryptoUtils;
 import com.kikbak.dao.ReadOnlyAllocatedGiftDAO;
 import com.kikbak.dao.ReadOnlyBarcodeDAO;
 import com.kikbak.dao.ReadOnlyCreditDAO;
@@ -173,30 +173,35 @@ public class RewardServiceImpl implements RewardService{
         Collection<AvailableCreditType> acts = new ArrayList<AvailableCreditType>();
 
         for( Credit credit : credits){
-            AvailableCreditType ac = new AvailableCreditType();
-            ac.setValue(credit.getValue());
-            ac.setId(credit.getId());
-            ac.setOfferId(credit.getOfferId());
-
-            Merchant merchant = roMerchantDao.findById(credit.getMerchantId());
-            ClientMerchantType cmt = fillClientMerchantType(merchant);
-            ac.setMerchant(cmt);
-
-            Kikbak kikbak = roKikbakDAO.findByOfferId(credit.getOfferId());
-            Offer offer = roOfferDao.findById(credit.getOfferId());
-            ac.setDesc(kikbak.getDescription());
-            ac.setDetailedDesc(kikbak.getDetailedDesc());
-            ac.setRewardType(kikbak.getRewardType());
-            ac.setValidationType(kikbak.getValidationType());
-            ac.setTosUrl(offer.getTosUrl());
-            ac.setImageUrl(kikbak.getImageUrl());
-            ac.setRedeemedGiftsCount(roTxnDao.countOfGiftsRedeemedByUserByMerchant(userId, credit.getMerchantId()));
-
+            AvailableCreditType ac = createAvailableCreditType(userId, credit);
             acts.add(ac);
         }
 
         return acts;
     }
+
+	private AvailableCreditType createAvailableCreditType(Long userId,
+			Credit credit) {
+		AvailableCreditType ac = new AvailableCreditType();
+		ac.setValue(credit.getValue());
+		ac.setId(credit.getId());
+		ac.setOfferId(credit.getOfferId());
+
+		Merchant merchant = roMerchantDao.findById(credit.getMerchantId());
+		ClientMerchantType cmt = fillClientMerchantType(merchant);
+		ac.setMerchant(cmt);
+
+		Kikbak kikbak = roKikbakDAO.findByOfferId(credit.getOfferId());
+		Offer offer = roOfferDao.findById(credit.getOfferId());
+		ac.setDesc(kikbak.getDescription());
+		ac.setDetailedDesc(kikbak.getDetailedDesc());
+		ac.setRewardType(kikbak.getRewardType());
+		ac.setValidationType(kikbak.getValidationType());
+		ac.setTosUrl(offer.getTosUrl());
+		ac.setImageUrl(kikbak.getImageUrl());
+		ac.setRedeemedGiftsCount(roTxnDao.countOfGiftsRedeemedByUserByMerchant(userId, credit.getMerchantId()));
+		return ac;
+	}
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor=RedemptionException.class)
@@ -340,8 +345,38 @@ public class RewardServiceImpl implements RewardService{
         addShareInfoToGift(gt, shared, friend, 0);
         
         return gt;
-    } 
+    }
+    
+    @Override
+    public GiftType getLastGiftByCreditId(final long creditId) throws RewardException {
+    	Credit credit = roCreditDao.findById(creditId);
 
+        Shared shared = roSharedDao.findLastShareByUserAndOffer(credit.getUserId(), credit.getOfferId());
+        
+        Offer offer = roOfferDao.findById(shared.getOfferId());
+        Merchant merchant = roMerchantDao.findById(offer.getMerchantId());
+        Gift gift = roGiftDao.findById(shared.getOfferId());
+        User friend = roUserDao.findById(shared.getUserId());
+        
+        GiftType gt = createGiftType(merchant, gift, offer);
+        addShareInfoToGift(gt, shared, friend, 0);
+        
+        return gt;
+    }
+
+    @Override
+    public AvailableCreditType getCreditByCode(final String code) throws RewardException {
+    	long creditId;
+    	try {
+    		creditId = CryptoUtils.symetricDecryptToLong(code);
+    	} catch (Exception e) {
+    		throw new RewardException("Failed to get credit id from " + code, e);
+    	}
+    	
+    	Credit credit = roCreditDao.findById(creditId);
+    	return createAvailableCreditType(credit.getUserId(), credit);
+    }
+    
     private GiftType createGiftType(Merchant merchant, Gift gift, Offer offer) {
         GiftType gt = new GiftType();
         ClientMerchantType cmt = fillClientMerchantType(merchant);

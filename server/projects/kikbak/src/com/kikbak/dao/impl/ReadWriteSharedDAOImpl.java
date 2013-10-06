@@ -2,7 +2,9 @@ package com.kikbak.dao.impl;
 
 import java.util.Collection;
 
+import org.hibernate.Criteria;
 import org.hibernate.classic.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.hibernate.exception.ConstraintViolationException;
@@ -61,5 +63,20 @@ public class ReadWriteSharedDAOImpl extends GenericDAOImpl<Shared, Long> impleme
         Collection<Shared> shared = session.createSQLQuery(ReadOnlySharedDAOImpl.SHARES_FOR_NEW_GIFTS)
                 .addEntity(Shared.class).setLong("userId", userId).list();
         return shared;
+    }
+
+    @Override
+    @Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
+    public Shared findLastShareByUserAndOffer(long userId, long offerId) {
+    	
+        Session session = sessionFactory.getCurrentSession();
+        Criteria crit = session.createCriteria(getPersistentClass());
+        crit.add(Restrictions.and(Restrictions.eq("userId", userId),Restrictions.eq("offerId", offerId)));
+        crit.setMaxResults(1);
+        crit.addOrder(Order.desc("sharedDate"));
+        @SuppressWarnings("unchecked")
+		Collection<Shared> shareds = crit.list();
+        
+        return shareds == null ? null : shareds.isEmpty() ? null : shareds.iterator().next();
     }
 }

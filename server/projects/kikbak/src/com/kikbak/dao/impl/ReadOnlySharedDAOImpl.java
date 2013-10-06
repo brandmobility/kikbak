@@ -2,7 +2,9 @@ package com.kikbak.dao.impl;
 
 import java.util.Collection;
 
+import org.hibernate.Criteria;
 import org.hibernate.classic.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
@@ -53,6 +55,21 @@ public class ReadOnlySharedDAOImpl extends ReadOnlyGenericDAOImpl<Shared, Long> 
         return findByCriteria(Restrictions.eq("referralCode", referralCode));
     }
 
+    @Override
+    @Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
+    public Shared findLastShareByUserAndOffer(long userId, long offerId) {
+    	
+        Session session = sessionFactory.getCurrentSession();
+        Criteria crit = session.createCriteria(getPersistentClass());
+        crit.add(Restrictions.and(Restrictions.eq("userId", userId),Restrictions.eq("offerId", offerId)));
+        crit.setMaxResults(1);
+        crit.addOrder(Order.desc("sharedDate"));
+        @SuppressWarnings("unchecked")
+		Collection<Shared> shareds = crit.list();
+        
+        return shareds == null ? null : shareds.isEmpty() ? null : shareds.iterator().next();
+    }
+    
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public Collection<Shared> listSharesForNewGifts(Long userId) {

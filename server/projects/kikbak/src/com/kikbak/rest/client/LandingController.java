@@ -23,6 +23,7 @@ import com.kikbak.dao.ReadOnlyGiftDAO;
 import com.kikbak.dao.ReadOnlyLocationDAO;
 import com.kikbak.dao.ReadOnlyMerchantDAO;
 import com.kikbak.dao.ReadOnlyUserDAO;
+import com.kikbak.jaxb.rewards.AvailableCreditType;
 import com.kikbak.jaxb.rewards.GiftType;
 
 @Controller
@@ -57,7 +58,7 @@ public class LandingController {
 	
 	@Autowired
 	private ReadOnlyGiftDAO readOnlyGiftDAO;
-	
+		
 	@RequestMapping( value = "/landing", method = RequestMethod.GET)
 	public ModelAndView getLandingPage(final HttpServletRequest request,
 			final HttpServletResponse httpResponse) {
@@ -93,6 +94,50 @@ public class LandingController {
 			request.setAttribute("location", gift.getShareInfo().get(0).getLocation());
 			request.setAttribute("validationType", gift.getValidationType());
 			request.setAttribute("locationType", gift.getRedemptionLocationType());
+			request.setAttribute("mobile", detector.detectMobileQuick());
+	    	return new ModelAndView();
+		} catch (Exception e) {
+			log.error("Error to get gift of code " + code, e);
+			try {
+				httpResponse.sendRedirect(config.getString("landing.code_not_found.url"));
+			} catch (IOException e1) {
+				log.error("Error to get gift of code " + code, e);
+				httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			}
+			return null; 
+		}
+	}
+	
+	@RequestMapping( value = "/reward", method = RequestMethod.GET)
+	public ModelAndView getRewardPage(final HttpServletRequest request,
+			final HttpServletResponse httpResponse) {
+
+		String code = request.getParameter("code");
+		try {
+		    String userAgent = request.getHeader("User-Agent");
+		    String httpAccept = request.getHeader("Accept");
+		    UAgentInfo detector = new UAgentInfo(userAgent, httpAccept);
+		    
+			request.setCharacterEncoding("UTF-8");
+			AvailableCreditType credit = rewardService.getCreditByCode(code);
+			GiftType gift = rewardService.getLastGiftByCreditId(credit.getId());
+			
+			if (credit == null || gift == null) {
+				httpResponse.sendRedirect(config.getString("landing.code_not_found.url"));
+				return null; 
+			}
+			
+			request.setAttribute("merchantUrl", credit.getMerchant().getImageUrl());
+			request.setAttribute("shareInfo", gift.getShareInfo().get(0));
+			request.setAttribute("gift", gift);
+			request.setAttribute("credit", credit);
+			request.setAttribute("code", code);
+			request.setAttribute("encodeMerchantName", URLEncoder.encode(credit.getMerchant().getName(), "UTF-8"));
+			request.setAttribute("validationType", credit.getValidationType());
+			request.setAttribute("redeemCount", credit.getRedeemedGiftsCount());
+            if (credit.getRedeemedGiftsCount() <= 1) {
+    			request.setAttribute("redeemCountSingle", "true");
+            }
 			request.setAttribute("mobile", detector.detectMobileQuick());
 	    	return new ModelAndView();
 		} catch (Exception e) {
