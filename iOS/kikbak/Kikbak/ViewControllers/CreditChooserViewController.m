@@ -10,7 +10,7 @@
 #import "RedeemCreditViewController.h"
 #import "util.h"
 #import "UIDevice+Screen.h"
-
+#import "UIDevice+OSVersion.h"
 
 @interface CreditChooserViewController ()
 
@@ -61,6 +61,10 @@
     
     self.navigationItem.hidesBackButton = YES;
     self.navigationItem.leftBarButtonItem = backBarButtonItem;
+    
+    if( [UIDevice osVersion7orGreater] ){
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
     
     [self createViews];
     [self manuallyLayoutSubiews];

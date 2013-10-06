@@ -104,21 +104,19 @@ const int CELL_HEIGHT = 147;
     self.verticalSeparator.image = [UIImage imageNamed:@"separator_vertical_redeem_list"];
     [self addSubview:self.verticalSeparator];
     
-    self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(11, 111, 180, 25)];
+    self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(11, 89, 180, 25)];
     self.retailerName.backgroundColor = [UIColor clearColor];
     self.retailerName.textColor = [UIColor whiteColor];
     self.retailerName.font = [UIFont fontWithName:@"HelveticaNeue" size:21];
-    self.retailerName.text = @"Verizon Wireless";
     [self addSubview:self.retailerName];
     
     UIImage* mapIcon = [UIImage imageNamed:@"ic_map"];
     self.mapIcon = [[UIImageView alloc]initWithImage:mapIcon];
-    self.mapIcon.frame = CGRectMake(202, 117, mapIcon.size.width, mapIcon.size.height);
+    self.mapIcon.frame = CGRectMake(11, 117, mapIcon.size.width, mapIcon.size.height);
     [self addSubview:self.mapIcon];
     
-    self.distance = [[UILabel alloc]initWithFrame:CGRectMake(214, 115, 80, 16)];
+    self.distance = [[UILabel alloc]initWithFrame:CGRectMake(23, 115, 80, 16)];
     self.distance.font = [UIFont fontWithName:@"HelveticaNeue" size:15];
-    self.distance.text = @"1.7 mi";
     self.distance.textColor = [UIColor whiteColor];
     self.distance.textAlignment = NSTextAlignmentLeft;
     self.distance.backgroundColor = [UIColor clearColor];
@@ -126,13 +124,13 @@ const int CELL_HEIGHT = 147;
     
     
     self.mapBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.mapBtn.frame = CGRectMake(202, 114, 60, 30);
+    self.mapBtn.frame = CGRectMake(11, 114, 60, 30);
     [self.mapBtn addTarget:self action:@selector(onMap:) forControlEvents:UIControlEventTouchUpInside];
     // self.mapBtn.backgroundColor = [UIColor greenColor];
     [self addSubview:self.mapBtn];
     
     self.webBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.webBtn.frame = CGRectMake(264, 108, 26, 30);
+    self.webBtn.frame = CGRectMake(81, 108, 26, 30);
     self.webBtn.contentMode = UIViewContentModeCenter;
     //self.webBtn.backgroundColor = [UIColor redColor];
     [self.webBtn setImage:[UIImage imageNamed:@"ic_web"] forState:UIControlStateNormal];
@@ -140,7 +138,7 @@ const int CELL_HEIGHT = 147;
     [self addSubview:self.webBtn];
     
     self.callBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.callBtn.frame = CGRectMake(290, 107, 26, 30);
+    self.callBtn.frame = CGRectMake(109, 107, 26, 30);
     self.callBtn.contentMode = UIViewContentModeLeft;
     //self.callBtn.backgroundColor = [UIColor greenColor];
     [self.callBtn setImage:[UIImage imageNamed:@"ic_phone"] forState:UIControlStateNormal];

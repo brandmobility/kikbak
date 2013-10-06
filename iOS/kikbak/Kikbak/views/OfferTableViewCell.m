@@ -77,7 +77,6 @@
     
     self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(11, 108, 200, 25)];
     self.retailerName.font = [UIFont fontWithName:@"HelveticaNeue" size:21];
-    self.retailerName.text = @"Verizon Wireless";
     self.retailerName.textColor = [UIColor whiteColor];
     self.retailerName.textAlignment = NSTextAlignmentLeft;
     self.retailerName.backgroundColor = [UIColor clearColor];
@@ -90,7 +89,6 @@
     
     self.distance = [[UILabel alloc]initWithFrame:CGRectMake(23, 133, 80, 16)];
     self.distance.font = [UIFont fontWithName:@"HelveticaNeue" size:15];
-    self.distance.text = @"1.7 mi";
     self.distance.textColor = [UIColor whiteColor];
     self.distance.textAlignment = NSTextAlignmentLeft;
     self.distance.backgroundColor = [UIColor clearColor];

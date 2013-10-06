@@ -28,6 +28,8 @@
 #import "ImageUploadRequest.h"
 #import "FBCouponObject.h"
 #import "ShareResult.h"
+#import "UIDevice+OSVersion.h"
+
 
 #define DEFAULT_CONTAINER_VIEW_HEIGHT 50
 #define PHOTO_TAG  1000
@@ -149,6 +151,9 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
         }
     }
     
+    if( [UIDevice osVersion7orGreater] ){
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
     
     
     [self createSubviews];
@@ -497,21 +502,21 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 
     if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
         UIImagePickerController* picker = [[UIImagePickerController alloc]init];
-        picker.view.frame = self.view.frame;
+        //picker.view.frame = self.view.frame;
         picker.sourceType = UIImagePickerControllerSourceTypeCamera;
         picker.delegate = self;
         
-        UIView* overlay = [[UIView alloc]initWithFrame:picker.view.frame];
-        UIImageView* square = [[UIImageView alloc]initWithFrame:overlay.frame];
+        UIImageView* square = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 485)];
         if([UIDevice hasFourInchDisplay]){
             
-            square.image = [UIImage imageNamed:@"camera_screen_area-h536"];
+            square.image = [UIImage imageNamed:@"camera_screen_area"];
+            square.frame = CGRectMake(0, 68, 320, 427);
         }
         else{
             square.image = [UIImage imageNamed:@"camera_screen_area"];
+            square.frame =  CGRectMake(0, 0, 320, 395);
         }
-        [overlay addSubview:square];
-        picker.cameraOverlayView = overlay;
+        picker.cameraOverlayView = square;
         
         [Flurry logEvent:@"PhotoEvent" timed:YES];
         

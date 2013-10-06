@@ -10,6 +10,7 @@
 #import "util.h"
 #import "Credit.h"
 #import "UIDevice+Screen.h"
+#import "UIDevice+OSVersion.h"
 #import "UIButton+Util.h"
 #import "GiveViewController.h"
 #import "OfferService.h"
@@ -65,6 +66,10 @@
     self.navigationItem.leftBarButtonItem = [UIButton blackBackBtn:self];
     
     self.title = NSLocalizedString(@"Success", nil);
+    
+    if( [UIDevice osVersion7orGreater] ){
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
     
     [self createSubviews];
     [self manuallyLayoutSubviews];

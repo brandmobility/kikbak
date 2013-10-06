@@ -24,6 +24,7 @@
 #import "TermsAndConditionsView.h"
 #import "util.h"
 #import "UIDevice+Screen.h"
+#import "UIDevice+OSVersion.h"
 #import <map>
 #import "Distance.h"
 #import "Location.h"
@@ -82,6 +83,8 @@ const int CELL_HEIGHT = 206;
     else{
         locationResolved = NO;
     }
+    
+    self.hidesBottomBarWhenPushed = YES;
 
     
     [self createSubviews];
@@ -168,12 +171,17 @@ const int CELL_HEIGHT = 206;
     self.redeemBtn.enabled = NO;
     [self.tabBarController.view addSubview:self.redeemBtn];
     
-    self.table = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStylePlain];
+    CGRect fr =  self.view.bounds;
+    if( ![UIDevice osVersion7orGreater] ){
+        fr.origin.y += self.navigationController.navigationBar.frame.size.height;
+    }
+    
+    self.table = [[UITableView alloc]initWithFrame:fr style:UITableViewStylePlain];
     self.table.dataSource = self;
     self.table.delegate = self;
     self.table.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_offwhite_eggshell"]];
 
-    self.emptyListView = [[UILabel alloc]initWithFrame:self.view.bounds];
+    self.emptyListView = [[UILabel alloc]initWithFrame:fr];
     self.emptyListView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_offwhite_eggshell"]];
     self.emptyListView.clipsToBounds = YES;
     self.emptyListView.userInteractionEnabled = YES;
@@ -218,7 +226,11 @@ const int CELL_HEIGHT = 206;
 }
 
 -(void) manuallyLayoutSubviews{
-    self.table.frame = self.view.frame;
+    CGRect fr =  self.view.bounds;
+    if( ![UIDevice osVersion7orGreater] ){
+        fr.origin.y += self.navigationController.navigationBar.frame.size.height;
+    }
+    self.table.frame = fr;
     if(![UIDevice hasFourInchDisplay]){
         self.doh.frame = CGRectMake(0, 53, 320, 62);
         self.receivedCredit.frame = CGRectMake(51, 104, 216, 40);

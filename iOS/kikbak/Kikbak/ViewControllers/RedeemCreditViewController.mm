@@ -13,6 +13,7 @@
 #import "util.h"
 #import "Credit.h"
 #import "UIDevice+Screen.h"
+#import "UIDevice+OSVersion.h"
 #import "RedeemCreditRequest.h"
 #import "RedeemCreditSuccessViewController.h"
 #import "Location.h"
@@ -22,6 +23,8 @@
 #import "ImagePersistor.h"
 #import "UIImage+Manipulate.h"
 #import "Distance.h"
+#import "UIButton+Util.h"
+
 
 @interface RedeemCreditViewController ()
 
@@ -79,6 +82,13 @@
     self.title = NSLocalizedString(@"Redeem", nil);
 	// Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    if( [UIDevice osVersion7orGreater] ){
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
+    
+    self.navigationItem.hidesBackButton = YES;
+    self.navigationItem.leftBarButtonItem = [UIButton blackBackBtn:self];
     
     self.creditToUse = self.credit.value;
     self.offerId = self.credit.offerId;
@@ -241,6 +251,10 @@
 
 
 #pragma mark - button handlers
+-(IBAction)onBackBtn:(id)sender{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 -(IBAction)onChangeAmount:(id)sender{
     CreditChooserViewController* vc = [[CreditChooserViewController alloc]init];
     vc.credit = self.credit.value;

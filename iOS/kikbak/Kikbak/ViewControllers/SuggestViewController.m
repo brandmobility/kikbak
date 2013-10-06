@@ -12,6 +12,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "Flurry.h"
 #import "UIDevice+Screen.h"
+#import "UIDevice+OSVersion.h"
 #import "UIImage+Manipulate.h"
 #import "NotificationContstants.h"
 #import "ImageUploadRequest.h"
@@ -82,6 +83,10 @@
     self.navigationItem.leftBarButtonItem = [UIButton blackBackBtn:self];
     
     self.title = NSLocalizedString(@"Suggest", nil);
+    
+    if( [UIDevice osVersion7orGreater] ){
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
     
     photoTaken = NO;
     [self createSubviews];

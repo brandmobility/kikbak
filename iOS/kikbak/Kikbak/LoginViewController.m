@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "Flurry.h"
 #import "FBQuery.h"
+#import "UIDevice+OSVersion.h"
 #import "UIDevice+Screen.h"
 
 @interface LoginViewController ()
@@ -89,6 +90,11 @@
         self.fbLoginBtn.frame = CGRectMake(11, 403, 298, 40);
     }
     
+    if( [UIDevice osVersion7orGreater]){
+        CGRect fr = self.fbLoginBtn.frame;
+        fr.origin.y += [UIApplication sharedApplication].statusBarFrame.size.height;
+        self.fbLoginBtn.frame = fr;
+    }
 }
 
 #pragma mark - BTN actions

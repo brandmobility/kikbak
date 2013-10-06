@@ -208,6 +208,7 @@
 		3CCCBCF316F03A2300FA71A2 /* UIDevice+Screen.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCBCF216F03A2300FA71A2 /* UIDevice+Screen.m */; };
 		3CCCBCF716F2E59500FA71A2 /* TermsAndConditionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCBCF616F2E59500FA71A2 /* TermsAndConditionsView.m */; };
 		3CCCBD0116F4444000FA71A2 /* GiveViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCBD0016F4444000FA71A2 /* GiveViewController.mm */; };
+		3CD3014817FD3426001618C6 /* UIDevice+OSVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CD3014717FD3426001618C6 /* UIDevice+OSVersion.m */; };
 		3CF383D51706C2350010D9B9 /* UIImage+Manipulate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CF383D41706C2350010D9B9 /* UIImage+Manipulate.m */; };
 		C0479989167D967500C2253D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0479988167D967500C2253D /* UIKit.framework */; };
 		C047998B167D967500C2253D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C047998A167D967500C2253D /* Foundation.framework */; };
@@ -552,6 +553,8 @@
 		3CCCBCF616F2E59500FA71A2 /* TermsAndConditionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TermsAndConditionsView.m; sourceTree = "<group>"; };
 		3CCCBCFF16F4444000FA71A2 /* GiveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GiveViewController.h; sourceTree = "<group>"; };
 		3CCCBD0016F4444000FA71A2 /* GiveViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GiveViewController.mm; sourceTree = "<group>"; };
+		3CD3014617FD3426001618C6 /* UIDevice+OSVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+OSVersion.h"; sourceTree = "<group>"; };
+		3CD3014717FD3426001618C6 /* UIDevice+OSVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+OSVersion.m"; sourceTree = "<group>"; };
 		3CF383D31706C2350010D9B9 /* UIImage+Manipulate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Manipulate.h"; sourceTree = "<group>"; };
 		3CF383D41706C2350010D9B9 /* UIImage+Manipulate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Manipulate.m"; sourceTree = "<group>"; };
 		C0479984167D967500C2253D /* Kikbak.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kikbak.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1158,6 +1161,8 @@
 				3C63816017A264BA00E10594 /* NSString+UrlEncode.m */,
 				3C63816317A265BB00E10594 /* NSURL+QueryString.h */,
 				3C63816417A265BB00E10594 /* NSURL+QueryString.m */,
+				3CD3014617FD3426001618C6 /* UIDevice+OSVersion.h */,
+				3CD3014717FD3426001618C6 /* UIDevice+OSVersion.m */,
 			);
 			name = categories;
 			path = Kikbak/categories;
@@ -1429,6 +1434,7 @@
 				C0479A10167D9BEC00C2253D /* SBJsonWriter.m in Sources */,
 				C0C972691692CBE4001A2A80 /* Distance.m in Sources */,
 				C0C9726C1692CC9F001A2A80 /* LocationManager.m in Sources */,
+				3CD3014817FD3426001618C6 /* UIDevice+OSVersion.m in Sources */,
 				3CCCBC5716EC5C2400FA71A2 /* RedeemGiftViewController.mm in Sources */,
 				3CCCBCF016F03A0B00FA71A2 /* NSData+Base64.m in Sources */,
 				3CCCBCF316F03A2300FA71A2 /* UIDevice+Screen.m in Sources */,
@@ -1572,6 +1578,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Flurry_4.1.0\"",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				USER_HEADER_SEARCH_PATHS = "";
@@ -1624,6 +1631,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Flurry_4.1.0\"",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				USER_HEADER_SEARCH_PATHS = "";
@@ -1700,6 +1708,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Flurry_4.1.0\"",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
@@ -1725,6 +1734,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Flurry_4.1.0\"",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;

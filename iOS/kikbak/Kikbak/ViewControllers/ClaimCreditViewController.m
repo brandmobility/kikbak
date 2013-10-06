@@ -13,6 +13,7 @@
 #import "util.h"
 #import "NotificationContstants.h"
 #import "UIDevice+Screen.h"
+#import "UIDevice+OSVersion.h"
 
 @interface ClaimCreditViewController ()
 
@@ -66,6 +67,10 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    if( [UIDevice osVersion7orGreater] ){
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
     
     [self createSubviews];
     [self manuallyLayoutSubviews];

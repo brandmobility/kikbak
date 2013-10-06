@@ -28,6 +28,7 @@
 #import "SpinnerView.h"
 #import "UIImage+Manipulate.h"
 #import "LocationManager.h"
+#import "UIDevice+OSVersion.h"
 
 
 @interface RedeemGiftViewController (){
@@ -114,7 +115,11 @@
         }
     }
     self.view.backgroundColor = [UIColor whiteColor];
-        
+    
+    if( [UIDevice osVersion7orGreater] ){
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
+    
     self.navigationItem.hidesBackButton = YES;
     self.navigationItem.leftBarButtonItem = [UIButton blackBackBtn:self];
     

@@ -18,7 +18,9 @@
 #import "SuggestViewController.h"
 #import "util.h"
 #import "UIDevice+Screen.h"
+#import "UIDevice+OSVersion.h"
 #import "FBQuery.h"
+
 
 const int CELL_HEIGHT = 156;
 
@@ -83,6 +85,7 @@ const int CELL_HEIGHT = 156;
     else{
         locationResolved = NO;
     }
+    self.hidesBottomBarWhenPushed = YES;
     
     [self createSubviews];
     [self manuallyLayoutSubviews];
@@ -94,18 +97,19 @@ const int CELL_HEIGHT = 156;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onImageDownloaded:) name:kKikbakImageDownloaded object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onOffersDownloaded:) name:kKikbakOffersDownloaded object:nil];
     
-    [self.tabBarController.view addSubview:self.redeemBtn];
-    [self.tabBarController.view addSubview:self.seperator];
-    [self.tabBarController.view addSubview:self.giveBtn];
-
     self.offers = [OfferService getOffers];
     [self toggleViews];
     [self.table reloadData];
     [self manuallyLayoutSubviews];
+    
+    [self.tabBarController.view addSubview:self.redeemBtn];
+    [self.tabBarController.view addSubview:self.seperator];
+    [self.tabBarController.view addSubview:self.giveBtn];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -190,14 +194,18 @@ const int CELL_HEIGHT = 156;
     self.redeemBtn.enabled = YES;
     [self.tabBarController.view addSubview:self.redeemBtn];
     
-    
-    self.table = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStylePlain];
+    CGRect fr =  self.view.bounds;
+    if( ![UIDevice osVersion7orGreater] ){
+        fr.origin.y += self.navigationController.navigationBar.frame.size.height;
+    }
+    self.table = [[UITableView alloc]initWithFrame:fr style:UITableViewStylePlain];
     self.table.dataSource = self;
     self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.table.delegate = self;
     self.table.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_offwhite_eggshell"]];
     
-    self.emptyListView = [[UILabel alloc]initWithFrame:self.view.bounds];
+
+    self.emptyListView = [[UILabel alloc]initWithFrame:fr];
     self.emptyListView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_offwhite_eggshell"]];
     self.emptyListView.clipsToBounds = YES;
     self.emptyListView.userInteractionEnabled = YES;
@@ -243,7 +251,11 @@ const int CELL_HEIGHT = 156;
 }
 
 -(void) manuallyLayoutSubviews{
-    self.table.frame = self.view.frame;
+    CGRect fr =  self.view.bounds;
+    if( ![UIDevice osVersion7orGreater] ){
+        fr.origin.y += self.navigationController.navigationBar.frame.size.height;
+    }
+    self.table.frame = fr;
     if( ![UIDevice hasFourInchDisplay]){
         self.bummer.frame = CGRectMake(0, 35, 320, 62);
         self.bummerDetails.frame = CGRectMake(65, 86, 190, 40);
