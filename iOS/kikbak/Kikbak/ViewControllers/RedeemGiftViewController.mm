@@ -30,6 +30,7 @@
 #import "LocationManager.h"
 #import "UIDevice+OSVersion.h"
 
+static int offsetForIOS6 = 44;
 
 @interface RedeemGiftViewController (){
 }
@@ -118,6 +119,7 @@
     
     if( [UIDevice osVersion7orGreater] ){
         self.edgesForExtendedLayout = UIRectEdgeNone;
+        offsetForIOS6 = 0;
     }
     
     self.navigationItem.hidesBackButton = YES;
@@ -196,16 +198,16 @@
 
 -(void)createSubviews{
 
-    self.giftImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320,250)];
+    self.giftImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0+offsetForIOS6, 320,250)];
     self.giftImage.image = [UIImage imageNamed:@"lg photo"];
     [self.view addSubview:self.giftImage];
     
-    self.giftGradient = [[UIImageView alloc]initWithFrame:CGRectMake(0, 124, 320, 126)];
+    self.giftGradient = [[UIImageView alloc]initWithFrame:CGRectMake(0, 124+offsetForIOS6, 320, 126)];
     self.giftGradient.image = [UIImage imageNamed:@"grd_bottom_img"];
     [self.view addSubview:self.giftGradient];
 
     
-    self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(14, 183, 316, 26)];
+    self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(14, 183+offsetForIOS6, 316, 26)];
     self.retailerName.font = [UIFont fontWithName:@"HelveticaNeue" size:24];
     self.retailerName.textColor = UIColorFromRGB(0xFFFFFF);
     self.retailerName.text = self.gift.merchantName;
@@ -213,11 +215,11 @@
     self.retailerName.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.retailerName];
     
-    self.mapIcon = [[UIImageView alloc]initWithFrame:CGRectMake(14, 214, 10, 14)];
+    self.mapIcon = [[UIImageView alloc]initWithFrame:CGRectMake(14, 214+offsetForIOS6, 10, 14)];
     self.mapIcon.image = [UIImage imageNamed:@"ic_map_give"];
     [self.view addSubview:self.mapIcon];
     
-    self.distance = [[UILabel alloc] initWithFrame:CGRectMake(30, 212, 70, 18)];
+    self.distance = [[UILabel alloc] initWithFrame:CGRectMake(30, 212+offsetForIOS6, 70, 18)];
     self.distance.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:18];
     self.distance.textColor = UIColorFromRGB(0xFFFFFF);
     self.distance.text = [NSString stringWithFormat:NSLocalizedString(@"miles away", nil),
@@ -229,43 +231,43 @@
     [self.view addSubview:self.distance];
     
     self.mapBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.mapBtn.frame = CGRectMake(14, 210, 70, 30);
+    self.mapBtn.frame = CGRectMake(14, 210+offsetForIOS6, 70, 30);
     self.mapBtn.backgroundColor = [UIColor clearColor];
     [self.mapBtn addTarget:self action:@selector(onMapBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.mapBtn];
     
-    self.webIcon = [[UIImageView alloc]initWithFrame:CGRectMake(109, 211, 19, 19)];
+    self.webIcon = [[UIImageView alloc]initWithFrame:CGRectMake(109, 211+offsetForIOS6, 19, 19)];
     self.webIcon.image = [UIImage imageNamed:@"ic_web_give"];
     [self.view addSubview:self.webIcon];
     
     
     self.webBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.webBtn.backgroundColor = [UIColor clearColor];
-    self.webBtn.frame = CGRectMake(99, 209, 30, 30);
+    self.webBtn.frame = CGRectMake(99, 209+offsetForIOS6, 30, 30);
     self.webBtn.backgroundColor = [UIColor clearColor];
     [self.webBtn addTarget:self action:@selector(onWebBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.webBtn];
     
     
-    self.callIcon = [[UIImageView alloc]initWithFrame:CGRectMake(145, 211, 15, 18)];
+    self.callIcon = [[UIImageView alloc]initWithFrame:CGRectMake(145, 211+offsetForIOS6, 15, 18)];
     self.callIcon.image = [UIImage imageNamed:@"ic_phone_give"];
     [self.view addSubview: self.callIcon];
     
     self.callBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.callBtn.frame = CGRectMake(140, 209, 30, 30);
+    self.callBtn.frame = CGRectMake(140, 209+offsetForIOS6, 30, 30);
     self.callBtn.backgroundColor = [UIColor clearColor];
     [self.callBtn addTarget:self action:@selector(onCallBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.callBtn];
     
-    self.friendBackground = [[UIView alloc]initWithFrame:CGRectMake(0, 250, 320, 95)];
+    self.friendBackground = [[UIView alloc]initWithFrame:CGRectMake(0, 250+offsetForIOS6, 320, 95)];
     self.friendBackground.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_redeem_gift_friend"]];
     [self.view addSubview:self.friendBackground];
     
-    self.seperator = [[UIImageView alloc]initWithFrame:CGRectMake(0, 341, 320, 4)];
+    self.seperator = [[UIImageView alloc]initWithFrame:CGRectMake(0, 341+offsetForIOS6, 320, 4)];
     self.seperator.image = [UIImage imageNamed:@"separator_redeem_gift"];
     [self.view addSubview:self.seperator];
     
-    self.giftImageDropShadow = [[UIImageView alloc]initWithFrame:CGRectMake(0, 250, 320, 4)];
+    self.giftImageDropShadow = [[UIImageView alloc]initWithFrame:CGRectMake(0, 250+offsetForIOS6, 320, 4)];
     self.giftImageDropShadow.image = [UIImage imageNamed:@"grd_redeem_gift_dropshadow"];
     [self.view addSubview:self.giftImageDropShadow];
 
@@ -295,7 +297,7 @@
     self.caption.numberOfLines = 2;
     [self.friendBackground addSubview:self.caption];
     
-    self.giftDescription = [[UILabel alloc]initWithFrame:CGRectMake(0, 361, 320, 34)];
+    self.giftDescription = [[UILabel alloc]initWithFrame:CGRectMake(0, 361+offsetForIOS6, 320, 34)];
     self.giftDescription.backgroundColor = [UIColor clearColor];
     self.giftDescription.textAlignment = NSTextAlignmentCenter;
     self.giftDescription.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:31];
@@ -303,7 +305,7 @@
     self.giftDescription.text = self.gift.desc;
     [self.view addSubview:self.giftDescription];
     
-    self.giftDetails = [[UILabel alloc]initWithFrame:CGRectMake(0, 398, 320, 14)];
+    self.giftDetails = [[UILabel alloc]initWithFrame:CGRectMake(0, 398+offsetForIOS6, 320, 14)];
     self.giftDetails.backgroundColor = [UIColor clearColor];
     self.giftDetails.textAlignment = NSTextAlignmentCenter;
     self.giftDetails.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
@@ -312,7 +314,7 @@
     [self.view addSubview:self.giftDetails];
     
     self.termsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.termsBtn.frame = CGRectMake(11, 425, 150, 14);
+    self.termsBtn.frame = CGRectMake(11, 425+offsetForIOS6, 150, 14);
     [self.termsBtn setTitle:NSLocalizedString(@"Terms and Conditions", nil) forState:UIControlStateNormal];
     self.termsBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
     [self.termsBtn setTitleColor:UIColorFromRGB(0x686868) forState:UIControlStateNormal];
@@ -326,33 +328,33 @@
     [self.redeemBtn setTitle:NSLocalizedString(@"Redeem in Store", nil) forState:UIControlStateNormal];
     [self.redeemBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.redeemBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:15];
-    self.redeemBtn.frame = CGRectMake(11, 453, 298, 40);
+    self.redeemBtn.frame = CGRectMake(11, 453+offsetForIOS6, 298, 40);
     [self.redeemBtn addTarget:self action:@selector(onRedeemBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.redeemBtn];
 }
 
 -(void)manuallyLayoutSubviews{
     if (![UIDevice hasFourInchDisplay]) {
-        self.giftImage.frame = CGRectMake(0, 0, 320,188);
-        self.giftGradient.frame = CGRectMake(0, 82, 320, 106);
-        self.retailerName.frame = CGRectMake(14, 128, 316, 26);
-        self.mapIcon.frame = CGRectMake(14, 159, 10, 14);
-        self.distance.frame = CGRectMake(30, 157, 70, 18);
-        self.mapBtn.frame = CGRectMake(14, 155, 70, 30);
-        self.webIcon.frame = CGRectMake(109, 156, 19, 19);
-        self.webBtn.frame = CGRectMake(99, 154, 30, 30);
-        self.callIcon.frame = CGRectMake(145, 156, 15, 18);
-        self.callBtn.frame = CGRectMake(140, 154, 30, 30);
-        self.giftImageDropShadow.frame = CGRectMake(0, 188, 320, 4);
-        self.friendBackground.frame = CGRectMake(0, 188, 320, 88);
-        self.seperator.frame = CGRectMake(0, 272, 320, 4);
+        self.giftImage.frame = CGRectMake(0, 0+offsetForIOS6, 320,188);
+        self.giftGradient.frame = CGRectMake(0, 82+offsetForIOS6, 320, 106);
+        self.retailerName.frame = CGRectMake(14, 128+offsetForIOS6, 316, 26);
+        self.mapIcon.frame = CGRectMake(14, 159+offsetForIOS6, 10, 14);
+        self.distance.frame = CGRectMake(30, 157+offsetForIOS6, 70, 18);
+        self.mapBtn.frame = CGRectMake(14, 155+offsetForIOS6, 70, 30);
+        self.webIcon.frame = CGRectMake(109, 156+offsetForIOS6, 19, 19);
+        self.webBtn.frame = CGRectMake(99, 154+offsetForIOS6, 30, 30);
+        self.callIcon.frame = CGRectMake(145, 156+offsetForIOS6, 15, 18);
+        self.callBtn.frame = CGRectMake(140, 154+offsetForIOS6, 30, 30);
+        self.giftImageDropShadow.frame = CGRectMake(0, 188+offsetForIOS6, 320, 4);
+        self.friendBackground.frame = CGRectMake(0, 188+offsetForIOS6, 320, 88);
+        self.seperator.frame = CGRectMake(0, 272+offsetForIOS6, 320, 4);
         self.friendImage.frame = CGRectMake(11, 11, 44, 44);
         self.friendName.frame = CGRectMake(64, 11, 239, 18);
         self.caption.frame = CGRectMake(64, 34, 228, 40);
-        self.giftDescription.frame = CGRectMake(0, 282, 320, 34);
-        self.giftDetails.frame = CGRectMake(0, 318, 320, 14);
-        self.termsBtn.frame = CGRectMake(11, 343, 150, 14);
-        self.redeemBtn.frame = CGRectMake(11, 365, 298, 40);
+        self.giftDescription.frame = CGRectMake(0, 282+offsetForIOS6, 320, 34);
+        self.giftDetails.frame = CGRectMake(0, 318+offsetForIOS6, 320, 14);
+        self.termsBtn.frame = CGRectMake(11, 343+offsetForIOS6, 150, 14);
+        self.redeemBtn.frame = CGRectMake(11, 365+offsetForIOS6, 298, 40);
     }
 }
 

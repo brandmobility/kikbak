@@ -20,6 +20,8 @@
 #import "SpinnerView.h"
 #import "AppDelegate.h"
 
+static int offsetForIOS6 = 44;
+
 @interface SuggestViewController (){
     bool photoTaken;
     float keyboardHeight;
@@ -86,6 +88,7 @@
     
     if( [UIDevice osVersion7orGreater] ){
         self.edgesForExtendedLayout = UIRectEdgeNone;
+        offsetForIOS6 = 0;
     }
     
     photoTaken = NO;
@@ -136,7 +139,7 @@
 }
 
 -(void)createSubviews{
-    self.scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, 320, self.view.frame.size.height)];
+    self.scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0 + offsetForIOS6, 320, self.view.frame.size.height)];
     self.scrollView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_offwhite_eggshell"]];
     [self.view addSubview:self.scrollView];
     
