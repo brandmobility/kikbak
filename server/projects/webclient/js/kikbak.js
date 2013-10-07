@@ -1236,7 +1236,7 @@ function shareViaFacebook() {
       'method' : 'POST',
       'format' : 'json'
     };
-    var url = 'https://graph.facebook.com/me/objects/referredlabs:coupon';
+    var url = 'https://graph.facebook.com/me/objects/kikbakme:coupon';
     $.ajax({
       url : url,
       data : req,
@@ -1253,7 +1253,7 @@ function shareViaFacebook() {
             'fb:explicitly_shared' : 'true',
             'format' : 'json'
           };
-          var url = 'https://graph.facebook.com/me/referredlabs:share';
+          var url = 'https://graph.facebook.com/me/kikbakme:share';
           $.ajax({
             url : url,
             data : req,

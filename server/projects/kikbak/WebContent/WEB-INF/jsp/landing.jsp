@@ -10,7 +10,7 @@
         <title>Kikbak</title>
         <meta property="fb:app_id" content="493383324061333">
         <meta property="og:url" content="${url}">
-        <meta property="og:type" content="referredlabs:coupon">
+        <meta property="og:type" content="kikbakme:coupon">
         <meta property="og:title" content="${title}">
         <meta property="og:image" content="${shareInfo.imageUrl}">
         <meta property="og:description" content="${body}}">
