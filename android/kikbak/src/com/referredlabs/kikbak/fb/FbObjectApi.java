@@ -25,8 +25,8 @@ import com.referredlabs.kikbak.utils.Register;
 
 public class FbObjectApi {
 
-  private final static String COUPON_PATH = "me/objects/referredlabs:coupon";
-  private final static String SHARE_PATH = "me/referredlabs:share";
+  private final static String COUPON_PATH = "me/objects/kikbakme:coupon";
+  private final static String SHARE_PATH = "me/kikbakme:share";
 
   public static void publishStory(Session session, ClientOfferType offer, String landingPage,
       String imageUrl, String userMessage, String code) throws IOException {
