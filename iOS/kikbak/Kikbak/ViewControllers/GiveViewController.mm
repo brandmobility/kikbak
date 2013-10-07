@@ -246,12 +246,7 @@ static int offsetForIOS6 = 44;
         self.callIcon.frame = CGRectMake(145, 152 + offsetForIOS6, 12, 16);
         self.callBtn.frame = CGRectMake(140, 148 + offsetForIOS6, 30, 30);
         self.captionContainerView.frame = CGRectMake(0, TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN + offsetForIOS6, 320, 48);
-        
-        CGRect fr = CGRectMake(10, 8, 300, 32);
-        if([UIDevice osVersion7orGreater]){
-            fr = CGRectMake(10, 8, 300, 42);
-        }
-        self.captionTextView.frame = fr;
+        self.captionTextView.frame = CGRectMake(10, 8, 300, 32);
         self.dottedSeperator.frame = CGRectMake(0, 216 + offsetForIOS6, 320, 2);
         self.giftDesctription.frame = CGRectMake(0, 230 + offsetForIOS6, 320, 33);
         self.giftIcon.frame = CGRectMake(self.giftIcon.frame.origin.x, 237 + offsetForIOS6, 19, 18);
