@@ -670,7 +670,7 @@ p.msg {
     bottom: 25%;
     color: #FFFFFF;
     font-size: 23px;
-    font-weight: normal;
+    font-weight: lighter;
     left: 2%;
     position: absolute;
     z-index: 999;
@@ -947,12 +947,12 @@ p.msg {
 
 .cls-popup h3 {
     color: #3A3A3A;
-    font-size: 22px;
+    font-size: 23px;
     text-align: center;
 }
 .cls-popup h1 {
     color: #3A3A3A;
-    font-size: 30px;
+    font-size: 32px;
     margin: 2% 7%;
     text-align: center;
 }
@@ -1407,15 +1407,15 @@ h1.pg-hedng {
 }
 .share-btn {
     width: 95%;
-    height: 34px;
+    height: 38px;
     font-size: 15px;
     border-radius: 5px;
     border:0;
 }
 
 .sep {
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-top: 12px;
+    margin-bottom: 12px;
     color: #999;
     font-size: 13px;
 }

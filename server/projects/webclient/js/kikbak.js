@@ -925,10 +925,10 @@ function renderOfferDetail(offer) {
   var html = '';
   var userId = s.userId;
   if (!userId) {
-    html += '<div id="share-fb-div" style="text-align:center;height:100px;margin-top:5px;">'
+    html += '<div id="share-fb-div" style="text-align:center;height:80px;margin-top:5px;">'
     html += '<input id="share-btn-fb" name="share" type="button" class="fb-share" value="         Connect with Facebook to share" />';
     html += '<div class="crt">';
-    html += '<p style="font-size:13px;">We use Facebook to make it easy for you to share, store and redeem gifts and rewards. We will never post on Facebook without your permission.</p>';
+    html += '<p style="font-size:10px;">We use Facebook to make it easy for you to share and redeem. We will never post on Facebook without your permission.</p>';
     html += '</div>';
     html += '</div>';
   }
@@ -992,15 +992,16 @@ function renderOfferDetail(offer) {
   $.each(offer.locations, function(i, l) {
     var selected = '';
     if (i === 0) {
-      selected = ' selected';
+      if (l.dist < 0.5) {
+        selected = ' selected';
+      } else {
+    	options += '<option value="false">Pick location</options>'  
+      }
     }
     var addr2 = l.address2 ? l.address2 : '';
     options += '<option value="' + l.locationId + '" ' + selected + '>' + l.address1 + ' ' + addr2 + ', ' + l.city + '</option>';
   });
   $('#location-sel').html(options);
-  if (offer.locations.length <= 1) {
-    $('#location-sel-div').hide();
-  }
   
   $('#offer-details-view').show('');
   $('#back-btn-div').hide('');
@@ -1170,16 +1171,14 @@ function doShare(cb, type) {
   
   $('#share-form input[name="comment"]').val('');
   
-  if (typeof locationId === 'undefined') {
-    locationId = 0;
-  }
-    
   exp['merchantId'] = offer.merchantId;
   exp['offerId'] = offer.id;
   exp['imageUrl'] = url; 
   exp['caption'] = message;
   exp['type'] = type;
-  exp['locationId'] = locationId;
+  if (locationId !== 'false') {
+    exp['locationId'] = locationId;
+  }
   exp['platform'] = /iP(hone|od|ad)/.test(navigator.platform) ? 'ios' : 'android';
   exp['employeeId'] = $('#share-help-form input[name="associateName"]').val();
   data['experience'] = exp;
