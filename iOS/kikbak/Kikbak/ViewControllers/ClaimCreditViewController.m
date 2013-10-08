@@ -15,6 +15,8 @@
 #import "UIDevice+Screen.h"
 #import "UIDevice+OSVersion.h"
 
+static int offsetForIOS6 = 44;
+
 @interface ClaimCreditViewController ()
 
 @property (nonatomic, strong) UIScrollView* scrollView;
@@ -70,6 +72,7 @@
     
     if( [UIDevice osVersion7orGreater] ){
         self.edgesForExtendedLayout = UIRectEdgeNone;
+        offsetForIOS6 = 0;
     }
     
     [self createSubviews];
@@ -106,14 +109,14 @@
 
 -(void)createSubviews{
     
-    self.scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0,0, self.view.frame.size.width, 500)];
+    self.scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0,0+offsetForIOS6, self.view.frame.size.width, 500)];
     [self.scrollView setContentSize: CGSizeMake(320, 515)];
     self.scrollView.translatesAutoresizingMaskIntoConstraints= NO;
     self.scrollView.scrollEnabled=YES;
     self.scrollView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_credit_choice"]];
     [self.view addSubview:self.scrollView];
     
-    self.dropShadow = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 4)];
+    self.dropShadow = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0+offsetForIOS6, 320, 4)];
     self.dropShadow.image = [UIImage imageNamed:@"grd_navbar_drop_shadow"];
     [self.view addSubview:self.dropShadow];
     

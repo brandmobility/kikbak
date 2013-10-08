@@ -47,7 +47,7 @@
                                   initWithObjectsAndKeys:
                                   [gift JSONRepresentation], @"object",
                                   nil];
-    FBRequest *request1 =  [FBRequest requestWithGraphPath:@"me/objects/referredlabs:coupon"
+    FBRequest *request1 =  [FBRequest requestWithGraphPath:@"me/objects/kikbakme:coupon"
                                               parameters:request1Params
                                               HTTPMethod:@"POST"];
     [connection addRequest:request1
@@ -67,7 +67,7 @@
     [actionParams setObject:@"true" forKey:@"user_generated"];
     [actionParams setObject:self.caption forKey:@"message"];
     
-    FBRequest* request2 = [FBRequest requestWithGraphPath:@"me/referredlabs:share"
+    FBRequest* request2 = [FBRequest requestWithGraphPath:@"me/kikbakme:share"
                                                parameters:actionParams
                                                HTTPMethod:@"POST"];
     [connection addRequest:request2

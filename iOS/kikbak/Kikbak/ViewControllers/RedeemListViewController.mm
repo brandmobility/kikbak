@@ -32,6 +32,8 @@
 
 const int CELL_HEIGHT = 206;
 
+static int offsetForIOS6 = 44;
+
 @interface RedeemListViewController (){
     bool locationResolved;
 }
@@ -83,9 +85,11 @@ const int CELL_HEIGHT = 206;
     else{
         locationResolved = NO;
     }
-    
     self.hidesBottomBarWhenPushed = YES;
 
+    if( [UIDevice osVersion7orGreater] ){
+        offsetForIOS6 = 0;
+    }
     
     [self createSubviews];
     [self manuallyLayoutSubviews];
@@ -176,6 +180,11 @@ const int CELL_HEIGHT = 206;
         fr.origin.y += self.navigationController.navigationBar.frame.size.height;
     }
     
+    if( [UIDevice osVersion7orGreater] ){
+        fr.size.height -= [UIApplication sharedApplication].statusBarFrame.size.height;
+    }
+    fr.size.height -= self.navigationController.navigationBar.frame.size.height;
+    fr.size.height -= self.tabBarController.tabBar.frame.size.height;
     self.table = [[UITableView alloc]initWithFrame:fr style:UITableViewStylePlain];
     self.table.dataSource = self;
     self.table.delegate = self;
@@ -226,16 +235,19 @@ const int CELL_HEIGHT = 206;
 }
 
 -(void) manuallyLayoutSubviews{
-    CGRect fr =  self.view.bounds;
-    if( ![UIDevice osVersion7orGreater] ){
-        fr.origin.y += self.navigationController.navigationBar.frame.size.height;
-    }
-    self.table.frame = fr;
     if(![UIDevice hasFourInchDisplay]){
-        self.doh.frame = CGRectMake(0, 53, 320, 62);
-        self.receivedCredit.frame = CGRectMake(51, 104, 216, 40);
-        self.earnCredit.frame = CGRectMake(45, 195, 230, 60);
-        self.seeOffersBtn.frame = CGRectMake(45, 258, 230, 40);
+        self.doh.frame = CGRectMake(0, 53 + offsetForIOS6, 320, 62);
+        self.receivedCredit.frame = CGRectMake(51, 104 + offsetForIOS6, 216, 40);
+        self.earnCredit.frame = CGRectMake(45, 195 + offsetForIOS6, 230, 60);
+        self.seeOffersBtn.frame = CGRectMake(45, 258 + offsetForIOS6, 230, 40);
+        
+        CGRect fr =  self.view.bounds;
+        if( ![UIDevice osVersion7orGreater] ){
+            fr.origin.y += self.navigationController.navigationBar.frame.size.height;
+            fr.size.height -= self.navigationController.navigationBar.frame.size.height;
+        }
+        fr.size.height = 367; //hieght of view - (navbar + tab bar)
+        self.table.frame = fr;
     }
     [self toggleViews];
 }
@@ -308,6 +320,7 @@ const int CELL_HEIGHT = 206;
         }
         else{
             CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+            frame.origin.y +=  offsetForIOS6;
             FriendSelectorView* view = [[FriendSelectorView alloc]initWithFrame:frame];
             view.gift = collection.gift;
             view.delegate = self;
@@ -435,6 +448,7 @@ const int CELL_HEIGHT = 206;
     }
     else{
         CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+        frame.origin.y += offsetForIOS6;
         FriendSelectorView* view = [[FriendSelectorView alloc]initWithFrame:frame];
         view.gift = gift;
         view.delegate = self;

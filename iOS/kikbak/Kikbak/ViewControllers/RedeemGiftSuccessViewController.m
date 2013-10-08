@@ -15,6 +15,8 @@
 #import "GiveViewController.h"
 #import "OfferService.h"
 
+static int offsetForIOS6 = 44;
+
 @interface RedeemGiftSuccessViewController ()
 
 @property (nonatomic, strong) UIView* retailerBG;
@@ -69,6 +71,7 @@
     
     if( [UIDevice osVersion7orGreater] ){
         self.edgesForExtendedLayout = UIRectEdgeNone;
+        offsetForIOS6 = 0;
     }
 	
     [self createSubviews];
@@ -83,10 +86,10 @@
 
 -(void)manuallyLayoutSubviews{
     if(![UIDevice hasFourInchDisplay]){
-        self.retailerBG.frame = CGRectMake(0, 0, 320, 59);
-        self.dropShadow.frame = CGRectMake(0, 0, 320, 4);
-        self.retailerName.frame = CGRectMake(0, 17, 320, 34);
-        self.successBG.frame = CGRectMake(0, 59, 320, 50);
+        self.retailerBG.frame = CGRectMake(0, 0 + offsetForIOS6, 320, 59);
+        self.dropShadow.frame = CGRectMake(0, 0 + offsetForIOS6, 320, 4);
+        self.retailerName.frame = CGRectMake(0, 17 + offsetForIOS6, 320, 34);
+        self.successBG.frame = CGRectMake(0, 59 + offsetForIOS6, 320, 50);
 
         self.success.frame = CGRectMake(50, 10, 320, 15);
         self.success.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:13];
@@ -94,41 +97,41 @@
         self.claimedGift.frame = CGRectMake(111, 10, 320, 15);
         self.claimedGift.textAlignment = NSTextAlignmentLeft;
         self.showScreen.frame = CGRectMake(0, 27, 320, 15);
-        self.dottedSeperator.frame = CGRectMake(0, 109, 320, 2);
+        self.dottedSeperator.frame = CGRectMake(0, 109 + offsetForIOS6, 320, 2);
         
-        self.offer.frame = CGRectMake(0, 122, 320, 28);
-        self.desc.frame = CGRectMake(0, 146, 320, 48);
-        self.details.frame = CGRectMake(0, 184, 320, 26);
-        self.validationImage.frame = CGRectMake(60, 232, 200, 75);
-        self.couponCode.frame = CGRectMake(0, 307, 320, 12);
+        self.offer.frame = CGRectMake(0, 122 + offsetForIOS6, 320, 28);
+        self.desc.frame = CGRectMake(0, 146 + offsetForIOS6, 320, 48);
+        self.details.frame = CGRectMake(0, 184 + offsetForIOS6, 320, 26);
+        self.validationImage.frame = CGRectMake(60, 232 + offsetForIOS6, 200, 75);
+        self.couponCode.frame = CGRectMake(0, 307 + offsetForIOS6, 320, 12);
 
         if( [self.validationType compare:@"qrcode"] == NSOrderedSame){
-            self.validationImage.frame = CGRectMake(42, 210, 100, 100);
-            self.couponCode.frame = CGRectMake(185, 245, 150, 34);
+            self.validationImage.frame = CGRectMake(42, 210 + offsetForIOS6, 100, 100);
+            self.couponCode.frame = CGRectMake(185, 245 + offsetForIOS6, 150, 34);
             self.couponCode.textAlignment = NSTextAlignmentLeft;
             self.couponCode.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:30];
         }
 
-        self.seperator.frame = CGRectMake(11, 318, 298, 1);
+        self.seperator.frame = CGRectMake(11, 318 + offsetForIOS6, 298, 1);
         
-        self.share.frame = CGRectMake(0, 325, 320, 15);
-        self.earn.frame = CGRectMake(0, 342, 320, 15);
-        self.giveBtn.frame = CGRectMake(11, 365, 298, 40);
+        self.share.frame = CGRectMake(0, 325 + offsetForIOS6, 320, 15);
+        self.earn.frame = CGRectMake(0, 342 + offsetForIOS6, 320, 15);
+        self.giveBtn.frame = CGRectMake(11, 365 + offsetForIOS6, 298, 40);
     }
 }
 
 -(void)createSubviews{
     self.view.backgroundColor = [UIColor whiteColor];
     
-    self.retailerBG = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 88)];
+    self.retailerBG = [[UIView alloc]initWithFrame:CGRectMake(0, 0 + offsetForIOS6, 320, 88)];
     self.retailerBG.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_offwhite_eggshell"]];
     [self.view addSubview:self.retailerBG];
     
-    self.dropShadow = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 4)];
+    self.dropShadow = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0 + offsetForIOS6, 320, 4)];
     self.dropShadow.image = [UIImage imageNamed:@"grd_navbar_drop_shadow"];
     [self.view addSubview:self.dropShadow];
     
-    self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(0, 31, 320, 34)];
+    self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(0, 31 + offsetForIOS6, 320, 34)];
     self.retailerName.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:31];
     self.retailerName.textAlignment = NSTextAlignmentCenter;
     self.retailerName.textColor = UIColorFromRGB(0x3a3a3a);
@@ -136,7 +139,7 @@
     self.retailerName.text = self.merchantName;
     [self.view addSubview:self.retailerName];
     
-    self.successBG = [[UIView alloc]initWithFrame:CGRectMake(0, 88, 320, 86)];
+    self.successBG = [[UIView alloc]initWithFrame:CGRectMake(0, 88 + offsetForIOS6, 320, 86)];
     self.successBG.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_green"]];
     [self.view addSubview:self.successBG];
     
@@ -165,11 +168,11 @@
     self.showScreen.backgroundColor = [UIColor clearColor];
     [self.successBG addSubview:self.showScreen];
     
-    self.dottedSeperator = [[UIImageView alloc]initWithFrame:CGRectMake(0, 174, 320, 2)];
+    self.dottedSeperator = [[UIImageView alloc]initWithFrame:CGRectMake(0, 174 + offsetForIOS6, 320, 2)];
     self.dottedSeperator.image = [UIImage imageNamed:@"separater_dots_gift_success"];
     [self.view addSubview:self.dottedSeperator];
     
-    self.offer = [[UILabel alloc]initWithFrame:CGRectMake(0, 190, 320, 28)];
+    self.offer = [[UILabel alloc]initWithFrame:CGRectMake(0, 190 + offsetForIOS6, 320, 28)];
     self.offer.text = NSLocalizedString(@"Offer", nil);
     self.offer.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:26];
     self.offer.textColor = UIColorFromRGB(0x9c9c9c);
@@ -177,7 +180,7 @@
     self.offer.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.offer];
     
-    self.desc = [[UILabel alloc]initWithFrame:CGRectMake(0, 215, 320, 44)];
+    self.desc = [[UILabel alloc]initWithFrame:CGRectMake(0, 215 + offsetForIOS6, 320, 44)];
     if ([self.giftType compare:@"percentage"] == NSOrderedSame) {
         self.desc.text = [NSString stringWithFormat:NSLocalizedString(@"gift percent", nil), [self.value integerValue]];
     }
@@ -190,7 +193,7 @@
     self.desc.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:41];
     [self.view addSubview:self.desc];
     
-    self.details = [[UILabel alloc]initWithFrame:CGRectMake(0, 259, 320, 15)];
+    self.details = [[UILabel alloc]initWithFrame:CGRectMake(0, 259 + offsetForIOS6, 320, 15)];
     self.details.text = self.optionalDesc;
     self.details.textAlignment = NSTextAlignmentCenter;
     self.details.backgroundColor = [UIColor clearColor];
@@ -198,15 +201,15 @@
     self.details.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
     [self.view addSubview:self.details];
     
-    self.seperator = [[UIImageView alloc]initWithFrame:CGRectMake(11, 406, 298, 1)];
+    self.seperator = [[UIImageView alloc]initWithFrame:CGRectMake(11, 406 + offsetForIOS6, 298, 1)];
     self.seperator.image = [UIImage imageNamed:@"separator_gray_line"];
     [self.view addSubview:self.seperator];
     
-    self.validationImage = [[UIImageView alloc]initWithFrame:CGRectMake(60, 295, 200, 75)];
+    self.validationImage = [[UIImageView alloc]initWithFrame:CGRectMake(60, 295 + offsetForIOS6, 200, 75)];
     self.validationImage.image = [UIImage imageWithContentsOfFile:self.imagePath];
     [self.view addSubview:self.validationImage];
     
-    self.couponCode = [[UILabel alloc] initWithFrame:CGRectMake(0, 376, 320, 12)];
+    self.couponCode = [[UILabel alloc] initWithFrame:CGRectMake(0, 376 + offsetForIOS6, 320, 12)];
     self.couponCode.text = self.validationCode;
     self.couponCode.textAlignment = NSTextAlignmentCenter;
     self.couponCode.backgroundColor = [UIColor clearColor];
@@ -215,13 +218,13 @@
     [self.view addSubview:self.couponCode];
     
     if( [self.validationType compare:@"qrcode"] == NSOrderedSame){
-        self.validationImage.frame = CGRectMake(35, 285, 100, 100);
-        self.couponCode.frame = CGRectMake(185, 324, 150, 33);
+        self.validationImage.frame = CGRectMake(35, 285 + offsetForIOS6, 100, 100);
+        self.couponCode.frame = CGRectMake(185, 324 + offsetForIOS6, 150, 33);
         self.couponCode.textAlignment = NSTextAlignmentLeft;
         self.couponCode.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:30];
     }
     
-    self.share = [[UILabel alloc] initWithFrame:CGRectMake(0, 415, 320, 15)];
+    self.share = [[UILabel alloc] initWithFrame:CGRectMake(0, 415 + offsetForIOS6, 320, 15)];
     self.share.text = NSLocalizedString(@"Share with friends", nil);
     self.share.textAlignment = NSTextAlignmentCenter;
     self.share.backgroundColor = [UIColor clearColor];
@@ -229,7 +232,7 @@
     self.share.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
     [self.view addSubview:self.share];
 
-    self.earn = [[UILabel alloc] initWithFrame:CGRectMake(0, 429, 320, 15)];
+    self.earn = [[UILabel alloc] initWithFrame:CGRectMake(0, 429 + offsetForIOS6, 320, 15)];
     self.earn.text = NSLocalizedString(@"Earn for friend", nil);
     self.earn.textAlignment = NSTextAlignmentCenter;
     self.earn.backgroundColor = [UIColor clearColor];
@@ -242,7 +245,7 @@
     [self.giveBtn setTitle:NSLocalizedString(@"Give to Friends", nil) forState:UIControlStateNormal];
     [self.giveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.giveBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:15];
-    self.giveBtn.frame = CGRectMake(11, 453, 298, 40);
+    self.giveBtn.frame = CGRectMake(11, 453 + offsetForIOS6, 298, 40);
     [self.giveBtn addTarget:self action:@selector(onGiveBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.giveBtn];
 }

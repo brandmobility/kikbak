@@ -12,6 +12,8 @@
 #import "UIDevice+Screen.h"
 #import "UIDevice+OSVersion.h"
 
+static int offsetForIOS6 = 44;
+
 @interface CreditChooserViewController ()
 
 @property (nonatomic,strong) UIImageView* dropShadow;
@@ -64,6 +66,7 @@
     
     if( [UIDevice osVersion7orGreater] ){
         self.edgesForExtendedLayout = UIRectEdgeNone;
+        offsetForIOS6=0;
     }
     
     [self createViews];
@@ -84,11 +87,11 @@
 -(void) createViews{
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_credit_choice"]];
     
-    self.dropShadow = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 4)];
+    self.dropShadow = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0+offsetForIOS6, 320, 4)];
     self.dropShadow.image = [UIImage imageNamed:@"grd_navbar_drop_shadow"];
     [self.view addSubview:self.dropShadow];
     
-    self.available = [[UILabel alloc]initWithFrame:CGRectMake(11, 15, 298, 23)];
+    self.available = [[UILabel alloc]initWithFrame:CGRectMake(11, 15+offsetForIOS6, 298, 23)];
     self.available.text = NSLocalizedString(@"Credit Available", nil);
     self.available.backgroundColor = [UIColor clearColor];
     self.available.textColor = UIColorFromRGB(0x3a3a3a);
@@ -96,7 +99,7 @@
     self.available.textAlignment = NSTextAlignmentLeft;
     [self.view addSubview:self.available];
     
-    self.totalCredit = [[UILabel alloc]initWithFrame:CGRectMake(11, 40, 150, 38)];
+    self.totalCredit = [[UILabel alloc]initWithFrame:CGRectMake(11, 40+offsetForIOS6, 150, 38)];
     self.totalCredit.text = [NSString stringWithFormat:NSLocalizedString(@"Redeem Amount", nil), [self.credit doubleValue]];
     self.totalCredit.backgroundColor = [UIColor clearColor];
     self.totalCredit.textColor = UIColorFromRGB(0x3a3a3a);
@@ -104,7 +107,7 @@
     self.totalCredit.textAlignment = NSTextAlignmentLeft;
     [self.view addSubview:self.totalCredit];
     
-    self.amountToUse = [[UILabel alloc]initWithFrame:CGRectMake(11, 100, 298, 23)];
+    self.amountToUse = [[UILabel alloc]initWithFrame:CGRectMake(11, 100+offsetForIOS6, 298, 23)];
     self.amountToUse.text = NSLocalizedString(@"Set amount to user", nil);
     self.amountToUse.backgroundColor = [UIColor clearColor];
     self.amountToUse.textColor = UIColorFromRGB(0x3a3a3a);
@@ -112,7 +115,7 @@
     self.amountToUse.textAlignment = NSTextAlignmentLeft;
     [self.view addSubview:self.amountToUse];
     
-    self.unit = [[UILabel alloc]initWithFrame:CGRectMake(11, 138, 26, 38)];
+    self.unit = [[UILabel alloc]initWithFrame:CGRectMake(11, 138+offsetForIOS6, 26, 38)];
     self.unit.text = NSLocalizedString(@"Currency Symbol", nil);
     self.unit.backgroundColor = [UIColor clearColor];
     self.unit.textColor = UIColorFromRGB(0x3a3a3a);
@@ -120,7 +123,7 @@
     self.unit.textAlignment = NSTextAlignmentLeft;
     [self.view addSubview:self.unit];
     
-    self.textField = [[UITextField alloc]initWithFrame:CGRectMake(37, 132, 271, 50)];
+    self.textField = [[UITextField alloc]initWithFrame:CGRectMake(37, 132+offsetForIOS6, 271, 50)];
     self.textField.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:36];
     self.textField.textAlignment = NSTextAlignmentLeft;
     self.textField.textColor = UIColorFromRGB(0x3a3a3a);
@@ -128,7 +131,7 @@
     self.textField.keyboardType = UIKeyboardTypeDecimalPad;
     self.textField.background = [UIImage imageNamed:@"bg_credit_amount_textfield"];
     self.textField.delegate = self;
-    UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 5, 20)];
+    UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0+offsetForIOS6, 5, 20)];
     self.textField.leftView = paddingView;
     self.textField.leftViewMode = UITextFieldViewModeAlways;
     [self.textField becomeFirstResponder];
@@ -138,7 +141,7 @@
 
     self.apply = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.apply addTarget:self action:@selector(onAppy:) forControlEvents:UIControlEventTouchUpInside];
-    self.apply.frame = CGRectMake(11, 202, 298, 40);
+    self.apply.frame = CGRectMake(11, 202+offsetForIOS6, 298, 40);
     [self.apply setTitle:NSLocalizedString(@"Apply", nil) forState:UIControlStateNormal];
     [self.apply setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.apply.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15];
@@ -148,16 +151,16 @@
 
 -(void) manuallyLayoutSubiews{
     if( ![UIDevice hasFourInchDisplay]){
-        self.available.frame = CGRectMake(11, 19, 149, 18);
+        self.available.frame = CGRectMake(11, 19+offsetForIOS6, 149, 18);
         self.available.font = [UIFont fontWithName:@"HelveticaNeue" size:16];
-        self.totalCredit.frame = CGRectMake(11,49,150,38);
+        self.totalCredit.frame = CGRectMake(11,49+offsetForIOS6,150,38);
         
-        self.amountToUse.frame = CGRectMake(160, 19, 149, 18);
+        self.amountToUse.frame = CGRectMake(160, 19+offsetForIOS6, 149, 18);
         self.amountToUse.font = [UIFont fontWithName:@"HelveticaNeue" size:16];
-        self.unit.frame = CGRectMake(160, 49, 26, 38);
-        self.textField.frame = CGRectMake(186, 43, 123, 50);
+        self.unit.frame = CGRectMake(160, 49+offsetForIOS6, 26, 38);
+        self.textField.frame = CGRectMake(186, 43+offsetForIOS6, 123, 50);
         
-        self.apply.frame = CGRectMake(11, 147, 298, 40);
+        self.apply.frame = CGRectMake(11, 147+offsetForIOS6, 298, 40);
     }
 }
 

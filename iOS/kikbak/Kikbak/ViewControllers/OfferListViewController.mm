@@ -198,6 +198,11 @@ const int CELL_HEIGHT = 156;
     if( ![UIDevice osVersion7orGreater] ){
         fr.origin.y += self.navigationController.navigationBar.frame.size.height;
     }
+    if( [UIDevice osVersion7orGreater] ){
+        fr.size.height -= [UIApplication sharedApplication].statusBarFrame.size.height;
+    }
+    fr.size.height -= self.navigationController.navigationBar.frame.size.height;
+    fr.size.height -= self.tabBarController.tabBar.frame.size.height;
     self.table = [[UITableView alloc]initWithFrame:fr style:UITableViewStylePlain];
     self.table.dataSource = self;
     self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -251,16 +256,20 @@ const int CELL_HEIGHT = 156;
 }
 
 -(void) manuallyLayoutSubviews{
-    CGRect fr =  self.view.bounds;
-    if( ![UIDevice osVersion7orGreater] ){
-        fr.origin.y += self.navigationController.navigationBar.frame.size.height;
-    }
-    self.table.frame = fr;
+    
+
     if( ![UIDevice hasFourInchDisplay]){
         self.bummer.frame = CGRectMake(0, 35, 320, 62);
         self.bummerDetails.frame = CGRectMake(65, 86, 190, 40);
         self.suggestBusiness.frame = CGRectMake(31, 259, 258, 40);
         self.suggestBusinessBtn.frame = CGRectMake(50, 304, 220, 40);
+        CGRect fr =  self.view.bounds;
+        if( ![UIDevice osVersion7orGreater] ){
+            fr.origin.y += self.navigationController.navigationBar.frame.size.height;
+            fr.size.height -= self.tabBarController.tabBar.frame.size.height;
+        }
+        fr.size.height = 367; //hieght of view - (navbar + tab bar)
+        self.table.frame = fr;
     }
 }
 
@@ -309,15 +318,10 @@ const int CELL_HEIGHT = 156;
     return 1;
 }
 
-#pragma mark - segue
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [self performSegueWithIdentifier:@"OfferSegue" sender:[self.offers objectAtIndex:indexPath.row]];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    GiveViewController* vc = (GiveViewController*)segue.destinationViewController;
-    vc.offer = sender;
-    [segue.destinationViewController setHidesBottomBarWhenPushed:YES];
+    GiveViewController* vc = [[GiveViewController alloc]initWithNibName:nil bundle:nil];
+    vc.offer = [self.offers objectAtIndex:indexPath.row];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 

@@ -39,6 +39,8 @@
 const double TEXT_EDIT_CONTAINER_ORIGIN_Y = 243.0;
 const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 
+static int offsetForIOS6 = 44;
+
 @interface GiveViewController (){
     BOOL shareViaEmail;
     BOOL shareViaSMS;
@@ -153,6 +155,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     
     if( [UIDevice osVersion7orGreater] ){
         self.edgesForExtendedLayout = UIRectEdgeNone;
+        offsetForIOS6 = 0;
     }
     
     
@@ -230,30 +233,30 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
 #pragma mark - Layout
 -(void)manuallyLayoutSubviews{
     if(![UIDevice hasFourInchDisplay]){
-        self.giveImage.frame = CGRectMake(0, 0, 320, 218);
-        self.imageOverlay.frame = CGRectMake(0, 0, 320, 218);
+        self.giveImage.frame = CGRectMake(0, 0 + offsetForIOS6, 320, 218);
+        self.imageOverlay.frame = CGRectMake(0, 0 + offsetForIOS6, 320, 218);
         [self.takePhoto removeFromSuperview];
-        self.takePictureBtn.frame = CGRectMake(112, 20, 95, 95);
-        self.retailerName.frame = CGRectMake(14, 123, 316, 26);
-        self.mapIcon.frame = CGRectMake(14, 152, 10, 14);
-        self.distance.frame = CGRectMake(30, 151, 70, 18);
-        self.mapBtn.frame = CGRectMake(14, 149, 70, 30);
-        self.webIcon.frame = CGRectMake(109, 153, 16, 16);
-        self.webBtn.frame = CGRectMake(99, 148, 30, 30);
-        self.callIcon.frame = CGRectMake(145, 152, 12, 16);
-        self.callBtn.frame = CGRectMake(140, 148, 30, 30);
-        self.captionContainerView.frame = CGRectMake(0, TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN, 320, 48);
+        self.takePictureBtn.frame = CGRectMake(112, 20 + offsetForIOS6, 95, 95);
+        self.retailerName.frame = CGRectMake(14, 123 + offsetForIOS6, 316, 26);
+        self.mapIcon.frame = CGRectMake(14, 152 + offsetForIOS6, 10, 14);
+        self.distance.frame = CGRectMake(30, 151 + offsetForIOS6, 70, 18);
+        self.mapBtn.frame = CGRectMake(14, 149 + offsetForIOS6, 70, 30);
+        self.webIcon.frame = CGRectMake(109, 153 + offsetForIOS6, 16, 16);
+        self.webBtn.frame = CGRectMake(99, 148 + offsetForIOS6, 30, 30);
+        self.callIcon.frame = CGRectMake(145, 152 + offsetForIOS6, 12, 16);
+        self.callBtn.frame = CGRectMake(140, 148 + offsetForIOS6, 30, 30);
+        self.captionContainerView.frame = CGRectMake(0, TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN + offsetForIOS6, 320, 48);
         self.captionTextView.frame = CGRectMake(10, 8, 300, 32);
-        self.dottedSeperator.frame = CGRectMake(0, 216, 320, 2);
-        self.giftDesctription.frame = CGRectMake(0, 230, 320, 33);
-        self.giftIcon.frame = CGRectMake(self.giftIcon.frame.origin.x, 237, 19, 18);
-        self.giftDetailedDescription.frame = CGRectMake(0, 264, 320, 15);
-        self.seperator.frame = CGRectMake(11, 287, 298, 1);
-        self.rewardDescription.frame = CGRectMake(0, 292, 320, 30);
-        self.rewardIcon.frame = CGRectMake(self.rewardIcon.frame.origin.x, 298, 19, 18);
-        self.rewardDetailedDescription.frame = CGRectMake(0, 322, 320, 15);
-        self.termsBtn.frame = CGRectMake(11, 344, 150, 16);
-        self.giveBtn.frame = CGRectMake(11, 366, 298, 40);
+        self.dottedSeperator.frame = CGRectMake(0, 216 + offsetForIOS6, 320, 2);
+        self.giftDesctription.frame = CGRectMake(0, 230 + offsetForIOS6, 320, 33);
+        self.giftIcon.frame = CGRectMake(self.giftIcon.frame.origin.x, 237 + offsetForIOS6, 19, 18);
+        self.giftDetailedDescription.frame = CGRectMake(0, 264 + offsetForIOS6, 320, 15);
+        self.seperator.frame = CGRectMake(11, 287 + offsetForIOS6, 298, 1);
+        self.rewardDescription.frame = CGRectMake(0, 292 + offsetForIOS6, 320, 30);
+        self.rewardIcon.frame = CGRectMake(self.rewardIcon.frame.origin.x, 298 + offsetForIOS6, 19, 18);
+        self.rewardDetailedDescription.frame = CGRectMake(0, 322 + offsetForIOS6, 320, 15);
+        self.termsBtn.frame = CGRectMake(11, 344 + offsetForIOS6, 150, 16);
+        self.giveBtn.frame = CGRectMake(11, 366 + offsetForIOS6, 298, 40);
     }
 }
 
@@ -261,15 +264,15 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     
     self.view.backgroundColor = UIColorFromRGB(0xFFFFFF);
     
-    self.giveImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 292)];
+    self.giveImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0 + offsetForIOS6, 320, 292)];
     [self.view addSubview:self.giveImage];
     
     
-    self.imageOverlay = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 292)];
+    self.imageOverlay = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0 + offsetForIOS6, 320, 292)];
     self.imageOverlay.image = [UIImage imageNamed:@"grd_give_default_photo_gradient"];
     [self.view addSubview:self.imageOverlay];
     
-    self.takePhoto = [[UILabel alloc]initWithFrame:CGRectMake(0, 44, 320, 16)];
+    self.takePhoto = [[UILabel alloc]initWithFrame:CGRectMake(0, 44 + offsetForIOS6, 320, 16)];
     self.takePhoto.text = NSLocalizedString(@"Take a photo", nil);
     self.takePhoto.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:16];
     self.takePhoto.textColor = [UIColor whiteColor];
@@ -279,12 +282,12 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     
     self.takePictureBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.takePictureBtn setImage:[UIImage imageNamed:@"ic_camera"] forState:UIControlStateNormal];
-    self.takePictureBtn.frame = CGRectMake(112, 68, 95, 95);
+    self.takePictureBtn.frame = CGRectMake(112, 68 + offsetForIOS6, 95, 95);
     [self.takePictureBtn addTarget:self action:@selector(onTakePhotoBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.takePictureBtn];
     
     
-    self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(14, 194, 316, 26)];
+    self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(14, 194 + offsetForIOS6, 316, 26)];
     self.retailerName.font = [UIFont fontWithName:@"HelveticaNeue" size:24];
     self.retailerName.textColor = UIColorFromRGB(0xFFFFFF);
     self.retailerName.text = self.offer.merchantName;
@@ -292,11 +295,11 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     self.retailerName.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.retailerName];
     
-    self.mapIcon = [[UIImageView alloc]initWithFrame:CGRectMake(14, 225, 10, 14)];
+    self.mapIcon = [[UIImageView alloc]initWithFrame:CGRectMake(14, 225 + offsetForIOS6, 10, 14)];
     self.mapIcon.image = [UIImage imageNamed:@"ic_map_give"];
     [self.view addSubview:self.mapIcon];
     
-    self.distance = [[UILabel alloc] initWithFrame:CGRectMake(30, 223, 70, 18)];
+    self.distance = [[UILabel alloc] initWithFrame:CGRectMake(30, 223 + offsetForIOS6, 70, 18)];
     self.distance.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:18];
     self.distance.textColor = UIColorFromRGB(0xFFFFFF);
     self.distance.backgroundColor = [UIColor clearColor];
@@ -304,43 +307,47 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     
     
     self.mapBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.mapBtn.frame = CGRectMake(14, 211, 70, 30);
+    self.mapBtn.frame = CGRectMake(14, 211 + offsetForIOS6, 70, 30);
     self.mapBtn.backgroundColor = [UIColor clearColor];
     [self.mapBtn addTarget:self action:@selector(onMapBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.mapBtn];
     
-    self.webIcon = [[UIImageView alloc]initWithFrame:CGRectMake(109, 224, 16, 16)];
+    self.webIcon = [[UIImageView alloc]initWithFrame:CGRectMake(109, 224 + offsetForIOS6, 16, 16)];
     self.webIcon.image = [UIImage imageNamed:@"ic_web_give"];
     [self.view addSubview:self.webIcon];
     
 
     self.webBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.webBtn.backgroundColor = [UIColor clearColor];
-    self.webBtn.frame = CGRectMake(99, 210, 30, 30);
+    self.webBtn.frame = CGRectMake(99, 210 + offsetForIOS6, 30, 30);
     self.webBtn.backgroundColor = [UIColor clearColor];
     [self.webBtn addTarget:self action:@selector(onWebBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.webBtn];
     
     
-    self.callIcon = [[UIImageView alloc]initWithFrame:CGRectMake(150, 224, 12, 16)];
+    self.callIcon = [[UIImageView alloc]initWithFrame:CGRectMake(150, 224 + offsetForIOS6, 12, 16)];
     self.callIcon.image = [UIImage imageNamed:@"ic_phone_give"];
     [self.view addSubview: self.callIcon];
     
     self.callBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.callBtn.frame = CGRectMake(145, 210, 30, 30);
+    self.callBtn.frame = CGRectMake(145, 210 + offsetForIOS6, 30, 30);
     self.callBtn.backgroundColor = [UIColor clearColor];
     [self.callBtn addTarget:self action:@selector(onCallBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.callBtn];
     
     
-    self.captionContainerView = [[UIView alloc]initWithFrame:CGRectMake(0, TEXT_EDIT_CONTAINER_ORIGIN_Y, 320, 48)];
+    self.captionContainerView = [[UIView alloc]initWithFrame:CGRectMake(0, TEXT_EDIT_CONTAINER_ORIGIN_Y + offsetForIOS6, 320, 48)];
     [self.view addSubview:self.captionContainerView];
     
     self.captionGradient = [[UIImageView alloc]initWithFrame:self.captionContainerView.frame];
     self.captionGradient.image = [UIImage imageNamed:@"grd_give_caption"];
     [self.captionContainerView addSubview:self.captionGradient];
     
-    self.captionTextView = [[HPGrowingTextView alloc]initWithFrame:CGRectMake(10, 8, 300, 32)];
+    CGRect capTextFr = CGRectMake(10, 8, 300, 32);
+    if([UIDevice osVersion7orGreater]){
+        capTextFr.size.height = 42;
+    }
+    self.captionTextView = [[HPGrowingTextView alloc]initWithFrame:capTextFr];
     self.captionTextView.text = NSLocalizedString(@"add comment", nil);
     self.captionTextView.contentInset = UIEdgeInsetsMake(9, 0, 8, 0);
     self.captionTextView.minNumberOfLines = 1;
@@ -356,12 +363,12 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     self.captionTextView.backgroundColor = [UIColor whiteColor];
     [self.captionContainerView addSubview:self.captionTextView];
     
-    self.dottedSeperator = [[UIImageView alloc] initWithFrame:CGRectMake(0, 290, 320, 2)];
+    self.dottedSeperator = [[UIImageView alloc] initWithFrame:CGRectMake(0, 290 + offsetForIOS6, 320, 2)];
     self.dottedSeperator.image = [UIImage imageNamed:@"separator_dots"];
     [self.view addSubview:self.dottedSeperator];
     
     
-    self.giftDesctription = [[UILabel alloc]initWithFrame:CGRectMake(0, 305, 320, 33)];
+    self.giftDesctription = [[UILabel alloc]initWithFrame:CGRectMake(0, 305 + offsetForIOS6, 320, 33)];
     self.giftDesctription.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:27];
     self.giftDesctription.text = [NSString stringWithFormat:NSLocalizedString(@"Give description", nil), self.offer.giftDescription];
     self.giftDesctription.textColor = UIColorFromRGB(0x2A80E6);
@@ -370,11 +377,11 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [self.view addSubview:self.giftDesctription];
     
     CGSize gdSize = [self.giftDesctription.text sizeWithFont:self.giftDesctription.font];
-    self.giftIcon = [[UIImageView alloc]initWithFrame:CGRectMake((self.view.frame.size.width/2) - (gdSize.width/2)- 24, 312, 19, 18)];
+    self.giftIcon = [[UIImageView alloc]initWithFrame:CGRectMake((self.view.frame.size.width/2) - (gdSize.width/2)- 24, 312 + offsetForIOS6, 19, 18)];
     self.giftIcon.image = [UIImage imageNamed:@"ic_gift"];
     [self.view addSubview:self.giftIcon];
 
-    self.giftDetailedDescription = [[UILabel alloc]initWithFrame:CGRectMake(0, 338, 320, 15)];
+    self.giftDetailedDescription = [[UILabel alloc]initWithFrame:CGRectMake(0, 338 + offsetForIOS6, 320, 15)];
     self.giftDetailedDescription.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
     self.giftDetailedDescription.text = self.offer.giftDescriptionOptional;
     self.giftDetailedDescription.textColor = UIColorFromRGB(0x898989);
@@ -382,11 +389,11 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     self.giftDetailedDescription.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.giftDetailedDescription];
 
-    self.seperator = [[UIImageView alloc]initWithFrame:CGRectMake(11, 364, 298, 1)];
+    self.seperator = [[UIImageView alloc]initWithFrame:CGRectMake(11, 364 + offsetForIOS6, 298, 1)];
     self.seperator.image = [UIImage imageNamed:@"separator_gray_line"];
     [self.view addSubview:self.seperator];
 
-    self.rewardDescription = [[UILabel alloc]initWithFrame:CGRectMake(0, 370, 320, 30)];
+    self.rewardDescription = [[UILabel alloc]initWithFrame:CGRectMake(0, 370 + offsetForIOS6, 320, 30)];
     self.rewardDescription.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:25];
     self.rewardDescription.text = [NSString stringWithFormat:NSLocalizedString(@"Get description", nil), self.offer.kikbakDescription];
     self.rewardDescription.textColor = UIColorFromRGB(0x3a3a3a);
@@ -395,11 +402,11 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [self.view addSubview:self.rewardDescription];
 
     gdSize = [self.rewardDescription.text sizeWithFont:self.rewardDescription.font];
-    self.rewardIcon = [[UIImageView alloc]initWithFrame:CGRectMake((self.view.frame.size.width/2) - (gdSize.width/2)- 24, 376, 20, 20)];
+    self.rewardIcon = [[UIImageView alloc]initWithFrame:CGRectMake((self.view.frame.size.width/2) - (gdSize.width/2)- 24, 376 + offsetForIOS6, 20, 20)];
     self.rewardIcon.image = [UIImage imageNamed:@"ic_give_trophy"];
     [self.view addSubview:self.rewardIcon];
     
-    self.rewardDetailedDescription = [[UILabel alloc]initWithFrame:CGRectMake(0, 401, 320, 15)];
+    self.rewardDetailedDescription = [[UILabel alloc]initWithFrame:CGRectMake(0, 401 + offsetForIOS6, 320, 15)];
     self.rewardDetailedDescription.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
     self.rewardDetailedDescription.text = self.offer.kikbakDescriptionOptional;
     self.rewardDetailedDescription.textColor = UIColorFromRGB(0x898989);
@@ -408,7 +415,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [self.view addSubview:self.rewardDetailedDescription];
     
     self.termsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.termsBtn.frame = CGRectMake(11, 424, 150, 16);
+    self.termsBtn.frame = CGRectMake(11, 424 + offsetForIOS6, 150, 16);
     [self.termsBtn setTitle:NSLocalizedString(@"Terms and Conditions", nil) forState:UIControlStateNormal];
     self.termsBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
     [self.termsBtn setTitleColor:UIColorFromRGB(0x686868) forState:UIControlStateNormal];
@@ -423,7 +430,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     [self.giveBtn setTitle:NSLocalizedString(@"give to friends", nil) forState:UIControlStateNormal];
     [self.giveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.giveBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:15];
-    self.giveBtn.frame = CGRectMake(11, 453, 298, 40);
+    self.giveBtn.frame = CGRectMake(11, 453 + offsetForIOS6, 298, 40);
     [self.giveBtn addTarget:self action:@selector(onGiveGift:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.giveBtn];
 }
@@ -478,6 +485,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
         self.captionTextView.text = @"";
     }
     
+    frame.origin.y += offsetForIOS6;
     if( photoTaken == YES){
         self.spinnerView = [[SpinnerView alloc]initWithFrame:frame];
         [self.spinnerView startActivity];
@@ -768,6 +776,7 @@ const double TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN = 170.0;
     
     self.imageUrl = [notification object];
     CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+    frame.origin.y += offsetForIOS6;
     ShareChannelSelectorView* view = [[ShareChannelSelectorView alloc]initWithFrame:frame];
     view.locations = self.offer.location;
     [view createsubviews];
