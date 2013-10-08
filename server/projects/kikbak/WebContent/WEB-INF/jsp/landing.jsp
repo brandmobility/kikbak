@@ -276,8 +276,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <img src="${shareInfo.imageUrl}" width="340px" height="350px" style="margin-top:10px;border-radius:10px;" />
-                                <img src="img/blk-shad.png" width="340px" height="220px" style="margin-top:10px;border-radius:10px;position:absolute;top:220px;left:10px;" />
+                                <img src="${shareInfo.imageUrl}" width="340px" height="340px" style="margin-top:10px;border-radius:10px;" />
+                                <img src="img/blk-shad.png" width="340px" height="220px" style="margin-top:10px;border-radius:10px;position:absolute;top:210px;left:10px;" />
                                 <div class="widget">
                                     <div class="span4">
                                         <h3 style="padding: 0px; margin: 0px; font-family: HelveticaNeueLTPro-Lt">${gift.merchant.name}</h3>
@@ -309,7 +309,7 @@
                         <div style="padding-left: 145px; padding-right: 10px; text-align: center; padding-top: 45px;">
                             <h3 style="font-size: 20px;">
                                 <strong>${shareInfo.friendName}</strong> used <strong>Kikbak</strong>
-                                to give you <br /> an exclusive offer for <strong>${gift.merchant.name}</strong>.
+                                to give you <br /> an exclusive offer for <strong>${gift.merchant.name}</strong>
                             </h3>
                         </div>
                         <div class="ribbon">
@@ -323,12 +323,15 @@
                             <div style="padding-left: 145px; padding-right: 10px; text-align: center; padding-top: 20px;">
                                 <div style="width: 350px; margin: 0 auto;">
                                     <p>Connect with Facebook to access your gift.</p>
-                                    <a id="loginFb" href="#"><img src="img/facebook-button.png" /></a>
+                                    <a id="loginFb" href="#">
+                                        <img src="img/btn_facebook.png" style="width:100%;" />
+                                        <span style="position:relative;top:-35px;left:15px;color:#FFFFFF;font-size:20px;">Connect with Facebook</span>
+                                    </a>
                                 </div>
                             </div>
                             <div style="padding-left: 165px; padding-right: 30px; text-align: center; padding-top: 20px;">
                                 <p style="font-family: HelveticaNeueLTPro-Lt; font-size: 12px;">
-                                We use Facebook to make it easy for you to share, store and redeem gifts and rewards. <br /> 
+                                We use Facebook to make it easy for you to share and redeem. <br /> 
                                 We will never post on Facebook without your permission.
                                 </p>
                             </div>
@@ -368,8 +371,7 @@
             <c:choose>
             <c:when test="${not empty location}">
             <div id="jumbotron">
-                <p style="margin-top:10px">&nbsp;&nbsp;${shareInfo.friendName} was at <strong>${gift.merchant.name}</strong> at<br />
-                &nbsp;&nbsp;<strong>${location.address1}, ${location.city}, ${location.state}</strong>
+                <p style="margin-top:10px;margin-left:10px;">${shareInfo.friendName} was at <strong>${gift.merchant.name}</strong> at <strong>${location.address1}, ${location.city}, ${location.state}</strong>
                 </p>
             </div>
             </c:when>
@@ -407,14 +409,14 @@
             </div>
             <div class="page-header" style="padding:0;">
                 <div class="row show-grid" style="margin:0;padding-top:22px;">
-                    <div class="col-md-4" style="padding-left:10px">
-                        <img src="https://graph.facebook.com/${shareInfo.fbFriendId}/picture?type=square" class="img-rounded" />
+                    <div class="col-md-4" style="padding-left:5px">
+                        <img src="https://graph.facebook.com/${shareInfo.fbFriendId}/picture?type=square" class="img-rounded" width="60px"/>
                     </div>
                     <div class="col-md-8">
                         <c:choose>
                         <c:when test="${not empty shareInfo.caption}">
                         <h3 style="color:#3a3a3a;font-size:20px;font-weight:bold;">${shareInfo.friendName}</h3>
-                        <p>${shareInfo.caption}</p>
+                        <p style="margin-left:70px">${shareInfo.caption}</p>
                         </c:when>
                         <c:otherwise>
                         <h3 style="color:#3a3a3a;font-size:20px;font-weight:bold;margin-top:12px;">${shareInfo.friendName}</h3>
@@ -436,9 +438,14 @@
             <div id="facebook-div">
                 <div class="page-header" style="padding-left:10px;padding-right:10px;margin-top:25px;text-align:center">
                     <p style="font-size:15px;font-family:HelveticaNeueLTPro-Lt;">Connect with Facebook to access your gift. </p>
-                    <a id="loginFb" href="#"><img src="img/facebook-button.png" /></a>
+                    <div style="height:40px">
+                        <a id="loginFb" href="#">
+                            <img src="img/btn_facebook.png" style="width:100%;"/>
+                            <span style="position:relative;top:-35px;left:15px;color:#FFFFFF;font-size:20px;">Connect with Facebook</span>
+                        </a>
+                    </div>
                     <p align="center" style="padding-top:10px;font-family:HelveticaNeueLTPro-Lt;font-size:10px;">
-                    We use Facebook to make it easy for you to share, store and redeem gifts and rewards. <br /> 
+                    We use Facebook to make it easy for you to share and redeem. <br /> 
                     We will never post on Facebook without your permission.
                     </p>
                 </div>
@@ -451,7 +458,7 @@
                     for whenever you’re ready to use it.
                     </p>
                 </div>
-                <div style="text-align:center;">
+                <div style="text-align:center;padding-bottom:20px;">
                     <a href="#"><img src="img/app-store.png" width="40%" /></a>&nbsp;&nbsp;&nbsp;&nbsp;
                     <a href="#"><img src="img/google-play.png" width="40%" /></a>
                 </div>
