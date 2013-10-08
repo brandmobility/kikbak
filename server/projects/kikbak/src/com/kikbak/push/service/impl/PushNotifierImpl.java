@@ -22,6 +22,7 @@ import com.kikbak.dto.Merchant;
 import com.kikbak.dto.User;
 import com.kikbak.jaxb.applepushnotification.AppleNotificationPayload;
 import com.kikbak.jaxb.applepushnotification.ApsType;
+import com.kikbak.mail.EmailSender;
 import com.kikbak.push.apple.ApsConnection;
 import com.kikbak.push.apple.ApsToken;
 import com.kikbak.push.apple.NotificationPayload;
@@ -54,8 +55,10 @@ public class PushNotifierImpl implements PushNotifier {
     @Override
     public void sendKikbakNotification(Long fromUserId, Long toUserId, Kikbak kikbak) {
         Devicetoken deviceToken = roDeviceToken.findByUserId(toUserId);
-        if (deviceToken == null)
+        if (deviceToken == null) {
+            sendKikbakNotificationEmail(fromUserId, toUserId, kikbak);
             return;
+        }
 
         if (deviceToken.getPlatformType() == PlatformType.iOS.ordinal()) {
             sendKikbakNotificationApple(fromUserId, deviceToken, kikbak);
@@ -132,6 +135,28 @@ public class PushNotifierImpl implements PushNotifier {
         } catch (Exception e) {
             log.error("Failed to send kikbak notification via google:" + e, e);
         }
+    }
+    
+    private void sendKikbakNotificationEmail(Long fromUserId, Long toUserId, Kikbak kikbak) {
+        long oid = kikbak.getOfferId();
+        long mid = roOfferDAO.findById(oid).getMerchantId();
+        Merchant merchant = roMerchantDAO.findById(mid);
+
+        String subjectTmpl = config.getString("notification.email.kikbak.subject");
+        subjectTmpl = subjectTmpl.replace("%RETAILER%", merchant.getName());
+        subjectTmpl = subjectTmpl.replace("%REWARD%", kikbak.getDescription());
+        
+        String bodyTmpl = config.getString("notification.email.kikbak.body");
+        bodyTmpl = bodyTmpl.replace("%RETAILER%", merchant.getName());
+        bodyTmpl = bodyTmpl.replace("%LINK%", "http://put.linke.here/to/the/reward/page.html");
+        
+        String email = getDecoratedEmailForUser(toUserId);
+        EmailSender.send(email, subjectTmpl, bodyTmpl);
+    }
+    
+    private String getDecoratedEmailForUser(Long userId) {
+        User user = roUserDAO.findById(userId);
+        return "\"" + user.getFirstName() + " " + user.getLastName() + "\"<" + user.getEmail() + ">";
     }
 
     @Override
