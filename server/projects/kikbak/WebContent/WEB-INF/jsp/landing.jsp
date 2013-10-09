@@ -284,12 +284,12 @@
                                     </div>
                                     <div class="span4">
                                         <div class="pull-left">
-                                            <a href="https://maps.google.com/maps?q=${encodeMerchantName}%40${location.latitude},${location.longitude}">
+                                            <a href="https://maps.google.com/maps?q=${encodeMerchantName}%40${location.latitude},${location.longitude}" target="_blank">
                                                 <span class="glyphicon glyphicon-map-marker" style="color: #FFFFFF; font-size: 18px; margin-right: 20px; margin-top: 5px; position: relative;"></span>
                                             </a>
                                         </div>
                                         <div class="pull-left">
-                                            <a href="${gift.merchant.url}"><div class="globe"></div></a>
+                                            <a href="${gift.merchant.url}" target="_blank"><div class="globe"></div></a>
                                         </div>
                                     </div>
                                     <div class="clearfix"></div>
@@ -321,7 +321,7 @@
                         </div>
                         <div id="facebook-div">
                             <div style="padding-left: 145px; padding-right: 10px; text-align: center; padding-top: 20px;">
-                                <div style="width: 350px; margin: 0 auto;">
+                                <div style="width: 350px; height: 80px; margin: 0 auto;">
                                     <p>Connect with Facebook to access your gift.</p>
                                     <a id="loginFb" href="#">
                                         <img src="img/btn_facebook.png" style="width:100%;" />
@@ -392,12 +392,12 @@
                 </div>
                 <div class="span4">
                     <div class="pull-left">
-                        <a href="https://maps.google.com/maps?q=${encodeMerchantName}%40${location.latitude},${location.longitude}">
+                        <a href="https://maps.google.com/maps?q=${encodeMerchantName}%40${location.latitude},${location.longitude}" target="_blank">
                             <span class="glyphicon glyphicon-map-marker" style="color:#FFFFFF;font-size:22px;margin-right: 20px;position:relative;"></span>
                         </a>
                     </div>
                     <div class="pull-left">
-                        <a href="${gift.merchant.url}"><div class="globe"></div></a>
+                        <a href="${gift.merchant.url}" target="_blank"><div class="globe"></div></a>
                     </div>
                     <div class="pull-left">
                         <a href="tel:${location.phoneNumber}">
