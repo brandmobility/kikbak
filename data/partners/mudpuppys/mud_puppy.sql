@@ -19,7 +19,7 @@ insert into offer (merchant_id, name,        image_url,                         
 set @offer_id := (select LAST_INSERT_ID());
 
 insert into gift ( offer_id,  description, detailed_desc,                    value, discount_type, redemption_location_type, validation_type, image_url,                                             default_give_image_url) values
-                 (@offer_id, '$10 off',    'any first-time dog or cat wash', 50,   'amount',      'store',                  'qrcode',         concat(@server, '/data/mud_puppy/mud_puppy_give.png'), concat(@server, '/data/mud_puppy/mud_puppy_banner.png'));
+                 (@offer_id, '$10 off',    'any first-time dog or cat wash', 10,   'amount',      'store',                  'qrcode',         concat(@server, '/data/mud_puppy/mud_puppy_give.png'), concat(@server, '/data/mud_puppy/mud_puppy_banner.png'));
 
 set @gift_id := (select LAST_INSERT_ID());                 
 
