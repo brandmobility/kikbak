@@ -55,13 +55,14 @@ public class PushNotifierImpl implements PushNotifier {
 
     @Override
     public void sendKikbakNotification(Long fromUserId, Long toUserId, Kikbak kikbak, Long creditId) {
-        Devicetoken deviceToken = roDeviceToken.findByUserId(toUserId);
         if (creditId == null) {
-        	return;
+            return;
         }
-        
+
+        sendKikbakNotificationEmail(fromUserId, toUserId, kikbak, creditId);
+
+        Devicetoken deviceToken = roDeviceToken.findByUserId(toUserId);
         if (deviceToken == null) {
-            sendKikbakNotificationEmail(fromUserId, toUserId, kikbak, creditId);
             return;
         }
 
@@ -141,9 +142,9 @@ public class PushNotifierImpl implements PushNotifier {
             log.error("Failed to send kikbak notification via google:" + e, e);
         }
     }
-    
+
     private void sendKikbakNotificationEmail(Long fromUserId, Long toUserId, Kikbak kikbak, long creditId) {
-    	try {
+        try {
             long oid = kikbak.getOfferId();
             long mid = roOfferDAO.findById(oid).getMerchantId();
             Merchant merchant = roMerchantDAO.findById(mid);
@@ -151,18 +152,18 @@ public class PushNotifierImpl implements PushNotifier {
             String subjectTmpl = config.getString("notification.email.kikbak.subject");
             subjectTmpl = subjectTmpl.replace("%RETAILER%", merchant.getName());
             subjectTmpl = subjectTmpl.replace("%REWARD%", kikbak.getDescription());
-            
+
             String bodyTmpl = config.getString("notification.email.kikbak.body");
             bodyTmpl = bodyTmpl.replace("%RETAILER%", merchant.getName());
             bodyTmpl = bodyTmpl.replace("%CODE%", CryptoUtils.symetricEncrypt(creditId));
-            
+
             String email = getDecoratedEmailForUser(toUserId);
             EmailSender.send(email, subjectTmpl, bodyTmpl);
-    	} catch (Exception e) {
-    		log.error("Failed to send out notification email", e);
-    	}
+        } catch (Exception e) {
+            log.error("Failed to send out notification email", e);
+        }
     }
-    
+
     private String getDecoratedEmailForUser(Long userId) {
         User user = roUserDAO.findById(userId);
         return "\"" + user.getFirstName() + " " + user.getLastName() + "\"<" + user.getEmail() + ">";
@@ -170,11 +171,11 @@ public class PushNotifierImpl implements PushNotifier {
 
     @Override
     public void sendGiftNotification(Long fromUserId, Gift gift) {
-        Collection<Long> usersToNotify = roUserDAO.listEligibleForOfferFromUser(gift.getOfferId(), fromUserId); 
-        if( usersToNotify.size() == 0) {
+        Collection<Long> usersToNotify = roUserDAO.listEligibleForOfferFromUser(gift.getOfferId(), fromUserId);
+        if (usersToNotify.size() == 0) {
             return;
         }
-        
+
         Collection<Devicetoken> tokens = roDeviceToken.listDeviceTokens(usersToNotify);
         ArrayList<String> ios = new ArrayList<String>(tokens.size());
         ArrayList<String> android = new ArrayList<String>(tokens.size());
