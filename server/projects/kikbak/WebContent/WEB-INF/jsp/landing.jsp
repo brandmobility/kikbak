@@ -388,10 +388,10 @@ h3 {
 					<div class="row show-grid">
 						<div class="w1">
 							<a href="" onclick="window.open('${gift.tosUrl}');return false;"
-								class="lft" style="color: #C3C3C3;">Terms & Conditions</a>
+								class="lft" style="color:#F3F3F3;font-size:12px;font-family:arial;">Terms & Conditions</a>
 						</div>
 						<div class="w2" style="text-align: right">
-							<a href="https://kikbak.me" class="rit" style="color: #C3C3C3;">&copy;
+							<a href="https://kikbak.me" class="rit" style="color: #C3C3C3;font-size:12px;font-family:arial;">&copy;
 								Referred Labs, 2013</a>
 						</div>
 					</div>
@@ -522,10 +522,10 @@ h3 {
 				<div id="footer">
 					<div class="pull-left">
 						<a href="" onclick="window.open('${gift.tosUrl}');return false;"
-							class="lft" style="color: #C3C3C3;">Terms & Conditions</a>
+							class="lft" style="color: #F3F3F3;font-size:12px;font-family:arial;">Terms & Conditions</a>
 					</div>
 					<div class="pull-right">
-						<a href="https://kikbak.me" class="rit" style="color: #C3C3C3;">&copy;
+						<a href="https://kikbak.me" class="rit" style="color: #C3C3C3;font-size:12px;font-family:arial;">&copy;
 							Referred Labs, 2013</a>
 					</div>
 				</div>
