@@ -229,11 +229,11 @@ public class RewardServiceImpl implements RewardService{
     }
     
     CreditManager km = new CreditManager(roOfferDao, roKikbakDAO, roCreditDao, rwCreditDao, rwTxnDao);
-    km.manageCredit(giftType.getFriendUserId(), gift.getOfferId(), gift.getMerchantId(), giftType.getLocationId());
+    Long creditId = km.manageCredit(giftType.getFriendUserId(), gift.getOfferId(), gift.getMerchantId(), giftType.getLocationId());
 
     // send notification for kikbak when gift is redeemed
     Kikbak kikbak = roKikbakDAO.findByOfferId(gift.getOfferId());
-    pushNotifier.sendKikbakNotification(userId, giftType.getFriendUserId(), kikbak);    
+    pushNotifier.sendKikbakNotification(userId, giftType.getFriendUserId(), kikbak, creditId);    
 
     return generateAuthorizationCode();
     }

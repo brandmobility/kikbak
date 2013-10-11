@@ -32,21 +32,21 @@ public class CreditManager {
 		this.rwTransactionDao = rwTransactionDao;
 	}
 	
-	public void manageCredit(final Long userId, final Long offerId, final Long merchantId, final Long locationId){
+	public Long manageCredit(final Long userId, final Long offerId, final Long merchantId, final Long locationId){
 		Credit credit = roCreditDao.findByUserIdAndOfferId(userId, offerId);
 		if( credit == null){
-			createCredit(userId, offerId, merchantId, locationId);
+			return createCredit(userId, offerId, merchantId, locationId);
 		}
 		else{
-			updateCreditAvailable(credit, offerId, merchantId, locationId);
+			return updateCreditAvailable(credit, offerId, merchantId, locationId);
 		}
 	}
 	
-	protected void updateCreditAvailable(Credit credit, final Long offerId, final Long merchantId, final Long locationId){
+	protected Long updateCreditAvailable(Credit credit, final Long offerId, final Long merchantId, final Long locationId){
         Offer offer = roOfferDao.findById(offerId);
 		if (credit.getRedeemCount() + 1 > offer.getRedeemLimit()) {
 		    // exceed limit, no transaction and credit update
-		    return;
+		    return null;
 		}
 	    
 	    Kikbak kikbak = roKikbakDao.findByOfferId(offerId);
@@ -65,9 +65,11 @@ public class CreditManager {
 		
 		rwCreditDao.makePersistent(credit);
 		rwTransactionDao.makePersistent(txn);
+		
+		return credit.getId();
 	}
 	
-	protected void createCredit(final Long userId, final Long offerId, final Long merchantId, final Long locationId){
+	protected Long createCredit(final Long userId, final Long offerId, final Long merchantId, final Long locationId){
 	    Kikbak kikbak = roKikbakDao.findByOfferId(offerId);
 	    Offer offer = roOfferDao.findById(offerId);
 	    Credit credit = new Credit();
@@ -95,5 +97,7 @@ public class CreditManager {
 		
 		rwCreditDao.makePersistent(credit);
 		rwTransactionDao.makePersistent(txn);
+		
+		return credit.getId();
 	}
 }

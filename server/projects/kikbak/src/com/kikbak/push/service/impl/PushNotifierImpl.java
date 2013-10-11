@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kikbak.client.service.impl.types.PlatformType;
+import com.kikbak.client.util.CryptoUtils;
 import com.kikbak.config.ContextUtil;
 import com.kikbak.dao.ReadOnlyDeviceTokenDAO;
 import com.kikbak.dao.ReadOnlyMerchantDAO;
@@ -53,10 +54,14 @@ public class PushNotifierImpl implements PushNotifier {
     ReadOnlyOfferDAO roOfferDAO;
 
     @Override
-    public void sendKikbakNotification(Long fromUserId, Long toUserId, Kikbak kikbak) {
+    public void sendKikbakNotification(Long fromUserId, Long toUserId, Kikbak kikbak, Long creditId) {
         Devicetoken deviceToken = roDeviceToken.findByUserId(toUserId);
+        if (creditId == null) {
+        	return;
+        }
+        
         if (deviceToken == null) {
-            sendKikbakNotificationEmail(fromUserId, toUserId, kikbak);
+            sendKikbakNotificationEmail(fromUserId, toUserId, kikbak, creditId);
             return;
         }
 
@@ -137,21 +142,25 @@ public class PushNotifierImpl implements PushNotifier {
         }
     }
     
-    private void sendKikbakNotificationEmail(Long fromUserId, Long toUserId, Kikbak kikbak) {
-        long oid = kikbak.getOfferId();
-        long mid = roOfferDAO.findById(oid).getMerchantId();
-        Merchant merchant = roMerchantDAO.findById(mid);
+    private void sendKikbakNotificationEmail(Long fromUserId, Long toUserId, Kikbak kikbak, long creditId) {
+    	try {
+            long oid = kikbak.getOfferId();
+            long mid = roOfferDAO.findById(oid).getMerchantId();
+            Merchant merchant = roMerchantDAO.findById(mid);
 
-        String subjectTmpl = config.getString("notification.email.kikbak.subject");
-        subjectTmpl = subjectTmpl.replace("%RETAILER%", merchant.getName());
-        subjectTmpl = subjectTmpl.replace("%REWARD%", kikbak.getDescription());
-        
-        String bodyTmpl = config.getString("notification.email.kikbak.body");
-        bodyTmpl = bodyTmpl.replace("%RETAILER%", merchant.getName());
-        bodyTmpl = bodyTmpl.replace("%LINK%", "http://put.linke.here/to/the/reward/page.html");
-        
-        String email = getDecoratedEmailForUser(toUserId);
-        EmailSender.send(email, subjectTmpl, bodyTmpl);
+            String subjectTmpl = config.getString("notification.email.kikbak.subject");
+            subjectTmpl = subjectTmpl.replace("%RETAILER%", merchant.getName());
+            subjectTmpl = subjectTmpl.replace("%REWARD%", kikbak.getDescription());
+            
+            String bodyTmpl = config.getString("notification.email.kikbak.body");
+            bodyTmpl = bodyTmpl.replace("%RETAILER%", merchant.getName());
+            bodyTmpl = bodyTmpl.replace("%CODE%", CryptoUtils.symetricEncrypt(creditId));
+            
+            String email = getDecoratedEmailForUser(toUserId);
+            EmailSender.send(email, subjectTmpl, bodyTmpl);
+    	} catch (Exception e) {
+    		log.error("Failed to send out notification email", e);
+    	}
     }
     
     private String getDecoratedEmailForUser(Long userId) {
