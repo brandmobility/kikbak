@@ -926,7 +926,7 @@ function renderOfferDetail(offer) {
   var userId = s.userId;
   if (!userId) {
     html += '<div id="share-fb-div" style="text-align:center;height:80px;margin-top:5px;">'
-    html += '<input id="share-btn-fb" name="share" type="button" class="fb-share" value="         Connect with Facebook to share" />';
+    html += '<input id="share-btn-fb" name="share" type="button" class="fb-share" value="       Connect with Facebook to share" />';
     html += '<div class="crt">';
     html += '<p style="font-size:10px;">We use Facebook to make it easy for you to share and redeem. We will never post on Facebook without your permission.</p>';
     html += '</div>';
@@ -934,7 +934,7 @@ function renderOfferDetail(offer) {
   }
   html += '<div id="share-after-login-div">';
   html += '<form id="share-form" type="POST" enctype="multipart/form-data" style="margin-bottom:0px;">';
-  html += '<div class="image-add"><img src="' + offer.giveImageUrl + '" class="addimg add-photo show-picture" id="show-picture">';
+  html += '<div id="share-image-add" class="image-add"><img src="' + offer.giveImageUrl + '" class="addimg add-photo show-picture" id="show-picture">';
   html += '<span class="imgshado"></span>';
   html += '<div class="add-photo-btn">';
   html += '<h2 id="take-photo-header">Add your own photo</h2>';
@@ -960,16 +960,24 @@ function renderOfferDetail(offer) {
   html += '<input name="message" type="hidden" value="Visit getkikbak.com for an exclusive offer shared by your friend" />';
   html += '</div>';
   html += '<div class="img-botm-patrn"></div>';
-  html += '<div class="gv">';
-  html += '<h2><img src="images/ic_gift@2x.png" />';
-  html += 'Give ' + offer.giftDesc + '</h2>';
-  html += '<h4>' + offer.giftDetailedDesc + '</h4>';
-  html += '</div>';
-  html += '<div class="crt">';
-  html += '<h2><img width="19px" src="images/ic_give_trophy.png" /> ';
-  html += 'Get ' + offer.kikbakDesc + '</h2>';
-  html += '<h4>' + offer.kikbakDetailedDesc + '</h4>';
-  html += '</div>';
+  if (offer.kikbakDesc) {
+    html += '<div class="gv">';
+    html += '<h2><img src="images/ic_gift@2x.png" />';
+    html += 'Give ' + offer.giftDesc + '</h2>';
+    html += '<h4>' + offer.giftDetailedDesc + '</h4>';
+    html += '</div>';
+    html += '<div class="crt">';
+    html += '<h2><img width="19px" src="images/ic_give_trophy.png" /> ';
+    html += 'Get ' + offer.kikbakDesc + '</h2>';
+    html += '<h4>' + offer.kikbakDetailedDesc + '</h4>';
+    html += '</div>';
+  } else {
+    html += '<div class="gv gv-only">';
+    html += '<h2><img src="images/ic_gift@2x.png" />';
+    html += 'Give ' + offer.giftDesc + '</h2>';
+    html += '<h4>' + offer.giftDetailedDesc + '</h4>';
+    html += '</div>';
+  }
   html += '<div class="crt" style="margin:0 2%;">';
   html += '<a href="#" class="trm" id="term-btn" >&nbsp;Terms and Conditions</a>';
   html += '</div>';
@@ -977,6 +985,11 @@ function renderOfferDetail(offer) {
   html += '</form>';
   html += '</div>';
   $('#offer-details-view').html(html);
+  
+  if (!offer.kikbakDesc) {
+    var shareImg = $("#share-image-add");
+    shareImg.height(Math.max(shareImg.height() + 25, shareImg.width()));
+  }
   
   if (!userId) {
     $('#share-after-login-div').block({ message: null }); 

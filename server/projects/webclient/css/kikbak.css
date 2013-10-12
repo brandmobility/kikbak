@@ -468,6 +468,13 @@ p.msg {
     width: 96%;
 }
 
+.gv.gv-only {
+    border-bottom: 0;
+    float: left;
+    margin: 5% 2% 4%;
+    padding: 2% 0;
+    width: 96%;
+}
 .gv .drkgraa {
     float: right;
     margin: 1%;
