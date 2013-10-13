@@ -248,7 +248,7 @@ h3 {
 	<c:choose>
 		<c:when test="${not mobile}">
 			<div id="container"></div>
-			<div class="main-bdy">
+			<div class="main-bdy min-width">
 				<div id="subcontainer">
 					<div id="subcontainer2">
 						<div id="header">
@@ -460,7 +460,7 @@ h3 {
 							<c:choose>
 								<c:when test="${not empty shareInfo.caption}">
 									<h3 style="color: #3a3a3a; font-size: 20px; font-weight: bold;">${shareInfo.friendName}</h3>
-									<p style="margin-left: 70px">${shareInfo.caption}</p>
+									<p>${shareInfo.caption}</p>
 								</c:when>
 								<c:otherwise>
 									<h3

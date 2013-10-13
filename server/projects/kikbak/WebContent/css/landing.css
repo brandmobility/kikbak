@@ -4,7 +4,6 @@ body {
 }
 
 html, body {
-    min-width: 940px;
     height: 100%;
 }
 
@@ -15,10 +14,13 @@ html, body {
     -webkit-filter: blur(4px);
 }
 
+.min-width {
+    min-width: 940px;
+}
+
 .main-bdy {
     float:left;
     width:100%;                     
-    min-width: 940px;                                                       
     height: 100%;
     background:-moz-linear-gradient(top, rgba(1,1,1,0) 0, rgba(1,1,1,0) 20px, rgba(228,228,228,0.6) 90px, rgba(228,228,228,0.8) 150px, rgba(253,254,254,1) 250px, rgba(255,255,255,1) 100%);
     background:-webkit-gradient(linear,left,top,left,bottom,color-stop(0,rgba(1,1,1,0)),color-stop(20,rgba(1,1,1,0)),color-stop(90px,rgba(228,228,228,0.6)),color-stop(150px,rgba(228,228,228,0.8)),color-stop(250px,rgba(253,254,254,1)),color-stop(100%,rgba(255,255,255,1)));
