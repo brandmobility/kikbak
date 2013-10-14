@@ -387,12 +387,10 @@ h3 {
 				<div id="footer-content">
 					<div class="row show-grid">
 						<div class="w1">
-							<a href="" onclick="window.open('${gift.tosUrl}');return false;"
-								class="lft" style="color:#F3F3F3;font-size:12px;font-family:arial;">Terms & Conditions</a>
+							<a href="" onclick="window.open('${gift.tosUrl}');return false;" class="lft" style="color:#F3F3F3;font-size:12px;font-family:arial;">Terms & Conditions</a>
 						</div>
 						<div class="w2" style="text-align: right">
-							<a href="https://kikbak.me" class="rit" style="color: #C3C3C3;font-size:12px;font-family:arial;">&copy;
-								Referred Labs, 2013</a>
+							<a href="https://kikbak.me" class="rit" style="color: #C3C3C3;font-size:12px;font-family:arial;">&copy;Referred Labs, 2013</a>
 						</div>
 					</div>
 				</div>

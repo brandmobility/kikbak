@@ -256,7 +256,7 @@
         <c:when test="${not mobile}">
         <div id="container">
         </div>
-        <div class="main-bdy">
+        <div class="main-bdy min-width">
             <div id="subcontainer">
                 <div id="header">
                     <h1>${credit.merchant.name}</h1>
@@ -269,16 +269,16 @@
                                 <div class="page-header">
                                     <div>
                                         <div class="col-md-4">
-                                            <img src="https://graph.facebook.com/${shareInfo.fbFriendId}/picture?type=square" class="img-rounded" width="80px" height="80px" />
+                                            <img src="https://graph.facebook.com/${shareInfo.fbFriendId}/picture?width=124&height=124" class="img-rounded" width="62px" height="62px" />
                                         </div>
                                         <div class="col-md-8">
                                             <c:choose>
                                             <c:when test="${not empty shareInfo.caption}">
-                                            <h3 style="font-family: HelveticaNeueLTPro-Bd">${shareInfo.friendName}</h3>
-                                            <p>${shareInfo.caption}</p>
+										    <h3 style="margin-left: -25px;margin-top:5px;font-family: HelveticaNeueLTPro-Bd">${shareInfo.friendName}</h3>
+										    <p style="margin-left: -25px;line-height: 1">${shareInfo.caption}</p>
                                             </c:when>
                                             <c:otherwise>
-                                            <h3 style="margin-top:30px;font-family: HelveticaNeueLTPro-Bd">${shareInfo.friendName}</h3>
+                                            <h3 style="margin-top: 25px; margin-left: -15px; font-family: HelveticaNeueLTPro-Bd">${shareInfo.friendName}</h3>
                                             </c:otherwise>
                                             </c:choose>
                                         </div>
@@ -335,10 +335,10 @@
             <div id="footer-content">
                 <div class="row show-grid">
                     <div class="col-md-6 w1">
-                        <a href="${credit.tosUrl}" class="lft" style="color:#FFFFFF;">Terms & Conditions</a>
+						<a href="" onclick="window.open('${gift.tosUrl}');return false;" class="lft" style="color:#F3F3F3;font-size:12px;font-family:arial;">Terms & Conditions</a>
                     </div>
                     <div class="col-md-6 w2" style="text-align: right">
-                        <a href="https://kikbak.me" class="rit" style="color:#FFFFFF;">&copy; Referred Labs, 2013</a>
+						<a href="https://kikbak.me" class="rit" style="color: #C3C3C3;font-size:12px;font-family:arial;">&copy;Referred Labs, 2013</a>
                     </div>
                 </div>
             </div>
@@ -384,16 +384,16 @@
             <div class="page-header" style="padding:0;">
                 <div class="row show-grid" style="margin:0;padding-top:22px;">
                     <div class="col-md-4" style="padding-left:10px">
-                        <img src="https://graph.facebook.com/${shareInfo.fbFriendId}/picture?type=square" class="img-rounded" />
+                        <img src="https://graph.facebook.com/${shareInfo.fbFriendId}/picture?width=120&heoght=120" class="img-rounded" />
                     </div>
                     <div class="col-md-8">
                         <c:choose>
                         <c:when test="${not empty shareInfo.caption}">
-                        <h3 style="color:#3a3a3a;font-size:20px;font-weight:bold;">${shareInfo.friendName}</h3>
+					    <h3 style="color: #3a3a3a; font-size: 20px; font-weight: bold;">${shareInfo.friendName}</h3>
                         <p>${shareInfo.caption}</p>
                         </c:when>
                         <c:otherwise>
-                        <h3 style="color:#3a3a3a;font-size:20px;font-weight:bold;margin-top:12px;">${shareInfo.friendName}</h3>
+					    <h3 style="color: #3a3a3a; font-size: 20px; font-weight: bold; margin-top: 32px;">${shareInfo.friendName}</h3>
                         </c:otherwise>
                         </c:choose>
                     </div>
@@ -422,10 +422,10 @@
             <div class="clearfix"></div>
             <div id="footer">
                 <div class="pull-left">
-                    <a href="${credit.tosUrl}" class="lft" style="color:#FFFFFF;">Terms & Conditions</a>
+                    <a href="" onclick="window.open('${credit.tosUrl}');return false;" class="lft" style="color:#C3C3C3;font-size:12px;font-family:arial;">Terms & Conditions</a>
                 </div>
                 <div class="pull-right">
-                    <a href="https://kikbak.me" class="rit" style="color:#FFFFFF;">&copy; Referred Labs, 2013</a>
+                    <a href="https://kikbak.me" class="rit" style="color:#C3C3C3;font-size:12px;font-family:arial;">&copy; Referred Labs, 2013</a>
                 </div>
             </div>
             <div class="clearfix"></div>
