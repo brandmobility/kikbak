@@ -37,6 +37,7 @@ public class EmailSender {
             addParam(b, "api_user", config.getString("sendgrid.login"));
             addParam(b, "api_key", config.getString("sendgrid.passwd"));
             addParam(b, "from", config.getString("sendgrid.from"));
+            addParam(b, "fromname", config.getString("sendgrid.fromname"));
             addParam(b, "to", "-"); // needs to be present
             addParam(b, "x-smtpapi", getSendgridEncoded(recipients));
             addParam(b, "subject", subject);
