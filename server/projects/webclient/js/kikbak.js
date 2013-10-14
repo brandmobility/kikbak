@@ -1011,8 +1011,8 @@ function renderOfferDetail(offer) {
     	options += '<option value="false">Pick location</options>'  
       }
     }
-    var addr2 = l.address2 ? l.address2 : '';
-    options += '<option value="' + l.locationId + '" ' + selected + '>' + l.address1 + ' ' + addr2 + ', ' + l.city + '</option>';
+    var addr2 = l.address2 ? ' ' + l.address2 : '';
+    options += '<option value="' + l.locationId + '" ' + selected + '>' + l.address1 + addr2 + ', ' + l.city + '</option>';
   });
   $('#location-sel').html(options);
   

@@ -13,7 +13,7 @@
 <meta property="og:type" content="kikbakme:coupon">
 <meta property="og:title" content="${title}">
 <meta property="og:image" content="${shareInfo.imageUrl}">
-<meta property="og:description" content="${body}}">
+<meta property="og:description" content="${body}">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0" />
 <link href="css/bootstrap.css" rel="stylesheet" media="screen">
@@ -263,7 +263,7 @@ h3 {
 											<div>
 												<div class="col-md-4">
 													<img
-														src="https://graph.facebook.com/${shareInfo.fbFriendId}/picture?type=square"
+														src="https://graph.facebook.com/${shareInfo.fbFriendId}/picture?width=124&height=124"
 														class="img-rounded" width="62px" height="62px" />
 												</div>
 												<div class="col-md-8">
@@ -453,7 +453,7 @@ h3 {
 					<div class="row show-grid" style="margin: 0; padding-top: 22px;">
 						<div class="col-md-4" style="padding-left: 5px">
 							<img
-								src="https://graph.facebook.com/${shareInfo.fbFriendId}/picture?type=square"
+								src="https://graph.facebook.com/${shareInfo.fbFriendId}/picture?width=120&height=120"
 								class="img-rounded" width="60px" />
 						</div>
 						<div class="col-md-8">
@@ -464,7 +464,7 @@ h3 {
 								</c:when>
 								<c:otherwise>
 									<h3
-										style="color: #3a3a3a; font-size: 20px; font-weight: bold; margin-top: 12px;">${shareInfo.friendName}</h3>
+										style="color: #3a3a3a; font-size: 20px; font-weight: bold; margin-top: 32px;">${shareInfo.friendName}</h3>
 								</c:otherwise>
 							</c:choose>
 						</div>
@@ -499,7 +499,7 @@ h3 {
 							</a>
 						</div>
 						<p align="center"
-							style="padding-top: 10px; font-family: HelveticaNeueLTPro-Lt; font-size: 10px;">
+							style="padding-top: 20px; font-family: HelveticaNeueLTPro-Lt; font-size: 10px;">
 							We use Facebook to make it easy for you to share and redeem. <br />
 							We will never post on Facebook without your permission.
 						</p>
