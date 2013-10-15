@@ -188,7 +188,7 @@ function getHeight() {
 }
 
 function showError() {
-  $('#spinner h2').html('Loading offer');
+  $('#spinner h2').html('Waiting');
   alert("Service is unavailable. Please try again later.");
 }
 
@@ -534,6 +534,7 @@ function getOffersByLocation(userId, position, force) {
   var req = {};
   req['GetUserOffersRequest'] = data;      
   var str = JSON.stringify(req);
+  $('#spinner h2').html('Loading offer');
   $.ajax({
     dataType: 'json',
     type: 'POST',
@@ -541,6 +542,7 @@ function getOffersByLocation(userId, position, force) {
     data: str,
     url: config.backend + 'kikbak/user/offer/' + userId,
     success: function(json) {
+      $('#spinner h2').html('Loading offer');
       renderOfferList(json, 'offer-detail', '#offer-detail', force);
     },
     error: showError
@@ -1219,14 +1221,14 @@ function doShare(cb, type) {
 
 function shareViaSms() {
   doShare(function(code, msg, url, resp) {
-    $('#spinner h2').html('Loading offer');
+    $('#spinner h2').html('Waiting');
     window.location.href = 'sms://?body=' + encodeURIComponent(resp.template.body);
   }, 'sms');
 }
 
 function shareViaEmail() {
   doShare(function(code, msg, url, resp) {
-    $('#spinner h2').html('Loading offer');
+    $('#spinner h2').html('Waiting');
     window.location.href = 'mailto:?content-type=text/html&subject=' + encodeURIComponent(resp.template.subject) 
         + '&body=' + encodeURIComponent(resp.template.body);
   }, 'email');
@@ -1274,7 +1276,7 @@ function shareViaFacebook() {
             dataType : 'json',
             type : 'GET',
             success : function(response) {
-              $('#spinner h2').html('Loading offer');
+              $('#spinner h2').html('Waiting');
               $('#success-popup h3').html('You have shared a gift');
               $('#success-popup p').html('We will notify you when a friend uses your gift and you earn a reward');
               $('#success-popup').show();

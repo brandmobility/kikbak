@@ -123,7 +123,7 @@
             background-image: url(img/icon-phone.png);
             background-repeat: no-repeat;
             width: 19px;
-            height: 22px;
+            height: 18px;
             margin-top: 5px;
             position: relative;
             }
@@ -369,7 +369,7 @@
                 <div class="span4">
                     <div class="pull-left">
                         <a href="https://maps.google.com/maps?q=${encodeMerchantName}%40${location.latitude},${location.longitude}">
-                            <span class="glyphicon glyphicon-map-marker" style="color:#FFFFFF;font-size:22px;margin-right: 20px;position:relative;"></span>
+                            <span class="glyphicon glyphicon-map-marker" style="color:#FFFFFF;font-size:18px;margin-right: 20px;position:relative;"></span>
                         </a>
                     </div>
                     <div class="pull-left">
@@ -377,7 +377,7 @@
                     </div>
                     <div class="pull-left">
                         <a href="tel:${location.phoneNumber}">
-                            <span class="glyphicon glyphicon-earphone" style="color:#FFFFFF;font-size:22px;position:relative;"></span>
+                            <span class="glyphicon glyphicon-earphone" style="color:#FFFFFF;font-size:18px;position:relative;"></span>
                         </a>
                     </div>
                 </div>
