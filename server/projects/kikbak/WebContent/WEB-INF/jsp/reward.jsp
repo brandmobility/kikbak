@@ -66,7 +66,7 @@
             .ribbon {
             margin-left: 106px;
             background-image: url(img/bnr-blu-ptrn.png);
-            background-size: 100% 10%;
+            background-size: 100% 6%;
             background-repeat: repeat-y;
             padding-right: 3px;
             color: #FFFFFF;
@@ -174,7 +174,9 @@
             filter: progid:DXImageTransform.Microsoft.gradient(  startColorstr='#757575',
             endColorstr='#454545', GradientType=0); /* IE6-9 */
             margin-top: 10px;
-            padding: 10px;
+            padding: 20px 10px 20px 10px;
+            position: relative;
+            height: 60px; 
             }
 
             #footer .pull-left {
@@ -235,11 +237,6 @@
             .page-header {
             margin: 10px 0;
             }
-            #footer {
-            position: relative;
-            height: 40px;
-            margin: 0;
-            }
 
             .victor-img {
             float: left;
@@ -258,6 +255,7 @@
         </div>
         <div class="main-bdy min-width">
             <div id="subcontainer">
+            <div id="subcontainer2">
                 <div id="header">
                     <h1>${credit.merchant.name}</h1>
                 </div>
@@ -284,8 +282,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <img src="${shareInfo.imageUrl}" width="340px" height="350px" style="margin-top:10px;border-radius:10px;" />
-                                <img src="img/blk-shad.png" width="340px" height="220px" style="margin-top:10px;border-radius:10px;position:absolute;top:220px;left:10px;" />
+                                <div class="clearfix"></div>
+                                <div style="position:relative">
+                                    <img src="${shareInfo.imageUrl}" width="340px" height="350px" style="margin-top:10px;border-radius:10px;" />
+                                    <img src="img/blk-shad.png" width="340px" height="220px" style="margin-top:10px;border-radius:10px;position:absolute;top:130px;" />
+                                </div>
                                 <div class="widget">
                                     <div class="span4">
                                         <h3 style="padding: 0px; margin: 0px; font-family: HelveticaNeueLTPro-Lt">${gift.merchant.name}</h3>
@@ -308,7 +309,7 @@
                     <div class="col-md-8">
                         <div style="padding-left: 145px; padding-right: 10px; text-align: center; padding-top: 45px;">
                             <h3 style="font-size: 20px;">
-                                <strong>You have a reward to be claimed!</strong>.
+                                <strong>You have a reward to be claimed!</strong>
                             </h3>
                         </div>
                         <div class="ribbon">
@@ -318,7 +319,7 @@
                             </div>
                         </div>
                         <div id="redeem-div">
-                            <div style="text-align:left;font-size:16px;padding:50px 30px 50px 165px;font-weight:500">
+                            <div style="text-align:left;font-size:16px;padding:30px 30px 30px 165px;font-weight:500">
                                 <p>Your reward can be redeemed in-store only. Download the Kikbak app for iOS or Android. Your reward will be waiting for whenever you’re ready to use it.</p>
                             </div>
                             <div style="padding-left:150px;padding-right:10px;text-align:center;">
@@ -331,13 +332,14 @@
                 <div class="clearfix"></div>
             </div>
         </div>
+        </div>
         <div id="footer">
             <div id="footer-content">
                 <div class="row show-grid">
-                    <div class="col-md-6 w1">
+                    <div class="w1">
 						<a href="" onclick="window.open('${gift.tosUrl}');return false;" class="lft" style="color:#F3F3F3;font-size:12px;font-family:arial;">Terms & Conditions</a>
                     </div>
-                    <div class="col-md-6 w2" style="text-align: right">
+                    <div class="w2" style="text-align: right">
 						<a href="https://kikbak.me" class="rit" style="color: #C3C3C3;font-size:12px;font-family:arial;">&copy;Referred Labs, 2013</a>
                     </div>
                 </div>
@@ -347,7 +349,7 @@
         <c:otherwise>
         <div>
             <div id="jumbotron">
-                <p><strong>You have a reward ready to be claimed!</strong><p>
+                <p><strong>You have a reward ready to be claimed!</strong></p>
                 <c:choose>
                 <c:when test="${not empty redeemCountSingle}">
                 <p>Your gift has been redeemed by ${redeemCount} friend</p>

@@ -188,7 +188,7 @@ function getHeight() {
 }
 
 function showError() {
-  $('#spinner h2').html('Waiting');
+  $('#spinner h2').html('Loading offer');
   alert("Service is unavailable. Please try again later.");
 }
 
@@ -1219,14 +1219,14 @@ function doShare(cb, type) {
 
 function shareViaSms() {
   doShare(function(code, msg, url, resp) {
-    $('#spinner h2').html('Waiting');
+    $('#spinner h2').html('Loading offer');
     window.location.href = 'sms://?body=' + encodeURIComponent(resp.template.body);
   }, 'sms');
 }
 
 function shareViaEmail() {
   doShare(function(code, msg, url, resp) {
-    $('#spinner h2').html('Waiting');
+    $('#spinner h2').html('Loading offer');
     window.location.href = 'mailto:?content-type=text/html&subject=' + encodeURIComponent(resp.template.subject) 
         + '&body=' + encodeURIComponent(resp.template.body);
   }, 'email');
@@ -1274,7 +1274,7 @@ function shareViaFacebook() {
             dataType : 'json',
             type : 'GET',
             success : function(response) {
-              $('#spinner h2').html('Waiting');
+              $('#spinner h2').html('Loading offer');
               $('#success-popup h3').html('You have shared a gift');
               $('#success-popup p').html('We will notify you when a friend uses your gift and you earn a reward');
               $('#success-popup').show();

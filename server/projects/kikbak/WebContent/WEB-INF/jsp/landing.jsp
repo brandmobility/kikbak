@@ -172,7 +172,9 @@ h3 {
 	filter: progid:DXImageTransform.Microsoft.gradient(   startColorstr='#757575',
 		endColorstr='#454545', GradientType=0); /* IE6-9 */
 	margin-top: 10px;
-	padding: 10px;
+	padding: 20px 10px 20px 10px;
+	position: relative;
+	height: 60px; 
 }
 
 #footer .pull-left {
@@ -235,11 +237,6 @@ h3 {
 	margin: 10px 0;
 }
 
-#footer {
-	position: relative;
-	height: 40px;
-	margin: 0;
-}
 </style>
 </c:otherwise>
 </c:choose>
