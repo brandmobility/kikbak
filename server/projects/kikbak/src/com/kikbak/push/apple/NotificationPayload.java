@@ -38,7 +38,7 @@ public class NotificationPayload {
 		
 		String payload = serializePayload();
 		int size = Byte.SIZE / Byte.SIZE + Short.SIZE / Byte.SIZE + token.getTokenBytes().length + Short.SIZE
-                / Byte.SIZE + payload.length();
+                / Byte.SIZE + payload.getBytes("UTF-8").length;
 
         ByteArrayOutputStream bao = new ByteArrayOutputStream(size);
 
@@ -48,7 +48,7 @@ public class NotificationPayload {
         bao.write((byte) (tokenLength & 0xFF));
         bao.write(token.getTokenBytes());
 
-        short payloadLength = (short) payload.length();
+        short payloadLength = (short) payload.getBytes("UTF-8").length;
         bao.write((byte) ((payloadLength & 0xFF00) >> 8));
         bao.write((byte) (payloadLength & 0xFF));
         bao.write(payload.getBytes("UTF-8"));
