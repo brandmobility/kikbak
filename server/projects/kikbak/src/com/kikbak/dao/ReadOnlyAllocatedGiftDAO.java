@@ -2,7 +2,6 @@ package com.kikbak.dao;
 
 import java.util.Collection;
 
-import com.google.common.collect.Multimap;
 import com.kikbak.dto.Allocatedgift;
 
 public interface ReadOnlyAllocatedGiftDAO {
@@ -14,4 +13,5 @@ public interface ReadOnlyAllocatedGiftDAO {
 	public Collection<Long> listSharedIdsForUser(Long userId);
 	public Collection<Allocatedgift> listByFriendUserId(Long friendId);
 	public Collection<Allocatedgift> listValidByUserIdAndSharedId(Long userId, long sharedId);
+	public boolean isGiftAvailable(Long userId, Long offerId); 
 }
