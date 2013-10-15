@@ -121,7 +121,7 @@ body {
 	background-image: url(img/icon-phone.png);
 	background-repeat: no-repeat;
 	width: 19px;
-	height: 22px;
+	height: 18px;
 	margin-top: 5px;
 	position: relative;
 }
@@ -155,24 +155,11 @@ h3 {
 }
 
 #footer {
-	background: #757575; /* Old browsers */
-	background: -moz-linear-gradient(top, #757575 0%, #757575 36%, #454545 100%);
-	/* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #757575),
-		color-stop(36%, #757575), color-stop(100%, #454545));
-	/* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top, #757575 0%, #757575 36%, #454545 100%);
-	/* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top, #757575 0%, #757575 36%, #454545 100%);
-	/* Opera 11.10+ */
-	background: -ms-linear-gradient(top, #757575 0%, #757575 36%, #454545 100%);
-	/* IE10+ */
-	background: linear-gradient(to bottom, #757575 0%, #757575 36%, #454545 100%);
-	/* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient(   startColorstr='#757575',
-		endColorstr='#454545', GradientType=0); /* IE6-9 */
+	background: #454545; /* Old browsers */
 	margin-top: 10px;
 	padding: 10px;
+	position: relative;
+	height: 40px; 
 }
 
 #footer .pull-left {
@@ -235,11 +222,6 @@ h3 {
 	margin: 10px 0;
 }
 
-#footer {
-	position: relative;
-	height: 40px;
-	margin: 0;
-}
 </style>
 </c:otherwise>
 </c:choose>
@@ -252,7 +234,9 @@ h3 {
 				<div id="subcontainer">
 					<div id="subcontainer2">
 						<div id="header">
+						    <a href="${gift.merchant.url}" target="_blank">
 							<h1>${gift.merchant.name}</h1>
+							</a>
 						</div>
 						<div class="clearfix"></div>
 						<div id="pageconatiner">
@@ -274,7 +258,7 @@ h3 {
 														</c:when>
 														<c:otherwise>
 															<h3
-																style="margin-top: 25px; margin-left: -15px; font-family: HelveticaNeueLTPro-Bd">${shareInfo.friendName}</h3>
+																style="margin-top:43px; margin-left: -25px; font-family: HelveticaNeueLTPro-Bd">${shareInfo.friendName}</h3>
 														</c:otherwise>
 													</c:choose>
 												</div>
@@ -373,8 +357,8 @@ h3 {
 									</div>
 									<div
 										style="padding-left: 165px; padding-right: 10px; text-align: center;">
-										<a href="#"><img src="img/app-store.png" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-										<a href="#"><img src="img/google-play.png" /></a>
+										<a href="https://itunes.apple.com/us/app/kikbak/id707697884?mt=8"><img src="img/app-store.png" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										<a href="https://play.google.com/store/apps/details?id=com.referredlabs.kikbak&hl=en"><img src="img/google-play.png" /></a>
 									</div>
 								</div>
 							</div>
@@ -431,7 +415,7 @@ h3 {
 								href="https://maps.google.com/maps?q=${encodeMerchantName}%40${location.latitude},${location.longitude}"
 								target="_blank"> <span
 								class="glyphicon glyphicon-map-marker"
-								style="color: #FFFFFF; font-size: 22px; margin-right: 20px; position: relative;"></span>
+								style="color: #FFFFFF; font-size: 18px; margin-right: 20px; position: relative;"></span>
 							</a>
 						</div>
 						<div class="pull-left">
@@ -441,7 +425,7 @@ h3 {
 						<div class="pull-left">
 							<a href="tel:${location.phoneNumber}"> <span
 								class="glyphicon glyphicon-earphone"
-								style="color: #FFFFFF; font-size: 22px; position: relative;"></span>
+								style="color: #FFFFFF; font-size: 18px; position: relative;"></span>
 							</a>
 						</div>
 					</div>
@@ -462,7 +446,7 @@ h3 {
 								</c:when>
 								<c:otherwise>
 									<h3
-										style="color: #3a3a3a; font-size: 20px; font-weight: bold; margin-top: 32px;">${shareInfo.friendName}</h3>
+										style="color: #3a3a3a; font-size: 20px; font-weight: bold; margin-top: 36px;">${shareInfo.friendName}</h3>
 								</c:otherwise>
 							</c:choose>
 						</div>
@@ -512,8 +496,8 @@ h3 {
 						</p>
 					</div>
 					<div style="text-align: center; padding-bottom: 20px;">
-						<a href="#"><img src="img/app-store.png" width="40%" /></a>&nbsp;&nbsp;&nbsp;&nbsp;
-						<a href="#"><img src="img/google-play.png" width="40%" /></a>
+						<a href="https://itunes.apple.com/us/app/kikbak/id707697884?mt=8"><img src="img/app-store.png" width="40%" /></a>&nbsp;&nbsp;&nbsp;&nbsp;
+						<a href="https://play.google.com/store/apps/details?id=com.referredlabs.kikbak&hl=en"><img src="img/google-play.png" width="40%" /></a>
 					</div>
 				</div>
 				<div class="clearfix"></div>

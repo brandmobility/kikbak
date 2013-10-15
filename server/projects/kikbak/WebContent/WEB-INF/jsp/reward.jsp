@@ -66,7 +66,7 @@
             .ribbon {
             margin-left: 106px;
             background-image: url(img/bnr-blu-ptrn.png);
-            background-size: 100% 10%;
+            background-size: 100% 6%;
             background-repeat: repeat-y;
             padding-right: 3px;
             color: #FFFFFF;
@@ -123,7 +123,7 @@
             background-image: url(img/icon-phone.png);
             background-repeat: no-repeat;
             width: 19px;
-            height: 22px;
+            height: 18px;
             margin-top: 5px;
             position: relative;
             }
@@ -157,24 +157,11 @@
             }
 
             #footer {
-            background: #757575; /* Old browsers */
-            background: -moz-linear-gradient(top, #757575 0%, #757575 36%, #454545 100%);
-            /* FF3.6+ */
-            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #757575),
-            color-stop(36%, #757575), color-stop(100%, #454545));
-            /* Chrome,Safari4+ */
-            background: -webkit-linear-gradient(top, #757575 0%, #757575 36%, #454545 100%);
-            /* Chrome10+,Safari5.1+ */
-            background: -o-linear-gradient(top, #757575 0%, #757575 36%, #454545 100%);
-            /* Opera 11.10+ */
-            background: -ms-linear-gradient(top, #757575 0%, #757575 36%, #454545 100%);
-            /* IE10+ */
-            background: linear-gradient(to bottom, #757575 0%, #757575 36%, #454545 100%);
-            /* W3C */
-            filter: progid:DXImageTransform.Microsoft.gradient(  startColorstr='#757575',
-            endColorstr='#454545', GradientType=0); /* IE6-9 */
+            background: #454545; /* Old browsers */
             margin-top: 10px;
             padding: 10px;
+            position: relative;
+            height: 40px; 
             }
 
             #footer .pull-left {
@@ -235,11 +222,6 @@
             .page-header {
             margin: 10px 0;
             }
-            #footer {
-            position: relative;
-            height: 40px;
-            margin: 0;
-            }
 
             .victor-img {
             float: left;
@@ -258,8 +240,11 @@
         </div>
         <div class="main-bdy min-width">
             <div id="subcontainer">
+            <div id="subcontainer2">
                 <div id="header">
+                    <a href="${credit.merchant.url}" target="_blank">
                     <h1>${credit.merchant.name}</h1>
+                    </a>
                 </div>
                 <div class="clearfix"></div>
                 <div id="pageconatiner">
@@ -278,14 +263,17 @@
 										    <p style="margin-left: -25px;line-height: 1">${shareInfo.caption}</p>
                                             </c:when>
                                             <c:otherwise>
-                                            <h3 style="margin-top: 25px; margin-left: -15px; font-family: HelveticaNeueLTPro-Bd">${shareInfo.friendName}</h3>
+                                            <h3 style="margin-top: 43px; margin-left: -25px; font-family: HelveticaNeueLTPro-Bd">${shareInfo.friendName}</h3>
                                             </c:otherwise>
                                             </c:choose>
                                         </div>
                                     </div>
                                 </div>
-                                <img src="${shareInfo.imageUrl}" width="340px" height="350px" style="margin-top:10px;border-radius:10px;" />
-                                <img src="img/blk-shad.png" width="340px" height="220px" style="margin-top:10px;border-radius:10px;position:absolute;top:220px;left:10px;" />
+                                <div class="clearfix"></div>
+                                <div style="position:relative">
+                                    <img src="${shareInfo.imageUrl}" width="340px" height="350px" style="margin-top:10px;border-radius:10px;" />
+                                    <img src="img/blk-shad.png" width="340px" height="220px" style="margin-top:10px;border-radius:10px;position:absolute;top:130px;" />
+                                </div>
                                 <div class="widget">
                                     <div class="span4">
                                         <h3 style="padding: 0px; margin: 0px; font-family: HelveticaNeueLTPro-Lt">${gift.merchant.name}</h3>
@@ -308,7 +296,7 @@
                     <div class="col-md-8">
                         <div style="padding-left: 145px; padding-right: 10px; text-align: center; padding-top: 45px;">
                             <h3 style="font-size: 20px;">
-                                <strong>You have a reward to be claimed!</strong>.
+                                <strong>You have a reward to be claimed!</strong>
                             </h3>
                         </div>
                         <div class="ribbon">
@@ -318,12 +306,12 @@
                             </div>
                         </div>
                         <div id="redeem-div">
-                            <div style="text-align:left;font-size:16px;padding:50px 30px 50px 165px;font-weight:500">
+                            <div style="text-align:left;font-size:16px;padding:30px 30px 30px 165px;font-weight:500">
                                 <p>Your reward can be redeemed in-store only. Download the Kikbak app for iOS or Android. Your reward will be waiting for whenever you’re ready to use it.</p>
                             </div>
                             <div style="padding-left:150px;padding-right:10px;text-align:center;">
-                                <a href="#"><img src="img/app-store.png" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <a href="#"><img src="img/google-play.png" /></a>
+                                <a href="https://itunes.apple.com/us/app/kikbak/id707697884?mt=8"><img src="img/app-store.png" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="https://play.google.com/store/apps/details?id=com.referredlabs.kikbak&hl=en"><img src="img/google-play.png" /></a>
                             </div>
                         </div>
                     </div>
@@ -331,13 +319,14 @@
                 <div class="clearfix"></div>
             </div>
         </div>
+        </div>
         <div id="footer">
             <div id="footer-content">
                 <div class="row show-grid">
-                    <div class="col-md-6 w1">
+                    <div class="w1">
 						<a href="" onclick="window.open('${gift.tosUrl}');return false;" class="lft" style="color:#F3F3F3;font-size:12px;font-family:arial;">Terms & Conditions</a>
                     </div>
-                    <div class="col-md-6 w2" style="text-align: right">
+                    <div class="w2" style="text-align: right">
 						<a href="https://kikbak.me" class="rit" style="color: #C3C3C3;font-size:12px;font-family:arial;">&copy;Referred Labs, 2013</a>
                     </div>
                 </div>
@@ -347,7 +336,7 @@
         <c:otherwise>
         <div>
             <div id="jumbotron">
-                <p><strong>You have a reward ready to be claimed!</strong><p>
+                <p><strong>You have a reward ready to be claimed!</strong></p>
                 <c:choose>
                 <c:when test="${not empty redeemCountSingle}">
                 <p>Your gift has been redeemed by ${redeemCount} friend</p>
@@ -367,7 +356,7 @@
                 <div class="span4">
                     <div class="pull-left">
                         <a href="https://maps.google.com/maps?q=${encodeMerchantName}%40${location.latitude},${location.longitude}">
-                            <span class="glyphicon glyphicon-map-marker" style="color:#FFFFFF;font-size:22px;margin-right: 20px;position:relative;"></span>
+                            <span class="glyphicon glyphicon-map-marker" style="color:#FFFFFF;font-size:18px;margin-right: 20px;position:relative;"></span>
                         </a>
                     </div>
                     <div class="pull-left">
@@ -375,7 +364,7 @@
                     </div>
                     <div class="pull-left">
                         <a href="tel:${location.phoneNumber}">
-                            <span class="glyphicon glyphicon-earphone" style="color:#FFFFFF;font-size:22px;position:relative;"></span>
+                            <span class="glyphicon glyphicon-earphone" style="color:#FFFFFF;font-size:18px;position:relative;"></span>
                         </a>
                     </div>
                 </div>
@@ -393,7 +382,7 @@
                         <p>${shareInfo.caption}</p>
                         </c:when>
                         <c:otherwise>
-					    <h3 style="color: #3a3a3a; font-size: 20px; font-weight: bold; margin-top: 32px;">${shareInfo.friendName}</h3>
+					    <h3 style="color: #3a3a3a; font-size: 20px; font-weight: bold; margin-top: 36px;">${shareInfo.friendName}</h3>
                         </c:otherwise>
                         </c:choose>
                     </div>
@@ -415,8 +404,8 @@
                     </div>
                 </div>
                 <div style="text-align:center;padding-bottom:20px;">
-                    <a href="#"><img src="img/app-store.png" width="40%" /></a>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="#"><img src="img/google-play.png" width="40%" /></a>
+                    <a href="https://itunes.apple.com/us/app/kikbak/id707697884?mt=8"><img src="img/app-store.png" width="40%" /></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="https://play.google.com/store/apps/details?id=com.referredlabs.kikbak&hl=en"><img src="img/google-play.png" width="40%" /></a>
                 </div>
             </div>
             <div class="clearfix"></div>

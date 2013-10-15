@@ -534,6 +534,7 @@ function getOffersByLocation(userId, position, force) {
   var req = {};
   req['GetUserOffersRequest'] = data;      
   var str = JSON.stringify(req);
+  $('#spinner h2').html('Loading offer');
   $.ajax({
     dataType: 'json',
     type: 'POST',
@@ -541,6 +542,7 @@ function getOffersByLocation(userId, position, force) {
     data: str,
     url: config.backend + 'kikbak/user/offer/' + userId,
     success: function(json) {
+      $('#spinner h2').html('Loading offer');
       renderOfferList(json, 'offer-detail', '#offer-detail', force);
     },
     error: showError
