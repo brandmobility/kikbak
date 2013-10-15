@@ -80,8 +80,7 @@ function updateFbFriends(userId) {
 	return;
   }
   localStorage.userId = userId;
-  $('#facebook-div').hide();
-  $('#redeem-div').show();
+  claimCode(userId);
 }
 
 function redeemGift() {
@@ -93,7 +92,7 @@ function redeemGift() {
 }
 
 function claimCode(userId) {
-  var url = config.backend + 'rewards/claim/' + userId + '/' + localStorage.code;
+  var url = config.backend + 'rewards/claimgift/' + userId + '/' + localStorage.code;
   $.ajax({
     dataType: 'json',
     type: 'GET',
@@ -103,21 +102,17 @@ function claimCode(userId) {
       if (json && json.claimGiftResponse) {
     	var resp = json.claimGiftResponse;
         if (resp.status && resp.status === 'EXPIRED') {
-          alert('The gift has expired');
-          return;
+          $('#redeem-div p').html('The gift has expired.');
         } else if (resp.status && resp.status === 'LIMIT_REACH') {
-          alert('The gift is not available anymore');
-          return;
-        } else if (resp.status && resp.status === 'LIMIT_REACH') {
-          alert('The gift is not available anymore');
-          return;
+          $('#redeem-div p').html('The gift is not available anymore.');
+        } else if (resp.status && resp.status === 'NO_GIFTS_AVAILABLE') {
+          $('#redeem-div p').html('Sorry, you can only use this offer once.');
         } else if (resp.status !== 'OK') {
           showError();
           return;
         }
-    	if (resp.agId) {
-          window.location.href = 'gift/success.html?user=' + userId + '&gid=' + json.claimGiftResponse.agId + '&code=' + localStorage.code;
-        }
+        $('#facebook-div').hide();
+        $('#redeem-div').show();
       } else {
     	showError();
       }
