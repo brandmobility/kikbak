@@ -209,14 +209,14 @@ function fbInit() {
       }
     });
   }
-  initPosition(initPage);
+  initPage();
 }
 
 function connectFb(accessToken) {
   s.accessToken = accessToken;
   var userId = s.userId;
   if (userId) {
-    initPosition(initPage);
+	initPage();
     return;
   }
   var user = {};
@@ -280,9 +280,9 @@ function initPosition(callback) {
       $(window).bind('popstate', callback);
     }, function() {
       $('#spinner').hide();
-      alert('Cannot get your location');
+      window.location.href = "https://kikbak.me";
     },
-    { enableHighAccuracy:true,maximumAge:600000 });
+    { enableHighAccuracy:true,maximumAge:600000,timeout:5000 });
   } else {
     alert('Cannot get your location, to use kikbak.me please enable location for the website');
   }
@@ -369,13 +369,15 @@ function getOffers(force) {
   history.pushState({}, 'offer', '#offer');
   var userId = 0;
 
-  if ( typeof userId !== 'undefined' && userId !== null && userId !== '') {
-    if ( typeof initPage.p !== 'undefined') {
-      getOffersByLocation(userId, initPage.p, force);
-    } else {
-      getOffersByLocation(userId, null, force);
+  initPosition(function() {
+    if ( typeof userId !== 'undefined' && userId !== null && userId !== '') {
+      if ( typeof initPage.p !== 'undefined') {
+        getOffersByLocation(userId, initPage.p, force);
+      } else {
+        getOffersByLocation(userId, null, force);
+      }
     }
-  }
+  });
 }
 
 function renderOffer(offer) {
@@ -579,7 +581,6 @@ function getRedeems() {
           }
         });
         $.each(credits, function(i, credit) {
-          var mid = credit.merchant.id;
           if (creditCollection[mid]) {
             creditCollection[mid].push(credit);
           } else {
