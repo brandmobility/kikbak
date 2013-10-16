@@ -99,6 +99,7 @@
             <xsd:enumeration value="OK"/>
             <xsd:enumeration value="EXPIRED"/>
             <xsd:enumeration value="LIMIT_REACH"/>
+            <xsd:enumeration value="NO_GIFTS_AVAILABLE"/>
             <xsd:enumeration value="INVALID_CODE"/>
         </xsd:restriction>
     </xsd:simpleType>

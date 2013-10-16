@@ -5,11 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,7 +48,7 @@ public class RewardController extends AbstractController {
     @Autowired
     RewardService service;
 
-    @RequestMapping(value = "/claim/{userId}/{referralCode}", method = RequestMethod.GET)
+    @RequestMapping(value = "/claimgift/{userId}/{referralCode}", method = RequestMethod.GET)
     public ClaimGiftResponse claimGift(@PathVariable("userId") Long userId,
             @PathVariable("referralCode") String referralCode, final HttpServletResponse httpResponse) {
         try {
@@ -76,22 +73,6 @@ public class RewardController extends AbstractController {
             httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return null;
         }
-    }
-
-    @RequestMapping(value = "/claim/{userId}", method = RequestMethod.GET)
-    public ClaimGiftResponse claimGiftViaCookie(@PathVariable("userId") Long userId, final HttpServletRequest request,
-            final HttpServletResponse httpResponse) {
-
-        Cookie[] cookies = request.getCookies();
-        String referralCode = null;
-        for (Cookie cookie : cookies) {
-            if (StringUtils.equals(UserController.REFERRAL_CODE_KEY, cookie.getName())) {
-                referralCode = cookie.getValue();
-                break;
-            }
-        }
-
-        return claimGift(userId, referralCode, httpResponse);
     }
 
     @RequestMapping(value = "/request/{userId}", method = RequestMethod.POST)
