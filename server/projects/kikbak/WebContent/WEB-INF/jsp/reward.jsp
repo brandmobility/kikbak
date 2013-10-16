@@ -96,7 +96,7 @@
             float: left;
             margin-top: -5px;
             margin-right: 15px;
-            margin-left: 40px;
+            margin-left: 120px;
             }
 
         </style>
@@ -226,8 +226,8 @@
             .victor-img {
             float: left;
             margin-top: -5px;
-            margin-left: 15px;
-            width: 30px;
+            margin-left: 75px;
+            width: 29px;
             }
         </style>
         </c:otherwise>
@@ -306,8 +306,8 @@
                             </div>
                         </div>
                         <div id="redeem-div">
-                            <div style="text-align:left;font-size:16px;padding:30px 30px 30px 165px;font-weight:500">
-                                <p>Your reward can be redeemed in-store only. Download the Kikbak app for iOS or Android. Your reward will be waiting for whenever you’re ready to use it.</p>
+                            <div style="text-align:center;font-size:16px;padding:30px 30px 30px 165px;font-weight:500">
+                                <p>Your reward can be redeemed in-store only.<br /><br />Download the Kikbak app for iOS or Android. Your reward will be waiting for whenever you’re ready to use it.</p>
                             </div>
                             <div style="padding-left:150px;padding-right:10px;text-align:center;">
                                 <a href="https://itunes.apple.com/us/app/kikbak/id707697884?mt=8"><img src="img/app-store.png" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -373,7 +373,7 @@
             <div class="page-header" style="padding:0;">
                 <div class="row show-grid" style="margin:0;padding-top:22px;">
                     <div class="col-md-4" style="padding-left:10px">
-                        <img src="https://graph.facebook.com/${shareInfo.fbFriendId}/picture?width=120&heoght=120" class="img-rounded" />
+                        <img src="https://graph.facebook.com/${shareInfo.fbFriendId}/picture?width=120&heoght=120" class="img-rounded" width="60px" />
                     </div>
                     <div class="col-md-8">
                         <c:choose>
@@ -392,7 +392,7 @@
                 <div class="col-md-6">
                     <div style="background:url(img/blue-btn-bk-hvr.png);background-size:cover;padding-top:30px;padding-bottom:15px;text-align=left">
                         <img src="img/victor-icon.png" class="victor-img"/>
-                        <h3>${credit.desc}</h3>
+                        <h3 style="text-align:left">${credit.desc}</h3>
                 </div>
                 <div class="col-md-1"></div>
             </div>
@@ -400,7 +400,7 @@
             <div id="redeem-div"> 
                 <div style="text-align:center;padding-top:20px;">
                     <div style="text-align:center;font-size:16px;padding-top:20px;padding-bottom:20px;font-weight:500">
-                        <p>Your reward can be redeemed in-store only. Download the Kikbak app for iOS or Android. Your reward will be waiting for whenever you’re ready to use it.</p>
+                        <p>Your reward can be redeemed in-store only.<br /><br />Download the Kikbak app for iOS or Android. Your reward will be waiting for whenever you’re ready to use it.</p>
                     </div>
                 </div>
                 <div style="text-align:center;padding-bottom:20px;">
