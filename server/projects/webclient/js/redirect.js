@@ -46,7 +46,7 @@
 			success : function(json) {
 				if (json.hasUserOffersResponse.hasOffer) {
 					if (json.hasUserOffersResponse.brandName) {
-						$('#hasOffer .modal-header p').html('At a ' + json.hasUserOffersResponse.brandName + ' store?<br />Give your friends an exclusive gift now!');
+						$('#hasOffer .modal-header p').html('At ' + json.hasUserOffersResponse.brandName + ' store?<br />Give your friends an exclusive gift now!');
 						$('#hasOffer .modal-footer button').html('Give offer');
 					} else {
 						$('#hasOffer .modal-header p').html('Give your friends an exclusive gift now!<br >Check out your nearby Kikbak offers!');
