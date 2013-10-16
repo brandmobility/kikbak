@@ -1020,6 +1020,13 @@ function renderOfferDetail(offer) {
     options += '<option value="' + l.locationId + '" ' + selected + '>' + l.address1 + addr2 + ', ' + l.city + '</option>';
   });
   $('#location-sel').html(options);
+  if (offer.locations.length === 1) {
+	$('#location-sel-div').hide('');
+	$('#location-sel-text').hide('');
+  } else {
+	$('#location-sel-div').show('');
+	$('#location-sel-text').show('');
+  }
   
   $('#offer-details-view').show('');
   $('#back-btn-div').hide('');

@@ -93,10 +93,7 @@
             }
 
             .victor-img {
-            float: left;
             margin-top: -5px;
-            margin-right: 15px;
-            margin-left: 120px;
             }
 
         </style>
@@ -224,10 +221,7 @@
             }
 
             .victor-img {
-            float: left;
             margin-top: -5px;
-            margin-left: 75px;
-            width: 29px;
             }
         </style>
         </c:otherwise>
@@ -300,9 +294,8 @@
                             </h3>
                         </div>
                         <div class="ribbon">
-                            <div style="background:url(img/blue-btn-bk-hvr.png); background-size:cover;padding-top: 30px; padding-bottom: 10px; padding-left:40px; text-align:left">
-                                <img src="img/victor-icon.png" class="victor-img"/>
-                                <h3>${credit.desc}</h3>
+                            <div style="background:url(img/blue-btn-bk-hvr.png); background-size:cover;padding-top: 30px; padding-bottom: 10px; padding-left:40px; text-align:center">
+                                <h3><img src="img/victor-icon.png" class="victor-img"/>  ${credit.desc}</h3>
                             </div>
                         </div>
                         <div id="redeem-div">
@@ -390,9 +383,8 @@
             </div>
             <div class="page-header">
                 <div class="col-md-6">
-                    <div style="background:url(img/blue-btn-bk-hvr.png);background-size:cover;padding-top:30px;padding-bottom:15px;text-align=left">
-                        <img src="img/victor-icon.png" class="victor-img"/>
-                        <h3 style="text-align:left">${credit.desc}</h3>
+                    <div style="background:url(img/blue-btn-bk-hvr.png);background-size:cover;padding-top:30px;padding-bottom:15px;text-align=center">
+                        <h3><img src="img/victor-icon.png" class="victor-img"/>  ${credit.desc}</h3>
                 </div>
                 <div class="col-md-1"></div>
             </div>
