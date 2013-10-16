@@ -104,7 +104,7 @@ const int CELL_HEIGHT = 147;
     self.verticalSeparator.image = [UIImage imageNamed:@"separator_vertical_redeem_list"];
     [self addSubview:self.verticalSeparator];
     
-    self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(11, 89, 180, 25)];
+    self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(11, 89, 298, 25)];
     self.retailerName.backgroundColor = [UIColor clearColor];
     self.retailerName.textColor = [UIColor whiteColor];
     self.retailerName.font = [UIFont fontWithName:@"HelveticaNeue" size:21];
