@@ -75,7 +75,7 @@ function connectFb(accessToken) {
 }
 
 function updateFbFriends(userId) {
-  if (userId === localStorage.friendUserId) {
+  if (userId == localStorage.friendUserId) {
 	alert('Sorry, you cannot claim your own gift.');
 	return;
   }

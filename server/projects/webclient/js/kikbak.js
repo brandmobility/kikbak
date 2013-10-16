@@ -280,11 +280,11 @@ function initPosition(callback) {
       $(window).bind('popstate', callback);
     }, function() {
       $('#spinner').hide();
-      window.location.href = "https://kikbak.me";
+      alert('We are unable to detect your current location.\n\nIf you are inside a participating store and would like to share a Kikbak offer with your friends, please enable location services for your phone and web browser in your device settings.');
     },
     { enableHighAccuracy:true,maximumAge:600000,timeout:5000 });
   } else {
-    alert('Cannot get your location, to use kikbak.me please enable location for the website');
+    alert('We are unable to detect your current location.\n\nIf you are inside a participating store and would like to share a Kikbak offer with your friends, please enable location services for your phone and web browser in your device settings.');
   }
 }
 
