@@ -13,7 +13,8 @@
 <meta property="og:type" content="kikbakme:coupon">
 <meta property="og:title" content="${title}">
 <meta property="og:image" content="${shareInfo.imageUrl}">
-<meta property="og:description" content="${body}">
+<meta property="og:description" content="${body}
+<c:choose><c:when test="${not empty location}">${shareInfo.friendName} was at ${gift.merchant.name} at ${location.address1}, ${location.city}, ${location.state}</c:when></c:choose>">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0" />
 <link href="css/bootstrap.css" rel="stylesheet" media="screen">
