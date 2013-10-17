@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kikbak.client.service.SuggestService;
 import com.kikbak.dao.ReadWriteSuggestDAO;
 import com.kikbak.dto.Suggest;
-import com.kikbak.jaxb.suggest.SuggestBusinessType;
+import com.kikbak.jaxb.v1.suggest.SuggestBusinessType;
 
 @Service
 public class SuggestServiceImpl implements SuggestService {

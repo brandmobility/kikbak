@@ -8,7 +8,7 @@
     <xsd:annotation>
         <xsd:appinfo>
             <jaxb:schemaBindings>
-                <jaxb:package name="com.kikbak.jaxb.suggest" />
+                <jaxb:package name="com.kikbak.jaxb.v1.suggest" />
             </jaxb:schemaBindings>
         </xsd:appinfo>
     </xsd:annotation>

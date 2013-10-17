@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.kikbak.client.service.FbLoginException;
 import com.kikbak.client.service.FbLoginService;
-import com.kikbak.jaxb.register.UserType;
+import com.kikbak.jaxb.v1.register.UserType;
 
 @Service
 public class FbLoginServiceImpl implements FbLoginService {

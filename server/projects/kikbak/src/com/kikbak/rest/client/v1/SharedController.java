@@ -1,4 +1,4 @@
-package com.kikbak.rest.client;
+package com.kikbak.rest.client.v1;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,10 +22,10 @@ import com.kikbak.dto.Gift;
 import com.kikbak.dto.Location;
 import com.kikbak.dto.Merchant;
 import com.kikbak.dto.User;
-import com.kikbak.jaxb.share.MessageTemplateType;
-import com.kikbak.jaxb.share.ShareExperienceRequest;
-import com.kikbak.jaxb.share.ShareExperienceResponse;
-import com.kikbak.jaxb.share.SharedType;
+import com.kikbak.jaxb.v1.share.MessageTemplateType;
+import com.kikbak.jaxb.v1.share.ShareExperienceRequest;
+import com.kikbak.jaxb.v1.share.ShareExperienceResponse;
+import com.kikbak.jaxb.v1.share.SharedType;
 
 @Controller
 @RequestMapping("/ShareExperience")

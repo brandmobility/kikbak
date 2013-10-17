@@ -1,4 +1,4 @@
-package com.kikbak.rest.client;
+package com.kikbak.rest.client.v1;
 
 import java.util.Collection;
 
@@ -18,28 +18,28 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.kikbak.client.service.FbLoginService;
 import com.kikbak.client.service.UserService;
 import com.kikbak.client.service.impl.CookieAuthenticationFilter;
-import com.kikbak.jaxb.devicetoken.DeviceTokenUpdateRequest;
-import com.kikbak.jaxb.devicetoken.DeviceTokenUpdateResponse;
-import com.kikbak.jaxb.friends.UpdateFriendResponse;
-import com.kikbak.jaxb.friends.UpdateFriendsRequest;
-import com.kikbak.jaxb.offer.ClientOfferType;
-import com.kikbak.jaxb.offer.GetUserOffersRequest;
-import com.kikbak.jaxb.offer.GetUserOffersResponse;
-import com.kikbak.jaxb.offer.HasUserOffersResponse;
-import com.kikbak.jaxb.register.RegisterUserRequest;
-import com.kikbak.jaxb.register.RegisterUserResponse;
-import com.kikbak.jaxb.register.RegisterUserResponseStatus;
-import com.kikbak.jaxb.register.UserIdType;
-import com.kikbak.jaxb.register.UserType;
-import com.kikbak.jaxb.statustype.SuccessStatus;
-import com.kikbak.jaxb.userlocation.UserLocationType;
+import com.kikbak.jaxb.v1.devicetoken.DeviceTokenUpdateRequest;
+import com.kikbak.jaxb.v1.devicetoken.DeviceTokenUpdateResponse;
+import com.kikbak.jaxb.v1.friends.UpdateFriendResponse;
+import com.kikbak.jaxb.v1.friends.UpdateFriendsRequest;
+import com.kikbak.jaxb.v1.offer.ClientOfferType;
+import com.kikbak.jaxb.v1.offer.GetUserOffersRequest;
+import com.kikbak.jaxb.v1.offer.GetUserOffersResponse;
+import com.kikbak.jaxb.v1.offer.HasUserOffersResponse;
+import com.kikbak.jaxb.v1.register.RegisterUserRequest;
+import com.kikbak.jaxb.v1.register.RegisterUserResponse;
+import com.kikbak.jaxb.v1.register.RegisterUserResponseStatus;
+import com.kikbak.jaxb.v1.register.UserIdType;
+import com.kikbak.jaxb.v1.register.UserType;
+import com.kikbak.jaxb.v1.statustype.SuccessStatus;
+import com.kikbak.jaxb.v1.userlocation.UserLocationType;
 
 @Controller
 @RequestMapping("/user")
 public class UserController extends AbstractController {
 
     @Autowired
-    private UserService userService;
+    protected UserService userService;
 
     @Autowired
     private FbLoginService fbLoginService;

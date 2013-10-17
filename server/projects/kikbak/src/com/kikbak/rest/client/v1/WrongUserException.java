@@ -1,4 +1,4 @@
-package com.kikbak.rest.client;
+package com.kikbak.rest.client.v1;
 
 @SuppressWarnings("serial")
 public class WrongUserException extends Exception {

@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import com.kikbak.KikbakBaseTest;
 import com.kikbak.dao.ReadOnlySharedDAO;
 import com.kikbak.dto.Shared;
-import com.kikbak.jaxb.share.SharedType;
+import com.kikbak.jaxb.v1.share.SharedType;
 
 public class SharedExperienceServiceTest extends KikbakBaseTest{
 

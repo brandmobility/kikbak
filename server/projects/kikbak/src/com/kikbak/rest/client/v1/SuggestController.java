@@ -1,4 +1,4 @@
-package com.kikbak.rest.client;
+package com.kikbak.rest.client.v1;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.kikbak.client.service.SuggestService;
-import com.kikbak.jaxb.statustype.SuccessStatus;
-import com.kikbak.jaxb.suggest.SuggestBusinessRequest;
-import com.kikbak.jaxb.suggest.SuggestBusinessResponse;
+import com.kikbak.jaxb.v1.statustype.SuccessStatus;
+import com.kikbak.jaxb.v1.suggest.SuggestBusinessRequest;
+import com.kikbak.jaxb.v1.suggest.SuggestBusinessResponse;
 
 @Controller
 @RequestMapping("/suggest")

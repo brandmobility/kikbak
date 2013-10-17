@@ -6,7 +6,7 @@
 	<xsd:annotation>
 		<xsd:appinfo>
 			<jaxb:schemaBindings>
-				<jaxb:package name="com.kikbak.jaxb.statustype" />
+				<jaxb:package name="com.kikbak.jaxb.v1.statustype" />
 			</jaxb:schemaBindings>
 		</xsd:appinfo>
 	</xsd:annotation>

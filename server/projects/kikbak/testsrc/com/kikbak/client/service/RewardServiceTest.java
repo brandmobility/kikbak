@@ -17,9 +17,9 @@ import com.kikbak.dao.ReadWriteOfferDAO;
 import com.kikbak.dao.ReadWriteSharedDAO;
 import com.kikbak.dao.ReadWriteUser2FriendDAO;
 import com.kikbak.dao.ReadWriteUserDAO;
-import com.kikbak.jaxb.claim.ClaimType;
-import com.kikbak.jaxb.redeemcredit.CreditRedemptionType;
-import com.kikbak.jaxb.redeemgift.GiftRedemptionType;
+import com.kikbak.jaxb.v1.claim.ClaimType;
+import com.kikbak.jaxb.v1.redeemcredit.CreditRedemptionType;
+import com.kikbak.jaxb.v1.redeemgift.GiftRedemptionType;
 
 public class RewardServiceTest extends KikbakBaseTest{
 	

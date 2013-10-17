@@ -1,4 +1,4 @@
-package com.kikbak.rest.client;
+package com.kikbak.rest.client.v1;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -23,8 +23,8 @@ import com.kikbak.dao.ReadOnlyGiftDAO;
 import com.kikbak.dao.ReadOnlyLocationDAO;
 import com.kikbak.dao.ReadOnlyMerchantDAO;
 import com.kikbak.dao.ReadOnlyUserDAO;
-import com.kikbak.jaxb.rewards.AvailableCreditType;
-import com.kikbak.jaxb.rewards.GiftType;
+import com.kikbak.jaxb.v1.rewards.AvailableCreditType;
+import com.kikbak.jaxb.v1.rewards.GiftType;
 
 @Controller
 public class LandingController {

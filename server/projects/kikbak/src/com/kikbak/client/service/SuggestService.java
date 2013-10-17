@@ -1,6 +1,6 @@
 package com.kikbak.client.service;
 
-import com.kikbak.jaxb.suggest.SuggestBusinessType;
+import com.kikbak.jaxb.v1.suggest.SuggestBusinessType;
 
 public interface SuggestService {
 

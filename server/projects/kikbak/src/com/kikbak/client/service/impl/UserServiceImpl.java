@@ -39,12 +39,12 @@ import com.kikbak.dto.Offer;
 import com.kikbak.dto.User;
 import com.kikbak.dto.UserToken;
 import com.kikbak.dto.User2friend;
-import com.kikbak.jaxb.devicetoken.DeviceTokenType;
-import com.kikbak.jaxb.merchantlocation.MerchantLocationType;
-import com.kikbak.jaxb.offer.ClientOfferType;
-import com.kikbak.jaxb.register.UserIdType;
-import com.kikbak.jaxb.register.UserType;
-import com.kikbak.jaxb.userlocation.UserLocationType;
+import com.kikbak.jaxb.v1.devicetoken.DeviceTokenType;
+import com.kikbak.jaxb.v1.merchantlocation.MerchantLocationType;
+import com.kikbak.jaxb.v2.offer.ClientOfferType;
+import com.kikbak.jaxb.v1.register.UserIdType;
+import com.kikbak.jaxb.v1.register.UserType;
+import com.kikbak.jaxb.v1.userlocation.UserLocationType;
 import com.kikbak.location.Coordinate;
 import com.kikbak.location.GeoBoundaries;
 import com.kikbak.location.GeoFence;
@@ -173,27 +173,83 @@ public class UserServiceImpl implements UserService {
      
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	public Collection<ClientOfferType> hasOffers(UserLocationType userLocation) {
+	public Collection<com.kikbak.jaxb.v1.offer.ClientOfferType> hasOffers(UserLocationType userLocation) {
 		Coordinate origin = new Coordinate(userLocation.getLatitude(), userLocation.getLongitude());
 		GeoFence fence = GeoBoundaries.getGeoFence(origin, config.getDouble("geo.fence.distance.hasoffer"));
-		return getOffersByLocation(fence);
+		return getOffersV1(getOffersByLocation(fence));
 	}
 
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	public Collection<ClientOfferType> getOffers(final Long userId, String merchantName) {
-		return getOffersByMerchant(merchantName);
+	public Collection<com.kikbak.jaxb.v1.offer.ClientOfferType> getOffers(final Long userId, String merchantName) {
+		return getOffersV1(getOffersByMerchant(merchantName));
     }
 
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	public Collection<ClientOfferType> getOffers(Long userId,
+	public Collection<com.kikbak.jaxb.v1.offer.ClientOfferType> getOffers(Long userId,
 			UserLocationType userLocation) {
 		
 		Coordinate origin = new Coordinate(userLocation.getLatitude(), userLocation.getLongitude());
 		GeoFence fence = GeoBoundaries.getGeoFence(origin, config.getDouble("geo.fence.distance"));
-		return getOffersByLocation(fence);
+		return getOffersV1(getOffersByLocation(fence));
 	}
+	
+	private Collection<com.kikbak.jaxb.v1.offer.ClientOfferType> getOffersV1(Collection<ClientOfferType> offers) {
+	    Collection<com.kikbak.jaxb.v1.offer.ClientOfferType> result = new ArrayList<com.kikbak.jaxb.v1.offer.ClientOfferType>();
+	    for(ClientOfferType o : offers) {
+	        if(o.getKikbakValue() <= 0)
+	            continue;
+	        result.add(toV1(o));
+	    }
+	    return result;
+	}
+	
+	private com.kikbak.jaxb.v1.offer.ClientOfferType toV1(ClientOfferType o) {
+	    com.kikbak.jaxb.v1.offer.ClientOfferType r = new com.kikbak.jaxb.v1.offer.ClientOfferType();
+	    r.setBeginDate(o.getBeginDate());
+	    r.setEndDate(o.getEndDate());
+	    r.setGiftDesc(o.getGiftDesc());
+	    r.setGiftDetailedDesc(o.getGiftDetailedDesc());
+	    r.setGiftDiscountType(o.getGiftDiscountType());
+	    r.setGiftValue(o.getGiftValue());
+	    r.setGiveImageUrl(o.getGiveImageUrl());
+	    r.setId(o.getId());
+	    r.setKikbakDesc(o.getKikbakDesc());
+	    r.setKikbakDetailedDesc(o.getKikbakDetailedDesc());
+	    r.setKikbakValue(o.getKikbakValue());
+	    r.setMerchantId(o.getMerchantId());
+	    r.setMerchantName(o.getMerchantName());
+	    r.setMerchantUrl(o.getMerchantUrl());
+	    r.setName(o.getName());
+	    r.setOfferImageUrl(o.getOfferImageUrl());
+	    r.setTosUrl(o.getTosUrl());
+	    return r;
+	}
+
+	@Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public Collection<ClientOfferType> hasOffers2(UserLocationType userLocation) {
+        Coordinate origin = new Coordinate(userLocation.getLatitude(), userLocation.getLongitude());
+        GeoFence fence = GeoBoundaries.getGeoFence(origin, config.getDouble("geo.fence.distance.hasoffer"));
+        return getOffersByLocation(fence);
+    }
+
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public Collection<ClientOfferType> getOffers2(final Long userId, String merchantName) {
+        return getOffersByMerchant(merchantName);
+    }
+
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public Collection<ClientOfferType> getOffers2(Long userId,
+            UserLocationType userLocation) {
+        
+        Coordinate origin = new Coordinate(userLocation.getLatitude(), userLocation.getLongitude());
+        GeoFence fence = GeoBoundaries.getGeoFence(origin, config.getDouble("geo.fence.distance"));
+        return getOffersByLocation(fence);
+    }
 
 	private Collection<ClientOfferType> getOffersByMerchant(String merchantName) {
         Merchant merchant = roMerchantDao.findByName(merchantName);

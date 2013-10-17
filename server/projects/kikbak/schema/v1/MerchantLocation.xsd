@@ -6,7 +6,7 @@
     <xsd:annotation>
         <xsd:appinfo>
             <jaxb:schemaBindings>
-                <jaxb:package name="com.kikbak.jaxb.merchantlocation" />
+                <jaxb:package name="com.kikbak.jaxb.v1.merchantlocation" />
             </jaxb:schemaBindings>
         </xsd:appinfo>
     </xsd:annotation>

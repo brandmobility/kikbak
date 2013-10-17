@@ -1,4 +1,4 @@
-package com.kikbak.rest.client;
+package com.kikbak.rest.client.v1;
 
 import java.util.EnumMap;
 import java.util.LinkedList;
@@ -24,20 +24,20 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import com.kikbak.client.service.RateLimitException;
 import com.kikbak.client.service.RedemptionException;
 import com.kikbak.client.service.RewardService;
-import com.kikbak.jaxb.claim.ClaimCreditRequest;
-import com.kikbak.jaxb.claim.ClaimCreditResponse;
-import com.kikbak.jaxb.redeemcredit.RedeemCreditRequest;
-import com.kikbak.jaxb.redeemcredit.RedeemCreditResponse;
-import com.kikbak.jaxb.redeemcredit.RedeemCreditStatus;
-import com.kikbak.jaxb.redeemgift.RedeemGiftRequest;
-import com.kikbak.jaxb.redeemgift.RedeemGiftResponse;
-import com.kikbak.jaxb.redeemgift.RedeemGiftStatus;
-import com.kikbak.jaxb.rewards.ClaimGiftResponse;
-import com.kikbak.jaxb.rewards.ClaimStatusType;
-import com.kikbak.jaxb.rewards.GiftType;
-import com.kikbak.jaxb.rewards.RewardsRequest;
-import com.kikbak.jaxb.rewards.RewardsResponse;
-import com.kikbak.jaxb.statustype.SuccessStatus;
+import com.kikbak.jaxb.v1.claim.ClaimCreditRequest;
+import com.kikbak.jaxb.v1.claim.ClaimCreditResponse;
+import com.kikbak.jaxb.v1.redeemcredit.RedeemCreditRequest;
+import com.kikbak.jaxb.v1.redeemcredit.RedeemCreditResponse;
+import com.kikbak.jaxb.v1.redeemcredit.RedeemCreditStatus;
+import com.kikbak.jaxb.v1.redeemgift.RedeemGiftRequest;
+import com.kikbak.jaxb.v1.redeemgift.RedeemGiftResponse;
+import com.kikbak.jaxb.v1.redeemgift.RedeemGiftStatus;
+import com.kikbak.jaxb.v1.rewards.ClaimGiftResponse;
+import com.kikbak.jaxb.v1.rewards.ClaimStatusType;
+import com.kikbak.jaxb.v1.rewards.GiftType;
+import com.kikbak.jaxb.v1.rewards.RewardsRequest;
+import com.kikbak.jaxb.v1.rewards.RewardsResponse;
+import com.kikbak.jaxb.v1.statustype.SuccessStatus;
 
 @Controller
 @RequestMapping("/rewards")

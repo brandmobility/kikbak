@@ -7,7 +7,7 @@
     <xsd:annotation>
         <xsd:appinfo>
             <jaxb:schemaBindings>
-                <jaxb:package name="com.kikbak.jaxb.claim" />
+                <jaxb:package name="com.kikbak.jaxb.v1.claim" />
             </jaxb:schemaBindings>
         </xsd:appinfo>
     </xsd:annotation>

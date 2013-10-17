@@ -19,7 +19,7 @@ import com.kikbak.dao.ReadOnlyUser2FriendDAO;
 import com.kikbak.dao.ReadWriteSharedDAO;
 import com.kikbak.dto.Gift;
 import com.kikbak.dto.Shared;
-import com.kikbak.jaxb.share.SharedType;
+import com.kikbak.jaxb.v1.share.SharedType;
 import com.kikbak.push.service.PushNotifier;
 
 

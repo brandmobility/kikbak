@@ -1,4 +1,4 @@
-package com.kikbak.rest.client;
+package com.kikbak.rest.client.v1;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;

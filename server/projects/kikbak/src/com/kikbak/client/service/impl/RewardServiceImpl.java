@@ -52,16 +52,16 @@ import com.kikbak.dto.Offer;
 import com.kikbak.dto.Shared;
 import com.kikbak.dto.Transaction;
 import com.kikbak.dto.User;
-import com.kikbak.jaxb.claim.ClaimType;
-import com.kikbak.jaxb.merchantlocation.MerchantLocationType;
-import com.kikbak.jaxb.redeemcredit.CreditRedemptionResponseType;
-import com.kikbak.jaxb.redeemcredit.CreditRedemptionType;
-import com.kikbak.jaxb.redeemgift.GiftRedemptionType;
-import com.kikbak.jaxb.rewards.AvailableCreditType;
-import com.kikbak.jaxb.rewards.ClaimStatusType;
-import com.kikbak.jaxb.rewards.ClientMerchantType;
-import com.kikbak.jaxb.rewards.GiftType;
-import com.kikbak.jaxb.rewards.ShareInfoType;
+import com.kikbak.jaxb.v1.claim.ClaimType;
+import com.kikbak.jaxb.v1.merchantlocation.MerchantLocationType;
+import com.kikbak.jaxb.v1.redeemcredit.CreditRedemptionResponseType;
+import com.kikbak.jaxb.v1.redeemcredit.CreditRedemptionType;
+import com.kikbak.jaxb.v1.redeemgift.GiftRedemptionType;
+import com.kikbak.jaxb.v1.rewards.AvailableCreditType;
+import com.kikbak.jaxb.v1.rewards.ClaimStatusType;
+import com.kikbak.jaxb.v1.rewards.ClientMerchantType;
+import com.kikbak.jaxb.v1.rewards.GiftType;
+import com.kikbak.jaxb.v1.rewards.ShareInfoType;
 import com.kikbak.push.service.PushNotifier;
 
 @Service
