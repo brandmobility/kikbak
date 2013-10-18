@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.kikbak.client.service.SuggestService;
+import com.kikbak.client.service.v1.SuggestService;
 import com.kikbak.jaxb.v1.statustype.SuccessStatus;
 import com.kikbak.jaxb.v1.suggest.SuggestBusinessRequest;
 import com.kikbak.jaxb.v1.suggest.SuggestBusinessResponse;

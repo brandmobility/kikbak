@@ -53,10 +53,6 @@
         <url-pattern>/rewards/*</url-pattern>
         <url-pattern>/user/friends/*</url-pattern>
         <url-pattern>/user/devicetoken/*</url-pattern>
-        <url-pattern>/v2/ShareExperience/*</url-pattern>
-        <url-pattern>/v2/rewards/*</url-pattern>
-        <url-pattern>/v2/user/friends/*</url-pattern>
-        <url-pattern>/v2/user/devicetoken/*</url-pattern>
     </filter-mapping>
 
     <servlet>

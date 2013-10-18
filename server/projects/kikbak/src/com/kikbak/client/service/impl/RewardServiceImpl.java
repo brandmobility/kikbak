@@ -17,11 +17,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kikbak.client.service.RateLimitException;
-import com.kikbak.client.service.RedemptionException;
-import com.kikbak.client.service.RewardException;
-import com.kikbak.client.service.RewardService;
 import com.kikbak.client.service.impl.types.TransactionType;
+import com.kikbak.client.service.v1.RateLimitException;
+import com.kikbak.client.service.v1.RedemptionException;
+import com.kikbak.client.service.v1.RewardException;
+import com.kikbak.client.service.v1.RewardService;
 import com.kikbak.client.util.CryptoUtils;
 import com.kikbak.dao.ReadOnlyAllocatedGiftDAO;
 import com.kikbak.dao.ReadOnlyBarcodeDAO;

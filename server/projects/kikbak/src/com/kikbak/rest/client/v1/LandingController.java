@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.portlet.ModelAndView;
 
-import com.kikbak.client.service.RewardService;
-import com.kikbak.client.service.SharedExperienceService;
+import com.kikbak.client.service.v1.RewardService;
+import com.kikbak.client.service.v1.SharedExperienceService;
 import com.kikbak.client.util.UAgentInfo;
 import com.kikbak.dao.ReadOnlyAllocatedGiftDAO;
 import com.kikbak.dao.ReadOnlyGiftDAO;

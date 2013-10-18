@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kikbak.KikbakBaseTest;
-import com.kikbak.client.service.ReferralCodeUniqueException;
+import com.kikbak.client.service.v1.ReferralCodeUniqueException;
 import com.kikbak.dto.Shared;
 
 public class SharedDAOTest extends KikbakBaseTest{

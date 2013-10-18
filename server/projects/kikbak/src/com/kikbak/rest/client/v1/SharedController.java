@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.kikbak.client.service.RewardService;
-import com.kikbak.client.service.SharedExperienceService;
+import com.kikbak.client.service.v1.RewardService;
+import com.kikbak.client.service.v1.SharedExperienceService;
 import com.kikbak.dao.ReadOnlyGiftDAO;
 import com.kikbak.dao.ReadOnlyLocationDAO;
 import com.kikbak.dao.ReadOnlyMerchantDAO;

@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.kikbak.client.service.FbLoginService;
-import com.kikbak.client.service.UserService;
 import com.kikbak.client.service.impl.CookieAuthenticationFilter;
+import com.kikbak.client.service.v1.FbLoginService;
+import com.kikbak.client.service.v1.UserService;
 import com.kikbak.jaxb.v1.devicetoken.DeviceTokenUpdateRequest;
 import com.kikbak.jaxb.v1.devicetoken.DeviceTokenUpdateResponse;
 import com.kikbak.jaxb.v1.friends.UpdateFriendResponse;
