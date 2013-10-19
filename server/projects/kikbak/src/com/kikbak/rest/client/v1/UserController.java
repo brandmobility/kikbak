@@ -1,5 +1,6 @@
 package com.kikbak.rest.client.v1;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.servlet.http.Cookie;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.kikbak.client.service.impl.CookieAuthenticationFilter;
 import com.kikbak.client.service.v1.FbLoginService;
 import com.kikbak.client.service.v1.UserService;
+import com.kikbak.client.service.v2.UserService2;
 import com.kikbak.jaxb.v1.devicetoken.DeviceTokenUpdateRequest;
 import com.kikbak.jaxb.v1.devicetoken.DeviceTokenUpdateResponse;
 import com.kikbak.jaxb.v1.friends.UpdateFriendResponse;
@@ -40,6 +42,9 @@ public class UserController extends AbstractController {
 
     @Autowired
     protected UserService userService;
+
+    @Autowired
+    protected UserService2 userService2;
 
     @Autowired
     private FbLoginService fbLoginService;
@@ -134,7 +139,9 @@ public class UserController extends AbstractController {
                 return null;
             }
             GetUserOffersResponse response = new GetUserOffersResponse();
-            response.getOffers().addAll(userService.getOffers(userId, merchantName));
+            Collection<com.kikbak.jaxb.v2.offer.ClientOfferType> offers = userService2.getOffers2(userId, merchantName); 
+            Collection<ClientOfferType> offersV1 = getAsOffersV1(offers);                        
+            response.getOffers().addAll(offersV1);
             return response;
         } catch (Exception e) {
             logger.error(e, e);
@@ -148,7 +155,9 @@ public class UserController extends AbstractController {
             @RequestBody GetUserOffersRequest request, final HttpServletResponse httpResponse) {
         try {
             GetUserOffersResponse response = new GetUserOffersResponse();
-            response.getOffers().addAll(userService.getOffers(userId, request.getUserLocation()));
+            Collection<com.kikbak.jaxb.v2.offer.ClientOfferType> offers = userService2.getOffers2(userId, request.getUserLocation());
+            Collection<ClientOfferType> offersV1 = getAsOffersV1(offers);
+            response.getOffers().addAll(offersV1);
             return response;
         } catch (Exception e) {
             logger.error(e, e);
@@ -178,14 +187,16 @@ public class UserController extends AbstractController {
             UserLocationType location = new UserLocationType();
             location.setLatitude(latitude / 10000000.0);
             location.setLongitude(longitude / 10000000.0);
-            Collection<ClientOfferType> offers = userService.hasOffers(location);
-            if (offers.isEmpty()) {
+            Collection<com.kikbak.jaxb.v2.offer.ClientOfferType> offers = userService2.hasOffers2(location);
+            Collection<ClientOfferType> offersV1 = getAsOffersV1(offers);
+            
+            if (offersV1.isEmpty()) {
             	response.setHasOffer(false);
             	return response;
             }
             response.setHasOffer(true);
-            if (offers.size() == 1) {
-            	response.setBrandName(offers.iterator().next().getMerchantName());
+            if (offersV1.size() == 1) {
+            	response.setBrandName(offersV1.iterator().next().getMerchantName());
             }
             return response;
         } catch (Exception e) {
@@ -215,4 +226,37 @@ public class UserController extends AbstractController {
             return null;
         }
     }
+    
+    
+    private Collection<ClientOfferType> getAsOffersV1(Collection<com.kikbak.jaxb.v2.offer.ClientOfferType> offers) {
+        Collection<com.kikbak.jaxb.v1.offer.ClientOfferType> result = new ArrayList<ClientOfferType>();
+        for(com.kikbak.jaxb.v2.offer.ClientOfferType o : offers) {
+            if(o.getKikbakValue() == null)
+                continue;
+            result.add(toV1(o));
+        }
+        return result;
+    }
+    
+    private ClientOfferType toV1(com.kikbak.jaxb.v2.offer.ClientOfferType o) {
+        ClientOfferType r = new ClientOfferType();
+        r.setBeginDate(o.getBeginDate());
+        r.setEndDate(o.getEndDate());
+        r.setGiftDesc(o.getGiftDesc());
+        r.setGiftDetailedDesc(o.getGiftDetailedDesc());
+        r.setGiftDiscountType(o.getGiftDiscountType());
+        r.setGiftValue(o.getGiftValue());
+        r.setGiveImageUrl(o.getGiveImageUrl());
+        r.setId(o.getId());
+        r.setKikbakDesc(o.getKikbakDesc());
+        r.setKikbakDetailedDesc(o.getKikbakDetailedDesc());
+        r.setKikbakValue(o.getKikbakValue());
+        r.setMerchantId(o.getMerchantId());
+        r.setMerchantName(o.getMerchantName());
+        r.setMerchantUrl(o.getMerchantUrl());
+        r.setName(o.getName());
+        r.setOfferImageUrl(o.getOfferImageUrl());
+        r.setTosUrl(o.getTosUrl());
+        return r;
+    }    
 }
