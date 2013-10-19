@@ -294,7 +294,7 @@ public class RewardServiceImpl implements RewardService{
             throw new RewardException("cannot redeem the gift shared by him self.");
         }
 
-        if( roAllocatedGiftDao.isGiftAvailable(userId, shared.getOfferId()) ){
+        if(!roAllocatedGiftDao.isGiftAvailable(userId, shared.getOfferId()) ){
             return ClaimStatusType.NO_GIFTS_AVAILABLE;
         }
         
