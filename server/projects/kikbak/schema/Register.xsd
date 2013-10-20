@@ -1,0 +1,63 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="com:kikbak:jaxb:register"
+    xmlns:kikbak="com:kikbak:jaxb:register" 
+    xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+    xmlns:st="com:kikbak:jaxb:statustype"
+    jaxb:version="1.0">
+
+    <xsd:annotation>
+        <xsd:appinfo>
+            <jaxb:schemaBindings>
+                <jaxb:package name="com.kikbak.jaxb.register" />
+            </jaxb:schemaBindings>
+        </xsd:appinfo>
+    </xsd:annotation>
+    
+    <xsd:complexType name="UserType">
+        <xsd:sequence>
+            <xsd:element name="email" type="xsd:string" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="first_name" type="xsd:string" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="gender" type="xsd:string" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="id" type="xsd:long" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="last_name" type="xsd:string" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="link" type="xsd:string" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="locale" type="xsd:string" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="name" type="xsd:string" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="timezone" type="xsd:int" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="updated_time" type="xsd:string" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="verified" type="xsd:boolean" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="access_token" type="xsd:string" minOccurs="1" maxOccurs="1" />
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="UserIdType">
+        <xsd:sequence>
+            <xsd:element name="userId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:element name="RegisterUserRequest">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="user" type="kikbak:UserType" minOccurs="1" maxOccurs="1"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:simpleType name="RegisterUserResponseStatus">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="OK"/>
+            <xsd:enumeration value="TOO_FEW_FRIENDS"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    
+    <xsd:element name="RegisterUserResponse">
+       <xsd:complexType>
+           <xsd:sequence>
+               <xsd:element name="status" type="kikbak:RegisterUserResponseStatus" minOccurs="1" maxOccurs="1"/>
+               <xsd:element name="userId" type="kikbak:UserIdType" minOccurs="0" maxOccurs="1"/>
+           </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    
+</xsd:schema>

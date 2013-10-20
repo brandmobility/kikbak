@@ -3,7 +3,7 @@ package com.kikbak.service.helper;
 import java.util.Date;
 
 
-import com.kikbak.client.service.v1.ReferralCodeUniqueException;
+import com.kikbak.client.service.ReferralCodeUniqueException;
 import com.kikbak.dao.ReadWriteLocationDAO;
 import com.kikbak.dao.ReadWriteMerchantDAO;
 import com.kikbak.dao.ReadWriteOfferDAO;

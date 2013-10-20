@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.kikbak.KikbakBaseTest;
-import com.kikbak.jaxb.v1.admin.TokenType;
+import com.kikbak.jaxb.admin.TokenType;
 
 public class AuthenticationServiceTest extends KikbakBaseTest{
 

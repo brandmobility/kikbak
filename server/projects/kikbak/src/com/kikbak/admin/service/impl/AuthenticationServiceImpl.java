@@ -13,7 +13,7 @@ import com.kikbak.admin.service.AuthenticationService;
 import com.kikbak.admin.util.AuthTokenManager;
 import com.kikbak.dao.ReadOnlyAccountDAO;
 import com.kikbak.dto.Account;
-import com.kikbak.jaxb.v1.admin.TokenType;
+import com.kikbak.jaxb.admin.TokenType;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
