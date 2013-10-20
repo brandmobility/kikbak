@@ -1,0 +1,57 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="com:kikbak:jaxb:share"
+    xmlns:kikbak="com:kikbak:jaxb:share" 
+    xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+    xmlns:st="com:kikbak:jaxb:statustype"
+    jaxb:version="1.0">
+
+    <xsd:annotation>
+        <xsd:appinfo>
+            <jaxb:schemaBindings>
+                <jaxb:package name="com.kikbak.jaxb.v1.share" />
+            </jaxb:schemaBindings>
+        </xsd:appinfo>
+    </xsd:annotation>
+    
+    <xsd:import namespace="com:kikbak:jaxb:statustype" schemaLocation="./StatusType.xsd" />
+    
+    <xsd:complexType name="SharedType">
+        <xsd:sequence>
+            <xsd:element name="locationId" type="xsd:long" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="merchantId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="offerId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="employeeId" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="imageUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="caption" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <!-- types: email, sms, or fb(facebook) -->
+            <xsd:element name="type" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <!-- ios or android -->
+            <xsd:element name="platform" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="MessageTemplateType">
+        <xsd:sequence>
+            <xsd:element name="subject" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="body" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="landingUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="ShareExperienceRequest">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="experience" type="kikbak:SharedType" minOccurs="1" maxOccurs="1"/> 
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:element name="ShareExperienceResponse">
+        <xsd:complexType>
+           <xsd:sequence>
+               <xsd:element name="referrerCode" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+               <xsd:element name="template" type="kikbak:MessageTemplateType" minOccurs="0" maxOccurs="1"/>
+           </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+  
+</xsd:schema>
