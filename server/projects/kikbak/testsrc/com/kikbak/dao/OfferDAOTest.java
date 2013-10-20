@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.kikbak.KikbakBaseTest;
 import com.kikbak.dto.Merchant;
 import com.kikbak.dto.Offer;
-import com.kikbak.jaxb.v1.userlocation.UserLocationType;
+import com.kikbak.jaxb.userlocation.UserLocationType;
 import com.kikbak.location.Coordinate;
 import com.kikbak.location.GeoBoundaries;
 import com.kikbak.location.GeoFence;

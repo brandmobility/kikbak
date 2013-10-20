@@ -12,9 +12,9 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.kikbak.client.service.v1.FbLoginException;
-import com.kikbak.client.service.v1.FbLoginService;
-import com.kikbak.jaxb.v1.register.UserType;
+import com.kikbak.client.service.FbLoginException;
+import com.kikbak.client.service.FbLoginService;
+import com.kikbak.jaxb.register.UserType;
 
 @Service
 public class FbLoginServiceImpl implements FbLoginService {
