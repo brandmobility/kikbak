@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.oned.UPCAWriter;
 import com.kikbak.KikbakBaseTest;
-import com.kikbak.client.service.v1.RewardService;
 import com.kikbak.dao.ReadOnlyAllocatedGiftDAO;
 import com.kikbak.dao.ReadWriteAllocatedGiftDAO;
 import com.kikbak.dao.ReadWriteLocationDAO;
@@ -18,9 +17,9 @@ import com.kikbak.dao.ReadWriteOfferDAO;
 import com.kikbak.dao.ReadWriteSharedDAO;
 import com.kikbak.dao.ReadWriteUser2FriendDAO;
 import com.kikbak.dao.ReadWriteUserDAO;
-import com.kikbak.jaxb.v1.claim.ClaimType;
-import com.kikbak.jaxb.v1.redeemcredit.CreditRedemptionType;
-import com.kikbak.jaxb.v1.redeemgift.GiftRedemptionType;
+import com.kikbak.jaxb.claim.ClaimType;
+import com.kikbak.jaxb.redeemcredit.CreditRedemptionType;
+import com.kikbak.jaxb.redeemgift.GiftRedemptionType;
 
 public class RewardServiceTest extends KikbakBaseTest{
 	

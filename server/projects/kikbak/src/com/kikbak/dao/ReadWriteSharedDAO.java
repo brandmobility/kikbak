@@ -1,6 +1,6 @@
 package com.kikbak.dao;
 
-import com.kikbak.client.service.v1.ReferralCodeUniqueException;
+import com.kikbak.client.service.ReferralCodeUniqueException;
 import com.kikbak.dto.Shared;
 
 

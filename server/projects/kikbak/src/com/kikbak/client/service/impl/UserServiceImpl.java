@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kikbak.client.service.UserService;
 import com.kikbak.client.service.impl.types.GenderType;
-import com.kikbak.client.service.v2.UserService2;
 import com.kikbak.config.ContextUtil;
 import com.kikbak.dao.ReadOnlyDeviceTokenDAO;
 import com.kikbak.dao.ReadOnlyGiftDAO;
@@ -37,20 +37,20 @@ import com.kikbak.dto.Location;
 import com.kikbak.dto.Merchant;
 import com.kikbak.dto.Offer;
 import com.kikbak.dto.User;
-import com.kikbak.dto.User2friend;
 import com.kikbak.dto.UserToken;
-import com.kikbak.jaxb.v1.devicetoken.DeviceTokenType;
-import com.kikbak.jaxb.v1.merchantlocation.MerchantLocationType;
-import com.kikbak.jaxb.v1.register.UserIdType;
-import com.kikbak.jaxb.v1.register.UserType;
-import com.kikbak.jaxb.v1.userlocation.UserLocationType;
-import com.kikbak.jaxb.v2.offer.ClientOfferType;
+import com.kikbak.dto.User2friend;
+import com.kikbak.jaxb.devicetoken.DeviceTokenType;
+import com.kikbak.jaxb.merchantlocation.MerchantLocationType;
+import com.kikbak.jaxb.offer.ClientOfferType;
+import com.kikbak.jaxb.register.UserIdType;
+import com.kikbak.jaxb.register.UserType;
+import com.kikbak.jaxb.userlocation.UserLocationType;
 import com.kikbak.location.Coordinate;
 import com.kikbak.location.GeoBoundaries;
 import com.kikbak.location.GeoFence;
 
 @Service
-public class UserServiceImpl implements UserService2 {
+public class UserServiceImpl implements UserService {
 
 	private static PropertiesConfiguration config = ContextUtil.getBean("staticPropertiesConfiguration", PropertiesConfiguration.class);
 	
@@ -172,28 +172,28 @@ public class UserServiceImpl implements UserService2 {
     }
      
 	@Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public Collection<ClientOfferType> hasOffers2(UserLocationType userLocation) {
-        Coordinate origin = new Coordinate(userLocation.getLatitude(), userLocation.getLongitude());
-        GeoFence fence = GeoBoundaries.getGeoFence(origin, config.getDouble("geo.fence.distance.hasoffer"));
-        return getOffersByLocation(fence);
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public Collection<ClientOfferType> hasOffers(UserLocationType userLocation) {
+		Coordinate origin = new Coordinate(userLocation.getLatitude(), userLocation.getLongitude());
+		GeoFence fence = GeoBoundaries.getGeoFence(origin, config.getDouble("geo.fence.distance.hasoffer"));
+		return getOffersByLocation(fence);
+	}
+
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public Collection<ClientOfferType> getOffers(final Long userId, String merchantName) {
+		return getOffersByMerchant(merchantName);
     }
 
-    @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public Collection<ClientOfferType> getOffers2(final Long userId, String merchantName) {
-        return getOffersByMerchant(merchantName);
-    }
-
-    @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public Collection<ClientOfferType> getOffers2(Long userId,
-            UserLocationType userLocation) {
-        
-        Coordinate origin = new Coordinate(userLocation.getLatitude(), userLocation.getLongitude());
-        GeoFence fence = GeoBoundaries.getGeoFence(origin, config.getDouble("geo.fence.distance"));
-        return getOffersByLocation(fence);
-    }
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public Collection<ClientOfferType> getOffers(Long userId,
+			UserLocationType userLocation) {
+		
+		Coordinate origin = new Coordinate(userLocation.getLatitude(), userLocation.getLongitude());
+		GeoFence fence = GeoBoundaries.getGeoFence(origin, config.getDouble("geo.fence.distance"));
+		return getOffersByLocation(fence);
+	}
 
 	private Collection<ClientOfferType> getOffersByMerchant(String merchantName) {
         Merchant merchant = roMerchantDao.findByName(merchantName);
@@ -264,11 +264,9 @@ public class UserServiceImpl implements UserService2 {
 			ot.setGiftDetailedDesc(gift.getDetailedDesc());
 			ot.setGiftValue(gift.getValue());
 			ot.setGiftDiscountType(gift.getDiscountType());
-			if(kikbak != null) {
-			    ot.setKikbakDesc(kikbak.getDescription());
-			    ot.setKikbakDetailedDesc(kikbak.getDetailedDesc());
-			    ot.setKikbakValue(kikbak.getValue());
-			}
+			ot.setKikbakDesc(kikbak.getDescription());
+			ot.setKikbakDetailedDesc(kikbak.getDetailedDesc());
+			ot.setKikbakValue(kikbak.getValue());
 			ot.setOfferImageUrl(offer.getImageUrl());
 			ot.setMerchantId(offer.getMerchantId());
 			ot.setGiveImageUrl(gift.getImageUrl());

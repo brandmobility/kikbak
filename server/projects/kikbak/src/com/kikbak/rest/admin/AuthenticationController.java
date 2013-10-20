@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.kikbak.admin.service.AuthenticationService;
 import com.kikbak.admin.util.AdminCookies;
-import com.kikbak.jaxb.v1.admin.AuthenticationRequest;
-import com.kikbak.jaxb.v1.admin.AuthenticationResponse;
-import com.kikbak.jaxb.v1.admin.TokenType;
-import com.kikbak.jaxb.v1.statustype.StatusType;
+import com.kikbak.jaxb.admin.AuthenticationRequest;
+import com.kikbak.jaxb.admin.AuthenticationResponse;
+import com.kikbak.jaxb.admin.TokenType;
+import com.kikbak.jaxb.statustype.StatusType;
 import com.kikbak.rest.StatusCode;
 
 @Controller

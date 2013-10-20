@@ -11,15 +11,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kikbak.client.service.v1.ReferralCodeUniqueException;
-import com.kikbak.client.service.v1.SharedExperienceService;
+import com.kikbak.client.service.ReferralCodeUniqueException;
+import com.kikbak.client.service.SharedExperienceService;
 import com.kikbak.dao.ReadOnlyGiftDAO;
 import com.kikbak.dao.ReadOnlySharedDAO;
 import com.kikbak.dao.ReadOnlyUser2FriendDAO;
 import com.kikbak.dao.ReadWriteSharedDAO;
 import com.kikbak.dto.Gift;
 import com.kikbak.dto.Shared;
-import com.kikbak.jaxb.v1.share.SharedType;
+import com.kikbak.jaxb.share.SharedType;
 import com.kikbak.push.service.PushNotifier;
 
 

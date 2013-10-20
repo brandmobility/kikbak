@@ -54,7 +54,7 @@
         <url-pattern>/user/friends/*</url-pattern>
         <url-pattern>/user/devicetoken/*</url-pattern>
     </filter-mapping>
-
+    
     <servlet>
         <servlet-name>kikbak</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

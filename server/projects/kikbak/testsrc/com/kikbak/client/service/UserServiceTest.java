@@ -13,19 +13,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.kikbak.KikbakBaseTest;
 import com.kikbak.admin.service.MerchantService;
-import com.kikbak.client.service.v1.UserService;
 import com.kikbak.dao.ReadOnlyDeviceTokenDAO;
 import com.kikbak.dao.ReadOnlyUser2FriendDAO;
 import com.kikbak.dao.ReadOnlyUserDAO;
 import com.kikbak.dto.Devicetoken;
 import com.kikbak.dto.User;
-import com.kikbak.jaxb.v1.admin.LocationType;
-import com.kikbak.jaxb.v1.admin.MerchantType;
-import com.kikbak.jaxb.v1.admin.OfferType;
-import com.kikbak.jaxb.v1.devicetoken.DeviceTokenType;
-import com.kikbak.jaxb.v1.friends.FriendType;
-import com.kikbak.jaxb.v1.register.UserIdType;
-import com.kikbak.jaxb.v1.register.UserType;
+import com.kikbak.jaxb.admin.LocationType;
+import com.kikbak.jaxb.admin.MerchantType;
+import com.kikbak.jaxb.admin.OfferType;
+import com.kikbak.jaxb.devicetoken.DeviceTokenType;
+import com.kikbak.jaxb.friends.FriendType;
+import com.kikbak.jaxb.register.UserIdType;
+import com.kikbak.jaxb.register.UserType;
 
 public class UserServiceTest extends KikbakBaseTest{
 
