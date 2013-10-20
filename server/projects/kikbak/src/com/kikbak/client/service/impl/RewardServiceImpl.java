@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kikbak.client.service.impl.types.OfferType;
 import com.kikbak.client.service.impl.types.TransactionType;
 import com.kikbak.client.service.v1.RateLimitException;
 import com.kikbak.client.service.v1.RedemptionException;
@@ -65,8 +66,8 @@ import com.kikbak.jaxb.v1.rewards.ShareInfoType;
 import com.kikbak.push.service.PushNotifier;
 
 @Service
-public class RewardServiceImpl implements RewardService{
-    
+public class RewardServiceImpl implements RewardService {
+
     Logger logger = Logger.getLogger(RewardServiceImpl.class);
 
     @Autowired
@@ -118,18 +119,17 @@ public class RewardServiceImpl implements RewardService{
 
     @Autowired
     ReadWriteClaimDAO rwClaimDao;
-    
+
     @Autowired
     ReadOnlyBarcodeDAO roBarcodeDao;
-    
+
     @Autowired
     ReadWriteBarcodeDao rwBarcodeDao;
-
 
     private final SecureRandom random = new SecureRandom();
 
     @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor=RewardException.class)
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = RewardException.class)
     public Collection<GiftType> getGifts(Long userId) throws RewardException {
         createGifts(userId);
         Collection<Allocatedgift> gifts = new ArrayList<Allocatedgift>();
@@ -137,24 +137,22 @@ public class RewardServiceImpl implements RewardService{
         Collection<GiftType> gts = new ArrayList<GiftType>();
 
         Map<Long, List<Allocatedgift>> m = new HashMap<Long, List<Allocatedgift>>();
-        for( Allocatedgift ag: gifts){
-            if( !m.containsKey(ag.getOfferId())) {
+        for (Allocatedgift ag : gifts) {
+            if (!m.containsKey(ag.getOfferId())) {
                 m.put(ag.getOfferId(), new ArrayList<Allocatedgift>());
                 m.get(ag.getOfferId()).add(ag);
-            }
-            else {
+            } else {
                 m.get(ag.getOfferId()).add(ag);
             }
         }
-        
-        for(Long offerId : m.keySet() )
-        {
+
+        for (Long offerId : m.keySet()) {
             Offer offer = roOfferDao.findById(offerId);
             Gift gift = roGiftDao.findByOfferId(offerId);
             Merchant merchant = roMerchantDao.findById(offer.getMerchantId());
-            
+
             GiftType gt = createGiftType(merchant, gift, offer);
-            for( Allocatedgift ag : m.get(offerId)) {
+            for (Allocatedgift ag : m.get(offerId)) {
                 Shared shared = roSharedDao.findById(ag.getSharedId());
                 User friend = roUserDao.findById(ag.getFriendUserId());
                 addShareInfoToGift(gt, shared, friend, ag.getId());
@@ -167,12 +165,12 @@ public class RewardServiceImpl implements RewardService{
     }
 
     @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS, rollbackFor=RewardException.class)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS, rollbackFor = RewardException.class)
     public Collection<AvailableCreditType> getCredits(Long userId) {
         Collection<Credit> credits = roCreditDao.listCreditsWithBalance(userId);
         Collection<AvailableCreditType> acts = new ArrayList<AvailableCreditType>();
 
-        for( Credit credit : credits){
+        for (Credit credit : credits) {
             AvailableCreditType ac = createAvailableCreditType(userId, credit);
             acts.add(ac);
         }
@@ -180,75 +178,76 @@ public class RewardServiceImpl implements RewardService{
         return acts;
     }
 
-	private AvailableCreditType createAvailableCreditType(Long userId,
-			Credit credit) {
-		AvailableCreditType ac = new AvailableCreditType();
-		ac.setValue(credit.getValue());
-		ac.setId(credit.getId());
-		ac.setOfferId(credit.getOfferId());
+    private AvailableCreditType createAvailableCreditType(Long userId, Credit credit) {
+        AvailableCreditType ac = new AvailableCreditType();
+        ac.setValue(credit.getValue());
+        ac.setId(credit.getId());
+        ac.setOfferId(credit.getOfferId());
 
-		Merchant merchant = roMerchantDao.findById(credit.getMerchantId());
-		ClientMerchantType cmt = fillClientMerchantType(merchant);
-		ac.setMerchant(cmt);
+        Merchant merchant = roMerchantDao.findById(credit.getMerchantId());
+        ClientMerchantType cmt = fillClientMerchantType(merchant);
+        ac.setMerchant(cmt);
 
-		Kikbak kikbak = roKikbakDAO.findByOfferId(credit.getOfferId());
-		Offer offer = roOfferDao.findById(credit.getOfferId());
-		ac.setDesc(kikbak.getDescription());
-		ac.setDetailedDesc(kikbak.getDetailedDesc());
-		ac.setRewardType(kikbak.getRewardType());
-		ac.setValidationType(kikbak.getValidationType());
-		ac.setTosUrl(offer.getTosUrl());
-		ac.setImageUrl(kikbak.getImageUrl());
-		ac.setRedeemedGiftsCount(roTxnDao.countOfGiftsRedeemedByUserByMerchant(userId, credit.getMerchantId()));
-		return ac;
-	}
+        Kikbak kikbak = roKikbakDAO.findByOfferId(credit.getOfferId());
+        Offer offer = roOfferDao.findById(credit.getOfferId());
+        ac.setDesc(kikbak.getDescription());
+        ac.setDetailedDesc(kikbak.getDetailedDesc());
+        ac.setRewardType(kikbak.getRewardType());
+        ac.setValidationType(kikbak.getValidationType());
+        ac.setTosUrl(offer.getTosUrl());
+        ac.setImageUrl(kikbak.getImageUrl());
+        ac.setRedeemedGiftsCount(roTxnDao.countOfGiftsRedeemedByUserByMerchant(userId, credit.getMerchantId()));
+        return ac;
+    }
 
     @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor=RedemptionException.class)
-    public String registerGiftRedemption(final Long userId, GiftRedemptionType giftType) 
-    throws RedemptionException, RateLimitException {
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = RedemptionException.class)
+    public String registerGiftRedemption(final Long userId, GiftRedemptionType giftType) throws RedemptionException, RateLimitException {
 
-    Location location = roLocationDao.findById(giftType.getLocationId());
-    if( !location.getVerificationCode().equals(giftType.getVerificationCode())){
-        throw new RedemptionException("Invalid verifcation code");
-    }
+        Location location = roLocationDao.findById(giftType.getLocationId());
+        if (!location.getVerificationCode().equals(giftType.getVerificationCode())) {
+            throw new RedemptionException("Invalid verifcation code");
+        }
 
-    Allocatedgift gift = roAllocatedGiftDao.findById(giftType.getId());
-    gift.setRedemptionDate(new Date());
-    gift.setValue(0.0);
+        Allocatedgift gift = roAllocatedGiftDao.findById(giftType.getId());
+        gift.setRedemptionDate(new Date());
+        gift.setValue(0.0);
 
-    rwGiftDao.makePersistent(gift);
+        rwGiftDao.makePersistent(gift);
 
-    Shared shared = roSharedDao.findById(gift.getSharedId());
-    if (shared == null) {
-        throw new RedemptionException("Invalid verifcation code");
-    }
-    Offer offer = roOfferDao.findById(gift.getOfferId());
-    if (offer == null) {
-        throw new RedemptionException("Invalid verifcation code");
-    }
+        Shared shared = roSharedDao.findById(gift.getSharedId());
+        if (shared == null) {
+            throw new RedemptionException("Invalid verifcation code");
+        }
+        Offer offer = roOfferDao.findById(gift.getOfferId());
+        if (offer == null) {
+            throw new RedemptionException("Invalid verifcation code");
+        }
+
+        if( !offer.getOfferType().equals(OfferType.give_only.name())) {
+            CreditManager km = new CreditManager(roOfferDao, roKikbakDAO, roCreditDao, rwCreditDao, rwTxnDao);
+            Long creditId = km.manageCredit(giftType.getFriendUserId(), gift.getOfferId(), gift.getMerchantId(), giftType.getLocationId());
+        
     
-    CreditManager km = new CreditManager(roOfferDao, roKikbakDAO, roCreditDao, rwCreditDao, rwTxnDao);
-    Long creditId = km.manageCredit(giftType.getFriendUserId(), gift.getOfferId(), gift.getMerchantId(), giftType.getLocationId());
-
-    // send notification for kikbak when gift is redeemed
-    Kikbak kikbak = roKikbakDAO.findByOfferId(gift.getOfferId());
-    pushNotifier.sendKikbakNotification(userId, giftType.getFriendUserId(), kikbak, creditId);    
-
-    return generateAuthorizationCode();
+            // send notification for kikbak when gift is redeemed
+            Kikbak kikbak = roKikbakDAO.findByOfferId(gift.getOfferId());
+            pushNotifier.sendKikbakNotification(userId, giftType.getFriendUserId(), kikbak, creditId);
+        }
+        
+        return generateAuthorizationCode();
     }
 
     @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor=RedemptionException.class)
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = RedemptionException.class)
     public CreditRedemptionResponseType redeemCredit(final Long userId, CreditRedemptionType creditType) throws RedemptionException {
 
         Location location = roLocationDao.findById(creditType.getLocationId());
-        if( !location.getVerificationCode().equals(creditType.getVerificationCode())){
+        if (!location.getVerificationCode().equals(creditType.getVerificationCode())) {
             throw new RedemptionException("Invalid verifcation code");
         }
 
         Credit credit = roCreditDao.findById(creditType.getId());
-        if( creditType.getAmount() > credit.getValue() ){
+        if (creditType.getAmount() > credit.getValue()) {
             throw new RedemptionException("Value of attempted redemption is greater then remaining value");
         }
 
@@ -260,7 +259,7 @@ public class RewardServiceImpl implements RewardService{
         txn.setMerchantId(credit.getMerchantId());
         txn.setLocationId(txn.getLocationId());
         txn.setUserId(userId);
-        txn.setTransactionType((short)TransactionType.Debit.ordinal());
+        txn.setTransactionType((short) TransactionType.Debit.ordinal());
         txn.setOfferId(credit.getOfferId());
         txn.setCreditId(credit.getId());
         txn.setDate(new Date());
@@ -276,7 +275,7 @@ public class RewardServiceImpl implements RewardService{
     }
 
     @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor=RewardException.class)
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = RewardException.class)
     public ClaimStatusType claimGift(Long userId, String referralCode, List<GiftType> gifts, List<Long> agIds) throws RewardException {
         ClaimStatusType status = ClaimStatusType.INVALID_CODE;
         if (userId == null || StringUtils.isBlank(referralCode)) {
@@ -294,14 +293,14 @@ public class RewardServiceImpl implements RewardService{
             throw new RewardException("cannot redeem the gift shared by him self.");
         }
 
-        if(!roAllocatedGiftDao.isGiftAvailable(userId, shared.getOfferId()) ){
+        if (!roAllocatedGiftDao.isGiftAvailable(userId, shared.getOfferId())) {
             return ClaimStatusType.NO_GIFTS_AVAILABLE;
         }
-        
+
         Collection<Allocatedgift> allocatedGifts = roAllocatedGiftDao.listValidByUserIdAndSharedId(userId, shared.getId());
         Collection<Allocatedgift> newGifts = new ArrayList<Allocatedgift>();
-        if (null != shared){
-            if(null == allocatedGifts || allocatedGifts.isEmpty()){
+        if (null != shared) {
+            if (null == allocatedGifts || allocatedGifts.isEmpty()) {
                 Offer offer = roOfferDao.findById(shared.getOfferId());
                 Date now = new Date();
                 if (now.before(offer.getBeginDate()) || now.after(offer.getEndDate())) {
@@ -315,73 +314,73 @@ public class RewardServiceImpl implements RewardService{
                     Gift gift = roGiftDao.findById(ag.getGiftId());
                     User friend = roUserDao.findById(ag.getFriendUserId());
 
-                    GiftType gt = createGiftType( merchant, gift, offer);
+                    GiftType gt = createGiftType(merchant, gift, offer);
                     addShareInfoToGift(gt, shared, friend, ag.getId());
                     gifts.add(gt);
                     agIds.add(ag.getId());
                 }
             } else {
                 status = ClaimStatusType.OK;
-            	for (Allocatedgift g : allocatedGifts) {
-            		agIds.add(g.getId());
-            	}
+                for (Allocatedgift g : allocatedGifts) {
+                    agIds.add(g.getId());
+                }
                 status = ClaimStatusType.OK;
             }
         }
 
         return gifts.isEmpty() ? status : ClaimStatusType.OK;
     }
-    
+
     @Override
     public GiftType getGiftByReferredCode(final String code) throws RewardException {
 
         Shared shared = roSharedDao.findAvailableForGiftingByReferralCode(code);
-        
+
         if (shared == null) {
-        	throw new RewardException("no shared found for code " + code);
+            throw new RewardException("no shared found for code " + code);
         }
-        
+
         Offer offer = roOfferDao.findById(shared.getOfferId());
         Merchant merchant = roMerchantDao.findById(offer.getMerchantId());
         Gift gift = roGiftDao.findById(shared.getOfferId());
         User friend = roUserDao.findById(shared.getUserId());
-        
+
         GiftType gt = createGiftType(merchant, gift, offer);
         addShareInfoToGift(gt, shared, friend, 0);
-        
+
         return gt;
     }
-    
+
     @Override
     public GiftType getLastGiftByCreditId(final long creditId) throws RewardException {
-    	Credit credit = roCreditDao.findById(creditId);
+        Credit credit = roCreditDao.findById(creditId);
 
         Shared shared = roSharedDao.findLastShareByUserAndOffer(credit.getUserId(), credit.getOfferId());
-        
+
         Offer offer = roOfferDao.findById(shared.getOfferId());
         Merchant merchant = roMerchantDao.findById(offer.getMerchantId());
         Gift gift = roGiftDao.findById(shared.getOfferId());
         User friend = roUserDao.findById(shared.getUserId());
-        
+
         GiftType gt = createGiftType(merchant, gift, offer);
         addShareInfoToGift(gt, shared, friend, 0);
-        
+
         return gt;
     }
 
     @Override
     public AvailableCreditType getCreditByCode(final String code) throws RewardException {
-    	long creditId;
-    	try {
-    		creditId = CryptoUtils.symetricDecryptToLong(code);
-    	} catch (Exception e) {
-    		throw new RewardException("Failed to get credit id from " + code, e);
-    	}
-    	
-    	Credit credit = roCreditDao.findById(creditId);
-    	return createAvailableCreditType(credit.getUserId(), credit);
+        long creditId;
+        try {
+            creditId = CryptoUtils.symetricDecryptToLong(code);
+        } catch (Exception e) {
+            throw new RewardException("Failed to get credit id from " + code, e);
+        }
+
+        Credit credit = roCreditDao.findById(creditId);
+        return createAvailableCreditType(credit.getUserId(), credit);
     }
-    
+
     private GiftType createGiftType(Merchant merchant, Gift gift, Offer offer) {
         GiftType gt = new GiftType();
         ClientMerchantType cmt = fillClientMerchantType(merchant);
@@ -397,11 +396,11 @@ public class RewardServiceImpl implements RewardService{
         gt.setTosUrl(offer.getTosUrl());
         return gt;
     }
-    
+
     private void addShareInfoToGift(GiftType gt, Shared shared, User friend, long agId) {
-        if(friend == null || shared == null) {
-            logger.error(Thread.currentThread().getStackTrace()[1].getMethodName() + 
-                    " Unable to find to friend to associate gift with shared:" + shared + " friend:" + friend);
+        if (friend == null || shared == null) {
+            logger.error(Thread.currentThread().getStackTrace()[1].getMethodName() + " Unable to find to friend to associate gift with shared:" + shared
+                    + " friend:" + friend);
             return;
         }
         ShareInfoType sit = new ShareInfoType();
@@ -415,7 +414,7 @@ public class RewardServiceImpl implements RewardService{
 
         Location location = null;
         if (shared.getLocationId() != null) {
-        	location = roLocationDao.findById(shared.getLocationId());
+            location = roLocationDao.findById(shared.getLocationId());
             MerchantLocationType sharedLocation = new MerchantLocationType();
             sharedLocation.setAddress1(location.getAddress1());
             sharedLocation.setAddress2(location.getAddress2());
@@ -428,9 +427,9 @@ public class RewardServiceImpl implements RewardService{
             sharedLocation.setState(location.getState());
             sharedLocation.setZip4(location.getZipPlusFour());
             sharedLocation.setZipcode(Integer.toString(location.getZipcode()));
-    		sit.setLocation(sharedLocation);
+            sit.setLocation(sharedLocation);
         }
-        
+
         gt.getShareInfo().add(sit);
     }
 
@@ -458,11 +457,11 @@ public class RewardServiceImpl implements RewardService{
         }
     }
 
-    protected String generateAuthorizationCode(){
+    protected String generateAuthorizationCode() {
         return new BigInteger(16, random).toString(16);
     }
 
-    protected ClientMerchantType fillClientMerchantType(Merchant merchant){
+    protected ClientMerchantType fillClientMerchantType(Merchant merchant) {
         ClientMerchantType cmt = new ClientMerchantType();
         cmt.setId(merchant.getId());
         cmt.setName(merchant.getName());
@@ -470,7 +469,7 @@ public class RewardServiceImpl implements RewardService{
         cmt.setImageUrl(merchant.getImageUrl());
 
         Collection<Location> locations = roLocationDao.listByMerchant(merchant.getId());
-        for(Location location: locations){
+        for (Location location : locations) {
             MerchantLocationType clt = new MerchantLocationType();
             clt.setLocationId(location.getId());
             clt.setSiteName(location.getSiteName());
@@ -492,7 +491,7 @@ public class RewardServiceImpl implements RewardService{
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void claimCredit(Long userId, ClaimType ct) throws Exception {
         Credit credit = roCreditDao.findById(ct.getCreditId());
-        
+
         Claim claim = new Claim();
         claim.setKikbakId(credit.getKikbakId());
         claim.setOfferId(credit.getOfferId());
@@ -506,14 +505,14 @@ public class RewardServiceImpl implements RewardService{
         claim.setZipcode(ct.getZipcode());
         claim.setUserId(userId);
         claim.setRequestDate(new Date());
-        
+
         Transaction txn = new Transaction();
         txn.setAmount(credit.getValue());
         txn.setVerificationCode("");
         txn.setMerchantId(credit.getMerchantId());
         txn.setLocationId(txn.getLocationId());
         txn.setUserId(userId);
-        txn.setTransactionType((short)TransactionType.Debit.ordinal());
+        txn.setTransactionType((short) TransactionType.Debit.ordinal());
         txn.setOfferId(credit.getOfferId());
         txn.setCreditId(credit.getId());
         txn.setDate(new Date());
@@ -533,42 +532,41 @@ public class RewardServiceImpl implements RewardService{
         Barcode barcode = roBarcodeDao.findByUserIdAndAllocatedGift(userId, allocatedGiftId);
         boolean generateBarcode = true;
         Date now = new Date();
-        if( barcode != null) {
-            Long hrs =  (((now.getTime() - barcode.getAssociationDate().getTime()) / (1000*60*60)) % 24);
-            if(hrs < 72) {
+        if (barcode != null) {
+            Long hrs = (((now.getTime() - barcode.getAssociationDate().getTime()) / (1000 * 60 * 60)) % 24);
+            if (hrs < 72) {
                 generateBarcode = false;
             }
         }
-        
-        if(generateBarcode) {
+
+        if (generateBarcode) {
             Allocatedgift ag = roAllocatedGiftDao.findById(allocatedGiftId);
             String code = rwBarcodeDao.allocateBarcode(userId, ag.getGiftId(), allocatedGiftId).getCode();
             return validateAndUpdateChecksum(code);
         }
         return validateAndUpdateChecksum(barcode.getCode());
     }
-    
-    protected String validateAndUpdateChecksum(String code){
-        
+
+    protected String validateAndUpdateChecksum(String code) {
+
         int odd = 0;
         int even = 0;
-        String[] split = code.split("(?<=\\d)"); 
-        for(int i =0; i < split.length-1; ++i) {
-            if( (i%2) == 0) {
+        String[] split = code.split("(?<=\\d)");
+        for (int i = 0; i < split.length - 1; ++i) {
+            if ((i % 2) == 0) {
                 odd += Integer.parseInt(split[i]);
-            }
-            else{
+            } else {
                 even += Integer.parseInt(split[i]);
             }
         }
-        
-        int checkdigit = (odd*3)+even;
-        checkdigit = (checkdigit%10);
-        if(checkdigit != 0) {
+
+        int checkdigit = (odd * 3) + even;
+        checkdigit = (checkdigit % 10);
+        if (checkdigit != 0) {
             checkdigit = 10 - checkdigit;
         }
         StringBuffer buffer = new StringBuffer();
-        buffer.append(code.substring(0, code.length()-1));
+        buffer.append(code.substring(0, code.length() - 1));
         buffer.append(String.valueOf(checkdigit));
         return buffer.toString();
     }

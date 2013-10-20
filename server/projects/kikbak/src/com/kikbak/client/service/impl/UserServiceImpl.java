@@ -210,6 +210,7 @@ public class UserServiceImpl implements UserService2 {
 			ot.setEndDate(offer.getEndDate().getTime());
 			ot.setId(offer.getId());
 			ot.setName(offer.getName());
+			ot.setOfferType(offer.getOfferType());
 			ot.setTosUrl(offer.getTosUrl());
 			ot.setGiftDesc(gift.getDescription());
 			ot.setGiftDetailedDesc(gift.getDetailedDesc());
@@ -259,6 +260,7 @@ public class UserServiceImpl implements UserService2 {
 			ot.setEndDate(offer.getEndDate().getTime());
 			ot.setId(offer.getId());
 			ot.setName(offer.getName());
+			ot.setOfferType(offer.getOfferType());
 			ot.setTosUrl(offer.getTosUrl());
 			ot.setGiftDesc(gift.getDescription());
 			ot.setGiftDetailedDesc(gift.getDetailedDesc());
