@@ -324,6 +324,7 @@ public class RewardServiceImpl implements RewardService{
             	for (Allocatedgift g : allocatedGifts) {
             		agIds.add(g.getId());
             	}
+                status = ClaimStatusType.OK;
             }
         }
 
