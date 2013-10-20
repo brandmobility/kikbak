@@ -9,7 +9,7 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-import com.kikbak.jaxb.applepushnotification.AppleNotificationPayload;
+import com.kikbak.jaxb.v1.applepushnotification.AppleNotificationPayload;
 
 
 public class NotificationPayload {

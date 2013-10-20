@@ -1,0 +1,67 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="com:kikbak:jaxb:offer"
+	xmlns:kikbak="com:kikbak:jaxb:offer" xmlns:ul="com:kikbak:jaxb:userlocation" xmlns:ml="com:kikbak:jaxb:merchantlocation"
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="1.0">
+
+	<xsd:annotation>
+		<xsd:appinfo>
+			<jaxb:schemaBindings>
+				<jaxb:package name="com.kikbak.jaxb.v1.offer" />
+			</jaxb:schemaBindings>
+		</xsd:appinfo>
+	</xsd:annotation>
+
+	<xsd:import namespace="com:kikbak:jaxb:userlocation" schemaLocation="./UserLocation.xsd" />
+	<xsd:import namespace="com:kikbak:jaxb:merchantlocation" schemaLocation="./MerchantLocation.xsd" />
+
+
+	<xsd:element name="GetUserOffersRequest">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="userLocation" type="ul:UserLocationType" minOccurs="1" maxOccurs="1" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+
+	<xsd:complexType name="ClientOfferType">
+		<xsd:sequence>
+			<xsd:element name="id" type="xsd:long" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="merchantName" type="xsd:string" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="giftDesc" type="xsd:string" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="giftDetailedDesc" type="xsd:string" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="giftValue" type="xsd:double" minOccurs="1" maxOccurs="1" />
+			<!-- Discount Type, either "amount" ($50 off) or "percentage" (20% off) -->
+			<xsd:element name="giftDiscountType" type="xsd:string" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="kikbakDesc" type="xsd:string" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="kikbakDetailedDesc" type="xsd:string" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="kikbakValue" type="xsd:double" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="merchantId" type="xsd:long" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="merchantUrl" type="xsd:string" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="offerImageUrl" type="xsd:string" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="giveImageUrl" type="xsd:string" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="tosUrl" type="xsd:string" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="locations" type="ml:MerchantLocationType" minOccurs="1" maxOccurs="unbounded" />
+			<xsd:element name="beginDate" type="xsd:long" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="endDate" type="xsd:long" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="HasUserOffersResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="hasOffer" type="xsd:boolean" minOccurs="1" maxOccurs="1" />
+				<xsd:element name="brandName" type="xsd:string" minOccurs="0" maxOccurs="1" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="GetUserOffersResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="offers" type="kikbak:ClientOfferType" minOccurs="1" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+</xsd:schema>

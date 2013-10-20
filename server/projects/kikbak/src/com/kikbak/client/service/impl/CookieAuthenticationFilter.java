@@ -19,7 +19,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
-import com.kikbak.client.service.UserService;
+import com.kikbak.client.service.v1.UserService;
 
 
 public class CookieAuthenticationFilter extends GenericFilterBean {

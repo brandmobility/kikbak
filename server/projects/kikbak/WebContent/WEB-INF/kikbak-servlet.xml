@@ -35,16 +35,17 @@
     <bean id="jaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
         <property name="contextPaths">
             <list>
-                <value>com.kikbak.jaxb.admin</value>
-                <value>com.kikbak.jaxb.applepushnotification</value>
-                <value>com.kikbak.jaxb.devicetoken</value>
-                <value>com.kikbak.jaxb.friends</value>
-                <value>com.kikbak.jaxb.offer</value>
-                <value>com.kikbak.jaxb.redeemgift</value>
-                <value>com.kikbak.jaxb.redeemcredit</value>
-                <value>com.kikbak.jaxb.register</value>
-                <value>com.kikbak.jaxb.rewards</value>
-                <value>com.kikbak.jaxb.share</value>
+                <value>com.kikbak.jaxb.v1.admin</value>
+                <value>com.kikbak.jaxb.v1.applepushnotification</value>
+                <value>com.kikbak.jaxb.v1.devicetoken</value>
+                <value>com.kikbak.jaxb.v1.friends</value>
+                <value>com.kikbak.jaxb.v1.offer</value>
+                <value>com.kikbak.jaxb.v1.redeemgift</value>
+                <value>com.kikbak.jaxb.v1.redeemcredit</value>
+                <value>com.kikbak.jaxb.v1.register</value>
+                <value>com.kikbak.jaxb.v1.rewards</value>
+                <value>com.kikbak.jaxb.v1.share</value>
+                <value>com.kikbak.jaxb.v2.offer</value>
             </list>
         </property>
     </bean>
