@@ -10,9 +10,9 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.kikbak.KikbakBaseTest;
-import com.kikbak.jaxb.v1.admin.LocationType;
-import com.kikbak.jaxb.v1.admin.MerchantType;
-import com.kikbak.jaxb.v1.admin.OfferType;
+import com.kikbak.jaxb.admin.LocationType;
+import com.kikbak.jaxb.admin.MerchantType;
+import com.kikbak.jaxb.admin.OfferType;
 
 public class MerchantServiceTest extends KikbakBaseTest{
 	

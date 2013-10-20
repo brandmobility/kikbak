@@ -1,6 +1,6 @@
 package com.kikbak.admin.service;
 
-import com.kikbak.jaxb.v1.admin.TokenType;
+import com.kikbak.jaxb.admin.TokenType;
 
 public interface AuthenticationService {
 
