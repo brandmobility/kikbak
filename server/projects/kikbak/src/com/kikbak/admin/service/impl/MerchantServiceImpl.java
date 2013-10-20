@@ -20,9 +20,9 @@ import com.kikbak.dao.ReadWriteOfferDAO;
 import com.kikbak.dto.Location;
 import com.kikbak.dto.Merchant;
 import com.kikbak.dto.Offer;
-import com.kikbak.jaxb.admin.LocationType;
-import com.kikbak.jaxb.admin.MerchantType;
-import com.kikbak.jaxb.admin.OfferType;
+import com.kikbak.jaxb.v1.admin.LocationType;
+import com.kikbak.jaxb.v1.admin.MerchantType;
+import com.kikbak.jaxb.v1.admin.OfferType;
 
 @Service
 public class MerchantServiceImpl implements MerchantService{

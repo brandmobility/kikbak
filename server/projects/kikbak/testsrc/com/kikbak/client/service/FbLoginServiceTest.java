@@ -7,7 +7,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.kikbak.KikbakBaseTest;
-import com.kikbak.jaxb.register.UserType;
+import com.kikbak.client.service.v1.FbLoginService;
+import com.kikbak.jaxb.v1.register.UserType;
 
 public class FbLoginServiceTest extends KikbakBaseTest{
 	

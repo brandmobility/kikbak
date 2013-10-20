@@ -94,7 +94,7 @@
             <arg value="${generated.src.dir}" />
             <!--<arg value="-p" />
             <arg value="${module.jaxb.package}" /> -->
-            <fileset dir="${schema.dir}" includes="*.xsd" />
+            <fileset dir="${schema.dir}" includes="**/*.xsd" />
         </apply>
     </target>
 
