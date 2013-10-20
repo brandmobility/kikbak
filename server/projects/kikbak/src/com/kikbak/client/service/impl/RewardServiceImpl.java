@@ -397,6 +397,11 @@ public class RewardServiceImpl implements RewardService{
     }
     
     private void addShareInfoToGift(GiftType gt, Shared shared, User friend, long agId) {
+        if(friend == null || shared == null) {
+            logger.error(Thread.currentThread().getStackTrace()[1].getMethodName() + 
+                    " Unable to find to friend to associate gift with shared:" + shared + " friend:" + friend);
+            return;
+        }
         ShareInfoType sit = new ShareInfoType();
         sit.setAllocatedGiftId(agId);
         sit.setImageUrl(shared.getImageUrl());
