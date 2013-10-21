@@ -24,6 +24,7 @@ import com.kikbak.jaxb.v1.devicetoken.DeviceTokenUpdateRequest;
 import com.kikbak.jaxb.v1.devicetoken.DeviceTokenUpdateResponse;
 import com.kikbak.jaxb.v1.friends.UpdateFriendResponse;
 import com.kikbak.jaxb.v1.friends.UpdateFriendsRequest;
+import com.kikbak.jaxb.v1.merchantlocation.MerchantLocationType;
 import com.kikbak.jaxb.v1.offer.ClientOfferType;
 import com.kikbak.jaxb.v1.offer.GetUserOffersRequest;
 import com.kikbak.jaxb.v1.offer.GetUserOffersResponse;
@@ -257,6 +258,7 @@ public class UserController extends AbstractController {
         r.setName(o.getName());
         r.setOfferImageUrl(o.getOfferImageUrl());
         r.setTosUrl(o.getTosUrl());
+        r.getLocations().addAll(o.getLocations());
         return r;
-    }    
+    }
 }
