@@ -40,7 +40,6 @@ $(document).ready(function() {
    	history.pushState({}, 'redeem', '#redeem');
   }
   $(document).ajaxStart(function (){
-    clearView();
     $('#spinner').show();
   });
   $(document).ajaxStop(function (){
@@ -377,6 +376,7 @@ function getOffers(force) {
   var userId = 0;
 
   initPosition(function() {
+    clearView();
     if ( typeof initPage.p !== 'undefined') {
       getOffersByLocation(userId, initPage.p, force);
     } else {
