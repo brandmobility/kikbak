@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.kikbak.client.service.impl.CookieAuthenticationFilter;
+import com.kikbak.client.service.impl.types.OfferType;
 import com.kikbak.client.service.v1.FbLoginService;
 import com.kikbak.client.service.v1.UserService;
 import com.kikbak.client.service.v2.UserService2;
@@ -232,7 +233,7 @@ public class UserController extends AbstractController {
     private Collection<ClientOfferType> getAsOffersV1(Collection<com.kikbak.jaxb.v2.offer.ClientOfferType> offers) {
         Collection<com.kikbak.jaxb.v1.offer.ClientOfferType> result = new ArrayList<ClientOfferType>();
         for(com.kikbak.jaxb.v2.offer.ClientOfferType o : offers) {
-            if(o.getKikbakValue() == null)
+            if(!o.getOfferType().equals(OfferType.both.name()))
                 continue;
             result.add(toV1(o));
         }
