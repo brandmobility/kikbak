@@ -444,6 +444,7 @@ public class RewardServiceImpl implements RewardService {
         ag.setGiftId(gift.getId());
         ag.setSharedId(shared.getId());
         ag.setValue(gift.getValue());
+        ag.setCreatedDate(new Date());
 
         rwGiftDao.makePersistent(ag);
         return ag;

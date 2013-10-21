@@ -83,6 +83,7 @@ public class CreditManager {
 		credit.setRewardType(kikbak.getRewardType());
 		credit.setKikbakId(kikbak.getId());
 		credit.setRedeemCount(1);
+		credit.setCreatedDate(new Date());
 		
 		Transaction txn = new Transaction();
 		txn.setAmount(credit.getValue());
