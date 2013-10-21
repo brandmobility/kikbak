@@ -40,7 +40,6 @@ $(document).ready(function() {
    	history.pushState({}, 'redeem', '#redeem');
   }
   $(document).ajaxStart(function (){
-    clearView();
     $('#spinner').show();
   });
   $(document).ajaxStop(function (){
@@ -377,6 +376,7 @@ function getOffers(force) {
   var userId = 0;
 
   initPosition(function() {
+    clearView();
     if ( typeof initPage.p !== 'undefined') {
       getOffersByLocation(userId, initPage.p, force);
     } else {
@@ -405,12 +405,22 @@ function renderOffer(offer) {
   }
   html += '</div>';
   html += '<div class="ribn"><img src="images/ribncorn.png" class="crn">';
-  var gift = "<span>GIVE</span>";
+  var gift = "";
+  if (offer.kikbakValue) {
+    gift = "<span>GIVE</span>";
+  } else {
+    gift = "<span style='margin-top:50px;'>GIVE</span>";
+  }
   gift += offer.giftType == 'percentage' ? offer.giftValue + "% off" :
           "$" + offer.giftValue;
-  html += '<div class="giv grd3">' + gift + '</div>';
-  html += '<img src="images/ribnaro.png">';
-  html += '<div class="get"><span>GET</span>$' + offer.kikbakValue + '</div>';
+  if (offer.kikbakValue) {
+    html += '<div class="giv grd3">' + gift + '</div>';
+    html += '<img src="images/ribnaro.png">';
+    html += '<div class="get"><span>GET</span>$' + offer.kikbakValue + '</div>';
+  } else {
+    html += '<div class="giv grd3" style="height:128px;">' + gift + '</div>';
+    html += '<img src="images/ribnaro.png">';
+  }
   html += '</div></div>';
   
   $('#offer-list').append(html);
