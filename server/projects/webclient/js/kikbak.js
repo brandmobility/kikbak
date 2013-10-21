@@ -40,6 +40,7 @@ $(document).ready(function() {
    	history.pushState({}, 'redeem', '#redeem');
   }
   $(document).ajaxStart(function (){
+    clearView();
     $('#spinner').show();
   });
   $(document).ajaxStop(function (){
@@ -290,7 +291,7 @@ function initPosition(callback) {
   }
 }
 
-function initPage() {
+function clearView() {
   $('.popup').hide();
   $('#crop-image-div').hide();
   $('#offer-view').hide();
@@ -304,7 +305,11 @@ function initPage() {
   $('#offer-btn-div').css('background', 'url("img/btn_normal.png")');
   $('#redeem-btn-div').css('background', 'url("img/btn_normal.png")');
   window.scrollTo(0, 1);
-  
+}
+
+function initPage() {
+  clearView();
+
   var code = s.code;
   if (typeof code !== 'undefined' && code !== 'null' && code !== '') {
     loginFb();
@@ -372,12 +377,10 @@ function getOffers(force) {
   var userId = 0;
 
   initPosition(function() {
-    if ( typeof userId !== 'undefined' && userId !== null && userId !== '') {
-      if ( typeof initPage.p !== 'undefined') {
-        getOffersByLocation(userId, initPage.p, force);
-      } else {
-        getOffersByLocation(userId, null, force);
-      }
+    if ( typeof initPage.p !== 'undefined') {
+      getOffersByLocation(userId, initPage.p, force);
+    } else {
+      getOffersByLocation(userId, null, force);
     }
   });
 }
@@ -393,7 +396,7 @@ function renderOffer(offer) {
   html += '<h3>' + offer.merchantName + '</h3>';
   
   var local = getDisplayLocation(offer.locations);
-  if (local != 'undefined') {
+  if (local) {
     html += '<div class="opt-icon"><a href="' + generateMapUrl(offer.merchantName, local) + '"><img class="website-img map-img" src="images/ic_map@2x.png">' + '&nbsp;' + offer.dist + ' mi</a>';
     html += '<a href="' + offer.merchantUrl + '"><img class="website-img" src="images/ic_web@2x.png" /></a>';
     html += '<a href="tel:' + local.phoneNumber + '"><img class="website-img" src="images/ic_phone@2x.png" /></a>';
@@ -466,12 +469,15 @@ function renderOfferList(json, tagname, tag, force) {
             
   var availCount = 0;
   var availOffer = null;
+
   $.each(offers, function(i, offer) {
+    if (offer.locations.length) {
     var local = getDisplayLocation(offer.locations);
-    offer.dist = local.dist;
-    if (local.dist < 0.5) {
-      ++availCount;
-      availOffer = offer;
+      offer.dist = local.dist;
+      if (local.dist < 0.5) {
+        ++availCount;
+        availOffer = offer;
+      }
     }
   });
   
@@ -515,15 +521,17 @@ function renderOfferList(json, tagname, tag, force) {
 }
 
 function getOffersByMerchant(merchant) {
-  $.ajax({
-    dataType: 'json',
-    type: 'GET',
-    contentType: 'application/json',
-    url: config.backend + 'kikbak/user/offer/0/' + merchant,
-    success: function(json) {
-      renderOfferList(json, 'merchant-offer-detail', '#merchant-' + merchant + '-offer');
-    },
-    error: showError
+  initPosition(function() {
+    $.ajax({
+      dataType: 'json',
+      type: 'GET',
+      contentType: 'application/json',
+      url: config.backend + 'kikbak/user/offer/0/' + merchant,
+      success: function(json) {
+        renderOfferList(json, 'merchant-offer-detail', '#merchant-' + merchant + '-offer');
+      },
+      error: showError
+    });
   });
 }
 
@@ -544,7 +552,7 @@ function getOffersByLocation(userId, position, force) {
     type: 'POST',
     contentType: 'application/json',
     data: str,
-    url: config.backend + 'kikbak/user/offer/' + userId,
+    url: config.backend + 'kikbak/v2/user/offer/' + userId,
     success: function(json) {
       $('#spinner h2').html('Loading offer');
       renderOfferList(json, 'offer-detail', '#offer-detail', force);
@@ -749,7 +757,7 @@ function renderRedeem(gifts, credits) {
   html += '</a>';
   html += '<h3>' + m.name + '</h3><div class="opt-icon">';
   var local = getDisplayLocation(m.locations);
-  if (local != 'undefined') {
+  if (local) {
     html += '<a href="' + generateMapUrl(m.name, local) + '><img class="website-img map-img" src="images/ic_map@2x.png" />' + '&nbsp;' + computeDistance(local) + '</a>';
     html += '<a href="' + m.url + '"><img class="website-img" src="images/ic_web@2x.png" /></a>';
     html += '<a href="tel:' + local.phoneNumber + '"><img class="website-img" src="images/ic_phone@2x.png"  /></a>';
@@ -953,7 +961,7 @@ function renderOfferDetail(offer) {
   html += '<h3>' + offer.merchantName + '</h3>';
   html += '<div class="opt-icon">';
   var local = getDisplayLocation(offer.locations);
-  if (local != 'undefined') {
+  if (local) {
     html += '<a href="' + generateMapUrl(offer.merchantName, local) + '" style="margin-right:10%;"><img class="website-img map-img" src="images/ic_map@2x.png" />' + '&nbsp;' + offer.dist + ' mi </a>';
     html += '<a href="' + offer.merchantUrl + '"><img class="website-img" src="images/ic_web@2x.png" /></a>';
     html += '<a href="tel:' + local.phoneNumber + '"><img class="website-img" src="images/ic_phone@2x.png" /></a>';
@@ -1324,7 +1332,7 @@ function renderRedeemGiftDetail(data) {
   html += '<h3>' + gift.merchant.name + '</h3>';
   html += '<div class="opt-icon">';
   var local = getDisplayLocation(gift.merchant.locations);
-  if (local != 'undefined') {
+  if (local) {
     html += '<a href="' + generateMapUrl(gift.merchant.name, local) + '"><img src="images/ic_map@2x.png" />' + '&nbsp;' + computeDistance(local) + '</a>';
     html += '<a href="' + gift.merchant.url + '"><img class="website-img" src="images/ic_web@2x.png" /></a>';
     html += '<a href="tel:' + local.phoneNumber + '"><img class="website-img" src="images/ic_phone@2x.png" /></a>';
