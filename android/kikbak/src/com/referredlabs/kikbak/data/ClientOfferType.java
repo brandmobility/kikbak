@@ -5,6 +5,7 @@ public class ClientOfferType {
   public long id;
   public String merchantName;
   public String name;
+  public OfferType offerType;
   public String giftDesc;
   public String giftDetailedDesc;
   public double giftValue;

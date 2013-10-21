@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:kikbak="http://schemas.android.com/apk/res/com.referredlabs.kikbak"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:layout_marginTop="10dp" >
+
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:id="@+id/reward_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/separator"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:drawableLeft="@drawable/ic_cup"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:text="Get $10 credit"
+        android:textColor="#3a3a3a"
+        android:textSize="26dp"
+        kikbak:typeface="Roboto-Bold.ttf" />
+
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:id="@+id/reward_desc_opt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/reward_desc"
+        android:layout_centerHorizontal="true"
+        android:includeFontPadding="false"
+        android:text="@string/give_get_optional_note"
+        android:textColor="#686868"
+        android:textSize="13dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
+
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:id="@+id/terms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/reward_desc_opt"
+        android:includeFontPadding="false"
+        android:paddingLeft="13dp"
+        android:paddingRight="13dp"
+        android:paddingTop="11dp"
+        android:paddingBottom="11dp"
+        android:text="@string/terms"
+        android:textColor="#686868"
+        android:textSize="13dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
+
+</RelativeLayout>

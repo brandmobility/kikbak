@@ -14,6 +14,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewStub;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -25,6 +26,7 @@ import com.google.gson.Gson;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ClientOfferType;
 import com.referredlabs.kikbak.data.MerchantLocationType;
+import com.referredlabs.kikbak.data.OfferType;
 import com.referredlabs.kikbak.log.Log;
 import com.referredlabs.kikbak.ui.ShareOptionsFragment3.OnShareMethodSelectedListener;
 import com.referredlabs.kikbak.ui.ShareSuccessDialog.OnShareSuccessListener;
@@ -62,7 +64,6 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
     mRetakePhoto.setOnClickListener(this);
 
     findViewById(R.id.give).setOnClickListener(this);
-    findViewById(R.id.terms).setOnClickListener(this);
     String data = getIntent().getStringExtra(ARG_OFFER);
     mOffer = new Gson().fromJson(data, ClientOfferType.class);
     setupViews();
@@ -75,13 +76,28 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
     Uri uri = Uri.parse(mOffer.giveImageUrl);
     Picasso.with(this).load(uri).into(mImage);
     ((TextView) findViewById(R.id.name)).setText(mOffer.merchantName);
-    String give = getString(R.string.give_give, mOffer.giftDesc);
-    ((TextView) findViewById(R.id.gift_desc)).setText(give);
-    ((TextView) findViewById(R.id.gift_desc_opt)).setText(mOffer.giftDetailedDesc);
-    String get = getString(R.string.give_get, mOffer.kikbakDesc);
-    ((TextView) findViewById(R.id.reward_desc)).setText(get);
-    ((TextView) findViewById(R.id.reward_desc_opt)).setText(mOffer.kikbakDetailedDesc);
 
+    ViewStub stub = (ViewStub) findViewById(R.id.gift_details);
+    if (mOffer.offerType == OfferType.both) {
+      stub.setLayoutResource(R.layout.gift_details_both);
+    } else if (mOffer.offerType == OfferType.give_only) {
+      stub.setLayoutResource(R.layout.gift_details_give_only);
+    } else {
+      stub.setLayoutResource(R.layout.gift_details_get_only);
+    }
+    stub.inflate();
+    findViewById(R.id.terms).setOnClickListener(this);
+
+    if (mOffer.offerType == OfferType.both || mOffer.offerType == OfferType.give_only) {
+      String give = getString(R.string.give_give, mOffer.giftDesc);
+      ((TextView) findViewById(R.id.gift_desc)).setText(give);
+      ((TextView) findViewById(R.id.gift_desc_opt)).setText(mOffer.giftDetailedDesc);
+    }
+    if (mOffer.offerType == OfferType.both || mOffer.offerType == OfferType.get_only) {
+      String get = getString(R.string.give_get, mOffer.kikbakDesc);
+      ((TextView) findViewById(R.id.reward_desc)).setText(get);
+      ((TextView) findViewById(R.id.reward_desc_opt)).setText(mOffer.kikbakDetailedDesc);
+    }
     IconBarHelper iconBar = new IconBarHelper(findViewById(R.id.icon_bar),
         new IconBarActionHandler(this));
     iconBar.setLink(mOffer.merchantUrl);

@@ -13,6 +13,7 @@ import android.widget.BaseAdapter;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ClientOfferType;
 import com.referredlabs.kikbak.data.DiscountType;
+import com.referredlabs.kikbak.data.OfferType;
 import com.referredlabs.kikbak.store.TheOffer;
 import com.referredlabs.kikbak.ui.IconBarHelper.IconBarListener;
 import com.referredlabs.kikbak.utils.LocaleUtils;
@@ -73,11 +74,19 @@ public class OfferAdapter extends BaseAdapter {
     helper.setLocation(nearest);
     helper.setPhone(Long.toString(nearest.get().phoneNumber));
 
-    String text = LocaleUtils.getRibbonGiveString(mContext, offer);
-    helper.setGiveValue(text);
+    boolean show = offer.offerType == OfferType.both || offer.offerType == OfferType.give_only;
+    helper.showGivePart(show);
+    if (show) {
+      String text = LocaleUtils.getRibbonGiveString(mContext, offer);
+      helper.setGiveValue(text);
+    }
 
-    text = LocaleUtils.getRibbonGetString(mContext, offer);
-    helper.setGetValue(text);
+    show = offer.offerType == OfferType.both || offer.offerType == OfferType.get_only;
+    helper.showGetPart(show);
+    if (show) {
+      String text = LocaleUtils.getRibbonGetString(mContext, offer);
+      helper.setGetValue(text);
+    }
 
     return view;
   }

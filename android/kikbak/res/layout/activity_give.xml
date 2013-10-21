@@ -12,7 +12,11 @@
         android:layout_weight="1"
         layout="@layout/give_photo_frame" />
 
-    <include layout="@layout/give_details" />
+    <ViewStub
+        android:id="@+id/gift_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout="@layout/gift_details_both" />
 
     <com.referredlabs.kikbak.widget.TtfButton
         android:id="@+id/give"

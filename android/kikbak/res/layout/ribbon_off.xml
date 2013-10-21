@@ -9,6 +9,7 @@
     android:background="@drawable/bg_ribbon_off" >
 
     <com.referredlabs.kikbak.widget.TtfTextView
+        android:id="@+id/ribbon_give"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -58,6 +59,7 @@
         kikbak:typeface="Roboto-Bold.ttf" />
 
     <com.referredlabs.kikbak.widget.TtfTextView
+        android:id="@+id/ribbon_get"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"

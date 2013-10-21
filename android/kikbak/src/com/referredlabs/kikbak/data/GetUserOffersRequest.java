@@ -2,7 +2,7 @@
 package com.referredlabs.kikbak.data;
 
 public class GetUserOffersRequest {
-  public static final String PATH = "/user/offer/";
+  public static final String PATH = "/v2/user/offer/";
 
   public UserLocationType userLocation;
 
