@@ -6,7 +6,7 @@
     android:layout_alignParentRight="true"
     android:layout_marginRight="15dp"
     android:layout_marginTop="15dp"
-    android:background="@drawable/bg_ribbon_off" >
+    android:background="@drawable/bg_ribbon_both_percentage" >
 
     <com.referredlabs.kikbak.widget.TtfTextView
         android:id="@+id/ribbon_give"

@@ -22,6 +22,11 @@ import com.squareup.picasso.Picasso;
 
 public class OfferAdapter extends BaseAdapter {
 
+  private static int TYPE_BOTH_AMOUNT = 0;
+  private static int TYPE_BOTH_PERCENTAGE = 1;
+  private static int TYPE_GIVE_ONLY = 2;
+  private static int TYPE_GET_ONLY = 3;
+
   private Context mContext;
   private LayoutInflater mInflater;
   private List<TheOffer> mOffers;
@@ -52,7 +57,7 @@ public class OfferAdapter extends BaseAdapter {
   public View getView(int position, View view, ViewGroup parent) {
     OfferHelper helper;
     if (view == null) {
-      int layout = getItemViewType(position) == 0 ? R.layout.offer : R.layout.offer_off;
+      int layout = getLayoutFromType(getItemViewType(position));
       view = mInflater.inflate(layout, parent, false);
       helper = new OfferHelper(view, mIconBarListener);
       view.setTag(helper);
@@ -67,23 +72,17 @@ public class OfferAdapter extends BaseAdapter {
     helper.mImage.setImageResource(R.color.no_image);
     Picasso.with(mContext).load(url).into(helper.mImage);
     helper.setName(offer.merchantName);
-    helper.setGetValue(offer.giftDiscountType);
-
     helper.setLink(offer.merchantUrl);
     Nearest nearest = theOffer.getNearest();
     helper.setLocation(nearest);
     helper.setPhone(Long.toString(nearest.get().phoneNumber));
 
-    boolean show = offer.offerType == OfferType.both || offer.offerType == OfferType.give_only;
-    helper.showGivePart(show);
-    if (show) {
+    if (offer.offerType == OfferType.both || offer.offerType == OfferType.give_only) {
       String text = LocaleUtils.getRibbonGiveString(mContext, offer);
       helper.setGiveValue(text);
     }
 
-    show = offer.offerType == OfferType.both || offer.offerType == OfferType.get_only;
-    helper.showGetPart(show);
-    if (show) {
+    if (offer.offerType == OfferType.both || offer.offerType == OfferType.get_only) {
       String text = LocaleUtils.getRibbonGetString(mContext, offer);
       helper.setGetValue(text);
     }
@@ -91,14 +90,33 @@ public class OfferAdapter extends BaseAdapter {
     return view;
   }
 
+  private int getLayoutFromType(int type) {
+    if (type == TYPE_BOTH_AMOUNT)
+      return R.layout.offer_both_amount;
+    else if (type == TYPE_BOTH_PERCENTAGE)
+      return R.layout.offer_both_percentage;
+    else if (type == TYPE_GIVE_ONLY)
+      return R.layout.offer_give_only;
+    else
+      return R.layout.offer_get_only;
+  }
+
   @Override
   public int getItemViewType(int position) {
-    return DiscountType.AMOUNT.equals(getItem(position).getOffer().giftDiscountType) ? 0 : 1;
+    ClientOfferType offer = getItem(position).getOffer();
+    if (offer.offerType == OfferType.both) {
+      return DiscountType.AMOUNT.equals(getItem(position).getOffer().giftDiscountType)
+          ? TYPE_BOTH_AMOUNT : TYPE_BOTH_PERCENTAGE;
+    } else if (offer.offerType == OfferType.give_only) {
+      return TYPE_GIVE_ONLY;
+    } else {
+      return TYPE_GET_ONLY;
+    }
   }
 
   @Override
   public int getViewTypeCount() {
-    return 2;
+    return 4;
   }
 
   public void swap(List<TheOffer> offers) {

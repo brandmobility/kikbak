@@ -6,48 +6,14 @@
     android:layout_alignParentRight="true"
     android:layout_marginRight="15dp"
     android:layout_marginTop="15dp"
-    android:background="@drawable/bg_ribbon" >
-
-    <com.referredlabs.kikbak.widget.TtfTextView
-        android:id="@+id/ribbon_give"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="15dp"
-        android:includeFontPadding="false"
-        android:orientation="vertical"
-        android:paddingLeft="5dp"
-        android:text="@string/ribbon_give"
-        android:textColor="@android:color/white"
-        android:textSize="12sp"
-        kikbak:shadowColor="#000000"
-        kikbak:shadowDy="-1dp"
-        kikbak:shadowRadius="2dp"
-        kikbak:typeface="Roboto-Bold.ttf" />
-
-    <com.referredlabs.kikbak.widget.TtfTextView
-        android:id="@+id/ribbon_give_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        android:includeFontPadding="false"
-        android:maxLines="1"
-        android:paddingLeft="5dp"
-        android:text="20%\nOFF"
-        android:textColor="@android:color/white"
-        android:textSize="24sp"
-        kikbak:shadowColor="#000000"
-        kikbak:shadowDy="-1dp"
-        kikbak:shadowRadius="2dp"
-        kikbak:typeface="Roboto-Bold.ttf" />
+    android:background="@drawable/bg_ribbon_one_only" >
 
     <com.referredlabs.kikbak.widget.TtfTextView
         android:id="@+id/ribbon_get"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="95dp"
+        android:layout_marginTop="45dp"
         android:includeFontPadding="false"
         android:maxLines="1"
         android:paddingLeft="5dp"
@@ -64,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="108dp"
+        android:layout_marginTop="60dp"
         android:includeFontPadding="false"
         android:maxLines="1"
         android:paddingLeft="5dp"
