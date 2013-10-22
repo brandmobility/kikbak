@@ -1028,7 +1028,7 @@ function renderOfferDetail(offer) {
   $.each(offer.locations, function(i, l) {
     var selected = '';
     if (i === 0) {
-      if (l.dist < 0.5) {
+      if (l.dist < 0.5 || offer.locations.length == 1) {
         selected = ' selected';
       } else {
     	options += '<option value="false">Pick location</options>'  
