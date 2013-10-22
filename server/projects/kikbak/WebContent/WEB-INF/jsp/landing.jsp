@@ -270,7 +270,7 @@ h3 {
 										<img src="${shareInfo.imageUrl}" width="340px" height="340px"
 											style="margin-top: 10px; border-radius: 10px;" /> <img
 											src="img/blk-shad.png" width="340px" height="220px"
-											style="border-radius: 10px; position: absolute; top: 130px;" />
+											style="border-radius: 10px; position: absolute; top: 130px; left:0;" />
 										</div>
 										<div class="widget">
 											<div class="span4">
@@ -544,6 +544,7 @@ h3 {
         $('#container').css('background-size', '100%');
         $('#header h1').css('background', 'url(${merchantUrl})');
         $('#header h1').css('background-size', '100%');
+        $('#header h1').css('background-repeat', 'no-repeat');
         }
     </script>
 	<script src="js/landing.js"></script>

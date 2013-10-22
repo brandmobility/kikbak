@@ -108,6 +108,7 @@ html, body {
     box-shadow: 0 1px 5px #b9b9b9;
     width: 360px;
     float: left;
+    margin-bottom: 50px;
 }
 
 #footer {

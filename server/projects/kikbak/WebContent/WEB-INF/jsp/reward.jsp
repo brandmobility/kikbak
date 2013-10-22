@@ -266,7 +266,7 @@
                                 <div class="clearfix"></div>
                                 <div style="position:relative">
                                     <img src="${shareInfo.imageUrl}" width="340px" height="350px" style="margin-top:10px;border-radius:10px;" />
-                                    <img src="img/blk-shad.png" width="340px" height="220px" style="margin-top:10px;border-radius:10px;position:absolute;top:130px;" />
+                                    <img src="img/blk-shad.png" width="340px" height="220px" style="margin-top:10px;border-radius:10px;position:absolute;top:130px;left:0;" />
                                 </div>
                                 <div class="widget">
                                     <div class="span4">
@@ -435,7 +435,8 @@
         $('#container').css('background', 'url(${gift.defaultGiveImageUrl})');
         $('#container').css('background-size', '100%');
         $('#header h1').css('background', 'url(${merchantUrl})');
-        $('#header h1').css('background-size', 'cover');
+        $('#header h1').css('background-size', '100%');
+        $('#header h1').css('background-repeat', 'no-repeat');
         }
     </script>
 </body>
