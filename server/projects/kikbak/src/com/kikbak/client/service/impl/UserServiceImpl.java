@@ -216,9 +216,11 @@ public class UserServiceImpl implements UserService2 {
 			ot.setGiftDetailedDesc(gift.getDetailedDesc());
 			ot.setGiftValue(gift.getValue());
 			ot.setGiftDiscountType(gift.getDiscountType());
-			ot.setKikbakDesc(kikbak.getDescription());
-			ot.setKikbakDetailedDesc(kikbak.getDetailedDesc());
-			ot.setKikbakValue(kikbak.getValue());
+			if(kikbak != null) {
+			    ot.setKikbakDesc(kikbak.getDescription());
+			    ot.setKikbakDetailedDesc(kikbak.getDetailedDesc());
+			    ot.setKikbakValue(kikbak.getValue());
+			}
 			ot.setOfferImageUrl(offer.getImageUrl());
 			ot.setMerchantId(offer.getMerchantId());
 			ot.setGiveImageUrl(gift.getImageUrl());
