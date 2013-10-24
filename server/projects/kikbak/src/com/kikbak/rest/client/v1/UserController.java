@@ -190,15 +190,14 @@ public class UserController extends AbstractController {
             location.setLatitude(latitude / 10000000.0);
             location.setLongitude(longitude / 10000000.0);
             Collection<com.kikbak.jaxb.v2.offer.ClientOfferType> offers = userService2.hasOffers2(location);
-            Collection<ClientOfferType> offersV1 = getAsOffersV1(offers);
             
-            if (offersV1.isEmpty()) {
+            if (offers.isEmpty()) {
             	response.setHasOffer(false);
             	return response;
             }
             response.setHasOffer(true);
-            if (offersV1.size() == 1) {
-            	response.setBrandName(offersV1.iterator().next().getMerchantName());
+            if (offers.size() == 1) {
+            	response.setBrandName(offers.iterator().next().getMerchantName());
             }
             return response;
         } catch (Exception e) {
