@@ -12,7 +12,7 @@ insert into location (address_1,      city,       state, zipcode, phone_number, 
                      ('684 King St', 'San Francisco', 'CA',  '94107', "4154318899", 'dI232sf(81sk',           @id,         37.77016, -122.40220);
                    
 insert into offer (merchant_id, name,    image_url,                                                           tos_url,                                                           begin_date, end_date, offer_type) values 
-                  (@id,         'crepecone', concat(@server, '/data/crepe_cone/banner.png'), concat(@server, '/data/crepe_cone/tos.png'), now(),      now() + interval 180 day, "give_only");
+                  (@id,         'crepecone', concat(@server, '/data/crepe_cone/banner.png'), concat(@server, '/data/crepe_cone/tos.html'), now(),      now() + interval 180 day, "give_only");
 
 set @offer_id := (select LAST_INSERT_ID());
 
