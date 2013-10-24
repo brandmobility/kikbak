@@ -75,8 +75,7 @@ public class RedeemCreditSuccessFragment extends Fragment implements OnClickList
   }
 
   private int getBarcodeLayout() {
-    String validationType = mCredit.validationType;
-    return ValidationType.BARCODE.equals(validationType) ? R.layout.fragment_redeem_success_barcode
+    return mCredit.validationType == ValidationType.barcode ? R.layout.fragment_redeem_success_barcode
         : R.layout.fragment_redeem_success_qrcode;
   }
 

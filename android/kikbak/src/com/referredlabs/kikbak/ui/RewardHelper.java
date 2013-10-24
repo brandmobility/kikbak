@@ -94,7 +94,7 @@ public class RewardHelper extends IconBarHelper {
       setCreditVisibility(false);
     } else {
       setCreditVisibility(true);
-      if (RewardType.PURCHASE.equals(credit.rewardType)) {
+      if (credit.rewardType == RewardType.purchase) {
         mCreditLabel.setText(R.string.reward_credit_purchase_label);
         String value = res.getString(R.string.reward_credit_purchase_amount_fmt, credit.value);
         mCreditValue.setText(value);

@@ -75,8 +75,7 @@ public class RedeemGiftSuccessFragment extends Fragment implements OnClickListen
   }
 
   private int getBarcodeLayout() {
-    String validationType = mGift.validationType;
-    return ValidationType.BARCODE.equals(validationType) ? R.layout.fragment_redeem_success_barcode
+    return mGift.validationType == ValidationType.barcode ? R.layout.fragment_redeem_success_barcode
         : R.layout.fragment_redeem_success_qrcode;
   }
 
@@ -92,7 +91,7 @@ public class RedeemGiftSuccessFragment extends Fragment implements OnClickListen
 
   private void setupGiftViews() {
     mName.setText(mGift.merchant.name);
-    if (ValidationType.QRCODE.equals(mGift.validationType))
+    if (mGift.validationType == ValidationType.qrcode)
       mNoteSecond.setText(R.string.redeem_success_note_second);
     else
       mNoteSecond.setText(R.string.redeem_success_note_second_integrated);

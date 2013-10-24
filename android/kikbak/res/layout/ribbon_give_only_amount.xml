@@ -34,7 +34,7 @@
         android:includeFontPadding="false"
         android:maxLines="1"
         android:paddingLeft="5dp"
-        android:text="20%\nOFF"
+        android:text="$20"
         android:textColor="@android:color/white"
         android:textSize="24sp"
         kikbak:shadowColor="#000000"
