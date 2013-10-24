@@ -29,7 +29,7 @@ public class Launcher {
     credit.merchant.url = "http://www.biendronka.pl";
     credit.offerId = 1;
     credit.redeemedGiftsCount = 5;
-    credit.rewardType = RewardType.gift_card;
+    credit.rewardType = RewardType.purchase;
     credit.validationType = ValidationType.qrcode;
     credit.value = 72.23;
     return credit;

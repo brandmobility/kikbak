@@ -71,8 +71,7 @@ public class OfferAdapter extends BaseAdapter {
       ViewStub ribbon = (ViewStub) view.findViewById(R.id.ribbon);
       int layout = RIBBONS[getItemViewType(position)];
       ribbon.setLayoutResource(layout);
-      View rr = ribbon.inflate();
-      rr.setLayoutParams(rr.getLayoutParams());
+      ribbon.inflate();
       helper = new OfferHelper(view, mIconBarListener);
       view.setTag(helper);
     } else {
