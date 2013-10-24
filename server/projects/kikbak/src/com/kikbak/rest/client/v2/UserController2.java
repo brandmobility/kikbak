@@ -1,7 +1,9 @@
 package com.kikbak.rest.client.v2;
 
+
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,6 +34,25 @@ public class UserController2 extends AbstractController {
         try {
             GetUserOffersResponse response = new GetUserOffersResponse();
             response.getOffers().addAll(userService.getOffers2(userId, request.getUserLocation()));
+            return response;
+        } catch (Exception e) {
+            logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return null;
+        }
+    }
+
+
+    @RequestMapping(value = "/offer/{userId}/{merchantName}", method = RequestMethod.GET)
+    public GetUserOffersResponse offersRequest(@PathVariable("userId") Long userId,
+            @PathVariable("merchantName") String merchantName, final HttpServletResponse httpResponse) {
+        try {
+            if (StringUtils.isBlank(merchantName)) {
+                httpResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                return null;
+            }
+            GetUserOffersResponse response = new GetUserOffersResponse();
+            response.getOffers().addAll(userService.getOffers2(userId, merchantName));
             return response;
         } catch (Exception e) {
             logger.error(e, e);

@@ -536,7 +536,7 @@ function getOffersByMerchant(merchant) {
       dataType: 'json',
       type: 'GET',
       contentType: 'application/json',
-      url: config.backend + 'kikbak/user/offer/0/' + merchant,
+      url: config.backend + 'kikbak/v2/user/offer/0/' + merchant,
       success: function(json) {
         renderOfferList(json, 'merchant-offer-detail', '#merchant-' + merchant + '-offer');
       },
