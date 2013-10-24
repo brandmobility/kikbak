@@ -13,7 +13,7 @@
 #import "AppDelegate.h"
 #import "NotificationContstants.h"
 
-static NSString* resource = @"user/offer";
+static NSString* resource = @"v2/user/offer";
 
 @interface OffersRequest()
 @property(strong,nonatomic)NSMutableData* data;
@@ -56,7 +56,7 @@ static NSString* resource = @"user/offer";
 -(void)parseResponse:(NSData*)data{
 
     NSString* json = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-//    NSLog(@"**** offersRequest: %@", json);
+    NSLog(@"**** offersRequest: %@", json);
     id dict = [json JSONValue];
     if( dict != [NSNull null] ){
         NSDictionary* getUserOffersResponse = [dict objectForKey:@"getUserOffersResponse"];

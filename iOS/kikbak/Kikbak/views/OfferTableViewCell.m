@@ -75,7 +75,7 @@
     self.retailerImageGradient.frame = CGRectMake(0, 39, 320, 117);
     [self addSubview:self.retailerImageGradient];
     
-    self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(11, 108, 200, 25)];
+    self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(11, 103, 200, 28)];
     self.retailerName.font = [UIFont fontWithName:@"HelveticaNeue" size:21];
     self.retailerName.textColor = [UIColor whiteColor];
     self.retailerName.textAlignment = NSTextAlignmentLeft;
@@ -118,7 +118,7 @@
     [self addSubview:self.callBtn];
     
     self.getImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"label2_price"]];
-    self.getImage.frame = CGRectMake(239, 74, 70, 82);
+    self.getImage.frame = CGRectMake(235, 74, 70, 82);
     [self addSubview:self.getImage];
     
     self.giveImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"label1_price"]];
@@ -150,7 +150,7 @@
     self.get.textAlignment = NSTextAlignmentCenter;
     self.get.backgroundColor = [UIColor clearColor];
     [self addSubview:self.get];
-
+    
     
     self.getDiscount = [[UILabel alloc]initWithFrame:CGRectMake(239, 118, 74, 24)];
     self.getDiscount.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:24];
@@ -159,6 +159,7 @@
     self.getDiscount.textAlignment = NSTextAlignmentCenter;
     self.getDiscount.backgroundColor = [UIColor clearColor];
     [self addSubview:self.getDiscount];
+    
 }
 
 
@@ -195,6 +196,17 @@
     NSString* imagePath = [ImagePersistor imageFileExists:self.offer.merchantId imageType:OFFER_LIST_IMAGE_TYPE];
     if(imagePath != nil){
         self.retailerImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
+    }
+    
+    if( [self.offer.offerType compare:@"give_only"] == NSOrderedSame){
+        self.giveImage.frame = CGRectMake(232, 5, 77, 140);
+        self.give.frame = CGRectMake(235, 50, 74, 13);
+        self.giveDiscount.frame = CGRectMake(239, 64, 74, 24);
+    }
+    
+    if( [self.offer.offerType compare:@"both"] != NSOrderedSame){
+        [self.get removeFromSuperview];
+        [self.getDiscount removeFromSuperview];
     }
 }
 
