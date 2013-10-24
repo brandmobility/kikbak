@@ -201,14 +201,12 @@
 	}
 	
 	NSURL *storeUrl = [NSURL fileURLWithPath:storePath];
+    [fileManager removeItemAtPath:storePath error:nil];
 	
 	NSError *error;
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
     if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&error]) {
-		[fileManager removeItemAtPath:storePath error:nil];
-        if(![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&error]){
-            NSLog(@"_persistentStoreCoordinator error: %@", error);
-        }
+        NSLog(@"_persistentStoreCoordinator error: %@", error);
     }
     
     return _persistentStoreCoordinator;

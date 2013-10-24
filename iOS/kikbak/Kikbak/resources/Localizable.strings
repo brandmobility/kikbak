@@ -18,12 +18,13 @@
 "Ok" = "Ok";
 
 
-"Give" = "Give";
+"Give" = "GIVE";
 "give to friends" = "Give To Friends";
 "Redeem" = "Redeem";
 "Back" = "Back";
 "Suggest" = "Suggest";
-"Get" = "Get";
+"Get" = "GET";
+"Off" = "OFF";
 
 "currency format" = "$%@";
 "precentage format" = "%@%%";

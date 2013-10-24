@@ -18,6 +18,9 @@
 
 @property (nonatomic, strong)NSMutableDictionary* offers;
 
+-(void)fillInGift:(Offer*) offer withDict:(NSDictionary*)dict;
+-(void)fillInKikbak:(Offer*) offer withDict:(NSDictionary*)dict;
+
 @end
 
 @implementation OfferParser
@@ -32,13 +35,19 @@
     offer.name = [dict objectForKey:@"name"];
     offer.desc = [dict objectForKey:@"description"];
     offer.defaultText = [dict objectForKey:@"defaultText"];
-    offer.giftDescription = [dict objectForKey:@"giftDesc"];
-    offer.giftDescriptionOptional = [dict objectForKey:@"giftDetailedDesc"];
-    offer.giftValue = [dict objectForKey:@"giftValue"];
-    offer.giftDiscountType = [dict objectForKey:@"giftDiscountType"];
-    offer.kikbakDescription = [dict objectForKey:@"kikbakDesc"];
-    offer.kikbakDescriptionOptional = [dict objectForKey:@"kikbakDetailedDesc"];
-    offer.kikbakValue = [dict objectForKey:@"kikbakValue"];
+    offer.offerType = [dict objectForKey:@"offerType"];
+    if( [offer.offerType compare:@"both"] == NSOrderedSame){
+        [self fillInGift:offer withDict:dict];
+        [self fillInKikbak:offer withDict:dict];
+    }
+    else if( [offer.offerType compare:@"give_only"] == NSOrderedSame){
+        [self fillInGift:offer withDict:dict];
+    }
+    else if( [offer.offerType compare:@"get_only"] == NSOrderedSame){
+        [self fillInKikbak:offer withDict:dict];
+    }
+    
+
     offer.merchantId = [dict objectForKey:@"merchantId"];
     offer.merchantName = [dict objectForKey:@"merchantName"];
     offer.merchantUrl = [dict objectForKey:@"merchantUrl"];
@@ -108,6 +117,19 @@
     if([[context deletedObjects]count] > 0 && [[context deletedObjects]count] > 0 && ![context save:&error]){
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
+}
+
+-(void)fillInGift:(Offer*) offer withDict:(NSDictionary*)dict{
+    offer.giftDescription = [dict objectForKey:@"giftDesc"];
+    offer.giftDescriptionOptional = [dict objectForKey:@"giftDetailedDesc"];
+    offer.giftValue = [dict objectForKey:@"giftValue"];
+    offer.giftDiscountType = [dict objectForKey:@"giftDiscountType"];
+}
+
+-(void)fillInKikbak:(Offer*) offer withDict:(NSDictionary*)dict{
+    offer.kikbakDescription = [dict objectForKey:@"kikbakDesc"];
+    offer.kikbakDescriptionOptional = [dict objectForKey:@"kikbakDetailedDesc"];
+    offer.kikbakValue = [dict objectForKey:@"kikbakValue"];
 }
 
 @end

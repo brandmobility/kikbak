@@ -237,7 +237,7 @@ static int offsetForIOS6 = 44;
         self.imageOverlay.frame = CGRectMake(0, 0 + offsetForIOS6, 320, 218);
         [self.takePhoto removeFromSuperview];
         self.takePictureBtn.frame = CGRectMake(112, 20 + offsetForIOS6, 95, 95);
-        self.retailerName.frame = CGRectMake(14, 123 + offsetForIOS6, 316, 26);
+        self.retailerName.frame = CGRectMake(14, 121 + offsetForIOS6, 316, 28);
         self.mapIcon.frame = CGRectMake(14, 152 + offsetForIOS6, 10, 14);
         self.distance.frame = CGRectMake(30, 151 + offsetForIOS6, 70, 18);
         self.mapBtn.frame = CGRectMake(14, 149 + offsetForIOS6, 70, 30);
@@ -257,6 +257,16 @@ static int offsetForIOS6 = 44;
         self.rewardDetailedDescription.frame = CGRectMake(0, 322 + offsetForIOS6, 320, 15);
         self.termsBtn.frame = CGRectMake(11, 344 + offsetForIOS6, 150, 16);
         self.giveBtn.frame = CGRectMake(11, 366 + offsetForIOS6, 298, 40);
+        
+        if( [self.offer.offerType compare:@"give_only"] == NSOrderedSame ){
+            self.giftDesctription.frame = CGRectMake(0, 250 + offsetForIOS6, 320, 33);
+            self.giftIcon.frame = CGRectMake(self.giftIcon.frame.origin.x, 257 + offsetForIOS6, 19, 18);
+            self.giftDetailedDescription.frame = CGRectMake(0, 284 + offsetForIOS6, 320, 15);
+
+//            self.giftDesctription.frame = CGRectMake(0, 335 + offsetForIOS6, 320, 33);
+//            self.giftIcon.frame = CGRectMake((self.view.frame.size.width/2) - (gdSize.width/2)- 24, 342 + offsetForIOS6, 19, 18);
+//            self.giftDetailedDescription.frame = CGRectMake(0, 368 + offsetForIOS6, 320, 15);
+        }
     }
 }
 
@@ -287,7 +297,7 @@ static int offsetForIOS6 = 44;
     [self.view addSubview:self.takePictureBtn];
     
     
-    self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(14, 194 + offsetForIOS6, 316, 26)];
+    self.retailerName = [[UILabel alloc]initWithFrame:CGRectMake(14, 192 + offsetForIOS6, 316, 28)];
     self.retailerName.font = [UIFont fontWithName:@"HelveticaNeue" size:24];
     self.retailerName.textColor = UIColorFromRGB(0xFFFFFF);
     self.retailerName.text = self.offer.merchantName;
@@ -389,30 +399,37 @@ static int offsetForIOS6 = 44;
     self.giftDetailedDescription.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.giftDetailedDescription];
 
-    self.seperator = [[UIImageView alloc]initWithFrame:CGRectMake(11, 364 + offsetForIOS6, 298, 1)];
-    self.seperator.image = [UIImage imageNamed:@"separator_gray_line"];
-    [self.view addSubview:self.seperator];
+    if( [self.offer.offerType compare:@"both"] == NSOrderedSame){
+        self.seperator = [[UIImageView alloc]initWithFrame:CGRectMake(11, 364 + offsetForIOS6, 298, 1)];
+        self.seperator.image = [UIImage imageNamed:@"separator_gray_line"];
+        [self.view addSubview:self.seperator];
 
-    self.rewardDescription = [[UILabel alloc]initWithFrame:CGRectMake(0, 370 + offsetForIOS6, 320, 30)];
-    self.rewardDescription.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:25];
-    self.rewardDescription.text = [NSString stringWithFormat:NSLocalizedString(@"Get description", nil), self.offer.kikbakDescription];
-    self.rewardDescription.textColor = UIColorFromRGB(0x3a3a3a);
-    self.rewardDescription.textAlignment = NSTextAlignmentCenter;
-    self.rewardDescription.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:self.rewardDescription];
+        self.rewardDescription = [[UILabel alloc]initWithFrame:CGRectMake(0, 370 + offsetForIOS6, 320, 30)];
+        self.rewardDescription.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:25];
+        self.rewardDescription.text = [NSString stringWithFormat:NSLocalizedString(@"Get description", nil), self.offer.kikbakDescription];
+        self.rewardDescription.textColor = UIColorFromRGB(0x3a3a3a);
+        self.rewardDescription.textAlignment = NSTextAlignmentCenter;
+        self.rewardDescription.backgroundColor = [UIColor clearColor];
+        [self.view addSubview:self.rewardDescription];
 
-    gdSize = [self.rewardDescription.text sizeWithFont:self.rewardDescription.font];
-    self.rewardIcon = [[UIImageView alloc]initWithFrame:CGRectMake((self.view.frame.size.width/2) - (gdSize.width/2)- 24, 376 + offsetForIOS6, 20, 20)];
-    self.rewardIcon.image = [UIImage imageNamed:@"ic_give_trophy"];
-    [self.view addSubview:self.rewardIcon];
-    
-    self.rewardDetailedDescription = [[UILabel alloc]initWithFrame:CGRectMake(0, 401 + offsetForIOS6, 320, 15)];
-    self.rewardDetailedDescription.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
-    self.rewardDetailedDescription.text = self.offer.kikbakDescriptionOptional;
-    self.rewardDetailedDescription.textColor = UIColorFromRGB(0x898989);
-    self.rewardDetailedDescription.textAlignment = NSTextAlignmentCenter;
-    self.rewardDetailedDescription.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:self.rewardDetailedDescription];
+        gdSize = [self.rewardDescription.text sizeWithFont:self.rewardDescription.font];
+        self.rewardIcon = [[UIImageView alloc]initWithFrame:CGRectMake((self.view.frame.size.width/2) - (gdSize.width/2)- 24, 376 + offsetForIOS6, 20, 20)];
+        self.rewardIcon.image = [UIImage imageNamed:@"ic_give_trophy"];
+        [self.view addSubview:self.rewardIcon];
+        
+        self.rewardDetailedDescription = [[UILabel alloc]initWithFrame:CGRectMake(0, 401 + offsetForIOS6, 320, 15)];
+        self.rewardDetailedDescription.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
+        self.rewardDetailedDescription.text = self.offer.kikbakDescriptionOptional;
+        self.rewardDetailedDescription.textColor = UIColorFromRGB(0x898989);
+        self.rewardDetailedDescription.textAlignment = NSTextAlignmentCenter;
+        self.rewardDetailedDescription.backgroundColor = [UIColor clearColor];
+        [self.view addSubview:self.rewardDetailedDescription];
+    }
+    else if( [self.offer.offerType compare:@"give_only"] == NSOrderedSame ){
+        self.giftDesctription.frame = CGRectMake(0, 335 + offsetForIOS6, 320, 33);
+        self.giftIcon.frame = CGRectMake((self.view.frame.size.width/2) - (gdSize.width/2)- 24, 342 + offsetForIOS6, 19, 18);
+        self.giftDetailedDescription.frame = CGRectMake(0, 368 + offsetForIOS6, 320, 15);
+    }
     
     self.termsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.termsBtn.frame = CGRectMake(11, 424 + offsetForIOS6, 150, 16);

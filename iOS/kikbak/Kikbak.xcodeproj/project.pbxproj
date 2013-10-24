@@ -68,7 +68,6 @@
 		3C29805817796DC300026E14 /* ic_post_give_camera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C29805617796DC300026E14 /* ic_post_give_camera@2x.png */; };
 		3C29805917796DC300026E14 /* ic_post_give_camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C29805717796DC300026E14 /* ic_post_give_camera.png */; };
 		3C329C5D170178F70007345E /* ShareSuccessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C329C5C170178F70007345E /* ShareSuccessView.m */; };
-		3C339E1F1792575900CD0C7B /* Offer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C339E1E1792575900CD0C7B /* Offer.m */; };
 		3C339E221792933900CD0C7B /* ShareChannelSelectorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C339E211792933900CD0C7B /* ShareChannelSelectorView.m */; };
 		3C4068991751D0110001C724 /* RedeemCreditViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3C4068971751D0110001C724 /* RedeemCreditViewController.mm */; };
 		3C4A2414174C8D0800B8C5F0 /* SpinnerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C4A2413174C8D0800B8C5F0 /* SpinnerView.m */; };
@@ -210,6 +209,7 @@
 		3CCCBD0116F4444000FA71A2 /* GiveViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3CCCBD0016F4444000FA71A2 /* GiveViewController.mm */; };
 		3CD3014817FD3426001618C6 /* UIDevice+OSVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CD3014717FD3426001618C6 /* UIDevice+OSVersion.m */; };
 		3CF383D51706C2350010D9B9 /* UIImage+Manipulate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CF383D41706C2350010D9B9 /* UIImage+Manipulate.m */; };
+		3CF5A5C918151DCA00C38842 /* Offer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5A5C818151DCA00C38842 /* Offer.m */; };
 		C0479989167D967500C2253D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0479988167D967500C2253D /* UIKit.framework */; };
 		C047998B167D967500C2253D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C047998A167D967500C2253D /* Foundation.framework */; };
 		C047998D167D967500C2253D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C047998C167D967500C2253D /* CoreGraphics.framework */; };
@@ -355,8 +355,6 @@
 		3C29805717796DC300026E14 /* ic_post_give_camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_post_give_camera.png; sourceTree = "<group>"; };
 		3C329C5B170178F70007345E /* ShareSuccessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareSuccessView.h; sourceTree = "<group>"; };
 		3C329C5C170178F70007345E /* ShareSuccessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareSuccessView.m; sourceTree = "<group>"; };
-		3C339E1D1792575900CD0C7B /* Offer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Offer.h; sourceTree = "<group>"; };
-		3C339E1E1792575900CD0C7B /* Offer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Offer.m; sourceTree = "<group>"; };
 		3C339E201792933900CD0C7B /* ShareChannelSelectorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareChannelSelectorView.h; sourceTree = "<group>"; };
 		3C339E211792933900CD0C7B /* ShareChannelSelectorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareChannelSelectorView.m; sourceTree = "<group>"; };
 		3C4068971751D0110001C724 /* RedeemCreditViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RedeemCreditViewController.mm; sourceTree = "<group>"; };
@@ -557,6 +555,8 @@
 		3CD3014717FD3426001618C6 /* UIDevice+OSVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+OSVersion.m"; sourceTree = "<group>"; };
 		3CF383D31706C2350010D9B9 /* UIImage+Manipulate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Manipulate.h"; sourceTree = "<group>"; };
 		3CF383D41706C2350010D9B9 /* UIImage+Manipulate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Manipulate.m"; sourceTree = "<group>"; };
+		3CF5A5C718151DCA00C38842 /* Offer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Offer.h; sourceTree = "<group>"; };
+		3CF5A5C818151DCA00C38842 /* Offer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Offer.m; sourceTree = "<group>"; };
 		C0479984167D967500C2253D /* Kikbak.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kikbak.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0479988167D967500C2253D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C047998A167D967500C2253D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -693,6 +693,8 @@
 		3C752BD917113B710092CFB1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3CF5A5C718151DCA00C38842 /* Offer.h */,
+				3CF5A5C818151DCA00C38842 /* Offer.m */,
 				3C254BBD17E18A1D00B279C7 /* Location.h */,
 				3C254BBE17E18A1D00B279C7 /* Location.m */,
 				3C254BB817D9BE2300B279C7 /* Credit.h */,
@@ -701,8 +703,6 @@
 				3C254BB617D7254A00B279C7 /* Gift.m */,
 				3CB9FC7817BB47C10071B8B4 /* ShareInfo.h */,
 				3CB9FC7917BB47C10071B8B4 /* ShareInfo.m */,
-				3C339E1D1792575900CD0C7B /* Offer.h */,
-				3C339E1E1792575900CD0C7B /* Offer.m */,
 				3CA9F191171E8016001C3929 /* CreditService.h */,
 				3CA9F192171E8016001C3929 /* CreditService.m */,
 				3CBCBF6E1717E405007B4249 /* GiftService.h */,
@@ -1414,6 +1414,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3CF5A5C918151DCA00C38842 /* Offer.m in Sources */,
 				C0479995167D967500C2253D /* main.mm in Sources */,
 				C0479999167D967500C2253D /* AppDelegate.mm in Sources */,
 				C04799AD167D96C900C2253D /* Hash.m in Sources */,
@@ -1479,7 +1480,6 @@
 				3C052BFF176986A9003B9429 /* UIButton+Util.m in Sources */,
 				3C0A5C21177AAD43007D4E18 /* RedeemGiftSuccessViewController.m in Sources */,
 				3C0A5C24177AAD91007D4E18 /* RedeemCreditSuccessViewController.m in Sources */,
-				3C339E1F1792575900CD0C7B /* Offer.m in Sources */,
 				3C339E221792933900CD0C7B /* ShareChannelSelectorView.m in Sources */,
 				3C6381541794F87900E10594 /* ClaimCreditRequest.m in Sources */,
 				3C638158179506B600E10594 /* ClaimCreditViewController.m in Sources */,
