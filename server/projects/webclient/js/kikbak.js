@@ -501,7 +501,7 @@ function renderOfferList(json, tagname, tag, force) {
   
   offers = offers.sort(function(a, b) {return a.dist - b.dist});
   
-  if (availCount == 1 && !force) {
+  if (availCount == 1 /*&& !force*/) {
     s.offerDetail = escape(JSON.stringify(availOffer));
 	history.pushState({}, tagname, tag);
     initPage();
