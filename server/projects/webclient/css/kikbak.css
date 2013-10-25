@@ -714,7 +714,7 @@ p.msg {
 .giv, .get {
     color: #FFFFFF;
     float: left;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     padding: 2%;
     text-align: center;
@@ -726,7 +726,7 @@ p.msg {
 
 .giv span, .get span {
     float: left;
-    font-size: 13px;
+    font-size: 16px;
     margin-top: 15px;
     text-align: center;
     width: 100%;
