@@ -1250,7 +1250,7 @@ function doShare(cb, type) {
 function shareViaSms() {
   doShare(function(code, msg, url, resp) {
     $('#spinner h2').html('Waiting');
-    window.location.href = 'sms://?body=' + encodeURIComponent(encodeURIComponent(resp.template.body));
+    window.location.href = 'sms:?body=' + encodeURIComponent(encodeURIComponent(resp.template.body));
   }, 'sms');
 }
 
