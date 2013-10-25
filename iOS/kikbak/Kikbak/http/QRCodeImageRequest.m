@@ -6,14 +6,14 @@
 //  Copyright (c) 2013 Ian Barile. All rights reserved.
 //
 
-#import "QRCodeImageReqest.h"
+#import "QRCodeImageRequest.h"
 #import "ImagePersistor.h"
 #import "NotificationContstants.h"
 #import "HTTPConstants.h"
 
 static NSString* resource = @"rewards/generateQrcode";
 
-@implementation QRCodeImageReqest
+@implementation QRCodeImageRequest
 
 -(void)requestQRCode{
     

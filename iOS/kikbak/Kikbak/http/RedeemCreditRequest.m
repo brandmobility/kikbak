@@ -11,7 +11,7 @@
 #import "SBJson.h"
 #import "NotificationContstants.h"
 #import "Credit.h"
-#import "QRCodeImageReqest.h"
+#import "QRCodeImageRequest.h"
 
 static NSString* resource = @"rewards/redeem/credit";
 
@@ -82,7 +82,7 @@ static NSString* resource = @"rewards/redeem/credit";
                 }
                 
                 
-                QRCodeImageReqest* qrRequest = [[QRCodeImageReqest alloc]init];
+                QRCodeImageRequest* qrRequest = [[QRCodeImageRequest alloc]init];
                 qrRequest.type = @"credit";
                 qrRequest.code = authorizationCode;
                 qrRequest.fileId = creditId;
