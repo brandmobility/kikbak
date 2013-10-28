@@ -27,15 +27,7 @@ import com.referredlabs.kikbak.tasks.TaskEx;
 import com.referredlabs.kikbak.tasks.UpdateFriendsTask;
 import com.referredlabs.kikbak.utils.Register;
 
-public class ShareViaFacebookFragment extends SharingDialog {
-
-  final long userId = Register.getInstance().getUserId();
-
-  private static final String ARG_OFFER = "offer";
-  private static final String ARG_COMMENT = "comment";
-  private static final String ARG_PHOTO_PATH = "photo_uri";
-  private static final String ARG_EMPLYOYEE = "emplyee";
-  private static final String ARG_LOCATION_ID = "location_id";
+public class ShareViaFacebookFragment extends ShareViaBase {
 
   private static final int REQUEST_FB_AUTH = 1;
 
@@ -49,20 +41,6 @@ public class ShareViaFacebookFragment extends SharingDialog {
       onSessionStateChange(session, state, exception);
     }
   };
-
-  public static ShareViaFacebookFragment newInstance(ClientOfferType offer, String comment,
-      String photoPath, String employee, long locationId) {
-    ShareViaFacebookFragment fragment = new ShareViaFacebookFragment();
-    Bundle args = new Bundle();
-    args.putString(ARG_OFFER, new Gson().toJson(offer));
-    args.putString(ARG_COMMENT, comment);
-    args.putString(ARG_PHOTO_PATH, photoPath);
-    args.putString(ARG_EMPLYOYEE, employee);
-    args.putLong(ARG_LOCATION_ID, locationId);
-    fragment.setArguments(args);
-    fragment.setRetainInstance(true);
-    return fragment;
-  }
 
   @Override
   public void onAttach(Activity activity) {

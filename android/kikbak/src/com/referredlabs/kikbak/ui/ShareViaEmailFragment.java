@@ -19,13 +19,7 @@ import com.referredlabs.kikbak.http.Http;
 import com.referredlabs.kikbak.tasks.TaskEx;
 import com.referredlabs.kikbak.utils.Register;
 
-public class ShareViaEmailFragment extends SharingDialog {
-
-  private static final String ARG_OFFER = "offer";
-  private static final String ARG_COMMENT = "comment";
-  private static final String ARG_PHOTO_PATH = "photo_path";
-  private static final String ARG_EMPLYOYEE = "emplyee";
-  private static final String ARG_LOCATION_ID = "location_id";
+public class ShareViaEmailFragment extends ShareViaBase {
 
   private static final int REQUEST_SELECT_CONTACTS = 1;
   private static final int REQUEST_SEND_EMAIL = 2;
@@ -33,20 +27,6 @@ public class ShareViaEmailFragment extends SharingDialog {
   private ClientOfferType mOffer;
   private ShareStatusListener mListener;
   private ArrayList<String> mContacts;
-
-  public static ShareViaEmailFragment newInstance(ClientOfferType offer, String comment,
-      String photoPath, String employee, long locationId) {
-    ShareViaEmailFragment fragment = new ShareViaEmailFragment();
-    Bundle args = new Bundle();
-    args.putString(ARG_OFFER, new Gson().toJson(offer));
-    args.putString(ARG_COMMENT, comment);
-    args.putString(ARG_PHOTO_PATH, photoPath);
-    args.putString(ARG_EMPLYOYEE, employee);
-    args.putLong(ARG_LOCATION_ID, locationId);
-    fragment.setArguments(args);
-    fragment.setRetainInstance(true);
-    return fragment;
-  }
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -149,7 +129,7 @@ public class ShareViaEmailFragment extends SharingDialog {
       mSubject = resp.template.subject;
       mBody = resp.template.body;
     }
-    
+
     @Override
     protected void onSuccess() {
       onShareFinished(mSubject, mBody);

@@ -21,33 +21,13 @@ import com.referredlabs.kikbak.twitter.TwitterAuthActivity;
 import com.referredlabs.kikbak.twitter.TwitterHelper;
 import com.referredlabs.kikbak.utils.Register;
 
-public class ShareViaTwitterFragment extends SharingDialog {
-
-  private static final String ARG_OFFER = "offer";
-  private static final String ARG_COMMENT = "comment";
-  private static final String ARG_PHOTO_PATH = "photo_uri";
-  private static final String ARG_EMPLYOYEE = "emplyee";
-  private static final String ARG_LOCATION_ID = "location_id";
+public class ShareViaTwitterFragment extends ShareViaBase {
 
   private static final int REQUEST_TWITTER_AUTH = 1;
 
   private ShareStatusListener mListener;
   private ClientOfferType mOffer;
   private TwitterHelper mTwitterHelper;
-
-  public static ShareViaTwitterFragment newInstance(ClientOfferType offer, String comment,
-      String photoPath, String employee, long locationId) {
-    ShareViaTwitterFragment fragment = new ShareViaTwitterFragment();
-    Bundle args = new Bundle();
-    args.putString(ARG_OFFER, new Gson().toJson(offer));
-    args.putString(ARG_COMMENT, comment);
-    args.putString(ARG_PHOTO_PATH, photoPath);
-    args.putString(ARG_EMPLYOYEE, employee);
-    args.putLong(ARG_LOCATION_ID, locationId);
-    fragment.setArguments(args);
-    fragment.setRetainInstance(true);
-    return fragment;
-  }
 
   @Override
   public void onAttach(Activity activity) {

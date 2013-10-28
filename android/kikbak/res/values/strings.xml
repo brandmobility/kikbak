@@ -71,6 +71,7 @@
     <string name="share_option_facebook_send_to_friends">Send to selected friends</string>
     <string name="share_option_via_email">Share via email</string>
     <string name="share_option_via_sms">Share via SMS</string>
+    <string name="share_option_via_twitter">Share on Twitter</string>
     <string name="share_option_via_facebook">Post on Facebook</string>
     <string name="share_option_pick_location">Select location</string>
 
