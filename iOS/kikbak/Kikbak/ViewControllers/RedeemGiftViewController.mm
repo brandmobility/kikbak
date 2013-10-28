@@ -496,4 +496,27 @@ static int offsetForIOS6 = 44;
 }
 
 
+-(IBAction)onMapBtn:(id)sender{
+    NSString *stringURL = [NSString stringWithFormat:@"http://maps.apple.com/maps?q=%@,%@",
+                           self.location.latitude, self.location.longitude];
+    NSURL *url = [NSURL URLWithString:stringURL];
+    [[UIApplication sharedApplication] openURL:url];
+}
+
+-(IBAction)onCallBtn:(id)sender{
+    NSURL* url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"tel:%@",self.location.phoneNumber]];
+    if(![[UIApplication sharedApplication] canOpenURL:url]){
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:@"You need to be on an iPhone to make a call" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alert show];
+    }
+    else{
+        [[UIApplication sharedApplication]openURL:url];
+    }
+}
+
+
+-(IBAction)onWebBtn:(id)sender{
+    [[UIApplication sharedApplication]openURL:[[NSURL alloc]initWithString:self.gift.merchantUrl]];
+}
+
 @end

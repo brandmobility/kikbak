@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,8 +34,6 @@ public class RedeemCreditSuccessFragment extends Fragment implements OnClickList
 
   private TextView mName;
   private TextView mValue;
-  private ImageView mCode;
-  private TextView mTextCode;
   private Button mGive;
 
   public static RedeemCreditSuccessFragment newInstance() {
@@ -63,32 +62,9 @@ public class RedeemCreditSuccessFragment extends Fragment implements OnClickList
     mGive = (Button) root.findViewById(R.id.give);
     mGive.setOnClickListener(this);
 
-    ViewStub stub = (ViewStub) root.findViewById(R.id.barcode_area);
-    stub.setLayoutResource(getBarcodeLayout());
-    stub.inflate();
-
-    mCode = (ImageView) root.findViewById(R.id.code);
-    mTextCode = (TextView) root.findViewById(R.id.text_code);
-
-    setupViews();
-    return root;
-  }
-
-  private int getBarcodeLayout() {
-    String validationType = mCredit.validationType;
-    return ValidationType.BARCODE.equals(validationType) ? R.layout.fragment_redeem_success_barcode
-        : R.layout.fragment_redeem_success_qrcode;
-  }
-
-  private void setupViews() {
     setupCreditViews();
-
-    Bitmap bmp = mBarcodeBitmap;
-    if (bmp == null) {
-      bmp = BarcodeGenerator.generateQrCode(getActivity(), mBarcode);
-    }
-    mCode.setImageBitmap(bmp);
-    mTextCode.setText(mBarcode);
+    setupBarcodeViews(root);
+    return root;
   }
 
   private void setupCreditViews() {
@@ -99,6 +75,40 @@ public class RedeemCreditSuccessFragment extends Fragment implements OnClickList
     }
 
     mValue.setText(String.format("$%.2f", value));
+  }
+
+  private void setupBarcodeViews(View root) {
+    ViewStub stub = (ViewStub) root.findViewById(R.id.barcode_area);
+    int layout = getBarcodeLayout();
+    if (layout != 0) {
+      stub.setLayoutResource(layout);
+      root = stub.inflate();
+      if (mCredit.validationType == ValidationType.barcode) {
+        ImageView img = (ImageView) root.findViewById(R.id.code);
+        TextView text = (TextView) root.findViewById(R.id.text_code);
+        img.setImageBitmap(mBarcodeBitmap);
+        text.setText(mBarcode);
+      } else if (mCredit.validationType == ValidationType.qrcode && !TextUtils.isEmpty(mBarcode)) {
+        Bitmap bmp = BarcodeGenerator.generateQrCode(getActivity(), mBarcode);
+        ImageView img = (ImageView) root.findViewById(R.id.code);
+        TextView text = (TextView) root.findViewById(R.id.text_code);
+        img.setImageBitmap(bmp);
+        text.setText(mBarcode);
+      }
+    }
+  }
+
+  private int getBarcodeLayout() {
+    switch (mCredit.validationType) {
+      case barcode:
+        return R.layout.fragment_redeem_success_barcode;
+
+      case qrcode:
+        return R.layout.fragment_redeem_success_qrcode;
+
+      default:
+        return 0;
+    }
   }
 
   @Override

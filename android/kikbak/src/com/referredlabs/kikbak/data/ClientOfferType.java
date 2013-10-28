@@ -9,7 +9,7 @@ public class ClientOfferType {
   public String giftDesc;
   public String giftDetailedDesc;
   public double giftValue;
-  public String giftDiscountType;
+  public DiscountType giftDiscountType;
   public String kikbakDesc;
   public String kikbakDetailedDesc;
   public double kikbakValue;

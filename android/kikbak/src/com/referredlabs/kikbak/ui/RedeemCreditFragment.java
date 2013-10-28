@@ -164,10 +164,10 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
       return;
     }
 
-    if (ValidationType.QRCODE.equals(mCredit.validationType)) {
+    if (mCredit.validationType == ValidationType.qrcode) {
       // scanning QR code
       showScanConfirmation();
-    } else if (ValidationType.BARCODE.equals(mCredit.validationType)) {
+    } else if (mCredit.validationType == ValidationType.barcode) {
       // barcode generation
       mRedeemInStore.setEnabled(false);
       long userId = Register.getInstance().getUserId();

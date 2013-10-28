@@ -59,7 +59,7 @@ public class RedeemCreditActivity extends KikbakActivity implements RedeemCredit
     Bundle args = getIntent().getExtras();
     String data = args.getString(RedeemCreditActivity.EXTRA_CREDIT);
     AvailableCreditType credit = new Gson().fromJson(data, AvailableCreditType.class);
-    boolean isGiftCard = RewardType.GIFT_CARD.equals(credit.rewardType);
+    boolean isGiftCard = credit.rewardType == RewardType.gift_card;
     Fragment fragment = isGiftCard ? new RedeemGiftCardFragment() : new RedeemCreditFragment();
     fragment.setArguments(args);
     return fragment;

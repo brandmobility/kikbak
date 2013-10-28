@@ -42,7 +42,7 @@
     
     gift.merchantId = [merchant objectForKey:@"id"];
     gift.merchantName = [merchant objectForKey:@"name"];
-    gift.merchantUrl = [merchant objectForKey:@"merchantUrl"];
+    gift.merchantUrl = [merchant objectForKey:@"url"];
     
     NSArray* locations = [merchant objectForKey:@"locations"];
     for(id giftLocation in locations){

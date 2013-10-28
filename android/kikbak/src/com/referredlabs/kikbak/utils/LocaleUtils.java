@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import android.content.Context;
 
+import com.referredlabs.kikbak.BuildConfig;
 import com.referredlabs.kikbak.Kikbak;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.AvailableCreditType;
@@ -20,9 +21,9 @@ public class LocaleUtils {
     if (gift == null)
       return null;
 
-    if (DiscountType.PERCENTAGE.equals(gift.discountType)) {
+    if (gift.discountType == DiscountType.percentage) {
       return ctx.getString(R.string.reward_gift_type_percentage_fmt, gift.value);
-    } else if (DiscountType.AMOUNT.equals(gift.discountType)) {
+    } else if (gift.discountType == DiscountType.amount) {
       return ctx.getString(R.string.reward_gift_type_amount_fmt, gift.value);
     }
     throw new RuntimeException("new discount type?"); // TODO: remove before release
@@ -37,7 +38,7 @@ public class LocaleUtils {
   public static String getCreditValueString(Context ctx, AvailableCreditType credit) {
     if (credit == null)
       return null;
-    if (RewardType.PURCHASE.equals(credit.rewardType)) {
+    if (credit.rewardType == RewardType.purchase) {
       return ctx.getString(R.string.reward_credit_purchase_amount_fmt, credit.value);
     } else {
       return ctx.getString(R.string.reward_credit_claim_amount_fmt, credit.value);
@@ -60,12 +61,15 @@ public class LocaleUtils {
   }
 
   public static String getRibbonGiveString(Context ctx, ClientOfferType offer) {
-    if (DiscountType.PERCENTAGE.equals(offer.giftDiscountType)) {
+    if (offer.giftDiscountType == DiscountType.percentage) {
       return ctx.getString(R.string.ribbon_give_percentage_fmt, offer.giftValue);
-    } else if (DiscountType.AMOUNT.equals(offer.giftDiscountType)) {
+    } else if (offer.giftDiscountType == DiscountType.amount) {
       return Kikbak.getInstance().getString(R.string.ribbon_give_amount_fmt, offer.giftValue);
     }
-    throw new RuntimeException("new discount type?"); // TODO: remove before release
+    if (BuildConfig.DEBUG) {
+      throw new RuntimeException("new discount type?");
+    }
+    return "?";
   }
 
   public static String getRibbonGetString(Context mContext, ClientOfferType offer) {

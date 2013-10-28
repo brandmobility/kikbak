@@ -11,7 +11,7 @@
 #import "SBJson.h"
 #import "Gift.h"
 #import "NotificationContstants.h"
-#import "QRCodeImageReqest.h"
+#import "QRCodeImageRequest.h"
 #import "ShareInfo.h"
 
 static NSString* resource = @"rewards/redeem/gift";
@@ -70,7 +70,7 @@ static NSString* resource = @"rewards/redeem/gift";
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         }
         
-        QRCodeImageReqest* qrRequest = [[QRCodeImageReqest alloc]init];
+        QRCodeImageRequest* qrRequest = [[QRCodeImageRequest alloc]init];
         qrRequest.type = @"gift";
         qrRequest.code = [giftResponse objectForKey:@"authorizationCode"];
         qrRequest.fileId = giftId;

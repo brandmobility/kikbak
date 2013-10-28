@@ -164,10 +164,10 @@ public class RedeemGiftFragment extends KikbakFragment implements OnClickListene
       return;
     }
 
-    if (ValidationType.QRCODE.equals(mGift.validationType)) {
+    if (mGift.validationType == ValidationType.qrcode) {
       // scanning QR code
       showScanConfirmation();
-    } else if (ValidationType.BARCODE.equals(mGift.validationType)) {
+    } else if (mGift.validationType == ValidationType.barcode) {
       // barcode generation
       mRedeemInStore.setEnabled(false);
       mTask = new BarcodeTask();
@@ -248,7 +248,7 @@ public class RedeemGiftFragment extends KikbakFragment implements OnClickListene
   }
 
   public void onRegistrationSuccess(String code) {
-    if (ValidationType.QRCODE.equals(mGift.validationType)) {
+    if (mGift.validationType == ValidationType.qrcode) {
       DataStore.getInstance().giftUsed(mGift.offerId);
     }
     mCallback.onRedeemGiftSuccess(code);

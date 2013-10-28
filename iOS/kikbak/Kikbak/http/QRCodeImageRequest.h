@@ -12,7 +12,7 @@
 #import "KikbakConstants.h"
 
 
-@interface QRCodeImageReqest : NSObject <ResponseHandlerProtocol>
+@interface QRCodeImageRequest : NSObject <ResponseHandlerProtocol>
 {
     HttpRequest* request;
 }

@@ -28,6 +28,7 @@
 @property (nonatomic,strong) UIImageView* giveImage;
 @property (nonatomic,strong) UILabel* give;
 @property (nonatomic,strong) UILabel* giveDiscount;
+@property (nonatomic,strong) UILabel* off;
 @property (nonatomic,strong) UIImageView* getImage;
 @property (nonatomic,strong) UILabel* get;
 @property (nonatomic,strong) UILabel* getDiscount;
@@ -118,14 +119,14 @@
     [self addSubview:self.callBtn];
     
     self.getImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"label2_price"]];
-    self.getImage.frame = CGRectMake(235, 74, 70, 82);
+    self.getImage.frame = CGRectMake(239, 74, 70, 82);
     [self addSubview:self.getImage];
     
     self.giveImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"label1_price"]];
     self.giveImage.frame = CGRectMake(232, 9, 77, 80);
     [self addSubview:self.giveImage];
     
-    self.give = [[UILabel alloc]initWithFrame:CGRectMake(239, 30, 74, 13)];
+    self.give = [[UILabel alloc]initWithFrame:CGRectMake(236, 30, 74, 13)];
     self.give.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:13];
     self.give.text = NSLocalizedString(@"Give", nil);
     self.give.shadowColor = UIColorFromRGB(0x3a3a3a);
@@ -134,7 +135,7 @@
     self.give.backgroundColor = [UIColor clearColor];
     [self addSubview:self.give];
 
-    self.giveDiscount = [[UILabel alloc]initWithFrame:CGRectMake(239, 44, 74, 24)];
+    self.giveDiscount = [[UILabel alloc]initWithFrame:CGRectMake(235, 44, 74, 24)];
     self.giveDiscount.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:24];
     self.giveDiscount.text = @"20%";
     self.giveDiscount.shadowColor = UIColorFromRGB(0x3a3a3a);
@@ -143,7 +144,16 @@
     self.giveDiscount.backgroundColor = [UIColor clearColor];
     [self addSubview:self.giveDiscount];
     
-    self.get = [[UILabel alloc]initWithFrame:CGRectMake(239, 104, 74, 13)];
+    self.off = [[UILabel alloc]initWithFrame:CGRectMake(238, 72, 74, 24)];
+    self.off.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:24];
+    self.off.text = NSLocalizedString(@"Off", nil);
+    self.off.shadowColor = UIColorFromRGB(0x3a3a3a);
+    self.off.textColor = [UIColor whiteColor];
+    self.off.textAlignment = NSTextAlignmentCenter;
+    self.off.backgroundColor = [UIColor clearColor];
+
+    
+    self.get = [[UILabel alloc]initWithFrame:CGRectMake(236, 104, 74, 13)];
     self.get.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:13];
     self.get.text = NSLocalizedString(@"Get", nil);
     self.get.textColor = [UIColor whiteColor];
@@ -152,7 +162,7 @@
     [self addSubview:self.get];
     
     
-    self.getDiscount = [[UILabel alloc]initWithFrame:CGRectMake(239, 118, 74, 24)];
+    self.getDiscount = [[UILabel alloc]initWithFrame:CGRectMake(235, 118, 74, 24)];
     self.getDiscount.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:24];
     self.getDiscount.text = @"20%";
     self.getDiscount.textColor = [UIColor whiteColor];
@@ -172,6 +182,10 @@
     self.retailerName.text = self.offer.merchantName;
     if ([self.offer.giftDiscountType compare:@"percentage"] == NSOrderedSame) {
         self.giveDiscount.text = [NSString stringWithFormat:NSLocalizedString(@"precentage format", nil), self.offer.giftValue];
+        self.give.frame = CGRectMake(235, 17, 74, 13);
+        self.giveDiscount.frame = CGRectMake(239, 29, 74, 24);
+        self.off.frame = CGRectMake(239, 50, 74, 24);
+        [self addSubview:self.off];
     }
     else{
         self.giveDiscount.text = [NSString stringWithFormat:NSLocalizedString(@"currency format", nil), self.offer.giftValue];
@@ -199,14 +213,18 @@
     }
     
     if( [self.offer.offerType compare:@"give_only"] == NSOrderedSame){
-        self.giveImage.frame = CGRectMake(232, 5, 77, 140);
-        self.give.frame = CGRectMake(235, 50, 74, 13);
-        self.giveDiscount.frame = CGRectMake(239, 64, 74, 24);
+        self.giveImage.frame = CGRectMake(232, 9, 77, 147);
+        self.giveImage.image = [UIImage imageNamed:@"bg_ribbon_one_only"];
+        self.give.frame = CGRectMake(235, 40, 74, 13);
+        self.giveDiscount.frame = CGRectMake(238, 54, 74, 24);
+        self.off.frame = CGRectMake(238, 77, 74, 24);
+        [self addSubview:self.off];
     }
     
     if( [self.offer.offerType compare:@"both"] != NSOrderedSame){
         [self.get removeFromSuperview];
         [self.getDiscount removeFromSuperview];
+        [self.getImage removeFromSuperview];
     }
 }
 
