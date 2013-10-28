@@ -108,6 +108,13 @@ public class ShareViaTwitterFragment extends ShareViaBase {
 
     @Override
     protected void onFailed(Exception e) {
+      if (e instanceof TwitterException) {
+        TwitterException tw = (TwitterException) e;
+        if (tw.getStatusCode() >= 400) {
+          mTwitterHelper.resetAuthorization();
+        }
+      }
+
       dismiss();
       FlurryAgent.onError(Log.E_PUBLISH_TWEET, e.getMessage(), Log.CLASS_NETWORK);
       mListener.onShareFailed();
