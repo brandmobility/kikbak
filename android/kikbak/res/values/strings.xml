@@ -10,7 +10,7 @@
 
     <!-- Login -->
     <string name="registration_failed">Registration failed. Try again.</string>
-    <string name="login_never_post_to_facebook">We will never post to Facebook\nwithout your permission.</string>
+    <string name="login_never_post_to_facebook">"We use your Facebook ID to personalize the offers you share and notify you when you've earned a reward.\nWe will never post without your permission."</string>
     <string name="too_few_friends">"For security purposes, Kikbak requires that your Facebook account have a certain minimum friend count. Unfortunately your chosen account does not qualify."</string>
     <string name="ok">OK</string>
 
