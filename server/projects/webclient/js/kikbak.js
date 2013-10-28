@@ -948,10 +948,10 @@ function renderOfferDetail(offer) {
   var html = '';
   var userId = s.userId;
   if (!userId) {
-    html += '<div id="share-fb-div" style="text-align:center;height:80px;margin-top:5px;">'
+    html += '<div id="share-fb-div" style="text-align:center;overflow:auto;margin-top:5px;">'
     html += '<input id="share-btn-fb" name="share" type="button" class="fb-share" value="       Connect with Facebook to share" />';
     html += '<div class="crt">';
-    html += '<p style="font-size:10px;">We use Facebook to make it easy for you to share and redeem. We will never post on Facebook without your permission.</p>';
+    html += '<p style="font-size:10px;">We use your Facebook ID to personalize the offers you share and notify you when you\'ve earned a reward. We will never post without your permission.</p>';
     html += '</div>';
     html += '</div>';
   }
