@@ -30,7 +30,11 @@ public class TwitterHelper {
 
   RequestToken mRequestToken;
 
-  public TwitterHelper() {
+  public static TwitterHelper getInstance() {
+    return new TwitterHelper();
+  }
+
+  private TwitterHelper() {
     Configuration config = getConfiguration();
     TwitterFactory factory = new TwitterFactory(config);
     mTwitter = factory.getInstance();

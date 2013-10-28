@@ -22,7 +22,7 @@ public class TwitterAuthActivity extends KikbakActivity {
     mWebView = (WebView) findViewById(R.id.webview);
     mWebView.setWebViewClient(mWebClient);
 
-    mTwitterHelper = new TwitterHelper();
+    mTwitterHelper = TwitterHelper.getInstance();
     mTask = new RequestAuthTask();
     mTask.execute();
   }

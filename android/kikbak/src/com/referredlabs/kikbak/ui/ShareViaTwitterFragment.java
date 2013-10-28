@@ -40,7 +40,7 @@ public class ShareViaTwitterFragment extends ShareViaBase {
     super.onCreate(savedInstanceState);
     mOffer = new Gson().fromJson(getArguments().getString(ARG_OFFER), ClientOfferType.class);
 
-    mTwitterHelper = new TwitterHelper();
+    mTwitterHelper = TwitterHelper.getInstance();
     if (mTwitterHelper.isAuthorized()) {
       publishTweet();
     }
