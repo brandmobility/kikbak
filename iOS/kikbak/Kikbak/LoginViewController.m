@@ -18,6 +18,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *buttonLoginLogout;
 
 @property (nonatomic,strong) UIImageView* splash;
+@property (nonatomic,strong) UILabel* fbText;
 @property (nonatomic,strong) UIButton* fbLoginBtn;
 
 -(void)createSubviews;
@@ -74,8 +75,17 @@
     self.splash.image = [UIImage imageNamed:@"splash-586h"];
     [self.view addSubview:self.splash];
     
+    self.fbText = [[UILabel alloc]initWithFrame:CGRectMake(11, 436, 298, 62)];
+    self.fbText.numberOfLines = 3;
+    self.fbText.textColor = [UIColor whiteColor];
+    self.fbText.backgroundColor = [UIColor clearColor];
+    self.fbText.textAlignment = NSTextAlignmentCenter;
+    self.fbText.font = [UIFont fontWithName:@"HelveticaNeue" size:12];
+    self.fbText.text = NSLocalizedString(@"FB Text", nil);
+    [self.view addSubview:self.fbText];
+    
     self.fbLoginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.fbLoginBtn.frame = CGRectMake(11, 489, 298, 40);
+    self.fbLoginBtn.frame = CGRectMake(11, 499, 298, 40);
     [self.fbLoginBtn addTarget:self action:@selector(onFaceBookLogin:) forControlEvents:UIControlEventTouchUpInside];
     [self.fbLoginBtn setBackgroundImage:[UIImage imageNamed:@"btn_facebook"] forState:UIControlStateNormal];
     [self.fbLoginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -86,14 +96,18 @@
 
 -(void)manuallyLayoutSubviews{
     if(![UIDevice hasFourInchDisplay]){
+        self.fbText.frame = CGRectMake(11, 362, 298, 62);
         self.splash.image = [UIImage imageNamed:@"splash"];
-        self.fbLoginBtn.frame = CGRectMake(11, 403, 298, 40);
+        self.fbLoginBtn.frame = CGRectMake(11, 413, 298, 40);
     }
     
     if( [UIDevice osVersion7orGreater]){
         CGRect fr = self.fbLoginBtn.frame;
         fr.origin.y += [UIApplication sharedApplication].statusBarFrame.size.height;
         self.fbLoginBtn.frame = fr;
+        fr = self.fbText.frame;
+        fr.origin.y += [UIApplication sharedApplication].statusBarFrame.size.height;
+        self.fbText.frame = fr;
     }
 }
 
