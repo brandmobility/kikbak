@@ -15,19 +15,16 @@ public class Register {
   private static final String KEY_USER_ID = "user_id";
   private static final String KEY_FIRST_NAME = "first_name";
   private static final String KEY_FULL_NAME = "full_name";
-  private static Register sInstance;
+  private static Register sInstance = new Register();
 
   private Context mContext;
   private SharedPreferences mPref;
 
-  public static synchronized Register getInstance() {
-    if (sInstance == null) {
-      sInstance = new Register();
-    }
+  public static Register getInstance() {
     return sInstance;
   }
 
-  Register() {
+  private Register() {
     mContext = Kikbak.getInstance();
     mPref = mContext.getSharedPreferences(REG, Context.MODE_PRIVATE);
   }

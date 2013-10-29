@@ -27,12 +27,9 @@ public class GcmHelper {
   private static final String KEY_EXPIRATION_TIME = "expirationTime";
   private static final long EXPIRY_TIME_MS = 1000 * 3600 * 24 * 7; // 7 days
 
-  private static GcmHelper sInstance;
+  private static GcmHelper sInstance = new GcmHelper();
 
   public static synchronized GcmHelper getInstance() {
-    if (sInstance == null) {
-      sInstance = new GcmHelper();
-    }
     return sInstance;
   }
 

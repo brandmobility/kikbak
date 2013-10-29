@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.BaseAdapter;
 
 import com.referredlabs.kikbak.R;
@@ -24,8 +25,17 @@ public class OfferAdapter extends BaseAdapter {
 
   private static int TYPE_BOTH_AMOUNT = 0;
   private static int TYPE_BOTH_PERCENTAGE = 1;
-  private static int TYPE_GIVE_ONLY = 2;
-  private static int TYPE_GET_ONLY = 3;
+  private static int TYPE_GIVE_ONLY_AMOUNT = 2;
+  private static int TYPE_GIVE_ONLY_PERCENTAGE = 3;
+  private static int TYPE_GET_ONLY = 4;
+
+  private static int[] RIBBONS = {
+      R.layout.ribbon_both_amount,
+      R.layout.ribbon_both_percentage,
+      R.layout.ribbon_give_only_amount,
+      R.layout.ribbon_give_only_percentage,
+      R.layout.ribbon_get_only
+  };
 
   private Context mContext;
   private LayoutInflater mInflater;
@@ -57,8 +67,11 @@ public class OfferAdapter extends BaseAdapter {
   public View getView(int position, View view, ViewGroup parent) {
     OfferHelper helper;
     if (view == null) {
-      int layout = getLayoutFromType(getItemViewType(position));
-      view = mInflater.inflate(layout, parent, false);
+      view = mInflater.inflate(R.layout.offer, parent, false);
+      ViewStub ribbon = (ViewStub) view.findViewById(R.id.ribbon);
+      int layout = RIBBONS[getItemViewType(position)];
+      ribbon.setLayoutResource(layout);
+      ribbon.inflate();
       helper = new OfferHelper(view, mIconBarListener);
       view.setTag(helper);
     } else {
@@ -90,33 +103,29 @@ public class OfferAdapter extends BaseAdapter {
     return view;
   }
 
-  private int getLayoutFromType(int type) {
-    if (type == TYPE_BOTH_AMOUNT)
-      return R.layout.offer_both_amount;
-    else if (type == TYPE_BOTH_PERCENTAGE)
-      return R.layout.offer_both_percentage;
-    else if (type == TYPE_GIVE_ONLY)
-      return R.layout.offer_give_only;
-    else
-      return R.layout.offer_get_only;
-  }
-
   @Override
   public int getItemViewType(int position) {
     ClientOfferType offer = getItem(position).getOffer();
-    if (offer.offerType == OfferType.both) {
-      return DiscountType.AMOUNT.equals(getItem(position).getOffer().giftDiscountType)
-          ? TYPE_BOTH_AMOUNT : TYPE_BOTH_PERCENTAGE;
-    } else if (offer.offerType == OfferType.give_only) {
-      return TYPE_GIVE_ONLY;
-    } else {
+    OfferType offerType = offer.offerType;
+    DiscountType discountType = offer.giftDiscountType;
+
+    if (offerType == OfferType.both && discountType == DiscountType.amount)
+      return TYPE_BOTH_AMOUNT;
+    if (offerType == OfferType.both && discountType == DiscountType.percentage)
+      return TYPE_BOTH_PERCENTAGE;
+    if (offerType == OfferType.give_only && discountType == DiscountType.amount)
+      return TYPE_GIVE_ONLY_AMOUNT;
+    if (offerType == OfferType.give_only && discountType == DiscountType.percentage)
+      return TYPE_GIVE_ONLY_PERCENTAGE;
+    if (offerType == OfferType.get_only)
       return TYPE_GET_ONLY;
-    }
+
+    return TYPE_BOTH_AMOUNT;
   }
 
   @Override
   public int getViewTypeCount() {
-    return 4;
+    return RIBBONS.length;
   }
 
   public void swap(List<TheOffer> offers) {

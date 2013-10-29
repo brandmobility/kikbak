@@ -7,9 +7,9 @@ public class GiftType {
   public String desc;
   public String detailedDesc;
   public double value;
-  public String discountType;
-  public String validationType;
-  public String redemptionLocationType;
+  public DiscountType discountType;
+  public ValidationType validationType;
+  public RedemptionLocationType redemptionLocationType;
   public String defaultGiveImageUrl;
   public String tosUrl;
   public ShareInfoType[] shareInfo;

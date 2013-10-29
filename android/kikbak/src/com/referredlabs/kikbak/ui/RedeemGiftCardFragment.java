@@ -19,7 +19,6 @@ import com.flurry.android.FlurryAgent;
 import com.google.gson.Gson;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.AvailableCreditType;
-import com.referredlabs.kikbak.data.RewardType;
 import com.referredlabs.kikbak.log.Log;
 import com.referredlabs.kikbak.utils.Nearest;
 import com.squareup.picasso.Picasso;
@@ -37,7 +36,6 @@ public class RedeemGiftCardFragment extends Fragment implements OnClickListener 
     super.onCreate(savedInstanceState);
     String data = getArguments().getString(RedeemCreditActivity.EXTRA_CREDIT);
     mCredit = new Gson().fromJson(data, AvailableCreditType.class);
-    assert (RewardType.GIFT_CARD.equals(mCredit.rewardType));
     reportSeen();
   }
 

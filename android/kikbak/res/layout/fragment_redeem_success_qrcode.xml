@@ -20,7 +20,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="8dp"
-        android:text="VLX435"
         android:textColor="#3a3a3a"
         android:textSize="36dp"
         kikbak:typeface="Roboto-Bold.ttf" />

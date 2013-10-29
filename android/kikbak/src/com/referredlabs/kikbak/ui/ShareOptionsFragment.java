@@ -15,11 +15,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.referredlabs.kikbak.C;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ClientOfferType;
 import com.referredlabs.kikbak.data.MerchantLocationType;
@@ -31,15 +31,10 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
   public static final String ARG_OFFER = "offer";
 
   private ClientOfferType mOffer;
-  private EditText mEmplName;
   private Spinner mStoreSpinner;
 
   public interface OnShareMethodSelectedListener {
-    public void onSendViaEmail(String id, MerchantLocationType location);
-
-    public void onSendViaFacebook(String id, MerchantLocationType location);
-
-    public void onSendViaSms(String id, MerchantLocationType location);
+    public void onShareVia(String method, Class<? extends DialogFragment> clazz, Bundle args);
   }
 
   private OnShareMethodSelectedListener mListener;
@@ -69,14 +64,15 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View v = inflater.inflate(R.layout.fragment_share_options2, container, false);
+    View v = inflater.inflate(R.layout.fragment_share_options, container, false);
     v.findViewById(R.id.via_email).setOnClickListener(this);
     v.findViewById(R.id.via_sms).setOnClickListener(this);
     v.findViewById(R.id.via_facebook).setOnClickListener(this);
-    mEmplName = (EditText) v.findViewById(R.id.employee_name);
+    v.findViewById(R.id.via_twitter).setOnClickListener(this);
     mStoreSpinner = (Spinner) v.findViewById(R.id.store_selection);
     boolean hasManyLocations = mOffer.locations.length > 1;
     if (hasManyLocations) {
+      ((TextView) v.findViewById(R.id.title)).setText(R.string.share_options_title_multistore);
       enableStoreSelection(inflater);
     }
 
@@ -86,6 +82,12 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
   void enableStoreSelection(LayoutInflater inflater) {
     mStoreSpinner.setVisibility(View.VISIBLE);
     mStoreSpinner.setAdapter(new Adapter(inflater, mOffer.locations.clone()));
+
+    float minDistance = new Nearest(mOffer.locations).getDistance();
+    if (minDistance < C.CLOSE_TO_STORE_DISTANCE) {
+      mStoreSpinner.setSelection(1); // preselect closest one
+    }
+
     mStoreSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
       @Override
@@ -108,25 +110,32 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
 
   @Override
   public void onClick(View v) {
-    String employee = mEmplName != null ? mEmplName.getText().toString() : null;
+    String employee = null;
 
     MerchantLocationType location = mOffer.locations[0];
     if (mStoreSpinner.getVisibility() == View.VISIBLE) {
       location = (MerchantLocationType) mStoreSpinner.getSelectedItem();
     }
 
+    Bundle extraArgs = new Bundle();
+    extraArgs.putLong(ShareViaBase.ARG_LOCATION_ID, location.locationId);
+    extraArgs.putString(ShareViaBase.ARG_EMPLYOYEE, employee);
+
     switch (v.getId()) {
       case R.id.via_email:
-        mListener.onSendViaEmail(employee, location);
+        mListener.onShareVia("email", ShareViaEmailFragment.class, extraArgs);
         break;
       case R.id.via_facebook:
-        mListener.
-            onSendViaFacebook(employee, location);
+        mListener.onShareVia("facebook", ShareViaFacebookFragment.class, extraArgs);
         break;
       case R.id.via_sms:
-        mListener.onSendViaSms(employee, location);
+        mListener.onShareVia("sms", ShareViaSmsFragment.class, extraArgs);
+        break;
+      case R.id.via_twitter:
+        mListener.onShareVia("twitter", ShareViaTwitterFragment.class, extraArgs);
         break;
     }
+
     dismiss();
   }
 
@@ -144,7 +153,7 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
 
     @Override
     public int getCount() {
-      return mLocations.size();
+      return mLocations.size() + 1;
     }
 
     @Override
@@ -152,17 +161,32 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
       MerchantLocationType location = getItem(position);
       TextView tv = (TextView) mInflater.inflate(R.layout.fragment_share_options_store_view,
           parent, false);
-      tv.setText(location.address1);
+      if (location == null) {
+        int color = tv.getHintTextColors().getDefaultColor();
+        tv.setTextColor(color);
+        tv.setText(R.string.share_option_pick_location);
+      } else {
+        tv.setTextColor(getResources().getColor(android.R.color.black));
+        tv.setText(location.address1);
+      }
       return tv;
     }
 
     @Override
     public MerchantLocationType getItem(int position) {
+      --position;
+      if (position < 0) {
+        return null; // "pick location"
+      }
       return mLocations.get(position);
     }
 
     @Override
     public long getItemId(int position) {
+      --position;
+      if (position < 0) {
+        return -1; // "pick location"
+      }
       return mLocations.get(position).locationId;
     }
 

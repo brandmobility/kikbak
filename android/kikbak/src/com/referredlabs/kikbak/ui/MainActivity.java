@@ -35,6 +35,7 @@ import com.referredlabs.kikbak.service.LocationFinder.LocationFinderListener;
 import com.referredlabs.kikbak.store.DataStore;
 import com.referredlabs.kikbak.store.TheOffer;
 import com.referredlabs.kikbak.store.TheReward;
+import com.referredlabs.kikbak.twitter.TwitterHelper;
 import com.referredlabs.kikbak.ui.OfferListFragment.OnOfferClickedListener;
 import com.referredlabs.kikbak.ui.RewardListFragment.OnRedeemListener;
 import com.referredlabs.kikbak.utils.Register;
@@ -159,6 +160,7 @@ public class MainActivity extends KikbakActivity implements ActionBar.TabListene
       case R.id.action_debug_clear_registration:
         Register.getInstance().clear();
         GcmHelper.getInstance().clear();
+        TwitterHelper.getInstance().resetAuthorization();
         finish();
         return true;
 

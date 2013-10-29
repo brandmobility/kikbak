@@ -3,7 +3,6 @@ package com.referredlabs.kikbak.store;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -229,7 +228,19 @@ public class DataStore {
       GetUserOffersRequest req =
           GetUserOffersRequest.create(loc.getLatitude(), loc.getLongitude());
       GetUserOffersResponse result = Http.execute(uri, req, GetUserOffersResponse.class);
-      swapOffers(Arrays.asList(result.offers));
+      swapOffers(validate(result.offers));
+    }
+
+    private List<ClientOfferType> validate(ClientOfferType[] offers) {
+      ArrayList<ClientOfferType> result = new ArrayList<ClientOfferType>(offers.length);
+      for (ClientOfferType offer : offers) {
+        if (offer.offerType == null)
+          continue;
+        if (offer.giftDiscountType == null)
+          continue;
+        result.add(offer);
+      }
+      return result;
     }
   }
 
@@ -240,7 +251,33 @@ public class DataStore {
       String uri = Http.getUri(RewardsRequest.PATH + userId);
       RewardsRequest req = new RewardsRequest();
       RewardsResponse response = Http.execute(uri, req, RewardsResponse.class);
-      swapRewards(Arrays.asList(response.gifts), Arrays.asList(response.credits));
+      swapRewards(validate(response.gifts), validate(response.credits));
+    }
+
+    List<GiftType> validate(GiftType[] gifts) {
+      ArrayList<GiftType> result = new ArrayList<GiftType>(gifts.length);
+      for (GiftType gift : gifts) {
+        if (gift.discountType == null)
+          continue;
+        if (gift.validationType == null)
+          continue;
+        if (gift.redemptionLocationType == null)
+          continue;
+        result.add(gift);
+      }
+      return result;
+    }
+
+    List<AvailableCreditType> validate(AvailableCreditType[] credits) {
+      ArrayList<AvailableCreditType> result = new ArrayList<AvailableCreditType>(credits.length);
+      for (AvailableCreditType credit : credits) {
+        if (credit.rewardType == null)
+          continue;
+        if (credit.validationType == null)
+          continue;
+        result.add(credit);
+      }
+      return result;
     }
   }
 

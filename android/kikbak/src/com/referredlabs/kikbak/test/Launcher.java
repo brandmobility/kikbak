@@ -8,6 +8,8 @@ import com.google.gson.Gson;
 import com.referredlabs.kikbak.data.AvailableCreditType;
 import com.referredlabs.kikbak.data.ClientMerchantType;
 import com.referredlabs.kikbak.data.MerchantLocationType;
+import com.referredlabs.kikbak.data.RewardType;
+import com.referredlabs.kikbak.data.ValidationType;
 import com.referredlabs.kikbak.ui.RedeemCreditActivity;
 import com.referredlabs.kikbak.ui.SuccessActivity;
 
@@ -27,8 +29,8 @@ public class Launcher {
     credit.merchant.url = "http://www.biendronka.pl";
     credit.offerId = 1;
     credit.redeemedGiftsCount = 5;
-    credit.rewardType = "gift_card";
-    credit.validationType = "qrcode";
+    credit.rewardType = RewardType.purchase;
+    credit.validationType = ValidationType.qrcode;
     credit.value = 72.23;
     return credit;
   }

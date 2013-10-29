@@ -10,7 +10,12 @@ import android.view.ViewGroup;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.tasks.Task;
 
-public class SharingDialog extends DialogFragment {
+public class ShareViaBase extends DialogFragment {
+  protected static final String ARG_OFFER = "offer";
+  protected static final String ARG_COMMENT = "comment";
+  protected static final String ARG_PHOTO_PATH = "photo_path";
+  protected static final String ARG_EMPLYOYEE = "emplyee";
+  protected static final String ARG_LOCATION_ID = "location_id";
 
   protected Task mTask;
 

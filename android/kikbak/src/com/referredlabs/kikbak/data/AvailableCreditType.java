@@ -10,7 +10,7 @@ public class AvailableCreditType {
   public double value;
   public int redeemedGiftsCount;
   public String tosUrl;
-  public String validationType;
-  public String rewardType;
+  public ValidationType validationType;
+  public RewardType rewardType;
   public String imageUrl;
 }

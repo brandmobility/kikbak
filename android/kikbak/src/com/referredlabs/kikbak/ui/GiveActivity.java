@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -25,10 +26,9 @@ import com.flurry.android.FlurryAgent;
 import com.google.gson.Gson;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ClientOfferType;
-import com.referredlabs.kikbak.data.MerchantLocationType;
 import com.referredlabs.kikbak.data.OfferType;
 import com.referredlabs.kikbak.log.Log;
-import com.referredlabs.kikbak.ui.ShareOptionsFragment3.OnShareMethodSelectedListener;
+import com.referredlabs.kikbak.ui.ShareOptionsFragment.OnShareMethodSelectedListener;
 import com.referredlabs.kikbak.ui.ShareSuccessDialog.OnShareSuccessListener;
 import com.referredlabs.kikbak.utils.Nearest;
 import com.squareup.picasso.Picasso;
@@ -217,7 +217,7 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
   }
 
   protected void onShareClicked() {
-    ShareOptionsFragment3 dialog = ShareOptionsFragment3.newInstance(mOffer);
+    ShareOptionsFragment dialog = ShareOptionsFragment.newInstance(mOffer);
     dialog.show(getSupportFragmentManager(), null);
   }
 
@@ -235,36 +235,31 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
   }
 
   @Override
-  public void onSendViaEmail(String employee, MerchantLocationType location) {
-    reportShared(Log.CONST_CHANNEL_EMAIL);
-    String comment = mComment.getText().toString();
-    String path = mCroppedPhotoUri == null ? null : mCroppedPhotoUri.getPath();
-    long locationId = location == null ? -1 : location.locationId;
-    ShareViaEmailFragment shareFrag = ShareViaEmailFragment.newInstance(mOffer, comment, path,
-        employee, locationId);
-    shareFrag.show(getSupportFragmentManager(), null);
-  }
+  public void onShareVia(String method, Class<? extends DialogFragment> fragClass, Bundle extraArgs) {
+    reportShared(method);
+    try {
+      DialogFragment fragment = fragClass.newInstance();
 
-  @Override
-  public void onSendViaSms(String employee, MerchantLocationType location) {
-    reportShared(Log.CONST_CHANNEL_SMS);
-    String comment = mComment.getText().toString();
-    String path = mCroppedPhotoUri == null ? null : mCroppedPhotoUri.getPath();
-    long locationId = location == null ? -1 : location.locationId;
-    ShareViaSmsFragment shareFrag = ShareViaSmsFragment.newInstance(mOffer, comment, path,
-        employee, locationId);
-    shareFrag.show(getSupportFragmentManager(), null);
-  }
+      Bundle args = new Bundle();
+      // add extra arguments form select share dialog
+      if (extraArgs != null)
+        args.putAll(extraArgs);
 
-  @Override
-  public void onSendViaFacebook(String employee, MerchantLocationType location) {
-    reportShared(Log.CONST_CHANNEL_FACEBOOK);
-    String comment = mComment.getText().toString();
-    String path = mCroppedPhotoUri == null ? null : mCroppedPhotoUri.getPath();
-    long locationId = location == null ? -1 : location.locationId;
-    ShareViaFacebookFragment publish = ShareViaFacebookFragment.newInstance(mOffer, comment, path,
-        employee, locationId);
-    publish.show(getSupportFragmentManager(), null);
+      // add standard arguments
+      args.putString(ARG_OFFER, new Gson().toJson(mOffer));
+
+      String comment = mComment.getText().toString();
+      args.putString(ShareViaBase.ARG_COMMENT, comment);
+
+      String path = mCroppedPhotoUri == null ? null : mCroppedPhotoUri.getPath();
+      args.putString(ShareViaBase.ARG_PHOTO_PATH, path);
+
+      fragment.setArguments(args);
+      fragment.setRetainInstance(true);
+      fragment.show(getSupportFragmentManager(), null);
+    } catch (Exception e) {
+      // ignore
+    }
   }
 
   @Override
