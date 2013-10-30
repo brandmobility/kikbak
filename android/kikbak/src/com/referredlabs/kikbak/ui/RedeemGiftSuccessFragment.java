@@ -23,6 +23,7 @@ import com.referredlabs.kikbak.data.GiftType;
 import com.referredlabs.kikbak.data.ValidationType;
 import com.referredlabs.kikbak.store.DataStore;
 import com.referredlabs.kikbak.utils.BarcodeGenerator;
+import com.referredlabs.kikbak.utils.LocaleUtils;
 
 public class RedeemGiftSuccessFragment extends Fragment implements OnClickListener {
 
@@ -72,7 +73,7 @@ public class RedeemGiftSuccessFragment extends Fragment implements OnClickListen
       mNoteSecond.setText(R.string.redeem_success_note_second);
     else
       mNoteSecond.setText(R.string.redeem_success_note_second_integrated);
-    mValue.setText(mGift.desc);
+    mValue.setText(LocaleUtils.getGiftValueString(getActivity(), mGift));
     mDesc.setText(mGift.detailedDesc);
   }
 
