@@ -816,7 +816,7 @@ function renderRedeem(gifts, credits) {
 function getOfferDetail() {
   var userId = 0;
   // s.userId;
-  if ( typeof userId !== 'undefined' && userId !== null && userId !== '') {
+  if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
     var offer = jQuery.parseJSON(unescape(s.offerDetail));
     renderOfferDetail(offer);
 
@@ -836,7 +836,11 @@ function getOfferDetail() {
       loginFb();
     });
 
+    $('input [name="comment"]').bind('input',function(){
+      ga('send', 'event', 'button', 'click', 'add comment');
+    });
     $('#take-picture').change(function(e) {
+      ga('send', 'event', 'button', 'click', 'take picture');
       $("#share-btn").attr('disabled', 'disabled');
       var icon = $('.camicon');
       var files = e.target.files;
@@ -946,6 +950,7 @@ function getRedeemCreditDetail() {
 
 function renderOfferDetail(offer) {
   var html = '';
+  ga('send', 'event', 'button', 'show', 'give ' + offer.merchantName);
   var userId = s.userId;
   if (!userId) {
     html += '<div id="share-fb-div" style="text-align:center;overflow:auto;margin-top:5px;">'
@@ -954,6 +959,7 @@ function renderOfferDetail(offer) {
     html += '<p style="font-size:10px;">We use your Facebook ID to personalize the offers you share and notify you when you\'ve earned a reward. We will never post without your permission.</p>';
     html += '</div>';
     html += '</div>';
+    ga('send', 'event', 'button', 'show', 'facebook auth');
   }
   html += '<div id="share-after-login-div">';
   html += '<form id="share-form" type="POST" enctype="multipart/form-data" style="margin-bottom:0px;">';
@@ -1115,6 +1121,7 @@ function onSuggestResponse(url) {
 }
 
 function shareOffer() {
+  ga('send', 'event', 'button', 'click', 'share offer');
   var userId = s.userId;
   updateFbFriends(userId, shareOfferAfterLogin); 
 }
@@ -1180,12 +1187,16 @@ function shareOfferAfterLogin() {
 
 function loginFb() {
   var userId = s.userId;
+  ga('send', 'event', 'button', 'click', 'facebook auth');
   FB.login(function(response) {
     if (response.status === 'connected') {
+      ga('send', 'event', 'button', 'click', 'facebook auth success');
       connectFb(response.authResponse.accessToken);
     } else if (response.status === 'not_authorized') {
+      ga('send', 'event', 'button', 'click', 'facebook auth failure');
       FB.login();
     } else {
+      ga('send', 'event', 'button', 'click', 'facebook auth failure');
       FB.login();
     }
   }, {
@@ -1194,6 +1205,7 @@ function loginFb() {
 }
 
 function onShareResponse(url) {
+  ga('send', 'event', 'button', 'show', 'give method select');
   $('#share-help-form input[name="url"]').val(url);
   $('#share-popup').show();
 }
@@ -1248,6 +1260,7 @@ function doShare(cb, type) {
 }
 
 function shareViaSms() {
+  ga('send', 'event', 'button', 'click', 'share via sms');
   doShare(function(code, msg, url, resp) {
     $('#spinner h2').html('Waiting');
     window.location.href = 'sms:?body=' + encodeURIComponent(encodeURIComponent(resp.template.body));
@@ -1255,6 +1268,7 @@ function shareViaSms() {
 }
 
 function shareViaEmail() {
+  ga('send', 'event', 'button', 'click', 'share via email');
   doShare(function(code, msg, url, resp) {
     $('#spinner h2').html('Waiting');
     window.location.href = 'mailto:?content-type=text/html&subject=' + encodeURIComponent(resp.template.subject) 
@@ -1263,6 +1277,7 @@ function shareViaEmail() {
 }
 
 function shareViaFacebook() {
+  ga('send', 'event', 'button', 'click', 'share via facebook');
   doShare(function(code, msg, imageUrl, resp) {
     var fbUrl = resp.template.landingUrl;
     var o = {
