@@ -149,9 +149,10 @@ public class RewardServiceImpl implements RewardService {
         for (Long offerId : m.keySet()) {
             Offer offer = roOfferDao.findById(offerId);
             Gift gift = roGiftDao.findByOfferId(offerId);
+            double giftValue = m.get(offerId).get(0).getValue();
             Merchant merchant = roMerchantDao.findById(offer.getMerchantId());
 
-            GiftType gt = createGiftType(merchant, gift, offer);
+            GiftType gt = createGiftType(merchant, gift, giftValue, offer);
             for (Allocatedgift ag : m.get(offerId)) {
                 Shared shared = roSharedDao.findById(ag.getSharedId());
                 User friend = roUserDao.findById(ag.getFriendUserId());
@@ -314,7 +315,7 @@ public class RewardServiceImpl implements RewardService {
                     Gift gift = roGiftDao.findById(ag.getGiftId());
                     User friend = roUserDao.findById(ag.getFriendUserId());
 
-                    GiftType gt = createGiftType(merchant, gift, offer);
+                    GiftType gt = createGiftType(merchant, gift, ag.getValue(), offer);
                     addShareInfoToGift(gt, shared, friend, ag.getId());
                     gifts.add(gt);
                     agIds.add(ag.getId());
@@ -345,7 +346,7 @@ public class RewardServiceImpl implements RewardService {
         Gift gift = roGiftDao.findById(shared.getOfferId());
         User friend = roUserDao.findById(shared.getUserId());
 
-        GiftType gt = createGiftType(merchant, gift, offer);
+        GiftType gt = createGiftType(merchant, gift, gift.getValue(), offer);
         addShareInfoToGift(gt, shared, friend, 0);
 
         return gt;
@@ -362,7 +363,7 @@ public class RewardServiceImpl implements RewardService {
         Gift gift = roGiftDao.findById(shared.getOfferId());
         User friend = roUserDao.findById(shared.getUserId());
 
-        GiftType gt = createGiftType(merchant, gift, offer);
+        GiftType gt = createGiftType(merchant, gift, gift.getValue(), offer);
         addShareInfoToGift(gt, shared, friend, 0);
 
         return gt;
@@ -381,14 +382,14 @@ public class RewardServiceImpl implements RewardService {
         return createAvailableCreditType(credit.getUserId(), credit);
     }
 
-    private GiftType createGiftType(Merchant merchant, Gift gift, Offer offer) {
+    private GiftType createGiftType(Merchant merchant, Gift gift, double giftValue, Offer offer) {
         GiftType gt = new GiftType();
         ClientMerchantType cmt = fillClientMerchantType(merchant);
         gt.setMerchant(cmt);
         gt.setOfferId(gift.getOfferId());
         gt.setDesc(gift.getDescription());
         gt.setDetailedDesc(gift.getDetailedDesc());
-        gt.setValue(gift.getValue());
+        gt.setValue(giftValue);
         gt.setDiscountType(gift.getDiscountType());
         gt.setValidationType(gift.getValidationType());
         gt.setRedemptionLocationType(gift.getRedemptionLocationType());
@@ -435,6 +436,18 @@ public class RewardServiceImpl implements RewardService {
 
     private Allocatedgift createAllocateOffer(Long userId, Shared shared, Offer offer) {
         Gift gift = roGiftDao.findByOfferId(shared.getOfferId());
+        double giftValue = gift.getValue();
+        if (gift.getLottery() != null) {
+            // check if user got that gift already to keep the same gift value
+            Double value = roAllocatedGiftDao.getAllocatedGiftValue(userId, shared.getOfferId());
+            if (value != null) {
+                giftValue = value;
+            } else {
+                Lottery lottery = new Lottery(gift.getLottery());
+                giftValue = lottery.draw();
+            }
+        }
+
         Allocatedgift ag = new Allocatedgift();
         ag.setExpirationDate(offer.getEndDate());
         ag.setFriendUserId(shared.getUserId());
@@ -443,7 +456,7 @@ public class RewardServiceImpl implements RewardService {
         ag.setUserId(userId);
         ag.setGiftId(gift.getId());
         ag.setSharedId(shared.getId());
-        ag.setValue(gift.getValue());
+        ag.setValue(giftValue);
         ag.setCreatedDate(new Date());
 
         rwGiftDao.makePersistent(ag);

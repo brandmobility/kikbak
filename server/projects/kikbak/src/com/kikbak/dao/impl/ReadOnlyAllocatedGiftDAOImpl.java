@@ -18,6 +18,7 @@ public class ReadOnlyAllocatedGiftDAOImpl extends ReadOnlyGenericDAOImpl<Allocat
 	private static final String gift_shared_ids = "select shared_id from allocatedgift where user_id=?";
 	private static final String get_valid_offer_ids = "select * from allocatedgift where user_id=? and offer_id not in (select offer_id from allocatedgift where user_id=? and redemption_date is not null)";
 	private static final String is_gift_available = "select offer_id from allocatedgift where user_id=? and offer_id=? and redemption_date is not null";
+	private static final String get_gift_value = "select value from allocatedgift where user_id=? and offer_id=? limit 1";
 
         @SuppressWarnings("unchecked")
 	@Override
@@ -65,4 +66,13 @@ public class ReadOnlyAllocatedGiftDAOImpl extends ReadOnlyGenericDAOImpl<Allocat
 	    //if list is empty it means there was a gift redeemed
 	    return ids.isEmpty() ? true:false;
 	}
+	
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public Double getAllocatedGiftValue(Long userId, Long offerId) {
+        @SuppressWarnings("unchecked")
+        Collection<Double> values = sessionFactory.getCurrentSession().createSQLQuery(get_gift_value)
+                .addEntity(Allocatedgift.class).setLong(0, userId).setLong(1, offerId).list();
+        return values.isEmpty() ? null : values.iterator().next();
+    }
 }
