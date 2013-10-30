@@ -121,7 +121,8 @@ public class ShareViaSmsFragment extends ShareViaBase {
       req.experience.caption = args.getString(ARG_COMMENT);
       req.experience.employeeId = args.getString(ARG_EMPLYOYEE);
       req.experience.imageUrl = imageUrl;
-      req.experience.locationId = longOrNull(args.getLong(ARG_LOCATION_ID));
+      req.experience.locationId = args.containsKey(ARG_LOCATION_ID)
+          ? args.getLong(ARG_LOCATION_ID) : null;
       req.experience.merchantId = mOffer.merchantId;
       req.experience.offerId = mOffer.id;
       req.experience.type = SharedType.SHARE_MODE_SMS;

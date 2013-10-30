@@ -44,9 +44,4 @@ public class ShareViaBase extends DialogFragment {
       mTask = null;
     }
   }
-
-  protected Long longOrNull(long l) {
-    return l == -1 ? null : l;
-  }
-
 }

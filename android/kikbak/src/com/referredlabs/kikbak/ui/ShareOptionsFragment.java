@@ -118,7 +118,8 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
     }
 
     Bundle extraArgs = new Bundle();
-    extraArgs.putLong(ShareViaBase.ARG_LOCATION_ID, location.locationId);
+    if(location != null)
+      extraArgs.putLong(ShareViaBase.ARG_LOCATION_ID, location.locationId);
     extraArgs.putString(ShareViaBase.ARG_EMPLYOYEE, employee);
 
     switch (v.getId()) {
