@@ -71,8 +71,7 @@ public class ReadOnlyAllocatedGiftDAOImpl extends ReadOnlyGenericDAOImpl<Allocat
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public Double getAllocatedGiftValue(Long userId, Long offerId) {
         @SuppressWarnings("unchecked")
-        Collection<Double> values = sessionFactory.getCurrentSession().createSQLQuery(get_gift_value)
-                .addEntity(Allocatedgift.class).setLong(0, userId).setLong(1, offerId).list();
+        Collection<Double> values = sessionFactory.getCurrentSession().createSQLQuery(get_gift_value).setLong(0, userId).setLong(1, offerId).list();
         return values.isEmpty() ? null : values.iterator().next();
     }
 }
