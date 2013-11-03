@@ -24,7 +24,14 @@ $(document).ready(function() {
   }());
   $('#loginFb').click(fbLogin);
   $('#redeemGift').click(redeemGift);
+  $('#redeem-barcode-btn').click(function() {
+    redeemBarcode(this.attributes['data-code']);
+  });
 });
+
+function redeemBarcode(code) {
+  console.log('redeem code ' + code);
+}
 
 function showError() {
   alert("Service is unavailable. Please try again later.");

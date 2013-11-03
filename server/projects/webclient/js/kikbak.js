@@ -317,6 +317,7 @@ function initPage() {
   }
 
   var pageType = window.location.hash;
+  console.log('init ' + pageType);
   var merchantTypePrefix = "#merchant-";
   if (pageType.indexOf(merchantTypePrefix) === 0) {
     var strArray = pageType.split('-');
@@ -635,19 +636,9 @@ function getRedeemsWithLocation() {
           }
         }
 
-        $('#redeem-view').show('');
         $('#redeem-btn-div').css('background', 'url("img/btn_highlighted.png")');
         $('#heading').html('Kikbak');
         
-        if (getRedeems.counter == 0) {
-          $("#no-redeem-list").show();
-        } else {
-          $("#no-redeem-list").hide();
-        }
-        if (getRedeems.counter == 1) {
-          onClickRedeem(redeemData);
-        } 
-
         $('.redeem-data-btn').click(function(e) {
           e.preventDefault();
           var redeemData = jQuery.parseJSON(unescape($(this).attr('data-object')));
@@ -663,6 +654,18 @@ function getRedeemsWithLocation() {
           var credits = jQuery.parseJSON(unescape($(this).attr('data-object')));
           onClickRedeemCredit(credits);
         });
+        
+        if (getRedeems.counter == 0) {
+          $("#no-redeem-list").show();
+        } else {
+          $("#no-redeem-list").hide();
+        }
+        if (getRedeems.counter == 1) {
+          onClickRedeem(redeemData);
+          return;
+        } 
+
+        $('#redeem-view').show('');
       },
       error : showError
     });
@@ -678,6 +681,7 @@ function onClickRedeem(redeemData) {
     onClickRedeemGift(redeemData['gift']);
     return;
   }
+  $('#redeem-view').show('');
   var gift = redeemData['gift'];
   var credit = redeemData['credit'];
   $('#friend-popup h1').html('');
@@ -717,6 +721,7 @@ function onClickRedeemGift(gifts) {
     var list = $('#friend-list');
     list.html(gifts.desc);
     if (gifts && gifts.shareInfo.length > 1) {
+      $('#redeem-view').show('');
       for (var shareInfo in gifts.shareInfo.length) {
         var li = '<li class="frd-bx" >';
         li += '<img src="https://graph.facebook.com/' + shareInfo.fbFriendId + '/picture?type=square">';
@@ -788,8 +793,8 @@ function renderRedeem(gifts, credits) {
       var json = escape(JSON.stringify(g));
       var style = credits ? ' lft-bdr' : '';
       html += '<a href="#" data-object="' + json + '" class="redeem-gift-btn clearfix">';
-      html += '<div class="lft-dtl' + style + '"><span>USE RECEIVED GIFT </span><h2>' + g.desc + '</h2>';
-      html += '<img style="width:32px;height:32px;" src="https://graph.facebook.com/' + g.shareInfo[0].fbFriendId + '/picture?type=square">';
+      html += '<div class="lft-dtl' + style + '"><span>USE RECEIVED GIFT<h2>' + g.desc + '</h2></span>';
+      html += '<img style="width:32px;height:32px;float:right;" src="https://graph.facebook.com/' + g.shareInfo[0].fbFriendId + '/picture?type=square">';
       if (gifts.length > 1) {
         html += '<img src="images/actor-bk.png" class="actbrd">';
       }
@@ -1354,21 +1359,25 @@ function encodeQueryData(data) {
 
 function renderRedeemGiftDetail(data) {
   var gift = data.gift;
-  doRedeemGift(gift);
-  return;
-  
+ 
   var share = data.shareInfo;
   var html = '';
-  html += '<div class="image-add rdme" style="height:auto;"><img src="' + share.imageUrl + '" class="addimge"><span class="imgshado"></span>';
+  html += '<div class="image-add rdme"><img src="' + share.imageUrl + '" class="addimge"><span class="imgshado"></span>';
   html += '<h3>' + gift.merchant.name + '</h3>';
   html += '<div class="opt-icon">';
   var local = getDisplayLocation(gift.merchant.locations);
+  var dist = 0;
   if (local) {
-    html += '<a href="' + generateMapUrl(gift.merchant.name, local) + '"><img src="images/ic_map@2x.png" />' + '&nbsp;' + computeDistance(local) + '</a>';
+    dist = computeDistanceDigit(local);
+    html += '<a href="' + generateMapUrl(gift.merchant.name, local) + '"><img src="images/ic_map@2x.png" />' + '&nbsp;' + dist + ' mi</a>';
     html += '<a href="' + gift.merchant.url + '"><img class="website-img" src="images/ic_web@2x.png" /></a>';
     html += '<a href="tel:' + local.phoneNumber + '"><img class="website-img" src="images/ic_phone@2x.png" /></a>';
   } else {
     html += '<a href="' + gift.merchant.url + '"><img class="website-img" src="images/ic_web@2x.png" /></a>';
+  }
+  if (local && dist < 0.5) {
+    doRedeemGift(gift);
+    return;
   }
   html += '</div></div>';
   html += '<div class="gvrdm">';
@@ -1394,8 +1403,12 @@ function renderRedeemGiftDetail(data) {
   });
   
   $('#redeem-gift-instore-btn').click(function(e) {
-	e.preventDefault();
-    doRedeemGift(gift);
+    e.preventDefault();
+    if (dist > 0.5) {
+      alert("Oops! You have to be in the store to redeem.\n\nLooks like you might not be there yet. Try again?");
+    } else {
+      doRedeemGift(gift);
+    }
   });
   
   $('#redeem-details-view').show('');
@@ -1406,7 +1419,7 @@ function renderRedeemGiftDetail(data) {
 }
 
 function doRedeemGift(gift) {
-  var imgUrl = config.backend + 'kikbak/rewards/generateBarcode/' + s.userId + '/' + gift.shareInfo[0].allocatedGiftId + '/100/150/';
+  var imgUrl = config.backend + 'kikbak/rewards/generateBarcode/' + s.userId + '/' + gift.shareInfo[0].allocatedGiftId + '/100/200/';
   $('#redeem-gift-success .pg-hedng').html(gift.merchant.name);
   $('#redeem-gift-success .cd-br-stin h1').html(gift.desc);
   $('#redeem-gift-success .cd-br-stin h3').html(gift.detailedDesc);
