@@ -126,6 +126,7 @@ strong{
     width:100%;
     margin:0;
     background: url(../img/overlay.png) repeat-x top left;
+    display: inline-table;
 }
 #main{
     width:900px;
@@ -272,11 +273,11 @@ strong{
 #main-right #ribbon-blue{
     color:#FFF;
     width:537px;
-    height: 80px;
+    height: 60px;
     background: url(../img/blue-btn-bk-hvr.png);
     background-size: cover;
     text-align:center;
-    padding: 18px 0;
+    padding: 10px 0;
     font-size:22px;
     line-height: 22px;
     float:left;
@@ -284,12 +285,12 @@ strong{
 #main-right #ribbon-blue-dec{
     background: url(../img/bnr-blu-ptrn.png);
     background-size: 100%;
-    height: 116px;
+    height: 80px;
     width: 3px;
     float: right;
 }
 #main-right #ribbon-blue h2{
-    margin-top: 20px;
+    margin-top: 10px;
     font-size: 42px;
     line-height: 42px;
     font-family:'HelveticaNeue Bold';
@@ -371,4 +372,53 @@ strong{
 }
 #footer .footer-right a:hover{
     color: #a0a0a0;  
+}
+.bsnm {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 1%;
+    width: 58%;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    color: #666;
+}
+
+#main-right .frm-fed h3 {
+    font-size: 15px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+.btn {
+    color: #fff;
+    font-size: 16px;
+    margin: 1% 3%;
+    padding: 2%;
+    border: 0px;
+    text-align: center;
+    width: 60%;
+    height: 40px;
+    font-weight: bold;
+    border-radius: 5px;
+    filter: dropshadow(color=#050505,offx=-1,offy=-1)
+}
+.grd-btn {
+    background: url('../img/btn_blue.png');
+    background-size: cover;
+}
+input[disabled="disabled"] {
+    opacity:.2;
+}
+button[disabled="disabled"] {
+    opacity:.2;
+}
+#redeem-success h3 {
+    text-align: center;
+    font-size: 40px;
+    font-weight: bolder;
+    margin: 60px 0 40px;
+}
+#redeem-success p {
+    text-align: center;
+    font-size: 20px;
+    font-weight: normal;
 }

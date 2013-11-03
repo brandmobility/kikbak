@@ -74,12 +74,31 @@
                     </div>
                     <div id="ribbon-blue-dec"></div>
                     <div class="clearfix"></div>
-                    <div id="redeem-div">
-                        <p>Your reward can be redeemed in-store only.<br />Download the Kikbak app for iOS or Android. Your reward will be waiting for whenever you're ready to use it.</p>
-                        <div>
-                            <a href="https://itunes.apple.com/us/app/kikbak/id707697884?mt=8"><img src="img/app-store.png" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <a href="https://play.google.com/store/apps/details?id=com.referredlabs.kikbak&hl=en"><img src="img/google-play.png" /></a>
-                        </div>
+                    <div id="facebook-div">
+                        <p class="title">Connect with Facebook to access your reward.</p>
+                        <a id="loginFb" href="#"> <img src="img/fb-btn-new.png" width="258" height="55" style="margin: 0 auto;" /></a>
+                        <p class="disclaimer">We use your Facebook ID to personalize the offers you share and notify you when you've earned a reward.<br/> We will never post without your permission.</p>
+                    </div>
+                    <div id="redeem-div" style="display:none;">
+                        <form id="claim-credit-form">
+                            <div class="frm-fed">
+                                <h3>Please provide the following to redeem:</h3>
+                                <input type="hidden" name="creditId" value="${credit.id}" class="bsnm" />
+                                <input type="text" name="phoneNumber" placeholder="Phone number (number only)" class="bsnm" />
+                                <input type="text" name="name" placeholder="First Last Name" class="bsnm" />
+                                <input type="text" name="street" placeholder="Street" class="bsnm" />
+                                <input type="text" name="apt" placeholder="Apartment or Unit # (number only)" class="bsnm" />
+                                <input type="text" name="city" placeholder="City" class="bsnm" />
+                                <input type="text" name="state" placeholder="State" class="bsnm" />
+                                <input type="text" name="zipcode" placeholder="Zip (number only)" class="bsnm" />
+                                <p>Your reward should arrive in 2 - 4 weeks.</p>
+                            </div>
+                            <button id="claim-credit-btn" class="btn grd-btn" disabled="disabled">Submit</button>
+                        </form>
+                    </div>
+                    <div id="redeem-success" style="display:none;">
+                        <h3>Success!</h3>
+                        <p>Your reward claim has been submitted.</p>
                     </div>
                 </div>
             </div>
@@ -154,15 +173,19 @@
                     <div class="col-md-1"></div>
                 </div>
                 <div class="clearfix"></div>
-                <div id="redeem-div"> 
-                    <div style="text-align:center;padding-top:20px;">
-                        <div style="text-align:center;font-size:16px;padding-top:20px;padding-bottom:20px;font-weight:500">
-                            <p>Your reward can be redeemed in-store only.<br /><br />Download the Kikbak app for iOS or Android. Your reward will be waiting for whenever you’re ready to use it.</p>
+                <div id="facebook-div">
+                    <div class="page-header" style="padding-left: 10px; padding-right: 10px; margin-top: 25px; text-align: center">
+                        <p style="font-size: 15px; font-family: HelveticaNeueLTPro-Lt;">Connect with Facebook to access your gift.</p>
+                        <div style="height: 40px">
+                            <a id="loginFb" href="#">
+                                <img src="img/btn_facebook.png" style="width: 100%;" />
+                                <span style="position: relative; top: -35px; left: 15px; color: #FFFFFF; font-size: 20px;">Connect with Facebook</span>
+                            </a>
                         </div>
-                    </div>
-                    <div style="text-align:center;padding-bottom:20px;">
-                        <a href="https://itunes.apple.com/us/app/kikbak/id707697884?mt=8"><img src="img/app-store.png" width="40%" /></a>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <a href="https://play.google.com/store/apps/details?id=com.referredlabs.kikbak&hl=en"><img src="img/google-play.png" width="40%" /></a>
+                        <p align="center" style="padding-top: 20px; font-family: HelveticaNeueLTPro-Lt; font-size: 10px;">
+                            We use Facebook to make it easy for you to share and redeem. <br/>
+                            We will never post on Facebook without your permission.
+                        </p>
                     </div>
                 </div>
                 <div class="clearfix"></div>
@@ -185,27 +208,80 @@
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
         <script>
-            window.mobilecheck = function() {
-            var check = false;
-            (function(a) {
-            if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i
-            .test(a)
-            || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i
-            .test(a.substr(0, 4)))
-            check = true;
-            })(navigator.userAgent || navigator.vendor || window.opera);
-            return check;
+        <c:choose>
+        <c:when test="${not mobile}">
+        $('#container').css('background-image', 'url(${gift.defaultGiveImageUrl})');
+        $('#container').css('background-size', '100%');
+        $('#container').css('background-position', 'initial initial');
+        $('#container').css('background-repeat', 'initial initial');
+        $('#header h1').css('background-image', 'url(${merchantUrl})');
+        $('#header h1').css('background-size', '100%');
+        $('#header h1').css('background-position', 'initial initial');
+        $('#header h1').css('background-repeat', 'no-repeat');
+        function registerCb(userId) {
+          $('#facebook-div').hide();
+          $('#redeem-div').show();
+          $('#claim-credit-form input').bind('keyup', function() {
+            var form = $('#claim-credit-form');
+            var valid = true;
+            $.each(form.serializeArray(), function() { 
+              if (this.value.replace(/^\s+|\s+$/g, '') == '') {
+                valid = false;
+              }
+            });
+            if (valid) {
+              $('#claim-credit-btn').removeAttr('disabled');
+            } else {
+              $('#claim-credit-btn').attr('disabled', 'disabled');
             }
-            if (!window.mobilecheck()) {
-                $('#container').css('background-image', 'url(${gift.defaultGiveImageUrl})');
-                $('#container').css('background-size', '100%');
-                $('#container').css('background-position', 'initial initial');
-                $('#container').css('background-repeat', 'initial initial');
-                $('#header h1').css('background-image', 'url(${merchantUrl})');
-                $('#header h1').css('background-size', '100%');
-                $('#header h1').css('background-position', 'initial initial');
-                $('#header h1').css('background-repeat', 'no-repeat');
+          });
+
+          $('#claim-credit-btn').click(function(e) {
+            e.preventDefault();
+            var o = {};
+            var form = $('#claim-credit-form');
+            $.each(form.serializeArray(), function() { 
+              o[this.name] = this.value;
+            });
+            var keys = ['phoneNumber', 'apt', 'zipcode'];
+            for (var i in keys) {
+              var k = keys[i];
+              if (/^\d+$/.test(o[k].replace(/^\s+|\s+$/g, ''))) {
+                o[k] = o[k].replace(/^\s+|\s+$/g, '');
+              } else {
+                alert('Sorry, the information you entered is not recognized as valid.\n\nPlease ensure that is accurate and try again');
+                return;
+              }
             }
+            return;
+            var claim = {};
+            claim['claim'] = o;
+            var req = {};
+            req['ClaimCreditRequest'] = claim;
+            var str = JSON.stringify(req);
+            $.ajax({
+              dataType: 'json',
+              type: 'POST',
+              contentType: 'application/json',
+              data: str,
+              url: 'rewards/claim/' + userId + '/',
+              success: function(json) {
+                $('#redeem-div').hide();
+            	$('#redeem-success').show();
+              },
+              error: showError
+            });
+            return false;
+          });  
+        }
+        </c:when>
+        <c:otherwise>
+        function registerCb(userId) {
+          window.location.href = '/m/#redeem';
+        }
+        </c:otherwise>
+        </c:choose>
         </script>
+        <script src="js/register.js"></script>
     </body>
 </html>

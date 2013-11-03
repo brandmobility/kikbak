@@ -148,6 +148,16 @@ $(document).ready(function() {
     $.each(form.serializeArray(), function() { 
       o[this.name] = this.value;
     });
+    var keys = ['phoneNumber', 'apt', 'zipcode'];
+    for (var i in keys) {
+      var k = keys[i];
+      if (/^\d+$/.test(o[k].replace(/^\s+|\s+$/g, ''))) {
+        o[k] = o[k].replace(/^\s+|\s+$/g, '');
+      } else {
+        alert('Sorry, the information you entered is not recognized as valid.\n\nPlease ensure that is accurate and try again');
+        return;
+      }
+    }
     var claim = {};
     claim['claim'] = o;
     var req = {};
