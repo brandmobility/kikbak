@@ -69,13 +69,13 @@
                 </div>
                 <div id="main-right">
                     <h3><strong>You have a reward to be claimed!</strong></h3>
-                    <div class="ribbon">
-                        <div style="background:url(img/blue-btn-bk-hvr.png); background-size:cover;">
-                            <h2><img src="img/victor-icon.png" class="victor-img"/>  ${credit.desc}</h2>
-                        </div>
+                    <div id="ribbon-blue">
+                        <h2><img src="img/victor-icon.png" class="victor-img"/>  ${credit.desc}</h2>
                     </div>
-                    <div id="redeem-div" style="display: none;">
-                        <p>Your reward can be redeemed in-store only.<br /><br />Download the Kikbak app for iOS or Android. Your reward will be waiting for whenever you're ready to use it.</p>
+                    <div id="ribbon-blue-dec"></div>
+                    <div class="clearfix"></div>
+                    <div id="redeem-div">
+                        <p>Your reward can be redeemed in-store only.<br />Download the Kikbak app for iOS or Android. Your reward will be waiting for whenever you're ready to use it.</p>
                         <div>
                             <a href="https://itunes.apple.com/us/app/kikbak/id707697884?mt=8"><img src="img/app-store.png" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <a href="https://play.google.com/store/apps/details?id=com.referredlabs.kikbak&hl=en"><img src="img/google-play.png" /></a>
@@ -197,11 +197,14 @@
             return check;
             }
             if (!window.mobilecheck()) {
-            $('#container').css('background', 'url(${gift.defaultGiveImageUrl})');
-            $('#container').css('background-size', '100%');
-            $('#header h1').css('background', 'url(${merchantUrl})');
-            $('#header h1').css('background-size', '100%');
-            $('#header h1').css('background-repeat', 'no-repeat');
+                $('#container').css('background-image', 'url(${gift.defaultGiveImageUrl})');
+                $('#container').css('background-size', '100%');
+                $('#container').css('background-position', 'initial initial');
+                $('#container').css('background-repeat', 'initial initial');
+                $('#header h1').css('background-image', 'url(${merchantUrl})');
+                $('#header h1').css('background-size', '100%');
+                $('#header h1').css('background-position', 'initial initial');
+                $('#header h1').css('background-repeat', 'no-repeat');
             }
         </script>
     </body>

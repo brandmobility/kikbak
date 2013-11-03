@@ -59,14 +59,14 @@
                             <a href="https://maps.google.com/maps?q=${encodeMerchantName}%40${location.latitude},${location.longitude}" target="_blank"><div class="location"></div></a>
                             <a href="${gift.merchant.url}" target="_blank"><div class="globe"></div></a>
                         </div>
-                        <c:choose>
-                        <c:when test="${not empty location}">
-                        <div class="info-footer">
-                            ${shareInfo.friendName} was at <strong>${gift.merchant.name}</strong> at <strong>${location.address1}, ${location.city}, ${location.state}</strong>
-                        </div>
-                        </c:when>
-                        </c:choose>
                     </div>
+                    <c:choose>
+                    <c:when test="${not empty location}">
+                    <div class="info-footer">
+                        ${shareInfo.friendName} was at <strong>${gift.merchant.name}</strong> at <strong>${location.address1}, ${location.city}, ${location.state}</strong>
+                    </div>
+                    </c:when>
+                    </c:choose>
                 </div>
                 <div id="main-right">
                     <h3><strong>${shareInfo.friendName}</strong> used <strong>Kikbak</strong> to give you <br/> an exclusive offer for <strong>${gift.merchant.name}</strong></h3>
@@ -274,14 +274,14 @@
         return check;
         }
         if (!window.mobilecheck()) {
-        $('#container').css('background-image', 'url(${gift.defaultGiveImageUrl})');
-        $('#container').css('background-size', '100%');
-        $('#container').css('background-position', 'initial initial');
-        $('#container').css('background-repeat', 'initial initial');
-        $('#header h1').css('background-image', 'url(${merchantUrl})');
-        $('#header h1').css('background-size', '100%');
-        $('#container').css('background-position', 'initial initial');
-        $('#header h1').css('background-repeat', 'no-repeat');
+            $('#container').css('background-image', 'url(${gift.defaultGiveImageUrl})');
+            $('#container').css('background-size', '100%');
+            $('#container').css('background-position', 'initial initial');
+            $('#container').css('background-repeat', 'initial initial');
+            $('#header h1').css('background-image', 'url(${merchantUrl})');
+            $('#header h1').css('background-size', '100%');
+            $('#header h1').css('background-position', 'initial initial');
+            $('#header h1').css('background-repeat', 'no-repeat');
         }
     </script>
     <script src="js/landing.js"></script>
