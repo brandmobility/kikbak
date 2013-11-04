@@ -75,9 +75,14 @@
                     <div id="ribbon-blue-dec"></div>
                     <div class="clearfix"></div>
                     <div id="facebook-div">
-                        <p class="title">Connect with Facebook to access your reward.</p>
+                        <p class="title">Sign-in with Facebook to redeem your credit now</p>
                         <a id="loginFb" href="#"> <img src="img/fb-btn-new.png" width="258" height="55" style="margin: 0 auto;" /></a>
                         <p class="disclaimer">We use your Facebook ID to personalize the offers you share and notify you when you've earned a reward.<br/> We will never post without your permission.</p>
+                        <p class="title"><br/><br/>Or download the Kikbak app. Your reward will be waiting for<br/>whenever you’re ready to use it.</p>
+                        <div style="text-align: center; padding-bottom: 20px;">
+                            <a href="https://itunes.apple.com/us/app/kikbak/id707697884?mt=8"><img src="img/app-store.png" width="40%" /></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <a href="https://play.google.com/store/apps/details?id=com.referredlabs.kikbak&hl=en"><img src="img/google-play.png" width="40%" /></a>
+                        </div>
                     </div>
                     <div id="redeem-div" style="display:none;">
                         <form id="claim-credit-form">
@@ -175,7 +180,7 @@
                 <div class="clearfix"></div>
                 <div id="facebook-div">
                     <div class="page-header" style="padding-left: 10px; padding-right: 10px; margin-top: 25px; text-align: center">
-                        <p style="font-size: 15px; font-family: HelveticaNeueLTPro-Lt;">Connect with Facebook to access your gift.</p>
+                        <p style="font-size: 15px; font-family: HelveticaNeueLTPro-Lt;">Sign-in with Facebook to redeem your credit now</p>
                         <div style="height: 40px">
                             <a id="loginFb" href="#">
                                 <img src="img/btn_facebook.png" style="width: 100%;" />

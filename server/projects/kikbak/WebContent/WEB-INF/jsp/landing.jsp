@@ -32,11 +32,17 @@
         <c:when test="${not mobile}">
         <div id="container"></div>
         <div id="wrap">
+            <div id="green-overlay" style="display:none;"></div>
             <div id="main" class="clearfix">
                 <div id="header">
                     <a href="${gift.merchant.url}" target="_blank">
                         <h1>${gift.merchant.name}</h1>
                     </a>
+                    <c:choose>
+                    <c:when test="${gift.validationType == 'barcode'}">
+                    <button id="print-btn" style="display:none;" class="btn grd-btn print-btn" onclick="window.print()"><img src="img/printer.png" /><span>  Print page</span></button>
+                    </c:when>
+                    </c:choose>
                 </div>
                 <div id="info">
                     <div class="info-header clearfix">
@@ -69,7 +75,13 @@
                     </c:choose>
                 </div>
                 <div id="main-right">
-                    <h3><strong>${shareInfo.friendName}</strong> used <strong>Kikbak</strong> to give you <br/> an exclusive offer for <strong>${gift.merchant.name}</strong></h3>
+                    <div id="success-msg" style="display:none;">
+                        <h1>Success!</h1>
+                        <h3>You have claimed your gift<br/>Bring this offer into ${gift.merchant.name} to redeem your gift.</h3>
+                    </div>
+                    <div id="welcome-msg">
+                        <h3><strong>${shareInfo.friendName}</strong> used <strong>Kikbak</strong> to give you <br/> an exclusive offer for <strong>${gift.merchant.name}</strong></h3>
+                    </div>
                     <div id="ribbon">
                         <h2>${gift.desc}</h2>
                         <p>${gift.detailedDesc}</p>
@@ -80,6 +92,8 @@
                         <a id="loginFb" href="#"> <img src="img/fb-btn-new.png" width="258" height="55" style="margin: 0 auto;" /></a>
                         <p class="disclaimer">We use your Facebook ID to personalize the offers you share and notify you when you've earned a reward.<br/> We will never post without your permission.</p>
                     </div>
+                    <c:choose>
+                    <c:when test="${gift.validationType != 'barcode'}">
                     <div id="redeem-div" style="display: none;">
                         <p>Awesome! Your gift is now stored to your Facebook <br/>account. To use your gift, download the Kikbak app. It’ll be<br/> waiting for whenever you’re ready to use it.</p>
                         <div>
@@ -87,6 +101,13 @@
                             <a href="https://play.google.com/store/apps/details?id=com.referredlabs.kikbak&hl=en"><img src="img/google-play.png" /></a>
                         </div>
                     </div>
+                    </c:when>
+                    <c:otherwise>
+                    <div id="redeem-div" style="display: none;">
+                        <img id="barcode" src="" />
+                    </div>
+                    </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </div>
@@ -297,7 +318,18 @@
               showError();
               return;
             }
+            <c:choose>
+            <c:when test="${gift.validationType == 'barcode'}">
+            $('#welcome-msg').hide();
+            var imgUrl = 'rewards/generateBarcode/' + userId + '/' + response.agId + '/100/200/';
+            $('#barcode').attr('src', imgUrl);
+            $('#print-btn').show();
+            $('#success-msg').show();
+            $('#green-overlay').show();
+            </c:when>
+            </c:choose>
             $('#facebook-div').hide();
+            $('#print-btn').show();
             $('#redeem-div').show();
           } else {
             showError();
