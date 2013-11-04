@@ -88,8 +88,11 @@
 "Apply"="Apply";
 "Change Amount" = "Change Amount";
 
+"Reward Ready"="You have a reward ready to be claimed";
 "Claimed Credit" = "You have claimed your credit";
 "Claimed Gift" = "You have claimed your gift";
+"Claim reward now" = "Claim reward now";
+
 "Show Screen" = "Please show this screen to the cashier.";
 "Redeem Success Credit Label" = "CREDIT";
 "Your Purchase" = "can now be applied to your purchase";
