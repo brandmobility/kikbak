@@ -29,6 +29,7 @@
 #import "FBCouponObject.h"
 #import "ShareResult.h"
 #import "UIDevice+OSVersion.h"
+#import "Flurry.h"
 
 
 #define DEFAULT_CONTAINER_VIEW_HEIGHT 50
@@ -186,6 +187,8 @@ static int offsetForIOS6 = 44;
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
+        [Flurry logEvent:[NSString stringWithFormat:@"%@ %@", @"give ", self.retailerName.text]];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
@@ -502,6 +505,9 @@ static int offsetForIOS6 = 44;
         self.captionTextView.text = @"";
     }
     
+    [Flurry logEvent:@"share offer"];
+
+    
     frame.origin.y += offsetForIOS6;
     if( photoTaken == YES){
         self.spinnerView = [[SpinnerView alloc]initWithFrame:frame];
@@ -524,6 +530,8 @@ static int offsetForIOS6 = 44;
 
 -(IBAction)onTakePhotoBtn:(id)sender{
     [self resignTextView];
+    
+    [Flurry logEvent:@"take picture"];
 
     if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
         UIImagePickerController* picker = [[UIImagePickerController alloc]init];
@@ -713,6 +721,7 @@ static int offsetForIOS6 = 44;
         growingTextView.text = NSLocalizedString(@"add comment", nil);
         growingTextView.textColor = UIColorFromRGB(0x9f9f9f);
     }
+    [Flurry logEvent:@"add comment"];
     [self resignTextView];
     return YES;
 }

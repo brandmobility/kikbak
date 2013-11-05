@@ -13,7 +13,9 @@
 #import "util.h"
 #import "NotificationContstants.h"
 #import "UIDevice+Screen.h"
+#import "UIButton+Util.h"
 #import "UIDevice+OSVersion.h"
+#import "Flurry.h"
 
 static int offsetForIOS6 = 44;
 
@@ -49,7 +51,7 @@ static int offsetForIOS6 = 44;
 
 
 -(IBAction)onSubmitBtn:(id)sender;
-
+-(IBAction)onBackBtn:(id)sender;
 
 
 @end
@@ -74,6 +76,9 @@ static int offsetForIOS6 = 44;
         self.edgesForExtendedLayout = UIRectEdgeNone;
         offsetForIOS6 = 0;
     }
+    
+    self.navigationItem.hidesBackButton = YES;
+    self.navigationItem.leftBarButtonItem = [UIButton blackBackBtn:self];
     
     [self createSubviews];
     [self manuallyLayoutSubviews];
@@ -269,6 +274,8 @@ static int offsetForIOS6 = 44;
         return;
     }
     
+    [Flurry logEvent:@"claim credit"];
+    
     NSMutableDictionary* dict = [[NSMutableDictionary alloc] initWithCapacity:8];
     [dict setObject:[NSNumber numberWithLong:1] forKey:@"creditId"];
     [dict setObject:self.phoneNumber.text forKey:@"phoneNumber"];
@@ -330,6 +337,10 @@ static int offsetForIOS6 = 44;
 
 #pragma mark - claim success delegate
 -(void)onClaimFinished{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+-(IBAction)onBackBtn:(id)sender{
     [self.navigationController popViewControllerAnimated:YES];
 }
 

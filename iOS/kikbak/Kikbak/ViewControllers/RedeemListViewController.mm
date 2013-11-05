@@ -15,7 +15,7 @@
 #import "AppDelegate.h"
 #import "LocationManager.h"
 #import "RedeemGiftViewController.h"
-#import "ClaimCreditViewController.h"
+#import "RedeemClaimViewController.h"
 #import "RewardCollection.h"
 #import "NotificationContstants.h"
 #import "RedeemChooserView.h"
@@ -29,6 +29,8 @@
 #import "Distance.h"
 #import "Location.h"
 #import "FriendSelectorView.h"
+#import <Flurry.h>
+
 
 const int CELL_HEIGHT = 206;
 
@@ -97,6 +99,8 @@ static int offsetForIOS6 = 44;
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
+    [Flurry logEvent:@"redeem list"];
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onLocationUpdate:) name:kKikbakLocationUpdate object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onRewaredCollectionUpdate:) name:kKikbakRewardUpdate object:nil];
@@ -336,10 +340,12 @@ static int offsetForIOS6 = 44;
             [self.navigationController pushViewController:vc animated:YES];
         }
         else{
-            ClaimCreditViewController* vc = [[ClaimCreditViewController alloc]init];
-            vc.hidesBottomBarWhenPushed = true;
-            vc.amount = collection.credit.value;
-            vc.merchantName = collection.credit.merchantName;
+//            ClaimCreditViewController* vc = [[ClaimCreditViewController alloc]init];
+//            vc.hidesBottomBarWhenPushed = true;
+//            vc.amount = collection.credit.value;
+//            vc.merchantName = collection.credit.merchantName;
+            RedeemClaimViewController* vc = [[RedeemClaimViewController alloc]init];
+            vc.credit = collection.credit;
             [self.navigationController pushViewController:vc animated:YES];
         }
     }
@@ -430,9 +436,11 @@ static int offsetForIOS6 = 44;
         ((RedeemCreditViewController* )vc).credit = credit;
     }
     else{
-        vc = [[ClaimCreditViewController alloc]init];
-        ((ClaimCreditViewController* )vc).amount = credit.value;
-        ((ClaimCreditViewController* )vc).merchantName = credit.merchantName;
+        vc = [[RedeemClaimViewController alloc]init];
+        ((RedeemClaimViewController*)vc).credit = credit;
+//        vc = [[ClaimCreditViewController alloc]init];
+//        ((ClaimCreditViewController* )vc).amount = credit.value;
+//        ((ClaimCreditViewController* )vc).merchantName = credit.merchantName;
     }
     vc.hidesBottomBarWhenPushed = true;
     [self.navigationController pushViewController:vc animated:YES];

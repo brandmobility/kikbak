@@ -13,6 +13,8 @@
 #import "Location.h"
 #import "UIDevice+Screen.h"
 #import "Distance.h"
+#import "Flurry.h"
+
 
 @interface ShareChannelSelectorView ()
 
@@ -57,6 +59,8 @@
         // Initialization code
         self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.8];
     }
+    [Flurry logEvent:@"give method select"];
+    
     return self;
 }
 
@@ -234,16 +238,19 @@
 
 -(IBAction)onEmail:(id)sender{
     [self.delegate onEmailSelected:self.locationId withEmployeeName:@""];
+    [Flurry logEvent:@"share via email"];
     [self removeFromSuperview];
 }
 
 -(IBAction)onTimeline:(id)sender{
     [self.delegate onTimelineSelected:self.locationId withEmployeeName:@""];
+    [Flurry logEvent:@"share via facebook"];
     [self removeFromSuperview];
 }
 
 -(IBAction)onSms:(id)sender{
     [self.delegate onSmsSelected:self.locationId withEmployeeName:@""];
+    [Flurry logEvent:@"share via sms"];
     [self removeFromSuperview];
 }
 
