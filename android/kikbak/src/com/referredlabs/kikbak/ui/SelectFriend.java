@@ -72,7 +72,7 @@ public class SelectFriend extends DialogFragment implements OnItemClickListener 
     View root = inflater.inflate(R.layout.fragment_select_friend, container, false);
     mValue = (TextView) root.findViewById(R.id.value);
 
-    String text = LocaleUtils.getGiftValueString(getActivity(), mGift);
+    String text = mGift.desc;
     mValue.setText(text);
 
     mList = (ListView) root.findViewById(R.id.list);

@@ -146,7 +146,7 @@ public class RewardListFragment extends Fragment implements OnItemClickListener,
 
   private void selectWhatToRedeem(TheReward reward) {
     mSelectedReward = reward;
-    String gift = LocaleUtils.getGiftValueString(getActivity(), reward);
+    String gift = reward.getGift().desc;
     String credit = LocaleUtils.getCreditValueString(getActivity(), reward);
     RedeemChooserDialog dialog = RedeemChooserDialog.newInstance(gift, credit);
     dialog.setTargetFragment(this, 0);
