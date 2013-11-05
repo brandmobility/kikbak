@@ -12,8 +12,8 @@ insert into location (address_1,               city,            state, zipcode, 
                      ('219 University Avenue', 'Palo Alto',     'CA',  '94301', 6503236127,   'verizon',         @id,         37.4455,  -122.1620),
                      ('1020 N Rengstorff Ave', 'Mountain View', 'CA',  '94043', 6509661441,   'verizon',         @id,         37.4214,  -122.0944);
 
-insert into offer (merchant_id, name,            offer_type, image_url,                                           redeem_limit, tos_url,                                           begin_date, end_date) values 
-                  (@id,         'subscription',  'both',     concat(@server, '/data/verizon/verizon_banner.png'), 10,           concat(@server, '/data/verizon/verizon_tos.html'), now(),      now() + interval 180 day);
+insert into offer (merchant_id, name,            offer_type, has_employee_program, image_url,                                           redeem_limit, tos_url,                                           begin_date, end_date) values 
+                  (@id,         'subscription',  'both',     1,                    concat(@server, '/data/verizon/verizon_banner.png'), 10,           concat(@server, '/data/verizon/verizon_tos.html'), now(),      now() + interval 180 day);
 
 set @offer_id := (select LAST_INSERT_ID());
 

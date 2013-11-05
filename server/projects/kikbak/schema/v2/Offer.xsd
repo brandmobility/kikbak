@@ -35,6 +35,7 @@
 			<xsd:element name="locations" type="ml:MerchantLocationType" minOccurs="1" maxOccurs="unbounded" />
 			<xsd:element name="beginDate" type="xsd:long" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="endDate" type="xsd:long" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="hasEmployeeProgram" type="xsd:boolean" minOccurs="1" maxOccurs="1" />
 		</xsd:sequence>
 	</xsd:complexType>
 

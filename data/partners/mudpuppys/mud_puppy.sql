@@ -13,8 +13,8 @@ insert into location (address_1,            city,           state, zipcode, phon
 #                     ('Chestnut Street',   'San Francisco', 'CA',  '94114', 4154318899,   'mudpuppy',        @id,         37.800250, -122.440728),
 #                     ('#1 Isabel Street',  'Richmond',      'CA',  '94804', 5105598899,   'mudpuppy',        @id,         37.899053, -122.323972);
 
-insert into offer (merchant_id, name,   offer_type, image_url,                                               redeem_limit, tos_url,                                               begin_date, end_date) values 
-                  (@id,         'wash', 'both',     concat(@server, '/data/mud_puppy/mud_puppy_banner.png'), 10,           concat(@server, '/data/mud_puppy/mud_puppy_tos.html'), now(),      now() + interval 180 day);
+insert into offer (merchant_id, name,   offer_type, has_employee_program, image_url,                                               redeem_limit, tos_url,                                               begin_date, end_date) values 
+                  (@id,         'wash', 'both',     0,                    concat(@server, '/data/mud_puppy/mud_puppy_banner.png'), 10,           concat(@server, '/data/mud_puppy/mud_puppy_tos.html'), now(),      now() + interval 180 day);
 
 set @offer_id := (select LAST_INSERT_ID());
 
