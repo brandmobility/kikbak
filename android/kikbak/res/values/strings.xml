@@ -62,23 +62,10 @@
     <string name="done">Done</string>
 
     <!-- Share options -->
-    <string name="share_options_title">How would you like to share?</string>
-    <string name="share_options_title_multistore">Share your preferred location?</string>
-    <string name="share_option_email_header">Email</string>
-    <string name="share_option_email_send_to_friends">Send to selected friends</string>
-    <string name="share_option_facebook_header">Facebook</string>
-    <string name="share_option_facebook_post_on_timeline">Post on my Timeline</string>
-    <string name="share_option_facebook_send_to_friends">Send to selected friends</string>
-    <string name="share_option_via_email">Share via email</string>
-    <string name="share_option_via_sms">Share via SMS</string>
-    <string name="share_option_via_twitter">Share on Twitter</string>
-    <string name="share_option_via_facebook">Post on Facebook</string>
-    <string name="share_option_pick_location">Select location</string>
-
-    <!-- Customized -->
-    <string name="share_options_helped_title">Helped by an employee ?</string>
-    <string name="share_options_helped_note">Let your nearby friends know who to ask for when they visit the store.</string>
-    <string name="share_options_employee_name_hint">Employee name</string>
+    <string name="share_options_title">Share with friends</string>
+    <string name="share_options_helped_note">Helped by someone? Let nearby friends know who to ask for when they visit.</string>
+    <string name="share_options_pick_location">Select location</string>
+    <string name="share_options_employee_name_hint">Associate name</string>
 
     <!-- Share progress -->
     <string name="share_in_progress">Sharing gift&#8230;</string>

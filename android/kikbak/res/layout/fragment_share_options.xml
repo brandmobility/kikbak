@@ -25,6 +25,7 @@
         android:background="#0061e5" />
 
     <com.referredlabs.kikbak.widget.TtfTextView
+        android:id="@+id/share_options_note"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="14dp"
@@ -57,57 +58,51 @@
         android:layout_marginTop="20dp"
         android:visibility="gone" />
 
-    <com.referredlabs.kikbak.widget.TtfButton
-        android:id="@+id/via_facebook"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="14dp"
-        android:layout_marginRight="14dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/btn_blue"
-        android:text="@string/share_option_via_facebook"
-        android:textColor="@android:color/white"
-        android:textSize="21dp"
-        kikbak:typeface="Roboto-Light.ttf" />
-
-    <com.referredlabs.kikbak.widget.TtfButton
-        android:id="@+id/via_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="14dp"
-        android:layout_marginRight="14dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/btn_grey"
-        android:text="@string/share_option_via_email"
-        android:textColor="@android:color/white"
-        android:textSize="21dp"
-        kikbak:typeface="Roboto-Light.ttf" />
-
-    <com.referredlabs.kikbak.widget.TtfButton
-        android:id="@+id/via_twitter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="14dp"
-        android:layout_marginRight="14dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/btn_grey"
-        android:text="@string/share_option_via_twitter"
-        android:textColor="@android:color/white"
-        android:textSize="21dp"
-        kikbak:typeface="Roboto-Light.ttf" />
-
-    <com.referredlabs.kikbak.widget.TtfButton
-        android:id="@+id/via_sms"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="14dp"
         android:layout_marginRight="14dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/btn_grey"
-        android:text="@string/share_option_via_sms"
-        android:textColor="@android:color/white"
-        android:textSize="21dp"
-        kikbak:typeface="Roboto-Light.ttf" />
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/via_email"
+            style="@style/borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="4dp"
+            android:src="@drawable/ic_email" />
+
+        <ImageButton
+            android:id="@+id/via_sms"
+            style="@style/borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="4dp"
+            android:src="@drawable/ic_sms" />
+
+        <ImageButton
+            android:id="@+id/via_facebook"
+            style="@style/borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="4dp"
+            android:src="@drawable/ic_facebook" />
+
+        <ImageButton
+            android:id="@+id/via_twitter"
+            style="@style/borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="4dp"
+            android:src="@drawable/ic_twitter" />
+    </LinearLayout>
 
 </LinearLayout>
