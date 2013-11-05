@@ -20,6 +20,7 @@
 #import "UIDevice+Screen.h"
 #import "UIDevice+OSVersion.h"
 #import "FBQuery.h"
+#import "Flurry.h"
 
 
 const int CELL_HEIGHT = 156;
@@ -105,6 +106,8 @@ const int CELL_HEIGHT = 156;
     [self.tabBarController.view addSubview:self.redeemBtn];
     [self.tabBarController.view addSubview:self.seperator];
     [self.tabBarController.view addSubview:self.giveBtn];
+    
+    [Flurry logEvent:@"Offer List"];
 }
 
 -(void)viewDidAppear:(BOOL)animated{

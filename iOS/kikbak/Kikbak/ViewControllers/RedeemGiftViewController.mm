@@ -29,6 +29,7 @@
 #import "UIImage+Manipulate.h"
 #import "LocationManager.h"
 #import "UIDevice+OSVersion.h"
+#import "Flurry.h"
 
 static int offsetForIOS6 = 44;
 
@@ -359,6 +360,8 @@ static int offsetForIOS6 = 44;
 }
 
 -(IBAction)onRedeemBtn:(id)sender{
+    
+    [Flurry logEvent:@"redeem gift"];
     
     self.value = self.gift.value;
     self.giftType = self.gift.discountType;

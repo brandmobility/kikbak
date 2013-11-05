@@ -60,7 +60,9 @@
 
 
 -(void)viewWillAppear:(BOOL)animated{
-  [super viewWillAppear:animated];
+    [super viewWillAppear:animated];
+    
+    [Flurry logEvent:@"facebook auth show" timed:YES];
   
 }
 
@@ -116,7 +118,7 @@
   
     AppDelegate *appDelegate = [[UIApplication sharedApplication]delegate];
     
-    [Flurry logEvent:@"FaceBookLoginEvent" timed:YES];
+    
     if (appDelegate.session.state != FBSessionStateCreated) {
       // Create a new, logged out session.
         appDelegate.session = [[FBSession alloc] initWithPermissions:[FBQuery FBPermissions]];
@@ -130,6 +132,10 @@
         if( !error && status == FBSessionStateOpen ){
             [FBSession setActiveSession:appDelegate.session];
             [FBQuery fbMe];
+            [Flurry logEvent:@"facebook auth success" timed:YES];
+        }
+        else{
+            [Flurry logEvent:@"facebook auth failure" timed:YES];
         }
     }];
 }

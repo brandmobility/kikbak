@@ -15,6 +15,7 @@
 #import "UIDevice+Screen.h"
 #import "UIButton+Util.h"
 #import "UIDevice+OSVersion.h"
+#import "Flurry.h"
 
 static int offsetForIOS6 = 44;
 
@@ -272,6 +273,8 @@ static int offsetForIOS6 = 44;
     if( [self validInput] == NO){
         return;
     }
+    
+    [Flurry logEvent:@"claim credit"];
     
     NSMutableDictionary* dict = [[NSMutableDictionary alloc] initWithCapacity:8];
     [dict setObject:[NSNumber numberWithLong:1] forKey:@"creditId"];

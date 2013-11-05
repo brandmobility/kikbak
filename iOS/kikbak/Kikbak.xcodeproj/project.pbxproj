@@ -79,6 +79,7 @@
 		3C63816117A264BA00E10594 /* NSString+UrlEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C63816017A264BA00E10594 /* NSString+UrlEncode.m */; };
 		3C63816517A265BB00E10594 /* NSURL+QueryString.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C63816417A265BB00E10594 /* NSURL+QueryString.m */; };
 		3C6444A91824CE4D00B99BF9 /* RedeemClaimViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C6444A81824CE4D00B99BF9 /* RedeemClaimViewController.m */; };
+		3C6444AC1827825800B99BF9 /* libFlurry_4.3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C6444AB1827825800B99BF9 /* libFlurry_4.3.0.a */; };
 		3C6D4F9617CC815F00BB5425 /* QRCodeImageRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C6D4F9517CC815F00BB5425 /* QRCodeImageRequest.m */; };
 		3C727544176C3F3B0029B069 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C727543176C3F3B0029B069 /* MessageUI.framework */; };
 		3C727550176C502F0029B069 /* separator_vertical_redeem_list@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C72754E176C502F0029B069 /* separator_vertical_redeem_list@2x.png */; };
@@ -165,7 +166,6 @@
 		3C8097CC176472080028CC5C /* separator_gray_line.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C8097CA176472070028CC5C /* separator_gray_line.png */; };
 		3C90510C176AF65F0060ED48 /* grd_suggest.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C90510A176AF65F0060ED48 /* grd_suggest.png */; };
 		3C90510D176AF65F0060ED48 /* grd_suggest@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C90510B176AF65F0060ED48 /* grd_suggest@2x.png */; };
-		3CA1B3081702CBB7005D2918 /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CA1B3071702CBB7005D2918 /* libFlurry.a */; };
 		3CA1B30B1702CC8D005D2918 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3CA1B30A1702CC8D005D2918 /* Localizable.strings */; };
 		3CA1B30E1704020B005D2918 /* RootViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3CA1B30D1704020B005D2918 /* RootViewController.mm */; };
 		3CA1B31117040374005D2918 /* OfferListViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3CA1B31017040374005D2918 /* OfferListViewController.mm */; };
@@ -381,6 +381,7 @@
 		3C63816417A265BB00E10594 /* NSURL+QueryString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+QueryString.m"; sourceTree = "<group>"; };
 		3C6444A71824CE4D00B99BF9 /* RedeemClaimViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedeemClaimViewController.h; sourceTree = "<group>"; };
 		3C6444A81824CE4D00B99BF9 /* RedeemClaimViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedeemClaimViewController.m; sourceTree = "<group>"; };
+		3C6444AB1827825800B99BF9 /* libFlurry_4.3.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFlurry_4.3.0.a; path = Flurry_4.3.0/libFlurry_4.3.0.a; sourceTree = "<group>"; };
 		3C6D4F9417CC815F00BB5425 /* QRCodeImageRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRCodeImageRequest.h; sourceTree = "<group>"; };
 		3C6D4F9517CC815F00BB5425 /* QRCodeImageRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRCodeImageRequest.m; sourceTree = "<group>"; };
 		3C727543176C3F3B0029B069 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -641,6 +642,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C6444AC1827825800B99BF9 /* libFlurry_4.3.0.a in Frameworks */,
 				3C727544176C3F3B0029B069 /* MessageUI.framework in Frameworks */,
 				3C752BF4171146130092CFB1 /* CoreData.framework in Frameworks */,
 				C0C974011696BF16001A2A80 /* Security.framework in Frameworks */,
@@ -663,7 +665,6 @@
 				C0479989167D967500C2253D /* UIKit.framework in Frameworks */,
 				C047998B167D967500C2253D /* Foundation.framework in Frameworks */,
 				C047998D167D967500C2253D /* CoreGraphics.framework in Frameworks */,
-				3CA1B3081702CBB7005D2918 /* libFlurry.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -852,6 +853,7 @@
 		C0479987167D967500C2253D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3C6444AB1827825800B99BF9 /* libFlurry_4.3.0.a */,
 				C0479A12167D9C5900C2253D /* Accounts.framework */,
 				C0C973941693AD9F001A2A80 /* AddressBook.framework */,
 				C0C973951693AD9F001A2A80 /* AddressBookUI.framework */,
@@ -1582,11 +1584,12 @@
 				HEADER_SEARCH_PATHS = (
 					zxing/cpp/core/src/,
 					"zxing/iOS/ZXingWidget/Classes/**",
+					Flurry_4.3.0,
 				);
 				INFOPLIST_FILE = "Kikbak/Kikbak-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/Flurry_4.1.0\"",
+					Flurry_4.3.0,
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1635,11 +1638,12 @@
 				HEADER_SEARCH_PATHS = (
 					zxing/cpp/core/src/,
 					"zxing/iOS/ZXingWidget/Classes/**",
+					Flurry_4.3.0,
 				);
 				INFOPLIST_FILE = "Kikbak/Kikbak-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/Flurry_4.1.0\"",
+					Flurry_4.3.0,
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1712,11 +1716,12 @@
 				HEADER_SEARCH_PATHS = (
 					zxing/cpp/core/src/,
 					"zxing/iOS/ZXingWidget/Classes/**",
+					Flurry_4.3.0,
 				);
 				INFOPLIST_FILE = "Kikbak/Kikbak-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/Flurry_4.1.0\"",
+					Flurry_4.3.0,
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1738,11 +1743,12 @@
 				HEADER_SEARCH_PATHS = (
 					zxing/cpp/core/src/,
 					"zxing/iOS/ZXingWidget/Classes/**",
+					Flurry_4.3.0,
 				);
 				INFOPLIST_FILE = "Kikbak/Kikbak-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/Flurry_4.1.0\"",
+					Flurry_4.3.0,
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
