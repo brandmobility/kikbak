@@ -17,6 +17,8 @@
     <!-- Main activity -->
     <string name="title_offers">Give</string>
     <string name="title_redeem">Redeem</string>
+    <string name="location_disabled_title">Location services are disabled</string>
+    <string name="location_disabled_message">Please enable location services in device settings.</string>
 
     <!-- OfferFragemnt -->
     <string name="ribbon_give">GIVE</string>
