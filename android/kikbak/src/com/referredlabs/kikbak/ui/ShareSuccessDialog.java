@@ -30,7 +30,7 @@ public class ShareSuccessDialog extends DialogFragment {
     b.setTitle(R.string.share_thank_you);
     b.setMessage(R.string.share_success_note);
     b.setPositiveButton(R.string.ok, null);
-    return b.show();
+    return b.create();
   }
 
   @Override

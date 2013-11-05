@@ -30,7 +30,7 @@ public class SuggestSuccessDialog extends DialogFragment {
     b.setTitle(R.string.suggest_success_title);
     b.setMessage(R.string.suggest_success_note);
     b.setPositiveButton(R.string.ok, null);
-    return b.show();
+    return b.create();
   }
 
   @Override
