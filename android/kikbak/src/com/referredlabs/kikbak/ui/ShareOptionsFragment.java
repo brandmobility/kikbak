@@ -71,15 +71,14 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
     v.findViewById(R.id.via_twitter).setOnClickListener(this);
     mStoreSpinner = (Spinner) v.findViewById(R.id.store_selection);
 
-    // FIXME: create new server api
-    boolean hasEmployeeProgram = mOffer.merchantName.toLowerCase().contains("verizon");
-    if (hasEmployeeProgram) {
-      v.findViewById(R.id.share_options_note).setVisibility(View.VISIBLE);
+    if (mOffer.hasEmployeeProgram) {
+      v.findViewById(R.id.share_options_employee_note).setVisibility(View.VISIBLE);
       v.findViewById(R.id.employee_name).setVisibility(View.VISIBLE);
     }
 
     boolean hasManyLocations = mOffer.locations.length > 1;
     if (hasManyLocations) {
+      v.findViewById(R.id.share_options_location_note).setVisibility(View.VISIBLE);
       enableStoreSelection(inflater);
     }
 
@@ -172,7 +171,7 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
       if (location == null) {
         int color = tv.getHintTextColors().getDefaultColor();
         tv.setTextColor(color);
-        tv.setText(R.string.share_options_pick_location);
+        tv.setText(R.string.share_options_location_hint);
       } else {
         tv.setTextColor(getResources().getColor(android.R.color.black));
         tv.setText(location.address1);

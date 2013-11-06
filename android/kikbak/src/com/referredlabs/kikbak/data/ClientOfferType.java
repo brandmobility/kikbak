@@ -21,4 +21,5 @@ public class ClientOfferType {
   public MerchantLocationType[] locations;
   public long beginDate;
   public long endDate;
+  public boolean hasEmployeeProgram;
 }
