@@ -1429,7 +1429,29 @@ function renderRedeemGiftDetail(data) {
 }
 
 function doRedeemGift(gift) {
-  var imgUrl = config.backend + 'kikbak/rewards/generateBarcode/' + s.userId + '/' + gift.shareInfo[0].allocatedGiftId + '/100/200/';
+  var agId = gift.shareInfo[0].allocatedGiftId;
+  $.ajax({
+    dataType: 'json',
+    type: 'GET',
+    contentType: 'application/json',
+    url: config.backend + 'kikbak/rewards/allocateBarcode/' + s.userId + '/' + agId + '/',
+    success: function(json) {
+      if (json && json.barcodeResponse && json.barcodeResponse.code) {
+        var imgUrl = config.backend + 'kikbak/rewards/generateBarcode/' + s.userId + '/' + json.barcodeResponse.code + '/100/200/';
+        $('#redeem-gift-success .pg-hedng').html(gift.merchant.name);
+        $('#redeem-gift-success .cd-br-stin h1').html(gift.desc);
+        $('#redeem-gift-success .cd-br-stin h3').html(gift.detailedDesc);
+        $('#redeem-gift-success img').attr('src', imgUrl);
+        $('#redeem-details-view').hide();
+        $('#redeem-gift-success').show();
+  	} else {
+        alert('Sorry, we are currently running out of gift. It will be available soon. Please try later.');  
+      }
+    },
+    error: function() {
+      alert('Sorry, we are currently running out of gift. It will be available soon. Please try later.');  
+    }
+  });
   $('#redeem-gift-success .pg-hedng').html(gift.merchant.name);
   $('#redeem-gift-success .cd-br-stin h1').html(gift.desc);
   $('#redeem-gift-success .cd-br-stin h3').html(gift.detailedDesc);

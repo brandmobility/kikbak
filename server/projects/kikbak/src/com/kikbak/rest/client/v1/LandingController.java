@@ -92,6 +92,7 @@ public class LandingController {
 			request.setAttribute("title", title);
 			request.setAttribute("body", body);
 			request.setAttribute("location", gift.getShareInfo().get(0).getLocation());
+			request.setAttribute("locations", gift.getMerchant().getLocations());
 			request.setAttribute("validationType", gift.getValidationType());
 			request.setAttribute("locationType", gift.getRedemptionLocationType());
 			request.setAttribute("mobile", detector.detectMobileQuick());

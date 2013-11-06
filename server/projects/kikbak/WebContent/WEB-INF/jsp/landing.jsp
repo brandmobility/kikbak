@@ -130,40 +130,30 @@
             </div>
             </c:when>
             </c:choose>
-
             <img src="${shareInfo.imageUrl}" width="100%" height="330px" />
             <c:choose>
             <c:when test="${not empty location}">
-            <img src="img/blk-shad.png" width="100%" height="330px"
-            style="position: absolute; top: 65px;" />
+            <img src="img/blk-shad.png" width="100%" height="330px" style="position: absolute; top: 65px;" />
             </c:when>
             <c:otherwise>
-            <img src="img/blk-shad.png" width="100%" height="330px"
-            style="position: absolute; top: 0;" />
+            <img src="img/blk-shad.png" width="100%" height="330px" style="position: absolute; top: 0;" />
             </c:otherwise>
             </c:choose>
             <div class="widget">
                 <div class="span4">
-                    <h3
-                        style="padding: 0px; margin: 0px; font-family: HelveticaNeueLTPro-Lt">${gift.merchant.name}</h3>
+                    <h3 style="padding: 0px; margin: 0px;">${gift.merchant.name}</h3>
                 </div>
                 <div class="span4">
                     <div class="pull-left">
-                        <a
-                            href="https://maps.google.com/maps?q=${encodeMerchantName}%40${location.latitude},${location.longitude}"
-                            target="_blank"> <span
-                                class="glyphicon glyphicon-map-marker"
-                                style="color: #FFFFFF; font-size: 18px; margin-right: 20px; position: relative;"></span>
+                        <a href="https://maps.google.com/maps?q=${encodeMerchantName}%40${location.latitude},${location.longitude}" target="_blank">
+                            <span class="glyphicon glyphicon-map-marker" style="color: #FFFFFF; font-size: 18px; margin-right: 20px; position: relative;"></span>
                         </a>
                     </div>
                     <div class="pull-left">
-                        <a href="${gift.merchant.url}" target="_blank"><div
-                                class="globe"></div></a>
+                        <a href="${gift.merchant.url}" target="_blank"><div class="globe"></div></a>
                     </div>
                     <div class="pull-left">
-                        <a href="tel:${location.phoneNumber}"> <span
-                                class="glyphicon glyphicon-earphone"
-                                style="color: #FFFFFF; font-size: 18px; position: relative;"></span>
+                        <a href="tel:${location.phoneNumber}"> <span class="glyphicon glyphicon-earphone" style="color: #FFFFFF; font-size: 18px; position: relative;"></span>
                         </a>
                     </div>
                 </div>
@@ -172,9 +162,7 @@
             <div class="page-header" style="padding: 0;">
                 <div class="row show-grid" style="margin: 0; padding-top: 22px;">
                     <div class="col-md-4" style="padding-left: 5px">
-                        <img
-                        src="https://graph.facebook.com/${shareInfo.fbFriendId}/picture?width=120&height=120"
-                        class="img-rounded" width="60px" />
+                        <img src="https://graph.facebook.com/${shareInfo.fbFriendId}/picture?width=120&height=120" class="img-rounded" width="60px" />
                     </div>
                     <div class="col-md-8">
                         <c:choose>
@@ -183,8 +171,7 @@
                         <p>${shareInfo.caption}</p>
                         </c:when>
                         <c:otherwise>
-                        <h3
-                            style="color: #3a3a3a; font-size: 20px; font-weight: bold; margin-top: 36px;">${shareInfo.friendName}</h3>
+                        <h3 style="color: #3a3a3a; font-size: 20px; font-weight: bold; margin-top: 36px;">${shareInfo.friendName}</h3>
                         </c:otherwise>
                         </c:choose>
                     </div>
@@ -194,13 +181,9 @@
                 <div class="col-md-6">
                     <div
                         style="background-color: #767676; padding-top: 20px; padding-bottom: 10px;">
-                        <h3
-                            style="font-size: 38px; font-family: HelveticaNeueLTPro-Bd; padding: 0px; margin: 0px;">${gift.desc}</h3>
-                        <p
-                        style="font-family: HelveticaNeueLTPro-Roman; font-size: 18px; padding: 0px; margin: 0px;">${gift.detailedDesc}</p>
-                        <small
-                            style="font-family: HelveticaNeueLTPro-Lt; font-size: 12px; padding: 0px; margin: 0px;">offer
-                            valid in-store only</small>
+                        <h3 style="font-size: 38px; font-family: HelveticaNeue Bold; padding: 0px; margin: 0px;">${gift.desc}</h3>
+                        <p style="font-family: HelveticaNeueLT Pro 55 Roman; font-size: 18px; padding: 0px; margin: 0px;">${gift.detailedDesc}</p>
+                        <small style="font-family: HelveticaNeueLT Pro 45 Lt; font-size: 12px; padding: 0px; margin: 0px;">offer valid in-store only</small>
                     </div>
                 </div>
                 <div class="col-md-1"></div>
@@ -209,17 +192,14 @@
             <div id="facebook-div">
                 <div class="page-header"
                     style="padding-left: 10px; padding-right: 10px; margin-top: 25px; text-align: center">
-                    <p style="font-size: 15px; font-family: HelveticaNeueLTPro-Lt;">Connect
-                    with Facebook to access your gift.</p>
+                    <p style="font-size: 15px; font-family: HelveticaNeueLT Pro 45 Lt;">Connect with Facebook to access your gift.</p>
                     <div style="height: 40px">
-                        <a id="loginFb" href="#"> <img src="img/btn_facebook.png"
-                            style="width: 100%;" /> <span
-                                style="position: relative; top: -35px; left: 15px; color: #FFFFFF; font-size: 20px;">Connect
-                                with Facebook</span>
+                        <a id="loginFb" href="#"> <img src="img/btn_facebook.png" style="width: 100%;" />
+                            <span style="position: relative; top: -35px; left: 15px; color: #FFFFFF; font-size: 20px;">Connect with Facebook</span>
                         </a>
                     </div>
                     <p align="center"
-                    style="padding-top: 20px; font-family: HelveticaNeueLTPro-Lt; font-size: 10px;">
+                    style="padding-top: 20px; font-family: HelveticaNeueLT Pro 45 Lt; font-size: 10px;">
                     We use Facebook to make it easy for you to share and redeem. <br/>
                     We will never post on Facebook without your permission.
                     </p>
@@ -276,8 +256,7 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script
-        src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script>
     <c:choose>
     <c:when test="${not mobile}">
@@ -291,15 +270,58 @@
     $('#header h1').css('background-repeat', 'no-repeat');
     </c:when>
     </c:choose>
+    function computeDistanceDigit(p, lat, lng) {
+      if (typeof(Number.prototype.toRad) === "undefined") {
+    	Number.prototype.toRad = function() {
+          return this * Math.PI / 180;
+        }
+      }
+
+      var lat1 = parseFloat(lat);
+      var lat2 = parseFloat(p.latitude);
+      var lon1 = parseFloat(lng);
+      var lon2 = parseFloat(p.longitude);
+
+      var R = 3958.756; // mile
+      var dLat = (lat2-lat1).toRad();
+      var dLon = (lon2-lon1).toRad();
+      var lat1 = lat1.toRad();
+      var lat2 = lat2.toRad();
+      var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+              Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+      var d = parseInt(R * c * 10);
+      return parseInt(d / 10) + '.' + (d % 10);
+    }
+
     function registerCb(userId) {
       if (userId == ${shareInfo.friendUserId}) {
         alert('Sorry, you cannot claim your own gift.');
         return;
       }
       $('#redeem-barcode-btn').click(function() {
-        window.location.href = '/m/#redeem';
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(p) {
+            var near = false;
+            <c:forEach items="${locations}" var="l">
+              if (computeDistanceDigit(p.coords, ${l.latitude}, ${l.longitude}) < 0.5) {
+                near = true;
+              }
+            </c:forEach>
+            if (near) {
+              window.location.href = '/m/#redeem';
+            } else {
+              alert("Oops! You have to be in the store to redeem.\n\nLooks like you might not be there yet. Try again?");
+            }
+          }, function() {
+            alert('We are unable to detect your current location.\n\nIf you are inside a participating store and would like to share a Kikbak offer with your friends, please enable location services for your phone and web browser in your device settings.');
+          },
+          { enableHighAccuracy:true,maximumAge:600000,timeout:5000 });
+        } else {
+          alert('We are unable to detect your current location.\n\nIf you are inside a participating store and would like to share a Kikbak offer with your friends, please enable location services for your phone and web browser in your device settings.');
+        }
       });
-      var url = config.backend + 'rewards/claimgift/' + userId + '/${code}';
+      var url = 'rewards/claimgift/' + userId + '/${code}';
       $.ajax({
         dataType: 'json',
         type: 'GET',
@@ -320,14 +342,29 @@
             }
             <c:choose>
             <c:when test="${gift.validationType == 'barcode'}">
-            $('#welcome-msg').hide();
-            var imgUrl = 'rewards/generateBarcode/' + userId + '/' + response.agId + '/100/200/';
-            $('#barcode').attr('src', imgUrl);
-            $('#header h1').css('float', 'left');
-            $('#header h1').css('margin-left', '50px');
-            $('#print-btn').show();
-            $('#success-msg').show();
-            $('#green-overlay').show();
+            $.ajax({
+              dataType: 'json',
+              type: 'GET',
+              contentType: 'application/json',
+              url: 'rewards/allocateBarcode/' + userId + '/' + resp.agId + '/',
+              success: function(json) {
+            	if (json && json.barcodeResponse && json.barcodeResponse.code) {
+                  $('#welcome-msg').hide();
+                  var imgUrl = 'rewards/generateBarcode/' + userId + '/' + json.barcodeResponse.code + '/100/200/';
+                  $('#barcode').attr('src', imgUrl);
+                  $('#header h1').css('float', 'left');
+                  $('#header h1').css('margin-left', '50px');
+                  $('#print-btn').show();
+                  $('#success-msg').show();
+                  $('#green-overlay').show();
+            	} else {
+                  alert('Sorry, we are currently running out of gift. It will be available soon. Please try later.');  
+            	}
+              },
+              error: function() {
+            	alert('Sorry, we are currently running out of gift. It will be available soon. Please try later.');  
+              }
+            });
             </c:when>
             </c:choose>
             $('#facebook-div').hide();

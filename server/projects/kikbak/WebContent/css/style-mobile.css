@@ -1,3 +1,34 @@
+@font-face {
+  font-family: 'HelveticaNeueLT Pro 55 Roman';
+  src: url('../fonts/HelveticaNeueLTPro-Roman.eot'); /* IE9 Compat Modes */
+  src: url('../fonts/HelveticaNeueLTPro-Roman.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../fonts/HelveticaNeueLTPro-Roman.woff') format('woff'), /* Modern Browsers */
+       url('../fonts/HelveticaNeueLTPro-Roman.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('../fonts/HelveticaNeueLTPro-Roman.svg#d1a2c6b6bbb42f642f25c6a2c64a65d0') format('svg'); /* Legacy iOS */
+  font-style:   normal;
+  font-weight:  400;
+}
+@font-face {
+  font-family: 'HelveticaNeueLT Pro 45 Lt';
+  src: url('../fonts/HelveticaNeueLTPro-Lt.eot'); /* IE9 Compat Modes */
+  src: url('../fonts/HelveticaNeueLTPro-Lt.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../fonts/HelveticaNeueLTPro-Lt.woff') format('woff'), /* Modern Browsers */
+       url('../fonts/HelveticaNeueLTPro-Lt.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('../fonts/HelveticaNeueLTPro-Lt.svg#3162d512a0b0767ee94e99606f47da13') format('svg'); /* Legacy iOS */
+  font-style:   normal;
+  font-weight:  400;
+}
+@font-face {
+  font-family: 'HelveticaNeue Bold';
+  src: url('../fonts/HelveticaNeueLTPro-Bd.eot'); /* IE9 Compat Modes */
+  src: url('../fonts/HelveticaNeueLTPro-Bd.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../fonts/HelveticaNeueLTPro-Bd.woff') format('woff'), /* Modern Browsers */
+       url('../fonts/HelveticaNeueLTPro-Bd.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('../fonts/HelveticaNeueLTPro-Bd.svg#efe703c29c750bbe20a3718d66e89bed') format('svg'); /* Legacy iOS */
+  font-style:   normal;
+  font-weight:  400;
+}
+
 html, body {
     height: 100%;
 }
@@ -171,13 +202,13 @@ html, body {
     background-size: cover;
 }
 body {
-    background-image: url(img/background.png);
+    background-image: url(../img/background.png);
     background-repeat: repeat;
     overflow-x: hidden;
 }
  
 .location {
-    background-image: url(img/icon-place.png);
+    background-image: url(../img/icon-place.png);
     background-repeat: no-repeat;
     width: 12px;
     height: 18px;
@@ -187,7 +218,7 @@ body {
 }
  
 .phone {
-    background-image: url(img/icon-phone.png);
+    background-image: url(../img/icon-phone.png);
     background-repeat: no-repeat;
     width: 19px;
     height: 18px;
@@ -208,7 +239,7 @@ h3 {
 }
  
 .widget h3 {
-    font-family: HelveticaNeueLTPro-Lt;
+    font-family: HelveticaNeueLT Pro 45 Lt;
     font-size: 28px;
 }
  
@@ -247,7 +278,7 @@ h3 {
 .col-md-6 {
     float: left;
     width: 98%;
-    background-image: url(img/ribbon-right-bkg.png);
+    background-image: url(../img/ribbon-right-bkg.png);
     background-repeat: repeat-y;
     background-position: right;
     padding-left: 0;
@@ -261,23 +292,8 @@ h3 {
     font-family: HelveticaNeueLTPro-Bd;
 }
  
-@font-face {
-    font-family: HelveticaNeueLTPro-Bd;
-    src: url('fonts/HelveticaNeueLTPro-Bd.otf');
-}
- 
-@font-face {
-    font-family: HelveticaNeueLTPro-Lt;
-    src: url('fonts/HelveticaNeueLTPro-Lt.otf');
-}
- 
-@font-face {
-    font-family: HelveticaNeueLTPro-Roman;
-    src: url('fonts/HelveticaNeueLTPro-Roman.otf');
-}
- 
 .globe {
-    background-image: url(img/icon-globe.png);
+    background-image: url(../img/icon-globe.png);
     background-repeat: no-repeat;
     background-size: 100%;
     width: 18px;
@@ -291,3 +307,7 @@ h3 {
     margin: 10px 0;
 }
 
+.btn:hover, .btn:focus {
+    color: #FFFFFF;
+    opacity: 0.8;
+}
