@@ -5,11 +5,9 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,6 +23,7 @@ import com.referredlabs.kikbak.C;
 import com.referredlabs.kikbak.D;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.AvailableCreditType;
+import com.referredlabs.kikbak.data.BarcodeResponse;
 import com.referredlabs.kikbak.data.CreditRedemptionType;
 import com.referredlabs.kikbak.data.RedeemCreditRequest;
 import com.referredlabs.kikbak.data.RedeemCreditResponse;
@@ -47,11 +46,7 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
     OnCreditChangedListener, ConfirmationListener, OnBarcodeScanningListener {
 
   public interface RedeemCreditCallback {
-    // overlay
     void onRedeemCreditSuccess(double creditUsed, String code);
-
-    // integrated
-    void onRedeemCreditSuccess(double creditUsed, String barcode, Bitmap barcodeBitmap);
   }
 
   private static final int REQUEST_CONFIRM_CREDIT = 1;
@@ -272,8 +267,8 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
     // do nothing
   }
 
-  public void onBarcodeFetched(String barcode, Bitmap bitmap) {
-    mCallback.onRedeemCreditSuccess(mCreditToUse, barcode, bitmap);
+  public void onBarcodeFetched(String barcode) {
+    mCallback.onRedeemCreditSuccess(mCreditToUse, barcode);
   }
 
   public void onBarcodeFetchFailed() {
@@ -357,7 +352,6 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
     private long mUserId;
     private long mAllocatedGiftId;
     private String mBarcode;
-    private Bitmap mBitmap;
 
     public FetchBarcodeTask(long userId, long allocatedGiftId) {
       mUserId = userId;
@@ -366,14 +360,14 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
 
     @Override
     protected void doInBackground() throws IOException {
-      Pair<String, Bitmap> result = Http.fetchBarcode(mUserId, mAllocatedGiftId);
-      mBarcode = result.first;
-      mBitmap = result.second;
+      String uri = Http.getUri(BarcodeResponse.getPath(mUserId, mAllocatedGiftId));
+      BarcodeResponse response = Http.execute(uri, BarcodeResponse.class);
+      mBarcode = response.code;
     }
 
     @Override
     protected void onSuccess() {
-      onBarcodeFetched(mBarcode, mBitmap);
+      onBarcodeFetched(mBarcode);
     }
 
     @Override

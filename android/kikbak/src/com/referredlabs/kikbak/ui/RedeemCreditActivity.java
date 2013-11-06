@@ -2,7 +2,6 @@
 package com.referredlabs.kikbak.ui;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -66,14 +65,8 @@ public class RedeemCreditActivity extends KikbakActivity implements RedeemCredit
   }
 
   @Override
-  public void onRedeemCreditSuccess(double creditUsed, String code) {
-    onRedeemCreditSuccess(creditUsed, code, null);
-  }
-
-  @Override
-  public void onRedeemCreditSuccess(double creditUsed, String barcode, Bitmap barcodeBitmap) {
+  public void onRedeemCreditSuccess(double creditUsed, String barcode) {
     Intent intent = new Intent(this, SuccessActivity.class);
-    intent.putExtra(SuccessActivity.ARG_BARCODE_BITMAP, barcodeBitmap);
     intent.putExtra(SuccessActivity.ARG_BARCODE, barcode);
     intent.putExtra(SuccessActivity.ARG_CREDIT, getIntent().getStringExtra(EXTRA_CREDIT));
     intent.putExtra(SuccessActivity.ARG_CREDIT_USED, creditUsed);

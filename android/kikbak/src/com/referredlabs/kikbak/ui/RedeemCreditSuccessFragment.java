@@ -29,7 +29,6 @@ public class RedeemCreditSuccessFragment extends Fragment implements OnClickList
   private AvailableCreditType mCredit;
   private double mCreditUsed;
 
-  private Bitmap mBarcodeBitmap;
   private String mBarcode;
 
   private TextView mName;
@@ -50,7 +49,6 @@ public class RedeemCreditSuccessFragment extends Fragment implements OnClickList
     mCredit = new Gson().fromJson(data, AvailableCreditType.class);
     mCreditUsed = args.getDouble(SuccessActivity.ARG_CREDIT_USED, -1);
 
-    mBarcodeBitmap = args.getParcelable(SuccessActivity.ARG_BARCODE_BITMAP);
     mBarcode = args.getString(SuccessActivity.ARG_BARCODE);
   }
 
@@ -84,9 +82,10 @@ public class RedeemCreditSuccessFragment extends Fragment implements OnClickList
       stub.setLayoutResource(layout);
       root = stub.inflate();
       if (mCredit.validationType == ValidationType.barcode) {
+        Bitmap bmp = BarcodeGenerator.generateUpcaCode(getActivity(), mBarcode);
         ImageView img = (ImageView) root.findViewById(R.id.code);
         TextView text = (TextView) root.findViewById(R.id.text_code);
-        img.setImageBitmap(mBarcodeBitmap);
+        img.setImageBitmap(bmp);
         text.setText(mBarcode);
       } else if (mCredit.validationType == ValidationType.qrcode && !TextUtils.isEmpty(mBarcode)) {
         Bitmap bmp = BarcodeGenerator.generateQrCode(getActivity(), mBarcode);

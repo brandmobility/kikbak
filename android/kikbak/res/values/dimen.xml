@@ -2,5 +2,7 @@
 <resources>
 
     <dimen name="qr_code_size">120dp</dimen>
+    <dimen name="upca_code_widht">200dp</dimen>
+    <dimen name="upca_code_height">80dp</dimen>
 
 </resources>

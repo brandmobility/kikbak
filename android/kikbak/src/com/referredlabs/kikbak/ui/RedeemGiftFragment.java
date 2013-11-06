@@ -5,10 +5,8 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,6 +21,7 @@ import com.google.gson.Gson;
 import com.referredlabs.kikbak.C;
 import com.referredlabs.kikbak.D;
 import com.referredlabs.kikbak.R;
+import com.referredlabs.kikbak.data.BarcodeResponse;
 import com.referredlabs.kikbak.data.GiftRedemptionType;
 import com.referredlabs.kikbak.data.GiftType;
 import com.referredlabs.kikbak.data.RedeemGiftRequest;
@@ -37,7 +36,6 @@ import com.referredlabs.kikbak.store.DataStore;
 import com.referredlabs.kikbak.tasks.TaskEx;
 import com.referredlabs.kikbak.ui.BarcodeScannerFragment.OnBarcodeScanningListener;
 import com.referredlabs.kikbak.ui.ConfirmationDialog.ConfirmationListener;
-import com.referredlabs.kikbak.utils.LocaleUtils;
 import com.referredlabs.kikbak.utils.Nearest;
 import com.referredlabs.kikbak.utils.Register;
 import com.referredlabs.kikbak.utils.StatusException;
@@ -49,11 +47,7 @@ public class RedeemGiftFragment extends KikbakFragment implements OnClickListene
     OnBarcodeScanningListener {
 
   public interface RedeemGiftCallback {
-    // overlay
     void onRedeemGiftSuccess(String barcode);
-
-    // integrated
-    void onRedeemGiftSuccess(String barcode, Bitmap barcodeBitmap);
   }
 
   private static final int REQUEST_NOT_IN_STORE = 1;
@@ -238,8 +232,8 @@ public class RedeemGiftFragment extends KikbakFragment implements OnClickListene
     mRedeemInStore.setEnabled(true);
   }
 
-  public void onBarcodeFetched(String barcode, Bitmap bitmap) {
-    mCallback.onRedeemGiftSuccess(barcode, bitmap);
+  public void onBarcodeFetched(String barcode) {
+    mCallback.onRedeemGiftSuccess(barcode);
   }
 
   public void onBarcodeFetchFailed() {
@@ -333,7 +327,6 @@ public class RedeemGiftFragment extends KikbakFragment implements OnClickListene
     private long mUserId;
     private long mAllocatedGiftId;
     private String mBarcode;
-    private Bitmap mBitmap;
 
     BarcodeTask() {
       mUserId = Register.getInstance().getUserId();
@@ -342,14 +335,14 @@ public class RedeemGiftFragment extends KikbakFragment implements OnClickListene
 
     @Override
     protected void doInBackground() throws IOException {
-      Pair<String, Bitmap> result = Http.fetchBarcode(mUserId, mAllocatedGiftId);
-      mBarcode = result.first;
-      mBitmap = result.second;
+      String uri = Http.getUri(BarcodeResponse.getPath(mUserId, mAllocatedGiftId));
+      BarcodeResponse response = Http.execute(uri, BarcodeResponse.class);
+      mBarcode = response.code;
     }
 
     @Override
     protected void onSuccess() {
-      onBarcodeFetched(mBarcode, mBitmap);
+      onBarcodeFetched(mBarcode);
     }
 
     @Override
