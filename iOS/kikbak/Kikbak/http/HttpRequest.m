@@ -82,7 +82,7 @@
     if( [response class] == [ NSHTTPURLResponse class]){
         NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
         self.responseHeaders = [httpResponse allHeaderFields];
-        if( [self.responseHeaders objectForKey:@"Set-Cookie"]){
+        if( [self.responseHeaders objectForKey:@"Set-Cookie"] && [[self.responseHeaders objectForKey:@"Set-Cookie"] rangeOfString:@"token"].location == 0 ){
             NSUserDefaults* prefs = [NSUserDefaults standardUserDefaults];
             [prefs setValue:[self.responseHeaders objectForKey:@"Set-Cookie"] forKey:COOKIE_KEY];
             [prefs synchronize];

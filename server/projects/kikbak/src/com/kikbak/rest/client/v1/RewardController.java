@@ -24,6 +24,8 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import com.kikbak.client.service.v1.RateLimitException;
 import com.kikbak.client.service.v1.RedemptionException;
 import com.kikbak.client.service.v1.RewardService;
+import com.kikbak.dto.Barcode;
+import com.kikbak.jaxb.v1.barcode.BarcodeResponse;
 import com.kikbak.jaxb.v1.claim.ClaimCreditRequest;
 import com.kikbak.jaxb.v1.claim.ClaimCreditResponse;
 import com.kikbak.jaxb.v1.redeemcredit.RedeemCreditRequest;
@@ -147,16 +149,36 @@ public class RewardController extends AbstractController {
             return response;
         }
     }
+    
+    
+    @RequestMapping(value = "/allocateBarcode/{userId}/{allocatedGiftId}/", method = RequestMethod.GET)
+    public BarcodeResponse allocateBarcode(@PathVariable("userId") Long userId,
+            @PathVariable("allocatedGiftId") Long allocatedGiftId, final HttpServletResponse httpResponse) {
+    	try {
+            ensureCorrectUser(userId);
 
-    @RequestMapping(value = "/generateBarcode/{userId}/{allocatedGiftId}/{height}/{width}/", method = RequestMethod.GET)
+            BarcodeResponse code = new BarcodeResponse();
+            code.setCode(service.getBarcode(userId, allocatedGiftId) );
+            return code;
+        } catch (WrongUserException e) {
+            logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return null;
+        } catch (Exception e) {
+            logger.error("cannot generate barcode", e);
+            httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return null;
+        }
+    }
+
+    @RequestMapping(value = "/generateBarcode/{userId}/{barcode}/{height}/{width}/", method = RequestMethod.GET)
     public void generateBarcode(@PathVariable("userId") Long userId,
-            @PathVariable("allocatedGiftId") Long allocatedGiftId, @PathVariable("height") Integer height,
+            @PathVariable("barcode") String barcode, @PathVariable("height") Integer height,
             @PathVariable("width") Integer width, final HttpServletResponse httpResponse) {
 
         try {
             ensureCorrectUser(userId);
 
-            String barcode = service.getBarcode(userId, allocatedGiftId);
             BitMatrix result = new UPCAWriter().encode(barcode, BarcodeFormat.UPC_A, width, height);
             httpResponse.setContentType("image/png");
             httpResponse.addHeader("barcode", barcode);

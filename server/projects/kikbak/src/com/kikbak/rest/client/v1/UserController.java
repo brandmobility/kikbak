@@ -25,7 +25,6 @@ import com.kikbak.jaxb.v1.devicetoken.DeviceTokenUpdateRequest;
 import com.kikbak.jaxb.v1.devicetoken.DeviceTokenUpdateResponse;
 import com.kikbak.jaxb.v1.friends.UpdateFriendResponse;
 import com.kikbak.jaxb.v1.friends.UpdateFriendsRequest;
-import com.kikbak.jaxb.v1.merchantlocation.MerchantLocationType;
 import com.kikbak.jaxb.v1.offer.ClientOfferType;
 import com.kikbak.jaxb.v1.offer.GetUserOffersRequest;
 import com.kikbak.jaxb.v1.offer.GetUserOffersResponse;

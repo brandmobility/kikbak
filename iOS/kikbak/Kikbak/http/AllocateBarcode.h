@@ -1,8 +1,8 @@
 //
-//  BarcodeImageRequest.h
+//  AllocateBarcode.h
 //  Kikbak
 //
-//  Created by Ian Barile on 7/17/13.
+//  Created by Ian Barile on 11/5/13.
 //  Copyright (c) 2013 Ian Barile. All rights reserved.
 //
 
@@ -11,14 +11,14 @@
 #import "HttpRequest.h"
 #import "KikbakConstants.h"
 
-@interface BarcodeImageRequest : NSObject <ResponseHandlerProtocol>
+@interface AllocateBarcode : NSObject <ResponseHandlerProtocol>
 {
     HttpRequest* request;
 }
 
--(void)requestBarcode;
+-(void)allocateBarcode;
 
-@property (nonatomic, strong) NSString* code;
 @property (nonatomic, strong) NSNumber* allocatedGiftId;
+
 
 @end

@@ -25,7 +25,7 @@ static NSString* resource = @"rewards/generateBarcode";
         return;
     }
     request = [[HttpRequest alloc]init];
-    request.resource = [NSString stringWithFormat:@"http://%s/%s/%@/%@/%@/%d/%d/", service_host, kikbak_service, resource, userId, self.allocatedGiftId, 75,200 ];
+    request.resource = [NSString stringWithFormat:@"http://%s/%s/%@/%@/%@/%d/%d/", service_host, kikbak_service, resource, userId, self.code, 75,200 ];
     
     
     request.restDelegate = self;

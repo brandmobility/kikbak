@@ -22,7 +22,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UIButton+Util.h"
 #import "RedeemGiftSuccessViewController.h"
-#import "BarcodeImageRequest.h"
+#import "AllocateBarcode.h"
 #import "TermsAndConditionsView.h"
 #import "ShareInfo.h"
 #import "SpinnerView.h"
@@ -367,9 +367,9 @@ static int offsetForIOS6 = 44;
     self.giftType = self.gift.discountType;
     
     if( [self.gift.validationType compare:@"barcode"] == NSOrderedSame){
-        BarcodeImageRequest* request = [[BarcodeImageRequest alloc]init];
+        AllocateBarcode* request = [[AllocateBarcode alloc]init];
         request.allocatedGiftId = self.shareInfo.allocatedGiftId;
-        [request requestBarcode];
+        [request allocateBarcode];
     }
     else{
         
@@ -489,7 +489,9 @@ static int offsetForIOS6 = 44;
 }
 
 -(void) onBarcodeGeneratedError:(NSNotification*)notification{
-    
+    [self.spinnerView removeFromSuperview];
+    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:@"No Barcodes available" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    [alert show];
 }
 
 
