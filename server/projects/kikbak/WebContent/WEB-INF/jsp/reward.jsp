@@ -26,11 +26,6 @@
         <div id="container"></div>
         <div id="wrap">
             <div id="main" class="clearfix">
-                <div id="header">
-                    <a href="${credit.merchant.url}" target="_blank">
-                        <h1>${credit.merchant.name}</h1>
-                    </a>
-                </div>
                 <div id="info">
                     <div class="info-header clearfix">
                         <img src="https://graph.facebook.com/${shareInfo.fbFriendId}/picture?width=124&height=124" class="userphoto" width="62px" height="62px" />
@@ -68,6 +63,11 @@
                     </div>
                 </div>
                 <div id="main-right">
+                    <div id="header">
+                        <a href="${credit.merchant.url}" target="_blank">
+                            <h1>${credit.merchant.name}</h1>
+                        </a>
+                    </div>
                     <h3><strong>You have a reward to be claimed!</strong></h3>
                     <div id="ribbon-blue">
                         <h2><img src="img/victor-icon.png" class="victor-img"/>  ${credit.desc}</h2>

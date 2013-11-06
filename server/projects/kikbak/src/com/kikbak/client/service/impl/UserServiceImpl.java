@@ -244,6 +244,7 @@ public class UserServiceImpl implements UserService2 {
 				ml.setPhoneNumber(location.getPhoneNumber());
 				ot.getLocations().add(ml);
 			}
+            ot.setHasEmployeeProgram(offer.getHasEmployeeProgram() != 0);
 			
 			ots.add(ot);
 		}
@@ -297,7 +298,8 @@ public class UserServiceImpl implements UserService2 {
 				ml.setPhoneNumber(location.getPhoneNumber());
 				ot.getLocations().add(ml);
 			}
-			
+			ot.setHasEmployeeProgram(offer.getHasEmployeeProgram() != 0);
+
 			ots.add(ot);
 		}
 		

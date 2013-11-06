@@ -15,6 +15,6 @@ public class TooFewFriendsDialog extends DialogFragment {
     AlertDialog.Builder b = new AlertDialog.Builder(getActivity());
     b.setMessage(R.string.too_few_friends);
     b.setPositiveButton(R.string.ok, null);
-    return b.show();
+    return b.create();
   }
 }

@@ -34,16 +34,6 @@
         <div id="wrap">
             <div id="green-overlay" style="display:none;"></div>
             <div id="main" class="clearfix">
-                <div id="header">
-                    <a href="${gift.merchant.url}" target="_blank">
-                        <h1>${gift.merchant.name}</h1>
-                    </a>
-                    <c:choose>
-                    <c:when test="${gift.validationType == 'barcode'}">
-                    <button id="print-btn" style="display:none;" class="btn grd-btn print-btn" onclick="window.print()"><img src="img/printer.png" /><span>  Print page</span></button>
-                    </c:when>
-                    </c:choose>
-                </div>
                 <div id="info">
                     <div class="info-header clearfix">
                         <img src="https://graph.facebook.com/${shareInfo.fbFriendId}/picture?width=124&height=124" class="userphoto" width="62px" height="62px" />
@@ -75,6 +65,16 @@
                     </c:choose>
                 </div>
                 <div id="main-right">
+                    <div id="header">
+                        <a href="${gift.merchant.url}" target="_blank">
+                            <h1>${gift.merchant.name}</h1>
+                        </a>
+                        <c:choose>
+                        <c:when test="${gift.validationType == 'barcode'}">
+                        <button id="print-btn" style="display:none;" class="btn grd-btn print-btn" onclick="window.print()"><img src="img/printer.png" /><span>  Print page</span></button>
+                        </c:when>
+                        </c:choose>
+                    </div>
                     <div id="success-msg" style="display:none;">
                         <h1>Success!</h1>
                         <h3>You have claimed your gift<br/>Bring this offer into ${gift.merchant.name} to redeem your gift.</h3>
@@ -323,6 +323,8 @@
             $('#welcome-msg').hide();
             var imgUrl = 'rewards/generateBarcode/' + userId + '/' + response.agId + '/100/200/';
             $('#barcode').attr('src', imgUrl);
+            $('#header h1').css('float', 'left');
+            $('#header h1').css('margin-left', '50px');
             $('#print-btn').show();
             $('#success-msg').show();
             $('#green-overlay').show();

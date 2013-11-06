@@ -70,9 +70,16 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
     v.findViewById(R.id.via_facebook).setOnClickListener(this);
     v.findViewById(R.id.via_twitter).setOnClickListener(this);
     mStoreSpinner = (Spinner) v.findViewById(R.id.store_selection);
+
+    // FIXME: create new server api
+    boolean hasEmployeeProgram = mOffer.merchantName.toLowerCase().contains("verizon");
+    if (hasEmployeeProgram) {
+      v.findViewById(R.id.share_options_note).setVisibility(View.VISIBLE);
+      v.findViewById(R.id.employee_name).setVisibility(View.VISIBLE);
+    }
+
     boolean hasManyLocations = mOffer.locations.length > 1;
     if (hasManyLocations) {
-      ((TextView) v.findViewById(R.id.title)).setText(R.string.share_options_title_multistore);
       enableStoreSelection(inflater);
     }
 
@@ -81,7 +88,7 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
 
   void enableStoreSelection(LayoutInflater inflater) {
     mStoreSpinner.setVisibility(View.VISIBLE);
-    mStoreSpinner.setAdapter(new Adapter(inflater, mOffer.locations.clone()));
+    mStoreSpinner.setAdapter(new LocationsAdapter(inflater, mOffer.locations.clone()));
 
     float minDistance = new Nearest(mOffer.locations).getDistance();
     if (minDistance < C.CLOSE_TO_STORE_DISTANCE) {
@@ -118,7 +125,7 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
     }
 
     Bundle extraArgs = new Bundle();
-    if(location != null)
+    if (location != null)
       extraArgs.putLong(ShareViaBase.ARG_LOCATION_ID, location.locationId);
     extraArgs.putString(ShareViaBase.ARG_EMPLYOYEE, employee);
 
@@ -140,12 +147,12 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
     dismiss();
   }
 
-  private class Adapter extends BaseAdapter {
+  private class LocationsAdapter extends BaseAdapter {
 
     LayoutInflater mInflater;
     ArrayList<MerchantLocationType> mLocations;
 
-    public Adapter(LayoutInflater inflater, MerchantLocationType[] locations) {
+    public LocationsAdapter(LayoutInflater inflater, MerchantLocationType[] locations) {
       mInflater = inflater;
       mLocations = new ArrayList<MerchantLocationType>(Arrays.asList(locations));
       Location l = LocationFinder.getLastLocation();
@@ -165,7 +172,7 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
       if (location == null) {
         int color = tv.getHintTextColors().getDefaultColor();
         tv.setTextColor(color);
-        tv.setText(R.string.share_option_pick_location);
+        tv.setText(R.string.share_options_pick_location);
       } else {
         tv.setTextColor(getResources().getColor(android.R.color.black));
         tv.setText(location.address1);

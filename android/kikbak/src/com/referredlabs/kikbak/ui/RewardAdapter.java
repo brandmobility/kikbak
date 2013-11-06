@@ -97,7 +97,7 @@ public class RewardAdapter extends BaseAdapter {
       helper.mFriendImage.setBackgroundDrawable(null);
     }
 
-    helper.setGiftValue(LocaleUtils.getGiftValueString(mContext, reward));
+    helper.setGiftValue(reward.hasGifts() ? reward.getGift().desc : null);
     helper.setCreditPart(mContext.getResources(), reward.getCredit());
 
     return view;

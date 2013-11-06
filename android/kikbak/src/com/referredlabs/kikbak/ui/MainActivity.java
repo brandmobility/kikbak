@@ -1,14 +1,18 @@
 
 package com.referredlabs.kikbak.ui;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -50,6 +54,7 @@ public class MainActivity extends KikbakActivity implements ActionBar.TabListene
   ViewFlipper mViewFlipper;
   ViewPager mViewPager;
   LocationFinder mLocationFinder;
+  boolean mLocationWarningShown = false;
   TheReward mSelectedReward;
 
   BroadcastReceiver mNetworkStateReceiver;
@@ -119,6 +124,27 @@ public class MainActivity extends KikbakActivity implements ActionBar.TabListene
     super.onResume();
     registerNetworkStateReceiver();
     mLocationFinder.startLocating();
+    if (!mLocationWarningShown && !LocationFinder.isLocationEnabled()) {
+      mLocationWarningShown = true;
+      showLocationWarningDialog();
+    }
+  }
+
+  private void showLocationWarningDialog() {
+    AlertDialog.Builder b = new AlertDialog.Builder(this);
+    b.setTitle(R.string.location_disabled_title);
+    b.setMessage(R.string.location_disabled_message);
+    b.setPositiveButton(R.string.ok, new OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        try {
+          startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+        } catch (Exception e) {
+          // ignore
+        }
+      }
+    });
+    b.show();
   }
 
   @Override

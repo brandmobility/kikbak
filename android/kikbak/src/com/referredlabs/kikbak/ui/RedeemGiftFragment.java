@@ -127,7 +127,7 @@ public class RedeemGiftFragment extends KikbakFragment implements OnClickListene
     mFriendName.setText(share.friendName);
     mFriendComment.setText(share.caption);
 
-    mGiftValue.setText(LocaleUtils.getGiftValueString(getActivity(), mGift));
+    mGiftValue.setText(mGift.desc);
     mGiftDesc.setText(mGift.detailedDesc);
 
     // not supported yet
