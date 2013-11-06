@@ -3,6 +3,7 @@ package com.kikbak.dao.impl;
 import java.util.Collection;
 import java.util.Collections;
 
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.type.StandardBasicTypes;
 import org.springframework.transaction.annotation.Propagation;
@@ -15,6 +16,8 @@ import com.kikbak.dto.User2friend;
 public class ReadOnlyUser2FriendDAOImpl extends ReadOnlyGenericDAOImpl<User2friend, Long> implements ReadOnlyUser2FriendDAO{
 
 	private static final String friends_to_delete_query = "select facebook_friend_id from user2friend where user_id=";
+
+    private static final String list_friends = "select user.id from user, user2friend where user.facebook_id = user2friend.facebook_friend_id and user2friend.user_id = :userId";	
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -39,4 +42,12 @@ public class ReadOnlyUser2FriendDAOImpl extends ReadOnlyGenericDAOImpl<User2frie
 		return query.list();
 	}
 
+    @SuppressWarnings("unchecked")
+    @Override
+    @Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
+    public Collection<Long> listFriends(Long userId) {
+        Query query = sessionFactory.getCurrentSession().createSQLQuery(list_friends)
+                .addScalar("user.id", StandardBasicTypes.LONG).setLong("userId", userId);
+        return query.list();
+    }
 }

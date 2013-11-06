@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kikbak.client.service.impl.types.PlatformType;
+import com.kikbak.client.service.v1.CheatProtectionService;
 import com.kikbak.client.util.CryptoUtils;
 import com.kikbak.config.ContextUtil;
 import com.kikbak.dao.ReadOnlyDeviceTokenDAO;
@@ -20,6 +21,7 @@ import com.kikbak.dto.Devicetoken;
 import com.kikbak.dto.Gift;
 import com.kikbak.dto.Kikbak;
 import com.kikbak.dto.Merchant;
+import com.kikbak.dto.Offer;
 import com.kikbak.dto.User;
 import com.kikbak.jaxb.v1.applepushnotification.AppleNotificationPayload;
 import com.kikbak.jaxb.v1.applepushnotification.ApsType;
@@ -52,6 +54,9 @@ public class PushNotifierImpl implements PushNotifier {
 
     @Autowired
     ReadOnlyOfferDAO roOfferDAO;
+    
+    @Autowired
+    CheatProtectionService cheatProtectionService;
 
     @Override
     public void sendKikbakNotification(Long fromUserId, Long toUserId, Kikbak kikbak, Long creditId) {
@@ -171,7 +176,11 @@ public class PushNotifierImpl implements PushNotifier {
 
     @Override
     public void sendGiftNotification(Long fromUserId, Gift gift) {
+        Offer offer = roOfferDAO.findById(gift.getOfferId());
+
         Collection<Long> usersToNotify = roUserDAO.listEligibleForOfferFromUser(gift.getOfferId(), fromUserId);
+        usersToNotify = cheatProtectionService.getUsersWhoCanReceive(usersToNotify, fromUserId, offer);
+
         if (usersToNotify.size() == 0) {
             return;
         }
