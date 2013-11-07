@@ -75,10 +75,10 @@
                     <div id="ribbon-blue-dec"></div>
                     <div class="clearfix"></div>
                     <div id="facebook-div">
-                        <p class="title">Sign-in with Facebook to redeem your credit now</p>
+                        <p id="fb-signin-title" class="title">Sign-in with Facebook to redeem your credit now</p>
                         <a id="loginFb" href="#"> <img src="img/fb-btn-new.png" width="258" height="55" style="margin: 0 auto;" /></a>
-                        <p class="disclaimer">We use your Facebook ID to personalize the offers you share and notify you when you've earned a reward.<br/> We will never post without your permission.</p>
-                        <p class="title"><br/><br/>Or download the Kikbak app. Your reward will be waiting for<br/>whenever you’re ready to use it.</p>
+                        <p class="disclaimer">We use Facebook to make it easy for you to share, redeem and share gifts.<br/> We will never post without your permission.</p>
+                        <p class="title"><br/>Or download the Kikbak app. Your reward will be waiting for<br/>whenever you’re ready to use it.</p>
                         <div style="text-align: center; padding-bottom: 20px;">
                             <a href="https://itunes.apple.com/us/app/kikbak/id707697884?mt=8"><img src="img/app-store.png" width="40%" /></a>&nbsp;&nbsp;&nbsp;&nbsp;
                             <a href="https://play.google.com/store/apps/details?id=com.referredlabs.kikbak&hl=en"><img src="img/google-play.png" width="40%" /></a>
@@ -188,7 +188,7 @@
                             </a>
                         </div>
                         <p align="center" style="padding-top: 20px; font-family: HelveticaNeueLTPro-Lt; font-size: 10px;">
-                            We use Facebook to make it easy for you to share and redeem. <br/>
+                            We use Facebook to make it easy for you to share, redeem and share gifts <br/>
                             We will never post on Facebook without your permission.
                         </p>
                     </div>
@@ -212,7 +212,7 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-        <script>
+        <script>        
         <c:choose>
         <c:when test="${not mobile}">
         $('#container').css('background-image', 'url(${gift.defaultGiveImageUrl})');
@@ -223,7 +223,8 @@
         $('#header h1').css('background-size', '100%');
         $('#header h1').css('background-position', 'initial initial');
         $('#header h1').css('background-repeat', 'no-repeat');
-        function registerCb(userId) {
+        
+        function claimCredit(userId) {
           $('#facebook-div').hide();
           $('#redeem-div').show();
           $('#claim-credit-form input').bind('keyup', function() {
@@ -249,16 +250,23 @@
               o[this.name] = this.value;
             });
             var keys = ['phoneNumber', 'apt', 'zipcode'];
+            var invalid = false;
             for (var i in keys) {
               var k = keys[i];
               if (/^\d+$/.test(o[k].replace(/^\s+|\s+$/g, ''))) {
                 o[k] = o[k].replace(/^\s+|\s+$/g, '');
+                $('#claim-credit-form input[name="' + k + '"]').css('border', '1px solid #ccc');
               } else {
-                alert('Sorry, the information you entered is not recognized as valid.\n\nPlease ensure that is accurate and try again');
-                return;
+            	invalid = true;
+            	$('#claim-credit-form input[name="' + k + '"]').css('border', '2px solid red');
               }
             }
-            return;
+            if (invalid) {
+              $('#claim-credit-form h3').html('Sorry, the information you entered is not recognized as valid.<br />Please ensure that is accurate and try again.');
+              return;
+            } else {
+              $('#claim-credit-form h3').html('Please provide the following to redeem:');
+            }
             var claim = {};
             claim['claim'] = o;
             var req = {};
@@ -281,12 +289,38 @@
         }
         </c:when>
         <c:otherwise>
-        function registerCb(userId) {
+        function claimCredit(userId) {
           window.location.href = '/m/#redeem';
         }
         </c:otherwise>
         </c:choose>
+        function registerCb(userId) {
+          var data = {};
+          var req = {};
+          req['RewardsRequest'] = data;
+          var str = JSON.stringify(req);
+          $.ajax({
+            dataType : 'json',
+            type : 'POST',
+            contentType : 'application/json',
+            data : str,
+            url : 'rewards/request/' + userId,
+            success : function(json) {
+              var credits = json.rewardsResponse.credits;
+              if (!json || !json.rewardsResponse || !json.rewardsResponse.credits || json.rewardsResponse.credits.lenght == 0) {
+                $('#fb-signin-title').html('Unfortunately you do not have any rewards to claim at this time');
+                $('#fb-signin-title').css( "color", "red");
+              } else {
+                claimCredit(userId);
+              }
+            },
+            error: showError
+          });
+        }
         </script>
         <script src="js/register.js"></script>
+        <script>
+        registerCb(3);
+        </script>
     </body>
 </html>

@@ -148,16 +148,25 @@ $(document).ready(function() {
     $.each(form.serializeArray(), function() { 
       o[this.name] = this.value;
     });
-    var keys = ['phoneNumber', 'apt', 'zipcode'];
+
+    var invalid = false;
     for (var i in keys) {
       var k = keys[i];
       if (/^\d+$/.test(o[k].replace(/^\s+|\s+$/g, ''))) {
         o[k] = o[k].replace(/^\s+|\s+$/g, '');
+        $('#claim-credit-form input[name="' + k + '"]').css('border', 'none');
       } else {
-        alert('Sorry, the information you entered is not recognized as valid.\n\nPlease ensure that is accurate and try again');
-        return;
+    	invalid = true;
+    	$('#claim-credit-form input[name="' + k + '"]').css('border', '2px solid red');
       }
     }
+    if (invalid) {
+      $('#claim-credit-form h3').html('Sorry, the information you entered is not recognized as valid.<br />Please ensure that is accurate and try again.');
+      return;
+    } else {
+      $('#claim-credit-form h3').html('Please provide the following to redeem:');
+    }
+    
     var claim = {};
     claim['claim'] = o;
     var req = {};
@@ -602,6 +611,7 @@ function getRedeemsWithLocation() {
       data : str,
       url : config.backend + 'kikbak/rewards/request/' + userId,
       success : function(json) {
+        clearView();
         var gifts = json.rewardsResponse.gifts;
         var credits = json.rewardsResponse.credits;
         var giftCollection = {};
@@ -727,26 +737,28 @@ function onClickRedeemCredit(credits) {
 }
 
 function onClickRedeemGift(gifts) {
-    $('#friend-popup h1').html('');
+    $('#friend-popup h1').html(gifts.desc);
     var list = $('#friend-list');
-    list.html(gifts.desc);
+    list.html('');
     if (gifts && gifts.shareInfo.length > 1) {
       $('#redeem-view').show('');
-      for (var shareInfo in gifts.shareInfo.length) {
+      for (var i in gifts.shareInfo) {
+    	var shareInfo = gifts.shareInfo[i];
         var li = '<li class="frd-bx" >';
-        li += '<img src="https://graph.facebook.com/' + shareInfo.fbFriendId + '/picture?type=square">';
-        li += '<h2>' + shareInfo.friendName + '</h2>';
         var data = {
           'gift' : gifts,
           'shareInfo' : shareInfo
         };
         var j = escape(JSON.stringify(data));
-        li += '<a href="#" class="nxtt select-gift-btn" data-object="' + j + '"><img src="images/nxt-aro.png"></a></li>';
+        li += '<a href="#" data-object="' + j + '" class="select-gift-btn">';
+        li += '<img class="avatar" src="https://graph.facebook.com/' + shareInfo.fbFriendId + '/picture?type=square">';
+        li += '<h2>' + shareInfo.friendName + '</h2>';
+        li += '<img class="nxtt" src="images/nxt-aro.png"></a></li>';
         list.append(li);
       }
 
       $('#friend-popup').show();
-      $('.select-gift-btn').click(function() {
+      $('.select-gift-btn').click(function(e) {
         e.preventDefault();
         $('#friend-popup').hide();
         s.giftDetail = $(this).attr('data-object');
@@ -805,7 +817,7 @@ function renderRedeem(gifts, credits) {
       html += '<a href="#" data-object="' + json + '" class="redeem-gift-btn clearfix">';
       html += '<div class="lft-dtl' + style + '"><span>USE RECEIVED GIFT<h2>' + g.desc + '</h2></span>';
       html += '<img style="width:32px;height:32px;float:right;" src="https://graph.facebook.com/' + g.shareInfo[0].fbFriendId + '/picture?type=square">';
-      if (gifts.length > 1) {
+      if (g.shareInfo.length > 1) {
         html += '<img src="images/actor-bk.png" class="actbrd">';
       }
       html += '</div>';
@@ -1208,21 +1220,23 @@ function shareOfferAfterLogin() {
 
 function loginFb() {
   var userId = s.userId;
-  ga('send', 'event', 'button', 'click', 'facebook auth');
-  FB.login(function(response) {
-    if (response.status === 'connected') {
-      ga('send', 'event', 'button', 'click', 'facebook auth success');
-      connectFb(response.authResponse.accessToken);
-    } else if (response.status === 'not_authorized') {
-      ga('send', 'event', 'button', 'click', 'facebook auth failure');
-      FB.login();
-    } else {
-      ga('send', 'event', 'button', 'click', 'facebook auth failure');
-      FB.login();
-    }
-  }, {
-    scope : "email,read_friendlists,publish_stream,publish_actions"
-  });
+  if (!userId) {
+    ga('send', 'event', 'button', 'click', 'facebook auth');
+    FB.login(function(response) {
+      if (response.status === 'connected') {
+        ga('send', 'event', 'button', 'click', 'facebook auth success');
+        connectFb(response.authResponse.accessToken);
+      } else if (response.status === 'not_authorized') {
+        ga('send', 'event', 'button', 'click', 'facebook auth failure');
+        FB.login();
+      } else {
+        ga('send', 'event', 'button', 'click', 'facebook auth failure');
+        FB.login();
+      }
+    }, {
+      scope : "email,read_friendlists,publish_stream,publish_actions"
+    });
+  }
 }
 
 function onShareResponse(url) {
@@ -1504,7 +1518,7 @@ function claimCreditForm(credit) {
   $('#redeem-details-view').hide();
   
   $('#claim-credit-form .pg-hedng').html(credit.merchant.name);
-  $('#claim-credit-form .hedng h1').html('$' + credit.value.toFixed(2));
+  $('#claim-credit-form .hedng h1').html('$' + credit.value);
   if (credit.rewardType == 'gift_card') {
     $('#claim-credit-form .hedng h3').html('Gift Card');
   }
@@ -1530,6 +1544,7 @@ function getBrowserName() {
     }
   }
   return 'other';
+  
 }
 
 function setWrapperSize() {

@@ -77,7 +77,7 @@
                     </div>
                     <div id="success-msg" style="display:none;">
                         <h1>Success!</h1>
-                        <h3>You have claimed your gift<br/>Bring this offer into ${gift.merchant.name} to redeem your gift.</h3>
+                        <h3><br />Bring this offer into ${gift.merchant.name} to redeem your gift.</h3>
                     </div>
                     <div id="welcome-msg">
                         <h3><strong>${shareInfo.friendName}</strong> used <strong>Kikbak</strong> to give you <br/> an exclusive offer for <strong>${gift.merchant.name}</strong></h3>
@@ -88,9 +88,9 @@
                         <small>offer valid in-store only</small>
                     </div>
                     <div id="facebook-div">
-                        <p class="title">Connect with Facebook to access your gift.</p>
+                        <p class="title">Connect with Facebook to claim your gift.</p>
                         <a id="loginFb" href="#"> <img src="img/fb-btn-new.png" width="258" height="55" style="margin: 0 auto;" /></a>
-                        <p class="disclaimer">We use your Facebook ID to personalize the offers you share and notify you when you've earned a reward.<br/> We will never post without your permission.</p>
+                        <p class="disclaimer">We use Facebook to make it easy for you to share, redeem and share gifts.<br/> We will never post without your permission.</p>
                     </div>
                     <c:choose>
                     <c:when test="${gift.validationType != 'barcode'}">
@@ -202,7 +202,7 @@
             <div id="facebook-div">
                 <div class="page-header"
                     style="padding-left: 10px; padding-right: 10px; margin-top: 25px; text-align: center">
-                    <p style="font-size: 15px; font-family: HelveticaNeueLT Pro 45 Lt;">Connect with Facebook to access your gift.</p>
+                    <p style="font-size: 15px; font-family: HelveticaNeueLT Pro 45 Lt;">Connect with Facebook to claim your gift.</p>
                     <div style="height: 40px">
                         <a id="loginFb" href="#"> <img src="img/btn_facebook.png" style="width: 100%;" />
                             <span style="position: relative; top: -35px; left: 15px; color: #FFFFFF; font-size: 20px;">Connect with Facebook</span>
@@ -210,7 +210,7 @@
                     </div>
                     <p align="center"
                     style="padding-top: 20px; font-family: HelveticaNeueLT Pro 45 Lt; font-size: 10px;">
-                    We use Facebook to make it easy for you to share and redeem. <br/>
+                    We use Facebook to make it easy for you to share, redeem and share gifts.<br/>
                     We will never post on Facebook without your permission.
                     </p>
                 </div>
