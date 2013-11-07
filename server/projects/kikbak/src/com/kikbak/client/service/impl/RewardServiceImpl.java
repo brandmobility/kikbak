@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kikbak.client.service.impl.types.OfferType;
 import com.kikbak.client.service.impl.types.TransactionType;
+import com.kikbak.client.service.v1.CheatProtectionService;
 import com.kikbak.client.service.v1.RateLimitException;
 import com.kikbak.client.service.v1.RedemptionException;
 import com.kikbak.client.service.v1.RewardException;
@@ -125,6 +126,9 @@ public class RewardServiceImpl implements RewardService {
 
     @Autowired
     ReadWriteBarcodeDao rwBarcodeDao;
+    
+    @Autowired
+    CheatProtectionService cheatProtectionService;
 
     private final SecureRandom random = new SecureRandom();
 
@@ -467,7 +471,9 @@ public class RewardServiceImpl implements RewardService {
         Collection<Shared> shareds = roSharedDao.listSharesForNewGifts(userId);
         for (Shared shared : shareds) {
             Offer offer = roOfferDao.findById(shared.getOfferId());
-            createAllocateOffer(userId, shared, offer);
+            Long fromUserId = shared.getUserId();
+            if (cheatProtectionService.canReceiveGift(userId, fromUserId, offer))
+                createAllocateOffer(userId, shared, offer);
         }
     }
 

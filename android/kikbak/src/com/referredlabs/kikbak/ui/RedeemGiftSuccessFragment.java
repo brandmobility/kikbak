@@ -29,7 +29,6 @@ public class RedeemGiftSuccessFragment extends Fragment implements OnClickListen
 
   private GiftType mGift;
 
-  private Bitmap mBarcodeBitmap;
   private String mBarcode;
 
   private TextView mName;
@@ -49,7 +48,6 @@ public class RedeemGiftSuccessFragment extends Fragment implements OnClickListen
     Bundle args = getActivity().getIntent().getExtras();
     String data = args.getString(SuccessActivity.ARG_GIFT);
     mGift = new Gson().fromJson(data, GiftType.class);
-    mBarcodeBitmap = args.getParcelable(SuccessActivity.ARG_BARCODE_BITMAP);
     mBarcode = args.getString(SuccessActivity.ARG_BARCODE);
   }
 
@@ -84,9 +82,10 @@ public class RedeemGiftSuccessFragment extends Fragment implements OnClickListen
       stub.setLayoutResource(layout);
       root = stub.inflate();
       if (mGift.validationType == ValidationType.barcode) {
+        Bitmap bmp = BarcodeGenerator.generateUpcaCode(getActivity(), mBarcode);
         ImageView img = (ImageView) root.findViewById(R.id.code);
         TextView text = (TextView) root.findViewById(R.id.text_code);
-        img.setImageBitmap(mBarcodeBitmap);
+        img.setImageBitmap(bmp);
         text.setText(mBarcode);
       } else if (mGift.validationType == ValidationType.qrcode && !TextUtils.isEmpty(mBarcode)) {
         Bitmap bmp = BarcodeGenerator.generateQrCode(getActivity(), mBarcode);

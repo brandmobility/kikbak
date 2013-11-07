@@ -64,10 +64,11 @@
     <string name="done">Done</string>
 
     <!-- Share options -->
-    <string name="share_options_title">Share with friends</string>
-    <string name="share_options_helped_note">Helped by someone? Let nearby friends know who to ask for when they visit.</string>
-    <string name="share_options_pick_location">Select location</string>
+    <string name="share_options_title">Give offer to friends</string>
+    <string name="share_options_employee_note">Helped by someone? Let nearby friends know who to ask for when they visit.</string>
     <string name="share_options_employee_name_hint">Associate name</string>
+    <string name="share_options_location_note">Choose preferred location</string>
+    <string name="share_options_location_hint">Pick location</string>
 
     <!-- Share progress -->
     <string name="share_in_progress">Sharing gift&#8230;</string>

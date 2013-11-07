@@ -22,16 +22,13 @@ import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.protocol.HTTP;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.http.AndroidHttpClient;
-import android.util.Pair;
 
 import com.google.common.io.CharStreams;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.referredlabs.kikbak.C;
-import com.referredlabs.kikbak.Kikbak;
 import com.referredlabs.kikbak.data.UploadImageResponse;
 import com.referredlabs.kikbak.utils.BitmapBody;
 
@@ -39,6 +36,14 @@ public class Http {
 
   public static String getUri(String path) {
     return C.REST_URI + path;
+  }
+
+  public static <V> V execute(String uri, Class<V> responseType) throws IOException {
+    HttpClient httpClient = HttpClientHelper.getHttpClient();
+    HttpGet get = new HttpGet(uri);
+    AndroidHttpClient.modifyRequestToAcceptGzipResponse(get);
+    HttpResponse resp = httpClient.execute(get);
+    return parseResponse(uri, resp, responseType, true);
   }
 
   public static <T, V> V execute(String uri, T request, Class<V> responseType) throws IOException {
@@ -130,45 +135,45 @@ public class Http {
     return first + name.substring(1);
   }
 
-  public static Pair<String, Bitmap> fetchBarcode(long userId, long allocatedGiftId)
-      throws IOException {
-    HttpClient httpClient = HttpClientHelper.getHttpClient();
-    String uri = getUri("/rewards/generateBarcode/" + userId + "/" + allocatedGiftId
-        + "/160/400/");
-    HttpGet get = new HttpGet(uri);
-    AndroidHttpClient.modifyRequestToAcceptGzipResponse(get);
-
-    HttpResponse resp = httpClient.execute(get);
-    int code = resp.getStatusLine().getStatusCode();
-    if (code == 200) {
-      String barcode = resp.getFirstHeader("barcode").getValue();
-      Bitmap bitmap = getContentAsBitmap(resp.getEntity());
-      return new Pair<String, Bitmap>(barcode, bitmap);
-    }
-
-    String content = getContent(resp.getEntity());
-    throw new HttpStatusException(uri, code, content);
-  }
-
-  private static Bitmap getContentAsBitmap(HttpEntity entity)
-  {
-    Bitmap bitmap = null;
-    if (entity != null) {
-      try {
-        BitmapFactory.Options opts = new BitmapFactory.Options();
-        opts.inDensity = 300;
-        opts.inTargetDensity = (int) (Kikbak.getInstance().getResources().getDisplayMetrics().density * 160);
-        opts.inScaled = true;
-        InputStream in = AndroidHttpClient.getUngzippedContent(entity);
-        bitmap = BitmapFactory.decodeStream(in, null, opts);
-      } catch (Exception e) {
-        // ignore
-      } finally {
-        closeHttpEntity(entity);
-      }
-    }
-    return bitmap;
-  }
+//  public static Pair<String, Bitmap> fetchBarcode(long userId, long allocatedGiftId)
+//      throws IOException {
+//    HttpClient httpClient = HttpClientHelper.getHttpClient();
+//    String uri = getUri("/rewards/generateBarcode/" + userId + "/" + allocatedGiftId
+//        + "/160/400/");
+//    HttpGet get = new HttpGet(uri);
+//    AndroidHttpClient.modifyRequestToAcceptGzipResponse(get);
+//
+//    HttpResponse resp = httpClient.execute(get);
+//    int code = resp.getStatusLine().getStatusCode();
+//    if (code == 200) {
+//      String barcode = resp.getFirstHeader("barcode").getValue();
+//      Bitmap bitmap = getContentAsBitmap(resp.getEntity());
+//      return new Pair<String, Bitmap>(barcode, bitmap);
+//    }
+//
+//    String content = getContent(resp.getEntity());
+//    throw new HttpStatusException(uri, code, content);
+//  }
+//
+//  private static Bitmap getContentAsBitmap(HttpEntity entity)
+//  {
+//    Bitmap bitmap = null;
+//    if (entity != null) {
+//      try {
+//        BitmapFactory.Options opts = new BitmapFactory.Options();
+//        opts.inDensity = 300;
+//        opts.inTargetDensity = (int) (Kikbak.getInstance().getResources().getDisplayMetrics().density * 160);
+//        opts.inScaled = true;
+//        InputStream in = AndroidHttpClient.getUngzippedContent(entity);
+//        bitmap = BitmapFactory.decodeStream(in, null, opts);
+//      } catch (Exception e) {
+//        // ignore
+//      } finally {
+//        closeHttpEntity(entity);
+//      }
+//    }
+//    return bitmap;
+//  }
 
   public static String uploadImage(long userId, String filePath) throws IOException {
     HttpClient httpClient = HttpClientHelper.getHttpClient();

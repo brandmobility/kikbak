@@ -45,13 +45,7 @@ public class RedeemGiftActivity extends KikbakActivity implements RedeemGiftCall
 
   @Override
   public void onRedeemGiftSuccess(String barcode) {
-    onRedeemGiftSuccess(barcode, null);
-  }
-
-  @Override
-  public void onRedeemGiftSuccess(String barcode, Bitmap barcodeBitmap) {
     Intent intent = new Intent(this, SuccessActivity.class);
-    intent.putExtra(SuccessActivity.ARG_BARCODE_BITMAP, barcodeBitmap);
     intent.putExtra(SuccessActivity.ARG_BARCODE, barcode);
     intent.putExtra(SuccessActivity.ARG_GIFT, getIntent().getStringExtra(EXTRA_GIFT));
     startActivity(intent);
