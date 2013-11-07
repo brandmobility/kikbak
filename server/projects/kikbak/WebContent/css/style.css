@@ -402,7 +402,6 @@ strong{
     text-align: center;
     width: 60%;
     height: 40px;
-    font-weight: bold;
     border-radius: 5px;
     filter: dropshadow(color=#050505,offx=-1,offy=-1)
 }

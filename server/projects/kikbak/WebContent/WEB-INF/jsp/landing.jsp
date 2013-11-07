@@ -104,7 +104,17 @@
                     </c:when>
                     <c:otherwise>
                     <div id="redeem-div" style="display: none;">
-                        <img id="barcode" src="" />
+                        <div id="redeem-btn-div">
+                            <input type="button" id="redeem-barcode-btn" class="btn grd-btn" value="Generate offer to use in store" />
+                            <p>
+                                Or download the Kikbak app for easy access to your gift.  You’ll find it waiting for you to use when you’re ready.
+                            </p>
+                            <div>
+                                <a href="https://itunes.apple.com/us/app/kikbak/id707697884?mt=8"><img src="img/app-store.png" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="https://play.google.com/store/apps/details?id=com.referredlabs.kikbak&hl=en"><img src="img/google-play.png" /></a>
+                            </div>
+                        </div>
+                        <img id="barcode" src="" style="display: none;" />
                     </div>
                     </c:otherwise>
                     </c:choose>
@@ -224,9 +234,9 @@
             <c:otherwise>
             <div id="redeem-div" style="display: none;">
                 <div style="text-align: center; padding-top: 20px;">
-                    <input type="button" id="redeem-barcode-btn" data-code="${code}" class="btn grd-btn" value="Redeem now in store" />
+                    <input type="button" id="redeem-barcode-btn" class="btn grd-btn" value="Redeem now in store" />
                     <p>
-                    The Kikbak app makes it easy to access and use your gift. Download it now and you'll find your gift waiting.
+                    Or download the Kikbak app for easy access to your gift.  You’ll find it waiting for you to use when you’re ready.
                     </p>
                 </div>
                 <div style="text-align: center; padding-bottom: 20px;">
@@ -299,7 +309,14 @@
         alert('Sorry, you cannot claim your own gift.');
         return;
       }
+      $('#facebook-div').hide();
+      $('#redeem-div').show();
       $('#redeem-barcode-btn').click(function() {
+        <c:choose>
+        <c:when test="${not mobile}">
+        claimGift(userId);
+        </c:when>
+        <c:otherwise>
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(p) {
             var near = false;
@@ -309,7 +326,7 @@
               }
             </c:forEach>
             if (near) {
-              window.location.href = '/m/#redeem';
+              claimGift(userId);
             } else {
               alert("Oops! You have to be in the store to redeem.\n\nLooks like you might not be there yet. Try again?");
             }
@@ -320,7 +337,12 @@
         } else {
           alert('We are unable to detect your current location.\n\nIf you are inside a participating store and would like to share a Kikbak offer with your friends, please enable location services for your phone and web browser in your device settings.');
         }
+        </c:otherwise>
+        </c:choose>
       });
+    }
+    
+    function claimGift(userId) {
       var url = 'rewards/claimgift/' + userId + '/${code}';
       $.ajax({
         dataType: 'json',
@@ -349,14 +371,23 @@
               url: 'rewards/allocateBarcode/' + userId + '/' + resp.agId + '/',
               success: function(json) {
             	if (json && json.barcodeResponse && json.barcodeResponse.code) {
+                  <c:choose>
+                  <c:when test="${not mobile}">
                   $('#welcome-msg').hide();
                   var imgUrl = 'rewards/generateBarcode/' + userId + '/' + json.barcodeResponse.code + '/100/200/';
+                  $('#redeem-btn-div').hide();
+                  $('#barcode').show();
                   $('#barcode').attr('src', imgUrl);
                   $('#header h1').css('float', 'left');
                   $('#header h1').css('margin-left', '50px');
-                  $('#print-btn').show();
                   $('#success-msg').show();
                   $('#green-overlay').show();
+                  $('#print-btn').show();
+                  </c:when>
+                  <c:otherwise>
+                  window.location.href = "/m/#redeem";
+                  </c:otherwise>
+                  </c:choose>
             	} else {
                   alert('Sorry, we are currently running out of gift. It will be available soon. Please try later.');  
             	}
@@ -367,9 +398,6 @@
             });
             </c:when>
             </c:choose>
-            $('#facebook-div').hide();
-            $('#print-btn').show();
-            $('#redeem-div').show();
           } else {
             showError();
           }
