@@ -4,7 +4,7 @@
  <account id="1" first_name="fn1" last_name="ln1" email="test@kikbak.com" phone_number="1234" verified="0" password="1234" account_type_id="1" create_date="2012-11-13 22:00:00"/>
  <merchant id="1" name="Pied Piper" description="23" shortname="pp" />
  <location id="1" verification_code="4343" address_1="332 test" city="SF" state="CA" zipcode="43231" phone_number="6505551212" merchant_id="1" latitude="37.42706140" longitude="-122.1444120" status="participating"/>
- <offer id="1" merchant_id="1" name="kikit" image_url="url" tos_url="tos" begin_date="2012-11-13 22:00:00" end_date="2014-11-13 22:00:00" /> 
+ <offer id="1" merchant_id="1" name="kikit" image_url="url" tos_url="tos" begin_date="2012-11-13 22:00:00" end_date="2014-11-13 22:00:00" offer_type="both" has_employee_program="0"/> 
  <friend id="1" first_name="test" last_name="bob" facebook_id="12" username="testbob" />
  <allocatedgift id="1" offer_id="1" user_id="12" gift_id="2" friend_user_id="13" merchant_id="1" value="12.21" shared_id="1" expiration_date="2013-11-13 22:00:00"/>
  <allocatedgift id="2" offer_id="13" user_id="11" gift_id="2"  friend_user_id="13" merchant_id="3" value="0.21" shared_id="1" redemption_date="2012-11-13 22:00:00" expiration_date="2013-11-13 22:00:00"/>
