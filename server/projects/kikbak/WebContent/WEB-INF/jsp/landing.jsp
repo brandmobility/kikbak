@@ -39,7 +39,7 @@
                         <img src="https://graph.facebook.com/${shareInfo.fbFriendId}/picture?width=124&height=124" class="userphoto" width="62px" height="62px" />
                         <c:choose>
                         <c:when test="${not empty shareInfo.caption}">
-                        <h3 style="margin-top:5px;">${shareInfo.friendName}</h3>
+                        <h3 style="margin-top:5px;float:none;">${shareInfo.friendName}</h3>
                         <p>${shareInfo.caption}</p>
                         </c:when>
                         <c:otherwise>
@@ -59,7 +59,15 @@
                     <c:choose>
                     <c:when test="${not empty location}">
                     <div class="info-footer">
-                        ${shareInfo.friendName} was at <strong>${gift.merchant.name}</strong> at <strong>${location.address1}, ${location.city}, ${location.state}</strong>
+                    <c:choose>
+                    <c:when test="${not empty shareInfo.employeeId}">
+                        ${shareInfo.friendName} was helped by <strong>${shareInfo.employeeId}</strong> at <strong>${gift.merchant.name}</strong>: <strong>${location.address1}, ${location.city}, ${location.state}</strong><br />
+                        If you visit the same store, ${shareInfo.employeeId} can help you too.
+                    </c:when>
+                    <c:otherwise>
+                        ${shareInfo.friendName} was at <strong>${gift.merchant.name}</strong>: <strong>${location.address1}, ${location.city}, ${location.state}</strong>
+                    </c:otherwise>
+                    </c:choose>
                     </div>
                     </c:when>
                     </c:choose>
@@ -133,22 +141,24 @@
             <c:choose>
             <c:when test="${not empty location}">
             <div id="jumbotron">
-                <p style="margin-top: 10px; margin-left: 10px;">${shareInfo.friendName}
-                was at <strong>${gift.merchant.name}</strong> at <strong>${location.address1},
-                    ${location.city}, ${location.state}</strong>
+                <p style="margin-top: 10px; margin-left: 10px;">
+                    <c:choose>
+                    <c:when test="${not empty shareInfo.employeeId}">
+                        ${shareInfo.friendName} was helped by <strong>${shareInfo.employeeId}</strong> at <strong>${gift.merchant.name}</strong>: <strong>${location.address1}, ${location.city}, ${location.state}</strong><br />
+                        If you visit the same store, ${shareInfo.employeeId} can help you too.
+                    </c:when>
+                    <c:otherwise>
+                        ${shareInfo.friendName} was at <strong>${gift.merchant.name}</strong>: <strong>${location.address1}, ${location.city}, ${location.state}</strong>
+                    </c:otherwise>
+                    </c:choose>
                 </p>
             </div>
             </c:when>
             </c:choose>
-            <img src="${shareInfo.imageUrl}" width="100%" height="330px" />
-            <c:choose>
-            <c:when test="${not empty location}">
-            <img src="img/blk-shad.png" width="100%" height="330px" style="position: absolute; top: 65px;" />
-            </c:when>
-            <c:otherwise>
-            <img src="img/blk-shad.png" width="100%" height="330px" style="position: absolute; top: 0;" />
-            </c:otherwise>
-            </c:choose>
+            <div style="display:relative">
+                <img src="${shareInfo.imageUrl}" width="100%" height="330px" />
+                <img src="img/blk-shad.png" width="100%" height="330px" style="position: absolute; top: 0px;" />
+            </div>
             <div class="widget">
                 <div class="span4">
                     <h3 style="padding: 0px; margin: 0px;">${gift.merchant.name}</h3>

@@ -21,13 +21,19 @@ $(document).ready(function() {
     })(navigator.userAgent || navigator.vendor || window.opera);
     return check;
   }
+  var pageType = window.location.hash;
+  console.log('loading ' + pageType);
+  var merchantTypePrefix = "#merchant-";
+
   if (!window.mobilecheck()) {
-    alert("The offer is only available on mobile now. The desktop version is coming soon. Please visit kikbak.me for now");
-    window.location.href = "https://kikbak.me";
+    if (pageType.indexOf(merchantTypePrefix) === 0) {
+      window.location.href = "/d/" + pageType;
+    } else {
+      alert("The offer is only available on mobile now. The desktop version is coming soon. Please visit kikbak.me for now");
+      window.location.href = "https://kikbak.me";
+    }
   }
 
-  var pageType = window.location.hash;
-  var merchantTypePrefix = "#merchant-";
   if (pageType.indexOf(merchantTypePrefix) === 0) {
     var strArray = pageType.split('-', 2);
     var merchantTag = strArray[0] + '-' + strArray[1];

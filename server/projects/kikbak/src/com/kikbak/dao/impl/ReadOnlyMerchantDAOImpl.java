@@ -15,7 +15,7 @@ public class ReadOnlyMerchantDAOImpl extends ReadOnlyGenericDAOImpl<Merchant, Lo
     @Override
     @Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
 	public Merchant findByName(String name) {
-        return findByCriteria(Restrictions.eq("shortname", name));
+        return findByCriteria(Restrictions.eq("shortname", name).ignoreCase());
     }
 
 }

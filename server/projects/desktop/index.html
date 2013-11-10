@@ -1,0 +1,103 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>
+    <meta charset="utf-8" />
+    <title>Kikbak</title>
+    
+    <link rel="icon" type="image/png" href="favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-45251651-1');
+ga('send', 'pageview');
+    </script>
+</head>  
+<body>
+    <div id="container"></div>
+    <div id="wrap">
+        <div id="main" class="clearfix">
+    
+            <div id="info">
+                <div class="info-content">
+                    <img id="show-picture" src="images/upload-photo.png" width="340" height="340" class="main-image" />
+                    <div class="overlay">
+                        <input id="take-picture" type="file" accept="image/*">
+                    </div>
+                    <div class="content-detail clearfix">
+                        <h3 class="brand-name"></h3>
+                        <a id="location-href" href="#" target="_blank"><div class="location"></div></a>
+                        <a id="globe-href" href="#" target="_blank"><div class="globe"></div></a>
+                    </div>
+                </div>
+                
+                <div class="info-footer">
+                   <input type="text" id="addcomment" placeholder="Add comment" />
+                </div>
+            </div><!-- END info -->
+            
+            <div id="main-right">
+                
+                <div id="header">
+                    <a href="#" target="_blank">
+                        <h1 class="brand-name"></h1>
+                    </a>
+                </div><!-- END header -->
+                
+                <div id="ribbon">
+                    <h2></h2>
+                    <p></p>
+                </div>
+                <div id="ribbon-bottom">
+                    <h2></h2>
+                    <p></p>
+                </div>
+                
+                <div id="btn-container">
+                    <div id="share-div" style="opacity:0.2;">
+                        <div class="btn-center">
+                            <input type="button" id="share-email" class="btn grd-btn" value="Email" />
+                        </div>
+                        <div class="btn-group">
+                            <div class="col-4">
+                                <a id="share-facebook" href="#"> <img src="images/fb-btn.png" width="55" height="55" style="margin: 0 auto;"></a>
+                            </div>
+                            <div class="col-4">
+                                <a id="share-twitter" href="#"> <img src="images/twitter-btn.png" width="55" height="55" style="margin: 0 auto;"></a>
+                            </div>
+                            <div class="col-4">
+                                <a id="share-gmail" href="#"> <img src="images/gmail-btn.png" width="55" height="55" style="margin: 0 auto;"></a>
+                            </div>
+                            <div class="col-4">
+                                <a id="share-yahoo" href="#"> <img src="images/yahoo-btn.png" width="55" height="55" style="margin: 0 auto;"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="facebook-div">
+                        <p class="title">Please connect with Facebook to share with friends</p>
+                        <a id="loginFb" href="#"> <img src="images/fb-btn-new.png" width="258" height="55" style="margin: 0 auto;"></a>
+                        <p class="disclaimer">We use your Facebook ID to personalize your offers.<br><strong>We will never post without your permission.</strong></p>
+                    </div>
+                    <div id="share-success" style="display:none;">
+                        <h2>You have shared the gift!</h2>
+                        <p>We will notify you when a friend uses your gift and you earn a reward.</p>
+                    </div>
+                </div>
+                
+            </div><!-- END main-right -->
+            
+        </div>
+    </div>
+    <div id="footer-wrap">
+        <div id="footer" class="clearfix">
+            <div class="footer-left"><a id="tos" href="#">Terms & Conditions</a></div>
+            <div class="footer-right">&copy; Referred Labs, 2013</div>
+        </div>
+    </div>
+    <div id="spinner" class="modal"><!-- Place at bottom of page --></div>
+    <div id="fb-root"></div>
+    <script src="js/kikbak.min.js"></script>
+</body>
+</html>

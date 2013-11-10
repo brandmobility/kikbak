@@ -31,7 +31,7 @@
                         <img src="https://graph.facebook.com/${shareInfo.fbFriendId}/picture?width=124&height=124" class="userphoto" width="62px" height="62px" />
                         <c:choose>
                         <c:when test="${not empty shareInfo.caption}">
-                        <h3 style="margin-top:5px;">${shareInfo.friendName}</h3>
+                        <h3 style="margin-top:5px;float:none;">${shareInfo.friendName}</h3>
                         <p>${shareInfo.caption}</p>
                         </c:when>
                         <c:otherwise>
@@ -56,7 +56,6 @@
                         <c:choose>
                         <c:when test="${not empty location}">
                         <div class="info-footer">
-                            ${shareInfo.friendName} was at <strong>${gift.merchant.name}</strong> at <strong>${location.address1}, ${location.city}, ${location.state}</strong>
                         </div>
                         </c:when>
                         </c:choose>
@@ -129,8 +128,10 @@
                 </c:choose>
             </div>
 
+            <div style="display:relative">
             <img src="${shareInfo.imageUrl}" width="100%" height="330px" />
-            <img src="img/blk-shad.png" width="100%" height="330px" style="position:absolute;top:65px;" />
+            <img src="img/blk-shad.png" width="100%" height="330px" style="position:absolute;top:0;" />
+            </div>
             <div class="widget">
                 <div class="span4">
                     <h3 style="padding: 0px; margin: 0px; font-family: HelveticaNeueLTPro-Lt">${gift.merchant.name}</h3>
