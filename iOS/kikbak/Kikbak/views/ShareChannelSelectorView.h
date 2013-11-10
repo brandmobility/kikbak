@@ -12,7 +12,8 @@
 
 -(void)onEmailSelected:(NSNumber*)locationId withEmployeeName:(NSString*)name;
 -(void)onSmsSelected:(NSNumber*)locationId withEmployeeName:(NSString*)name;
--(void)onTimelineSelected:(NSNumber*)locationId withEmployeeName:(NSString*)name;
+-(void)onFBSelected:(NSNumber*)locationId withEmployeeName:(NSString*)name;
+-(void)onTwitterSelected:(NSNumber*)locationId withEmployeeName:(NSString*)name;
 
 @end
 

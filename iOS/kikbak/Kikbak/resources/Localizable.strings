@@ -127,8 +127,11 @@
 "Helped" = "Helped by an employee?";
 "Employee" = "Employee Name";
 "Let your nearby friends know" = "Let your nearby friends know who to ask for when they visit the store.";
-"Preferred Location" = "Share your preferred location?";
+"Preferred Location" = "Choose your preferred location?";
+"Give offer" = "Give offer to friends";
 "Pick Location" = "Pick a location";
+"twitter" = "Twitter";
+"twitter access" = "Please log into twitter. Please login into twitter under Settings->Twitter";
 
 //friend Selector
 "Select friend" = "Select the friend whose gift you would like to redeem";
