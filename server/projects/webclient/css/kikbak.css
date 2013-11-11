@@ -720,7 +720,7 @@ p.msg {
 .giv, .get {
     color: #FFFFFF;
     float: left;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
     padding: 2%;
     text-align: center;
@@ -1389,6 +1389,16 @@ h1.pg-hedng {
     padding: 5% 0;
     text-decoration: none;
     width: 100%;
+}
+.btn-group {
+    float: left;
+    width: 25%;
+}
+.share-group {
+    margin-top:10px;
+    margin-bottom:10px;
+    overflow:auto;
+    text-align:center;
 }
 .act-btn {
     background: url(../images/btn-lit.png) center 20% no-repeat;

@@ -2,6 +2,28 @@
 
 'use strict';
 
+window.mobilecheck = function() {
+  var check = false;
+  (function(a) {
+    if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i
+      .test(a)
+      || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i
+       .test(a.substr(0, 4)))
+      check = true;
+  })(navigator.userAgent || navigator.vendor || window.opera);
+  return check;
+};
+var pageType = window.location.hash;
+var merchantTypePrefix = "#merchant-";
+if (window.mobilecheck()) {
+  if (pageType.indexOf(merchantTypePrefix) === 0) {
+    window.location.href = "/m/" + pageType;
+  } else {
+    alert("The offer is only available on mobile now. The desktop version is coming soon. Please visit kikbak.me for now");
+    window.location.href = "https://kikbak.me";
+  }
+}
+
 var config = {
   backend: '',
   appId: 493383324061333
@@ -10,6 +32,7 @@ var config = {
 var s = (Storage) ? localStorage : {};
 
 $(document).ready(function() {
+  $('body').show();
   window.mobilecheck = function() {
     var check = false;
     (function(a) {
@@ -30,9 +53,6 @@ $(document).ready(function() {
   
   var pageType = window.location.hash;
   console.log('loading ' + pageType);
-  if (window.mobilecheck()) {
-    window.location.href = "/m/" + pageType;
-  }
 
   var merchantTypePrefix = "#merchant-";
   if (pageType.indexOf(merchantTypePrefix) === 0) {
@@ -44,6 +64,13 @@ $(document).ready(function() {
   $.getScript('//connect.facebook.net/en_US/all.js', function(){
     window.fbAsyncInit = fbInit;
   });
+  
+  window.twttr = (function (d,s,id) {
+    var t, js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return; js=d.createElement(s); js.id=id;
+    js.src="https://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs);
+    return window.twttr || (t = { _e: [], ready: function(f){ t._e.push(f) } }); 
+  }(document, "script", "twitter-wjs"));
 });
 
 function showError() {
@@ -365,7 +392,7 @@ function doShare(cb, type, url, message) {
   exp['imageUrl'] = url; 
   exp['caption'] = message;
   exp['type'] = type;
-  exp['platform'] = 'android'; // use android template
+  exp['platform'] = 'pc';
   data['experience'] = exp;
   req['ShareExperienceRequest'] = data;
   str = JSON.stringify(req);
@@ -393,6 +420,43 @@ function shareViaEmail(url, message) {
     window.location.href = 'mailto:?content-type=text/html&subject=' + encodeURIComponent(resp.template.subject) 
         + '&body=' + encodeURIComponent(resp.template.body);
   }, 'email', url, message);
+}
+
+function shareViaYahoo(url, message) {
+  ga('send', 'event', 'button', 'click', 'share via yahoo');
+  doShare(function(code, msg, url, resp) {
+    window.location.href = 'http://compose.mail.yahoo.com/?Subject=' + encodeURIComponent(resp.template.subject) 
+        + '&body=' + encodeURIComponent(resp.template.body);
+  }, 'email', url, message);
+}
+
+function shareViaGmail(url, message) {
+  ga('send', 'event', 'button', 'click', 'share via gmail');
+  doShare(function(code, msg, url, resp) {
+    window.location.href = 'https://mail.google.com/mail/?view=cm&fs=1&tf=1&source=mailto&su=' + encodeURIComponent(resp.template.subject) 
+        + '&body=' + encodeURIComponent(resp.template.body);
+  }, 'email', url, message);
+}
+
+function shareViaTwitter(url, message) {
+  ga('send', 'event', 'button', 'click', 'share via twitter');
+  doShare(function(code, msg, url, resp) {
+	var fbUrl = resp.template.landingUrl;
+	var msg = resp.template.body;
+    window.twttr.ready(function() {
+      var str = "https://twitter.com/share?";
+      var params = [
+        {name:"url", value:fbUrl},
+        {name:"via", value:"kikbak"},
+        {name:"count", value:"none"},                                                         
+        {name:"text", value:msg}                                     
+      ];
+      $.each(params, function (i, item) {
+        str += encodeURIComponent(item.name) + "=" + encodeURIComponent(item.value) + "&";
+      });
+      window.location.href = str;
+    });
+  }, 'twitter', url, message);
 }
 
 function shareViaFacebook(url, message) {

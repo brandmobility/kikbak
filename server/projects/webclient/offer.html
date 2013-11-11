@@ -6,6 +6,7 @@
 <link href="css/kikbak.css" rel="stylesheet">
 <link rel="stylesheet" href="css/jquery.Jcrop.min.css" type="text/css" />
 <link href='//fonts.googleapis.com/css?family=Raleway:400,900,800,700,600,500,300,200,100' rel='stylesheet' type='text/css'>
+<script src="js/kikbak.min.js"></script>
 <script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -16,7 +17,7 @@ ga('send', 'pageview');
 </script>
 <title>Kikbak</title>
 </head>
-<body>
+<body style="display:none;">
 <div id="offer-view" class="wrapper" style="dispaly:none;">
   <div class="scroller">
     <div id="offer-list" class="unstyled list-view">
@@ -55,25 +56,33 @@ to recommend to friends with a special offer</h3></div>
 </span>
 <span id="share-popup" class="popup" style="display:none;">
 <div class="cls-popup">
+<h3 id="share-text" style="font-size:20px;font-weight:bold;">Give offer to friends</h3>
 <a href="#" class="cls-btn popup-close-btn"><img src="images/closebtn.png"></a>
-<h3 id="location-sel-text" style="font-size:17px;font-weight:normal;">Share your preferred location?</h3>
 <form id="share-help-form">
-  <div style="margin-top:10px;margin-bottom:20px;" align="center">
+  <div id="share-employee-div" class="share-group">
+    <span style="font-size:12px;font-weight:normal;">Helped by someone? Let nearby friends know who to ask for when they visit</span>
+    <input class="location-sel" type="text" name="employeeId" placeholder="Employee name [optional]" />
+  </div>
+  <div id="share-locaition-div" class="share-group">
+    <span style="font-size:12px;font-weight:normal;">Share your preferred location?</span>
     <div id="location-sel-div"><select id="location-sel" class="location-sel"></select></div>
     <input type="hidden" name="msg">
     <input type="hidden" name="url">
     <input type="hidden" name="code">
   </div>
-  <div id="share-facebook-div" align="center">
-    <input type="button" id="share-facebook" class="btn grd-btn share-btn" value="Post on Facebook"/>
-  </div>
-  <div id="share-email-div" align="center">
-    <h4 class="sep"><span style="text-decoration:line-through;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>&nbsp; OR &nbsp; <span style="text-decoration:line-through;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span></h4>
-    <input type="button" id="share-email" class="btn drkgra brd share-btn" value="Share via email" />
-  </div>
-  <div id="share-sms-div" align="center">
-    <h4 class="sep"><span style="text-decoration:line-through;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>&nbsp; OR &nbsp; <span style="text-decoration:line-through;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span></h4>
-    <input type="button" id="share-sms" class="btn drkgra brd share-btn" value="Share via SMS" />
+  <div id="share-btn-group" class="share-group">
+    <div id="share-email-div" class="btn-group">
+      <a id="share-email" href="#"> <img src="images/btn_email_share.png" width="55" height="55" style="margin: 0 auto;"></a>
+    </div>
+    <div id="share-sms-div" class="btn-group">
+      <a id="share-sms" href="#" target="_blank"> <img src="images/btn_sms_share.png" width="55" height="55" style="margin: 0 auto;"></a>
+    </div>
+    <div id="share-facebook-div" class="btn-group">
+      <a id="share-facebook" href="#" target="_blank"> <img src="images/btn_fb_share.png" width="55" height="55" style="margin: 0 auto;"></a>
+    </div>
+    <div id="share-twitter-div" class="btn-group">
+      <a id="share-twitter" href="#" target="_blank"> <img src="images/btn_twitter_share.png" width="55" height="55" style="margin: 0 auto;"></a>
+    </div>
   </div>
 </form>
 </div>
@@ -178,7 +187,6 @@ You earn for every friend that redeems.</p>
 </div>
 
 <div id="fb-root"></div>
-<script src="js/kikbak.min.js"></script>
 
 </body>
 </html>
