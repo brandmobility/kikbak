@@ -21,6 +21,14 @@ $(document).ready(function() {
     })(navigator.userAgent || navigator.vendor || window.opera);
     return check;
   }
+  
+  window.twttr = (function (d,s,id) {
+    var t, js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return; js=d.createElement(s); js.id=id;
+    js.src="https://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs);
+    return window.twttr || (t = { _e: [], ready: function(f){ t._e.push(f) } }); 
+  }(document, "script", "twitter-wjs"));
+  
   var pageType = window.location.hash;
   console.log('loading ' + pageType);
   var merchantTypePrefix = "#merchant-";
@@ -93,7 +101,10 @@ $(document).ready(function() {
 	e.preventDefault();
     shareViaSms();
   });
-
+  $('#share-twitter').click(function(e) {
+    e.preventDefault();
+    shareViaTwitter();
+  });
   $(".popup-close-btn").click(function(e) {
 	e.preventDefault();
     $('.popup').hide();
@@ -1091,6 +1102,12 @@ function renderOfferDetail(offer) {
 	$('#location-sel-text').show('');
   }
   
+  if (offer.hasEmployeeProgram) {
+	$('#share-employee-div').show();
+  } else {
+	$('#share-employee-div').hide();
+  }
+  
   $('#offer-details-view').show('');
   $('#back-btn-div').hide('');
   $('#heading').html('Give');
@@ -1263,6 +1280,7 @@ function doShare(cb, type) {
     req = {},
     url = $('#share-help-form input[name="url"]').val(),
     locationId = $('#location-sel').val(),
+    employeeId = $('#share-help-form input[name="employeeId"]').val(),
     str;
   
   $('#share-form input[name="comment"]').val('');
@@ -1276,7 +1294,7 @@ function doShare(cb, type) {
     exp['locationId'] = locationId;
   }
   exp['platform'] = /iP(hone|od|ad)/.test(navigator.platform) ? 'ios' : 'android';
-  exp['employeeId'] = $('#share-help-form input[name="associateName"]').val();
+  exp['employeeId'] = employeeId;
   data['experience'] = exp;
   req['ShareExperienceRequest'] = data;
   str = JSON.stringify(req);
@@ -1315,6 +1333,27 @@ function shareViaEmail() {
     window.location.href = 'mailto:?content-type=text/html&subject=' + encodeURIComponent(resp.template.subject) 
         + '&body=' + encodeURIComponent(resp.template.body);
   }, 'email');
+}
+
+function shareViaTwitter(url, message) {
+  ga('send', 'event', 'button', 'click', 'share via twitter');
+  doShare(function(code, msg, url, resp) {
+	var fbUrl = resp.template.landingUrl;
+	var msg = resp.template.body;
+    window.twttr.ready(function() {
+      var str = "https://twitter.com/share?";
+      var params = [
+        {name:"url", value:fbUrl},
+        {name:"via", value:"kikbak"},
+        {name:"count", value:"none"},                                                         
+        {name:"text", value:msg}                                     
+      ];
+      $.each(params, function (i, item) {
+        str += encodeURIComponent(item.name) + "=" + encodeURIComponent(item.value) + "&";
+      });
+      window.location.href = str;
+    });
+  }, 'twitter', url, message);
 }
 
 function shareViaFacebook() {
@@ -1558,6 +1597,7 @@ function setWrapperSize() {
   if (getBrowserName() == 'Safari') {
     wrapperSize = getHeight() - 45 - 45 + 60;
     $('#share-sms-div').hide();
+    $('.btn-group').css('width', '33%');
   } else {
     wrapperSize = getHeight() - 45 - 45;
   };

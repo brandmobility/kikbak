@@ -1390,6 +1390,16 @@ h1.pg-hedng {
     text-decoration: none;
     width: 100%;
 }
+.btn-group {
+    float: left;
+    width: 25%;
+}
+.share-group {
+    margin-top:10px;
+    margin-bottom:10px;
+    overflow:auto;
+    text-align:center;
+}
 .act-btn {
     background: url(../images/btn-lit.png) center 20% no-repeat;
 }
