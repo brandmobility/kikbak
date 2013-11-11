@@ -448,8 +448,7 @@ function renderOffer(offer) {
   } else {
     gift = "<span style='margin-top:40px;'>Give</span>";
   }
-  gift += offer.giftDiscountType == 'percentage' ? offer.giftValue + "% off" :
-          "$" + offer.giftValue;
+  gift += offer.giftDesc;
   if (offer.kikbakValue) {
     html += '<div class="giv grd3">' + gift + '</div>';
     html += '<img src="images/ribnaro.png">';
