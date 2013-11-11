@@ -44,6 +44,13 @@ $(document).ready(function() {
   $.getScript('//connect.facebook.net/en_US/all.js', function(){
     window.fbAsyncInit = fbInit;
   });
+  
+  window.twttr = (function (d,s,id) {
+    var t, js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return; js=d.createElement(s); js.id=id;
+    js.src="https://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs);
+    return window.twttr || (t = { _e: [], ready: function(f){ t._e.push(f) } }); 
+  }(document, "script", "twitter-wjs"));
 });
 
 function showError() {
@@ -365,7 +372,7 @@ function doShare(cb, type, url, message) {
   exp['imageUrl'] = url; 
   exp['caption'] = message;
   exp['type'] = type;
-  exp['platform'] = 'android'; // use android template
+  exp['platform'] = 'pc';
   data['experience'] = exp;
   req['ShareExperienceRequest'] = data;
   str = JSON.stringify(req);
@@ -393,6 +400,43 @@ function shareViaEmail(url, message) {
     window.location.href = 'mailto:?content-type=text/html&subject=' + encodeURIComponent(resp.template.subject) 
         + '&body=' + encodeURIComponent(resp.template.body);
   }, 'email', url, message);
+}
+
+function shareViaYahoo(url, message) {
+  ga('send', 'event', 'button', 'click', 'share via yahoo');
+  doShare(function(code, msg, url, resp) {
+    window.location.href = 'http://compose.mail.yahoo.com/?Subject=' + encodeURIComponent(resp.template.subject) 
+        + '&body=' + encodeURIComponent(resp.template.body);
+  }, 'email', url, message);
+}
+
+function shareViaGmail(url, message) {
+  ga('send', 'event', 'button', 'click', 'share via gmail');
+  doShare(function(code, msg, url, resp) {
+    window.location.href = 'https://mail.google.com/mail/?view=cm&fs=1&tf=1&source=mailto&su=' + encodeURIComponent(resp.template.subject) 
+        + '&body=' + encodeURIComponent(resp.template.body);
+  }, 'email', url, message);
+}
+
+function shareViaTwitter(url, message) {
+  ga('send', 'event', 'button', 'click', 'share via twitter');
+  doShare(function(code, msg, url, resp) {
+	var fbUrl = resp.template.landingUrl;
+	var msg = resp.template.body;
+    window.twttr.ready(function() {
+      var str = "https://twitter.com/share?";
+      var params = [
+        {name:"url", value:fbUrl},
+        {name:"via", value:"kikbak"},
+        {name:"count", value:"none"},                                                         
+        {name:"text", value:msg}                                     
+      ];
+      $.each(params, function (i, item) {
+        str += encodeURIComponent(item.name) + "=" + encodeURIComponent(item.value) + "&";
+      });
+      window.location.href = str;
+    });
+  }, 'twitter', url, message);
 }
 
 function shareViaFacebook(url, message) {
