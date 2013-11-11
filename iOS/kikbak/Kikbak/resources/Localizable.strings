@@ -162,3 +162,8 @@
 //in store
 "In store redeem" = "You must be in the store to redeem the offer";
 "In store credit" = "You must be in the store to use your credit";
+
+
+//LOCATION Notification
+"Location Required" = "Location Required";
+"Enable Location" = "Please enable location services. \nVisit Settings->Privacy->Location Services";

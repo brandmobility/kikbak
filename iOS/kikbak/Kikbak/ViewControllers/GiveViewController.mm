@@ -192,7 +192,7 @@ static int offsetForIOS6 = 44;
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-        [Flurry logEvent:[NSString stringWithFormat:@"%@ %@", @"give ", self.retailerName.text]];
+    [Flurry logEvent:[NSString stringWithFormat:@"%@ %@", @"give ", self.retailerName.text]];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)

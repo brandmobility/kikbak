@@ -108,6 +108,12 @@ const int CELL_HEIGHT = 156;
     [self.tabBarController.view addSubview:self.giveBtn];
     
     [Flurry logEvent:@"Offer List"];
+    
+    CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
+    if( ![CLLocationManager locationServicesEnabled] || status != kCLAuthorizationStatusAuthorized ){
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"Location Required", nil) message:NSLocalizedString(@"Enable Location", nil) delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alert show];
+    }
 }
 
 -(void)viewDidAppear:(BOOL)animated{

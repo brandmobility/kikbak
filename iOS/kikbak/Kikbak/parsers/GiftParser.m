@@ -72,8 +72,12 @@
         info.friendUserId = [shareInfo objectForKey:@"friendUserId"];
         info.fbFriendId = [shareInfo objectForKey:@"fbFriendId"];
         info.friendName = [shareInfo objectForKey:@"friendName"];
-        info.imageUrl = [shareInfo objectForKey:@"imageUrl"];
-        info.caption = [shareInfo objectForKey:@"caption"];
+        if( [shareInfo objectForKey:@"imageUrl"] != [NSNull null]){
+            info.imageUrl = [shareInfo objectForKey:@"imageUrl"];
+        }
+        if([shareInfo objectForKey:@"caption"] != [NSNull null]){
+            info.caption = [shareInfo objectForKey:@"caption"];
+        }
         [gift addShareInfoObject:info];
         
         [FBQuery requestProfileImage:info.fbFriendId];
