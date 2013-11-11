@@ -45,6 +45,7 @@ static int offsetForIOS6 = 44;
 @interface GiveViewController (){
     BOOL shareViaEmail;
     BOOL shareViaSMS;
+    BOOL shareViaTwitter;
     BOOL photoTaken;
     BOOL adjustTextview;
 }
@@ -114,6 +115,8 @@ static int offsetForIOS6 = 44;
 -(void) onLocationUpdate:(NSNotification*)notification;
 -(void) onFBStoryPostSuccess:(NSNotification*)notification;
 -(void) onFBStoryPostError:(NSNotification *)notification;
+-(void) onTwitterPostSuccess:(NSNotification*)notification;
+-(void) onTwitterPostError:(NSNotification*)notification;
 
 -(void) updateDisance;
 
@@ -140,6 +143,7 @@ static int offsetForIOS6 = 44;
 	// Do any additional setup after loading the view.
     shareViaEmail = NO;
     shareViaSMS = NO;
+    shareViaTwitter = NO;
     photoTaken = NO;
     adjustTextview = NO;
     
@@ -207,6 +211,8 @@ static int offsetForIOS6 = 44;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onImageUploadError:) name:kKikbakImagePostError object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onFBStoryPostSuccess:) name:kKikbakFBStoryPostSuccess object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onFBStoryPostError:) name:kKikbakFBStoryPostError object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onTwitterPostSuccess:) name:kKikbakTwitterSuccess object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onTwitterPostError:) name:kKikbakTwitterError object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onImageDownloaded:) name:kKikbakImageDownloaded object:nil];
 }
 
@@ -226,6 +232,8 @@ static int offsetForIOS6 = 44;
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakImagePostError object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakFBStoryPostSuccess object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakFBStoryPostError object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakTwitterSuccess object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakTwitterError object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:kKikbakImageDownloaded object:nil];
 }
 
@@ -774,6 +782,9 @@ static int offsetForIOS6 = 44;
         }
         [self.spinnerView removeFromSuperview];
     }
+    else if( shareViaTwitter){
+        
+    }
     else{
 //        [FBSettings setLoggingBehavior:[NSSet setWithObject:FBLoggingBehaviorFBRequests]];
         FBCouponObject* obj = [[FBCouponObject alloc]init];
@@ -849,6 +860,28 @@ static int offsetForIOS6 = 44;
     [self.spinnerView removeFromSuperview];
 }
 
+-(void) onTwitterPostSuccess:(NSNotification*)notification{
+    [Flurry logEvent:@"TwitterEvent" timed:YES];
+    
+    CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+    ShareSuccessView* shareView = [[ShareSuccessView alloc]initWithFrame:frame];
+    shareView.delegate = self;
+    [shareView manuallyLayoutSubviews];
+    [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:shareView];
+    
+    
+    [self.spinnerView removeFromSuperview];
+}
+
+-(void) onTwitterPostError:(NSNotification*)notification{
+    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:NSLocalizedString(@"Unreachable", nil) delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    alert.tag = CALL_URL_TAG;
+    [alert show];
+    
+    [self.spinnerView removeFromSuperview];
+}
+
+
 -(void)onImageDownloaded:(NSNotification*)notification{
     NSString* imagePath = [ImagePersistor imageFileExists:self.offer.merchantId imageType:DEFAULT_MERCHANT_IMAGE_TYPE];
     if(imagePath != nil){
@@ -871,6 +904,7 @@ static int offsetForIOS6 = 44;
     //todo: upload email
     shareViaEmail = YES;
     shareViaSMS = NO;
+    shareViaTwitter = NO;
     ShareExperienceRequest* request = [[ShareExperienceRequest alloc]init];
     NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:5];
     
@@ -901,6 +935,7 @@ static int offsetForIOS6 = 44;
     
     shareViaEmail = NO;
     shareViaSMS = YES;
+    shareViaTwitter = NO;
     ShareExperienceRequest* request = [[ShareExperienceRequest alloc]init];
     NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:5];
     
@@ -922,7 +957,7 @@ static int offsetForIOS6 = 44;
     [request restRequest:dict];
 }
 
--(void)onTimelineSelected:(NSNumber*)locationId withEmployeeName:(NSString*)name{
+-(void)onFBSelected:(NSNumber*)locationId withEmployeeName:(NSString*)name{
     CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
     self.spinnerView = [[SpinnerView alloc]initWithFrame:frame];
     [self.spinnerView startActivity];
@@ -930,6 +965,7 @@ static int offsetForIOS6 = 44;
 
     shareViaEmail = NO;
     shareViaSMS = NO;
+    shareViaTwitter = NO;
     
     self.employeeName = name;
     self.chosenlocation = locationId;
@@ -953,6 +989,36 @@ static int offsetForIOS6 = 44;
     }
     [request restRequest:dict];
     
+}
+
+-(void)onTwitterSelected:(NSNumber*)locationId withEmployeeName:(NSString*)name{
+    CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+    self.spinnerView = [[SpinnerView alloc]initWithFrame:frame];
+    [self.spinnerView startActivity];
+    [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:self.spinnerView];
+
+    shareViaEmail = NO;
+    shareViaSMS = NO;
+    shareViaTwitter = YES;
+    
+    ShareExperienceRequest* request = [[ShareExperienceRequest alloc]init];
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc]initWithCapacity:5];
+    [dict setObject:self.offer.merchantId forKey:@"merchantId"];
+    if( locationId != nil){
+        [dict setObject:locationId forKey:@"locationId"];
+    }
+    [dict setObject:self.offer.offerId forKey:@"offerId"];
+    [dict setObject:name forKey:@"employeeId"];
+    [dict setObject:self.imageUrl forKey:@"imageUrl"];
+    [dict setObject:@"twitter" forKey:@"type"];
+    [dict setObject:@"ios" forKey:@"platform"];
+    if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
+        [dict setObject:@"" forKey:@"caption"];
+    }
+    else{
+        [dict setObject:self.captionTextView.text forKey:@"caption"];
+    }
+    [request restRequest:dict];
 }
 
 #pragma mark - MFMailComposer Delegates

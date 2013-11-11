@@ -14,6 +14,7 @@
 #import "UIDevice+Screen.h"
 #import "Distance.h"
 #import "Flurry.h"
+#import "TwitterApi.h"
 
 
 @interface ShareChannelSelectorView ()
@@ -22,16 +23,16 @@
 //@property (nonatomic,strong) UILabel* helped;
 //@property (nonatomic,strong) UILabel* byWhom;
 //@property (nonatomic,strong) UITextView* employee;
+@property (nonatomic,strong) UILabel* giveOffer;
 @property (nonatomic,strong) UILabel* preferredLocation;
 @property (nonatomic,strong) UIImageView* employeeShadow;
 @property (nonatomic,strong) UIView* location;
 @property (nonatomic,strong) UILabel* address;
 @property (nonatomic,strong) UIImageView* chevron;
 @property (nonatomic,strong) UIButton* fbBtn;
-@property (nonatomic,strong) UIImageView* or1;
 @property (nonatomic,strong) UIButton* emailBtn;
-@property (nonatomic,strong) UIImageView* or2;
 @property (nonatomic,strong) UIButton* smsBtn;
+@property (nonatomic,strong) UIButton* twitterBtn;
 @property (nonatomic,strong) UIButton* closeBtn;
 
 @property (nonatomic,strong) NSNumber* locationId;
@@ -43,7 +44,8 @@
 
 -(IBAction)onEmail:(id)sender;
 -(IBAction)onSms:(id)sender;
--(IBAction)onTimeline:(id)sender;
+-(IBAction)onFacebook:(id)sender;
+-(IBAction)onTwitter:(id)sender;
 -(IBAction)onCloseBtn:(id)sender;
 
 -(void)onLocationTap:(UITapGestureRecognizer *)sender ;
@@ -76,7 +78,7 @@
     
     self.employeeName = [[NSString alloc]init];
     
-    int locationOffset = 40;
+    int locationOffset = 60;
     if( [self.locations count] > 1){
         locationOffset = 0;
     }
@@ -87,55 +89,20 @@
     }
     
     
-    self.backgroundView = [[UIView alloc] initWithFrame:CGRectMake(23, backgroundY, self.frame.size.width - 46, 285-locationOffset)];
+    self.backgroundView = [[UIView alloc] initWithFrame:CGRectMake(23, backgroundY, self.frame.size.width - 46, 200-locationOffset)];
     self.backgroundView.backgroundColor = UIColorFromRGB(0xE0E0E0);
     self.backgroundView.layer.cornerRadius = 10;
     self.backgroundView.layer.masksToBounds = YES;
     [self addSubview:self.backgroundView];
+   
+    self.giveOffer = [[UILabel alloc]initWithFrame:CGRectMake(0, 15, self.backgroundView.frame.size.width, 23)];
+    self.giveOffer.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:20];
+    self.giveOffer.text = NSLocalizedString(@"Give offer", nil);
+    self.giveOffer.textAlignment = NSTextAlignmentCenter;
+    self.giveOffer.backgroundColor = [UIColor clearColor];
+    self.giveOffer.textColor = UIColorFromRGB(0x3a3a3a);
+    [self.backgroundView addSubview:self.giveOffer];
     
-    self.preferredLocation = [[UILabel alloc]initWithFrame:CGRectMake(0, 15, self.backgroundView.frame.size.width, 19)];
-    self.preferredLocation.font = [UIFont fontWithName:@"HelveticaNeue" size:16];
-    self.preferredLocation.text = NSLocalizedString(@"Preferred Location", nil);
-    self.preferredLocation.textAlignment = NSTextAlignmentCenter;
-    self.preferredLocation.backgroundColor = [UIColor clearColor];
-    self.preferredLocation.textColor = UIColorFromRGB(0x3a3a3a);
-    [self.backgroundView addSubview:self.preferredLocation];
-    
-//    self.helped = [[UILabel alloc]initWithFrame:CGRectMake(0, 15, self.backgroundView.frame.size.width, 19)];
-//    self.helped.font = [UIFont fontWithName:@"HelveticaNeue" size:16];
-//    self.helped.text = NSLocalizedString(@"Helped", nil);
-//    self.helped.textAlignment = NSTextAlignmentCenter;
-//    self.helped.backgroundColor = [UIColor clearColor];
-//    self.helped.textColor = UIColorFromRGB(0x3a3a3a);
-//    [self.backgroundView addSubview:self.helped];
-//
-//    self.byWhom = [[UILabel alloc]initWithFrame:CGRectMake(40, 38, self.backgroundView.frame.size.width-80, 28)];
-//    self.byWhom.font = [UIFont fontWithName:@"HelveticaNeue" size:12];
-//    self.byWhom.text = NSLocalizedString(@"Let your nearby friends know", nil);
-//    self.byWhom.textAlignment = NSTextAlignmentCenter;
-//    self.byWhom.numberOfLines = 2;
-//    self.byWhom.backgroundColor = [UIColor clearColor];
-//    self.byWhom.textColor = UIColorFromRGB(0x808080);
-//    [self.backgroundView addSubview:self.byWhom];
-//    
-//    
-//    self.employee = [[UITextView alloc]initWithFrame:CGRectMake(12, 72, self.backgroundView.frame.size.width-24, 35)];
-//    self.employee.delegate = self;
-//    self.employee.text = NSLocalizedString(@"Employee", nil);
-//    self.employee.textColor = UIColorFromRGB(0x7F7F7F);
-//    self.employee.scrollEnabled = NO;
-//    self.employee.returnKeyType = UIReturnKeyDone;
-//    self.employee.contentInset = UIEdgeInsetsMake(2, 5, 2, 5);
-//    self.employee.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
-//    self.employee.backgroundColor = [UIColor clearColor];
-//    self.employee.layer.cornerRadius = 5;
-//    self.employee.layer.masksToBounds = YES;
-//    self.employee.layer.borderWidth = 1;
-//    self.employee.layer.borderColor = [UIColorFromRGB(0xb9b9b9) CGColor];
-//    self.employeeShadow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"bg_textview_suggest_business"]];
-//    self.employeeShadow.frame = CGRectMake(11, 72, self.backgroundView.frame.size.width-22, 35);
-//    [self.backgroundView addSubview:self.employeeShadow];
-//    [self.backgroundView addSubview:self.employee];
     
     Location* location = [self.locations anyObject];
     CLLocation* current = [[CLLocation alloc]initWithLatitude:[location.latitude doubleValue] longitude:[location.longitude doubleValue]];
@@ -154,13 +121,23 @@
     }
     
     if( locationOffset == 0 ){
-        self.location = [[UIView alloc]initWithFrame:CGRectMake(12, 38, self.backgroundView.frame.size.width-24, 35)];
+        
+        self.preferredLocation = [[UILabel alloc]initWithFrame:CGRectMake(0, 52, self.backgroundView.frame.size.width, 19)];
+        self.preferredLocation.font = [UIFont fontWithName:@"HelveticaNeue" size:12];
+        self.preferredLocation.text = NSLocalizedString(@"Preferred Location", nil);
+        self.preferredLocation.textAlignment = NSTextAlignmentCenter;
+        self.preferredLocation.backgroundColor = [UIColor clearColor];
+        self.preferredLocation.textColor = UIColorFromRGB(0x999999);
+        [self.backgroundView addSubview:self.preferredLocation];
+        
+        
+        self.location = [[UIView alloc]initWithFrame:CGRectMake(12, 80, self.backgroundView.frame.size.width-24, 35)];
         self.location.layer.cornerRadius = 4;
         self.location.layer.masksToBounds = YES;
         self.location.layer.borderColor = [UIColorFromRGB(0xa0a0a0) CGColor];
         self.location.layer.borderWidth = 1;
         self.location.layer.shadowRadius = 1;
-        self.location.backgroundColor = [UIColor clearColor];
+        self.location.backgroundColor = [UIColor whiteColor];
         [self.backgroundView addSubview:self.location];
         
         self.address = [[UILabel alloc]initWithFrame:CGRectMake(8, 8, self.location.frame.size.width-16, 20)];
@@ -188,45 +165,30 @@
         tap.numberOfTouchesRequired = 1;
     }
     
-    self.fbBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.fbBtn.frame = CGRectMake(12, self.backgroundView.frame.size.height - 195, self.backgroundView.frame.size.width - 24, 40);
-    [self.fbBtn setBackgroundImage:[UIImage imageNamed:@"btn_blue"] forState:UIControlStateNormal];
-    [self.fbBtn setTitle:NSLocalizedString(@"Post on my timeline", nil) forState:UIControlStateNormal];
-    self.fbBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16];
-    self.fbBtn.titleLabel.textColor = [UIColor whiteColor];
-    [self.fbBtn addTarget:self action:@selector(onTimeline:) forControlEvents:UIControlEventTouchUpInside];
-    [self.backgroundView addSubview:self.fbBtn];
-    
-
-    UIImage* orSeperator = [UIImage imageNamed:@"seperator_share_or"];
-    self.or1 = [[UIImageView alloc]initWithImage:orSeperator];
-    CGRect fr = CGRectMake(69, self.backgroundView.frame.size.height - 145, orSeperator.size.width/2, orSeperator.size.height/2);
-    self.or1.frame = fr;
-    [self.backgroundView addSubview:self.or1];
-    
     self.emailBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.emailBtn.frame = CGRectMake(12, self.backgroundView.frame.size.height - 125, self.backgroundView.frame.size.width - 24, 40);
-    [self.emailBtn setBackgroundImage:[UIImage imageNamed:@"btn_grey"] forState:UIControlStateNormal];
-    [self.emailBtn setTitle:NSLocalizedString(@"Email", nil) forState:UIControlStateNormal];
-    self.emailBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16];
-    self.emailBtn.titleLabel.textColor = [UIColor whiteColor];
+    self.emailBtn.frame = CGRectMake(11, self.backgroundView.frame.size.height - 65, 54, 50);
+    [self.emailBtn setBackgroundImage:[UIImage imageNamed:@"btn_email_share"] forState:UIControlStateNormal];
     [self.emailBtn addTarget:self action:@selector(onEmail:) forControlEvents:UIControlEventTouchUpInside];
     [self.backgroundView addSubview:self.emailBtn];
     
     
-    self.or2 = [[UIImageView alloc]initWithImage:orSeperator];
-    fr = CGRectMake(69, self.backgroundView.frame.size.height - 75, orSeperator.size.width/2, orSeperator.size.height/2);
-    self.or2.frame = fr;
-    [self.backgroundView addSubview:self.or2];
-    
     self.smsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.smsBtn.frame = CGRectMake(12, self.backgroundView.frame.size.height - 55, self.backgroundView.frame.size.width - 24, 40);
-    [self.smsBtn setBackgroundImage:[UIImage imageNamed:@"btn_grey"] forState:UIControlStateNormal];
-    [self.smsBtn setTitle:NSLocalizedString(@"SMS", nil) forState:UIControlStateNormal];
-    self.smsBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16];
-    self.smsBtn.titleLabel.textColor = [UIColor whiteColor];
+    self.smsBtn.frame = CGRectMake(77, self.backgroundView.frame.size.height - 65, 54, 50);
+    [self.smsBtn setBackgroundImage:[UIImage imageNamed:@"btn_sms_share"] forState:UIControlStateNormal];
     [self.smsBtn addTarget:self action:@selector(onSms:) forControlEvents:UIControlEventTouchUpInside];
     [self.backgroundView addSubview:self.smsBtn];
+
+    self.fbBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.fbBtn.frame = CGRectMake(144, self.backgroundView.frame.size.height - 65, 54, 50);
+    [self.fbBtn setBackgroundImage:[UIImage imageNamed:@"btn_fb_share"] forState:UIControlStateNormal];
+    [self.fbBtn addTarget:self action:@selector(onFacebook:) forControlEvents:UIControlEventTouchUpInside];
+    [self.backgroundView addSubview:self.fbBtn];
+
+    self.twitterBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.twitterBtn.frame = CGRectMake(210, self.backgroundView.frame.size.height - 65, 54, 50);
+    [self.twitterBtn setBackgroundImage:[UIImage imageNamed:@"btn_twitter_share"] forState:UIControlStateNormal];
+    [self.twitterBtn addTarget:self action:@selector(onTwitter:) forControlEvents:UIControlEventTouchUpInside];
+    [self.backgroundView addSubview:self.twitterBtn];
 
     
     self.closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -242,8 +204,8 @@
     [self removeFromSuperview];
 }
 
--(IBAction)onTimeline:(id)sender{
-    [self.delegate onTimelineSelected:self.locationId withEmployeeName:@""];
+-(IBAction)onFacebook:(id)sender{
+    [self.delegate onFBSelected:self.locationId withEmployeeName:@""];
     [Flurry logEvent:@"share via facebook"];
     [self removeFromSuperview];
 }
@@ -253,6 +215,21 @@
     [Flurry logEvent:@"share via sms"];
     [self removeFromSuperview];
 }
+
+-(IBAction)onTwitter:(id)sender{
+    TwitterApi* twitter = [[TwitterApi alloc]init];
+    if( [twitter userHasAccessToTwitter] ){
+        [self.delegate onTwitterSelected:self.locationId withEmployeeName:@""];
+        
+        [Flurry logEvent:@"share via twitter"];
+        [self removeFromSuperview];
+    }
+    else{
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"twitter", nil) message:NSLocalizedString(@"twitter access", nil) delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alert show];
+    }
+}
+
 
 -(IBAction)onCloseBtn:(id)sender{
     [self removeFromSuperview];
