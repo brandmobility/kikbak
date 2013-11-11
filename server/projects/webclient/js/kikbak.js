@@ -25,6 +25,7 @@ if (!window.mobilecheck()) {
   }
 }
 
+
 var config = {
   backend: '',
   appId: 493383324061333
@@ -33,7 +34,7 @@ var config = {
 var s = (Storage) ? localStorage : {};
 
 $(document).ready(function() {
-  
+  $('body').show();
   window.twttr = (function (d,s,id) {
     var t, js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) return; js=d.createElement(s); js.id=id;

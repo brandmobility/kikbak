@@ -15,7 +15,7 @@ window.mobilecheck = function() {
 };
 var pageType = window.location.hash;
 var merchantTypePrefix = "#merchant-";
-if (!window.mobilecheck()) {
+if (window.mobilecheck()) {
   if (pageType.indexOf(merchantTypePrefix) === 0) {
     window.location.href = "/m/" + pageType;
   } else {
@@ -32,6 +32,7 @@ var config = {
 var s = (Storage) ? localStorage : {};
 
 $(document).ready(function() {
+  $('body').show();
   window.mobilecheck = function() {
     var check = false;
     (function(a) {
