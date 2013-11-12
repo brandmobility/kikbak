@@ -155,7 +155,9 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
       mInflater = inflater;
       mLocations = new ArrayList<MerchantLocationType>(Arrays.asList(locations));
       Location l = LocationFinder.getLastLocation();
-      Nearest.sortByDistance(mLocations, l.getLatitude(), l.getLongitude());
+      if (l != null) {
+        Nearest.sortByDistance(mLocations, l.getLatitude(), l.getLongitude());
+      }
     }
 
     @Override

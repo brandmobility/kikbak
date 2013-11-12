@@ -20,7 +20,12 @@ public class Nearest {
     mLocations = locations;
 
     Location l = LocationFinder.getLastLocation();
-    determineNearestLocation(l.getLatitude(), l.getLongitude());
+    if (l != null) {
+      determineNearestLocation(l.getLatitude(), l.getLongitude());
+    } else {
+      mNearestLocation = mLocations[0];
+      mDistanceToNearest = -1.0f;
+    }
   }
 
   public Nearest(MerchantLocationType[] locations, double latitude, double longitude) {
