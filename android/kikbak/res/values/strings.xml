@@ -93,7 +93,6 @@
     <string name="reward_credit_purchase_amount_fmt">$%.2f</string>
     <string name="reward_credit_claim_label">CLAIM REWARD</string>
     <string name="reward_credit_claim_amount_fmt">$%.0f Gift Card</string>
-    <string name="reward_credit_claim_simple_amount_fmt">$%.0f</string>
 
     <!-- Redeem -->
     <plurals name="credit_redeem_count">
@@ -117,6 +116,7 @@
     <string name="credit_to_use_label">Set amount to use</string>
     <string name="apply">Apply</string>
     <string name="credit_amount_fmt">$%.2f</string>
+    <string name="gift_card_amount_fmt">$%.0f</string>
 
     <!-- Confirmation dialogs -->
     <string name="redeem_gift_confirmation">You must be at the register to redeem.\n\nAre you ready to redeem this offer?</string>

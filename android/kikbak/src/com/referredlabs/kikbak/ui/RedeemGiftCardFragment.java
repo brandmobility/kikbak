@@ -64,7 +64,7 @@ public class RedeemGiftCardFragment extends Fragment implements OnClickListener 
   }
 
   private void setCreditAmount(double value) {
-    String txt = getString(R.string.credit_amount_fmt, value);
+    String txt = getString(R.string.gift_card_amount_fmt, value);
     mCreditValue.setText(txt);
   }
 
