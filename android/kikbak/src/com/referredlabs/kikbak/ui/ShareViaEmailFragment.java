@@ -2,7 +2,6 @@
 package com.referredlabs.kikbak.ui;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import com.google.gson.Gson;
-import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ClientOfferType;
 import com.referredlabs.kikbak.data.ShareExperienceRequest;
 import com.referredlabs.kikbak.data.ShareExperienceResponse;
@@ -21,23 +19,16 @@ import com.referredlabs.kikbak.utils.Register;
 
 public class ShareViaEmailFragment extends ShareViaBase {
 
-  private static final int REQUEST_SELECT_CONTACTS = 1;
   private static final int REQUEST_SEND_EMAIL = 2;
 
   private ClientOfferType mOffer;
   private ShareStatusListener mListener;
-  private ArrayList<String> mContacts;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mOffer = new Gson().fromJson(getArguments().getString(ARG_OFFER), ClientOfferType.class);
-
-    // start picker
-    Intent intent = new Intent(getActivity(), PickContactsActivity.class);
-    intent.putExtra(PickContactsActivity.ARG_TYPE, PickContactsActivity.TYPE_EMAIL);
-    intent.putExtra(PickContactsActivity.ARG_BUTTON_TEXT, R.string.share_pick_button_email);
-    startActivityForResult(intent, REQUEST_SELECT_CONTACTS);
+    share();
   }
 
   @Override
@@ -48,17 +39,6 @@ public class ShareViaEmailFragment extends ShareViaBase {
 
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
-    if (requestCode == REQUEST_SELECT_CONTACTS) {
-      if (resultCode == Activity.RESULT_OK) {
-        if (data != null)
-          mContacts = data.getStringArrayListExtra(PickContactsActivity.DATA);
-        share();
-      } else {
-        mListener.onShareCancelled();
-        dismiss();
-      }
-    }
-
     if (requestCode == REQUEST_SEND_EMAIL) {
       // We do not know if user cancelled sending or not
       mListener.onShareFinished();
@@ -76,9 +56,6 @@ public class ShareViaEmailFragment extends ShareViaBase {
   protected void onShareFinished(String subject, String body) {
     Intent intent = new Intent(Intent.ACTION_SENDTO);
     intent.setData(Uri.parse("mailto:"));
-    if (mContacts != null && mContacts.size() > 0) {
-      intent.putExtra(Intent.EXTRA_EMAIL, mContacts.toArray(new String[mContacts.size()]));
-    }
     intent.putExtra(Intent.EXTRA_SUBJECT, subject);
     intent.putExtra(Intent.EXTRA_TEXT, body);
     // Spanned text = Html.fromHtml(body);
