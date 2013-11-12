@@ -145,6 +145,7 @@
              else {
                  // Access was not granted, or an error occurred
                  NSLog(@"%@", [error localizedDescription]);
+                 [[NSNotificationCenter defaultCenter]postNotificationName:kKikbakTwitterError object:nil];
              }
          }];
     }
