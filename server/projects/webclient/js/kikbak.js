@@ -1400,9 +1400,12 @@ function shareViaFacebook() {
             dataType : 'json',
             type : 'GET',
             success : function(response) {
+              var offer = jQuery.parseJSON(unescape(s.offerDetail));
               $('#spinner h2').html('Waiting');
               $('#success-popup h3').html('You have shared a gift');
-              $('#success-popup p').html('We will notify you when a friend uses your gift and you earn a reward');
+              if (offer.kikbakDesc) {
+                $('#success-popup p').html('We will notify you when a friend uses your gift and you earn a reward');
+              }
               $('#success-popup').show();
             },
             error : function() {
