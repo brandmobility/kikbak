@@ -71,15 +71,16 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
     v.findViewById(R.id.via_twitter).setOnClickListener(this);
     mStoreSpinner = (Spinner) v.findViewById(R.id.store_selection);
 
-    if (mOffer.hasEmployeeProgram) {
-      v.findViewById(R.id.share_options_employee_note).setVisibility(View.VISIBLE);
-      v.findViewById(R.id.employee_name).setVisibility(View.VISIBLE);
-    }
-
     boolean hasManyLocations = mOffer.locations.length > 1;
     if (hasManyLocations) {
       v.findViewById(R.id.share_options_location_note).setVisibility(View.VISIBLE);
       enableStoreSelection(inflater);
+    }
+
+    if (mOffer.hasEmployeeProgram) {
+      v.findViewById(R.id.share_options_location_note).setVisibility(View.GONE);
+      v.findViewById(R.id.share_options_employee_note).setVisibility(View.VISIBLE);
+      v.findViewById(R.id.employee_name).setVisibility(View.VISIBLE);
     }
 
     return v;
