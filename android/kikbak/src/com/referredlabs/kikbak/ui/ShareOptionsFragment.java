@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -32,6 +34,7 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
 
   private ClientOfferType mOffer;
   private Spinner mStoreSpinner;
+  private EditText mEmployeeName;
 
   public interface OnShareMethodSelectedListener {
     public void onShareVia(String method, Class<? extends DialogFragment> clazz, Bundle args);
@@ -70,6 +73,7 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
     v.findViewById(R.id.via_facebook).setOnClickListener(this);
     v.findViewById(R.id.via_twitter).setOnClickListener(this);
     mStoreSpinner = (Spinner) v.findViewById(R.id.store_selection);
+    mEmployeeName = (EditText) v.findViewById(R.id.employee_name);
 
     boolean hasManyLocations = mOffer.locations.length > 1;
     if (hasManyLocations) {
@@ -80,7 +84,7 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
     if (mOffer.hasEmployeeProgram) {
       v.findViewById(R.id.share_options_location_note).setVisibility(View.GONE);
       v.findViewById(R.id.share_options_employee_note).setVisibility(View.VISIBLE);
-      v.findViewById(R.id.employee_name).setVisibility(View.VISIBLE);
+      mEmployeeName.setVisibility(View.VISIBLE);
     }
 
     return v;
@@ -118,6 +122,12 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
   @Override
   public void onClick(View v) {
     String employee = null;
+    if (mOffer.hasEmployeeProgram) {
+      employee = mEmployeeName.getText().toString();
+      if (TextUtils.isEmpty(employee)) {
+        employee = null;
+      }
+    }
 
     MerchantLocationType location = mOffer.locations[0];
     if (mStoreSpinner.getVisibility() == View.VISIBLE) {
