@@ -32,7 +32,6 @@ public class RedeemGiftSuccessFragment extends Fragment implements OnClickListen
   private String mBarcode;
 
   private TextView mName;
-  private TextView mNoteSecond;
   private TextView mValue;
   private TextView mDesc;
   private Button mGive;
@@ -55,7 +54,6 @@ public class RedeemGiftSuccessFragment extends Fragment implements OnClickListen
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View root = inflater.inflate(R.layout.fragment_redeem_gift_success, container, false);
     mName = (TextView) root.findViewById(R.id.name);
-    mNoteSecond = (TextView) root.findViewById(R.id.redeem_note_second);
     mValue = (TextView) root.findViewById(R.id.redeem_value);
     mDesc = (TextView) root.findViewById(R.id.redeem_desc);
     mGive = (Button) root.findViewById(R.id.give);
@@ -67,10 +65,6 @@ public class RedeemGiftSuccessFragment extends Fragment implements OnClickListen
 
   private void setupGiftViews() {
     mName.setText(mGift.merchant.name);
-    if (mGift.validationType == ValidationType.qrcode)
-      mNoteSecond.setText(R.string.redeem_success_note_second);
-    else
-      mNoteSecond.setText(R.string.redeem_success_note_second_integrated);
     mValue.setText(LocaleUtils.getGiftValueString(getActivity(), mGift));
     mDesc.setText(mGift.detailedDesc);
   }
