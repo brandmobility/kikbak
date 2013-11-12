@@ -77,7 +77,9 @@
 
     <!-- Share success -->
     <string name="share_thank_you">Thank you!</string>
-    <string name="share_success_note">We will notify you when a friend uses your gift and you earn a reward</string>
+    <string name="share_success_note">We will notify you when a friend uses your gift and you earn a reward.</string>
+    <string name="share_thank_you_give_only">Success!</string>
+    <string name="share_success_note_give_only">You have shared a gift. We will notify you when a friend claims it.</string>
 
     <!-- Facebook story -->
     <string name="facebook_story_title_fmt">%1$s for %2$s</string> <!-- [gift_desc] for [merchant] -->

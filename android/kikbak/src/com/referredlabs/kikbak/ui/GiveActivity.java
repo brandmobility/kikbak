@@ -278,7 +278,7 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
 
   private void showShareSuccess() {
     reportShareSuccess();
-    ShareSuccessDialog dialog = new ShareSuccessDialog();
+    ShareSuccessDialog dialog = ShareSuccessDialog.newInstance(mOffer.offerType);
     dialog.show(getSupportFragmentManager(), null);
   }
 
