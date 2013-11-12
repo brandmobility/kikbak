@@ -121,6 +121,10 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
       mCamera = null;
     }
   }
+  
+  public boolean isReady() {
+    return mCamera != null;
+  }
 
   /**
    * This method should only be called after Surface for displaying the preview is created.
