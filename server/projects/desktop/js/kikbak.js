@@ -52,8 +52,6 @@ $(document).ready(function() {
   });
   
   var pageType = window.location.hash;
-  console.log('loading ' + pageType);
-
   var merchantTypePrefix = "#merchant-";
   if (pageType.indexOf(merchantTypePrefix) === 0) {
     var strArray = pageType.split('-', 2);
@@ -127,7 +125,6 @@ function connectFb(resp) {
 
       $('#user-div img').attr('src', 'https://graph.facebook.com/' + resp.userID + '/picture?type=square');
       FB.api('/me', function(response) {
-        console.log(response);
         $('#user-div h3').html(response.name);
         $('#user-div').show();
       });
@@ -170,7 +167,6 @@ function cannotFindOffer() {
 
 function initPage() {
   var pageType = window.location.hash;
-  console.log('init ' + pageType);
   var merchantTypePrefix = "#merchant-";
   if (pageType.indexOf(merchantTypePrefix) === 0) {
     var strArray = pageType.split('-');
