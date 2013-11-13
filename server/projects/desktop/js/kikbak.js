@@ -97,13 +97,9 @@ function fbInit() {
   initPage();
 }
 
-function connectFb(accessToken) {
+function connectFb(resp) {
+  var accessToken = resp.accessToken;
   s.accessToken = accessToken;
-  var userId = s.userId;
-  if (userId) {
-	initPage();
-    return;
-  }
   var user = {};
   user['access_token'] = accessToken;
   var data = {};
@@ -128,10 +124,23 @@ function connectFb(accessToken) {
         return;
       }
       s.userId = json.registerUserResponse.userId.userId;
-      initPage();
+
+      $('#user-div img').attr('src', 'https://graph.facebook.com/' + resp.userID + '/picture?type=square');
+      FB.api('/me', function(response) {
+        console.log(response);
+        $('#user-div h3').html(response.name);
+        $('#user-div').show();
+      });
+      afterUserLogin();
     },
     error: showError
   });
+}
+
+function afterUserLogin() {
+  $('#facebook-div').hide();
+  $('#share-div').css('opacity', '1.0');
+  $('#share-div').show();
 }
 
 function updateFbFriends(userId, cb) {
@@ -270,27 +279,21 @@ function renderOfferDetail(offer) {
   $('#header h1').css('background-position', 'initial initial');
   $('#header h1').css('background-repeat', 'no-repeat');
     
-  var userId = s.userId;
-  if (!userId) {
-	$('#facebook-div').show();
-	$('#share-div').css('opacity', '0.2');
-	$('#share-div').show();
-	ga('send', 'event', 'button', 'show', 'facebook auth');
-  } else {
-    $('#facebook-div').hide();
-	$('#share-div').css('opacity', '1.0');
-	$('#share-div').show();
-  }
+  $('#facebook-div').show();
+  $('#share-div').css('opacity', '0.2');
+  $('#share-div').show();
+  ga('send', 'event', 'button', 'show', 'facebook auth');
   
   $('#location-href').attr('href', generateMapUrl(offer.merchantName, offer.locations[0]));
   $('#globe-href').attr('href', offer.merchantUrl);
   
+  $('#show-picture').attr('src', offer.giveImageUrl);
   if (offer.kikbakDesc) {
     $('#ribbon-bottom').show();
     $('#ribbon-bottom h2').html(offer.kikbakDesc);
     $('#ribbon-bottom p').html(offer.kikbakDetailedDesc);
   } else {
-    $('#ribbon-bottom').show();	  
+    $('#ribbon-bottom').hide();	  
   }
   $('#ribbon h2').html(offer.giftDesc);
   $('#ribbon p').html(offer.giftDetailedDesc);
@@ -360,24 +363,21 @@ function shareOfferAfterLogin(offer, cb) {
 }
 
 function loginFb() {
-  var userId = s.userId;
-  if (!userId) {
-    ga('send', 'event', 'button', 'click', 'facebook auth');
-    FB.login(function(response) {
-      if (response.status === 'connected') {
-        ga('send', 'event', 'button', 'click', 'facebook auth success');
-        connectFb(response.authResponse.accessToken);
-      } else if (response.status === 'not_authorized') {
-        ga('send', 'event', 'button', 'click', 'facebook auth failure');
-        FB.login();
-      } else {
-        ga('send', 'event', 'button', 'click', 'facebook auth failure');
-        FB.login();
-      }
-    }, {
-      scope : "email,read_friendlists,publish_stream,publish_actions"
-    });
-  }
+  ga('send', 'event', 'button', 'click', 'facebook auth');
+  FB.login(function(response) {
+    if (response.status === 'connected') {
+      ga('send', 'event', 'button', 'click', 'facebook auth success');
+      connectFb(response.authResponse);
+    } else if (response.status === 'not_authorized') {
+      ga('send', 'event', 'button', 'click', 'facebook auth failure');
+      FB.login();
+    } else {
+      ga('send', 'event', 'button', 'click', 'facebook auth failure');
+      FB.login();
+    }
+  }, {
+    scope : "email,read_friendlists,publish_stream,publish_actions"
+  });
 }
 
 function doShare(cb, type, url, message) {
