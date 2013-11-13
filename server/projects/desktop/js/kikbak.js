@@ -322,44 +322,7 @@ function dataURItoBlob(dataURI, dataTYPE) {
 function shareOfferAfterLogin(offer, cb) {
   var message = $('#addcomment').val();
   var userId = s.userId;
-  if (!$('#take-picture')[0].files || $('#take-picture')[0].files.length == 0) {
-    cb(offer.giveImageUrl, message);
-  } else {
-    var req = new FormData();
-    var file = $('#take-picture')[0].files[0];
-    var img = new Image();
-    var URL = window.webkitURL || window.URL;
-    var imgUrl = URL.createObjectURL(file);
-    img.onload = function() {
-      var h = img.height;
-      var w = img.width;
-      var canvas = document.createElement("canvas");
-      canvas.setAttribute('width', w);
-      canvas.setAttribute('height', h);
-      var ctx = canvas.getContext("2d");
-      ctx.drawImage(img, 0, 0);
-      var dataurl = canvas.toDataURL("image/jpeg");
-
-      req.append('file', dataURItoBlob(dataurl, 'image/jpeg'));
-      req.append('userId', userId);
-      $.ajax({
-        url : config.backend + '/s/upload.php',
-        data : req,
-        processData : false,
-        cache : false,
-        contentType : false,
-        dataType : 'json',
-        type : 'POST',
-        success : function(response) {
-          if (response && response.url) {
-            cb(response.url, message);
-          }
-        },
-        error : showError
-      });
-    };
-    img.src = imgUrl;
-  }
+  cb(offer.giveImageUrl, message);
 }
 
 function loginFb() {
