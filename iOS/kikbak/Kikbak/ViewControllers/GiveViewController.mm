@@ -30,6 +30,7 @@
 #import "ShareResult.h"
 #import "UIDevice+OSVersion.h"
 #import "Flurry.h"
+#import "TwitterApi.h"
 
 
 #define DEFAULT_CONTAINER_VIEW_HEIGHT 50
@@ -530,6 +531,7 @@ static int offsetForIOS6 = 44;
         self.imageUrl = self.offer.giveImageUrl;
         ShareChannelSelectorView* view = [[ShareChannelSelectorView alloc]initWithFrame:frame];
         view.locations = self.offer.location;
+        view.showEmployeeName = [self.offer.hasEmployeeProgram boolValue];
         [view createsubviews];
         view.delegate = self;
         [self.view addSubview:view];
@@ -783,7 +785,8 @@ static int offsetForIOS6 = 44;
         [self.spinnerView removeFromSuperview];
     }
     else if( shareViaTwitter){
-        
+        TwitterApi* api = [[TwitterApi alloc]init];
+        [api postToTimeline:result.body];
     }
     else{
 //        [FBSettings setLoggingBehavior:[NSSet setWithObject:FBLoggingBehaviorFBRequests]];
@@ -801,10 +804,12 @@ static int offsetForIOS6 = 44;
 }
 
 -(void) onShareError:(NSNotification*)notification{
-    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:NSLocalizedString(@"Unreachable", nil) delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-    alert.tag = CALL_URL_TAG;
-    [alert show];
-    [self.spinnerView removeFromSuperview];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:NSLocalizedString(@"Unreachable", nil) delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        alert.tag = CALL_URL_TAG;
+        [alert show];
+        [self.spinnerView removeFromSuperview];
+    });
 }
 
 
@@ -816,16 +821,19 @@ static int offsetForIOS6 = 44;
     frame.origin.y += offsetForIOS6;
     ShareChannelSelectorView* view = [[ShareChannelSelectorView alloc]initWithFrame:frame];
     view.locations = self.offer.location;
+    view.showEmployeeName = [self.offer.hasEmployeeProgram boolValue];
     [view createsubviews];
     view.delegate = self;
     [self.view addSubview:view];
 }
 
 -(void) onImageUploadError:(NSNotification*)notification{
-    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:NSLocalizedString(@"Unreachable", nil) delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-    alert.tag = CALL_URL_TAG;
-    [alert show];
-    [self.spinnerView removeFromSuperview];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:NSLocalizedString(@"Unreachable", nil) delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        alert.tag = CALL_URL_TAG;
+        [alert show];
+        [self.spinnerView removeFromSuperview];
+    });
 }
 
 -(void) onLocationUpdate:(NSNotification*)notification{
@@ -841,44 +849,50 @@ static int offsetForIOS6 = 44;
 -(void) onFBStoryPostSuccess:(NSNotification*)notification{
     [Flurry logEvent:@"ShareEvent" timed:YES];
     
-    CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
-    ShareSuccessView* shareView = [[ShareSuccessView alloc]initWithFrame:frame];
-    shareView.delegate = self;
-    [shareView manuallyLayoutSubviews];
-    [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:shareView];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+        ShareSuccessView* shareView = [[ShareSuccessView alloc]initWithFrame:frame];
+        shareView.delegate = self;
+        [shareView manuallyLayoutSubviews];
+        [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:shareView];
     
-    
-    [self.spinnerView removeFromSuperview];
+        [self.spinnerView removeFromSuperview];
+    });
 
 }
 
 -(void) onFBStoryPostError:(NSNotification *)notification{
-    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:NSLocalizedString(@"Unreachable", nil) delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-    alert.tag = CALL_URL_TAG;
-    [alert show];
-    
-    [self.spinnerView removeFromSuperview];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:NSLocalizedString(@"Unreachable", nil) delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        alert.tag = CALL_URL_TAG;
+        [alert show];
+        
+        [self.spinnerView removeFromSuperview];
+    });
 }
 
 -(void) onTwitterPostSuccess:(NSNotification*)notification{
     [Flurry logEvent:@"TwitterEvent" timed:YES];
     
-    CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
-    ShareSuccessView* shareView = [[ShareSuccessView alloc]initWithFrame:frame];
-    shareView.delegate = self;
-    [shareView manuallyLayoutSubviews];
-    [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:shareView];
+    dispatch_async(dispatch_get_main_queue(), ^{
     
-    
-    [self.spinnerView removeFromSuperview];
+        CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
+        ShareSuccessView* shareView = [[ShareSuccessView alloc]initWithFrame:frame];
+        shareView.delegate = self;
+        [shareView manuallyLayoutSubviews];
+        [((AppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:shareView];
+        
+        [self.spinnerView removeFromSuperview];
+    });
 }
 
 -(void) onTwitterPostError:(NSNotification*)notification{
-    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:NSLocalizedString(@"Unreachable", nil) delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-    alert.tag = CALL_URL_TAG;
-    [alert show];
-    
     [self.spinnerView removeFromSuperview];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:NSLocalizedString(@"Unreachable", nil) delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alert show];
+    });
 }
 
 

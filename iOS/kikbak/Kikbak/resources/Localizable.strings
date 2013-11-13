@@ -124,9 +124,8 @@
 "Post on my timeline" = "Post on Facebook";
 "Email" = "Share via Email";
 "SMS" = "Share via SMS";
-"Helped" = "Helped by an employee?";
-"Employee" = "Employee Name";
-"Let your nearby friends know" = "Let your nearby friends know who to ask for when they visit the store.";
+"Helped" = "Let friends know who helped you?";
+"Employee" = "Employee name [optional]";
 "Preferred Location" = "Choose your preferred location?";
 "Give offer" = "Give offer to friends";
 "Pick Location" = "Pick a location";

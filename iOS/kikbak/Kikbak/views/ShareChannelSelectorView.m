@@ -20,9 +20,8 @@
 @interface ShareChannelSelectorView ()
 
 @property (nonatomic,strong) UIView* backgroundView;
-//@property (nonatomic,strong) UILabel* helped;
-//@property (nonatomic,strong) UILabel* byWhom;
-//@property (nonatomic,strong) UITextView* employee;
+@property (nonatomic,strong) UILabel* helpedline1;
+@property (nonatomic,strong) UITextView* employee;
 @property (nonatomic,strong) UILabel* giveOffer;
 @property (nonatomic,strong) UILabel* preferredLocation;
 @property (nonatomic,strong) UIImageView* employeeShadow;
@@ -83,13 +82,18 @@
         locationOffset = 0;
     }
     
+    int employeeNameOffset = 0;
+    if(self.showEmployeeName){
+        employeeNameOffset = 60;
+    }
+    
     int backgroundY = 120;
     if( ![UIDevice hasFourInchDisplay]){
         backgroundY = 80;
     }
     
     
-    self.backgroundView = [[UIView alloc] initWithFrame:CGRectMake(23, backgroundY, self.frame.size.width - 46, 200-locationOffset)];
+    self.backgroundView = [[UIView alloc] initWithFrame:CGRectMake(23, backgroundY, self.frame.size.width - 46, 200-locationOffset + employeeNameOffset)];
     self.backgroundView.backgroundColor = UIColorFromRGB(0xE0E0E0);
     self.backgroundView.layer.cornerRadius = 10;
     self.backgroundView.layer.masksToBounds = YES;
@@ -122,16 +126,22 @@
     
     if( locationOffset == 0 ){
         
-        self.preferredLocation = [[UILabel alloc]initWithFrame:CGRectMake(0, 52, self.backgroundView.frame.size.width, 19)];
-        self.preferredLocation.font = [UIFont fontWithName:@"HelveticaNeue" size:12];
-        self.preferredLocation.text = NSLocalizedString(@"Preferred Location", nil);
-        self.preferredLocation.textAlignment = NSTextAlignmentCenter;
-        self.preferredLocation.backgroundColor = [UIColor clearColor];
-        self.preferredLocation.textColor = UIColorFromRGB(0x999999);
-        [self.backgroundView addSubview:self.preferredLocation];
+        if(!self.showEmployeeName){
+            self.preferredLocation = [[UILabel alloc]initWithFrame:CGRectMake(0, self.backgroundView.frame.size.height - 145, self.backgroundView.frame.size.width, 19)];
+            self.preferredLocation.font = [UIFont fontWithName:@"HelveticaNeue" size:12];
+            self.preferredLocation.text = NSLocalizedString(@"Preferred Location", nil);
+            self.preferredLocation.textAlignment = NSTextAlignmentCenter;
+            self.preferredLocation.backgroundColor = [UIColor clearColor];
+            self.preferredLocation.textColor = UIColorFromRGB(0x999999);
+            [self.backgroundView addSubview:self.preferredLocation];
+        }
         
+        int locationOrigin = 120;
+        if(self.showEmployeeName){
+            locationOrigin = 200;
+        }
         
-        self.location = [[UIView alloc]initWithFrame:CGRectMake(12, 80, self.backgroundView.frame.size.width-24, 35)];
+        self.location = [[UIView alloc]initWithFrame:CGRectMake(12, self.backgroundView.frame.size.height - locationOrigin, self.backgroundView.frame.size.width-24, 35)];
         self.location.layer.cornerRadius = 4;
         self.location.layer.masksToBounds = YES;
         self.location.layer.borderColor = [UIColorFromRGB(0xa0a0a0) CGColor];
@@ -163,6 +173,35 @@
         [self.location addGestureRecognizer:tap];
         tap.numberOfTapsRequired = 1;
         tap.numberOfTouchesRequired = 1;
+    }
+    
+    
+    if( self.showEmployeeName ){
+        self.helpedline1 = [[UILabel alloc]initWithFrame:CGRectMake(0, self.backgroundView.frame.size.height - 145, self.backgroundView.frame.size.width, 19)];
+        self.helpedline1.font = [UIFont fontWithName:@"HelveticaNeue" size:12];
+        self.helpedline1.text = NSLocalizedString(@"Helped", nil);
+        self.helpedline1.textAlignment = NSTextAlignmentCenter;
+        self.helpedline1.backgroundColor = [UIColor clearColor];
+        self.helpedline1.textColor = UIColorFromRGB(0x999999);
+        [self.backgroundView addSubview:self.helpedline1];
+        
+        self.employee = [[UITextView alloc]initWithFrame:CGRectMake(12, self.backgroundView.frame.size.height - 120, self.backgroundView.frame.size.width-24, 35)];
+        self.employee.delegate = self;
+        self.employee.text = NSLocalizedString(@"Employee", nil);
+        self.employee.textColor = UIColorFromRGB(0x7F7F7F);
+        self.employee.scrollEnabled = NO;
+        self.employee.returnKeyType = UIReturnKeyDone;
+        self.employee.contentInset = UIEdgeInsetsMake(2, 5, 2, 5);
+        self.employee.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
+        self.employee.backgroundColor = [UIColor clearColor];
+        self.employee.layer.cornerRadius = 5;
+        self.employee.layer.masksToBounds = YES;
+        self.employee.layer.borderWidth = 1;
+        self.employee.layer.borderColor = [UIColorFromRGB(0xb9b9b9) CGColor];
+        self.employeeShadow = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"bg_textview_suggest_business"]];
+        self.employeeShadow.frame = CGRectMake(12, self.backgroundView.frame.size.height - 120, self.backgroundView.frame.size.width-24, 35);
+        [self.backgroundView addSubview:self.employeeShadow];
+        [self.backgroundView addSubview:self.employee];
     }
     
     self.emailBtn = [UIButton buttonWithType:UIButtonTypeCustom];

@@ -2,7 +2,7 @@
 //  Offer.m
 //  Kikbak
 //
-//  Created by Ian Barile on 10/21/13.
+//  Created by Ian Barile on 11/11/13.
 //  Copyright (c) 2013 Ian Barile. All rights reserved.
 //
 
@@ -30,8 +30,9 @@
 @dynamic name;
 @dynamic offerId;
 @dynamic offerImageUrl;
-@dynamic termsOfService;
 @dynamic offerType;
+@dynamic termsOfService;
+@dynamic hasEmployeeProgram;
 @dynamic location;
 
 @end

@@ -2,7 +2,7 @@
 //  Offer.h
 //  Kikbak
 //
-//  Created by Ian Barile on 10/21/13.
+//  Created by Ian Barile on 11/11/13.
 //  Copyright (c) 2013 Ian Barile. All rights reserved.
 //
 
@@ -31,8 +31,9 @@
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSNumber * offerId;
 @property (nonatomic, retain) NSString * offerImageUrl;
-@property (nonatomic, retain) NSString * termsOfService;
 @property (nonatomic, retain) NSString * offerType;
+@property (nonatomic, retain) NSString * termsOfService;
+@property (nonatomic, retain) NSNumber * hasEmployeeProgram;
 @property (nonatomic, retain) NSSet *location;
 @end
 

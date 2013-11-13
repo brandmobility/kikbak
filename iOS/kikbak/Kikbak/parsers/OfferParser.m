@@ -54,6 +54,11 @@
     offer.termsOfService = [dict objectForKey:@"tosUrl"];
     offer.offerImageUrl = [dict objectForKey:@"offerImageUrl"];
     offer.giveImageUrl = [dict objectForKey:@"giveImageUrl"];
+    
+    if( [dict objectForKey:@"hasEmployeeProgram"] != [NSNull null]){
+        offer.hasEmployeeProgram = [dict objectForKey:@"hasEmployeeProgram"];
+    }
+    
     long date = [dict objectForKey:@"beginDate"];
     NSTimeInterval timeSince70 = date;
     offer.beginDate = [NSDate dateWithTimeIntervalSince1970:timeSince70];

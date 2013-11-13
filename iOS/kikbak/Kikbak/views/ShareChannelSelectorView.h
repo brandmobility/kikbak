@@ -25,6 +25,7 @@
 
 @property (nonatomic,strong) id<ChannelSelectorDelegate> delegate;
 @property (nonatomic,strong) NSSet* locations;
+@property (nonatomic) BOOL showEmployeeName;
 
 -(void)createsubviews;
 

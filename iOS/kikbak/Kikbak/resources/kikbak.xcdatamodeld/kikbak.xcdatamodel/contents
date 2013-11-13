@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3396" systemVersion="12F45" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3400" systemVersion="13A603" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Credit" representedClassName="Credit" syncable="YES">
         <attribute name="creditId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
@@ -56,6 +56,7 @@
         <attribute name="giftDiscountType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="giftValue" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="giveImageUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="hasEmployeeProgram" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="kikbakDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="kikbakDescriptionOptional" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="kikbakValue" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
