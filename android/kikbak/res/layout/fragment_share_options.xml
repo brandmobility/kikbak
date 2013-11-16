@@ -25,12 +25,34 @@
         android:background="#0061e5" />
 
     <com.referredlabs.kikbak.widget.TtfTextView
-        android:id="@+id/share_options_employee_note"
+        android:id="@+id/share_options_location_note"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="14dp"
         android:layout_marginRight="14dp"
         android:layout_marginTop="20dp"
+        android:text="@string/share_options_location_note"
+        android:textColor="#3a3a3a"
+        android:textSize="15dp"
+        android:visibility="gone"
+        kikbak:typeface="Roboto-Regular.ttf" />
+
+    <Spinner
+        android:id="@+id/store_selection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="0dp"
+        android:visibility="gone" />
+
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:id="@+id/share_options_employee_note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="10dp"
         android:text="@string/share_options_employee_note"
         android:textColor="#3a3a3a"
         android:textSize="15dp"
@@ -48,28 +70,6 @@
         android:textSize="17dp"
         android:visibility="gone"
         kikbak:typeface="Roboto-Regular.ttf" />
-
-    <com.referredlabs.kikbak.widget.TtfTextView
-        android:id="@+id/share_options_location_note"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="14dp"
-        android:layout_marginRight="14dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/share_options_location_note"
-        android:textColor="#3a3a3a"
-        android:textSize="15dp"
-        android:visibility="gone"
-        kikbak:typeface="Roboto-Regular.ttf" />
-    
-    <Spinner
-        android:id="@+id/store_selection"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="14dp"
-        android:layout_marginRight="14dp"
-        android:layout_marginTop="0dp"
-        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"

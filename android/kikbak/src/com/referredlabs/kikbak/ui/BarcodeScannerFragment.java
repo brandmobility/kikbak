@@ -44,7 +44,7 @@ public class BarcodeScannerFragment extends DialogFragment implements ResultPoin
   private CameraPreview mPreviewSurface;
   private PointsView mPointsView;
 
-  DecodeBarcodeTask mDecodeBarcodeTask = new DecodeBarcodeTask();
+  DecodeBarcodeTask mDecodeBarcodeTask;
 
   private QRCodeReader mQrCodeReader = new QRCodeReader();
 
@@ -55,8 +55,9 @@ public class BarcodeScannerFragment extends DialogFragment implements ResultPoin
    */
   PreviewCallback mPreviewCallback = new PreviewCallback() {
     public void onPreviewFrame(byte[] data, Camera camera) {
-      DecodeBarcodeTask decodeBarcodeTask = new DecodeBarcodeTask();
-      decodeBarcodeTask.execute(data);
+      Size size = camera.getParameters().getPreviewSize();
+      mDecodeBarcodeTask = new DecodeBarcodeTask(size);
+      mDecodeBarcodeTask.execute(data);
     }
   };
 
@@ -93,7 +94,7 @@ public class BarcodeScannerFragment extends DialogFragment implements ResultPoin
       root.postDelayed(new Runnable() {
         @Override
         public void run() {
-          mListener.onBarcodeScanned("bug");
+          finishBarcodeScanning("bug");
         }
       }, 2000);
     }
@@ -103,18 +104,16 @@ public class BarcodeScannerFragment extends DialogFragment implements ResultPoin
 
   @Override
   public void onCancel(DialogInterface dialog) {
-    mDecodeBarcodeTask.cancel(false);
+    if(mDecodeBarcodeTask != null) {
+      mDecodeBarcodeTask.cancel(false);
+      mDecodeBarcodeTask = null;
+    }
 
     super.onCancel(dialog);
     mListener.onScanningCancelled();
   }
 
-  /**
-   * Contains code from client.android.CaptureActivity.handleDecodeInternally()
-   * 
-   * @param rawResult
-   */
-  private void finishBarcodeScanning(Result rawResult) {
+  private void finishBarcodeScanning(String code) {
     dismiss();
     // Stop the surface callbacks so it never gets callbacks like surfaceCreated()
     // or surfaceChanged() again - they could break releaseCamera()
@@ -122,10 +121,7 @@ public class BarcodeScannerFragment extends DialogFragment implements ResultPoin
     mPreviewSurface.stopCallbacks();
     mPreviewSurface.releaseCamera();
 
-    String contents = rawResult.getText();
-    contents.replace("\r", "");
-
-    mListener.onBarcodeScanned(contents);
+    mListener.onBarcodeScanned(code);
   }
 
   /**
@@ -136,16 +132,24 @@ public class BarcodeScannerFragment extends DialogFragment implements ResultPoin
    */
   class DecodeBarcodeTask extends AsyncTask<byte[], Void, Result> {
 
+    Size mSize;
+    
+    DecodeBarcodeTask(Size size) {
+      mSize = size;
+    }
+    
     @Override
     protected Result doInBackground(byte[]... params) {
-      return decodePreviewFrame(params[0]);
+      return decodePreviewFrame(mSize, params[0]);
     }
 
     @Override
     protected void onPostExecute(Result result) {
       super.onPostExecute(result);
       if (result != null) {
-        finishBarcodeScanning(result);
+        String code = result.getText();
+        code.replace("\r", "");
+        finishBarcodeScanning(code);
       } else {
         // request another frame from camera to process
         mPreviewSurface.deliverSinglePreviewFrame();
@@ -157,11 +161,8 @@ public class BarcodeScannerFragment extends DialogFragment implements ResultPoin
      * 
      * @param frameData
      */
-    private Result decodePreviewFrame(byte[] frameData) {
+    private Result decodePreviewFrame(Size size, byte[] frameData) {
       Result rawResult = null;
-
-      // get default camera's preview size
-      Size size = mPreviewSurface.getCameraPreviewSize();
 
       PlanarYUVLuminanceSource source = new PlanarYUVLuminanceSource(frameData,
           size.width, size.height,

@@ -3,6 +3,7 @@ package com.referredlabs.kikbak.store;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -224,11 +225,16 @@ public class DataStore {
     protected void doInBackground() throws IOException {
       long userId = Register.getInstance().getUserId();
       Location loc = LocationFinder.getLastLocation();
-      String uri = Http.getUri(GetUserOffersRequest.PATH + userId);
-      GetUserOffersRequest req =
-          GetUserOffersRequest.create(loc.getLatitude(), loc.getLongitude());
-      GetUserOffersResponse result = Http.execute(uri, req, GetUserOffersResponse.class);
-      swapOffers(validate(result.offers));
+      if (loc == null) {
+        List<ClientOfferType> empty = Collections.emptyList();
+        swapOffers(empty);
+      } else {
+        String uri = Http.getUri(GetUserOffersRequest.PATH + userId);
+        GetUserOffersRequest req =
+            GetUserOffersRequest.create(loc.getLatitude(), loc.getLongitude());
+        GetUserOffersResponse result = Http.execute(uri, req, GetUserOffersResponse.class);
+        swapOffers(validate(result.offers));
+      }
     }
 
     private List<ClientOfferType> validate(ClientOfferType[] offers) {

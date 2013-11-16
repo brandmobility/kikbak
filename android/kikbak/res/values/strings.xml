@@ -65,9 +65,9 @@
 
     <!-- Share options -->
     <string name="share_options_title">Give offer to friends</string>
-    <string name="share_options_employee_note">Helped by someone? Let nearby friends know who to ask for when they visit.</string>
-    <string name="share_options_employee_name_hint">Associate name</string>
-    <string name="share_options_location_note">Choose preferred location</string>
+    <string name="share_options_employee_note">Let friends know who helped you:</string>
+    <string name="share_options_employee_name_hint">Employee name [optional]</string>
+    <string name="share_options_location_note">Choose your preferred location</string>
     <string name="share_options_location_hint">Pick location</string>
 
     <!-- Share progress -->
@@ -77,7 +77,9 @@
 
     <!-- Share success -->
     <string name="share_thank_you">Thank you!</string>
-    <string name="share_success_note">We will notify you when a friend uses your gift and you earn a reward</string>
+    <string name="share_success_note">We will notify you when a friend uses your gift and you earn a reward.</string>
+    <string name="share_thank_you_give_only">Success!</string>
+    <string name="share_success_note_give_only">You have shared a gift. We will notify you when a friend claims it.</string>
 
     <!-- Facebook story -->
     <string name="facebook_story_title_fmt">%1$s for %2$s</string> <!-- [gift_desc] for [merchant] -->
@@ -93,7 +95,6 @@
     <string name="reward_credit_purchase_amount_fmt">$%.2f</string>
     <string name="reward_credit_claim_label">CLAIM REWARD</string>
     <string name="reward_credit_claim_amount_fmt">$%.0f Gift Card</string>
-    <string name="reward_credit_claim_simple_amount_fmt">$%.0f</string>
 
     <!-- Redeem -->
     <plurals name="credit_redeem_count">
@@ -117,6 +118,7 @@
     <string name="credit_to_use_label">Set amount to use</string>
     <string name="apply">Apply</string>
     <string name="credit_amount_fmt">$%.2f</string>
+    <string name="gift_card_amount_fmt">$%.0f</string>
 
     <!-- Confirmation dialogs -->
     <string name="redeem_gift_confirmation">You must be at the register to redeem.\n\nAre you ready to redeem this offer?</string>
@@ -127,13 +129,12 @@
 
     <!-- Redeem success -->
     <string name="redeem_success_title">Success!</string>
-    <string name="redeem_success_note_second">Please show this screen to the cashier.</string>
-    <string name="redeem_success_note_second_integrated">Your code will expire in 24 hours.</string>
     <string name="redeem_success_your_code">YOUR CODE</string>
-    <string name="redeem_gift_success_note_first">You have claimed your gift.</string>
+    <string name="redeem_gift_success_note_first">Please show this screen when paying.</string>
     <string name="redeem_gift_success_share_note">Share the same offer with your friends.\nYou earn for every friend that redeems.</string>
     <string name="redeem_gift_success_share_button">"I am ready to give to others"</string>
     <string name="redeem_credit_success_note_first">You have claimed your credit.</string>
+    <string name="redeem_credit_success_note_second">Please show this screen to the cashier.</string>
     <string name="redeem_credit_success_value_desc">can now be applied to your purchase</string>
     <string name="redeem_credit_success_share_note">Share the offer with more friends\nand earn even more credit</string>
     <string name="redeem_credit_success_share_button">Ready to give to more friends</string>

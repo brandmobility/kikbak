@@ -42,6 +42,9 @@ public class OffersLoader extends AsyncTaskLoader<List<TheOffer>> {
       List<ClientOfferType> offers = mStore.getOffers();
 
       Location current = LocationFinder.getLastLocation();
+      if (current == null)
+        return null;
+
       double latitude = current.getLatitude();
       double longitude = current.getLongitude();
 

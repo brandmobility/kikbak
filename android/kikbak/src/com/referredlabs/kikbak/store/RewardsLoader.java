@@ -45,6 +45,9 @@ public class RewardsLoader extends AsyncTaskLoader<List<TheReward>> {
       List<AvailableCreditType> credits = mStore.getCredits();
 
       Location current = LocationFinder.getLastLocation();
+      if (current == null)
+        return null;
+
       double latitude = current.getLatitude();
       double longitude = current.getLongitude();
 

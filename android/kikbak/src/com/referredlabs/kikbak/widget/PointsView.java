@@ -52,8 +52,8 @@ public class PointsView extends View {
 
   @Override
   public void onDraw(Canvas canvas) {
-    if (mCameraPreview == null) {
-      return; // not ready yet, early draw before done configuring
+    if (mCameraPreview == null || !mCameraPreview.isReady()) {
+      return; // not ready
     }
 
     Rect frame = mCameraPreview.getPreviewViewArea();
