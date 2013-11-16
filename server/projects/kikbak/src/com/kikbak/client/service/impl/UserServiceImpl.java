@@ -223,6 +223,7 @@ public class UserServiceImpl implements UserService2 {
 			}
 			ot.setOfferImageUrl(offer.getImageUrl());
 			ot.setMerchantId(offer.getMerchantId());
+			ot.setMerchantLogoUrl(merchant.getImageUrl());
 			ot.setGiveImageUrl(gift.getImageUrl());
 			
 			ot.setMerchantName(merchant.getName());

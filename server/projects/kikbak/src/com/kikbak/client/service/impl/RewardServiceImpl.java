@@ -418,8 +418,8 @@ public class RewardServiceImpl implements RewardService {
         sit.setFriendName(friend.getFirstName() + " " + friend.getLastName());
 
         Location location = null;
-        if (shared.getLocationId() != null) {
-            location = roLocationDao.findById(shared.getLocationId());
+        if (shared.getLocationId() != null && 
+        		(location = roLocationDao.findById(shared.getLocationId())) != null ) {
             MerchantLocationType sharedLocation = new MerchantLocationType();
             sharedLocation.setAddress1(location.getAddress1());
             sharedLocation.setAddress2(location.getAddress2());

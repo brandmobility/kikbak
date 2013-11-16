@@ -10,6 +10,7 @@
 #import "KikbakConstants.h"
 #import "NotificationContstants.h"
 #import "SBJson.h"
+#import "HTTPConstants.h"
 
 
 @implementation ImageUploadRequest
@@ -28,7 +29,7 @@
     
     // set up the request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:@"http://test.kikbak.me/s/upload.php"]];
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%s://%s/s/upload.php",http_protocol_type, upload_host]]];
     
     // create a boundary to delineate the file
     NSString *boundary = @"14737809831466499882746641449";

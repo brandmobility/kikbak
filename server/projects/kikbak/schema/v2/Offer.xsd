@@ -16,6 +16,7 @@
 		<xsd:sequence>
 			<xsd:element name="id" type="xsd:long" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="merchantName" type="xsd:string" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="merchantLogoUrl" type="xsd:string" minOccurs="1" maxOccurs="1" />
 			<xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1" />
 			<!-- offer_type: both, give_only, get_only -->
 			<xsd:element name="offer_type" type="xsd:string" minOccurs="1" maxOccurs="1" />

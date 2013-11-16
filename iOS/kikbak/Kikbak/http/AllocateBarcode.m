@@ -42,7 +42,10 @@ static NSString* resource = @"rewards/allocateBarcode";
     NSString* json = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
 //    NSLog(@"AllocateBarcode: %@", json);
     id dict = [json JSONValue];
-    imageRequest.code = [dict objectForKey:@"code"];
+    id response = [dict objectForKey:@"barcodeResponse"];
+    if( response != [NSNull null]){
+        imageRequest.code = [response objectForKey:@"code"];
+    }
     
     [imageRequest requestBarcode];
 
