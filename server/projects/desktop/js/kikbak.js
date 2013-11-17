@@ -180,12 +180,6 @@ function initPage() {
   }
 }
 
-function generateMapUrl(name, local) {
-  var escapedName = encodeURIComponent(name);
-  var url = 'https://maps.google.com/maps?q=' + escapedName + '%40' + local.latitude + ',' + local.longitude;
-  return url;
-}
-
 function getOffersByMerchant(merchant) {
   $.ajax({
     dataType: 'json',
@@ -270,7 +264,7 @@ function renderOfferDetail(offer) {
   $('#container').css('background-size', '100%');
   $('#container').css('background-position', 'initial initial');
   $('#container').css('background-repeat', 'initial initial');
-  $('#header h1').css('background-image', 'url(' + offer.merchantImageUrl + ')');
+  $('#header h1').css('background-image', 'url(' + offer.merchantLogoUrl + ')');
   $('#header h1').css('background-size', '100%');
   $('#header h1').css('background-position', 'initial initial');
   $('#header h1').css('background-repeat', 'no-repeat');
@@ -280,7 +274,6 @@ function renderOfferDetail(offer) {
   $('#share-div').show();
   ga('send', 'event', 'button', 'show', 'facebook auth');
   
-  $('#location-href').attr('href', generateMapUrl(offer.merchantName, offer.locations[0]));
   $('#globe-href').attr('href', offer.merchantUrl);
   
   $('#show-picture').attr('src', offer.giveImageUrl);
@@ -381,11 +374,15 @@ function shareViaEmail(url, message) {
   }, 'email', url, message);
 }
 
+function encodeURI3986(uri) {
+  return encodeURIComponent(uri).replace(/!/g,'%21').replace(/\*/g,'%2A').replace(/\(/g,'%28').replace(/\)/g,'%29').replace(/'/g,'%27');
+}
+
 function shareViaYahoo(url, message) {
   ga('send', 'event', 'button', 'click', 'share via yahoo');
   doShare(function(code, msg, url, resp) {
-    window.location.href = 'http://compose.mail.yahoo.com/?Subject=' + encodeURIComponent(resp.template.subject) 
-        + '&body=' + encodeURIComponent(resp.template.body);
+    window.location.href = 'http://compose.mail.yahoo.com/?Subject=' + encodeURI3986(encodeURI3986(resp.template.subject))
+        + '&body=' + encodeURI3986(encodeURI3986(resp.template.body));
   }, 'email', url, message);
 }
 
