@@ -36,9 +36,9 @@
             <div id="green-overlay" style="display:none;"></div>
             <div id="main" class="clearfix">
                 <div id="info">
-                    <c:choose>
-                    <c:when test="{not empty shareInfo.fbFriendId}">
                     <div class="info-header clearfix">
+                        <c:choose>
+                        <c:when test="{not empty shareInfo.fbFriendId}">
                         <img src="https://graph.facebook.com/${shareInfo.fbFriendId}/picture?width=124&height=124" class="userphoto" width="62px" height="62px" />
                         <c:choose>
                         <c:when test="${not empty shareInfo.caption}">
@@ -49,9 +49,20 @@
                         <h3 style="float:left;">${shareInfo.friendName}</h3>
                         </c:otherwise>
                         </c:choose>
+                        </c:when>
+                        <c:otherwise>
+                        <c:choose>
+                        <c:when test="${not empty shareInfo.caption}">
+                        <h3 style="margin-top:5px;float:none;">${shareInfo.friendName}</h3>
+                        <p>${shareInfo.caption}</p>
+                        </c:when>
+                        <c:otherwise>
+                        <h3 style="float:left;margin-top:10px;">${shareInfo.friendName}</h3>
+                        </c:otherwise>
+                        </c:choose>
+                        </c:otherwise>
+                        </c:choose>
                     </div>
-                    </c:when>
-                    </c:choose>
                     <div class="info-content">
                         <img src="${shareInfo.imageUrl}" width="340px" height="340px" class="main-image" />
                         <div class="overlay"></div>
@@ -203,6 +214,19 @@
                         </c:choose>
                     </div>
                     </c:when>
+                    <c:otherwise>
+                    <div class="col-md-8" style="0 0 0 10px;">
+                        <c:choose>
+                        <c:when test="${not empty shareInfo.caption}">
+                        <h3 style="color: #3a3a3a; font-size: 20px; font-weight: bold;">${shareInfo.friendName}</h3>
+                        <p>${shareInfo.caption}</p>
+                        </c:when>
+                        <c:otherwise>
+                        <h3 style="color: #3a3a3a; font-size: 20px; font-weight: bold;">${shareInfo.friendName}</h3>
+                        </c:otherwise>
+                        </c:choose>
+                    </div>
+                    </c:otherwise>
                     </c:choose>
                 </div>
             </div>
