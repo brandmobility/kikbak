@@ -39,13 +39,13 @@ public class ReadWriteSharedDAOImpl extends GenericDAOImpl<Shared, Long> impleme
 
     @Override
     @Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
-    public Shared findAvailableForGiftingByReferralCode(String referralCode) {
+    public Shared findByReferralCode(String referralCode) {
         return findByCriteria(Restrictions.eq("referralCode", referralCode));
     }
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
-    public void saveShared(Shared shared) throws ReferralCodeUniqueException {
+    public void save(Shared shared) throws ReferralCodeUniqueException {
         Session session = getSessionFactory().getCurrentSession();
         try {
             session.saveOrUpdate(shared);

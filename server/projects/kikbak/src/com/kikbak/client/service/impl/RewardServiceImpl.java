@@ -292,7 +292,7 @@ public class RewardServiceImpl implements RewardService {
             throw new RewardException("user id " + userId + " doesn't exist");
         }
 
-        Shared shared = roSharedDao.findAvailableForGiftingByReferralCode(referralCode);
+        Shared shared = roSharedDao.findByReferralCode(referralCode);
 
         if (userId.equals(shared.getUserId())) {
             throw new RewardException("cannot redeem the gift shared by him self.");
@@ -339,7 +339,7 @@ public class RewardServiceImpl implements RewardService {
     @Override
     public GiftType getGiftByReferredCode(final String code) throws RewardException {
 
-        Shared shared = roSharedDao.findAvailableForGiftingByReferralCode(code);
+        Shared shared = roSharedDao.findByReferralCode(code);
 
         if (shared == null) {
             throw new RewardException("no shared found for code " + code);

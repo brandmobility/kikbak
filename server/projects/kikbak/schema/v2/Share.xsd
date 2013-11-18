@@ -1,0 +1,46 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="com:kikbak:jaxb:share" xmlns:kikbak="com:kikbak:jaxb:share"
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="1.0">
+
+	<xsd:annotation>
+		<xsd:appinfo>
+			<jaxb:schemaBindings>
+				<jaxb:package name="com.kikbak.jaxb.v2.share" />
+			</jaxb:schemaBindings>
+		</xsd:appinfo>
+	</xsd:annotation>
+
+	<xsd:simpleType name="ChannelType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="email" />
+			<xsd:enumeration value="sms" />
+			<xsd:enumeration value="fb" />
+			<xsd:enumeration value="yahoo" />
+			<xsd:enumeration value="gmail" />
+			<xsd:enumeration value="twitter" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+
+	<xsd:complexType name="StoryType">
+		<xsd:sequence>
+			<xsd:element name="subject" type="xsd:string" minOccurs="1"
+				maxOccurs="1" />
+			<xsd:element name="body" type="xsd:string" minOccurs="1"
+				maxOccurs="1" />
+			<xsd:element name="landingUrl" type="xsd:string"
+				minOccurs="1" maxOccurs="1" />
+			<!-- fb,email,sms,twitter -->
+			<xsd:element name="type" type="kikbak:ChannelType" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="StoriesResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="stories" type="kikbak:StoryType" minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+</xsd:schema>

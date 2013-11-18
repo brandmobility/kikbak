@@ -24,7 +24,6 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import com.kikbak.client.service.v1.RateLimitException;
 import com.kikbak.client.service.v1.RedemptionException;
 import com.kikbak.client.service.v1.RewardService;
-import com.kikbak.dto.Barcode;
 import com.kikbak.jaxb.v1.barcode.BarcodeResponse;
 import com.kikbak.jaxb.v1.claim.ClaimCreditRequest;
 import com.kikbak.jaxb.v1.claim.ClaimCreditResponse;

@@ -50,16 +50,16 @@ public class SharedDAOTest extends KikbakBaseTest{
 		shared.setMerchantId(12);
 		shared.setOfferId(13);
 		shared.setLocationId(1234L);
-		shared.setUserId(12342);
+		shared.setUserId(12342L);
 		shared.setSharedDate(new Date());
 		shared.setType("email");
 		shared.setReferralCode("code4");
 		
 		try {
-		    rwDao.saveShared(shared);
+		    rwDao.save(shared);
 		} catch (ReferralCodeUniqueException e) {
 	        shared.setReferralCode("code3");
-            rwDao.saveShared(shared);
+            rwDao.save(shared);
 		}
 		
 		Shared s = roDao.findById(shared.getId());
@@ -76,7 +76,7 @@ public class SharedDAOTest extends KikbakBaseTest{
 		assertEquals(3, shared.getId());
 	
 		shared.setSharedDate(new Date(0));
-		rwDao.saveShared(shared);
+		rwDao.save(shared);
 		
 		shared = rwDao.findLastShareByUserAndOffer(6L, 3L);
 		assertEquals(2, shared.getId());

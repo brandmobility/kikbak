@@ -3,8 +3,10 @@ package com.kikbak.client.service.impl;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -14,12 +16,19 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kikbak.client.service.v1.ReferralCodeUniqueException;
 import com.kikbak.client.service.v1.SharedExperienceService;
 import com.kikbak.dao.ReadOnlyGiftDAO;
+import com.kikbak.dao.ReadOnlyMerchantDAO;
+import com.kikbak.dao.ReadOnlyOfferDAO;
 import com.kikbak.dao.ReadOnlySharedDAO;
 import com.kikbak.dao.ReadOnlyUser2FriendDAO;
+import com.kikbak.dao.ReadOnlyUserDAO;
 import com.kikbak.dao.ReadWriteSharedDAO;
 import com.kikbak.dto.Gift;
+import com.kikbak.dto.Merchant;
+import com.kikbak.dto.Offer;
 import com.kikbak.dto.Shared;
 import com.kikbak.jaxb.v1.share.SharedType;
+import com.kikbak.jaxb.v2.share.ChannelType;
+import com.kikbak.jaxb.v2.share.StoryType;
 import com.kikbak.push.service.PushNotifier;
 
 
@@ -51,6 +60,79 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
     @Autowired
     ReadOnlyGiftDAO roGiftDAO;    
     
+    @Autowired
+    private ReadOnlyUserDAO readOnlyUserDAO;
+    
+    @Autowired 
+    private ReadOnlyMerchantDAO roMerchantDAO;
+
+    @Autowired
+    private ReadOnlyOfferDAO roOfferDAO;
+    
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void getShareStories(Long userId, Long offerId, String imageUrl, String platform, List<StoryType> stories) throws ReferralCodeUniqueException{
+    	int maxLength = config.getInt(RANDOM_SECRET_LENGTH, DEFAULT_RANDOM_SECRET_LENGTH);
+    	String referralCode = generateReferralCode(maxLength);
+    	persistStory(userId, offerId, imageUrl, referralCode);
+    	for( ChannelType type : ChannelType.values()){
+    		StoryType story = new StoryType();
+    		fillInStory(story, type, platform, referralCode, offerId, imageUrl);
+    		stories.add(story);
+    	}
+    }
+    
+    
+    protected void fillInStory(StoryType story, ChannelType type, String platform, 
+    		String code, Long offerId, String imageUrl){
+    	String titleKey = "share.template.title." + type.name().toLowerCase() + "."
+                + platform.toLowerCase();
+        String bodyKey = "share.template.body." + type.name().toLowerCase() + "."
+                + platform.toLowerCase();
+        String loginUrl = config.getString("share.template.login.url").replace("%CODE%", code);
+
+        String titleTemplate = config.getString(titleKey, "");
+        String bodyTemplate = config.getString(bodyKey, "");
+
+        
+        if (StringUtils.isNotBlank(bodyTemplate)) {
+            Offer offer = roOfferDAO.findById(offerId);
+        	
+            Merchant merchant = roMerchantDAO.findById(offer.getMerchantId());
+            Gift gift = roGiftDAO.findByOfferId(offerId);
+            if (StringUtils.isNotBlank(titleTemplate)) {
+                String title = fillTemplate(loginUrl, titleTemplate, merchant, gift, imageUrl);
+                story.setSubject(title);
+            }
+            if (StringUtils.isNotBlank(bodyTemplate)) {
+                String body = fillTemplate(loginUrl, bodyTemplate, merchant, gift, imageUrl);
+                story.setBody(body);
+            }
+        }
+        story.setLandingUrl(loginUrl);
+    }
+    
+    
+    private String fillTemplate(String loginUrl, String template,
+            Merchant merchant, Gift gift, String imageUrl) {
+        String result;
+        result = template.replace("%IMAGE_URL%", StringUtils.trimToEmpty(imageUrl));
+        result = result.replace("%DESC%", StringUtils.trimToEmpty(gift.getDescription()));
+        result = result.replace("%DESC_DETAIL%", StringUtils.trimToEmpty(gift.getDetailedDesc()));
+        result = result.replace("%LOGIN_URL%", loginUrl);
+        result = result.replace("%MERCHANT%", StringUtils.trimToEmpty(merchant.getName()));
+        
+//        result = result
+//                .replace(
+//                        "%NAME%",
+//                        StringUtils.trimToEmpty(user.getFirstName())
+//                                + (StringUtils.isBlank(user.getFirstName()) ? StringUtils.trimToEmpty(user
+//                                        .getLastName()) : ""));
+        
+        return result;
+    }
+    
+    
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public String registerSharing(final Long userId, SharedType experience) {
@@ -59,7 +141,7 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
         String referralCode = null;
         while (true) {
             try {
-                referralCode = generateReferralCode(userId, experience, maxLength);
+                referralCode = generateReferralCode(maxLength);
                 persistExperience(userId, experience, referralCode);
                 Gift gift = roGiftDAO.findByOfferId(experience.getOfferId());
                 pushNotifier.sendGiftNotification(userId, gift);
@@ -102,7 +184,7 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
 //		}
 	}
 
-	private String generateReferralCode(Long userId, SharedType experience, int maxLength) {
+	private String generateReferralCode(int maxLength) {
         String randomStr = new BigInteger(30, new SecureRandom()).toString(Character.MAX_RADIX);
         if (randomStr.length() < maxLength) {
             StringBuilder sb = new StringBuilder();
@@ -129,7 +211,38 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
 		shared.setSharedDate(new Date());
 		shared.setReferralCode(referralCode);
 		
-		rwSharedDao.saveShared(shared);
+		rwSharedDao.save(shared);
+	}
+    
+    protected void persistStory(Long userId, Long offerId, String imageUrl, String referralCode)
+    		throws ReferralCodeUniqueException {
+    	
+    	Offer offer = roOfferDAO.findById(offerId);
+    	
+    	Shared shared = new Shared();
+		shared.setMerchantId(offer.getMerchantId());
+		shared.setOfferId(offerId);
+		shared.setImageUrl(imageUrl);
+		shared.setUserId(userId);
+		shared.setType("web");
+		shared.setSharedDate(new Date());
+		shared.setReferralCode(referralCode);
+		
+		rwSharedDao.save(shared);
+    }
+
+
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public void addShareType(String code, String type) throws ReferralCodeUniqueException {
+		// TODO Auto-generated method stub
+		Shared shared = roSharedDao.findByReferralCode(code);
+		StringBuffer sb = new StringBuffer(shared.getType());
+		sb.append(";");
+		sb.append(type);
+		shared.setType(sb.toString());
+		
+		rwSharedDao.save(shared);
 	}
 
 }

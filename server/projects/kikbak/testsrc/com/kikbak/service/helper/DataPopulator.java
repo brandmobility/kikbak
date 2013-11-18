@@ -125,7 +125,7 @@ public class DataPopulator {
 			shared.setUserId(userId);
 			shared.setSharedDate(new Date());
 			
-			rwSharedDao.saveShared(shared);
+			rwSharedDao.save(shared);
 		}
 	}
 	
