@@ -13,5 +13,9 @@ public interface ReadOnlyUserDAO {
 	public User findByFacebookId(Long facebookId);
 	
     public Collection<Long> listEligibleForOfferFromUser(Long offerId, Long fromUserId);
+    
+    public User findByManualPhone(String phone);
+    
+    public User findByManualEmail(String email);
 	
 }

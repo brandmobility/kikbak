@@ -13,4 +13,5 @@ public interface UserService {
     public void persistDeviceToken(final Long userId, final DeviceTokenType deviceToken);
     public String getUserToken(long userId);
     public boolean verifyUserToken(long userId, String token);
+    public Long registerWebUser(String name, String email, String phone);
 }

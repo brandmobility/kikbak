@@ -119,6 +119,15 @@ public class UserServiceImpl implements UserService2 {
 		return userId;
 	}
 	
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public Long registerWebUser(String name, String email, String phone) {
+        User user = findOrCreateWebUser(name, email, phone);
+        user.setCreateDate(new Date());
+        rwUserDao.makePersistent(user);
+        return user.getId();
+    }
+
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public String getUserToken(long userId) {
@@ -331,6 +340,23 @@ public class UserServiceImpl implements UserService2 {
 		
 		return user;
 	}
+	
+    private User findOrCreateWebUser(String name, String email, String phone) {
+        User user = roUserDao.findByManualPhone(phone);
+
+        if (user == null) {
+            user = roUserDao.findByManualEmail(email);
+        }
+
+        if (user == null) {
+            user = new User();
+            user.setManualName(name);
+            user.setManualNumber(phone);
+            user.setManualEmail(email);
+        }
+
+        return user;
+    }
 	
 	private String generateRandomToken() {
         return new BigInteger(130, new SecureRandom()).toString(Character.MAX_RADIX);

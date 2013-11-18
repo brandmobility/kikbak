@@ -2,6 +2,7 @@ package com.kikbak.rest.client.v1;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -34,6 +35,9 @@ import com.kikbak.jaxb.v1.register.RegisterUserResponse;
 import com.kikbak.jaxb.v1.register.RegisterUserResponseStatus;
 import com.kikbak.jaxb.v1.register.UserIdType;
 import com.kikbak.jaxb.v1.register.UserType;
+import com.kikbak.jaxb.v1.registerweb.RegisterWebUserRequest;
+import com.kikbak.jaxb.v1.registerweb.RegisterWebUserResponse;
+import com.kikbak.jaxb.v1.registerweb.WebUser;
 import com.kikbak.jaxb.v1.statustype.SuccessStatus;
 import com.kikbak.jaxb.v1.userlocation.UserLocationType;
 
@@ -63,6 +67,9 @@ public class UserController extends AbstractController {
 
     private static final Logger logger = Logger.getLogger(UserController.class);
 
+    public static final Pattern EMAIL_ADDRESS = Pattern.compile("[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" + "\\@"
+            + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" + "(" + "\\." + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" + ")+");
+    
     @RequestMapping(value = "/register/fb/", method = RequestMethod.POST)
     public RegisterUserResponse registerFacebookUser(@RequestBody RegisterUserRequest request,
             final HttpServletResponse httpResponse) {
@@ -105,6 +112,68 @@ public class UserController extends AbstractController {
             logger.error(e, e);
             return null;
         }
+    }
+
+    @RequestMapping(value = "/register/web", method = RequestMethod.POST)
+    public RegisterWebUserResponse registerWebUser(@RequestBody RegisterWebUserRequest request,
+            final HttpServletResponse httpResponse) {
+        try {
+            RegisterWebUserResponse response = new RegisterWebUserResponse();
+            response.setStatus(SuccessStatus.OK);
+            
+            WebUser user = request.getUser();
+            validateWebUser(user);
+            Long id = userService.registerWebUser(user.getName(), user.getEmail(), user.getPhone());
+            
+            String token = userService.getUserToken(id);            
+            Cookie cookie = new Cookie(CookieAuthenticationFilter.COOKIE_TOKEN_KEY, token);
+            if (config.getBoolean(USER_COOKIE_SECURE)) {
+                cookie.setSecure(true);
+            }
+            cookie.setPath("/");
+            cookie.setMaxAge(COOKIE_EXPIRE_TIME);
+            httpResponse.addCookie(cookie);
+
+            cookie = new Cookie(CookieAuthenticationFilter.COOKIE_USER_ID_KEY, Long.toString(id));
+            if (config.getBoolean(USER_COOKIE_SECURE)) {
+                cookie.setSecure(true);
+            }
+            cookie.setPath("/");
+            cookie.setMaxAge(COOKIE_EXPIRE_TIME);
+            httpResponse.addCookie(cookie);
+
+            return response;
+        } catch (IllegalArgumentException e) {
+            httpResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            logger.error(e, e);
+            return null;
+        } catch (Exception e) {
+            httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            logger.error(e, e);
+            return null;
+        }
+    }
+    
+    void validateWebUser(WebUser user) {
+        if (StringUtils.isEmpty(user.getName()))
+            throw new IllegalArgumentException("Name can not be empty");
+
+        if (StringUtils.isEmpty(user.getEmail()))
+            throw new IllegalArgumentException("Email can not be empty");
+
+        if (!EMAIL_ADDRESS.matcher(user.getEmail()).matches())
+            throw new IllegalArgumentException("Invalid email address:" + user.getEmail());
+
+        if (StringUtils.isEmpty(user.getPhone()))
+            throw new IllegalArgumentException("Phone can not be empty");
+
+        // get rid of all non-numeric characters
+        String phone = user.getPhone().replace("[^\\d.]", "");
+        if (StringUtils.isEmpty(phone) || phone.length() < 10)
+            throw new IllegalArgumentException("Invalid phone number:" + user.getPhone());
+
+        // replace phone number with digit only version
+        user.setPhone(phone);
     }
 
     @RequestMapping(value = "/friends/fb/{userId}", method = RequestMethod.POST)

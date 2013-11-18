@@ -1,0 +1,43 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+ 	targetNamespace="com:kikbak:jaxb:registerweb"
+	xmlns:kikbak="com:kikbak:jaxb:registerweb" 
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" 
+	xmlns:st="com:kikbak:jaxb:statustype"
+	jaxb:version="1.0">
+
+	<xsd:annotation>
+		<xsd:appinfo>
+			<jaxb:schemaBindings>
+				<jaxb:package name="com.kikbak.jaxb.v1.registerweb" />
+			</jaxb:schemaBindings>
+		</xsd:appinfo>
+	</xsd:annotation>
+	
+    <xsd:import namespace="com:kikbak:jaxb:statustype" schemaLocation="./StatusType.xsd" />
+
+	<xsd:complexType name="WebUser">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="email" type="xsd:string" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="phone" type="xsd:string" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="RegisterWebUserRequest">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="user" type="kikbak:WebUser" minOccurs="1" maxOccurs="1" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+
+	<xsd:element name="RegisterWebUserResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="status" type="st:SuccessStatus" minOccurs="1" maxOccurs="1" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+</xsd:schema>

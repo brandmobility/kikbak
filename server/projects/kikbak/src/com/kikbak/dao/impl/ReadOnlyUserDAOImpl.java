@@ -42,4 +42,16 @@ public class ReadOnlyUserDAOImpl extends ReadOnlyGenericDAOImpl<User, Long> impl
                 .setLong("offerId", offerId).setLong("userId", fromUserId).list();
         return result;
     }
+    
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public User findByManualEmail(String email) {
+        return findByCriteria(Restrictions.eq("manualEmail", email).ignoreCase());
+    }
+
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public User findByManualPhone(String phone) {
+        return findByCriteria(Restrictions.eq("manualNumber", phone));
+    }
 }
