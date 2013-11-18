@@ -178,9 +178,19 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-      MerchantLocationType location = getItem(position);
       TextView tv = (TextView) mInflater.inflate(R.layout.fragment_share_options_store_view,
           parent, false);
+      return setupView(position, tv);
+    }
+
+    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+      TextView tv = (TextView) mInflater.inflate(R.layout.fragment_share_options_store_view_drop,
+          parent, false);
+      return setupView(position, tv);
+    }
+
+    private View setupView(int position, TextView tv) {
+      MerchantLocationType location = getItem(position);
       if (location == null) {
         int color = tv.getHintTextColors().getDefaultColor();
         tv.setTextColor(color);

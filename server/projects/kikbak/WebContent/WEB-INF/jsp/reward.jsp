@@ -19,6 +19,7 @@
         <link href="css/style-mobile.css" rel="stylesheet" type="text/css" />
         </c:otherwise>
         </c:choose>
+        <link rel="shortcut icon" href="http://kikbak.me/wp-content/uploads/2013/10/fav.png">
     </head>
     <body>
         <c:choose>
@@ -28,6 +29,8 @@
             <div id="main" class="clearfix">
                 <div id="info">
                     <div class="info-header clearfix">
+                        <c:choose>
+                        <c:when test="{not empty shareInfo.fbFriendId}">
                         <img src="https://graph.facebook.com/${shareInfo.fbFriendId}/picture?width=124&height=124" class="userphoto" width="62px" height="62px" />
                         <c:choose>
                         <c:when test="${not empty shareInfo.caption}">
@@ -36,6 +39,19 @@
                         </c:when>
                         <c:otherwise>
                         <h3 style="float:left;">${shareInfo.friendName}</h3>
+                        </c:otherwise>
+                        </c:choose>
+                        </c:when>
+                        <c:otherwise>
+                        <c:choose>
+                        <c:when test="${not empty shareInfo.caption}">
+                        <h3 style="margin-top:5px;float:none;">${shareInfo.friendName}</h3>
+                        <p>${shareInfo.caption}</p>
+                        </c:when>
+                        <c:otherwise>
+                        <h3 style="float:left;margin-top:10px;">${shareInfo.friendName}</h3>
+                        </c:otherwise>
+                        </c:choose>
                         </c:otherwise>
                         </c:choose>
                     </div>
@@ -128,7 +144,7 @@
                 </c:choose>
             </div>
 
-            <div style="display:relative">
+            <div style="position:relative">
             <img src="${shareInfo.imageUrl}" width="100%" height="330px" />
             <img src="img/blk-shad.png" width="100%" height="330px" style="position:absolute;top:0;" />
             </div>
@@ -155,8 +171,10 @@
             </div>
             <div class="page-header" style="padding:0;">
                 <div class="row show-grid" style="margin:0;padding-top:22px;">
-                    <div class="col-md-4" style="padding-left:10px">
-                        <img src="https://graph.facebook.com/${shareInfo.fbFriendId}/picture?width=120&heoght=120" class="img-rounded" width="60px" />
+                    <c:choose>
+                    <c:when test="{not empty shareInfo.fbFriendId}">
+                    <div class="col-md-4" style="padding-left: 5px">
+                        <img src="https://graph.facebook.com/${shareInfo.fbFriendId}/picture?width=120&height=120" class="img-rounded" width="60px" />
                     </div>
                     <div class="col-md-8">
                         <c:choose>
@@ -169,6 +187,21 @@
                         </c:otherwise>
                         </c:choose>
                     </div>
+                    </c:when>
+                    <c:otherwise>
+                    <div class="col-md-8" style="0 0 0 10px;">
+                        <c:choose>
+                        <c:when test="${not empty shareInfo.caption}">
+                        <h3 style="color: #3a3a3a; font-size: 20px; font-weight: bold;">${shareInfo.friendName}</h3>
+                        <p>${shareInfo.caption}</p>
+                        </c:when>
+                        <c:otherwise>
+                        <h3 style="color: #3a3a3a; font-size: 20px; font-weight: bold;">${shareInfo.friendName}</h3>
+                        </c:otherwise>
+                        </c:choose>
+                    </div>
+                    </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
             <div class="page-header">
@@ -189,8 +222,7 @@
                             </a>
                         </div>
                         <p align="center" style="padding-top: 20px; font-family: HelveticaNeueLTPro-Lt; font-size: 10px;">
-                            We use Facebook to make it easy for you to share, redeem and share gifts <br/>
-                            We will never post on Facebook without your permission.
+                            We use Facebook to make it easy for you to claim and access your gift. We will never post on Facebook without your permission.
                         </p>
                     </div>
                 </div>
