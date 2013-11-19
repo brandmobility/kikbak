@@ -175,7 +175,7 @@ public class UserController extends AbstractController {
             throw new IllegalArgumentException("Phone can not be empty");
 
         // get rid of all non-numeric characters
-        String cleanedPhone = phone.replace("[^\\d.]", "");
+        String cleanedPhone = phone.replaceAll("[^\\d]", "");
         if (StringUtils.isEmpty(cleanedPhone) || cleanedPhone.length() < 10)
             throw new IllegalArgumentException("Invalid phone number:" + phone);
 
