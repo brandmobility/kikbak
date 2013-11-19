@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kikbak.client.service.impl.CookieAuthenticationFilter;
 import com.kikbak.client.service.impl.types.OfferType;
@@ -35,9 +36,7 @@ import com.kikbak.jaxb.v1.register.RegisterUserResponse;
 import com.kikbak.jaxb.v1.register.RegisterUserResponseStatus;
 import com.kikbak.jaxb.v1.register.UserIdType;
 import com.kikbak.jaxb.v1.register.UserType;
-import com.kikbak.jaxb.v1.registerweb.RegisterWebUserRequest;
 import com.kikbak.jaxb.v1.registerweb.RegisterWebUserResponse;
-import com.kikbak.jaxb.v1.registerweb.WebUser;
 import com.kikbak.jaxb.v1.statustype.SuccessStatus;
 import com.kikbak.jaxb.v1.userlocation.UserLocationType;
 
@@ -114,18 +113,20 @@ public class UserController extends AbstractController {
         }
     }
 
-    @RequestMapping(value = "/register/web", method = RequestMethod.POST)
-    public RegisterWebUserResponse registerWebUser(@RequestBody RegisterWebUserRequest request,
+    @RequestMapping(value = "/register/web", method = RequestMethod.GET)
+    public RegisterWebUserResponse registerWebUserGet(@RequestParam("name") String name,
+            @RequestParam("email") String email, @RequestParam("phone") String phone,
             final HttpServletResponse httpResponse) {
         try {
+            name = validateWebUserName(name);
+            email = validateWebUserEmail(email);
+            phone = validateWebUserPhone(phone);
+            
             RegisterWebUserResponse response = new RegisterWebUserResponse();
             response.setStatus(SuccessStatus.OK);
-            
-            WebUser user = request.getUser();
-            validateWebUser(user);
-            Long id = userService.registerWebUser(user.getName(), user.getEmail(), user.getPhone());
-            
-            String token = userService.getUserToken(id);            
+            Long id = userService.registerWebUser(name, email, phone);
+
+            String token = userService.getUserToken(id);
             Cookie cookie = new Cookie(CookieAuthenticationFilter.COOKIE_TOKEN_KEY, token);
             if (config.getBoolean(USER_COOKIE_SECURE)) {
                 cookie.setSecure(true);
@@ -153,27 +154,32 @@ public class UserController extends AbstractController {
             return null;
         }
     }
-    
-    void validateWebUser(WebUser user) {
-        if (StringUtils.isEmpty(user.getName()))
-            throw new IllegalArgumentException("Name can not be empty");
 
-        if (StringUtils.isEmpty(user.getEmail()))
+    private String validateWebUserName(String name) {
+        if (StringUtils.isEmpty(name))
+            throw new IllegalArgumentException("Name can not be empty");
+        return name;
+    }
+
+    private String validateWebUserEmail(String email) {
+        if (StringUtils.isEmpty(email))
             throw new IllegalArgumentException("Email can not be empty");
 
-        if (!EMAIL_ADDRESS.matcher(user.getEmail()).matches())
-            throw new IllegalArgumentException("Invalid email address:" + user.getEmail());
+        if (!EMAIL_ADDRESS.matcher(email).matches())
+            throw new IllegalArgumentException("Invalid email address:" + email);
+        return email;
+    }
 
-        if (StringUtils.isEmpty(user.getPhone()))
+    private String validateWebUserPhone(String phone) {
+        if (StringUtils.isEmpty(phone))
             throw new IllegalArgumentException("Phone can not be empty");
 
         // get rid of all non-numeric characters
-        String phone = user.getPhone().replace("[^\\d.]", "");
-        if (StringUtils.isEmpty(phone) || phone.length() < 10)
-            throw new IllegalArgumentException("Invalid phone number:" + user.getPhone());
+        String cleanedPhone = phone.replace("[^\\d.]", "");
+        if (StringUtils.isEmpty(cleanedPhone) || cleanedPhone.length() < 10)
+            throw new IllegalArgumentException("Invalid phone number:" + phone);
 
-        // replace phone number with digit only version
-        user.setPhone(phone);
+        return cleanedPhone;
     }
 
     @RequestMapping(value = "/friends/fb/{userId}", method = RequestMethod.POST)
