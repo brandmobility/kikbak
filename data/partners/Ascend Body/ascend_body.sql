@@ -1,5 +1,5 @@
 #set @server="https://m.kikbak.me";
-set @server="https://test.kikbak.me";
+#set @server="https://test.kikbak.me";
 
 #Childrens Place
 
