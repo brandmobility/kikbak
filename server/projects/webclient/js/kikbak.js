@@ -584,6 +584,14 @@ function renderOfferList(json, tagname, tag, force) {
 }
 
 function getOffersByMerchant(merchant) {
+  initPosition(function() {
+    getOffersByMerchantWithLocation(merchant);
+  }, function() {
+    getOffersByMerchantWithLocation(merchant);
+  });
+}
+
+function getOffersByMerchantWithLocation(merchant) {
   $.ajax({
     dataType: 'json',
     type: 'GET',
