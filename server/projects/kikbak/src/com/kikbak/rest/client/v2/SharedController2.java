@@ -26,18 +26,19 @@ public class SharedController2 {
 	@Autowired
 	private SharedExperienceService sharedService;
 	
-	@RequestMapping(value = "/getstories/{userId}/{offerId}/{platform}/{imageUrl}/", method = RequestMethod.GET)
+	@RequestMapping(value = "/getstories/{userId}/{offerId}/{platform}/{imageUrl}/{email}/{phonenumber}/", method = RequestMethod.GET)
 	public StoriesResponse getStories(@PathVariable("userId") Long userId, 
 			@PathVariable("offerId") Long offerId,
 			@PathVariable("platform") String platform,
 			@PathVariable("imageUrl") String imageUrl,
+			@PathVariable("email") String email,
+			@PathVariable("phonenumber") String phonenumber,
 			final HttpServletResponse httpResponse) {
 
         try {
         	StoriesResponse response = new StoriesResponse();
-        	List<StoryType> stories = new ArrayList<StoryType>();
-        	sharedService.getShareStories(userId, offerId, URLDecoder.decode(imageUrl, "UTF-8"), platform, stories);
-        	response.getStories().addAll(stories);
+        	sharedService.getShareStories(userId, offerId, URLDecoder.decode(imageUrl, "UTF-8"), platform, 
+        				URLDecoder.decode(email, "UTF-8"), phonenumber, response);
         	return response;
         } catch (Exception e) {
             logger.error("cannot generate barcode", e);

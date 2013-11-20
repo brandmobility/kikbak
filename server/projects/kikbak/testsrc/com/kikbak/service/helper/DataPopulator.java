@@ -76,7 +76,7 @@ public class DataPopulator {
 			User user = new User();
 			user.setCreateDate(new Date());
 			user.setEmail("test@test.com");
-			user.setFacebookId(i);
+			user.setFacebookId((long)i);
 			user.setFirstName("test");
 			user.setGender((byte)0);
 			//user.setId(baseUserId + i);

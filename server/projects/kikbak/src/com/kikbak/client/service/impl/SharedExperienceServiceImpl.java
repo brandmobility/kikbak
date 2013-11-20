@@ -28,6 +28,7 @@ import com.kikbak.dto.Offer;
 import com.kikbak.dto.Shared;
 import com.kikbak.jaxb.v1.share.SharedType;
 import com.kikbak.jaxb.v2.share.ChannelType;
+import com.kikbak.jaxb.v2.share.StoriesResponse;
 import com.kikbak.jaxb.v2.share.StoryType;
 import com.kikbak.push.service.PushNotifier;
 
@@ -71,14 +72,16 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
     
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public void getShareStories(Long userId, Long offerId, String imageUrl, String platform, List<StoryType> stories) throws ReferralCodeUniqueException{
+    public void getShareStories(Long userId, Long offerId, String imageUrl, String platform, 
+    					String email, String phonenumber, StoriesResponse response) throws ReferralCodeUniqueException{
     	int maxLength = config.getInt(RANDOM_SECRET_LENGTH, DEFAULT_RANDOM_SECRET_LENGTH);
     	String referralCode = generateReferralCode(maxLength);
-    	persistStory(userId, offerId, imageUrl, referralCode);
+    	response.setCode(referralCode);
+    	persistStory(userId, offerId, imageUrl, email, phonenumber, referralCode);
     	for( ChannelType type : ChannelType.values()){
     		StoryType story = new StoryType();
     		fillInStory(story, type, platform, referralCode, offerId, imageUrl);
-    		stories.add(story);
+    		response.getStories().add(story);
     	}
     }
     
@@ -110,6 +113,7 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
             }
         }
         story.setLandingUrl(loginUrl);
+        story.setType(type);
     }
     
     
@@ -214,7 +218,7 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
 		rwSharedDao.save(shared);
 	}
     
-    protected void persistStory(Long userId, Long offerId, String imageUrl, String referralCode)
+    protected void persistStory(Long userId, Long offerId, String imageUrl, String email, String phonenumber, String referralCode)
     		throws ReferralCodeUniqueException {
     	
     	Offer offer = roOfferDAO.findById(offerId);
@@ -225,6 +229,8 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
 		shared.setImageUrl(imageUrl);
 		shared.setUserId(userId);
 		shared.setType("web");
+		shared.setEmail(email);
+		shared.setPhonenumber(phonenumber);
 		shared.setSharedDate(new Date());
 		shared.setReferralCode(referralCode);
 		

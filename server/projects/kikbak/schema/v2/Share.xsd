@@ -39,6 +39,7 @@
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element name="stories" type="kikbak:StoryType" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element name="code" type="xsd:string" minOccurs="1" maxOccurs="1" />
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>

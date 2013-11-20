@@ -46,6 +46,7 @@
                 <value>com.kikbak.jaxb.v1.rewards</value>
                 <value>com.kikbak.jaxb.v1.share</value>
                 <value>com.kikbak.jaxb.v2.offer</value>
+                <value>com.kikbak.jaxb.v2.share</value>
             </list>
         </property>
     </bean>
