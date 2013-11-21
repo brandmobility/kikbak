@@ -15,6 +15,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kikbak.client.service.impl.types.GenderType;
+import com.kikbak.client.service.v1.FbLoginException;
+import com.kikbak.client.service.v1.FbLoginService;
+import com.kikbak.client.service.v1.FbUserLimitException;
 import com.kikbak.client.service.v2.UserService2;
 import com.kikbak.config.ContextUtil;
 import com.kikbak.dao.ReadOnlyDeviceTokenDAO;
@@ -41,7 +44,6 @@ import com.kikbak.dto.User2friend;
 import com.kikbak.dto.UserToken;
 import com.kikbak.jaxb.v1.devicetoken.DeviceTokenType;
 import com.kikbak.jaxb.v1.merchantlocation.MerchantLocationType;
-import com.kikbak.jaxb.v1.register.UserIdType;
 import com.kikbak.jaxb.v1.register.UserType;
 import com.kikbak.jaxb.v1.userlocation.UserLocationType;
 import com.kikbak.jaxb.v2.offer.ClientOfferType;
@@ -52,111 +54,148 @@ import com.kikbak.location.GeoFence;
 @Service
 public class UserServiceImpl implements UserService2 {
 
-	private static PropertiesConfiguration config = ContextUtil.getBean("staticPropertiesConfiguration", PropertiesConfiguration.class);
-	
-//	private static final Logger logger = Logger.getLogger(UserServiceImpl.class);
-	
-	@Autowired
-	ReadOnlyUserDAO roUserDao;
-	
-	@Autowired
-	ReadWriteUserDAO rwUserDao;
-	
-	@Autowired
-	ReadOnlyUserTokenDAO roUserTokenDao;
+    private static PropertiesConfiguration config = ContextUtil.getBean("staticPropertiesConfiguration",
+            PropertiesConfiguration.class);
 
-	@Autowired
-	ReadWriteUserTokenDAO rwUserTokenDao;
-	
-	@Autowired
-	ReadOnlyUser2FriendDAO roU2FDao;
-	
-	@Autowired
-	ReadWriteUser2FriendDAO rwU2FDao;
-	
-	@Autowired
-	ReadOnlyGiftDAO roGiftDao;
-	
-	@Autowired
-	ReadOnlyKikbakDAO roKikbakDao;
-	
-	@Autowired
-	ReadOnlyOfferDAO roOfferDao;
-	
-	@Autowired
-	ReadOnlyLocationDAO roLocationDao;
-	
-	@Autowired
-	ReadOnlyDeviceTokenDAO roDeviceTokenDao;
-	
-	@Autowired
-	ReadWriteDeviceTokenDAO rwDeviceTokenDao;
-	
-	@Autowired
-	ReadOnlyMerchantDAO roMerchantDao;
-	
-	@Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public UserIdType registerUser(UserType userType) {
-		User user = findOrCreateUser(userType);
-		user.setCreateDate(new Date());
-		user.setEmail(userType.getEmail());
-		user.setFirstName(userType.getFirstName());
-		byte gender = 0;
-		if( userType.getGender().compareToIgnoreCase(GenderType.female.name()) == 0 ){
-			gender = 1;
-		}
-		user.setGender(gender);
-		user.setLastName(userType.getLastName());
-		user.setUpdateDate(null);
-		user.setFacebookId(userType.getId());
-		
-		
-		rwUserDao.makePersistent(user);
-		UserIdType userId = new UserIdType();
-		userId.setUserId(user.getId());
-		
-		return userId;
-	}
-	
+    private static final String USER_FRIENDS_MINIMUM_COUNT = "user.friends.minimum.count";
+
+    // private static final Logger logger = Logger.getLogger(UserServiceImpl.class);
+
+    @Autowired
+    ReadOnlyUserDAO roUserDao;
+
+    @Autowired
+    ReadWriteUserDAO rwUserDao;
+
+    @Autowired
+    ReadOnlyUserTokenDAO roUserTokenDao;
+
+    @Autowired
+    ReadWriteUserTokenDAO rwUserTokenDao;
+
+    @Autowired
+    ReadOnlyUser2FriendDAO roU2FDao;
+
+    @Autowired
+    ReadWriteUser2FriendDAO rwU2FDao;
+
+    @Autowired
+    ReadOnlyGiftDAO roGiftDao;
+
+    @Autowired
+    ReadOnlyKikbakDAO roKikbakDao;
+
+    @Autowired
+    ReadOnlyOfferDAO roOfferDao;
+
+    @Autowired
+    ReadOnlyLocationDAO roLocationDao;
+
+    @Autowired
+    ReadOnlyDeviceTokenDAO roDeviceTokenDao;
+
+    @Autowired
+    ReadWriteDeviceTokenDAO rwDeviceTokenDao;
+
+    @Autowired
+    ReadOnlyMerchantDAO roMerchantDao;
+
+    @Autowired
+    private FbLoginService fbLoginService;
+
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public Long registerWebUser(String name, String email, String phone) {
-        User user = findOrCreateWebUser(name, email, phone);
-        user.setCreateDate(new Date());
+    public long registerFbUser(String accessToken, String phone) throws FbUserLimitException, FbLoginException {
+        UserType fbUser = fbLoginService.getUserInfo(accessToken);
+
+        // check if has enough friends
+        Collection<Long> friends = fbLoginService.getFriends(accessToken);
+        if (friends.size() < config.getInt(USER_FRIENDS_MINIMUM_COUNT)) {
+            String msg = "User " + fbUser.getId() + " has too few friends: " + friends.size();
+            throw new FbUserLimitException(msg);
+        }
+
+        // get existing user or create a new user
+        User user = roUserDao.findByFacebookId(fbUser.getId());
+        if (user == null) {
+            user = new User();
+            user.setCreateDate(new Date());
+        }
+
+        // update user information
+        populate(user, fbUser);
+        if (!StringUtils.isEmpty(phone)) {
+            user.setManualNumber(phone);
+        }
+        user.setUpdateDate(new Date());
+        rwUserDao.makePersistent(user);
+
+        // update list of friends
+        updateFriendsList(user.getId(), friends);
+
+        return user.getId();
+    }
+
+    // Copy information from FB to internal database user type
+    private void populate(User user, UserType fbUser) {
+        user.setFirstName(fbUser.getFirstName());
+        user.setLastName(fbUser.getLastName());
+        user.setFacebookId(fbUser.getId());
+        user.setEmail(fbUser.getEmail());
+        user.setGender((byte) (fbUser.getGender().compareToIgnoreCase(GenderType.female.name()) == 0 ? 1 : 0));
+    }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public long registerWebUser(String name, String email, String phone) {
+        User user = roUserDao.findByManualPhone(phone);
+        if (user == null) {
+            user = new User();
+            user.setCreateDate(new Date());
+        }
+
+        user.setManualName(name);
+        user.setManualNumber(phone);
+        user.setManualEmail(email);
+        user.setUpdateDate(new Date());
+
         rwUserDao.makePersistent(user);
         return user.getId();
     }
 
-	@Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public String getUserToken(long userId) {
-		UserToken token = roUserTokenDao.findByUserId(userId);
-		if( token == null ){
-			token = new UserToken();
-			token.setUserId(userId);
-			token.setToken(generateRandomToken());
-			rwUserTokenDao.makePersistent(token);
-		}
-		return token.getToken();
-	}
-	
-	@Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public boolean verifyUserToken(long userId, String token) {
-		UserToken userToken = roUserTokenDao.findByUserId(userId);
-		if( token != null ){
-			if (StringUtils.equals(token, userToken.getToken())) {
-				return true;
-			}
-		}
-		return false;
-	}
-
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public String getUserToken(long userId) {
+        UserToken token = roUserTokenDao.findByUserId(userId);
+        if (token == null) {
+            token = new UserToken();
+            token.setUserId(userId);
+            token.setToken(generateRandomToken());
+            rwUserTokenDao.makePersistent(token);
+        }
+        return token.getToken();
+    }
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public void updateFriendsList(final long userId, final Collection<Long> friends) {
+    public boolean verifyUserToken(long userId, String token) {
+        UserToken userToken = roUserTokenDao.findByUserId(userId);
+        if (token != null) {
+            if (StringUtils.equals(token, userToken.getToken())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void updateFriendsList(long userId, String accessToken) throws FbLoginException {
+        Collection<Long> friends = fbLoginService.getFriends(accessToken);
+        updateFriendsList(userId, friends);
+    }
+
+    private void updateFriendsList(final long userId, final Collection<Long> friends) {
         // delete old
         Collection<Long> friendsToDelete = roU2FDao.listFriendsToDelete(userId, friends);
         if (friendsToDelete.size() != 0) {
@@ -179,8 +218,8 @@ public class UserServiceImpl implements UserService2 {
             rwU2FDao.batchInsert(friendAssociations);
         }
     }
-     
-	@Override
+
+    @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public Collection<ClientOfferType> hasOffers2(UserLocationType userLocation) {
         Coordinate origin = new Coordinate(userLocation.getLatitude(), userLocation.getLongitude());
@@ -196,173 +235,146 @@ public class UserServiceImpl implements UserService2 {
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public Collection<ClientOfferType> getOffers2(Long userId,
-            UserLocationType userLocation) {
-        
+    public Collection<ClientOfferType> getOffers2(Long userId, UserLocationType userLocation) {
+
         Coordinate origin = new Coordinate(userLocation.getLatitude(), userLocation.getLongitude());
         GeoFence fence = GeoBoundaries.getGeoFence(origin, config.getDouble("geo.fence.distance"));
         return getOffersByLocation(fence);
     }
 
-	private Collection<ClientOfferType> getOffersByMerchant(String merchantName) {
+    private Collection<ClientOfferType> getOffersByMerchant(String merchantName) {
         Merchant merchant = roMerchantDao.findByName(merchantName);
         if (merchant == null) {
             return Collections.emptyList();
         }
-		Collection<Offer> offers = roOfferDao.listOffers(merchant);
-		Collection<ClientOfferType> ots = new ArrayList<ClientOfferType>(offers.size());
-		for(Offer offer : offers){
-		    Gift gift = roGiftDao.findByOfferId(offer.getId());
-		    Kikbak kikbak = roKikbakDao.findByOfferId(offer.getId());
-			ClientOfferType ot = new ClientOfferType();
-			ot.setBeginDate(offer.getBeginDate().getTime());
-			ot.setEndDate(offer.getEndDate().getTime());
-			ot.setId(offer.getId());
-			ot.setName(offer.getName());
-			ot.setOfferType(offer.getOfferType());
-			ot.setTosUrl(offer.getTosUrl());
-			ot.setGiftDesc(gift.getDescription());
-			ot.setGiftDetailedDesc(gift.getDetailedDesc());
-			ot.setGiftValue(gift.getValue());
-			ot.setGiftDiscountType(gift.getDiscountType());
-			if(kikbak != null) {
-			    ot.setKikbakDesc(kikbak.getDescription());
-			    ot.setKikbakDetailedDesc(kikbak.getDetailedDesc());
-			    ot.setKikbakValue(kikbak.getValue());
-			}
-			ot.setOfferImageUrl(offer.getImageUrl());
-			ot.setMerchantId(offer.getMerchantId());
-			ot.setMerchantLogoUrl(merchant.getImageUrl());
-			ot.setGiveImageUrl(gift.getImageUrl());
-			
-			ot.setMerchantName(merchant.getName());
-			ot.setMerchantUrl(merchant.getUrl());
-			
-			Collection<Location> locations = roLocationDao.listByMerchant(offer.getMerchantId());
-			for( Location location: locations){
-			    MerchantLocationType ml = new MerchantLocationType();
-				ml.setLocationId(location.getId());
-				ml.setSiteName(location.getSiteName());
-				ml.setAddress1(location.getAddress1());
-				ml.setAddress2(location.getAddress2());
-				ml.setCity(location.getCity());
-				ml.setState(location.getState());
-				ml.setZipcode(String.valueOf(location.getZipcode()));
-				ml.setZip4(location.getZipPlusFour());
-				ml.setLatitude(location.getLatitude());
-				ml.setLongitude(location.getLongitude());
-				ml.setPhoneNumber(location.getPhoneNumber());
-				ot.getLocations().add(ml);
-			}
+        Collection<Offer> offers = roOfferDao.listOffers(merchant);
+        Collection<ClientOfferType> ots = new ArrayList<ClientOfferType>(offers.size());
+        for (Offer offer : offers) {
+            Gift gift = roGiftDao.findByOfferId(offer.getId());
+            Kikbak kikbak = roKikbakDao.findByOfferId(offer.getId());
+            ClientOfferType ot = new ClientOfferType();
+            ot.setBeginDate(offer.getBeginDate().getTime());
+            ot.setEndDate(offer.getEndDate().getTime());
+            ot.setId(offer.getId());
+            ot.setName(offer.getName());
+            ot.setOfferType(offer.getOfferType());
+            ot.setTosUrl(offer.getTosUrl());
+            ot.setGiftDesc(gift.getDescription());
+            ot.setGiftDetailedDesc(gift.getDetailedDesc());
+            ot.setGiftValue(gift.getValue());
+            ot.setGiftDiscountType(gift.getDiscountType());
+            if (kikbak != null) {
+                ot.setKikbakDesc(kikbak.getDescription());
+                ot.setKikbakDetailedDesc(kikbak.getDetailedDesc());
+                ot.setKikbakValue(kikbak.getValue());
+            }
+            ot.setOfferImageUrl(offer.getImageUrl());
+            ot.setMerchantId(offer.getMerchantId());
+            ot.setMerchantLogoUrl(merchant.getImageUrl());
+            ot.setGiveImageUrl(gift.getImageUrl());
+
+            ot.setMerchantName(merchant.getName());
+            ot.setMerchantUrl(merchant.getUrl());
+
+            Collection<Location> locations = roLocationDao.listByMerchant(offer.getMerchantId());
+            for (Location location : locations) {
+                MerchantLocationType ml = new MerchantLocationType();
+                ml.setLocationId(location.getId());
+                ml.setSiteName(location.getSiteName());
+                ml.setAddress1(location.getAddress1());
+                ml.setAddress2(location.getAddress2());
+                ml.setCity(location.getCity());
+                ml.setState(location.getState());
+                ml.setZipcode(String.valueOf(location.getZipcode()));
+                ml.setZip4(location.getZipPlusFour());
+                ml.setLatitude(location.getLatitude());
+                ml.setLongitude(location.getLongitude());
+                ml.setPhoneNumber(location.getPhoneNumber());
+                ot.getLocations().add(ml);
+            }
             ot.setHasEmployeeProgram(offer.getHasEmployeeProgram() != 0);
             ot.setMapUri(offer.getAuth());
             ot.setAuth(offer.getAuth());
-			
-			ots.add(ot);
-		}
-		
-		return ots;
-	}
 
-	private Collection<ClientOfferType> getOffersByLocation(GeoFence fence) {
-		Collection<Offer> offers = roOfferDao.listValidOffersInGeoFence(fence);
-		Collection<ClientOfferType> ots = new ArrayList<ClientOfferType>(offers.size());
-		for(Offer offer : offers){
-		    Gift gift = roGiftDao.findByOfferId(offer.getId());
-		    Kikbak kikbak = roKikbakDao.findByOfferId(offer.getId());
-			ClientOfferType ot = new ClientOfferType();
-			ot.setBeginDate(offer.getBeginDate().getTime());
-			ot.setEndDate(offer.getEndDate().getTime());
-			ot.setId(offer.getId());
-			ot.setName(offer.getName());
-			ot.setOfferType(offer.getOfferType());
-			ot.setTosUrl(offer.getTosUrl());
-			ot.setGiftDesc(gift.getDescription());
-			ot.setGiftDetailedDesc(gift.getDetailedDesc());
-			ot.setGiftValue(gift.getValue());
-			ot.setGiftDiscountType(gift.getDiscountType());
-			if(kikbak != null) {
-			    ot.setKikbakDesc(kikbak.getDescription());
-			    ot.setKikbakDetailedDesc(kikbak.getDetailedDesc());
-			    ot.setKikbakValue(kikbak.getValue());
-			}
-			ot.setOfferImageUrl(offer.getImageUrl());
-			ot.setMerchantId(offer.getMerchantId());
-			ot.setGiveImageUrl(gift.getImageUrl());
-			
-			Merchant merchant = roMerchantDao.findById(offer.getMerchantId());
-			ot.setMerchantName(merchant.getName());
-			ot.setMerchantUrl(merchant.getUrl());
-			
-			Collection<Location> locations = roLocationDao.listForMerchantInGeoFence(offer.getMerchantId(), fence);
-			for( Location location: locations){
-			    MerchantLocationType ml = new MerchantLocationType();
-				ml.setLocationId(location.getId());
-				ml.setSiteName(location.getSiteName());
-				ml.setAddress1(location.getAddress1());
-				ml.setAddress2(location.getAddress2());
-				ml.setCity(location.getCity());
-				ml.setState(location.getState());
-				ml.setZipcode(String.valueOf(location.getZipcode()));
-				ml.setZip4(location.getZipPlusFour());
-				ml.setLatitude(location.getLatitude());
-				ml.setLongitude(location.getLongitude());
-				ml.setPhoneNumber(location.getPhoneNumber());
-				ot.getLocations().add(ml);
-			}
-			ot.setHasEmployeeProgram(offer.getHasEmployeeProgram() != 0);
-			ot.setMapUri(offer.getAuth());
-			ot.setAuth(offer.getAuth());
-
-			ots.add(ot);
-		}
-		
-		return ots;
-	}
-
-	@Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public void persistDeviceToken(Long userId, DeviceTokenType deviceToken) {
-		Devicetoken token = roDeviceTokenDao.findByUserId(userId);
-		if( token == null ){
-			token = new Devicetoken();
-		}
-		
-		token.setToken(deviceToken.getToken());
-		token.setPlatformType(deviceToken.getPlatformId());
-		token.setLastUpdateTime(new Date());
-		token.setUserId(userId);
-		
-		rwDeviceTokenDao.makePersistent(token);
-	}
-	
-	private User findOrCreateUser(UserType userType){
-		User user = roUserDao.findByFacebookId(userType.getId());
-		if( user == null ){
-			user = new User();
-		}
-		
-		return user;
-	}
-	
-    private User findOrCreateWebUser(String name, String email, String phone) {
-        User user = roUserDao.findByManualPhone(phone);
-
-        if (user == null) {
-            user = roUserDao.findByManualEmail(email);
+            ots.add(ot);
         }
 
-        if (user == null) {
-            user = new User();
-            user.setManualName(name);
-            user.setManualNumber(phone);
-            user.setManualEmail(email);
-        }
-
-        return user;
+        return ots;
     }
-	
-	private String generateRandomToken() {
+
+    private Collection<ClientOfferType> getOffersByLocation(GeoFence fence) {
+        Collection<Offer> offers = roOfferDao.listValidOffersInGeoFence(fence);
+        Collection<ClientOfferType> ots = new ArrayList<ClientOfferType>(offers.size());
+        for (Offer offer : offers) {
+            Gift gift = roGiftDao.findByOfferId(offer.getId());
+            Kikbak kikbak = roKikbakDao.findByOfferId(offer.getId());
+            ClientOfferType ot = new ClientOfferType();
+            ot.setBeginDate(offer.getBeginDate().getTime());
+            ot.setEndDate(offer.getEndDate().getTime());
+            ot.setId(offer.getId());
+            ot.setName(offer.getName());
+            ot.setOfferType(offer.getOfferType());
+            ot.setTosUrl(offer.getTosUrl());
+            ot.setGiftDesc(gift.getDescription());
+            ot.setGiftDetailedDesc(gift.getDetailedDesc());
+            ot.setGiftValue(gift.getValue());
+            ot.setGiftDiscountType(gift.getDiscountType());
+            if (kikbak != null) {
+                ot.setKikbakDesc(kikbak.getDescription());
+                ot.setKikbakDetailedDesc(kikbak.getDetailedDesc());
+                ot.setKikbakValue(kikbak.getValue());
+            }
+            ot.setOfferImageUrl(offer.getImageUrl());
+            ot.setMerchantId(offer.getMerchantId());
+            ot.setGiveImageUrl(gift.getImageUrl());
+
+            Merchant merchant = roMerchantDao.findById(offer.getMerchantId());
+            ot.setMerchantName(merchant.getName());
+            ot.setMerchantUrl(merchant.getUrl());
+
+            Collection<Location> locations = roLocationDao.listForMerchantInGeoFence(offer.getMerchantId(), fence);
+            for (Location location : locations) {
+                MerchantLocationType ml = new MerchantLocationType();
+                ml.setLocationId(location.getId());
+                ml.setSiteName(location.getSiteName());
+                ml.setAddress1(location.getAddress1());
+                ml.setAddress2(location.getAddress2());
+                ml.setCity(location.getCity());
+                ml.setState(location.getState());
+                ml.setZipcode(String.valueOf(location.getZipcode()));
+                ml.setZip4(location.getZipPlusFour());
+                ml.setLatitude(location.getLatitude());
+                ml.setLongitude(location.getLongitude());
+                ml.setPhoneNumber(location.getPhoneNumber());
+                ot.getLocations().add(ml);
+            }
+            ot.setHasEmployeeProgram(offer.getHasEmployeeProgram() != 0);
+            ot.setMapUri(offer.getAuth());
+            ot.setAuth(offer.getAuth());
+
+            ots.add(ot);
+        }
+
+        return ots;
+    }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void persistDeviceToken(Long userId, DeviceTokenType deviceToken) {
+        Devicetoken token = roDeviceTokenDao.findByUserId(userId);
+        if (token == null) {
+            token = new Devicetoken();
+        }
+
+        token.setToken(deviceToken.getToken());
+        token.setPlatformType(deviceToken.getPlatformId());
+        token.setLastUpdateTime(new Date());
+        token.setUserId(userId);
+
+        rwDeviceTokenDao.makePersistent(token);
+    }
+
+    private String generateRandomToken() {
         return new BigInteger(130, new SecureRandom()).toString(Character.MAX_RADIX);
-	}
+    }
 }
