@@ -45,15 +45,6 @@ public class UserServiceTest extends KikbakBaseTest{
 	MerchantService merchantService;
 	
 	@Test
-	public void testRegisterUser(){
-		UserType ut = generateUserType();		
-		UserIdType uit = service.registerUser(ut);
-		User user = roUserDao.findByFacebookId(12345L);
-		assertTrue(user != null);
-		assertEquals(uit.getUserId(), user.getId());
-	}
-	
-	@Test
 	@Ignore("This test relies on fb token")
 	public void testUpdateNewFriends(){
 		Collection<FriendType> fts = generateFriends(2);
