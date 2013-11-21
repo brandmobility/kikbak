@@ -131,10 +131,12 @@ strong{
     margin: 0 auto 66px;
 }
 #info{
+    width: 360px;
+    float: left;
+}
+#info-background{
     margin-top:80px;
     padding: 10px;
-    width: 340px;
-    float: left;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
     border-radius: 10px;
@@ -146,6 +148,7 @@ strong{
     -webkit-box-shadow: 0 2px 4px rgba(1,1,1,.25);
     box-shadow: 0 2px 4px rgba(1,1,1,.25);
 }
+
 #info .info-header{
     margin-bottom: 10px;
 }
@@ -247,7 +250,15 @@ strong{
     color: #666;
     font-size: 12px;
 }
-
+#instruction p {
+    margin: 20px 10px 0 10px;
+}
+#program_name p {
+    text-align: center;
+    font-size: 30px;
+    margin-top: 15px;
+    font-weight: bold;
+}
 #main-right{
     margin-top: 0px;
     width:540px;
@@ -269,7 +280,6 @@ strong{
     display:block;
 }
 #main-right #ribbon{
-    margin-top: 40px;
     color:#FFF;
     width:540px;
     height: 66px;
@@ -437,4 +447,31 @@ strong{
                 url('../images/spinner.gif') 
                 50% 50% 
                 no-repeat;
+}
+#btn-container input {
+    width: 84%;
+    height: 25px;
+    margin: 3px 0 3px 25px;
+    font-size: 14px;
+}
+#btn-container textarea {
+    width: 84%;
+    height: 70px;
+    margin: 3px 0 3px 25px;
+    font-size: 14px;
+}
+#btn-container #share-btn-div {
+    width: 100%;
+    margin-top: 20px;
+    text-align: center;
+}
+#btn-container #share-btn {
+    margin: 0 auto 70px auto;
+    font-size: 16px;
+}
+button :disable {
+    opacity: 0.4;
+}
+input[type="button"]:disabled {
+    opacity: 0.4;
 }

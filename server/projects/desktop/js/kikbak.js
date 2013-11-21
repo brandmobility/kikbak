@@ -24,12 +24,63 @@ if (window.mobilecheck()) {
   }
 }
 
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-45251651-1');
+ga('send', 'pageview');
+
 var config = {
   backend: '',
   appId: 493383324061333
 };
 
 var s = (Storage) ? localStorage : {};
+
+var merchantCustom = {
+  verizon: {
+    instruction: "NOTE to participants in this program you must be a current Verizon customer with your billing address in one of the following states: VA, NC, SC, GA, GL, LA, TX, KY, AL, LS, MS, AR, AS. If your billing address is not in a qualifying state you are not eligible to earn rewards.",
+    program_name: "Southern States Referral Program"
+  },
+  all: {
+    program_name: "Refer your friend"
+  }
+};
+
+var authType = {
+  facebook: {
+    login_div: '<a id="loginFb" href="#">' +
+                 '<img src="images/fb-btn-new.png" width="258" height="55" style="margin: 0 auto;">' + 
+               '</a>',
+    phone_div: ''
+  },
+  phone: {
+    login_div: '<div style="width:50%;float:left;margin-top:5px">' +
+                 '<input id="username-input" type="text" class="required" name="username" placeholder="Name">' +
+                 '<input id="email-input" type="email" class="required" name="email" placeholder="Email">' +
+               '</div><div style="width:50%;float:left;margin-top:10px;">' +
+                 '<p>OR</p>' +
+                 '<a id="loginFb" href="#">' + 
+                   '<img src="images/fb-btn-new.png" width="220" height="40">' +
+                 '</a>' +
+               '</div>',
+    phone_div: '<input id="phone-input" type="tel" class="required" name="phone" placeholder="Your Verizon phone number" />'
+
+  },
+  none: {
+    login_div: '<div style="width:50%;float:left;margin-top:5px;">' +
+                 '<input id="username-input" class="required" type="text" name="username" placeholder="Name">' +
+                 '<input id="email-input" class="required" type="email" name="email" placeholder="Email">' +
+               '</div><div style="width:50%;margin-top:5px;float:left">' +
+                 '<p>OR</p>' +
+                 '<a id="loginFb" href="#">' + 
+                   '<img src="images/fb-btn-new.png" width="220" height="40">' +
+                 '</a>' +
+               '</div>',
+    phone_div: ''
+  }
+};
 
 $(document).ready(function() {
   $('body').show();
@@ -69,7 +120,29 @@ $(document).ready(function() {
     js.src="https://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs);
     return window.twttr || (t = { _e: [], ready: function(f){ t._e.push(f) } }); 
   }(document, "script", "twitter-wjs"));
+
 });
+
+function onInput() {
+  var valid = true;
+  $('.required').each(function() {
+    var value = $(this).val();
+    if ($(this).attr('type') === 'tel') {
+      if (value.replace(/^\d/g, "") === '') {
+        valid = false;
+      }
+    } else {
+      if (value.replace(/^\s+|\s+$/g, '') === '') {
+        valid = false;
+      }
+    }
+  });
+  if (valid) {
+    $('#share-btn').removeAttr('disabled');
+  } else {
+    $('#share-btn').attr('disabled', 'disabled');
+  }
+}
 
 function showError() {
   alert("Service is unavailable. Please try again later.");
@@ -105,6 +178,11 @@ function connectFb(resp) {
   var req = {};
   req['RegisterUserRequest'] = data;
   var str = JSON.stringify(req);
+
+  $('#username-input').removeClass('required');
+  $('#email-input').removeClass('required');
+  $('#login_div').hide();
+  onInput();
 
   $.ajax({
     dataType: 'json',
@@ -192,6 +270,11 @@ function getOffersByMerchant(merchant) {
   		cannotFindOffer();
   	  }
       s.offerDetail = escape(JSON.stringify(offers[0]));
+      var custom = merchantCustom.all;
+      if (merchantCustom.hasOwnProperty(merchant.toLowerCase())) {
+        custom = merchantCustom[merchant.toLowerCase()];
+      }
+      s.merchantCustom = escape(JSON.stringify(custom));
   	  history.pushState({}, 'merchant-offer-detail', '#merchant-' + merchant + '-offer');
       initPage();
     },
@@ -205,7 +288,11 @@ function getOfferDetail() {
   // s.userId;
   if (typeof userId !== 'undefined' && userId !== null && userId !== '') {
     var offer = jQuery.parseJSON(unescape(s.offerDetail));
-    renderOfferDetail(offer);
+    var merchantCustom = jQuery.parseJSON(unescape(s.merchantCustom));
+    if (!merchantCustom) {
+      merchantCustom = {};
+    }
+    renderOfferDetail(offer, merchantCustom);
     
     $('#share-email').click(function(e){
       e.preventDefault();
@@ -256,7 +343,7 @@ function getOfferDetail() {
   }
 }
 
-function renderOfferDetail(offer) {
+function renderOfferDetail(offer, custom) {
   var html = '';
   ga('send', 'event', 'button', 'show', 'give ' + offer.merchantName);
   $('.brand-name').html(offer.merchantName);
@@ -268,10 +355,14 @@ function renderOfferDetail(offer) {
   $('#header h1').css('background-size', '100%');
   $('#header h1').css('background-position', 'initial initial');
   $('#header h1').css('background-repeat', 'no-repeat');
-    
-  $('#facebook-div').show();
-  $('#share-div').css('opacity', '0.2');
-  $('#share-div').show();
+
+  var auth = offer.auth ? offer.auth : 'none';
+  var template = authType[auth];
+
+  for (var i in template) {
+    $('#' + i).html(template[i]);
+  }
+
   ga('send', 'event', 'button', 'show', 'facebook auth');
   
   $('#globe-href').attr('href', offer.merchantUrl);
@@ -286,12 +377,19 @@ function renderOfferDetail(offer) {
   }
   $('#ribbon h2').html(offer.giftDesc);
   $('#ribbon p').html(offer.giftDetailedDesc);
+
+  for (var name in custom) {
+    $('#' + name + ' p').html(custom[name]);
+    $('#' + name).show();
+  }
   
   $('#tos').click(function(e) {
     e.preventDefault();
     window.open(offer.tosUrl);
     return false;
   });
+
+  $('input').keyup(onInput);
 }
 
 function shareOffer(offer, cb) {
