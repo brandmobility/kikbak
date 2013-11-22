@@ -15,4 +15,5 @@ public interface ReadOnlyAllocatedGiftDAO {
 	public Collection<Allocatedgift> listValidByUserIdAndSharedId(Long userId, long sharedId);
 	public boolean isGiftAvailable(Long userId, Long offerId); 
 	public Double getAllocatedGiftValue(Long userId, Long offerId);
+	public Long countOfRedeemedShares(Long friendId, Long offerId);
 }

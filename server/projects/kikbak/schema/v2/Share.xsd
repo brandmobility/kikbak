@@ -34,12 +34,21 @@
 			<xsd:element name="type" type="kikbak:ChannelType" minOccurs="1" maxOccurs="1" />
 		</xsd:sequence>
 	</xsd:complexType>
+	
+	
+	<xsd:simpleType name="StoryStatus">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="OK"/>
+            <xsd:enumeration value="LIMIT_REACH"/>
+        </xsd:restriction>
+    </xsd:simpleType>
 
 	<xsd:element name="StoriesResponse">
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element name="stories" type="kikbak:StoryType" minOccurs="0" maxOccurs="unbounded" />
 				<xsd:element name="code" type="xsd:string" minOccurs="1" maxOccurs="1" />
+				<xsd:element name="status" type="kikbak:StoryStatus" minOccurs="1" maxOccurs="1"/>
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>

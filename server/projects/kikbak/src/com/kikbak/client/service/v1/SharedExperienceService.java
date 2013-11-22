@@ -7,8 +7,10 @@ public interface SharedExperienceService {
 
 	public String registerSharing(final Long userId, SharedType experience);
 	
-	public void getShareStories(Long userId, Long offerId, String imageUrl, String platform, 
-						String email, String phoneumber, StoriesResponse response) throws ReferralCodeUniqueException;
-	
 	public void addShareType(String code, String type) throws ReferralCodeUniqueException;
+
+	void getShareStories(Long userId, Long offerId, String imageUrl,
+			String platform, String email, String phonenumber, String caption,
+			String employeeId, StoriesResponse response)
+			throws ReferralCodeUniqueException, RateLimitException;
 }

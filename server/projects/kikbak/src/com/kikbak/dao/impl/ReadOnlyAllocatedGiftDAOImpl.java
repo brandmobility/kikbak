@@ -19,6 +19,7 @@ public class ReadOnlyAllocatedGiftDAOImpl extends ReadOnlyGenericDAOImpl<Allocat
 	private static final String get_valid_offer_ids = "select * from allocatedgift where user_id=? and offer_id not in (select offer_id from allocatedgift where user_id=? and redemption_date is not null)";
 	private static final String is_gift_available = "select offer_id from allocatedgift where user_id=? and offer_id=? and redemption_date is not null";
 	private static final String get_gift_value = "select value from allocatedgift where user_id=? and offer_id=? limit 1";
+	private static final String count_of_redeemed_shares = "select count(*) from allocatedgift where friend_user_id=? and offer_id=? and redemption_date is not null";
 
         @SuppressWarnings("unchecked")
 	@Override
@@ -73,5 +74,13 @@ public class ReadOnlyAllocatedGiftDAOImpl extends ReadOnlyGenericDAOImpl<Allocat
         @SuppressWarnings("unchecked")
         Collection<Double> values = sessionFactory.getCurrentSession().createSQLQuery(get_gift_value).setLong(0, userId).setLong(1, offerId).list();
         return values.isEmpty() ? null : values.iterator().next();
+    }
+    
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public Long countOfRedeemedShares(Long friendId, Long offerId){
+
+
+    	return l;
     }
 }

@@ -3,7 +3,6 @@ package com.kikbak.client.service.impl;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Date;
-import java.util.List;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.StringUtils;
@@ -13,8 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kikbak.client.service.v1.RateLimitException;
 import com.kikbak.client.service.v1.ReferralCodeUniqueException;
 import com.kikbak.client.service.v1.SharedExperienceService;
+import com.kikbak.dao.ReadOnlyAllocatedGiftDAO;
 import com.kikbak.dao.ReadOnlyGiftDAO;
 import com.kikbak.dao.ReadOnlyMerchantDAO;
 import com.kikbak.dao.ReadOnlyOfferDAO;
@@ -70,14 +71,20 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
     @Autowired
     private ReadOnlyOfferDAO roOfferDAO;
     
+    @Autowired
+    private ReadOnlyAllocatedGiftDAO roAllocatedGiftDAO;
+    
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void getShareStories(Long userId, Long offerId, String imageUrl, String platform, 
-    					String email, String phonenumber, StoriesResponse response) throws ReferralCodeUniqueException{
+    					String email, String phonenumber, String caption, String employeeId, StoriesResponse response) throws ReferralCodeUniqueException, RateLimitException{
+    	
+    	checkMaxRedeemCountReached(userId, offerId);
+    	
     	int maxLength = config.getInt(RANDOM_SECRET_LENGTH, DEFAULT_RANDOM_SECRET_LENGTH);
     	String referralCode = generateReferralCode(maxLength);
     	response.setCode(referralCode);
-    	persistStory(userId, offerId, imageUrl, email, phonenumber, referralCode);
+    	persistStory(userId, offerId, imageUrl, email, phonenumber, caption, employeeId, referralCode);
     	for( ChannelType type : ChannelType.values()){
     		StoryType story = new StoryType();
     		fillInStory(story, type, platform, referralCode, offerId, imageUrl);
@@ -85,6 +92,14 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
     	}
     }
     
+    protected void checkMaxRedeemCountReached(Long userId, Long offerId) throws RateLimitException{
+    	
+    	Long count = roAllocatedGiftDAO.countOfRedeemedShares(userId, offerId);
+    	Offer offer = roOfferDAO.findById(offerId);
+    	if( count >= offer.getRedeemLimit() ){
+    		throw new RateLimitException("User can no longer share!");
+    	}
+    }
     
     protected void fillInStory(StoryType story, ChannelType type, String platform, 
     		String code, Long offerId, String imageUrl){
@@ -218,7 +233,8 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
 		rwSharedDao.save(shared);
 	}
     
-    protected void persistStory(Long userId, Long offerId, String imageUrl, String email, String phonenumber, String referralCode)
+    protected void persistStory(Long userId, Long offerId, String imageUrl, String email, 
+    		String phonenumber, String caption, String employeeId, String referralCode)
     		throws ReferralCodeUniqueException {
     	
     	Offer offer = roOfferDAO.findById(offerId);
@@ -231,6 +247,8 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
 		shared.setType("web");
 		shared.setEmail(email);
 		shared.setPhonenumber(phonenumber);
+		shared.setCaption(caption);
+		shared.setEmployeeId(employeeId);
 		shared.setSharedDate(new Date());
 		shared.setReferralCode(referralCode);
 		
