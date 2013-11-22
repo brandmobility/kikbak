@@ -71,9 +71,9 @@ public class UserController extends AbstractController {
         return registerFacebookUser(token, null, httpResponse);
     }
 
-    @RequestMapping(value = "/register/fb/{token}/{phone}/", method = RequestMethod.GET)
-    public RegisterUserResponse registerFacebookUser(@PathVariable("token") String token,
-            @PathVariable("phone") String phone, final HttpServletResponse httpResponse) {
+    @RequestMapping(value = "/register/fb", method = RequestMethod.GET)
+    public RegisterUserResponse registerFacebookUser(@RequestParam(value = "token") String token,
+            @RequestParam(value = "phone", required = false) String phone, final HttpServletResponse httpResponse) {
         try {
             long id = userService.registerFbUser(token, phone);
             addUserCookies(id, httpResponse);
@@ -91,7 +91,7 @@ public class UserController extends AbstractController {
             return response;
         } catch (FbLoginException e) {
             logger.error(e, e);
-            httpResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST); //assume wrong token
+            httpResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST); // assume wrong token
             return null;
         } catch (Exception e) {
             logger.error(e, e);
@@ -191,7 +191,7 @@ public class UserController extends AbstractController {
             return null;
         } catch (FbLoginException e) {
             logger.error(e, e);
-            httpResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST); //assume wrong token
+            httpResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST); // assume wrong token
             return null;
         } catch (Exception e) {
             logger.error(e, e);
