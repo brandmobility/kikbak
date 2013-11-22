@@ -87,11 +87,11 @@ public class StoryTemplateServiceImpl implements StoryTemplateService {
     private StoryType getStory(String platform, ChannelType channel, Map<String, String> replacmentMap) {
         String subjectKey = "share.template." + channel.name().toLowerCase() + "." + platform.toLowerCase()
                 + ".subject";
-        String subjectTemplate = config.getString(subjectKey, "");
+        String subjectTemplate = config.getString(subjectKey, null);
         String subject = fillTemplate(subjectTemplate, replacmentMap);
 
         String bodyKey = "share.template." + channel.name().toLowerCase() + "." + platform.toLowerCase() + ".body";
-        String bodyTemplate = config.getString(bodyKey, "");
+        String bodyTemplate = config.getString(bodyKey, null);
         String body = fillTemplate(bodyTemplate, replacmentMap);
 
         String loginUrl = getLoginUrl(replacmentMap.get("%CODE%"));
@@ -105,6 +105,9 @@ public class StoryTemplateServiceImpl implements StoryTemplateService {
     }
 
     private String fillTemplate(String template, Map<String, String> replecmentMap) {
+        if (template == null)
+            return null;
+
         for (String key : replecmentMap.keySet()) {
             template = template.replace(key, replecmentMap.get(key));
         }
