@@ -160,9 +160,14 @@ public class StoryTemplateServiceImpl implements StoryTemplateService {
 
     private String getUserName(User user) {
         String name = StringUtils.trimToEmpty(user.getFirstName());
-        if (StringUtils.isEmpty(name)) {
-            name = StringUtils.trimToEmpty(user.getLastName());
-        }
+        if (!StringUtils.isEmpty(name))
+            return name;
+
+        name = StringUtils.trimToEmpty(user.getLastName());
+        if (!StringUtils.isEmpty(name))
+            return name;
+
+        name = StringUtils.trimToEmpty(user.getManualName());
         return name;
     }
 
