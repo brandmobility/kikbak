@@ -53,7 +53,7 @@ var merchantCustom = {
 
 var placeHolder = {
   verizon: {
-    "share-btn": "ID of Verizon employee that helped your [optional]"
+    "employeeId-input": "ID of Verizon employee that helped your [optional]"
   },
   all: {}
 }
@@ -475,8 +475,7 @@ function renderOfferDetail(offer, custom, holder) {
   }
  
   for (var name in holder) {
-    $('#' + name).attr('placeholder', custom[name]);
-    $('#' + name).show();
+    $('#' + name).attr('placeholder', holder[name]);
   }
  
   $('#tos').click(function(e) {
