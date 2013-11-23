@@ -24,6 +24,9 @@ if (window.mobilecheck()) {
   }
 }
 
+var user = {};
+var storiesResponse = {};
+
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -114,20 +117,15 @@ $(document).ready(function() {
     window.fbAsyncInit = fbInit;
   });
   
-  window.twttr = (function (d,s,id) {
-    var t, js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return; js=d.createElement(s); js.id=id;
-    js.src="https://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs);
-    return window.twttr || (t = { _e: [], ready: function(f){ t._e.push(f) } }); 
-  }(document, "script", "twitter-wjs"));
-
 });
 
 function onInput() {
   var valid = true;
   $('.required').each(function() {
-    var value = $(this).val();
-    if ($(this).attr('type') === 'tel') {
+    var thisElement = $(this);
+    thisElement.css('border', 'none');
+    var value = thisElement.val();
+    if (thisElement.attr('type') === 'tel') {
       if (value.replace(/^\d/g, "") === '') {
         valid = false;
       }
@@ -171,25 +169,47 @@ function fbInit() {
 function connectFb(resp) {
   var accessToken = resp.accessToken;
   s.accessToken = accessToken;
-  var user = {};
-  user['access_token'] = accessToken;
-  var data = {};
-  data['user'] = user;
-  var req = {};
-  req['RegisterUserRequest'] = data;
-  var str = JSON.stringify(req);
+  user.accessToken = accessToken;
+  user.type = 'facebook';
+  user.fbId = resp.userID;
 
   $('#username-input').removeClass('required');
   $('#email-input').removeClass('required');
   $('#login_div').hide();
   onInput();
+}
 
+function validateEmail(email) { 
+  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email);
+}
+
+function registerUser(cb) {
+  var requestUrl = config.backend + 'kikbak/user/register';
+  if (user.type === 'facebook') {
+    requestUrl += '/fb?token=' + encodeURIComponent(user.accessToken);
+    var phoneInput = $('#phone-input');
+    if (phoneInput) {
+      user.phone = phoneInput.val();
+    }
+    if (user.phone) {
+      requestUrl += '&phone=' + encodeURIComponent(user.phone);
+    }
+  } else {
+    var emailInput = $('#email-input');
+    var email = emailInput.val();
+    if (!validateEmail(email)) {
+      email.css('border', '2px solid red');
+      return;
+    }
+    user.name = $('#name-input').val();
+    requestUrl += '/web?email=' + encodeURIComponent(user.email);
+    requestUrl += '&name=' + encodeURIComponent(user.name);
+  }
   $.ajax({
-    dataType: 'json',
-    type: 'POST',
+    type: 'GET',
     contentType: 'application/json',
-    data: str,
-    url: config.backend + 'kikbak/user/register/fb/',
+    url:requestUrl,
     success: function(json) {
       if (json && json.registerUserResponse && json.registerUserResponse.status === 'TOO_FEW_FRIENDS') {
         alert('For security purposes, Kikbak requires that your Facebook account have a certain minimum friend count. Unfortunately your chosen account does not qualify.');
@@ -200,22 +220,21 @@ function connectFb(resp) {
         return;
       }
       s.userId = json.registerUserResponse.userId.userId;
+      user.id = s.userId;
 
-      $('#user-div img').attr('src', 'https://graph.facebook.com/' + resp.userID + '/picture?type=square');
-      FB.api('/me', function(response) {
-        $('#user-div h3').html(response.name);
-        $('#user-div').show();
-      });
-      afterUserLogin();
+      if (user.type === 'facebook') {
+        $('#user-div img').attr('src', 'https://graph.facebook.com/' + user.fbId + '/picture?type=square');
+        FB.api('/me', function(response) {
+          $('#user-div h3').html(response.name);
+          $('#user-div').show();
+        });
+        updateFbFriends(user.id, cb);
+      } else {
+        cb();
+      }
     },
     error: showError
   });
-}
-
-function afterUserLogin() {
-  $('#facebook-div').hide();
-  $('#share-div').css('opacity', '1.0');
-  $('#share-div').show();
 }
 
 function updateFbFriends(userId, cb) {
@@ -282,6 +301,68 @@ function getOffersByMerchant(merchant) {
   });
 }
 
+function shareOfferFromChannel(channel) {
+  var story;
+  for (var i in storiesResponse.stories) {
+    if (storiesResponse.stories[i].type.toLowerCase() === channel) {
+      story = storiesResponse.stories[i];
+    }
+  }
+
+  var w = screen.width*3/4;
+  var h = screen.height*3/4;
+  var x = w/6;
+  var y = h/6;
+
+  if (channel === 'fb') {
+    var landingUrl = storiesResponse.stories[0].landingUrl;
+    var str = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(landingUrl);
+    window.open(str, '_blank', 'top='+y+',left='+x+',width='+w+',height='+h);
+  }
+
+  if (story) {
+    var landingUrl = story.landingUrl;
+    var body = story.body;
+    var subject = story.subject;
+    if (channel === 'twitter') {
+      var str = "https://twitter.com/share?";
+      var params = [ 
+        {name:"url", value:landingUrl},
+        {name:"via", value:"kikbak"},
+        {name:"count", value:"none"},                                                                                            
+        {name:"text", value: body}                                                            
+      ];  
+      $.each(params, function (i, item) {
+        str += encodeURIComponent(item.name) + "=" + encodeURIComponent(item.value) + "&";
+      }); 
+      window.open(str, '_blank', 'top='+y+',left='+x+',width='+w+',height='+h);
+    } else if (channel === 'email') {
+      var str = 'mailto:?content-type=text/html&subject=' + encodeURIComponent(subject)
+          + '&body=' + encodeURIComponent(body);
+      var win = window.open(str, '_blank', 'top='+y+',left='+x+',width='+w+',height='+h);
+      setTimeout(function(){
+        win.close();
+      }, 100);
+    } else if (channel === 'gmail') {
+      var str = 'https://mail.google.com/mail/?view=cm&fs=1&tf=1&source=mailto&su=' + encodeURIComponent(subject)
+          + '&body=' + encodeURIComponent(body);
+      window.open(str, '_blank', 'top='+y+',left='+x+',width='+w+',height='+h);
+    } else if (channel === 'yahoo') {
+      var str = 'http://compose.mail.yahoo.com/?Subject=' + encodeURI3986(encodeURI3986(subject))
+          + '&body=' + encodeURI3986(encodeURI3986(body));
+      window.open(str, '_blank', 'top='+y+',left='+x+',width='+w+',height='+h);
+    } 
+    ga('send', 'event', 'button', 'click', 'share via ' + channel);
+    var requestUrl = config.backend + 'kikbak/v2/share/addsharetype?code=' + encodeURIComponent(storiesResponse.code) + '&type=' + encodeURIComponent(channel);
+    $.ajax({
+      type: 'GET',
+      contentType: 'application/json',
+      url: requestUrl,
+      success: function() {},
+      error: function() {}
+    });
+  }
+}
 
 function getOfferDetail() {
   var userId = 0;
@@ -293,52 +374,19 @@ function getOfferDetail() {
       merchantCustom = {};
     }
     renderOfferDetail(offer, merchantCustom);
-    
-    $('#share-email').click(function(e){
+ 
+    $('#share-btn').click(function(e){
       e.preventDefault();
-      shareOffer(offer, shareViaEmail);
+      getOfferStory(offer);
     });
-    $('#share-facebook').click(function(e){
-       e.preventDefault();
-       shareOffer(offer, shareViaFacebook);
-    });
-    $('#share-twitter').click(function(e){
+    $('.share-channel').click(function(e){
+      shareOfferFromChannel($(this).attr('data-channel'));
       e.preventDefault();
-      shareOffer(offer, shareViaTwitter);
-    });
-    $('#share-gmail').click(function(e){
-      e.preventDefault();
-      shareOffer(offer, shareViaGmail);
-    });
-    $('#share-yahoo').click(function(e){
-      e.preventDefault();
-      shareOffer(offer, shareViaYahoo);
     });
     
     $('#loginFb').click(function(e){
       e.preventDefault();
       loginFb();
-    });
-
-    $('input [name="comment"]').bind('input',function(){
-      ga('send', 'event', 'button', 'click', 'add comment');
-    });
-    $('#take-picture').change(function(e) {
-      ga('send', 'event', 'button', 'click', 'take picture');
-      var files = e.target.files;
-      var file;
-
-      if (files && files.length > 0) {
-        file = files[0];
-        try {
-          var URL = window.webkitURL || window.URL;
-          var imgUrl = URL.createObjectURL(file);
-          $('#show-picture').attr('src', imgUrl);
-          $('#take-picture').hide();
-        } catch (e) {
-          alert('Unsupported browser');
-        }
-      }
     });
   }
 }
@@ -392,24 +440,44 @@ function renderOfferDetail(offer, custom) {
   $('input').keyup(onInput);
 }
 
-function shareOffer(offer, cb) {
+function getOfferStory(offer) {
   ga('send', 'event', 'button', 'click', 'share offer');
-  var userId = s.userId;
-  updateFbFriends(userId, function() {
-	shareOfferAfterLogin(offer, cb);
-  });
-}
-
-function dataURItoBlob(dataURI, dataTYPE) {
-  var binary = atob(dataURI.split(',')[1]), array = [];
-  for(var i = 0; i < binary.length; i++) array.push(binary.charCodeAt(i));
-  return new Blob([new Uint8Array(array)], {type: dataTYPE});
-}
-
-function shareOfferAfterLogin(offer, cb) {
-  var message = $('#addcomment').val();
-  var userId = s.userId;
-  cb(offer.giveImageUrl, message);
+  registerUser(function() {
+    var requestUrl = config.backend + 'kikbak/v2/share/getstories?userid=' + encodeURIComponent(user.id) + '&offerid=' + encodeURIComponent(offer.id) + '&platform=PC&imageurl=' + encodeURIComponent(offer.giveImageUrl);
+    if (user.email) {
+      requestUrl += '&email=' + encodeURIComponent(user.email);
+    }
+    if (user.phone) {
+      requestUrl += '&phonenumber=' + encodeURIComponent(user.phone);
+    }
+    var comment = $('#comment-input').val();
+    if (comment) {
+      requestUrl += '&caption=' + encodeURIComponent(comment);
+    }
+    var employeeId = $('#employeeId-input').val();
+    if (employeeId) {
+      requestUrl += '&employeeid=' + encodeURIComponent(employeeId);
+    }
+    $.ajax({
+      type: 'GET',
+      contentType: 'application/json',
+      url: requestUrl,
+      success: function(json) {
+        if (json && json.storiesResponse && json.storiesResponse.code) {
+          storiesResponse = json.storiesResponse;
+          var landingUrl = storiesResponse.stories[0].landingUrl;
+          var landingHref = $('#landing');
+          landingHref.attr('src', landingUrl);
+          landingHref.html(landingUrl);
+          $('#pre-share-div').hide();
+          $('#share-div').show();
+        } else {
+          showError();
+        }
+      },
+      error: showError
+    });
+  }); 
 }
 
 function loginFb() {
