@@ -80,7 +80,7 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
 
     protected void checkMaxRedeemCountReached(Long userId, Long offerId) throws RateLimitException {
 
-        Long count = roAllocatedGiftDAO.countOfRedeemedShares(userId, offerId);
+        Integer count = roAllocatedGiftDAO.countOfRedeemedShares(userId, offerId);
         Offer offer = roOfferDAO.findById(offerId);
         if (count >= offer.getRedeemLimit()) {
             throw new RateLimitException("User can no longer share!");

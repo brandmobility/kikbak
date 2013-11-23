@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Properties;
@@ -52,7 +51,7 @@ public class KikbakTest {
     }
 
     protected void setupDb(String dataset) throws Exception {
-        setupDb(new ByteArrayInputStream(dataset.getBytes(StandardCharsets.UTF_8)));
+        setupDb(new ByteArrayInputStream(dataset.getBytes("UTF-8")));
     }
 
     protected void setupDbFromRes(String resource) throws Exception {

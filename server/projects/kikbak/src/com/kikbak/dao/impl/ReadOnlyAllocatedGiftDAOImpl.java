@@ -1,6 +1,7 @@
 package com.kikbak.dao.impl;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.type.StandardBasicTypes;
@@ -19,7 +20,7 @@ public class ReadOnlyAllocatedGiftDAOImpl extends ReadOnlyGenericDAOImpl<Allocat
 	private static final String get_valid_offer_ids = "select * from allocatedgift where user_id=? and offer_id not in (select offer_id from allocatedgift where user_id=? and redemption_date is not null)";
 	private static final String is_gift_available = "select offer_id from allocatedgift where user_id=? and offer_id=? and redemption_date is not null";
 	private static final String get_gift_value = "select value from allocatedgift where user_id=? and offer_id=? limit 1";
-	private static final String count_of_redeemed_shares = "select count(*) from allocatedgift where friend_user_id=? and offer_id=? and redemption_date is not null";
+	private static final String count_of_redeemed_shares = "select id from allocatedgift where friend_user_id=? and offer_id=? and redemption_date is not null";
 
         @SuppressWarnings("unchecked")
 	@Override
@@ -78,9 +79,10 @@ public class ReadOnlyAllocatedGiftDAOImpl extends ReadOnlyGenericDAOImpl<Allocat
     
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public Long countOfRedeemedShares(Long friendId, Long offerId){
+    public int countOfRedeemedShares(Long friendId, Long offerId){
 
-        // TODO: implement me
-    	return 1L;
+    	@SuppressWarnings("unchecked")
+		List<Object> list = sessionFactory.getCurrentSession().createSQLQuery(count_of_redeemed_shares).setLong(0, friendId).setLong(1, offerId).list();
+    	return list.size();
     }
 }
