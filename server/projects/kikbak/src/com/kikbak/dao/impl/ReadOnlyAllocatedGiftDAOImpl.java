@@ -80,7 +80,7 @@ public class ReadOnlyAllocatedGiftDAOImpl extends ReadOnlyGenericDAOImpl<Allocat
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public Long countOfRedeemedShares(Long friendId, Long offerId){
 
-
-    	return l;
+        // TODO: implement me
+    	return 1L;
     }
 }

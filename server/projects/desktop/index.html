@@ -57,40 +57,40 @@
                 </div>
                 
                 <div id="btn-container">
-                    <div id="login_div">
-                    </div>
-                    <div id="phone_div">
-                    </div>
-                    <div id="share_info_div">
-                        <textarea id="comment-input" row="4" placeholder="Comment for your friends [optional]"></textarea>
-                        <input type="text" id="employeeId-input" name="employeeId" placeholder="Name of employee that helped you [optional]" style="display:hidden;" />
-                        <div id="share-btn-div">
-                            <input type="button" id="share-btn" class="btn grd-btn" value="Create my offer to share" disabled />
+                    <div id="pre-share-div">
+                        <div id="login_div"></div>
+                        <div id="phone_div"></div>
+                        <div id="share_info_div">
+                            <textarea id="comment-input" row="4" placeholder="Comment for your friends [optional]"></textarea>
+                            <input type="text" id="employeeId-input" name="employeeId" placeholder="Name of employee that helped you [optional]" style="display:hidden;" />
+                            <div id="share-btn-div">
+                                <input type="button" id="share-btn" class="btn grd-btn" value="Create my offer to share" disabled />
+                            </div>
                         </div>
                     </div>
-                    <div id="share-div" style="opacity:0.2;display:none;">
-                        <div class="btn-center">
-                            <input type="button" id="share-email" class="btn grd-btn" value="Email" />
+                    <div id="share-div" style="display:none;">
+                        <div id="share-info-div">
+                            <h3>Your unique offer page:</h3>
+                            <a id="landing" href="#" target="_blank"></a>
+                            <h3>Share your offer with friends</h3>
                         </div>
                         <div class="btn-group">
-                            <div class="col-4">
-                                <a id="share-facebook" href="#"> <img src="images/fb-btn.png" width="55" height="55" style="margin: 0 auto;"></a>
+                            <div class="col-5">
+                                <a class="share-channel" data-channel="fb" id="share-facebook" href="#"> <img src="images/fb-btn.png" width="55" height="55" style="margin: 0 auto;"></a>
                             </div>
-                            <div class="col-4">
-                                <a id="share-twitter" href="#" target="_blank"> <img src="images/twitter-btn.png" width="55" height="55" style="margin: 0 auto;"></a>
+                            <div class="col-5">
+                                <a class="share-channel" data-channel="twitter" id="share-twitter" href="#" target="_blank"> <img src="images/twitter-btn.png" width="55" height="55" style="margin: 0 auto;"></a>
                             </div>
-                            <div class="col-4">
-                                <a id="share-gmail" href="#" target="_blank"> <img src="images/gmail-btn.png" width="55" height="55" style="margin: 0 auto;"></a>
+                            <div class="col-5">
+                                <a class="share-channel" data-channel="email" id="share-email" href="#" target="_blank"> <img src="images/gmail-btn.png" width="55" height="55" style="margin: 0 auto;"></a>
                             </div>
-                            <div class="col-4">
-                                <a id="share-yahoo" href="#" target="_blank"> <img src="images/yahoo-btn.png" width="55" height="55" style="margin: 0 auto;"></a>
+                            <div class="col-5">
+                                <a class="share-channel" data-channel="gmail" id="share-gmail" href="#" target="_blank"> <img src="images/gmail-btn.png" width="55" height="55" style="margin: 0 auto;"></a>
+                            </div>
+                            <div class="col-5">
+                                <a class="share-channel" data-channel="yahoo" id="share-yahoo" href="#" target="_blank"> <img src="images/yahoo-btn.png" width="55" height="55" style="margin: 0 auto;"></a>
                             </div>
                         </div>
-                    </div>
-                    <div id="facebook-div" style="display:none;">
-                        <p class="title">Please connect with Facebook to share with friends</p>
-                        <a id="loginFb" href="#"> <img src="images/fb-btn-new.png" width="258" height="55" style="margin: 0 auto;"></a>
-                        <p class="disclaimer">We use your Facebook ID to personalize your offers.<br><strong>We will never post without your permission.</strong></p>
                     </div>
                 </div>
                 

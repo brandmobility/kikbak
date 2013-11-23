@@ -1,0 +1,8 @@
+<dataset>
+ <user id="1" first_name="John" last_name="Snow" email="john@snow.com" facebook_id="1234" gender="0" />
+ <merchant id="1" name="Serenity Spa" description="Super Spa" shortname="ss" url="http://www.spa.com" image_url="http://www.spa.com/img.png" />
+ <location id="1" merchant_id="1" verification_code="spa" address_1="Embarcadero 1" city="San Francisco" state="CA" zipcode="43231" phone_number="6505551212" latitude="37.42706140" longitude="-122.1444120" status="participating"/>
+ <offer id="1" merchant_id="1" name="free bath" image_url="http://spa.png" tos_url="http://tos.html" begin_date="2012-11-13 22:00:00" end_date="2014-11-13 22:00:00" offer_type="both" has_employee_program="0"/>
+ <gift id="1" offer_id="1" description="$10% off" detailed_desc="any service first-time customer" value="10" discount_type="amount" redemption_location_type="store" validation_type="qrcode" image_url="http://give.png" default_give_image_url="http://banner.png" />
+ <shared id="1" user_id="1" type="email" location_id="1" offer_id="1" merchant_id="1" shared_date="2012-11-13 22:00:00" referral_code="code1" caption="This is awsome!" image_url="http://user_share.png/"/>
+</dataset>
