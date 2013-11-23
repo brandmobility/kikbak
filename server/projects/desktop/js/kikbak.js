@@ -234,7 +234,7 @@ function registerUser(cb) {
     requestUrl += '&name=' + encodeURIComponent(user.name);
   }
   var phoneInput = $('#phone-input');
-  if (phoneInput) {
+  if (phoneInput.hasClass('required')) {
     user.phone = phoneInput.val();
     if (validatePhone(user.phone)) {
       requestUrl += '&phone=' + encodeURIComponent(user.phone);
