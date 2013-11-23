@@ -51,6 +51,13 @@ var merchantCustom = {
   }
 };
 
+var placeHolder = {
+  verizon: {
+    "share-btn": "ID of Verizon employee that helped your [optional]"
+  },
+  all: {}
+}
+
 var authType = {
   facebook: {
     login_div: '<a id="loginFb" href="#">' +
@@ -181,6 +188,13 @@ function connectFb(resp) {
   $('#username-input').removeClass('required');
   $('#email-input').removeClass('required');
   $('#login_div').hide();
+
+  $('#user-div img').attr('src', 'https://graph.facebook.com/' + user.fbId + '/picture?type=square');
+  FB.api('/me', function(response) {
+    $('#user-div h3').html(response.name);
+    $('#user-div').show();
+  });
+
   onInput();
 }
 
@@ -245,11 +259,6 @@ function registerUser(cb) {
       user.id = s.userId;
 
       if (user.type === 'facebook') {
-        $('#user-div img').attr('src', 'https://graph.facebook.com/' + user.fbId + '/picture?type=square');
-        FB.api('/me', function(response) {
-          $('#user-div h3').html(response.name);
-          $('#user-div').show();
-        });
         updateFbFriends(user.id, cb);
       } else {
         cb();
@@ -316,6 +325,11 @@ function getOffersByMerchant(merchant) {
         custom = merchantCustom[merchant.toLowerCase()];
       }
       s.merchantCustom = escape(JSON.stringify(custom));
+      var holder = placeHolder.all;
+      if (placeHolder.hasOwnProperty(merchant.toLowerCase())) {
+        holder = placeHolder[merchant.toLowerCase()];
+      }
+      s.holder = escape(JSON.stringify(holder));
   	  history.pushState({}, 'merchant-offer-detail', '#merchant-' + merchant + '-offer');
       initPage();
     },
@@ -395,7 +409,11 @@ function getOfferDetail() {
     if (!merchantCustom) {
       merchantCustom = {};
     }
-    renderOfferDetail(offer, merchantCustom);
+    var holder = jQuery.parseJSON(unescape(s.holder));
+    if (!holder) {
+      holder = {};
+    }
+    renderOfferDetail(offer, merchantCustom, holder);
  
     $('#share-btn').click(function(e){
       e.preventDefault();
@@ -413,7 +431,7 @@ function getOfferDetail() {
   }
 }
 
-function renderOfferDetail(offer, custom) {
+function renderOfferDetail(offer, custom, holder) {
   var html = '';
   ga('send', 'event', 'button', 'show', 'give ' + offer.merchantName);
   $('.brand-name').html(offer.merchantName);
@@ -452,7 +470,12 @@ function renderOfferDetail(offer, custom) {
     $('#' + name + ' p').html(custom[name]);
     $('#' + name).show();
   }
-  
+ 
+  for (var name in holder) {
+    $('#' + name).attr('placeholder', custom[name]);
+    $('#' + name).show();
+  }
+ 
   $('#tos').click(function(e) {
     e.preventDefault();
     window.open(offer.tosUrl);
@@ -489,7 +512,7 @@ function getOfferStory(offer) {
           storiesResponse = json.storiesResponse;
           var landingUrl = storiesResponse.stories[0].landingUrl;
           var landingHref = $('#landing');
-          landingHref.attr('src', landingUrl);
+          landingHref.attr('href', landingUrl);
           landingHref.html(landingUrl);
           $('#pre-share-div').hide();
           $('#share-div').show();

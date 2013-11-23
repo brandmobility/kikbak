@@ -484,7 +484,7 @@ input[type="button"]:disabled {
     font-weight: bold;
 }
 .popup {
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
     width: 100%;
@@ -495,7 +495,7 @@ input[type="button"]:disabled {
 }
 .cls-popup {
     width: 400px;
-    margin: 30% auto 0 auto;
+    margin: 200px auto 0 auto;
     padding: 3%;
     background: #dddddd;
     border-radius: 20px;
