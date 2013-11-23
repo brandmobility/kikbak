@@ -154,10 +154,13 @@ function onInput() {
 
 function showError() {
   var msg = "Service is unavailable. Please try again later.";
-  $('#error-popup p').html(msg);
-  $('#error-popup').show()
+  showErrorWithMsg(msg);
 }
 
+function showErrorWithMsg(msg) {
+  $('#error-popup p').html(msg);
+  $('#error-popup').show();
+}
 function fbInit() {
   FB.init({
     appId: '493383324061333',
@@ -508,14 +511,20 @@ function getOfferStory(offer) {
       contentType: 'application/json',
       url: requestUrl,
       success: function(json) {
-        if (json && json.storiesResponse && json.storiesResponse.code) {
+        if (json && json.storiesResponse) {
           storiesResponse = json.storiesResponse;
-          var landingUrl = storiesResponse.stories[0].landingUrl;
-          var landingHref = $('#landing');
-          landingHref.attr('href', landingUrl);
-          landingHref.html(landingUrl);
-          $('#pre-share-div').hide();
-          $('#share-div').show();
+          if (storiesResponse.status === 'OK') {
+            var landingUrl = storiesResponse.stories[0].landingUrl;
+            var landingHref = $('#landing');
+            landingHref.attr('href', landingUrl);
+            landingHref.html(landingUrl);
+            $('#pre-share-div').hide();
+            $('#share-div').show();
+          } else if (storiesResponse.status === 'LIMIT_REACH') {
+            showErrorWithMsg('Sorry, you cannot share this offer anymore');
+          } else {
+            showError();
+          }
         } else {
           showError();
         }
