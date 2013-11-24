@@ -36,7 +36,6 @@ import com.kikbak.jaxb.v1.register.RegisterUserRequest;
 import com.kikbak.jaxb.v1.register.RegisterUserResponse;
 import com.kikbak.jaxb.v1.register.RegisterUserResponseStatus;
 import com.kikbak.jaxb.v1.register.UserIdType;
-import com.kikbak.jaxb.v1.registerweb.RegisterWebUserResponse;
 import com.kikbak.jaxb.v1.statustype.SuccessStatus;
 import com.kikbak.jaxb.v1.userlocation.UserLocationType;
 
@@ -122,17 +121,20 @@ public class UserController extends AbstractController {
     }
 
     @RequestMapping(value = "/register/web", method = RequestMethod.GET)
-    public RegisterWebUserResponse registerWebUserGet(@RequestParam("name") String name,
-            @RequestParam("email") String email, @RequestParam("phone") String phone,
+    public RegisterUserResponse registerWebUserGet(@RequestParam("name") String name,
+            @RequestParam("email") String email, @RequestParam(value = "phone", required = false) String phone,
             final HttpServletResponse httpResponse) {
         try {
             name = validateWebUserName(name);
             email = validateWebUserEmail(email);
             phone = validateWebUserPhone(phone);
 
-            RegisterWebUserResponse response = new RegisterWebUserResponse();
-            response.setStatus(SuccessStatus.OK);
+            RegisterUserResponse response = new RegisterUserResponse();
+            response.setStatus(RegisterUserResponseStatus.OK);
             long id = userService.registerWebUser(name, email, phone);
+            UserIdType uid = new UserIdType();
+            uid.setUserId(id);
+            response.setUserId(uid);
             addUserCookies(id, httpResponse);
             return response;
         } catch (IllegalArgumentException e) {

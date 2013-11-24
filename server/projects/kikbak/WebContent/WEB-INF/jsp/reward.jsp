@@ -30,7 +30,7 @@
                 <div id="info">
                     <div class="info-header clearfix">
                         <c:choose>
-                        <c:when test="{not empty shareInfo.fbFriendId}">
+                        <c:when test="${not empty shareInfo.fbFriendId}">
                         <img src="https://graph.facebook.com/${shareInfo.fbFriendId}/picture?width=124&height=124" class="userphoto" width="62px" height="62px" />
                         <c:choose>
                         <c:when test="${not empty shareInfo.caption}">
@@ -172,7 +172,7 @@
             <div class="page-header" style="padding:0;">
                 <div class="row show-grid" style="margin:0;padding-top:22px;">
                     <c:choose>
-                    <c:when test="{not empty shareInfo.fbFriendId}">
+                    <c:when test="${not empty shareInfo.fbFriendId}">
                     <div class="col-md-4" style="padding-left: 5px">
                         <img src="https://graph.facebook.com/${shareInfo.fbFriendId}/picture?width=120&height=120" class="img-rounded" width="60px" />
                     </div>
