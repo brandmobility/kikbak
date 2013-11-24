@@ -56,7 +56,7 @@ var placeHolder = {
     "employeeId-input": "ID of Verizon employee that helped your [optional]"
   },
   all: {}
-}
+};
 
 var authType = {
   facebook: {
@@ -477,10 +477,14 @@ function renderOfferDetail(offer, custom, holder) {
   for (var name in holder) {
     $('#' + name).attr('placeholder', holder[name]);
   }
+  
+  if (offer.hasEmployeeProgram) {
+	$('#share-employee-div').show();
+  }
  
   $('#tos').click(function(e) {
     e.preventDefault();
-    window.open(offer.tosUrl);
+    window.open(offer.tosUrl, '_blank');
     return false;
   });
 
