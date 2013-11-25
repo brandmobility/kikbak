@@ -3,6 +3,7 @@ package com.kikbak.client.service.v1;
 import java.util.Collection;
 import java.util.List;
 
+import com.kikbak.jaxb.v1.barcode.BarcodeResponse;
 import com.kikbak.jaxb.v1.claim.ClaimType;
 import com.kikbak.jaxb.v1.redeemcredit.CreditRedemptionResponseType;
 import com.kikbak.jaxb.v1.redeemcredit.CreditRedemptionType;
@@ -19,7 +20,7 @@ public interface RewardService {
     CreditRedemptionResponseType redeemCredit(final Long userId, final CreditRedemptionType creditType) throws RedemptionException;
     ClaimStatusType claimGift(Long userId, String referralCode, List<GiftType> gifts, List<Long> agIds) throws RewardException;
     void claimCredit(final Long userId, final ClaimType claim) throws Exception;
-    String getBarcode(final Long userId, final Long allocatedGiftId)throws Exception;
+    void getBarcode(final Long userId, final Long allocatedGiftId, BarcodeResponse barcodeResponse)throws Exception;
     GiftType getGiftByReferredCode(final String code) throws RewardException;
     GiftType getLastGiftByCreditId(final long creditId) throws RewardException;
     AvailableCreditType getCreditByCode(final String code) throws RewardException;

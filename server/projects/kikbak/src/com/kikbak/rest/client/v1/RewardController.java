@@ -157,7 +157,7 @@ public class RewardController extends AbstractController {
             ensureCorrectUser(userId);
 
             BarcodeResponse code = new BarcodeResponse();
-            code.setCode(service.getBarcode(userId, allocatedGiftId) );
+            service.getBarcode(userId, allocatedGiftId, code);
             return code;
         } catch (WrongUserException e) {
             logger.error(e, e);

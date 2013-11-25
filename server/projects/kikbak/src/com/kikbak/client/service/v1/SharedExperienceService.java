@@ -9,7 +9,7 @@ public interface SharedExperienceService {
 	
 	public void addShareType(String code, String type) throws ReferralCodeUniqueException;
 
-	void getShareStories(Long userId, Long offerId, String imageUrl,
+	void getShareStories(Long userId, Long offerId, Long locationId, String imageUrl,
 			String platform, String email, String phonenumber, String caption,
 			String employeeId, StoriesResponse response)
 			throws ReferralCodeUniqueException, RateLimitException;

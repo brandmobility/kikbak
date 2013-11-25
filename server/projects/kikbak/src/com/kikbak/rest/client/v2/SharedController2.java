@@ -41,12 +41,20 @@ public class SharedController2 {
             if (tmp != null) {
                 offerId = Long.parseLong(tmp);
             }
+            
+            tmp = httpRequest.getParameter("locationId");
+            Long locationid = null;
+            if (tmp != null){
+            	locationid = Long.parseLong(tmp);
+            }
+            
             String imageUrl = ServletRequestUtils.getStringParameter(httpRequest, "imageurl");
             String platform = ServletRequestUtils.getStringParameter(httpRequest, "platform");
             String email = ServletRequestUtils.getStringParameter(httpRequest, "email");
             String phonenumber = ServletRequestUtils.getStringParameter(httpRequest, "phonenumber");
             String caption = ServletRequestUtils.getStringParameter(httpRequest, "caption");
             String employeeId = ServletRequestUtils.getStringParameter(httpRequest, "employeeid");
+            
 
             if (imageUrl == null) {
                 imageUrl = "";
@@ -62,7 +70,7 @@ public class SharedController2 {
 
             StoriesResponse response = new StoriesResponse();
             response.setStatus(StoryStatus.OK);
-            sharedService.getShareStories(userId, offerId, URLDecoder.decode(imageUrl, "UTF-8"), platform,
+            sharedService.getShareStories(userId, offerId, locationId, URLDecoder.decode(imageUrl, "UTF-8"), platform,
                     URLDecoder.decode(email, "UTF-8"), phonenumber, caption, employeeId, response);
             return response;
         } catch (RateLimitException e) {
