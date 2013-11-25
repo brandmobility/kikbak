@@ -54,6 +54,7 @@ import com.kikbak.dto.Offer;
 import com.kikbak.dto.Shared;
 import com.kikbak.dto.Transaction;
 import com.kikbak.dto.User;
+import com.kikbak.jaxb.v1.barcode.BarcodeResponse;
 import com.kikbak.jaxb.v1.claim.ClaimType;
 import com.kikbak.jaxb.v1.merchantlocation.MerchantLocationType;
 import com.kikbak.jaxb.v1.redeemcredit.CreditRedemptionResponseType;
@@ -547,24 +548,31 @@ public class RewardServiceImpl implements RewardService {
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
-    public String getBarcode(Long userId, Long allocatedGiftId) throws Exception {
+    public void getBarcode(Long userId, Long allocatedGiftId, BarcodeResponse code) throws Exception {
 
         Barcode barcode = roBarcodeDao.findByUserIdAndAllocatedGift(userId, allocatedGiftId);
         boolean generateBarcode = true;
         Date now = new Date();
         if (barcode != null) {
-            Long hrs = (((now.getTime() - barcode.getAssociationDate().getTime()) / (1000 * 60 * 60)) % 24);
-            if (hrs < 72) {
+            Long days = (((now.getTime() - barcode.getAssociationDate().getTime()) / (1000 * 60 * 60 * 24)));
+            if (days < barcode.getValidDays()) {
                 generateBarcode = false;
+            }
+            else{
+            	barcode.setExpired(true);
+            	rwBarcodeDao.makePersistent(barcode);
             }
         }
 
         if (generateBarcode) {
             Allocatedgift ag = roAllocatedGiftDao.findById(allocatedGiftId);
-            String code = rwBarcodeDao.allocateBarcode(userId, ag.getGiftId(), allocatedGiftId).getCode();
-            return validateAndUpdateChecksum(code);
+            Barcode bc = rwBarcodeDao.allocateBarcode(userId, ag.getGiftId(), allocatedGiftId);
+            code.setCode(validateAndUpdateChecksum(bc.getCode()));
+            code.setValidDays(String.valueOf(bc.getValidDays()));
+            return;
         }
-        return validateAndUpdateChecksum(barcode.getCode());
+        code.setCode(validateAndUpdateChecksum(barcode.getCode()));
+        code.setValidDays(String.valueOf(barcode.getValidDays()));
     }
 
     protected String validateAndUpdateChecksum(String code) {

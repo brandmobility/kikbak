@@ -18,6 +18,7 @@ import com.kikbak.dao.ReadWriteOfferDAO;
 import com.kikbak.dao.ReadWriteSharedDAO;
 import com.kikbak.dao.ReadWriteUser2FriendDAO;
 import com.kikbak.dao.ReadWriteUserDAO;
+import com.kikbak.jaxb.v1.barcode.BarcodeResponse;
 import com.kikbak.jaxb.v1.claim.ClaimType;
 import com.kikbak.jaxb.v1.redeemcredit.CreditRedemptionType;
 import com.kikbak.jaxb.v1.redeemgift.GiftRedemptionType;
@@ -140,8 +141,9 @@ public class RewardServiceTest extends KikbakBaseTest{
 	@Test
 	public void testAllocateBarcode() {
 	    try {
-            String code = service.getBarcode(52L, 4L);
-            assertTrue(code != null);
+	    	BarcodeResponse code = new BarcodeResponse();
+            service.getBarcode(52L, 4L, code);
+            assertTrue(code.getCode() != null);
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -151,8 +153,10 @@ public class RewardServiceTest extends KikbakBaseTest{
 	@Test
     public void testAllocateBarcodeOnePerUser() {
         try {
-            String code = service.getBarcode(52L, 4L);
-            String code2 = service.getBarcode(52L, 4L);
+        	BarcodeResponse code = new BarcodeResponse();
+        	BarcodeResponse code2 = new BarcodeResponse();
+            service.getBarcode(52L, 4L, code);
+            service.getBarcode(52L, 4L, code2);
             assertTrue(code.equals(code2));
         } catch (Exception e) {
             e.printStackTrace();
@@ -207,8 +211,9 @@ public class RewardServiceTest extends KikbakBaseTest{
 	@Test
 	public void testAllocateAndValidateBarcode() {
 	    try {
-	        String code = service.getBarcode(12L, 5L);
-            new UPCAWriter().encode(code, BarcodeFormat.UPC_A, 150, 150);
+	    	BarcodeResponse code = new BarcodeResponse();
+	        service.getBarcode(12L, 5L, code);
+            new UPCAWriter().encode(code.getCode(), BarcodeFormat.UPC_A, 150, 150);
         }catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

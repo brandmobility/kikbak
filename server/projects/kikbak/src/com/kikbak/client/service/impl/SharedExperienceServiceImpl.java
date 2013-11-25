@@ -64,7 +64,7 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public void getShareStories(Long userId, Long offerId, String imageUrl, String platform, String email,
+    public void getShareStories(Long userId, Long offerId, Long locationId, String imageUrl, String platform, String email,
             String phonenumber, String caption, String employeeId, StoriesResponse response)
             throws ReferralCodeUniqueException, RateLimitException {
 
@@ -73,7 +73,7 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
         int maxLength = config.getInt(RANDOM_SECRET_LENGTH, DEFAULT_RANDOM_SECRET_LENGTH);
         String referralCode = generateReferralCode(maxLength);
         response.setCode(referralCode);
-        persistStory(userId, offerId, imageUrl, email, phonenumber, caption, employeeId, referralCode);
+        persistStory(userId, offerId, locationId, imageUrl, email, phonenumber, caption, employeeId, referralCode);
         List<StoryType> stories = storyService.getStories(referralCode, platform);
         response.getStories().addAll(stories);
     }
@@ -139,7 +139,7 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
         rwSharedDao.save(shared);
     }
 
-    protected void persistStory(Long userId, Long offerId, String imageUrl, String email, String phonenumber,
+    protected void persistStory(Long userId, Long offerId, Long locationId, String imageUrl, String email, String phonenumber,
             String caption, String employeeId, String referralCode) throws ReferralCodeUniqueException {
 
         Offer offer = roOfferDAO.findById(offerId);
@@ -151,6 +151,7 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
         shared.setUserId(userId);
         shared.setType("web");
         shared.setEmail(email);
+        shared.setLocationId(locationId);
         shared.setPhonenumber(phonenumber);
         shared.setCaption(caption);
         shared.setEmployeeId(employeeId);
