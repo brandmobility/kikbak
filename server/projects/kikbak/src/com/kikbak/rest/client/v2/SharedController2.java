@@ -43,9 +43,9 @@ public class SharedController2 {
             }
             
             tmp = httpRequest.getParameter("locationId");
-            Long locationid = null;
+            Long locationId = null;
             if (tmp != null){
-            	locationid = Long.parseLong(tmp);
+            	locationId = Long.parseLong(tmp);
             }
             
             String imageUrl = ServletRequestUtils.getStringParameter(httpRequest, "imageurl");
