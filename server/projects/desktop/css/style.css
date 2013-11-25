@@ -551,3 +551,19 @@ input[type="button"]:disabled {
 .full-width {
     width: 100%;
 }
+.divider {
+    position:absolute;
+    left:49%;
+    top:6px;
+    height:72px;
+    border-left:2px solid rgb(180,180,180);;
+}
+#login_div {
+    display: inline-block;
+}
+#login_div .note {
+    text-align: center;
+    width: 90%;
+    margin: auto;
+    font-size: 13px;
+}

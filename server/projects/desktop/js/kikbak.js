@@ -62,19 +62,23 @@ var authType = {
   facebook: {
     login_div: '<a id="loginFb" href="#">' +
                  '<img src="images/fb-btn-new.png" width="258" height="55" style="margin: 0 auto;">' + 
-               '</a>',
+               '</a>' +
+               '<div class="clearfix"></div>' +
+               '<p class="note">We use Facebook to personalize your offers and notify you via email when friends redeem them. We will never post without your permission.</p>',
     phone_div: ''
   },
   phone: {
     login_div: '<div style="width:50%;float:left;margin-top:5px">' +
                  '<input id="username-input" type="text" class="required" name="username" placeholder="Name">' +
                  '<input id="email-input" type="email" class="required" name="email" placeholder="Email">' +
-               '</div><div style="width:50%;float:left;margin-top:10px;">' +
+               '</div><div class="divider"></div><div style="width:50%;float:left;margin-top:10px;">' +
                  '<p>OR</p>' +
                  '<a id="loginFb" href="#">' + 
-                   '<img src="images/fb-btn-new.png" width="220" height="40">' +
+                   '<img src="images/fb-btn-new.png" width="260" height="50">' +
                  '</a>' +
-               '</div>',
+               '</div>' +
+               '<div class="clearfix"></div>' +
+               '<p class="note">We use Facebook to personalize your offers and notify you via email when friends redeem them. We will never post without your permission.</p>',
     phone_div: '<input id="phone-input" type="tel" class="required" name="phone" placeholder="Your Verizon phone number" />'
 
   },
@@ -82,12 +86,14 @@ var authType = {
     login_div: '<div style="width:50%;float:left;margin-top:5px;">' +
                  '<input id="username-input" class="required" type="text" name="username" placeholder="Name">' +
                  '<input id="email-input" class="required" type="email" name="email" placeholder="Email">' +
-               '</div><div style="width:50%;margin-top:5px;float:left">' +
+               '</div><div class="divider"></div><div style="width:50%;float:left;margin-top:10px;">' +
                  '<p>OR</p>' +
                  '<a id="loginFb" href="#">' + 
-                   '<img src="images/fb-btn-new.png" width="220" height="40">' +
+                   '<img src="images/fb-btn-new.png" width="260" height="50">' +
                  '</a>' +
-               '</div>',
+               '</div>' +
+               '<div class="clearfix"></div>' +
+               '<p class="note">We use Facebook to personalize your offers and notify you via email when friends redeem them. We will never post without your permission.</p>',
     phone_div: ''
   }
 };
