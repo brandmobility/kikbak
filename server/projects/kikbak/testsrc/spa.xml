@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <merchant id="1" name="Serenity Spa" shortname="Spa" description="spa" url="http://www.serenityspa.com"/>
+  <location id="1" address_1="225 Wilton Ave" city="Palo Alto" state="CA" zipcode="94306" phone_number="3107094681" verification_code="spa" merchant_id="1" latitude="37.4208" longitude="-122.13034" status=""/>
+  <offer id="1" merchant_id="1" name="first_time" image_url="https://test.kikbak.me/data/serenity_spa/serenity_spa_banner.png" tos_url="https://test.kikbak.me/data/serenity_spa/serenity_spa_tos.html" redeem_limit="0" begin_date="2013-11-25 12:00:35.0" end_date="2014-05-24 12:00:35.0" offer_type="both" has_employee_program="0"/>
+  <gift id="1" offer_id="1" description="up to $10 off" detailed_desc="any service for first-time customers" value="10.0" discount_type="amount" redemption_location_type="store" validation_type="qrcode" image_url="https://test.kikbak.me/data/serenity_spa/serenity_spa_give.png" default_give_image_url="https://test.kikbak.me/data/serenity_spa/serenity_spa_banner.png" lottery="0.05 10 0.25 7 0.7 5"/>
+  <kikbak id="1" offer_id="1" description="$15 credit" detailed_desc="for every friend that redeems your gift" value="15.0" reward_type="purchase" validation_type="qrcode" image_url="https://test.kikbak.me/data/serenity_spa/serenity_spa_banner.png"/>
+</dataset>

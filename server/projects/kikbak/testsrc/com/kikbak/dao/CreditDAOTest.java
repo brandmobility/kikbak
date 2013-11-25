@@ -52,6 +52,7 @@ public class CreditDAOTest extends KikbakBaseTest {
 		credit.setMerchantId(1234);
 		credit.setOfferId(1234);
 		credit.setRewardType("credit");
+		credit.setCreatedDate(new Date());
 		
 		rwDao.makePersistent(credit);
 		

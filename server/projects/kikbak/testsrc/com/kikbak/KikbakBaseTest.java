@@ -18,6 +18,7 @@ import org.dbunit.ext.mysql.MySqlDataTypeFactory;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -76,10 +77,10 @@ private static String DATA_SOURCE = "testdataset.xml";
     public void tearDown() throws Exception {
     	
     }
-    
-	@Test
-	public void stub() {
-	}   
 
+    @Test
+    @Ignore
+    public void stub() {
+    }
 
 }
