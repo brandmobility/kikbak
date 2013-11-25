@@ -146,13 +146,13 @@
 
             <div style="position:relative">
             <img src="${shareInfo.imageUrl}" width="100%" height="330px" />
-            <img src="img/blk-shad.png" width="100%" height="330px" style="position:absolute;top:0;" />
+            <img src="img/blk-shad.png" width="100%" height="200px" style="position:absolute;top:130px;" />
             </div>
             <div class="widget">
                 <div class="span4">
                     <h3 style="padding: 0px; margin: 0px; font-family: HelveticaNeueLTPro-Lt">${gift.merchant.name}</h3>
                 </div>
-                <div class="span4">
+                <div class="span4" style="margin-top:5px;">
                     <div class="pull-left">
                         <a href="https://maps.google.com/maps?q=${encodeMerchantName}%40${location.latitude},${location.longitude}">
                             <span class="glyphicon glyphicon-map-marker" style="color:#FFFFFF;font-size:18px;margin-right: 20px;position:relative;"></span>
@@ -170,7 +170,7 @@
                 <div class="clearfix"></div>
             </div>
             <div class="page-header" style="padding:0;">
-                <div class="row show-grid" style="margin:0;padding-top:22px;">
+                <div class="row show-grid" style="margin:0;padding-top:12px;">
                     <c:choose>
                     <c:when test="${not empty shareInfo.fbFriendId}">
                     <div class="col-md-4" style="padding-left: 5px">
@@ -213,7 +213,7 @@
                 </div>
                 <div class="clearfix"></div>
                 <div id="facebook-div">
-                    <div class="page-header" style="padding-left: 10px; padding-right: 10px; margin-top: 25px; text-align: center">
+                    <div class="page-header" style="padding-left: 10px; padding-right: 10px; margin: 10px 0 0 0; text-align: center">
                         <p style="font-size: 15px; font-family: HelveticaNeueLTPro-Lt;">Sign-in with Facebook to redeem your credit now</p>
                         <div style="height: 40px">
                             <a id="loginFb" href="#">
@@ -253,7 +253,7 @@
         $('#container').css('background-position', 'initial initial');
         $('#container').css('background-repeat', 'initial initial');
         $('#header h1').css('background-image', 'url(${merchantUrl})');
-        $('#header h1').css('background-size', '100%');
+        $('#header h1').css('background-size', '100% 100%');
         $('#header h1').css('background-position', 'initial initial');
         $('#header h1').css('background-repeat', 'no-repeat');
         

@@ -152,7 +152,6 @@ html, body {
 #footer {
     height: 56px;
     background: url(../img/footer-bg.png) repeat-x top left;
-    margin-top: 10px;
     position: fixed;
     bottom: 0;
     width: 100%;
@@ -256,7 +255,6 @@ h3 {
  
 #footer {
     background: #454545; /* Old browsers */
-    margin-top: 10px;
     padding: 10px;
     position: relative;
     height: 40px; 

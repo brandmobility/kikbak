@@ -173,13 +173,13 @@
             </c:choose>
             <div style="position:relative">
                 <img src="${shareInfo.imageUrl}" width="100%" height="330px" />
-                <img src="img/blk-shad.png" width="100%" height="330px" style="position: absolute; top: 0px;" />
+                <img src="img/blk-shad.png" width="100%" height="200px" style="position: absolute; top: 130px;" />
             </div>
             <div class="widget">
                 <div class="span4">
                     <h3 style="padding: 0px; margin: 0px;">${gift.merchant.name}</h3>
                 </div>
-                <div class="span4">
+                <div class="span4" style="margin-top:5px;">
                     <div class="pull-left">
                         <a href="https://maps.google.com/maps?q=${encodeMerchantName}%40${location.latitude},${location.longitude}" target="_blank">
                             <span class="glyphicon glyphicon-map-marker" style="color: #FFFFFF; font-size: 18px; margin-right: 20px; position: relative;"></span>
@@ -196,7 +196,7 @@
                 <div class="clearfix"></div>
             </div>
             <div class="page-header" style="padding: 0;">
-                <div class="row show-grid" style="margin: 0; padding-top: 22px;">
+                <div class="row show-grid" style="margin: 0; padding-top: 12px;">
                     <c:choose>
                     <c:when test="${not empty shareInfo.fbFriendId}">
                     <div class="col-md-4" style="padding-left: 5px">
@@ -234,7 +234,7 @@
                 <div class="col-md-6">
                     <div
                         style="background-color: #767676; padding-top: 20px; padding-bottom: 10px;">
-                        <h3 style="font-size: 38px; font-family: HelveticaNeue Bold; padding: 0px; margin: 0 0 -12px 0;">${gift.desc}</h3>
+                        <h3 style="font-size: 38px; font-family: HelveticaNeue Bold; padding: 0px; margin: 0 0 -12px 0; line-height: 18px;">${gift.desc}</h3>
                         <p style="font-family: HelveticaNeueLT Pro 55 Roman; font-size: 18px; padding: 0px; margin: 0px;">${gift.detailedDesc}</p>
                         <small style="font-family: HelveticaNeueLT Pro 45 Lt; font-size: 12px; padding: 0px; margin: 0px;">offer valid in-store only</small>
                     </div>
@@ -244,7 +244,7 @@
             <div class="clearfix"></div>
             <div id="facebook-div">
                 <div class="page-header"
-                    style="padding-left: 10px; padding-right: 10px; margin-top: 25px; text-align: center">
+                    style="padding-left: 10px; padding-right: 10px; margin: 10px 0 0 0; text-align: center">
                     <p style="font-size: 15px; font-family: HelveticaNeueLT Pro 45 Lt;">Connect with Facebook to claim your gift.</p>
                     <div style="height: 40px">
                         <a id="loginFb" href="#"> <img src="img/btn_facebook.png" style="width: 100%;" />
@@ -317,7 +317,7 @@
     $('#container').css('background-position', 'initial initial');
     $('#container').css('background-repeat', 'initial initial');
     $('#header h1').css('background-image', 'url(${merchantUrl})');
-    $('#header h1').css('background-size', '100%');
+    $('#header h1').css('background-size', '100% 100%');
     $('#header h1').css('background-position', 'initial initial');
     $('#header h1').css('background-repeat', 'no-repeat');
     </c:when>
