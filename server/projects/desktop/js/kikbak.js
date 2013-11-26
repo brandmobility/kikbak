@@ -68,13 +68,13 @@ var authType = {
     phone_div: ''
   },
   phone: {
-    login_div: '<div style="width:50%;float:left;margin-top:5px">' +
+    login_div: '<div style="width:53%;float:left;margin-top:5px">' +
                  '<input id="username-input" type="text" class="required" name="username" placeholder="Name">' +
                  '<input id="email-input" type="email" class="required" name="email" placeholder="Email">' +
-               '</div><div class="divider"></div><div style="width:50%;float:left;margin-top:10px;">' +
+               '</div><div class="divider"></div><div style="width:45%;float:left;margin-top:10px;">' +
                  '<p>OR</p>' +
                  '<a id="loginFb" href="#">' + 
-                   '<img src="images/fb-btn-new.png" width="260" height="50">' +
+                   '<img src="images/fb-btn-new.png" width="240" height="50">' +
                  '</a>' +
                '</div>' +
                '<div class="clearfix"></div>' +
@@ -83,13 +83,13 @@ var authType = {
 
   },
   none: {
-    login_div: '<div style="width:50%;float:left;margin-top:5px;">' +
+    login_div: '<div style="width:53%;float:left;margin-top:5px;">' +
                  '<input id="username-input" class="required" type="text" name="username" placeholder="Name">' +
                  '<input id="email-input" class="required" type="email" name="email" placeholder="Email">' +
-               '</div><div class="divider"></div><div style="width:50%;float:left;margin-top:10px;">' +
+               '</div><div class="divider"></div><div style="width:45%;float:left;margin-top:10px;">' +
                  '<p>OR</p>' +
                  '<a id="loginFb" href="#">' + 
-                   '<img src="images/fb-btn-new.png" width="260" height="50">' +
+                   '<img src="images/fb-btn-new.png" width="240" height="50">' +
                  '</a>' +
                '</div>' +
                '<div class="clearfix"></div>' +
@@ -139,7 +139,7 @@ function onInput() {
   var valid = true;
   $('.required').each(function() {
     var thisElement = $(this);
-    thisElement.css('border', '2px inset');
+    thisElement.css('border', '1px solid rgba(1,1,1,.2)');
     var value = thisElement.val();
     if (thisElement.attr('type') === 'tel') {
       if (value.replace(/^\d/g, "") === '') {
@@ -198,7 +198,7 @@ function connectFb(resp) {
   $('#email-input').removeClass('required');
   $('#login_div').hide();
 
-  $('#user-div img').attr('src', 'https://graph.facebook.com/' + user.fbId + '/picture?type=square');
+  $('#user-div img').attr('src', 'https://graph.facebook.com/' + user.fbId + '/picture?width=124&height=124');
   FB.api('/me', function(response) {
     $('#user-div h3').html(response.name);
     $('#user-div').show();

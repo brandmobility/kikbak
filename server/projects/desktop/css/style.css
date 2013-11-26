@@ -102,15 +102,40 @@ body{
     font-family: 'HelveticaNeueLT Pro 55 Roman', Helvetica, Arial, sans-serif;
     font-size: 14px;
     line-height: 1.428571429;
-    color: #333333;
+    color: #393939;
 }
 strong{
     font-family: 'HelveticaNeue Bold';
+}
+input, textarea{
+    border: 1px solid rgba(1,1,1,.2);
+    -moz-border-radius: 7px / 5px;
+    -webkit-border-radius: 7px / 5px;
+    border-radius: 7px / 5px;
+    background-color: #fff;
+    -moz-box-shadow: inset 0 1px 5px rgba(1,1,1,.25);
+    -webkit-box-shadow: inset 0 1px 5px rgba(1,1,1,.25);
+    box-shadow: inset 0 1px 5px rgba(1,1,1,.25);
+    font-size:16px;
+    line-height: 18px;
+    color:#a3a3a3;
+    font-family:"Lucida Grande", sans-serif;
+}
+textarea{
+    line-height: 24px;
+}
+input[type="text"]:focus, textarea:focus{
+    color:#393939;
 }
 #container{
     background-repeat: no-repeat;
     background-position: top center;
     height: 100%;
+}
+#container img{
+    width:102%;
+    height:102%;
+    margin:-10px -20px -20px -10px;
     -webkit-filter: blur(4px);
     -moz-filter: blur(4px); 
     -o-filter: blur(4px); 
@@ -130,13 +155,14 @@ strong{
     width:900px;
     margin: 0 auto 66px;
 }
-#info{
-    width: 360px;
-    float: left;
+#info-wrapper{
+    width:366px;
+    float:left;
+    margin-top:90px;
 }
-#info-background{
-    margin-top:80px;
+#info{
     padding: 10px;
+    width: 346px;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
     border-radius: 10px;
@@ -148,7 +174,6 @@ strong{
     -webkit-box-shadow: 0 2px 4px rgba(1,1,1,.25);
     box-shadow: 0 2px 4px rgba(1,1,1,.25);
 }
-
 #info .info-header{
     margin-bottom: 10px;
 }
@@ -175,19 +200,19 @@ strong{
     font-family:'HelveticaNeue Bold';
 }
 #info .info-content{
-    width:340px;
-    height:340px;
+    width:346px;
+    height:346px;
     position: relative;
 }
 #info .info-content .main-image{
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
     border-radius: 10px;
-    height:340px;
-    width:340px;
+    height:346px;
+    width:346px;
 }
 #info .info-content .overlay{
-    width:340px;
+    width:346px;
     height:188px;
     bottom: 0px;
     left:0;
@@ -224,50 +249,21 @@ strong{
 #info .info-content .content-detail .globe{
     background: url(../images/icon-globe.png) no-repeat;
 }
-#info .info-footer{
-    margin-top: 8px;
-    font-size: 12px;
-}
-#info .info-footer small{
-    font-size:11px;
-}
-#info .info-footer input{
-    border: 1px solid rgba(1,1,1,.2);
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    -moz-background-clip: padding;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-    background-color: #fff;
-    -moz-box-shadow: inset 0 1px 5px rgba(1,1,1,.25);
-    -webkit-box-shadow: inset 0 1px 5px rgba(1,1,1,.25);
-    box-shadow: inset 0 1px 5px rgba(1,1,1,.25);
-    width:328px;
-    height:25px;
-    padding: 5px;
-    line-height: 25px;
-    color: #666;
-    font-size: 12px;
-}
-#instruction p {
-    margin: 20px 10px 0 10px;
-}
-#program_name p {
-    text-align: center;
-    font-size: 30px;
-    margin-top: 15px;
-    font-weight: bold;
+#info-wrapper .info-footer{
+    margin-top: 20px;
+    font-size: 14px;
+    line-height: 18px;
+    text-shadow: 0 2px 0 rgba(255,255,255,.5);
 }
 #main-right{
     margin-top: 0px;
-    width:540px;
+    width:534px;
     float: right;
 }
 #main-right #header{
     height:105px;
     padding:10px 0;
-    width:540px;
+    width:534px;
     display: block;
 }
 #main-right #header h1{
@@ -279,13 +275,23 @@ strong{
     padding: 0px;
     display:block;
 }
+#main-right .title{
+    color: #393939;
+    font-weight:bold;
+    font-size: 28px;
+    line-height:30px;
+    margin-top:20px;
+    text-shadow: 0 2px 0 rgba(255,255,255,.5);
+    text-align:center;
+}
 #main-right #ribbon{
+    margin-top: 20px;
     color:#FFF;
-    width:540px;
-    height: 66px;
+    width:535px;
+    height: 83px;
     background: url(../images/ribbon.png) no-repeat top left;
     text-align:center;
-    padding: 23px 0 27px;
+    padding: 15px 0 18px;
 }
 #main-right #ribbon h2{
     font-size: 42px;
@@ -296,13 +302,17 @@ strong{
 }
 #main-right #ribbon p{
     font-size:22px;
-    line-height:22px;
-    height:22px;
+    line-height:27px;
+    height:27px;
+}
+#main-right #ribbon small{
+    font-size:14px;
+    line-height: 14px;
 }
 #main-right #ribbon-bottom{
     margin-top: 8px;
     color:#2079e8;
-    width:540px;
+    width:535px;
     height: 66px;
     background: url(../images/ribbon-bottom.png) no-repeat top left;
     text-align:center;
@@ -321,13 +331,28 @@ strong{
     line-height:22px;
     height:22px;
 }
+#main-right #bottom{
+    width:500px;
+    float:right;
+}
 #main-right #facebook-div{
-    text-align:center;
-    position:absolute;
-    top:0;
-    left:0;
-    margin: 12px auto;
-    width: 100%;
+    margin-top: 12px;
+}
+#main-right #facebook-div .email{
+    width: 221px;
+    padding-right:10px;
+    float:left;
+    border-right: 1px solid #b3b3b3; 
+}
+#main-right #facebook-div .email input[type="text"]{
+    height:18px;
+    padding:7px;
+    width:207px;
+    margin-bottom:5px;
+}
+#main-right #facebook-div .fb{
+    width:258px;
+    float:right;
 }
 #main-right #facebook-div p.title{
     font-size: 16px;
@@ -338,12 +363,12 @@ strong{
 }
 #main-right #facebook-div p.disclaimer{
     font-size:12px;
-    font-style: italic;
     line-height: 15px;
-    margin-top: 10px;
+    margin-top: 5px;
     font-family: 'HelveticaNeueLT Pro 45 Lt';
-    color: #393939;
     font-weight:300;
+    text-align: center;
+    margin-bottom:10px;
 }
 
 #footer-wrap{
@@ -409,16 +434,8 @@ strong{
 }
 #main-right #btn-container {
     position: relative;
-    height: 200px;
-}
-#take-picture {
-    position: absolute;
-    top: -10px;
-    left: 0;
-    width: 60px;
-    height: 60px;
-    margin: 0 140px;
-    opacity: 0;
+    float: right;
+    width: 500px;
 }
 #main-right #share-success h2 {
     font-size: 30px;
@@ -448,17 +465,19 @@ strong{
                 50% 50% 
                 no-repeat;
 }
+#main-right #btn-container {
+    margin-top: 15px;
+}
 #btn-container input {
-    width: 84%;
-    height: 25px;
-    margin: 3px 0 3px 25px;
-    font-size: 14px;
+    height:18px;
+    padding:7px;
+    width:486px;
+    margin-bottom:7px;
 }
 #btn-container textarea {
-    width: 84%;
-    height: 70px;
-    margin: 3px 0 3px 25px;
-    font-size: 14px;
+    height:72px;
+    padding:7px;
+    width:486px;
 }
 #btn-container #share-btn-div {
     width: 100%;
@@ -466,7 +485,6 @@ strong{
     text-align: center;
 }
 #btn-container #share-btn {
-    margin: 0 auto 70px auto;
     font-size: 16px;
 }
 button :disable {
@@ -553,7 +571,7 @@ input[type="button"]:disabled {
 }
 .divider {
     position:absolute;
-    left:49%;
+    left:51%;
     top:6px;
     height:72px;
     border-left:2px solid rgb(180,180,180);;
@@ -566,4 +584,10 @@ input[type="button"]:disabled {
     width: 90%;
     margin: auto;
     font-size: 13px;
+}
+#btn-container #username-input {
+    width: 230px;
+}
+#btn-container #email-input {
+    width: 230px;
 }
