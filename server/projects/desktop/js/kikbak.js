@@ -214,8 +214,8 @@ function validateEmail(email) {
 
 function validatePhone(phone) {
   if (!phone) return false;
-  var normalizedPhone = phone.replace(/^\d/g, "");
-  return normalizedPhone >= 10;
+  var normalizedPhone = phone.replace(/^\d$/g, "");
+  return normalizedPhone.length >= 10;
 }
 
 
