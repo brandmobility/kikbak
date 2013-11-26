@@ -293,7 +293,7 @@ public class UserServiceImpl implements UserService2 {
                 ot.getLocations().add(ml);
             }
             ot.setHasEmployeeProgram(offer.getHasEmployeeProgram() != 0);
-            ot.setMapUri(offer.getAuth());
+            ot.setMapUri(offer.getMapUri());
             ot.setAuth(offer.getAuth());
 
             ots.add(ot);
@@ -349,7 +349,7 @@ public class UserServiceImpl implements UserService2 {
                 ot.getLocations().add(ml);
             }
             ot.setHasEmployeeProgram(offer.getHasEmployeeProgram() != 0);
-            ot.setMapUri(offer.getAuth());
+            ot.setMapUri(offer.getMapUri());
             ot.setAuth(offer.getAuth());
 
             ots.add(ot);

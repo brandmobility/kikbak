@@ -20,6 +20,7 @@ import com.kikbak.dao.ReadOnlyOfferDAO;
 import com.kikbak.dao.ReadOnlySharedDAO;
 import com.kikbak.dao.ReadWriteSharedDAO;
 import com.kikbak.dao.enums.Channel;
+import com.kikbak.dao.enums.OfferType;
 import com.kikbak.dto.Gift;
 import com.kikbak.dto.Offer;
 import com.kikbak.dto.Shared;
@@ -68,9 +69,11 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public String registerSharing(ShareInfo share) throws RateLimitException {
 
-        checkMaxRedeemCountReached(share.userId, share.offerId);
-
         Offer offer = roOfferDAO.findById(share.offerId);
+
+        if (OfferType.both.equals(offer.getOfferType())) {
+            checkMaxRedeemCountReached(share.userId, share.offerId);
+        }
 
         Shared shared = new Shared();
         shared.setUserId(share.userId);
