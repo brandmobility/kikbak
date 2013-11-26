@@ -107,6 +107,7 @@
                 android:paddingRight="5dp"
                 android:paddingTop="1.5dp"
                 android:scaleType="centerCrop"
+                android:src="@drawable/ic_friend_placeholder"
                 app:border_color="#cacaca"
                 app:border_width="1dip"
                 app:corner_radius="6dip" />

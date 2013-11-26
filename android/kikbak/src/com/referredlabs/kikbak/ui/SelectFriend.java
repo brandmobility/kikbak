@@ -21,7 +21,6 @@ import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.GiftType;
 import com.referredlabs.kikbak.data.ShareInfoType;
 import com.referredlabs.kikbak.fb.Fb;
-import com.referredlabs.kikbak.utils.LocaleUtils;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -123,10 +122,15 @@ public class SelectFriend extends DialogFragment implements OnItemClickListener 
       TextView text = (TextView) convertView.findViewById(R.id.name);
       text.setText(friend.friendName);
 
-      Uri uri = Fb.getFriendPhotoUri(friend.fbFriendId);
       ImageView image = (ImageView) convertView.findViewById(R.id.image);
-      Picasso.with(convertView.getContext()).load(uri).into((Target) image);
-
+      if (friend.fbFriendId != null) {
+        Uri uri = Fb.getFriendPhotoUri(friend.fbFriendId);
+        Picasso.with(convertView.getContext()).cancelRequest((Target) image);
+        Picasso.with(convertView.getContext()).load(uri).into((Target) image);
+      } else {
+        Picasso.with(convertView.getContext()).cancelRequest((Target) image);
+        image.setImageResource(R.drawable.ic_friend_placeholder);
+      }
       return convertView;
     }
   }
