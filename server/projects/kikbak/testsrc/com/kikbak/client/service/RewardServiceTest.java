@@ -1,6 +1,6 @@
 package com.kikbak.client.service;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
@@ -157,7 +157,8 @@ public class RewardServiceTest extends KikbakBaseTest{
         	BarcodeResponse code2 = new BarcodeResponse();
             service.getBarcode(52L, 4L, code);
             service.getBarcode(52L, 4L, code2);
-            assertTrue(code.equals(code2));
+            assertEquals(code.getCode(), code.getCode());
+            assertEquals(code.getValidDays(), code.getValidDays());
         } catch (Exception e) {
             e.printStackTrace();
             fail();

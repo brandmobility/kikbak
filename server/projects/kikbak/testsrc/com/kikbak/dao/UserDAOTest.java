@@ -45,7 +45,7 @@ public class UserDAOTest extends KikbakBaseTest{
 		user.setFacebookId(123424L);
 		user.setLastName("t");
 		user.setCreateDate(new Date());
-		
+		user.setUpdateDate(new Date());
 		rwDAO.makePersistent(user);
 		
 		User u2 = roDao.findByFacebookId(123424L);

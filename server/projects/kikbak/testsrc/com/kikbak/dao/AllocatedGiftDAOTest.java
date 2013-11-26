@@ -53,6 +53,7 @@ public class AllocatedGiftDAOTest extends KikbakBaseTest {
 		gift.setOfferId(144);
 		gift.setUserId(6363);
 		gift.setValue(43.54);
+		gift.setCreatedDate(new Date());
 		rwDao.makePersistent(gift);
 		
 		Collection<Allocatedgift> gifts = roDao.listValidByUserId(6363L);

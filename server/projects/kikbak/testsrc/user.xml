@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <user id="1" first_name="Adam" last_name="B&#261;k" email="adam.bak.1980@gmail.com" facebook_id="100006185341580" gender="0" create_date="2013-11-25 12:07:53.0" update_date="2013-11-25 12:08:05.0"/>
+  <userToken id="1" user_id="1" token="1firdzhs8xz8anqcwc4q0zd6sf"/>
+  <devicetoken id="1" user_id="1" token="APA91bFsOTPlc8Uux2nnYkQFBQ13IQEovh2S3xc7Tx67t0F-cUwbjIgo4hLUoyP87oxE0i2qm4f6NOek7D1qHWBRpoe1ab6_x_F77FflZyxp-hfN50fWmSX-0O_mnDOVdWaZdYbtTD_enCh0edIEFf-WC5glwGXGAW5xDJDBWmet_pBEgEczuJg" platform_type="1" last_update_time="2013-11-25 12:08:06.0"/>
+  <user2friend id="1" user_id="1" facebook_friend_id="704791"/>
+  <user2friend id="2" user_id="1" facebook_friend_id="584068089"/>
+  <user2friend id="3" user_id="1" facebook_friend_id="1622011171"/>
+  <user2friend id="4" user_id="1" facebook_friend_id="100006308011442"/>  
+</dataset>

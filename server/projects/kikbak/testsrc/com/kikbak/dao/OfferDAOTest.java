@@ -49,6 +49,7 @@ public class OfferDAOTest extends KikbakBaseTest{
 		offer.setName("test");
 		offer.setImageUrl("url");
 		offer.setTosUrl("tos");
+		offer.setOfferType("both");
 		
 		rwDao.makePersistent(offer);
 		
@@ -66,6 +67,7 @@ public class OfferDAOTest extends KikbakBaseTest{
 		offer.setName("name");
 		offer.setImageUrl("url");
 		offer.setTosUrl("tos");
+		offer.setOfferType("both");
 		rwDao.makePersistent(offer);
 		
 		Collection<Offer> offers = roDao.listValidOffers();

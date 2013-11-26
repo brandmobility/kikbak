@@ -26,22 +26,22 @@
  <user2friend id="1" user_id="1" facebook_friend_id="1"/>
  <claim id="1" user_id="3" kikbak_id="12" offer_id="13" phone_number="1234" name="name" street="123" apt="123" city="1234" state="CA" zipcode="12345" request_date="2012-11-13 22:00:00" amount="0" />
  <barcode id="1" merchant_id="1" offer_id="1" allocated_gift_id="12" gift_id="12" code="123456"  value="12.32" association_date="2012-11-13 22:00:00" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00"/>
- <barcode id="2" merchant_id="1" offer_id="1" gift_id="12" code="212345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00"/>
- <barcode id="3" merchant_id="1" offer_id="1" gift_id="12" code="312345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00"/>
- <barcode id="4" merchant_id="1" offer_id="1" gift_id="12" code="412345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00"/>
- <barcode id="5" merchant_id="1" offer_id="1" gift_id="12" code="512345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00"/>
- <barcode id="6" merchant_id="1" offer_id="1" gift_id="12" code="612345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00"/>
- <barcode id="7" merchant_id="1" offer_id="1" gift_id="12" code="712345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00"/>
- <barcode id="8" merchant_id="1" offer_id="1" gift_id="12" code="812345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00"/>
- <barcode id="9" merchant_id="1" offer_id="1" gift_id="12" code="912345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00"/>
- <barcode id="11" merchant_id="1" offer_id="1" gift_id="12" code="012345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00"/>
- <barcode id="12" merchant_id="1" offer_id="1" gift_id="12" code="1912345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00"/>
- <barcode id="13" merchant_id="1" offer_id="1" gift_id="12" code="2012345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00"/>
- <barcode id="14" merchant_id="1" offer_id="1" gift_id="12" code="3912345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00"/>
- <barcode id="15" merchant_id="1" offer_id="1" gift_id="12" code="4012345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00"/>
- <barcode id="16" merchant_id="1" offer_id="1" gift_id="12" code="5912345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00"/>
- <barcode id="17" merchant_id="1" offer_id="1" gift_id="12" code="6012345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00"/>
- <barcode id="18" merchant_id="1" offer_id="1" gift_id="4" code="222222222222"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00"/>
+ <barcode id="2" merchant_id="1" offer_id="1" gift_id="12" code="212345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00" valid_days="3" />
+ <barcode id="3" merchant_id="1" offer_id="1" gift_id="12" code="312345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00" valid_days="3" />
+ <barcode id="4" merchant_id="1" offer_id="1" gift_id="12" code="412345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00" valid_days="3" />
+ <barcode id="5" merchant_id="1" offer_id="1" gift_id="12" code="512345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00" valid_days="3" />
+ <barcode id="6" merchant_id="1" offer_id="1" gift_id="12" code="612345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00" valid_days="3" />
+ <barcode id="7" merchant_id="1" offer_id="1" gift_id="12" code="712345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00" valid_days="3" />
+ <barcode id="8" merchant_id="1" offer_id="1" gift_id="12" code="812345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00" valid_days="3" />
+ <barcode id="9" merchant_id="1" offer_id="1" gift_id="12" code="912345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00" valid_days="3" />
+ <barcode id="11" merchant_id="1" offer_id="1" gift_id="12" code="012345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00" valid_days="3" />
+ <barcode id="12" merchant_id="1" offer_id="1" gift_id="12" code="1912345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00" valid_days="3" />
+ <barcode id="13" merchant_id="1" offer_id="1" gift_id="12" code="2012345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00" valid_days="3" />
+ <barcode id="14" merchant_id="1" offer_id="1" gift_id="12" code="3912345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00" valid_days="3" />
+ <barcode id="15" merchant_id="1" offer_id="1" gift_id="12" code="4012345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00" valid_days="3" />
+ <barcode id="16" merchant_id="1" offer_id="1" gift_id="12" code="5912345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00" valid_days="3" />
+ <barcode id="17" merchant_id="1" offer_id="1" gift_id="12" code="6012345"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00" valid_days="3" />
+ <barcode id="18" merchant_id="1" offer_id="1" gift_id="4" code="222222222222"  value="12.32" begin_date="2012-11-13 22:00:00" expiration_date="2015-11-13 22:00:00" valid_days="3" />
 
  <gift id="1" offer_id="12" description="test" detailed_desc="12" value="14" discount_type="amount" redemption_location_type="store" validation_type="pos" image_url="url" default_give_image_url="url" />
 </dataset>

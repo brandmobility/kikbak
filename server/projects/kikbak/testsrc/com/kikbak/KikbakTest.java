@@ -18,6 +18,8 @@ import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.ext.mysql.MySqlDataTypeFactory;
 import org.dbunit.operation.DatabaseOperation;
+import org.junit.Ignore;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -67,6 +69,11 @@ public class KikbakTest {
         IDatabaseConnection dbConnection = new DatabaseConnection(jdbcConnection);
         dbConnection.getConfig().setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new MySqlDataTypeFactory());
         DatabaseOperation.CLEAN_INSERT.execute(dbConnection, dataSet);
+    }
+
+    @Test
+    @Ignore
+    public void stub() {
     }
 
 }

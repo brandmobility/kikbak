@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <shared id="1" user_id="1" type="email" location_id="1" offer_id="1" merchant_id="1" shared_date="2012-11-13 22:00:00" referral_code="code1"/>
+  <shared id="2" user_id="2" type="fb" location_id="1" offer_id="1" merchant_id="1" shared_date="2012-11-13 22:00:00" referral_code="code2"/>  
+  <shared id="3" user_id="2" type="email" location_id="1" offer_id="1" merchant_id="1" shared_date="2012-11-13 23:00:00" referral_code="code3"/>
+</dataset>
