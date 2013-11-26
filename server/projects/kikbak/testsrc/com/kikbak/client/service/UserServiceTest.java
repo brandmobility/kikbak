@@ -1,13 +1,11 @@
 package com.kikbak.client.service;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,13 +16,11 @@ import com.kikbak.dao.ReadOnlyDeviceTokenDAO;
 import com.kikbak.dao.ReadOnlyUser2FriendDAO;
 import com.kikbak.dao.ReadOnlyUserDAO;
 import com.kikbak.dto.Devicetoken;
-import com.kikbak.dto.User;
 import com.kikbak.jaxb.v1.admin.LocationType;
 import com.kikbak.jaxb.v1.admin.MerchantType;
 import com.kikbak.jaxb.v1.admin.OfferType;
 import com.kikbak.jaxb.v1.devicetoken.DeviceTokenType;
 import com.kikbak.jaxb.v1.friends.FriendType;
-import com.kikbak.jaxb.v1.register.UserIdType;
 import com.kikbak.jaxb.v1.register.UserType;
 
 public class UserServiceTest extends KikbakBaseTest{
@@ -44,51 +40,6 @@ public class UserServiceTest extends KikbakBaseTest{
 	@Autowired
 	MerchantService merchantService;
 	
-	@Test
-	@Ignore("This test relies on fb token")
-	public void testUpdateNewFriends(){
-		Collection<FriendType> fts = generateFriends(2);
-		
-//		service.updateFriends(4L, fts);
-		
-		Collection<Long> friendIds = roU2FDao.listFriendsForUser(4L);
-		assertEquals(2, friendIds.size());
-	}
-	
-	@Test
-	@Ignore("This test relies on fb token")
-	public void testAddNewFriends(){
-		Collection<FriendType> fts = generateFriends(2);
-//		service.updateFriends(4L, fts);
-		
-		fts = generateFriends(4);
-//		service.updateFriends(4L, fts);
-		
-		Collection<Long> friendIds = roU2FDao.listFriendsForUser(4L);
-		assertEquals(4, friendIds.size());
-		
-	}
-	
-	@Test
-	@Ignore("This test relies on fb token")
-	public void testDeleteOldFriends(){
-		Collection<FriendType> fts = generateFriends(2);
-//		service.updateFriends(4L, fts);
-		
-		FriendType ft = new FriendType();
-		ft.setId(888);
-		ft.setFirstName("f1");
-		ft.setLastName("l2");
-		ft.setName("name");
-		ft.setUsername("username");
-		fts = new ArrayList<FriendType>();
-		fts.add(ft);
-		
-//		service.updateFriends(4L, fts);
-		
-		Collection<Long> friendIds = roU2FDao.listFriendsForUser(4L);
-		assertEquals(1, friendIds.size());
-	}
 	
 	@Test
 	public void testPersistDeviceToken(){

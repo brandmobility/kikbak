@@ -416,7 +416,12 @@ public class RewardServiceImpl implements RewardService {
         sit.setEmployeeId(shared.getEmployeeId());
         sit.setFriendUserId(friend.getId());
         sit.setFbFriendId(friend.getFacebookId());
-        sit.setFriendName(friend.getFirstName() + " " + friend.getLastName());
+        if(friend.getFirstName() != null && friend.getLastName() != null ){
+        	sit.setFriendName(friend.getFirstName() + " " + friend.getLastName());
+        }
+        else{
+        	sit.setFriendName(friend.getManualName());
+        }
 
         Location location = null;
         if (shared.getLocationId() != null && 
