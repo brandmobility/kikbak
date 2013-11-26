@@ -3,7 +3,6 @@ package com.kikbak.client.service.impl;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Date;
-import java.util.List;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,18 +14,15 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kikbak.client.service.v1.RateLimitException;
 import com.kikbak.client.service.v1.ReferralCodeUniqueException;
 import com.kikbak.client.service.v1.SharedExperienceService;
-import com.kikbak.client.service.v1.StoryTemplateService;
 import com.kikbak.dao.ReadOnlyAllocatedGiftDAO;
 import com.kikbak.dao.ReadOnlyGiftDAO;
 import com.kikbak.dao.ReadOnlyOfferDAO;
 import com.kikbak.dao.ReadOnlySharedDAO;
 import com.kikbak.dao.ReadWriteSharedDAO;
+import com.kikbak.dao.enums.Channel;
 import com.kikbak.dto.Gift;
 import com.kikbak.dto.Offer;
 import com.kikbak.dto.Shared;
-import com.kikbak.jaxb.v1.share.SharedType;
-import com.kikbak.jaxb.v2.share.StoriesResponse;
-import com.kikbak.jaxb.v2.share.StoryType;
 import com.kikbak.push.service.PushNotifier;
 
 @Service
@@ -38,9 +34,6 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
 
     @Autowired
     private PropertiesConfiguration config;
-
-    @Autowired
-    StoryTemplateService storyService;
 
     @Autowired
     @Qualifier("ReadOnlySharedDAO")
@@ -64,50 +57,56 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public void getShareStories(Long userId, Long offerId, Long locationId, String imageUrl, String platform, String email,
-            String phonenumber, String caption, String employeeId, StoriesResponse response)
-            throws ReferralCodeUniqueException, RateLimitException {
-
-        checkMaxRedeemCountReached(userId, offerId);
-
-        int maxLength = config.getInt(RANDOM_SECRET_LENGTH, DEFAULT_RANDOM_SECRET_LENGTH);
-        String referralCode = generateReferralCode(maxLength);
-        response.setCode(referralCode);
-        persistStory(userId, offerId, locationId, imageUrl, email, phonenumber, caption, employeeId, referralCode);
-        List<StoryType> stories = storyService.getStories(referralCode, platform);
-        response.getStories().addAll(stories);
+    public String registerSharingAndNotify(ShareInfo share) throws RateLimitException {
+        String referralCode = registerSharing(share);
+        Gift gift = roGiftDAO.findByOfferId(share.offerId);
+        pushNotifier.sendGiftNotification(share.userId, gift);
+        return referralCode;
     }
 
-    protected void checkMaxRedeemCountReached(Long userId, Long offerId) throws RateLimitException {
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public String registerSharing(ShareInfo share) throws RateLimitException {
 
+        checkMaxRedeemCountReached(share.userId, share.offerId);
+
+        Offer offer = roOfferDAO.findById(share.offerId);
+
+        Shared shared = new Shared();
+        shared.setUserId(share.userId);
+        shared.setOfferId(share.offerId);
+        shared.setMerchantId(offer.getMerchantId());
+        shared.setCaption(share.caption);
+        shared.setImageUrl(share.imageUrl);
+        shared.setLocationId(share.locationId);
+        shared.setEmployeeId(share.employeeId);
+        shared.setEmail(share.email);
+        shared.setPhonenumber(share.phoneNumber);
+        shared.setType(share.channel.name());
+        shared.setSharedDate(new Date());
+
+        int maxLength = config.getInt(RANDOM_SECRET_LENGTH, DEFAULT_RANDOM_SECRET_LENGTH);
+        while (true) {
+            try {
+                String referralCode = generateReferralCode(maxLength);
+                shared.setReferralCode(referralCode);
+                rwSharedDao.save(shared);
+                return referralCode;
+            } catch (ReferralCodeUniqueException e) {
+                ++maxLength;
+            }
+            if (maxLength > 64) {
+                throw new RuntimeException("Cannot find a unique referral code");
+            }
+        }
+    }
+
+    private void checkMaxRedeemCountReached(Long userId, Long offerId) throws RateLimitException {
         Integer count = roAllocatedGiftDAO.countOfRedeemedShares(userId, offerId);
         Offer offer = roOfferDAO.findById(offerId);
         if (count >= offer.getRedeemLimit()) {
             throw new RateLimitException("User can no longer share!");
         }
-    }
-
-    @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public String registerSharing(final Long userId, SharedType experience) {
-        // persist share
-        int maxLength = config.getInt(RANDOM_SECRET_LENGTH, DEFAULT_RANDOM_SECRET_LENGTH);
-        String referralCode = null;
-        while (true) {
-            try {
-                referralCode = generateReferralCode(maxLength);
-                persistExperience(userId, experience, referralCode);
-                Gift gift = roGiftDAO.findByOfferId(experience.getOfferId());
-                pushNotifier.sendGiftNotification(userId, gift);
-                break;
-            } catch (ReferralCodeUniqueException e) {
-                ++maxLength;
-            }
-            if (maxLength > 64) {
-                throw new RuntimeException("cannot find a unique referral code");
-            }
-        }
-        return referralCode;
     }
 
     private String generateReferralCode(int maxLength) {
@@ -122,55 +121,24 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
         return randomStr;
     }
 
-    protected void persistExperience(final Long userId, SharedType experience, String referralCode)
-            throws ReferralCodeUniqueException {
-        Shared shared = new Shared();
-        shared.setLocationId(experience.getLocationId());
-        shared.setMerchantId(experience.getMerchantId());
-        shared.setOfferId(experience.getOfferId());
-        shared.setEmployeeId(experience.getEmployeeId());
-        shared.setImageUrl(experience.getImageUrl());
-        shared.setUserId(userId);
-        shared.setCaption(experience.getCaption());
-        shared.setType(experience.getType());
-        shared.setSharedDate(new Date());
-        shared.setReferralCode(referralCode);
-
-        rwSharedDao.save(shared);
-    }
-
-    protected void persistStory(Long userId, Long offerId, Long locationId, String imageUrl, String email, String phonenumber,
-            String caption, String employeeId, String referralCode) throws ReferralCodeUniqueException {
-
-        Offer offer = roOfferDAO.findById(offerId);
-
-        Shared shared = new Shared();
-        shared.setMerchantId(offer.getMerchantId());
-        shared.setOfferId(offerId);
-        shared.setImageUrl(imageUrl);
-        shared.setUserId(userId);
-        shared.setType("web");
-        shared.setEmail(email);
-        shared.setLocationId(locationId);
-        shared.setPhonenumber(phonenumber);
-        shared.setCaption(caption);
-        shared.setEmployeeId(employeeId);
-        shared.setSharedDate(new Date());
-        shared.setReferralCode(referralCode);
-
-        rwSharedDao.save(shared);
-    }
-
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public void addShareType(String code, String type) throws ReferralCodeUniqueException {
+    public void addShareType(String code, Channel channel) {
         Shared shared = roSharedDao.findByReferralCode(code);
+        if (shared == null)
+            throw new IllegalArgumentException("Shared not found for code:" + code);
+
         StringBuffer sb = new StringBuffer(shared.getType());
         sb.append(";");
-        sb.append(type);
+        sb.append(channel.name());
         shared.setType(sb.toString());
 
-        rwSharedDao.save(shared);
+        try {
+            rwSharedDao.save(shared);
+        } catch (ReferralCodeUniqueException e) {
+            // should never happen
+            throw new RuntimeException("oops");
+        }
     }
 
 }

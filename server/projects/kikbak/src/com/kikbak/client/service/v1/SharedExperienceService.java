@@ -1,16 +1,27 @@
 package com.kikbak.client.service.v1;
 
-import com.kikbak.jaxb.v1.share.SharedType;
-import com.kikbak.jaxb.v2.share.StoriesResponse;
+import com.kikbak.dao.enums.Channel;
 
 public interface SharedExperienceService {
 
-	public String registerSharing(final Long userId, SharedType experience);
-	
-	public void addShareType(String code, String type) throws ReferralCodeUniqueException;
+    class ShareInfo {
+        // mandatory
+        public long userId;
+        public long offerId;
+        public Channel channel;
+        // optional
+        public String caption;
+        public String imageUrl;
+        public Long locationId;
+        public String employeeId;
+        public String email;
+        public String phoneNumber;
+    }
 
-	void getShareStories(Long userId, Long offerId, Long locationId, String imageUrl,
-			String platform, String email, String phonenumber, String caption,
-			String employeeId, StoriesResponse response)
-			throws ReferralCodeUniqueException, RateLimitException;
+    public String registerSharing(ShareInfo share) throws RateLimitException;
+
+    public String registerSharingAndNotify(ShareInfo share) throws RateLimitException;
+
+    public void addShareType(String code, Channel channel);
+
 }

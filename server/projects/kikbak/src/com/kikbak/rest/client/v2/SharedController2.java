@@ -1,6 +1,6 @@
 package com.kikbak.rest.client.v2;
 
-import java.net.URLDecoder;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.kikbak.client.service.v1.RateLimitException;
 import com.kikbak.client.service.v1.SharedExperienceService;
+import com.kikbak.client.service.v1.StoryTemplateService;
+import com.kikbak.dao.enums.Channel;
 import com.kikbak.jaxb.v2.share.StoriesResponse;
 import com.kikbak.jaxb.v2.share.StoryStatus;
+import com.kikbak.jaxb.v2.share.StoryType;
 
 @Controller
 @RequestMapping("/v2/share")
@@ -26,52 +29,43 @@ public class SharedController2 {
     @Autowired
     private SharedExperienceService sharedService;
 
+    @Autowired
+    private StoryTemplateService storyService;
+
     @RequestMapping(value = "/getstories", method = RequestMethod.GET)
     public StoriesResponse getStories(final HttpServletRequest httpRequest, final HttpServletResponse httpResponse) {
 
         try {
+            SharedExperienceService.ShareInfo share = new SharedExperienceService.ShareInfo();
+
             String tmp = httpRequest.getParameter("userid");
-            Long userId = null;
-            if (tmp != null) {
-                userId = Long.parseLong(tmp);
-            }
+            share.userId = Long.parseLong(tmp);
 
             tmp = httpRequest.getParameter("offerid");
-            Long offerId = null;
-            if (tmp != null) {
-                offerId = Long.parseLong(tmp);
-            }
-            
+            share.offerId = Long.parseLong(tmp);
+
+            share.channel = Channel.web;
+
             tmp = httpRequest.getParameter("locationId");
-            Long locationId = null;
-            if (tmp != null){
-            	locationId = Long.parseLong(tmp);
+            if (tmp != null) {
+                share.locationId = Long.parseLong(tmp);
             }
-            
-            String imageUrl = ServletRequestUtils.getStringParameter(httpRequest, "imageurl");
+
+            share.imageUrl = ServletRequestUtils.getStringParameter(httpRequest, "imageurl");
+            share.email = ServletRequestUtils.getStringParameter(httpRequest, "email");
+            share.phoneNumber = ServletRequestUtils.getStringParameter(httpRequest, "phonenumber");
+            share.caption = ServletRequestUtils.getStringParameter(httpRequest, "caption");
+            share.employeeId = ServletRequestUtils.getStringParameter(httpRequest, "employeeid");
+
+            String code = sharedService.registerSharing(share);
+
             String platform = ServletRequestUtils.getStringParameter(httpRequest, "platform");
-            String email = ServletRequestUtils.getStringParameter(httpRequest, "email");
-            String phonenumber = ServletRequestUtils.getStringParameter(httpRequest, "phonenumber");
-            String caption = ServletRequestUtils.getStringParameter(httpRequest, "caption");
-            String employeeId = ServletRequestUtils.getStringParameter(httpRequest, "employeeid");
-            
-
-            if (imageUrl == null) {
-                imageUrl = "";
-            }
-
-            if (email == null) {
-                email = "";
-            }
-
-            if (userId == null || offerId == null) {
-                throw new IllegalArgumentException("userId or offerId was null");
-            }
+            List<StoryType> stories = storyService.getStories(code, platform);
 
             StoriesResponse response = new StoriesResponse();
             response.setStatus(StoryStatus.OK);
-            sharedService.getShareStories(userId, offerId, locationId, URLDecoder.decode(imageUrl, "UTF-8"), platform,
-                    URLDecoder.decode(email, "UTF-8"), phonenumber, caption, employeeId, response);
+            response.setCode(code);
+            response.getStories().addAll(stories);
             return response;
         } catch (RateLimitException e) {
             StoriesResponse response = new StoriesResponse();
@@ -94,7 +88,12 @@ public class SharedController2 {
         try {
             String code = httpRequest.getParameter("code");
             String type = httpRequest.getParameter("type");
-            sharedService.addShareType(code, type);
+            Channel ch = Channel.valueOf(type);
+            sharedService.addShareType(code, ch);
+        } catch (IllegalArgumentException e) {
+            logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return;
         } catch (Exception e) {
             logger.error(e, e);
             httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

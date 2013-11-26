@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.kikbak.client.service.impl.types.ProtectionMethod;
 import com.kikbak.client.service.v1.CheatProtectionService;
 import com.kikbak.dao.ReadOnlySharedDAO;
 import com.kikbak.dao.ReadOnlyUser2FriendDAO;
+import com.kikbak.dao.enums.ProtectionMethod;
 import com.kikbak.dto.Offer;
 import com.kikbak.dto.Shared;
 
