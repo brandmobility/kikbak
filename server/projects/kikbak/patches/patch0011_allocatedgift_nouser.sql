@@ -1,0 +1,1 @@
+alter table allocatedgift modify user_id BIGINT;

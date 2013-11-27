@@ -7,4 +7,5 @@ public interface ReadWriteBarcodeDao {
     public void makeTransient(Barcode kikbak);
     
     public Barcode allocateBarcode(final Long userId, final Long giftId, final Long allocatedGiftId);
+    public Barcode allocateAnonymousBarcode(final Long giftId, final Long allocatedGiftId);
 }

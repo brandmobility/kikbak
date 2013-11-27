@@ -24,4 +24,5 @@ public interface RewardService {
     GiftType getGiftByReferredCode(final String code) throws RewardException;
     GiftType getLastGiftByCreditId(final long creditId) throws RewardException;
     AvailableCreditType getCreditByCode(final String code) throws RewardException;
+    String getBarcode(String referralCode, BarcodeResponse response) throws OfferExpiredException, OfferExhaustedException;
 }

@@ -21,6 +21,8 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.oned.UPCAWriter;
 import com.google.zxing.qrcode.QRCodeWriter;
+import com.kikbak.client.service.v1.OfferExhaustedException;
+import com.kikbak.client.service.v1.OfferExpiredException;
 import com.kikbak.client.service.v1.RateLimitException;
 import com.kikbak.client.service.v1.RedemptionException;
 import com.kikbak.client.service.v1.RewardService;
@@ -229,4 +231,31 @@ public class RewardController extends AbstractController {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
+    
+    @RequestMapping(value = "/allocateAnonymousBarcode/{refferalCode}", method = RequestMethod.GET)
+    public BarcodeResponse allocateAnonymousBarcode(@PathVariable("refferalCode") String referralCode,
+            final HttpServletResponse httpResponse) {
+        try {
+            BarcodeResponse response = new BarcodeResponse();
+            service.getBarcode(referralCode, response);
+            return response;
+        } catch (IllegalArgumentException e) {
+            logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return null;            
+        } catch (OfferExpiredException e) {
+            logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_GONE);
+            return null;
+        } catch (OfferExhaustedException e) {
+            logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+            return null;
+        } catch (Exception e) {
+            logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return null;
+        }
+    }
+
 }
