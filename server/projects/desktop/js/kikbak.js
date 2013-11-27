@@ -524,13 +524,17 @@ function getOfferStory(offer) {
           storiesResponse = json.storiesResponse;
           if (storiesResponse.status === 'OK') {
             var landingUrl = storiesResponse.stories[0].landingUrl;
-            var landingHref = $('#landing');
-            landingHref.attr('href', landingUrl);
-            landingHref.html(landingUrl);
+            var html = '<h3>Your unique offer page:</h3><a id="landing" href="' + landingUrl + '" target="_blank">' + landingUrl + '</a><h3 id="">Share your offer with friends</h3>';
             $('#pre-share-div').hide();
+            $('#share-info-div').html(html);
+            $('#share-div .btn-group').show();
             $('#share-div').show();
           } else if (storiesResponse.status === 'LIMIT_REACH') {
-            showErrorWithMsg('Sorry, you cannot share this offer anymore');
+            var html = '<h3>Congrats! You have earned the maximum number of rewards. Thank you for referring your friends to Verizon.<br /><br />Unfortunately you are no longer eligible to share this offer with friends.</h3>';
+            $('#pre-share-div').hide();
+            $('#share-info-div').html(html);
+            $('#share-div .btn-group').hide();
+            $('#share-div').show();
           } else {
             showError();
           }
