@@ -310,6 +310,8 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script>
+    var agId;
+
     <c:choose>
     <c:when test="${not mobile}">
     $('#container').css('background-image', 'url(${gift.defaultGiveImageUrl})');
@@ -353,6 +355,7 @@
       }
       $('#facebook-div').hide();
       $('#redeem-div').show();
+      preClaimGift(userId);
       $('#redeem-barcode-btn').click(function() {
         <c:choose>
         <c:when test="${not mobile}">
@@ -384,7 +387,7 @@
       });
     }
     
-    function claimGift(userId) {
+    function preClaimGift(userId) {
       var url = 'rewards/claimgift/' + userId + '/${code}';
       $.ajax({
         dataType: 'json',
@@ -404,48 +407,52 @@
               showError();
               return;
             }
-            <c:choose>
-            <c:when test="${gift.validationType == 'barcode'}">
-            $.ajax({
-              dataType: 'json',
-              type: 'GET',
-              contentType: 'application/json',
-              url: 'rewards/allocateBarcode/' + userId + '/' + resp.agId + '/',
-              success: function(json) {
-            	if (json && json.barcodeResponse && json.barcodeResponse.code) {
-                  <c:choose>
-                  <c:when test="${not mobile}">
-                  $('#welcome-msg').hide();
-                  var imgUrl = 'rewards/generateBarcode/' + userId + '/' + json.barcodeResponse.code + '/100/200/';
-                  $('#redeem-btn-div').hide();
-                  $('#barcode').show();
-                  $('#barcode').attr('src', imgUrl);
-                  $('#header h1').css('float', 'left');
-                  $('#header h1').css('margin-left', '50px');
-                  $('#success-msg').show();
-                  $('#green-overlay').show();
-                  $('#print-btn').show();
-                  </c:when>
-                  <c:otherwise>
-                  window.location.href = "/m/#redeem";
-                  </c:otherwise>
-                  </c:choose>
-            	} else {
-                  alert('Sorry, we are currently running out of gift. It will be available soon. Please try later.');  
-            	}
-              },
-              error: function() {
-            	alert('Sorry, we are currently running out of gift. It will be available soon. Please try later.');  
-              }
-            });
-            </c:when>
-            </c:choose>
+            agId = resp.agId;
           } else {
             showError();
           }
         },
         error: showError
       });
+    }
+    
+    function claimGift(userId) {
+      <c:choose>
+      <c:when test="${gift.validationType == 'barcode'}">
+      $.ajax({
+        dataType: 'json',
+        type: 'GET',
+        contentType: 'application/json',
+        url: 'rewards/allocateBarcode/' + userId + '/' + agId + '/',
+        success: function(json) {
+          if (json && json.barcodeResponse && json.barcodeResponse.code) {
+            <c:choose>
+            <c:when test="${not mobile}">
+            $('#welcome-msg').hide();
+            var imgUrl = 'rewards/generateBarcode/' + userId + '/' + json.barcodeResponse.code + '/100/200/';
+            $('#redeem-btn-div').hide();
+            $('#barcode').show();
+            $('#barcode').attr('src', imgUrl);
+            $('#header h1').css('float', 'left');
+            $('#header h1').css('margin-left', '50px');
+            $('#success-msg').show();
+            $('#green-overlay').show();
+            $('#print-btn').show();
+            </c:when>
+            <c:otherwise>
+            window.location.href = "/m/#redeem";
+            </c:otherwise>
+            </c:choose>
+          } else {
+            alert('Sorry, we are currently running out of gift. It will be available soon. Please try later.');  
+          }
+        },
+        error: function() {
+          alert('Sorry, we are currently running out of gift. It will be available soon. Please try later.');  
+        }
+      });
+      </c:when>
+      </c:choose>
     }
     </script>
     <script src="js/register.js"></script>
