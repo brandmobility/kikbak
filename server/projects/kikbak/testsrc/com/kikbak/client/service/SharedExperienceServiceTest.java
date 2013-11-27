@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.kikbak.KikbakTest;
+import com.kikbak.client.service.v1.RateLimitException;
 import com.kikbak.client.service.v1.SharedExperienceService;
 import com.kikbak.dao.ReadOnlySharedDAO;
+import com.kikbak.dao.enums.Channel;
 import com.kikbak.dto.Shared;
 import com.kikbak.jaxb.v1.share.SharedType;
 
@@ -32,19 +34,18 @@ public class SharedExperienceServiceTest extends KikbakTest {
     }
 
     @Test
-    public void testRegisteringSharing() {
+    public void testRegisteringSharing() throws RateLimitException {
 
-        SharedType st = new SharedType();
-        st.setLocationId(1L);
-        st.setMerchantId(1);
-        st.setOfferId(1);
-        st.setType("email");
+        SharedExperienceService.ShareInfo share = new SharedExperienceService.ShareInfo();
+        share.userId = 1L;
+        share.offerId = 1L;
+        share.channel = Channel.fb;
 
-        String referralCode = service.registerSharing(1L, st);
+        String referralCode = service.registerSharing(share);
 
         Collection<Shared> shares = roSharedDao.listByUserId(1L);
         assertEquals(1, shares.size());
-        
+
         Shared shared = roSharedDao.findByReferralCode(referralCode);
         assertNotNull(shared);
     }

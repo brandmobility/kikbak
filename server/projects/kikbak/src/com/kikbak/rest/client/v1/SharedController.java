@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.kikbak.client.service.v1.SharedExperienceService;
 import com.kikbak.client.service.v1.StoryTemplateService;
+import com.kikbak.dao.enums.Channel;
 import com.kikbak.jaxb.v1.share.MessageTemplateType;
 import com.kikbak.jaxb.v1.share.ShareExperienceRequest;
 import com.kikbak.jaxb.v1.share.ShareExperienceResponse;
@@ -41,7 +42,18 @@ public class SharedController extends AbstractController {
             ShareExperienceResponse response = new ShareExperienceResponse();
             SharedType experience = experienceRequest.getExperience();
 
-            String code = sharedExperienceService.registerSharing(userId, experience);
+            SharedExperienceService.ShareInfo share = new SharedExperienceService.ShareInfo();
+            share.caption = experience.getCaption();
+            share.email = null;
+            share.employeeId = experience.getEmployeeId();
+            share.imageUrl = experience.getImageUrl();
+            share.locationId = experience.getLocationId();
+            share.offerId = experience.getOfferId();
+            share.phoneNumber = null;
+            share.channel = Channel.valueOf(experience.getType());
+            share.userId = userId;
+
+            String code = sharedExperienceService.registerSharingAndNotify(share);
             response.setReferrerCode(code);
 
             if (StringUtils.isNotBlank(experience.getType()) && StringUtils.isNotBlank(experience.getPlatform())) {

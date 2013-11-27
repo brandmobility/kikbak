@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kikbak.client.service.impl.types.GenderType;
 import com.kikbak.client.service.v1.FbLoginException;
 import com.kikbak.client.service.v1.FbLoginService;
 import com.kikbak.client.service.v1.FbUserLimitException;
@@ -33,6 +32,7 @@ import com.kikbak.dao.ReadWriteDeviceTokenDAO;
 import com.kikbak.dao.ReadWriteUser2FriendDAO;
 import com.kikbak.dao.ReadWriteUserDAO;
 import com.kikbak.dao.ReadWriteUserTokenDAO;
+import com.kikbak.dao.enums.GenderType;
 import com.kikbak.dto.Devicetoken;
 import com.kikbak.dto.Gift;
 import com.kikbak.dto.Kikbak;
@@ -293,7 +293,7 @@ public class UserServiceImpl implements UserService2 {
                 ot.getLocations().add(ml);
             }
             ot.setHasEmployeeProgram(offer.getHasEmployeeProgram() != 0);
-            ot.setMapUri(offer.getAuth());
+            ot.setMapUri(offer.getMapUri());
             ot.setAuth(offer.getAuth());
 
             ots.add(ot);
@@ -349,7 +349,7 @@ public class UserServiceImpl implements UserService2 {
                 ot.getLocations().add(ml);
             }
             ot.setHasEmployeeProgram(offer.getHasEmployeeProgram() != 0);
-            ot.setMapUri(offer.getAuth());
+            ot.setMapUri(offer.getMapUri());
             ot.setAuth(offer.getAuth());
 
             ots.add(ot);

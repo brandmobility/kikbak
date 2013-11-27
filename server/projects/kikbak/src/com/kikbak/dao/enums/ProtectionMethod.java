@@ -1,4 +1,4 @@
-package com.kikbak.client.service.impl.types;
+package com.kikbak.dao.enums;
 
 public enum ProtectionMethod {
     /*

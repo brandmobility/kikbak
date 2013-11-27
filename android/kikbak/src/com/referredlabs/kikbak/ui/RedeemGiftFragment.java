@@ -116,8 +116,11 @@ public class RedeemGiftFragment extends KikbakFragment implements OnClickListene
     Uri uri = Uri.parse(share.imageUrl);
     Picasso.with(getActivity()).load(uri).into(mImage);
 
-    Uri friendUri = Fb.getFriendPhotoUri(share.fbFriendId);
-    Picasso.with(getActivity()).load(friendUri).into((Target) mFriendPhoto);
+    if (share.fbFriendId != null) {
+      Uri friendUri = Fb.getFriendPhotoUri(share.fbFriendId);
+      Picasso.with(getActivity()).load(friendUri).into((Target) mFriendPhoto);
+    }
+
     mFriendName.setText(share.friendName);
     mFriendComment.setText(share.caption);
 

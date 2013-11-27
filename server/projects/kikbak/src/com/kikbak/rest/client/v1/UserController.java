@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kikbak.client.service.impl.CookieAuthenticationFilter;
-import com.kikbak.client.service.impl.types.OfferType;
 import com.kikbak.client.service.v1.FbLoginException;
 import com.kikbak.client.service.v1.FbUserLimitException;
 import com.kikbak.client.service.v1.UserService;
 import com.kikbak.client.service.v2.UserService2;
+import com.kikbak.dao.enums.OfferType;
 import com.kikbak.jaxb.v1.devicetoken.DeviceTokenUpdateRequest;
 import com.kikbak.jaxb.v1.devicetoken.DeviceTokenUpdateResponse;
 import com.kikbak.jaxb.v1.friends.UpdateFriendResponse;

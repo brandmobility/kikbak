@@ -9,8 +9,8 @@ import org.hibernate.type.StandardBasicTypes;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kikbak.client.service.impl.types.TransactionType;
 import com.kikbak.dao.ReadOnlyTransactionDAO;
+import com.kikbak.dao.enums.TransactionType;
 import com.kikbak.dao.generic.ReadOnlyGenericDAOImpl;
 import com.kikbak.dto.Transaction;
 

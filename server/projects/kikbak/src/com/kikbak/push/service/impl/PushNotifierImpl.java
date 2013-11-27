@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kikbak.client.service.impl.types.PlatformType;
 import com.kikbak.client.service.v1.CheatProtectionService;
 import com.kikbak.client.util.CryptoUtils;
 import com.kikbak.config.ContextUtil;
@@ -17,6 +16,7 @@ import com.kikbak.dao.ReadOnlyDeviceTokenDAO;
 import com.kikbak.dao.ReadOnlyMerchantDAO;
 import com.kikbak.dao.ReadOnlyOfferDAO;
 import com.kikbak.dao.ReadOnlyUserDAO;
+import com.kikbak.dao.enums.PlatformType;
 import com.kikbak.dto.Devicetoken;
 import com.kikbak.dto.Gift;
 import com.kikbak.dto.Kikbak;

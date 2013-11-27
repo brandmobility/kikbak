@@ -4,10 +4,12 @@ import java.util.Collection;
 import java.util.Date;
 
 import org.junit.Test;
+
 import static org.junit.Assert.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.kikbak.client.service.impl.types.TransactionType;
+import com.kikbak.dao.enums.TransactionType;
 import com.kikbak.dto.Transaction;
 
 public class TransactionDAOTest extends CreditDAOTest {

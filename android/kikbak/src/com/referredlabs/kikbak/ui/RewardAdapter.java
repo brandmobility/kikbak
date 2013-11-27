@@ -15,7 +15,6 @@ import com.referredlabs.kikbak.data.ClientMerchantType;
 import com.referredlabs.kikbak.fb.Fb;
 import com.referredlabs.kikbak.store.TheReward;
 import com.referredlabs.kikbak.ui.IconBarHelper.IconBarListener;
-import com.referredlabs.kikbak.utils.LocaleUtils;
 import com.referredlabs.kikbak.utils.Nearest;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -88,8 +87,14 @@ public class RewardAdapter extends BaseAdapter {
     helper.mImage.setImageResource(R.color.no_image);
     Picasso.with(mContext).load(url).into(helper.mImage);
     if (reward.hasGifts()) {
-      Uri friendUrl = Fb.getFriendPhotoUri(reward.getGift().shareInfo[0].fbFriendId);
-      Picasso.with(mContext).load(friendUrl).into((Target) helper.mFriendImage);
+      if (reward.getGift().shareInfo[0].fbFriendId != null) {
+        Uri friendUrl = Fb.getFriendPhotoUri(reward.getGift().shareInfo[0].fbFriendId);
+        Picasso.with(mContext).cancelRequest((Target) helper.mFriendImage);
+        Picasso.with(mContext).load(friendUrl).into((Target) helper.mFriendImage);
+      } else {
+        Picasso.with(mContext).cancelRequest((Target) helper.mFriendImage);
+        helper.mFriendImage.setImageResource(R.drawable.ic_friend_placeholder);
+      }
     }
     if (reward.hasMultipleGifts()) {
       helper.mFriendImage.setBackgroundResource(R.drawable.bg_multiple_friends);

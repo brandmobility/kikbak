@@ -3,12 +3,12 @@ package com.kikbak.client.service.impl;
 
 import java.util.Date;
 
-import com.kikbak.client.service.impl.types.TransactionType;
 import com.kikbak.dao.ReadOnlyCreditDAO;
 import com.kikbak.dao.ReadOnlyKikbakDAO;
 import com.kikbak.dao.ReadOnlyOfferDAO;
 import com.kikbak.dao.ReadWriteCreditDAO;
 import com.kikbak.dao.ReadWriteTransactionDAO;
+import com.kikbak.dao.enums.TransactionType;
 import com.kikbak.dto.Credit;
 import com.kikbak.dto.Kikbak;
 import com.kikbak.dto.Offer;

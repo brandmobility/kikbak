@@ -16,6 +16,7 @@
         android:layout_height="45dp"
         android:layout_alignParentLeft="true"
         android:layout_marginRight="15dp"
+        android:src="@drawable/ic_friend_placeholder"
         android:scaleType="centerCrop"
         app:border_color="#cacaca"
         app:border_width="1dip"

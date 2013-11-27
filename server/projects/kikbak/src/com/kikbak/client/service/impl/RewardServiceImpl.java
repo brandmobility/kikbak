@@ -17,8 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kikbak.client.service.impl.types.OfferType;
-import com.kikbak.client.service.impl.types.TransactionType;
 import com.kikbak.client.service.v1.CheatProtectionService;
 import com.kikbak.client.service.v1.RateLimitException;
 import com.kikbak.client.service.v1.RedemptionException;
@@ -42,6 +40,8 @@ import com.kikbak.dao.ReadWriteClaimDAO;
 import com.kikbak.dao.ReadWriteCreditDAO;
 import com.kikbak.dao.ReadWriteSharedDAO;
 import com.kikbak.dao.ReadWriteTransactionDAO;
+import com.kikbak.dao.enums.OfferType;
+import com.kikbak.dao.enums.TransactionType;
 import com.kikbak.dto.Allocatedgift;
 import com.kikbak.dto.Barcode;
 import com.kikbak.dto.Claim;
