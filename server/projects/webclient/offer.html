@@ -8,14 +8,6 @@
 <link href='//fonts.googleapis.com/css?family=Raleway:400,900,800,700,600,500,300,200,100' rel='stylesheet' type='text/css'>
 <link rel="shortcut icon" href="http://kikbak.me/wp-content/uploads/2013/10/fav.png">
 <script src="js/kikbak.min.js"></script>
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-ga('create', 'UA-45251651-1');
-ga('send', 'pageview');
-</script>
 <title>Kikbak</title>
 </head>
 <body style="display:none;">
@@ -55,37 +47,35 @@ to recommend to friends with a special offer</h3></div>
  <button class="popup-close-btn btn grd-btn" style="margin-bottom:8px;" >OK</button>
 </div>
 </span>
+<span id="pre-share-popup" class="popup" style="display:none">
+<div class="cls-popup">
+<a href="#" class="cls-btn popup-close-btn"><img src="images/closebtn.png"></a>
+<div id="pre-share-detail">
+</div>
+</div>
+</span>
 <span id="share-popup" class="popup" style="display:none;">
 <div class="cls-popup">
-<h3 id="share-text" style="font-size:20px;font-weight:bold;">Give offer to friends</h3>
 <a href="#" class="cls-btn popup-close-btn"><img src="images/closebtn.png"></a>
-<form id="share-help-form">
-  <div id="share-employee-div" class="share-group">
-    <span style="font-size:12px;font-weight:normal;">Helped by someone? Let nearby friends know who to ask for when they visit</span>
-    <input class="location-sel" type="text" name="employeeId" placeholder="Employee name [optional]" />
-  </div>
-  <div id="share-locaition-div" class="share-group">
-    <span style="font-size:12px;font-weight:normal;">Share your preferred location?</span>
-    <div id="location-sel-div"><select id="location-sel" class="location-sel"></select></div>
-    <input type="hidden" name="msg">
-    <input type="hidden" name="url">
-    <input type="hidden" name="code">
-  </div>
+<div id="post-share-detail">
+  <h3>Give offer to friends</h3>
+  <p>Your personal offer page:</p>
+  <a id="landing" target="_blank"></a>
   <div id="share-btn-group" class="share-group">
     <div id="share-email-div" class="btn-group">
-      <a id="share-email" href="#"> <img src="images/btn_email_share.png" width="55" height="55" style="margin: 0 auto;"></a>
+      <a id="share-email" class="share-channel" data-channel="email" href="#"> <img src="images/btn_email_share.png" width="55" height="55" style="margin: 0 auto;"></a>
     </div>
     <div id="share-sms-div" class="btn-group">
-      <a id="share-sms" href="#" target="_blank"> <img src="images/btn_sms_share.png" width="55" height="55" style="margin: 0 auto;"></a>
+      <a id="share-sms" class="share-channel" data-channel="sms" href="#" > <img src="images/btn_sms_share.png" width="55" height="55" style="margin: 0 auto;"></a>
     </div>
     <div id="share-facebook-div" class="btn-group">
-      <a id="share-facebook" href="#" target="_blank"> <img src="images/btn_fb_share.png" width="55" height="55" style="margin: 0 auto;"></a>
+      <a id="share-facebook" class="share-channel" data-channel="fb" href="#" > <img src="images/btn_fb_share.png" width="55" height="55" style="margin: 0 auto;"></a>
     </div>
     <div id="share-twitter-div" class="btn-group">
-      <a id="share-twitter" href="#" target="_blank"> <img src="images/btn_twitter_share.png" width="55" height="55" style="margin: 0 auto;"></a>
+      <a id="share-twitter" class="share-channel" data-channel="twitter" href="#" > <img src="images/btn_twitter_share.png" width="55" height="55" style="margin: 0 auto;"></a>
     </div>
   </div>
-</form>
+</div>
 </div>
 </span>
 <span id="friend-popup" class="popup" style="display:none">

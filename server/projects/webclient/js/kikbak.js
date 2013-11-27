@@ -2,6 +2,334 @@
 
 'use strict';
 
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-45251651-1');
+ga('send', 'pageview');
+
+var user = {};
+var storiesResponse = {};
+var currentOffer = {};
+
+function shareOfferFromChannel(channel) {
+  var story;
+  for (var i in storiesResponse.stories) {
+    if (storiesResponse.stories[i].type.toLowerCase() === channel) {
+      story = storiesResponse.stories[i];
+    }
+  }
+
+  if (channel === 'fb') {
+    var landingUrl = storiesResponse.stories[0].landingUrl;
+    var str = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(landingUrl);
+    window.open(str, '_blank');
+  }
+
+  if (story) {
+    var landingUrl = story.landingUrl;
+    var body = story.body;
+    var subject = story.subject;
+    if (channel === 'twitter') {
+      var str = "https://twitter.com/share?";
+      var params = [ 
+        {name:"url", value:landingUrl},
+        {name:"via", value:"kikbak"},
+        {name:"count", value:"none"},
+        {name:"text", value: body}
+      ];  
+      $.each(params, function (i, item) {
+        str += encodeURIComponent(item.name) + "=" + encodeURIComponent(item.value) + "&";
+      }); 
+      window.open(str, '_blank');
+    } else if (channel === 'email') {
+      var str = 'mailto:?content-type=text/html&subject=' + encodeURIComponent(subject)
+          + '&body=' + encodeURIComponent(body);
+      window.location.href = str;
+    } else if (channel === 'sms') {
+      var str = 'sms:?body=' + encodeURIComponent(encodeURIComponent(body));
+      window.location.href = str;
+    }
+  }
+
+  ga('send', 'event', 'button', 'click', 'share via ' + channel);
+  var requestUrl = config.backend + 'kikbak/v2/share/addsharetype?code=' + encodeURIComponent(storiesResponse.code) + '&type=' + encodeURIComponent(channel);
+  $.ajax({
+    type: 'GET',
+    contentType: 'application/json',
+    url: requestUrl,
+    success: function() {},
+    error: function() {}
+  });
+}
+
+function registerUser(cb) {
+  var invalid = false;
+  var requestUrl = config.backend + 'kikbak/user/register';
+  if (user.type === 'facebook') {
+    requestUrl += '/fb?token=' + encodeURIComponent(user.accessToken);
+    if (user.phone) {
+      requestUrl += '&phone=' + encodeURIComponent(user.phone);
+    }
+  } else {
+    var emailInput = $('#email-input');
+    var email = emailInput.val();
+    user.email = email;
+    user.name = $('#username-input').val();
+    requestUrl += '/web?email=' + encodeURIComponent(user.email);
+    requestUrl += '&name=' + encodeURIComponent(user.name);
+  }
+  var phoneInput = $('#phone-input');
+  if (phoneInput.hasClass('required')) {
+    user.phone = phoneInput.val();
+    if (validatePhone(user.phone)) {
+      requestUrl += '&phone=' + encodeURIComponent(user.phone);
+    } else {
+      phoneInput.css('border', '2px solid red');
+      invalid = true;
+    }
+  }
+  if (invalid) return;
+
+  $.ajax({
+    type: 'GET',
+    contentType: 'application/json',
+    url:requestUrl,
+    success: function(json) {
+      if (json && json.registerUserResponse && json.registerUserResponse.status === 'TOO_FEW_FRIENDS') {
+        alert('For security purposes, Kikbak requires that your Facebook account have a certain minimum friend count. Unfortunately your chosen account does not qualify.');
+        return;
+      }
+      if (!json || !json.registerUserResponse || !json.registerUserResponse.userId || !json.registerUserResponse.userId.userId) {
+        showError();
+        return;
+      }
+      s.userId = json.registerUserResponse.userId.userId;
+      user.id = s.userId;
+
+      if (user.type === 'facebook') {
+        updateFbFriends(user.id, cb);
+      } else {
+        cb();
+      }
+    },
+    error: showError
+  });
+}
+
+function preShareClick() {
+  var offer = currentOffer;
+  ga('send', 'event', 'button', 'click', 'share offer');
+  registerUser(function() {
+    uploadPhotoAfterLogin(function() {
+      var requestUrl = config.backend + 'kikbak/v2/share/getstories?userid=' + encodeURIComponent(user.id) + '&offerid=' + encodeURIComponent(offer.id) 
+        + '&platform=' + (getBrowserName() === 'Safari' ? 'ios' : 'android') + '&imageurl=' + encodeURIComponent(offer.sharedImageUrl);
+      if (user.email) {
+        requestUrl += '&email=' + encodeURIComponent(user.email);
+      }
+      if (user.phone) {
+        requestUrl += '&phonenumber=' + encodeURIComponent(user.phone);
+      }
+      var comment = $('#comment-input').val();
+      if (comment) {
+        requestUrl += '&caption=' + encodeURIComponent(comment);
+      }
+      var employeeId = $('#employeeId-input').val();
+      if (employeeId) {
+        requestUrl += '&employeeid=' + encodeURIComponent(employeeId);
+      }
+      var locationId = $('#location-sel').val();
+      if (locationId) {
+    	requestUrl += "&locationid=" + encodeURIComponent(locationId);
+      }
+      $.ajax({
+        type: 'GET',
+        contentType: 'application/json',
+        url: requestUrl,
+        success: function(json) {
+          if (json && json.storiesResponse) {
+            storiesResponse = json.storiesResponse;
+            if (storiesResponse.status === 'OK') {
+              var landingUrl = storiesResponse.stories[0].landingUrl;
+              var landingHref = $('#landing');
+              landingHref.attr('href', landingUrl);
+              landingHref.html(landingUrl);
+              $('#pre-share-popup').hide();
+              $('#share-popup').show();
+              ga('send', 'event', 'button', 'show', 'give method select');
+            } else if (storiesResponse.status === 'LIMIT_REACH') {
+              showErrorWithMsg('Sorry, you cannot share this offer anymore');
+            } else {
+              showError();
+            }
+          } else {
+            showError();
+          }
+        },
+        error: showError
+      });
+    });
+  }); 
+}
+
+function onInput() {
+  var valid = true;
+  $('.required').each(function() {
+    var thisElement = $(this);
+    thisElement.css('border', 'none');
+    var value = thisElement.val();
+    if (thisElement.attr('type') === 'tel') {
+      if (value.replace(/^\d/g, "") === '') {
+        valid = false;
+      }
+    } else {
+      if (value.replace(/^\s+|\s+$/g, '') === '') {
+        valid = false;
+      }
+    }
+  });
+  if (valid) {
+    $('.share-btn').removeAttr('disabled');
+  } else {
+    $('.share-btn').attr('disabled', 'disabled');
+  }
+}
+
+function completeUserInfo() {
+  $('#login-div').hide();
+  $('#create-share-div').show();
+}
+
+function initUserInfoForm() {
+  $('#login-div').show();
+  $('#create-share-div').hide();
+}
+
+function recordFbLogin(resp) {
+  var accessToken = resp.accessToken;
+  s.accessToken = accessToken;
+  user.accessToken = accessToken;
+  user.type = 'facebook';
+  user.fbId = resp.userID;
+
+  $('#username-input').removeClass('required');
+  $('#email-input').removeClass('required');
+}
+
+function validateEmail(email) { 
+  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email);
+}
+
+function validatePhone(phone) {
+  if (!phone) return false;
+  var normalizedPhone = phone.replace(/^\d$/g, "");
+  return normalizedPhone.length >= 10;
+}
+
+var authType = {
+  facebook: {
+    login_div: '<div id="login-div">' +
+                 '<h3>Create your offer</h3>' +
+    	         '<div id="location-sel-div"><select id="location-sel" class="location-sel"></select></div>' +
+		         '<div class="note"><p>Optinal: Let friends konw who helped you</p></div>' +
+    		     '<input id="employeeId-input" class="location-sel" type="text" name="employeeId" placeholder="Employee name [optional]" />' +
+                 '<input id="share-btn-fb" name="share" type="button" class="fb-share" value="       Connect with Facebook" />' +
+                 '<p>We use Facebook to personalize your offers and notify you via email when friends redeem them. <b>We will never post without your permission.</b></p>' +
+               '</div>',
+    handler_register: function() {
+      $('#share-btn-fb').click(function () {
+        user.status = 'share-login';
+        var cb = function(resp) {
+    	  recordFbLogin(resp);
+    	  preShareClick();
+    	};
+        loginFb(cb);
+      });
+    }
+  },
+  phone: {
+    login_div: '<div id="login-div">' +
+                 '<h3>1. Register</h3>' +
+                 '<input id="username-input" type="text" class="required" placeholder="Name" name="username" />' + 
+                 '<input id="email-input" type="email" class="required" placeholder="Email" name="email" />' + 
+                 '<button id="login-email" class="share-btn btn grd-btn" disabled="disabled" >Submit</button>' +
+                 '<hr>' +
+                 '<span> OR </span><input id="share-btn-fb" name="share" type="button" class="fb-share" style="width:230px;height:30px;" value="       Connect with Facebook" />' +
+                 '<p>We use Facebook to personalize your offers and notify you via email when friends redeem them. <b>We will never post without your permission.</b></p>' +
+               '</div>' +
+               '<div id="create-share-div" style="display:none">' +
+               '<h3>2. Create your offer</h3>' +
+               '<input type="tel" id="phone-input" placeholder="Your Verizon phone number" />' +
+	           '<div id="location-sel-div"><select id="location-sel" class="location-sel"></select></div>' +
+		       '<div class="note"><p>Optinal: Let friends konw who helped you</p></div>' +
+		       '<input id="employeeId-input" class="location-sel" type="text" name="employeeId" placeholder="Employee ID [optional]" />' +
+               '<button id="create-share-btn" class="share-btn btn grd-btn" disabled="disabled" >Create offer to share</button>' +
+             '</div>',
+    handler_register: function() {
+      $('#share-btn-fb').click(function () {
+        user.status = 'share-login';
+        var cb = function(resp) {
+          recordFbLogin(resp);
+          $('#phone-input').addClass('required');
+          completeUserInfo();
+    	};
+        loginFb(cb);
+      });
+      $('#login-email').click(function() {
+    	var emailInput = $('#email-input');
+    	var email = emailInput.val();
+    	if (!validateEmail(email)) {
+    	  emailInput.css('border', '2px solid red');
+    	  return;
+    	}
+        $('#phone-input').addClass('required');
+        completeUserInfo();
+      });
+      $('#create-share-btn').click(preShareClick);
+    }
+  },
+  none: {
+    login_div: '<div id="login-div">' +
+                 '<h3>1. Register</h3>' +
+                 '<input id="username-input" type="text" class="required" placeholder="Name" name="username" />' + 
+                 '<input id="email-input" type="email" class="required" placeholder="Email" name="email" />' + 
+                 '<button id="login-email" class="share-btn btn grd-btn" disabled="disabled" >Submit</button>' +
+                 '<hr>' +
+                 '<span> OR </span><input id="share-btn-fb" name="share" type="button" class="fb-share" style="width:230px;height:30px;" value="       Connect with Facebook" />' +
+                 '<p>We use Facebook to personalize your offers and notify you via email when friends redeem them. <b>We will never post without your permission.</b></p>' +
+               '</div>' + 
+               '<div id="create-share-div" style="display:none">' +
+                 '<h3>2. Create your offer</h3>' +
+	             '<div id="location-sel-div"><select id="location-sel" class="location-sel"></select></div>' +
+		         '<div class="note"><p>Optinal: Let friends konw who helped you</p></div>' +
+		         '<input id="employeeId-input" class="location-sel" type="text" name="employeeId" placeholder="Employee name [optional]" />' +
+                 '<button id="create-share-btn" class="share-btn btn grd-btn" disabled="disabled" >Create offer to share</button>' +
+               '</div>',
+    handler_register: function() {
+      $('#share-btn-fb').click(function () {
+        user.status = 'share-login';
+        var cb = function(resp) {
+          recordFbLogin(resp);
+          completeUserInfo();
+    	};
+        loginFb(cb);
+      });
+      $('#login-email').click(function() {
+      	var emailInput = $('#email-input');
+      	var email = emailInput.val();
+      	if (!validateEmail(email)) {
+      	  emailInput.css('border', '2px solid red');
+      	  return;
+      	}
+        completeUserInfo();
+      });
+      $('#create-share-btn').click(preShareClick);
+    }    
+  }
+};
+
 window.mobilecheck = function() {
   var check = false;
   (function(a) {
@@ -25,7 +353,6 @@ if (!window.mobilecheck()) {
   }
 }
 
-
 var config = {
   backend: '',
   appId: 493383324061333
@@ -35,15 +362,8 @@ var s = (Storage) ? localStorage : {};
 
 $(document).ready(function() {
   $('body').show();
-  window.twttr = (function (d,s,id) {
-    var t, js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return; js=d.createElement(s); js.id=id;
-    js.src="https://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs);
-    return window.twttr || (t = { _e: [], ready: function(f){ t._e.push(f) } }); 
-  }(document, "script", "twitter-wjs"));
   
   var pageType = window.location.hash;
-  console.log('loading ' + pageType);
   var merchantTypePrefix = "#merchant-";
 
   if (pageType.indexOf(merchantTypePrefix) === 0) {
@@ -88,27 +408,10 @@ $(document).ready(function() {
    	history.pushState({}, 'offer', '#offer');
     initPage();
   });
-  setWrapperSize();
 
   $('#suggest-form input[name="name"]').bind('keyup', adjustSuggest);
   $('#suggest-form textarea[name="reason"]').bind('keyup', adjustSuggest);
   
-  $('#share-facebook').click(function(e) {
-	e.preventDefault();
-	shareViaFacebook();
-  });
-  $('#share-email').click(function(e) {
-	e.preventDefault();
-	shareViaEmail();
-  });
-  $('#share-sms').click(function(e) {
-	e.preventDefault();
-    shareViaSms();
-  });
-  $('#share-twitter').click(function(e) {
-    e.preventDefault();
-    shareViaTwitter();
-  });
   $(".popup-close-btn").click(function(e) {
 	e.preventDefault();
     $('.popup').hide();
@@ -228,8 +531,12 @@ function getHeight() {
 }
 
 function showError() {
+  showErrorWithMsg("Service is unavailable. Please try again later.");
+}
+
+function showErrorWithMsg(msg) {
   $('#spinner h2').html('Waiting');
-  alert("Service is unavailable. Please try again later.");
+  alert(msg);
 }
 
 function fbInit() {
@@ -249,7 +556,12 @@ function fbInit() {
       }
     });
   }
-  initPage();
+  if (user.status === 'share-login') {
+    user.cb();
+    user.status = null;
+  } else {
+    initPage();
+  }
 }
 
 function connectFb(accessToken) {
@@ -368,7 +680,6 @@ function initPage() {
   }
 
   var pageType = window.location.hash;
-  console.log('init ' + pageType);
   var merchantTypePrefix = "#merchant-";
   if (pageType.indexOf(merchantTypePrefix) === 0) {
     var strArray = pageType.split('-');
@@ -903,10 +1214,6 @@ function getOfferDetail() {
       e.preventDefault();
       shareOffer(offer);
     });
-    $('#share-btn-fb').click(function(e){
-      e.preventDefault();
-      loginFb();
-    });
 
     $('input [name="comment"]').bind('input',function(){
       ga('send', 'event', 'button', 'click', 'add comment');
@@ -1021,18 +1328,25 @@ function getRedeemCreditDetail() {
 }
 
 function renderOfferDetail(offer) {
+  var auth = offer.auth ? offer.auth : 'none';
+  var template = authType[auth];
+  $('#pre-share-detail').html(template.login_div);
+  template.handler_register();
+  initLocationAndRenderSharePopup(offer);
+  $('.share-channel').click(function(e){
+    shareOfferFromChannel($(this).attr('data-channel'));
+    e.preventDefault();
+  });
+  $('#pre-share-popup input').keyup(onInput);
+  if (getBrowserName() === 'Safari') {
+    $('#share-sms-div').hide();
+    $('.btn-group').css('width', '33%');
+  }
+
+  currentOffer = offer;
   var html = '';
   ga('send', 'event', 'button', 'show', 'give ' + offer.merchantName);
   var userId = s.userId;
-  if (!userId) {
-    html += '<div id="share-fb-div" style="text-align:center;overflow:auto;margin-top:5px;">'
-    html += '<input id="share-btn-fb" name="share" type="button" class="fb-share" value="       Connect with Facebook to share" />';
-    html += '<div class="crt">';
-    html += '<p style="font-size:10px;">We use your Facebook ID to personalize the offers you share and notify you when you\'ve earned a reward. We will never post without your permission.</p>';
-    html += '</div>';
-    html += '</div>';
-    ga('send', 'event', 'button', 'show', 'facebook auth');
-  }
   html += '<div id="share-after-login-div">';
   html += '<form id="share-form" type="POST" enctype="multipart/form-data" style="margin-bottom:0px;">';
   html += '<div id="share-image-add" class="image-add"><img src="' + offer.giveImageUrl + '" class="addimg add-photo show-picture" id="show-picture">';
@@ -1059,8 +1373,7 @@ function renderOfferDetail(offer) {
     html += '<a href="' + offer.merchantUrl + '"><img class="website-img" src="images/ic_web@2x.png" /></a>';
   }
   html += '</div>';
-  html += '<input name="comment" placeholder="Add comment" class="addcmt" style="width:94%;"/>';
-  html += '<input name="message" type="hidden" value="Visit getkikbak.com for an exclusive offer shared by your friend" />';
+  html += '<input name="comment" id="comment-input" placeholder="Add comment" class="addcmt" style="width:94%;"/>';
   html += '</div>';
   html += '<div class="img-botm-patrn"></div>';
   if (offer.kikbakDesc) {
@@ -1092,10 +1405,6 @@ function renderOfferDetail(offer) {
   if (!offer.kikbakDesc) {
     var shareImg = $("#share-image-add");
     shareImg.height(Math.max(shareImg.height() + 25, shareImg.width()));
-  }
-  
-  if (!userId) {
-    $('#share-after-login-div').block({ message: null }); 
   }
   
   $('#term-btn').click(function(e) {
@@ -1217,10 +1526,8 @@ function onSuggestResponse(url) {
 
 function shareOffer(offer) {
   ga('send', 'event', 'button', 'click', 'share offer');
-  var userId = s.userId;
-  updateFbFriends(userId, function() {
-    shareOfferAfterLogin(offer);
-  }); 
+  initUserInfoForm();
+  $('#pre-share-popup').show();
 }
 
 function dataURItoBlob(dataURI, dataTYPE) {
@@ -1229,13 +1536,13 @@ function dataURItoBlob(dataURI, dataTYPE) {
   return new Blob([new Uint8Array(array)], {type: dataTYPE});
 }
 
-function shareOfferAfterLogin(offer) {
+function uploadPhotoAfterLogin(cb) {
+  var offer = currentOffer;
   var userId = s.userId;
-  var message = $('#share-form input[name="comment"]').val();
-  var msg = 'Visit getkikbak.com for an exclusive offer shared by your friend';
+  var src = $('#share-form .image-add img').attr('src');
+  offer.sharedImageUrl = src;
   if (!$('#take-picture')[0].files || $('#take-picture')[0].files.length == 0) {
-    var src = $('#share-form .image-add img').attr('src');
-    onShareResponse(offer, src);
+    cb();
   } else {
     var req = new FormData();
     var file = $('#take-picture')[0].files[0];
@@ -1272,196 +1579,40 @@ function shareOfferAfterLogin(offer) {
         type : 'POST',
         success : function(response) {
           if (response && response.url) {
-            onShareResponse(offer, response.url);
+            offer.sharedImageUrl = response.url;
           }
+          cb();
         },
-        error : showError
+        error : function() {
+          cb();
+        }
       });
     };
     img.src = imgUrl;
   }
 }
 
-function loginFb() {
-  var userId = s.userId;
-  if (!userId) {
-    ga('send', 'event', 'button', 'click', 'facebook auth');
-    FB.login(function(response) {
-      if (response.status === 'connected') {
-        ga('send', 'event', 'button', 'click', 'facebook auth success');
+function loginFb(cb) {
+  ga('send', 'event', 'button', 'click', 'facebook auth');
+  FB.login(function(response) {
+    if (response.status === 'connected') {
+      ga('send', 'event', 'button', 'click', 'facebook auth success');
+      if (cb) {
+        cb(response.authResponse);
+        user.cb = cb(response.authResponse);
+      } else {
         connectFb(response.authResponse.accessToken);
-      } else if (response.status === 'not_authorized') {
-        ga('send', 'event', 'button', 'click', 'facebook auth failure');
-        FB.login();
-      } else {
-        ga('send', 'event', 'button', 'click', 'facebook auth failure');
-        FB.login();
       }
-    }, {
-      scope : "email,read_friendlists,publish_stream,publish_actions"
-    });
-  }
-}
-
-function onShareResponse(offer, url) {
-  ga('send', 'event', 'button', 'show', 'give method select');
-  $('#share-help-form input[name="url"]').val(url);
-  initLocationAndRenderSharePopup(offer);
-  $('#share-popup').show();
-}
-  
-function doShare(cb, type) {
-  $('.popup').hide();
-  $('#spinner h2').html('Sharing Gift');
-  $('#spinner').show();
-  
-  var offer = jQuery.parseJSON(unescape(s.offerDetail)),
-    exp = {},
-    message = $('#share-form input[name="comment"]').val(),
-    data = {},
-    req = {},
-    url = $('#share-help-form input[name="url"]').val(),
-    locationId = $('#location-sel').val(),
-    employeeId = $('#share-help-form input[name="employeeId"]').val(),
-    str;
-  
-  $('#share-form input[name="comment"]').val('');
-  
-  exp['merchantId'] = offer.merchantId;
-  exp['offerId'] = offer.id;
-  exp['imageUrl'] = url; 
-  exp['caption'] = message;
-  exp['type'] = type;
-  if (locationId !== 'false') {
-    exp['locationId'] = locationId;
-  }
-  exp['platform'] = /iP(hone|od|ad)/.test(navigator.platform) ? 'ios' : 'android';
-  exp['employeeId'] = employeeId;
-  data['experience'] = exp;
-  req['ShareExperienceRequest'] = data;
-  str = JSON.stringify(req);
-  
-  $('#share-help-form input[name="storeId"]').val('');
-  
-  $.ajax({
-    dataType: 'json',
-    type: 'POST',
-    contentType: 'application/json',
-    data: str,
-    url: config.backend + 'kikbak/ShareExperience/' + s.userId,
-    success: function(json) {
-      if (json && json.shareExperienceResponse && json.shareExperienceResponse.referrerCode) {
-        cb(json.shareExperienceResponse.referrerCode, message, url, json.shareExperienceResponse);
-      } else {
-        showError();
-      }
-    },
-    error: showError
+    } else if (response.status === 'not_authorized') {
+      ga('send', 'event', 'button', 'click', 'facebook auth failure');
+      FB.login();
+    } else {
+      ga('send', 'event', 'button', 'click', 'facebook auth failure');
+      FB.login();
+    }
+  }, {
+    scope : "email,read_friendlists,publish_stream,publish_actions"
   });
-}
-
-function shareViaSms() {
-  ga('send', 'event', 'button', 'click', 'share via sms');
-  doShare(function(code, msg, url, resp) {
-    $('#spinner h2').html('Waiting');
-    window.location.href = 'sms:?body=' + encodeURIComponent(encodeURIComponent(resp.template.body));
-  }, 'sms');
-}
-
-function shareViaEmail() {
-  ga('send', 'event', 'button', 'click', 'share via email');
-  doShare(function(code, msg, url, resp) {
-    $('#spinner h2').html('Waiting');
-    window.location.href = 'mailto:?content-type=text/html&subject=' + encodeURIComponent(resp.template.subject) 
-        + '&body=' + encodeURIComponent(resp.template.body);
-  }, 'email');
-}
-
-function shareViaTwitter(url, message) {
-  ga('send', 'event', 'button', 'click', 'share via twitter');
-  doShare(function(code, msg, url, resp) {
-	var fbUrl = resp.template.landingUrl;
-	var msg = resp.template.body;
-    window.twttr.ready(function() {
-      var str = "https://twitter.com/share?";
-      var params = [
-        {name:"url", value:fbUrl},
-        {name:"via", value:"kikbak"},
-        {name:"count", value:"none"},                                                         
-        {name:"text", value:msg}                                     
-      ];
-      $.each(params, function (i, item) {
-        str += encodeURIComponent(item.name) + "=" + encodeURIComponent(item.value) + "&";
-      });
-      window.location.href = str;
-    });
-  }, 'twitter', url, message);
-}
-
-function shareViaFacebook() {
-  ga('send', 'event', 'button', 'click', 'share via facebook');
-  doShare(function(code, msg, imageUrl, resp) {
-    var fbUrl = resp.template.landingUrl;
-    var o = {
-      'app_id' : config.appId,
-      'url' : fbUrl.replace(/\//g, '\/'),
-      'title': '\"' + encodeURIComponent('title') + '\"',
-      'description': '\"' + encodeURIComponent('desc') + '\"'
-    };
-    var req = {
-      'access_token' : s.accessToken,
-      //'privacy': '{"value":"all_friends"}',
-      'object' : JSON.stringify(o),
-      'method' : 'POST',
-      'format' : 'json'
-    };
-    var url = 'https://graph.facebook.com/me/objects/kikbakme:coupon';
-    $.ajax({
-      url : url,
-      data : req,
-      cache : false,
-      contentType : false,
-      dataType : 'json',
-      type : 'GET',
-      success : function(response) {
-        if (response && response.id) {
-          var req = {
-            'access_token' : s.accessToken,
-            'method' : 'POST',
-            'coupon' : fbUrl,
-            'fb:explicitly_shared' : 'true',
-            'format' : 'json'
-          };
-          var url = 'https://graph.facebook.com/me/kikbakme:share';
-          $.ajax({
-            url : url,
-            data : req,
-            cache : false,
-            contentType : false,
-            dataType : 'json',
-            type : 'GET',
-            success : function(response) {
-              var offer = jQuery.parseJSON(unescape(s.offerDetail));
-              $('#spinner h2').html('Waiting');
-              $('#success-popup h3').html('You have shared a gift');
-              if (offer.kikbakDesc) {
-                $('#success-popup p').html('We will notify you when a friend uses your gift and you earn a reward');
-              }
-              $('#success-popup').show();
-            },
-            error : function() {
-              showError();
-            }
-          });
-        } else {
-          showError();
-        }
-      },
-      error : function() {
-        showError();
-      }
-    }); 
-  }, 'fb');
 }
 
 function encodeQueryData(data) {
@@ -1635,19 +1786,6 @@ function getBrowserName() {
   }
   return 'other';
   
-}
-
-function setWrapperSize() {
-  var wrapperSize;
-  if (getBrowserName() == 'Safari') {
-    wrapperSize = getHeight() - 45 - 45 + 60;
-    $('#share-sms-div').hide();
-    $('.btn-group').css('width', '33%');
-  } else {
-    wrapperSize = getHeight() - 45 - 45;
-  };
-    
-  $('.wrapper').css('min-height', wrapperSize + 'px');
 }
 
 function adjustSuggest() {

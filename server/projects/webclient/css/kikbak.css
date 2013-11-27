@@ -362,9 +362,11 @@ p.msg {
     background: url('../images/btn_facebook@2x.png');
     background-size: 100%;
     color: rgb(255,255,255);
-    height: 40px;
-    width: 298px;
+    height: 32px;
+    width: 244px;
     font-size: 16px;
+    margin: 1% 3%;
+    padding: 2%;
 }
 .camicon {
     left: 0;
@@ -977,6 +979,66 @@ p.msg {
     margin-top:28px;
     margin-bottom:28px;
 }
+.cls-popup #post-share-detail,
+.cls-popup #pre-share-detail {
+    text-align: center;
+}
+.cls-popup #post-share-detail h3,
+.cls-popup #pre-share-detail h3 {
+    font-size: 25px;
+    font-weight: bold;
+    margin:5px 0 10px;
+}
+.cls-popup #post-share-detail a,
+.cls-popup #post-share-detail a:hover,
+.cls-popup #post-share-detail a:active {
+    font-size:15px;
+    color:grey;
+}
+.cls-popup #pre-share-detail select,
+.cls-popup #pre-share-detail input[type=text],
+.cls-popup #pre-share-detail input[type=email],
+.cls-popup #pre-share-detail input[type=tel] {
+    height: 32px;
+    width: 244px;
+    font-size: 16px;
+    margin: 3% 0 3%;
+    padding: 2%;
+    background: white;
+}
+.cls-popup #pre-share-detail button {
+    height: 32px;
+    width: 244px;
+    font-size: 16px;
+    margin: 3% 0 3%;
+    padding: 2%;
+}
+.cls-popup #pre-share-detail span {
+    margin-top:10px;
+    font-size:14px;
+    color:grey;
+    float:left;
+}
+.cls-popup #pre-share-detail p {
+    font-size:10px;
+    margin:5px 0 5px;
+}
+.cls-popup #post-share-detail p {
+    font-size:18px;
+    margin:10px 0 5px;
+}
+.cls-popup #pre-share-detail .note {
+    font-size:13px;
+    width:244px;
+    color:grey;
+    margin:0;
+    display:inline-block;
+}
+.cls-popup #pre-share-detail .note p {
+    font-size:13px;
+    text-align:left;
+    margin:0;
+}
 .brd {
     border: 2px solid #333;
 }
@@ -1395,7 +1457,7 @@ h1.pg-hedng {
     width: 25%;
 }
 .share-group {
-    margin-top:10px;
+    margin-top:20px;
     margin-bottom:10px;
     overflow:auto;
     text-align:center;
