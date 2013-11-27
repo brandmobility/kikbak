@@ -475,9 +475,11 @@ input[type="text"]:focus, textarea:focus{
     margin-bottom:7px;
 }
 #btn-container textarea {
-    height:72px;
+    height:60px;
     padding:7px;
     width:486px;
+    margin-bottom: 7px;
+    display: block;
 }
 #btn-container #share-btn-div {
     width: 100%;
@@ -582,7 +584,7 @@ input[type="button"]:disabled {
 #login_div .note {
     text-align: center;
     width: 90%;
-    margin: auto;
+    margin: 12px auto;
     font-size: 13px;
 }
 #btn-container #username-input {

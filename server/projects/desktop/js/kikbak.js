@@ -53,7 +53,7 @@ var merchantCustom = {
 
 var placeHolder = {
   verizon: {
-    "employeeId-input": "ID of Verizon employee that helped your [optional]"
+    "employeeId-input": "ID of Verizon employee that helped you [optional]"
   },
   all: {}
 };
