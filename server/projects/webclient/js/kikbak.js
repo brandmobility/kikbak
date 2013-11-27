@@ -1101,7 +1101,9 @@ function onClickRedeemGift(gifts) {
         };
         var j = escape(JSON.stringify(data));
         li += '<a href="#" data-object="' + j + '" class="select-gift-btn">';
-        li += '<img class="avatar" src="https://graph.facebook.com/' + shareInfo.fbFriendId + '/picture?type=square">';
+        if (shareInfo.fbFriendId) {
+          li += '<img class="avatar" src="https://graph.facebook.com/' + shareInfo.fbFriendId + '/picture?type=square">';
+        }
         li += '<h2>' + shareInfo.friendName + '</h2>';
         li += '<img class="nxtt" src="images/nxt-aro.png"></a></li>';
         list.append(li);
