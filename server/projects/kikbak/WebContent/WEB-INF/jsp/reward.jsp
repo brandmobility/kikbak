@@ -150,7 +150,7 @@
             </div>
             <div class="widget">
                 <div class="span4">
-                    <h3 style="padding: 0px; margin: 0px; font-family: HelveticaNeueLTPro-Lt">${gift.merchant.name}</h3>
+                    <h3 style="padding: 0; margin: 0; font-family: HelveticaNeueLTPro-Lt">${gift.merchant.name}</h3>
                 </div>
                 <div class="span4" style="margin-top:5px;">
                     <div class="pull-left">

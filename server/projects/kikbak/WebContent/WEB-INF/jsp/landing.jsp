@@ -234,9 +234,9 @@
                 <div class="col-md-6">
                     <div
                         style="background-color: #767676; padding-top: 20px; padding-bottom: 10px;">
-                        <h3 style="font-size: 38px; font-family: HelveticaNeue Bold; padding: 0px; margin: 0 0 -12px 0; line-height: 18px;">${gift.desc}</h3>
-                        <p style="font-family: HelveticaNeueLT Pro 55 Roman; font-size: 18px; padding: 0px; margin: 0px;">${gift.detailedDesc}</p>
-                        <small style="font-family: HelveticaNeueLT Pro 45 Lt; font-size: 12px; padding: 0px; margin: 0px;">offer valid in-store only</small>
+                        <h3 style="font-size: 38px; font-family: HelveticaNeue Bold; line-height: 18px;">${gift.desc}</h3>
+                        <p style="font-family: HelveticaNeueLT Pro 55 Roman; font-size: 18px; margin: 0;">${gift.detailedDesc}</p>
+                        <small style="font-family: HelveticaNeueLT Pro 45 Lt; font-size: 12px;">offer valid in-store only</small>
                     </div>
                 </div>
                 <div class="col-md-1"></div>
