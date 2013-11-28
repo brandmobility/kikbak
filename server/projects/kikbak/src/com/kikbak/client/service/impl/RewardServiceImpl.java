@@ -349,6 +349,7 @@ public class RewardServiceImpl implements RewardService {
         }
 
         Offer offer = roOfferDao.findById(shared.getOfferId());
+        
         Merchant merchant = roMerchantDao.findById(offer.getMerchantId());
         Gift gift = roGiftDao.findById(shared.getOfferId());
         User friend = roUserDao.findById(shared.getUserId());
@@ -402,6 +403,15 @@ public class RewardServiceImpl implements RewardService {
         gt.setRedemptionLocationType(gift.getRedemptionLocationType());
         gt.setDefaultGiveImageUrl(gift.getDefaultGiveImageUrl());
         gt.setTosUrl(offer.getTosUrl());
+        
+
+        Date now = new Date();
+        if (now.before(offer.getBeginDate()) || now.after(offer.getEndDate())) {
+        	gt.setExpired(true);
+        } else {
+        	gt.setExpired(false);
+        }
+        
         return gt;
     }
 

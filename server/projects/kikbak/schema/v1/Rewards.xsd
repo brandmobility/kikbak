@@ -75,6 +75,7 @@
             <xsd:element name="redemptionLocationType" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="defaultGiveImageUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="tosUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="expired" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="shareInfo" type="kikbak:ShareInfoType" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
     </xsd:complexType>

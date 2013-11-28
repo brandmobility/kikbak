@@ -350,7 +350,7 @@
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script>
     var agId;
-
+    
     <c:choose>
     <c:when test="${not mobile}">
     $('#container').css('background-image', 'url(${gift.defaultGiveImageUrl})');
@@ -361,6 +361,15 @@
     $('#header h1').css('background-size', '100% 100%');
     $('#header h1').css('background-position', 'initial initial');
     $('#header h1').css('background-repeat', 'no-repeat');
+    </c:when>
+    </c:choose>
+
+    <c:choose>
+    <c:when test="${gift.expired}">
+    setTimeout(function() {
+      alert('The offer has expired');
+      window.location.href = "https://kikbak.me";
+    }, 1000);
     </c:when>
     </c:choose>
 
@@ -555,6 +564,7 @@
       </c:when>
       </c:choose>
     }
+
     </script>
     <script src="js/register.js"></script>
 </body>
