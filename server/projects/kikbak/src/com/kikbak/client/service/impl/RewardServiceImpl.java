@@ -18,6 +18,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kikbak.client.service.v1.CheatProtectionService;
+import com.kikbak.client.service.v1.OfferExhaustedException;
+import com.kikbak.client.service.v1.OfferExpiredException;
 import com.kikbak.client.service.v1.RateLimitException;
 import com.kikbak.client.service.v1.RedemptionException;
 import com.kikbak.client.service.v1.RewardException;
@@ -447,7 +449,7 @@ public class RewardServiceImpl implements RewardService {
     private Allocatedgift createAllocateOffer(Long userId, Shared shared, Offer offer) {
         Gift gift = roGiftDao.findByOfferId(shared.getOfferId());
         double giftValue = gift.getValue();
-        if (gift.getLottery() != null) {
+        if (userId != null && gift.getLottery() != null) {
             // check if user got that gift already to keep the same gift value
             Double value = roAllocatedGiftDao.getAllocatedGiftValue(userId, shared.getOfferId());
             if (value != null) {
@@ -602,5 +604,30 @@ public class RewardServiceImpl implements RewardService {
         buffer.append(code.substring(0, code.length() - 1));
         buffer.append(String.valueOf(checkdigit));
         return buffer.toString();
+    }
+    
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public String getBarcode(String referralCode, BarcodeResponse response) throws OfferExpiredException, OfferExhaustedException {
+        Shared shared = roSharedDao.findByReferralCode(referralCode);
+        if (shared == null)
+            throw new IllegalArgumentException("No share for code:" + referralCode);
+
+        Offer offer = roOfferDao.findById(shared.getId());
+
+        Date now = new Date();
+        if (now.before(offer.getBeginDate()) || now.after(offer.getEndDate())) {
+            throw new OfferExpiredException("Offer " + offer.getId() + " expired");
+        }
+
+        Allocatedgift allocatedGift = createAllocateOffer(null, shared, offer);
+        Barcode barcode = rwBarcodeDao.allocateAnonymousBarcode(allocatedGift.getGiftId(), allocatedGift.getId());
+        if(barcode == null)
+            throw new OfferExhaustedException("No free barcodes for offer " + offer.getId());
+
+        response.setCode(validateAndUpdateChecksum(barcode.getCode()));
+        response.setValidDays(String.valueOf(barcode.getValidDays()));
+
+        return barcode.getCode();
     }
 }
