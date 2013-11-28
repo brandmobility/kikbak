@@ -352,8 +352,5 @@
         }
         </script>
         <script src="js/register.js"></script>
-        <script>
-        registerCb(3);
-        </script>
     </body>
 </html>
