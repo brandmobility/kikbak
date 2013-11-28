@@ -159,7 +159,7 @@ function preShareClick() {
               $('#share-popup').show();
               ga('send', 'event', 'button', 'show', 'give method select');
             } else if (storiesResponse.status === 'LIMIT_REACH') {
-              showErrorWithMsg('Sorry, you cannot share this offer anymore');
+              showErrorWithMsg('Congrats! You have earned the maximum number of rewards. Thank you for referring your friends to Verizon.<br /><br />Unfortunately you are no longer eligible to share this offer with friends.');
             } else {
               showError();
             }
@@ -198,6 +198,7 @@ function onInput() {
 
 function completeUserInfo() {
   $('#login-div').hide();
+  onInput();
   $('#create-share-div').show();
 }
 
@@ -503,6 +504,7 @@ $(document).ready(function() {
       data: str,
       url: config.backend + 'kikbak/rewards/claim/' + s.userId + '/',
       success: function(json) {
+        $('#success-popup h1').html('Success!');
         $('#success-popup h3').html('<br>Your reward claim has been submitted');
         $('#success-popup p').html('');
         $('#success-popup').show();
@@ -536,7 +538,10 @@ function showError() {
 
 function showErrorWithMsg(msg) {
   $('#spinner h2').html('Waiting');
-  alert(msg);
+  $('#success-popup h1').html('');
+  $('#success-popup h3').html('');
+  $('#success-popup p').html(msg);
+  $('#success-popup').show();
 }
 
 function fbInit() {
