@@ -507,7 +507,7 @@
         </c:when>
         <c:otherwise>
         $('#share-offer-btn').click(function(){
-          window.location.href = '/m/${gift.merchant.shortname}';
+          window.open('/m/${gift.merchant.shortname}', '_blank');
         });
         $('#landing-div').hide();
         $('#redeem-gift-success').show();

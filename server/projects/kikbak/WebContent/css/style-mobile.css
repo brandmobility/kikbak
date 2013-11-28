@@ -356,13 +356,13 @@ h3 {
     font-size: 16px;
     text-align: center;
     width: 100%;
-    margin: 4% 0 4%;
+    margin: 0;
 }
 .hedng h2 {
     float: left;
     width: 100%;
     font-size: 30px;
-    margin-top: 4%;
+    margin: 2% 0 2％;
     text-align: center;
 }
 .hedng h3 {
