@@ -894,7 +894,7 @@ p.msg {
     height: 100%;
     background: url(../images/popbk.png) left top repeat;
     display: block;
-    z-index: 999;
+    z-index: 9999;
 }
 .popin {
     float: left;
@@ -1081,6 +1081,7 @@ p.msg {
 .frd-bx .nxtt {
     float: right;
     padding: 3%;
+    margin-top:5px;
 }
 /*-- close Popup end-- */
 
@@ -1489,7 +1490,7 @@ h1.pg-hedng {
     -webkit-animation-timing-function: linear;
 }
 #spinner {
-    z-index: 9999;
+    z-index: 99999;
 }
 .share-btn {
     width: 95%;

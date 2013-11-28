@@ -1072,12 +1072,12 @@ function onClickRedeem(redeemData) {
   var li = '<li class="frd-bx" >';
   li += '<h2>' + gift.desc + '</h2>';
   var j = escape(JSON.stringify(gift));
-  li += '<a href="#" class="nxtt" id="redeem-gift-shortcut" data-object="' + j + '"><img src="images/nxt-aro.png"></a></li>';
+  li += '<a href="#" class="nxtt" id="redeem-gift-shortcut" data-object="' + j + '"><img width="11" height="18" src="images/nxt-aro.png"></a></li>';
   list.append(li);
   var li = '<li class="frd-bx" >';
   li += '<h2>' + credit.desc + '</h2>';
   var j = escape(JSON.stringify(credit));
-  li += '<a href="#" class="nxtt" id="redeem-credit-shortcut" data-object="' + j + '"><img src="images/nxt-aro.png"></a></li>';
+  li += '<a href="#" class="nxtt" id="redeem-credit-shortcut" data-object="' + j + '"><img width="11" height="18" src="images/nxt-aro.png"></a></li>';
   list.append(li);
   
   $('#redeem-gift-shortcut').click(function(e) {
@@ -1115,10 +1115,10 @@ function onClickRedeemGift(gifts) {
         var j = escape(JSON.stringify(data));
         li += '<a href="#" data-object="' + j + '" class="select-gift-btn">';
         if (shareInfo.fbFriendId) {
-          li += '<img class="avatar" src="https://graph.facebook.com/' + shareInfo.fbFriendId + '/picture?type=square">';
+          li += '<img class="avatar" src="https://graph.facebook.com/' + shareInfo.fbFriendId + '/picture?width=80&height=80">';
         }
         li += '<h2>' + shareInfo.friendName + '</h2>';
-        li += '<img class="nxtt" src="images/nxt-aro.png"></a></li>';
+        li += '<img width="11" height="18" class="nxtt" src="images/nxt-aro.png"></a></li>';
         list.append(li);
       }
 
@@ -1181,7 +1181,7 @@ function renderRedeem(gifts, credits) {
       var style = credits ? ' lft-bdr' : '';
       html += '<a href="#" data-object="' + json + '" class="redeem-gift-btn clearfix">';
       html += '<div class="lft-dtl' + style + '"><span>USE RECEIVED GIFT<h2>' + g.desc + '</h2></span>';
-      html += '<img style="width:32px;height:32px;float:right;" src="https://graph.facebook.com/' + g.shareInfo[0].fbFriendId + '/picture?type=square">';
+      html += '<img style="width:32px;height:32px;float:right;" src="https://graph.facebook.com/' + g.shareInfo[0].fbFriendId + '/picture?width=80&height=80">';
       if (g.shareInfo.length > 1) {
         html += '<img src="images/actor-bk.png" class="actbrd">';
       }
@@ -1661,7 +1661,7 @@ function renderRedeemGiftDetail(data) {
   }
   html += '</div></div>';
   html += '<div class="gvrdm">';
-  html += '<img src="https://graph.facebook.com/' + share.fbFriendId + '/picture?type=square">';
+  html += '<img width="40" height="40" src="https://graph.facebook.com/' + share.fbFriendId + '/picture?width=80&height=80">';
   html += '<div class="avtr-cmnt">';
   html += '<h2>' + share.friendName + '</h2>';
   html += '<h2>' + share.caption + '</h2>';
