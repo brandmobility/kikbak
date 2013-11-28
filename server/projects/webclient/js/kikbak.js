@@ -46,10 +46,18 @@ function shareOfferFromChannel(channel) {
     } else if (channel === 'email') {
       var str = 'mailto:?content-type=text/html&subject=' + encodeURIComponent(subject)
           + '&body=' + encodeURIComponent(body);
-      window.location.href = str;
+      if (getBrowserName() === 'Safari') {
+        window.location.href = str;
+      } else {
+        window.open(str, '_blank');
+      }
     } else if (channel === 'sms') {
       var str = 'sms:?body=' + encodeURIComponent(encodeURIComponent(body));
-      window.location.href = str;
+      if (getBrowserName() === 'Safari') {
+        window.location.href = str;
+      } else {
+        window.open(str, '_blank');
+      }
     }
   }
 
