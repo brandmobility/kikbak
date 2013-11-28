@@ -1433,6 +1433,8 @@ function renderOfferDetail(offer) {
   if (s.offerCount > 1) {
     $('#back-btn-div').show('');
   }
+
+  $('.popup').css('min-height', $(document).height());
 }
 
 function initLocationAndRenderSharePopup(offer) {
