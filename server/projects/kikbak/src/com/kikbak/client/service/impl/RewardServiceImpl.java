@@ -495,6 +495,7 @@ public class RewardServiceImpl implements RewardService {
         cmt.setName(merchant.getName());
         cmt.setUrl(merchant.getUrl());
         cmt.setImageUrl(merchant.getImageUrl());
+        cmt.setShortname(merchant.getShortname());
 
         Collection<Location> locations = roLocationDao.listByMerchant(merchant.getId());
         for (Location location : locations) {
@@ -613,7 +614,7 @@ public class RewardServiceImpl implements RewardService {
         if (shared == null)
             throw new IllegalArgumentException("No share for code:" + referralCode);
 
-        Offer offer = roOfferDao.findById(shared.getId());
+        Offer offer = roOfferDao.findById(shared.getOfferId());
 
         Date now = new Date();
         if (now.before(offer.getBeginDate()) || now.after(offer.getEndDate())) {
