@@ -391,17 +391,16 @@ h1.pg-hedng {
 }
 .frm-fed h3 {
     color: #888686;
-    float: left;
     font-size: 15px;
     font-weight: normal;
-    margin: 2%;
+    margin: 2% 3%;
     width: 96%;
 }
 .frm-fed p {
     color: #888686;
     float: left;
     font-size: 11px;
-    margin: 2%;
+    margin: 2% 3%;
     width: 96%;
 }
 
@@ -438,4 +437,23 @@ h1.pg-hedng {
 }
 .crt p {
     line-height: 14px;
+}
+.bsnm {
+    margin: 1% 3%;
+    padding: 2%;
+    width: 94%;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    color: #666;
+    border: 1px solid #ccc;
+}
+#redeem-success {
+    text-align: center;
+}
+#redeem-success h1 {
+    margin-top: 40px;
+}
+#redeem-success p {
+    margin-top: 20px;
+    font-size:16px;
 }

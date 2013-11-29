@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -17,6 +18,9 @@ import com.kikbak.client.service.v1.OfferExhaustedException;
 import com.kikbak.client.service.v1.OfferExpiredException;
 import com.kikbak.client.service.v1.RewardService;
 import com.kikbak.jaxb.v1.barcode.BarcodeResponse;
+import com.kikbak.jaxb.v1.claim.ClaimCreditRequest;
+import com.kikbak.jaxb.v1.claim.ClaimCreditResponse;
+import com.kikbak.jaxb.v1.statustype.SuccessStatus;
 
 @Controller
 @RequestMapping("/unauth/rewards")
@@ -41,6 +45,21 @@ public class UnauthedRewardController extends AbstractController {
             logger.error("cannot generate barcode", e);
             httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return;
+        }
+    }
+
+    @RequestMapping(value = "/claim/{userId}/", method = RequestMethod.POST)
+    public ClaimCreditResponse claimCredit(@PathVariable("userId") Long userId,
+            @RequestBody ClaimCreditRequest request, final HttpServletResponse httpResponse) {
+        try {
+            ClaimCreditResponse response = new ClaimCreditResponse();
+            response.setStatus(SuccessStatus.OK);
+            service.claimCredit(userId, request.getClaim());
+            return response;
+        } catch (Exception e) {
+            logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return null;
         }
     }
     

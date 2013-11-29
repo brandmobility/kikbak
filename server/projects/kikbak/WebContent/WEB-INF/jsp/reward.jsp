@@ -89,7 +89,7 @@
                     </div>
                     <div id="ribbon-blue-dec"></div>
                     <div class="clearfix"></div>
-                    <div id="facebook-div">
+                    <div id="facebook-div" style="display:none;">
                         <p id="fb-signin-title" class="title">Sign-in with Facebook to redeem your credit now</p>
                         <a id="loginFb" href="#"> <img src="img/fb-btn-new.png" width="258" height="55" style="margin: 0 auto;" /></a>
                         <p class="disclaimer">We use Facebook to make it easy for you to share, redeem and share gifts.<br/> We will never post without your permission.</p>
@@ -99,18 +99,24 @@
                             <a href="https://play.google.com/store/apps/details?id=com.referredlabs.kikbak&hl=en"><img src="img/google-play.png" width="40%" /></a>
                         </div>
                     </div>
-                    <div id="redeem-div" style="display:none;">
+                    <div id="redeem-div">
                         <form id="claim-credit-form">
                             <div class="frm-fed">
                                 <h3>Please provide the following to redeem:</h3>
                                 <input type="hidden" name="creditId" value="${credit.id}" class="bsnm" />
-                                <input type="text" name="phoneNumber" placeholder="Phone number (number only)" class="bsnm" />
-                                <input type="text" name="name" placeholder="First Last Name" class="bsnm" />
-                                <input type="text" name="street" placeholder="Street" class="bsnm" />
-                                <input type="text" name="apt" placeholder="Apartment or Unit # (number only)" class="bsnm" />
-                                <input type="text" name="city" placeholder="City" class="bsnm" />
-                                <input type="text" name="state" placeholder="State" class="bsnm" />
-                                <input type="text" name="zipcode" placeholder="Zip (number only)" class="bsnm" />
+                                <c:choose>
+                                <c:when test="${gift.merchant.shortname == 'Verizon'}">
+                                <input type="text" name="phoneNumber" class="claim-reuqired" placeholder="Phone number (number only)" class="bsnm" />
+                                </c:when>
+                                <c:otherwise>
+                                <input type="text" name="name" class="claim-reuqired" placeholder="First Last Name" class="bsnm" />
+                                <input type="text" name="street" class="claim-reuqired" placeholder="Street" class="bsnm" />
+                                <input type="text" name="apt" class="claim-reuqired" placeholder="Apartment or Unit # (number only)" class="bsnm" />
+                                <input type="text" name="city" class="claim-reuqired" placeholder="City" class="bsnm" />
+                                <input type="text" name="state" class="claim-reuqired" placeholder="State" class="bsnm" />
+                                <input type="text" name="zipcode" class="claim-reuqired" placeholder="Zip (number only)" class="bsnm" />
+                                </c:otherwise>
+                                </c:choose>
                                 <p>Your reward should arrive in 2 - 4 weeks.</p>
                             </div>
                             <button id="claim-credit-btn" class="btn grd-btn" disabled="disabled">Submit</button>
@@ -131,7 +137,40 @@
         </div>
         </c:when>
         <c:otherwise>
-        <div>
+        <div id="claim-credit-div">
+            <form id="claim-credit-form">
+                <h1 class="pg-hedng">${credit.merchant.name}</h1>
+                <div class="hedng hedbk">
+                    <h1>$${credit.value}</h1>
+                    <h3>Gift Card</h3>
+                </div>
+                <div class="clearfix"></div>
+                <div id="redeem-div" class="frm-fed">
+                    <h3>Please provide the following to redeem:</h3>
+                    <input type="hidden" name="creditId" value="${credit.id}" class="bsnm" />
+                    <c:choose>
+                    <c:when test="${gift.merchant.shortname == 'Verizon'}">
+                    <input type="tel" name="phoneNumber" placeholder="Phone number (number only)" class="bsnm" />
+                    </c:when>
+                    <c:otherwise>
+                    <input type="text" name="name" placeholder="First Last Name" class="bsnm" />
+                    <input type="text" name="street" placeholder="Street" class="bsnm" />
+                    <input type="number" name="apt" placeholder="Apartment or Unit # (number only)" class="bsnm" />
+                    <input type="text" name="city" placeholder="City" class="bsnm" />
+                    <input type="text" name="state" placeholder="State" class="bsnm" />
+                    <input type="number" name="zipcode" placeholder="Zip (number only)" class="bsnm" />
+                    </c:otherwise>
+                    </c:choose>
+                    <p>Your reward should arrive in 2 - 4 weeks.</p>
+                    <button id="claim-credit-btn" class="btn grd-btn" disabled="disabled">Submit</button>
+                </div>
+                <div id="redeem-success" style="display:none;">
+                    <h1>Success!</h1>
+                    <p>Your reward claim has been submitted.</p>
+                </div>
+            </form>
+        </div>
+        <div id="reward-div" style="display:none;">
             <div id="jumbotron">
                 <p><strong>You have a reward ready to be claimed!</strong></p>
                 <c:choose>
@@ -245,7 +284,7 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-        <script>        
+        <script> 
         <c:choose>
         <c:when test="${not mobile}">
         $('#container').css('background-image', 'url(${gift.defaultGiveImageUrl})');
@@ -256,10 +295,16 @@
         $('#header h1').css('background-size', '100% 100%');
         $('#header h1').css('background-position', 'initial initial');
         $('#header h1').css('background-repeat', 'no-repeat');
+        </c:when>
+        </c:choose>
         
-        function claimCredit(userId) {
+        function claimCredit() {
+          <c:choose>
+          <c:when test="${not mobile}">
           $('#facebook-div').hide();
           $('#redeem-div').show();
+          </c:when>
+          </c:choose>
           $('#claim-credit-form input').bind('keyup', function() {
             var form = $('#claim-credit-form');
             var valid = true;
@@ -282,23 +327,40 @@
             $.each(form.serializeArray(), function() { 
               o[this.name] = this.value;
             });
-            var keys = ['phoneNumber', 'apt', 'zipcode'];
+            <c:choose>
+            <c:when test="${gift.merchant.shortname != 'Verizon'}">
+            var keys = ['apt', 'zipcode'];
+            </c:when>
+            <c:otherwise>
+            var keys = ['phoneNumber'];
+            </c:otherwise>
+            </c:choose>
             var invalid = false;
             for (var i in keys) {
               var k = keys[i];
-              if (/^\d+$/.test(o[k].replace(/^\s+|\s+$/g, ''))) {
-                o[k] = o[k].replace(/^\s+|\s+$/g, '');
-                $('#claim-credit-form input[name="' + k + '"]').css('border', '1px solid #ccc');
+              if (k === 'phoneNumber') {
+                if (o[k].replace(/^\d$/g, "").length >= 10) {
+                  o[k] = o[k].replace(/^\s+|\s+$/g, '');
+                  $('#claim-credit-form input[name="' + k + '"]').css('border', '1px solid #ccc');
+                } else {
+                  invalid = true;
+                  $('#claim-credit-form input[name="' + k + '"]').css('border', '2px solid red');
+                }
               } else {
-            	invalid = true;
-            	$('#claim-credit-form input[name="' + k + '"]').css('border', '2px solid red');
+                if (/^\d+$/.test(o[k].replace(/^\s+|\s+$/g, ''))) {
+                  o[k] = o[k].replace(/^\s+|\s+$/g, '');
+                  $('#claim-credit-form input[name="' + k + '"]').css('border', '1px solid #ccc');
+                } else {
+                  invalid = true;
+                  $('#claim-credit-form input[name="' + k + '"]').css('border', '2px solid red');
+                }
               }
             }
             if (invalid) {
-              $('#claim-credit-form h3').html('Sorry, the information you entered is not recognized as valid.<br />Please ensure that is accurate and try again.');
+              $('#claim-credit-form .frm-fed h3').html('Sorry, the information you entered is not recognized as valid. Please ensure that is accurate and try again.');
               return;
             } else {
-              $('#claim-credit-form h3').html('Please provide the following to redeem:');
+              $('#claim-credit-form .frm-fed h3').html('Please provide the following to redeem:');
             }
             var claim = {};
             claim['claim'] = o;
@@ -310,7 +372,7 @@
               type: 'POST',
               contentType: 'application/json',
               data: str,
-              url: 'rewards/claim/' + userId + '/',
+              url: 'unauth/rewards/claim/${credit.userId}/',
               success: function(json) {
                 $('#redeem-div').hide();
             	$('#redeem-success').show();
@@ -320,13 +382,7 @@
             return false;
           });  
         }
-        </c:when>
-        <c:otherwise>
-        function claimCredit(userId) {
-          window.location.href = '/m/#redeem';
-        }
-        </c:otherwise>
-        </c:choose>
+
         function registerCb(userId) {
           var data = {};
           var req = {};
@@ -350,6 +406,7 @@
             error: showError
           });
         }
+        claimCredit();
         </script>
         <script src="js/register.js"></script>
     </body>

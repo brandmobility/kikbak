@@ -205,6 +205,7 @@ public class RewardServiceImpl implements RewardService {
         ac.setTosUrl(offer.getTosUrl());
         ac.setImageUrl(kikbak.getImageUrl());
         ac.setRedeemedGiftsCount(credit.getRedeemCount());
+        ac.setUserId(userId);
         return ac;
     }
 
