@@ -51,7 +51,7 @@ public class AllocatedGiftDAOTest extends KikbakBaseTest {
 		gift.setFriendUserId(12);
 		gift.setMerchantId(13);
 		gift.setOfferId(144);
-		gift.setUserId(6363);
+		gift.setUserId(6363L);
 		gift.setValue(43.54);
 		gift.setCreatedDate(new Date());
 		rwDao.makePersistent(gift);

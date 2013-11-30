@@ -26,14 +26,14 @@ insert into kikbak (offer_id,  description,     detailed_desc,                  
                    (@offer_id, '$50 gift card', 'for every friend that redeems your gift' , 50,    'gift_card', 'barcode',       concat(@server, '/data/verizon/verizon_banner.png'));
 
 #test barcodes
-#insert into barcode (merchant_id, offer_id,  gift_id,  code,          value, begin_date, expiration_date) values
-#                    (@id,         @offer_id, @gift_id, "09546999653",    50, now(),      now() + interval 90 day),
-#                    (@id,         @offer_id, @gift_id, "59445115420",    50, now(),      now() + interval 90 day),
-#                    (@id,         @offer_id, @gift_id, "22945801296",    50, now(),      now() + interval 90 day),
-#                    (@id,         @offer_id, @gift_id, "11987354821",    50, now(),      now() + interval 90 day),
-#                    (@id,         @offer_id, @gift_id, "50473707719",    50, now(),      now() + interval 90 day),
-#                    (@id,         @offer_id, @gift_id, "41935246720",    50, now(),      now() + interval 90 day),
-#                    (@id,         @offer_id, @gift_id, "59407004509",    50, now(),      now() + interval 90 day),
-#                    (@id,         @offer_id, @gift_id, "64684068371",    50, now(),      now() + interval 90 day),
-#                    (@id,         @offer_id, @gift_id, "57595412781",    50, now(),      now() + interval 90 day),
-#                    (@id,         @offer_id, @gift_id, "99113099441",    50, now(),      now() + interval 90 day);
+#insert into barcode (merchant_id, offer_id,  gift_id,  code,          value, valid_days, begin_date, expiration_date) values
+#                    (@id,         @offer_id, @gift_id, "09546999653", 50,    10,         now(),      now() + interval 90 day),
+#                    (@id,         @offer_id, @gift_id, "59445115420", 50,    10,         now(),      now() + interval 90 day),
+#                    (@id,         @offer_id, @gift_id, "22945801296", 50,    10,         now(),      now() + interval 90 day),
+#                    (@id,         @offer_id, @gift_id, "11987354821", 50,    10,         now(),      now() + interval 90 day),
+#                    (@id,         @offer_id, @gift_id, "50473707719", 50,    10,         now(),      now() + interval 90 day),
+#                    (@id,         @offer_id, @gift_id, "41935246720", 50,    10,         now(),      now() + interval 90 day),
+#                    (@id,         @offer_id, @gift_id, "59407004509", 50,    10,         now(),      now() + interval 90 day),
+#                    (@id,         @offer_id, @gift_id, "64684068371", 50,    10,         now(),      now() + interval 90 day),
+#                    (@id,         @offer_id, @gift_id, "57595412781", 50,    10,         now(),      now() + interval 90 day),
+#                    (@id,         @offer_id, @gift_id, "99113099441", 50,    10,         now(),      now() + interval 90 day);
