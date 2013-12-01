@@ -158,14 +158,14 @@ static int offsetForIOS6 = 44;
             self.giftImage.image = [self.giftImage.image imageCropToRect:retina35CropRect];
         }
 
-        if( self.shareInfo.fbFriendId != nil){
+        if( [self.shareInfo.fbFriendId intValue] != 0){
             imagePath = [ImagePersistor imageFileExists:self.shareInfo.fbFriendId imageType:FRIEND_IMAGE_TYPE];
             if(imagePath != nil){
                 self.friendImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
             }
         }
         else{
-            
+            self.friendImage.image = [UIImage imageNamed:@"ic_profile"];
         }
         
         self.friendName.text = self.shareInfo.friendName;
