@@ -36,6 +36,7 @@ public class ReadWriteBarcodeDAOImpl extends GenericDAOImpl<Barcode, Long> imple
 
         return (Barcode) session.createSQLQuery(find_allocated_barcode) //
                 .addEntity(Barcode.class) //
+                .setLong(0, userId) //
                 .setLong(1, allocatedGiftId) //
                 .setTimestamp(2, now) //
                 .uniqueResult();

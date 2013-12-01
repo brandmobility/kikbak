@@ -20,6 +20,7 @@
         <xsd:sequence>
             <xsd:element name="id" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="shortname" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="url" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="imageUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="locations" type="ml:MerchantLocationType" minOccurs="1" maxOccurs="unbounded"/>
@@ -31,6 +32,7 @@
         <xsd:sequence>
             <xsd:element name="id" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="offerId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="userId" type="xsd:long" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="merchant" type="kikbak:ClientMerchantType" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="desc" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="detailedDesc" type="xsd:string" minOccurs="1" maxOccurs="1"/>
@@ -74,6 +76,7 @@
             <xsd:element name="redemptionLocationType" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="defaultGiveImageUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="tosUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="expired" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="shareInfo" type="kikbak:ShareInfoType" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
     </xsd:complexType>

@@ -309,3 +309,151 @@ h3 {
     color: #FFFFFF;
     opacity: 0.8;
 }
+
+.hedng {
+    float: left;
+    padding: 2%;
+    width: 100%;
+    text-shadow: 0px 1px 1px #FFFFFF;
+}
+.hedbk {
+    background: #9bbeea;
+    color: #0f4689;
+}
+.hedbk1 {
+    background: #85d08a;
+    color: #135317;
+    -moz-box-shadow: inset 0 -2px 2px 0 #6eac73;
+    -webkit-box-shadow: inset 0 -2px 2px 0 #6eac73;
+    box-shadow: inset 0 -2px 2px 0 #6eac73;
+}
+.hedbk2 {
+    background: #74c877;
+    color: #10400F;
+}
+.hedbk1-botm-patrn {
+    float: left;
+    width: 100%;
+    height: 2px;
+    background: url(../img/greendote.png) left bottom repeat-x;
+    background-size: 8px;
+}
+.hedbk2-botm-patrn {
+    float: left;
+    width: 100%;
+    height: 3px;
+    background: url(../img/bluedote.png) left bottom repeat-x;
+}
+.hedng h1 {
+    float: left;
+    width: 45%;
+    font-size: 35px;
+    margin: 0;
+}
+
+.hedng p {
+    float: left;
+    font-size: 16px;
+    text-align: center;
+    width: 100%;
+    margin: 0;
+}
+.hedng h2 {
+    float: left;
+    width: 100%;
+    font-size: 30px;
+    margin: 2% 0 2％;
+    text-align: center;
+}
+.hedng h3 {
+    float: right;
+    font-size: 18px;
+    font-weight: normal;
+    margin: 6% 0 0;
+    text-align: right;
+    width: 45%;
+}
+
+h1.pg-hedng {
+    color: #3A3A3A;
+    float: left;
+    font-size: 30px;
+    font-weight: normal;
+    margin: 5% 0 4%;
+    text-align: center;
+    width: 100%;
+}
+.frm-fed {
+    float: left;
+    width: 96%;
+    margin: 1% 2%;
+    padding: 0
+}
+.frm-fed h3 {
+    color: #888686;
+    font-size: 15px;
+    font-weight: normal;
+    margin: 2% 3%;
+    width: 96%;
+}
+.frm-fed p {
+    color: #888686;
+    float: left;
+    font-size: 11px;
+    margin: 2% 3%;
+    width: 96%;
+}
+
+.cd-br-stin {
+    float: left;
+    width: 96%;
+    margin: 2%;
+    border-bottom: 2px solid #c4c4c4;
+}
+.cd-br-stin h1, .cd-br-stin h2, .cd-br-stin h3 {
+    float: left;
+    width: 100%;
+    text-align: center;
+}
+
+.cd-br-stin h1 {
+    color: #3A3A3A;
+    font-size: 40px;
+    margin: 0;
+}
+.cd-br-stin h2 {
+    font-size: 30px;
+    color: #9c9c9c;
+    font-weight: normal;
+}
+.cd-br-stin h3 {
+    color: #3A3A3A;
+    font-size: 16px;
+    margin: 1% 0;
+    font-weight: normal;
+} 
+.crt {
+    text-align: center;
+}
+.crt p {
+    line-height: 14px;
+}
+.bsnm {
+    margin: 1% 3%;
+    padding: 2%;
+    width: 94%;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    color: #666;
+    border: 1px solid #ccc;
+}
+#redeem-success {
+    text-align: center;
+}
+#redeem-success h1 {
+    margin-top: 40px;
+}
+#redeem-success p {
+    margin-top: 20px;
+    font-size:16px;
+}
