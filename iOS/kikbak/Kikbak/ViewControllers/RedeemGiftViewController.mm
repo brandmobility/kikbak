@@ -157,10 +157,15 @@ static int offsetForIOS6 = 44;
             CGRect retina35CropRect = CGRectMake(0, 89, 640, self.giftImage.image.size.height-178);
             self.giftImage.image = [self.giftImage.image imageCropToRect:retina35CropRect];
         }
-        
-        imagePath = [ImagePersistor imageFileExists:self.shareInfo.fbFriendId imageType:FRIEND_IMAGE_TYPE];
-        if(imagePath != nil){
-            self.friendImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
+
+        if( self.shareInfo.fbFriendId != nil){
+            imagePath = [ImagePersistor imageFileExists:self.shareInfo.fbFriendId imageType:FRIEND_IMAGE_TYPE];
+            if(imagePath != nil){
+                self.friendImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
+            }
+        }
+        else{
+            
         }
         
         self.friendName.text = self.shareInfo.friendName;

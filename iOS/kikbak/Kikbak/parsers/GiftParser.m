@@ -70,7 +70,9 @@
         }
         info.allocatedGiftId = allocatedGiftId;
         info.friendUserId = [shareInfo objectForKey:@"friendUserId"];
-        info.fbFriendId = [shareInfo objectForKey:@"fbFriendId"];
+        if( [shareInfo objectForKey:@"fbFriendId"] != [NSNull null]){
+            info.fbFriendId = [shareInfo objectForKey:@"fbFriendId"];
+        }
         info.friendName = [shareInfo objectForKey:@"friendName"];
         if( [shareInfo objectForKey:@"imageUrl"] != [NSNull null]){
             info.imageUrl = [shareInfo objectForKey:@"imageUrl"];
