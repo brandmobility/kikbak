@@ -2,7 +2,6 @@
 package com.referredlabs.kikbak.ui;
 
 import java.io.IOException;
-import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -32,13 +31,9 @@ import com.referredlabs.kikbak.tasks.TaskEx;
 import com.referredlabs.kikbak.utils.Register;
 import com.squareup.picasso.Picasso;
 
-public class ClaimInputFragment extends KikbakFragment implements OnClickListener {
+public class ClaimInputFragmentVerizon extends KikbakFragment implements OnClickListener {
   private static final String TAG_INVALID_INFO = "tag_invalid_info";
   private static final String TAG_CLAIM_SUBMITTED = "tag_claim_submitted";
-
-  public interface ClaimCompletedCallback {
-    void onClaimCompleted();
-  }
 
   private AvailableCreditType mCredit;
 
@@ -48,12 +43,6 @@ public class ClaimInputFragment extends KikbakFragment implements OnClickListene
   private Button mButton;
 
   private TextView mPhoneTv;
-  private TextView mNameTv;
-  private TextView mStreetTv;
-  private TextView mAptTv;
-  private TextView mCityTv;
-  private TextView mStateTv;
-  private TextView mZipTv;
 
   @Override
   public void onAttach(Activity activity) {
@@ -64,7 +53,7 @@ public class ClaimInputFragment extends KikbakFragment implements OnClickListene
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View root = inflater.inflate(R.layout.fragment_claim_reward, container, false);
+    View root = inflater.inflate(R.layout.fragment_claim_reward_verizon, container, false);
 
     mButton = (Button) root.findViewById(R.id.button_submit);
     mButton.setOnClickListener(this);
@@ -74,12 +63,6 @@ public class ClaimInputFragment extends KikbakFragment implements OnClickListene
     mImage = (ImageView) root.findViewById(R.id.image);
 
     mPhoneTv = (TextView) root.findViewById(R.id.phone_number);
-    mNameTv = (TextView) root.findViewById(R.id.first_last_name);
-    mStreetTv = (TextView) root.findViewById(R.id.address_street);
-    mAptTv = (TextView) root.findViewById(R.id.address_apartment);
-    mCityTv = (TextView) root.findViewById(R.id.address_city);
-    mStateTv = (TextView) root.findViewById(R.id.address_state);
-    mZipTv = (TextView) root.findViewById(R.id.address_zip);
 
     setupViews();
 
@@ -120,12 +103,6 @@ public class ClaimInputFragment extends KikbakFragment implements OnClickListene
 
   private boolean validateData() {
     boolean isOk = true;
-    isOk &= validateNotEmpty(mZipTv, R.string.claim_zip_empty)
-        && validateZipCode(mZipTv, R.string.claim_zip_wrong_format);
-    isOk &= validateNotEmpty(mStateTv, R.string.claim_state_empty);
-    isOk &= validateNotEmpty(mCityTv, R.string.claim_city_empty);
-    isOk &= validateNotEmpty(mStreetTv, R.string.claim_street_empty);
-    isOk &= validateNotEmpty(mNameTv, R.string.claim_name_empty);
     isOk &= validateNotEmpty(mPhoneTv, R.string.claim_phone_empty)
         && validatePhone(mPhoneTv, R.string.claim_phone_wrong_format);
     return isOk;
@@ -134,18 +111,6 @@ public class ClaimInputFragment extends KikbakFragment implements OnClickListene
   boolean validateNotEmpty(TextView tv, int error) {
     if (tv.getText().toString().trim().length() == 0) {
       tv.setError(getString(error));
-      tv.requestFocus();
-      return false;
-    }
-    tv.setError(null);
-    return true;
-  }
-
-  boolean validateZipCode(TextView tv, int error) {
-    String zip = tv.getText().toString().trim();
-    String regex = "^\\d{5}(-\\d{4})?$";
-    if (!Pattern.matches(regex, zip)) {
-      tv.setError(getString(R.string.claim_zip_wrong_format));
       tv.requestFocus();
       return false;
     }
@@ -174,6 +139,7 @@ public class ClaimInputFragment extends KikbakFragment implements OnClickListene
   }
 
   public static class InvalidInfoPopup extends DialogFragment {
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
       return new AlertDialog.Builder(getActivity())
@@ -184,12 +150,12 @@ public class ClaimInputFragment extends KikbakFragment implements OnClickListene
   }
 
   public static class ClaimSubmittedPopup extends DialogFragment {
-    ClaimCompletedCallback mCallback;
+    ClaimInputFragment.ClaimCompletedCallback mCallback;
 
     @Override
     public void onAttach(Activity activity) {
       super.onAttach(activity);
-      mCallback = (ClaimCompletedCallback) activity;
+      mCallback = (ClaimInputFragment.ClaimCompletedCallback) activity;
     }
 
     @Override
@@ -220,12 +186,6 @@ public class ClaimInputFragment extends KikbakFragment implements OnClickListene
       mRequest.claim.creditId = mCredit.id;
       mRequest.claim.phoneNumber =
           PhoneNumberUtils.stripSeparators(mPhoneTv.getText().toString());
-      mRequest.claim.name = mNameTv.getText().toString();
-      mRequest.claim.street = mStreetTv.getText().toString();
-      mRequest.claim.apt = mAptTv.getText().toString();
-      mRequest.claim.city = mCityTv.getText().toString();
-      mRequest.claim.state = mStateTv.getText().toString();
-      mRequest.claim.zipcode = mZipTv.getText().toString();
 
       mUserId = Register.getInstance().getUserId();
     }
