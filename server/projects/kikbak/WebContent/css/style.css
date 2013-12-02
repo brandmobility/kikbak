@@ -111,11 +111,6 @@ strong{
     background-repeat: no-repeat;
     background-position: top center;
     height: 100%;
-    -webkit-filter: blur(4px);
-    -moz-filter: blur(4px); 
-    -o-filter: blur(4px); 
-    -ms-filter: blur(4px); 
-    filter: blur(4px);
 }
 #wrap{
     position:absolute;
@@ -123,7 +118,7 @@ strong{
     height:100%;
     width:100%;
     margin:0;
-    background: url(../img/overlay.png) repeat-x top left;
+    background: url(../img/overlay-new.png) repeat-x top left;
     display: inline-table;
     z-index: 0;
 }

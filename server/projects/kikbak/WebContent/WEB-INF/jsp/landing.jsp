@@ -108,7 +108,7 @@
                         <h3>Bring this offer into ${gift.merchant.name} to redeem your gift.</h3>
                     </div>
                     <div id="welcome-msg">
-                        <h3><strong>${shareInfo.friendName}</strong> used <strong>Kikbak</strong> to give you <br/> an exclusive offer for <strong>${gift.merchant.name}</strong></h3>
+                        <h3>An exclusive offer for <strong>${gift.merchant.name}</strong></h3>
                     </div>
                     <div id="ribbon">
                         <h2>${gift.desc}</h2>
@@ -125,7 +125,7 @@
                         <c:otherwise>
                         <p class="redeem-note" style="margin-top:30px;" >Print out your code now or visit this link from your phone at the store</p>
                         <input type="button" id="anonymous-redeem-barcode-btn" class="btn grd-btn" value="Generate offer to use in store" />
-                        <p class="redeem-note">Or connect with Facebook to send the offer to the Kikbak app for iOS and Android. Use it to easily access your gift at the store.</p>
+                        <p class="redeem-note">Or connect with Facebook to send the offer to the Kikbak app for iOS or Android. Use it to easily access your gift at the store.</p>
                         <a id="loginFb" href="#"> <img src="img/fb-btn-new.png" width="258" height="55" style="margin: 0 auto;" /></a>
                         </c:otherwise>
                         </c:choose>
@@ -233,7 +233,7 @@
                     </div>
                     </c:when>
                     <c:otherwise>
-                    <div class="col-md-8" style="0 0 0 10px;">
+                    <div class="col-md-8" style="padding: 0 0 0 10px;">
                         <c:choose>
                         <c:when test="${not empty shareInfo.caption}">
                         <h3 style="color: #3a3a3a; font-size: 20px; font-weight: bold;">${shareInfo.friendName}</h3>
@@ -272,8 +272,7 @@
                     style="padding-left: 10px; padding-right: 10px; margin: 10px 0 0 0; text-align: center">
                     <p style="font-size: 15px; font-family: HelveticaNeueLT Pro 45 Lt;">Connect with Facebook to claim your gift.</p>
                     <div style="height: 40px">
-                        <a id="loginFb" href="#"> <img src="img/btn_facebook.png" style="width: 100%;" />
-                            <span style="position: relative; top: -35px; left: 15px; color: #FFFFFF; font-size: 20px;">Connect with Facebook</span>
+                        <a id="loginFb" href="#"> <img src="img/facebook-button.png" width=240 />
                         </a>
                     </div>
                     <p align="center"
