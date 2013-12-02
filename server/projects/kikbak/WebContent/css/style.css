@@ -191,6 +191,11 @@ strong{
     -webkit-border-radius: 10px;
     border-radius: 10px;
 }
+.overlay-img {
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
 #info .info-content .content-detail{
     position:absolute;
     left:15px;
@@ -382,7 +387,6 @@ strong{
     font-size: 15px;
     color: #666;
 }
-
 #main-right .frm-fed h3 {
     font-size: 15px;
     margin: 15px 12px 5px 12px;
