@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.security.GeneralSecurityException;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -11,6 +13,7 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.oned.UPCAWriter;
 import com.kikbak.KikbakBaseTest;
 import com.kikbak.client.service.v1.RewardService;
+import com.kikbak.client.util.CryptoUtils;
 import com.kikbak.dao.ReadOnlyAllocatedGiftDAO;
 import com.kikbak.dao.ReadWriteAllocatedGiftDAO;
 import com.kikbak.dao.ReadWriteLocationDAO;
@@ -221,5 +224,16 @@ public class RewardServiceTest extends KikbakBaseTest{
             e.printStackTrace();
             fail();
         }
+	}
+	
+	@Test
+	public void testGenerateCode(){
+		try {
+			String code = CryptoUtils.symetricEncrypt(2L);
+			System.out.println("new code: " + code);
+		} catch (GeneralSecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

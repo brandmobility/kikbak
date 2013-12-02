@@ -1,6 +1,7 @@
 package com.kikbak.client.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.Collection;
 
@@ -15,7 +16,6 @@ import com.kikbak.client.service.v1.SharedExperienceService;
 import com.kikbak.dao.ReadOnlySharedDAO;
 import com.kikbak.dao.enums.Channel;
 import com.kikbak.dto.Shared;
-import com.kikbak.jaxb.v1.share.SharedType;
 
 public class SharedExperienceServiceTest extends KikbakTest {
 
