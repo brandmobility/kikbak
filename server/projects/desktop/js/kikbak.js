@@ -69,8 +69,8 @@ var authType = {
   },
   phone: {
     login_div: '<div style="width:53%;float:left;margin-top:5px">' +
-                 '<input id="username-input" type="text" class="required" name="username" placeholder="Name">' +
-                 '<input id="email-input" type="email" class="required" name="email" placeholder="Email">' +
+                 '<input id="username-input" type="text" class="required" name="username" placeholder="Your name">' +
+                 '<input id="email-input" type="email" class="required" name="email" placeholder="Your email">' +
                '</div><div class="divider"></div><div style="width:45%;float:left;margin-top:10px;">' +
                  '<p>OR</p>' +
                  '<a id="loginFb" href="#">' + 
@@ -84,8 +84,8 @@ var authType = {
   },
   none: {
     login_div: '<div style="width:53%;float:left;margin-top:5px;">' +
-                 '<input id="username-input" class="required" type="text" name="username" placeholder="Name">' +
-                 '<input id="email-input" class="required" type="email" name="email" placeholder="Email">' +
+                 '<input id="username-input" class="required" type="text" name="username" placeholder="Your name">' +
+                 '<input id="email-input" class="required" type="email" name="email" placeholder="Your email">' +
                '</div><div class="divider"></div><div style="width:45%;float:left;margin-top:10px;">' +
                  '<p>OR</p>' +
                  '<a id="loginFb" href="#">' + 
@@ -524,7 +524,7 @@ function getOfferStory(offer) {
           storiesResponse = json.storiesResponse;
           if (storiesResponse.status === 'OK') {
             var landingUrl = storiesResponse.stories[0].landingUrl;
-            var html = '<h3>Your unique offer page:</h3><a id="landing" href="' + landingUrl + '" target="_blank">' + landingUrl + '</a><h3 id="">Share your offer with friends</h3>';
+            var html = '<h3>Your unique offer page:</h3><a id="landing" href="' + landingUrl + '" target="_blank">' + landingUrl + '</a><h3><br />Share your offer with friends</h3>';
             $('#pre-share-div').hide();
             $('#share-info-div').html(html);
             $('#share-div .btn-group').show();
