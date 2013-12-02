@@ -217,6 +217,9 @@ const int CELL_HEIGHT = 147;
         if(imagePath != nil){
             self.friendImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
         }
+        else{
+            self.friendImage.image = [UIImage imageNamed:@"ic_profile"];
+        }
         
         if( [self.rewards.gift.shareInfo count] > 1){
             [self.rewardBackground addSubview:self.friendFrame];

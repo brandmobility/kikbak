@@ -29,7 +29,7 @@
         android:background="@drawable/btn_blue"
         android:text="@string/give_to_friends"
         android:textColor="@android:color/white"
-        android:textSize="15dp"
+        android:textSize="20dp"
         kikbak:typeface="Roboto-Medium.ttf" />
 
 </LinearLayout>

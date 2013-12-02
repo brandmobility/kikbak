@@ -37,6 +37,9 @@
     if(imagePath != nil){
         self.friendImage.image = [[UIImage alloc]initWithContentsOfFile:imagePath];
     }
+    else{
+        self.friendImage.image = [UIImage imageNamed:@"ic_profile"];
+    }
     
     self.friendImage.layer.cornerRadius = 5;
     self.friendImage.layer.masksToBounds = YES;
