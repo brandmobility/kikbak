@@ -56,6 +56,10 @@ public class UnauthedRewardController extends AbstractController {
             response.setStatus(SuccessStatus.OK);
             service.claimCredit(userId, request.getClaim());
             return response;
+        } catch (IllegalArgumentException e) {
+            logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return null;
         } catch (Exception e) {
             logger.error(e, e);
             httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

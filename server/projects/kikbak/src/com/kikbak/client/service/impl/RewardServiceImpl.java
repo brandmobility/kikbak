@@ -532,6 +532,13 @@ public class RewardServiceImpl implements RewardService {
     public void claimCredit(Long userId, ClaimType ct) throws Exception {
         Credit credit = roCreditDao.findById(ct.getCreditId());
 
+        if (credit == null)
+            throw new IllegalArgumentException("There is no credit with id:" + ct.getCreditId());
+
+        if (credit.getUserId() != userId)
+            throw new IllegalArgumentException("Wrong user/credit. User:" + userId + " claiming credit:"
+                    + ct.getCreditId());
+        
         Claim claim = new Claim();
         claim.setKikbakId(credit.getKikbakId());
         claim.setOfferId(credit.getOfferId());
@@ -619,7 +626,7 @@ public class RewardServiceImpl implements RewardService {
     }
     
     @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public String getBarcode(String referralCode, BarcodeResponse response) throws OfferExpiredException, OfferExhaustedException {
         Shared shared = roSharedDao.findByReferralCode(referralCode);
         if (shared == null)

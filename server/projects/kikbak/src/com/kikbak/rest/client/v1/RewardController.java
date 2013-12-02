@@ -209,6 +209,10 @@ public class RewardController extends AbstractController {
             logger.error(e, e);
             httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return null;
+        } catch (IllegalArgumentException e) {
+            logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return null;
         } catch (Exception e) {
             logger.error(e, e);
             httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
