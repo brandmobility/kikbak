@@ -65,16 +65,20 @@
                     </div>
                     <div class="info-content">
                         <img src="${shareInfo.imageUrl}" width="340px" height="340px" class="main-image" />
-                        <div class="overlay"></div>
+                        <div class="overlay">
+                            <img src="img/blk-shad.png" width=340 height=188 />
+                        </div>
+
                         <div class="content-detail clearfix">
                             <h3>${gift.merchant.name}</h3>
-                            <a href="https://maps.google.com/maps?q=${encodeMerchantName}%40${location.latitude},${location.longitude}" target="_blank"><div class="location"></div></a>
-                            <a href="${gift.merchant.url}" target="_blank"><div class="globe"></div></a>
+                            <a href="https://maps.google.com/maps?q=${encodeMerchantName}%40${location.latitude},${location.longitude}" target="_blank"><div class="location"><img src="img/icon-location.png" width=22 height=22></div></a>
+                            <a href="${gift.merchant.url}" target="_blank"><div class="globe"><img src="img/icon-globe.png" width=22 height=22 /></div></a>
                         </div>
                     </div>
                     <c:choose>
                     <c:when test="${not empty location}">
                     <div class="info-footer">
+                        <img src="img/icon-info.png" class="info-icon" />
                     <c:choose>
                     <c:when test="${not empty shareInfo.employeeId}">
                         ${shareInfo.friendName} was helped by <strong>${shareInfo.employeeId}</strong> at <strong>${gift.merchant.name}</strong>: <strong>${location.address1}, ${location.city}, ${location.state}</strong><br />
@@ -91,7 +95,7 @@
                 <div id="main-right">
                     <div id="header">
                         <a href="${gift.merchant.url}" target="_blank">
-                            <h1>${gift.merchant.name}</h1>
+                            <img class="logo" />
                         </a>
                         <c:choose>
                         <c:when test="${gift.validationType == 'barcode'}">
@@ -104,7 +108,7 @@
                         <h3>Bring this offer into ${gift.merchant.name} to redeem your gift.</h3>
                     </div>
                     <div id="welcome-msg">
-                        <h3><strong>${shareInfo.friendName}</strong> used <strong>Kikbak</strong> to give you <br/> an exclusive offer for <strong>${gift.merchant.name}</strong></h3>
+                        <h3>An exclusive offer for <strong>${gift.merchant.name}</strong></h3>
                     </div>
                     <div id="ribbon">
                         <h2>${gift.desc}</h2>
@@ -121,7 +125,7 @@
                         <c:otherwise>
                         <p class="redeem-note" style="margin-top:30px;" >Print out your code now or visit this link from your phone at the store</p>
                         <input type="button" id="anonymous-redeem-barcode-btn" class="btn grd-btn" value="Generate offer to use in store" />
-                        <p class="redeem-note">Or connect with Facebook to send the offer to the Kikbak app for iOS and Android. Use it to easily access your gift at the store.</p>
+                        <p class="redeem-note">Or connect with Facebook to send the offer to the Kikbak app for iOS or Android. Use it to easily access your gift at the store.</p>
                         <a id="loginFb" href="#"> <img src="img/fb-btn-new.png" width="258" height="55" style="margin: 0 auto;" /></a>
                         </c:otherwise>
                         </c:choose>
@@ -152,6 +156,7 @@
                             </div>
                         </div>
                         <img id="barcode" src="" style="display: none;" />
+                        <p id="barcode-val"></p>
                     </div>
                     </c:otherwise>
                     </c:choose>
@@ -228,7 +233,7 @@
                     </div>
                     </c:when>
                     <c:otherwise>
-                    <div class="col-md-8" style="0 0 0 10px;">
+                    <div class="col-md-8" style="padding: 0 0 0 10px;">
                         <c:choose>
                         <c:when test="${not empty shareInfo.caption}">
                         <h3 style="color: #3a3a3a; font-size: 20px; font-weight: bold;">${shareInfo.friendName}</h3>
@@ -267,8 +272,7 @@
                     style="padding-left: 10px; padding-right: 10px; margin: 10px 0 0 0; text-align: center">
                     <p style="font-size: 15px; font-family: HelveticaNeueLT Pro 45 Lt;">Connect with Facebook to claim your gift.</p>
                     <div style="height: 40px">
-                        <a id="loginFb" href="#"> <img src="img/btn_facebook.png" style="width: 100%;" />
-                            <span style="position: relative; top: -35px; left: 15px; color: #FFFFFF; font-size: 20px;">Connect with Facebook</span>
+                        <a id="loginFb" href="#"> <img src="img/facebook-button.png" width=240 />
                         </a>
                     </div>
                     <p align="center"
@@ -333,7 +337,10 @@
             <h2>OFFER</h2>
             <h1>${gift.desc}</h1>
             <h3>${gift.detailedDesc}</h3>
-            <h2><img id="barcode" src="" style="margin-bottom:20px;" /></h2>
+            <h2>
+                <img id="barcode" src="" />
+                <p id="barcode-val"></p>
+            </h2>
         </div>
         <div class="crt">
             <p>Share the same offer with your friends.<br/>
@@ -357,10 +364,7 @@
     $('#container').css('background-size', '100%');
     $('#container').css('background-position', 'initial initial');
     $('#container').css('background-repeat', 'initial initial');
-    $('#header h1').css('background-image', 'url(${merchantUrl})');
-    $('#header h1').css('background-size', '100% 100%');
-    $('#header h1').css('background-position', 'initial initial');
-    $('#header h1').css('background-repeat', 'no-repeat');
+    $('#header .logo').attr('src', '${merchantUrl}');
     </c:when>
     </c:choose>
 
@@ -503,13 +507,14 @@
       if (json && json.barcodeResponse && json.barcodeResponse.code) {
         var imgUrl = 'unauth/rewards/generateBarcode/' + json.barcodeResponse.code + '/100/200/';
         $('#barcode').attr('src', imgUrl);
+        $('#barcode-val').html(json.barcodeResponse.code);
         <c:choose>
         <c:when test="${not mobile}">
         $('#welcome-msg').hide();
         $('#redeem-btn-div').hide();
         $('#barcode').show();
-        $('#header h1').css('float', 'left');
-        $('#header h1').css('margin-left', '50px');
+        $('#header .logo').css('float', 'left');
+        $('#header .logo').css('margin-left', '50px');
         $('#success-msg').show();
         $('#green-overlay').show();
         $('#print-btn').show();

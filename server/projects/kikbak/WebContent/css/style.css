@@ -111,11 +111,6 @@ strong{
     background-repeat: no-repeat;
     background-position: top center;
     height: 100%;
-    -webkit-filter: blur(4px);
-    -moz-filter: blur(4px); 
-    -o-filter: blur(4px); 
-    -ms-filter: blur(4px); 
-    filter: blur(4px);
 }
 #wrap{
     position:absolute;
@@ -123,7 +118,7 @@ strong{
     height:100%;
     width:100%;
     margin:0;
-    background: url(../img/overlay.png) repeat-x top left;
+    background: url(../img/overlay-new.png) repeat-x top left;
     display: inline-table;
     z-index: 0;
 }
@@ -189,7 +184,6 @@ strong{
     height:188px;
     bottom: 0px;
     left:0;
-    background: url(../img/blk-shad.png) repeat-x bottom left;
     display:block;
     z-index:5;
     position:absolute;
@@ -217,20 +211,17 @@ strong{
     height:22px;
     float: left;
     margin-right:15px;
-    background: url(../img/icon-location.png) no-repeat;
-    background-size: cover;
-}
-#info .info-content .content-detail .globe{
-    background: url(../img/icon-globe.png) no-repeat;
-    background-size: cover;
 }
 #info .info-footer{
     padding-left: 25px;
     margin-top: 8px;
     font-size: 12px;
-    background: url(../img/icon-info.png) no-repeat top left;
 }
-
+#info .info-footer .info-icon {
+    margin-left: -25px;
+    margin-top: 5px;
+    float: left;
+}
 #main-right{
     margin-top: 0px;
     width:540px;
@@ -242,12 +233,12 @@ strong{
     width:540px;
     display: block;
 }
-#main-right #header h1{
-    background-repeat: no-repeat;
+#main-right #header .logo {
+    float: left;
+    margin-left: 140px;
     width: 260px;
     height: 105px;
     text-indent: -99999px;
-    margin: 0 auto;
     padding: 0px;
     display:block;
 }
@@ -335,7 +326,9 @@ strong{
     line-height: 22px;
     margin: 15px 10px 20px 10px;
 }
-
+#barcode-val {
+    font-size: 20px;
+}
 #footer-wrap{
     position:fixed;
     bottom:0;
@@ -492,4 +485,10 @@ input {
 }
 :-ms-input-placeholder { /* Internet Explorer 10+ */
     color:#a3a3a3;
+}
+.for-print {display: none;}
+@media print {
+    .for-print {
+        display:inline;
+    }
 }
