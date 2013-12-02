@@ -80,7 +80,7 @@
                 <div id="main-right">
                     <div id="header">
                         <a href="${credit.merchant.url}" target="_blank">
-                            <h1>${credit.merchant.name}</h1>
+                            <img class="logo" />
                         </a>
                     </div>
                     <h3><strong>You have a reward to be claimed!</strong></h3>
@@ -291,10 +291,7 @@
         $('#container').css('background-size', '100%');
         $('#container').css('background-position', 'initial initial');
         $('#container').css('background-repeat', 'initial initial');
-        $('#header h1').css('background-image', 'url(${merchantUrl})');
-        $('#header h1').css('background-size', '100% 100%');
-        $('#header h1').css('background-position', 'initial initial');
-        $('#header h1').css('background-repeat', 'no-repeat');
+        $('#header .logo').attr('src', '${merchantUrl}');
         </c:when>
         </c:choose>
         
