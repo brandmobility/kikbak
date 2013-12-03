@@ -269,6 +269,8 @@ public class DataStore {
           continue;
         if (gift.redemptionLocationType == null)
           continue;
+        if (gift.shareInfo == null)
+          continue;
         result.add(gift);
       }
       return result;
