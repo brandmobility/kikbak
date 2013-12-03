@@ -164,6 +164,11 @@ function preShareClick() {
               landingHref.attr('href', landingUrl);
               landingHref.html(landingUrl);
               $('#pre-share-popup').hide();
+              if (offer.auth === 'facebook') {
+                $('#post-share-detail h3').html('Give offer to friends');
+              } else {
+                $('#post-share-detail h3').html('3. Share your offer');
+              }
               $('#share-popup').show();
               ga('send', 'event', 'button', 'show', 'give method select');
             } else if (storiesResponse.status === 'LIMIT_REACH') {
@@ -185,7 +190,7 @@ function onInput() {
   var valid = true;
   $('.required').each(function() {
     var thisElement = $(this);
-    thisElement.css('border', 'none');
+    thisElement.css('border', '1px solid gray');
     var value = thisElement.val();
     if (thisElement.attr('type') === 'tel') {
       if (value.replace(/^\d/g, "") === '') {
@@ -261,11 +266,11 @@ var authType = {
   phone: {
     login_div: '<div id="login-div">' +
                  '<h3>1. Register</h3>' +
-                 '<input id="username-input" type="text" class="required" placeholder="Name" name="username" />' + 
-                 '<input id="email-input" type="email" class="required" placeholder="Email" name="email" />' + 
+                 '<input id="username-input" type="text" class="required" placeholder="Your name" name="username" />' + 
+                 '<input id="email-input" type="email" class="required" placeholder="Your email" name="email" />' + 
                  '<button id="login-email" class="share-btn btn grd-btn" disabled="disabled" >Submit</button>' +
                  '<hr>' +
-                 '<span> OR </span><input id="share-btn-fb" name="share" type="button" class="fb-share" style="width:230px;height:30px;" value="       Connect with Facebook" />' +
+                 '<span> OR </span><input id="share-btn-fb" name="share" type="button" class="fb-share" style="width:88%;margin:0;height:30px;" value="       Connect with Facebook" />' +
                  '<p>We use Facebook to personalize your offers and notify you via email when friends redeem them. <b>We will never post without your permission.</b></p>' +
                '</div>' +
                '<div id="create-share-div" style="display:none">' +
@@ -302,11 +307,11 @@ var authType = {
   none: {
     login_div: '<div id="login-div">' +
                  '<h3>1. Register</h3>' +
-                 '<input id="username-input" type="text" class="required" placeholder="Name" name="username" />' + 
-                 '<input id="email-input" type="email" class="required" placeholder="Email" name="email" />' + 
+                 '<input id="username-input" type="text" class="required" placeholder="Your name" name="username" />' + 
+                 '<input id="email-input" type="email" class="required" placeholder="Your email" name="email" />' + 
                  '<button id="login-email" class="share-btn btn grd-btn" disabled="disabled" >Submit</button>' +
                  '<hr>' +
-                 '<span> OR </span><input id="share-btn-fb" name="share" type="button" class="fb-share" style="width:230px;height:30px;" value="       Connect with Facebook" />' +
+                 '<span> OR </span><input id="share-btn-fb" name="share" type="button" class="fb-share" style="width:88%;margin:0;height:30px;" value="       Connect with Facebook" />' +
                  '<p>We use Facebook to personalize your offers and notify you via email when friends redeem them. <b>We will never post without your permission.</b></p>' +
                '</div>' + 
                '<div id="create-share-div" style="display:none">' +
@@ -487,7 +492,7 @@ $(document).ready(function() {
       var k = keys[i];
       if (/^\d+$/.test(o[k].replace(/^\s+|\s+$/g, ''))) {
         o[k] = o[k].replace(/^\s+|\s+$/g, '');
-        $('#claim-credit-form input[name="' + k + '"]').css('border', 'none');
+        $('#claim-credit-form input[name="' + k + '"]').css('border', '1px solid gray');
       } else {
     	invalid = true;
     	$('#claim-credit-form input[name="' + k + '"]').css('border', '2px solid red');

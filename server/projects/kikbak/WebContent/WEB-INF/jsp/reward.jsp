@@ -57,12 +57,14 @@
                     </div>
                     <div class="info-content">
                         <img src="${shareInfo.imageUrl}" width="340px" height="340px" class="main-image" />
-                        <div class="overlay"></div>
+                        <div class="overlay">
+                            <img class="overlay-img" src="img/blk-shad.png" width="340" height="188" />
+                        </div>
                         <div class="content-detail clearfix">
                             <h3>${gift.merchant.name}</h3>
                             <c:choose>
                             <c:when test="${not empty redeemCountSingle}">
-                            <p style="color:#FFFFFF;">Your gift has been redeemed by ${redeemCount} friend</p>
+                            <p style="color:#FFFFFF;">Your gift has been redeemed by a friend</p>
                             </c:when>
                             <c:otherwise>
                             <p style="color:#FFFFFF;">Your gift has been redeemed by ${redeemCount} friends</p>
@@ -102,14 +104,13 @@
                     <div id="redeem-div">
                         <form id="claim-credit-form">
                             <div class="frm-fed">
-                                <h3>Please provide the following to redeem:</h3>
                                 <input type="hidden" name="creditId" value="${credit.id}" class="bsnm" />
                                 <c:choose>
                                 <c:when test="${gift.merchant.shortname == 'Verizon'}">
-                                <input type="text" name="phoneNumber" class="claim-reuqired" placeholder="Phone number (number only)" class="bsnm" />
+                                <input type="text" name="phoneNumber" class="claim-reuqired" style="margin-top: 20px;" placeholder="Phone number (number only)" class="bsnm" />
                                 </c:when>
                                 <c:otherwise>
-                                <input type="text" name="name" class="claim-reuqired" placeholder="First Last Name" class="bsnm" />
+                                <input type="text" name="name" class="claim-reuqired" style="margin-top: 20px;" placeholder="First Last Name" class="bsnm" />
                                 <input type="text" name="street" class="claim-reuqired" placeholder="Street" class="bsnm" />
                                 <input type="text" name="apt" class="claim-reuqired" placeholder="Apartment or Unit # (number only)" class="bsnm" />
                                 <input type="text" name="city" class="claim-reuqired" placeholder="City" class="bsnm" />
@@ -117,9 +118,9 @@
                                 <input type="text" name="zipcode" class="claim-reuqired" placeholder="Zip (number only)" class="bsnm" />
                                 </c:otherwise>
                                 </c:choose>
-                                <p>Your reward should arrive in 2 - 4 weeks.</p>
+                                <p>Your reward will be mailed to the billing address associated with your account. It should arrive in 2 – 4weeks.</p>
                             </div>
-                            <button id="claim-credit-btn" class="btn grd-btn" disabled="disabled">Submit</button>
+                            <button id="claim-credit-btn" class="btn grd-btn" style="margin-top: 20px;" disabled="disabled">Submit</button>
                         </form>
                     </div>
                     <div id="redeem-success" style="display:none;">

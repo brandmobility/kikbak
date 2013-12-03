@@ -66,7 +66,7 @@
                     <div class="info-content">
                         <img src="${shareInfo.imageUrl}" width="340px" height="340px" class="main-image" />
                         <div class="overlay">
-                            <img class="overlay-img" src="img/blk-shad.png" width=340 height=188 />
+                            <img class="overlay-img" src="img/blk-shad.png" width="340" height="188" />
                         </div>
 
                         <div class="content-detail clearfix">
@@ -105,7 +105,7 @@
                     </div>
                     <div id="success-msg" style="display:none;">
                         <h1>Success!</h1>
-                        <h3>Bring this offer into ${gift.merchant.name} to redeem your gift.</h3>
+                        <h3 style="margin-bottom:25px;">Bring this offer into ${gift.merchant.name} to redeem your gift.</h3>
                     </div>
                     <div id="welcome-msg">
                         <h3>An exclusive offer for <strong>${gift.merchant.name}</strong></h3>
@@ -124,7 +124,7 @@
                         </c:when>
                         <c:otherwise>
                         <p class="redeem-note" style="margin-top:30px;" >Print out your code now or visit this link from your phone at the store</p>
-                        <input type="button" id="anonymous-redeem-barcode-btn" class="btn grd-btn" value="Generate offer to use in store" />
+                        <button id="anonymous-redeem-barcode-btn" class="btn grd-btn">Generate offer to use in store</button>
                         <p class="redeem-note">Or connect with Facebook to send the offer to the Kikbak app for iOS or Android. Use it to easily access your gift at the store.</p>
                         <a id="loginFb" href="#"> <img src="img/fb-btn-new.png" width="258" height="55" style="margin: 0 auto;" /></a>
                         </c:otherwise>
