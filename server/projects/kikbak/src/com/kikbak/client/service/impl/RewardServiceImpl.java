@@ -626,7 +626,7 @@ public class RewardServiceImpl implements RewardService {
     }
     
     @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class )
     public String getBarcode(String referralCode, BarcodeResponse response) throws OfferExpiredException, OfferExhaustedException {
         Shared shared = roSharedDao.findByReferralCode(referralCode);
         if (shared == null)

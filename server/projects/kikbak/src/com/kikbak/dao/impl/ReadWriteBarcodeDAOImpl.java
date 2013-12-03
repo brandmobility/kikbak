@@ -43,7 +43,7 @@ public class ReadWriteBarcodeDAOImpl extends GenericDAOImpl<Barcode, Long> imple
     }
 
     @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    @Transactional(readOnly = false, propagation = Propagation.SUPPORTS)
     public Barcode allocateAnonymousBarcode(Long giftId, Long allocatedGiftId) {
         Date now = new Date();
         Session session = sessionFactory.getCurrentSession();

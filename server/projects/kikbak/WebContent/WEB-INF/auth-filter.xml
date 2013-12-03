@@ -8,10 +8,7 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd 
         http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
-        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
-        
-    <context:component-scan base-package="com.kikbak.push.service"/>
-    <context:component-scan base-package="com.kikbak.client.service"/>
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">    
 
     <bean id="cookieAuthenticationFilter" class="com.kikbak.client.service.impl.CookieAuthenticationFilter" />
     

@@ -44,4 +44,9 @@
         <property name="reloadingStrategy" ref="reloadingStrategy" />
     </bean>
 
+
+    <context:component-scan base-package="com.kikbak.push.service"/>
+    <context:component-scan base-package="com.kikbak.client.service"/>    
+    <context:component-scan base-package="com.kikbak.admin.service"/>
+    
 </beans>
