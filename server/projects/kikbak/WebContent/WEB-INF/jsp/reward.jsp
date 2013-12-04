@@ -107,7 +107,7 @@
                                 <input type="hidden" name="creditId" value="${credit.id}" class="bsnm" />
                                 <c:choose>
                                 <c:when test="${gift.merchant.shortname == 'Verizon'}">
-                                <input type="text" name="phoneNumber" class="claim-reuqired" style="margin-top: 20px;" placeholder="Phone number (number only)" class="bsnm" />
+                                <input type="text" name="phoneNumber" class="claim-reuqired" style="margin-top: 20px;" placeholder="Verizon phone number" class="bsnm" />
                                 </c:when>
                                 <c:otherwise>
                                 <input type="text" name="name" class="claim-reuqired" style="margin-top: 20px;" placeholder="First Last Name" class="bsnm" />

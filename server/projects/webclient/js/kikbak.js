@@ -247,7 +247,7 @@ var authType = {
     login_div: '<div id="login-div">' +
                  '<h3>Create your offer</h3>' +
     	         '<div id="location-sel-div"><select id="location-sel" class="location-sel"></select></div>' +
-		         '<div class="note"><p>Optinal: Let friends konw who helped you</p></div>' +
+		         '<div class="note"><p>Optional: Let friends know who helped you</p></div>' +
     		     '<input id="employeeId-input" class="location-sel" type="text" name="employeeId" placeholder="Employee name [optional]" />' +
                  '<input id="share-btn-fb" name="share" type="button" class="fb-share" value="       Connect with Facebook" />' +
                  '<p>We use Facebook to personalize your offers and notify you via email when friends redeem them. <b>We will never post without your permission.</b></p>' +
@@ -277,7 +277,7 @@ var authType = {
                '<h3>2. Create your offer</h3>' +
                '<input type="tel" id="phone-input" placeholder="Your Verizon phone number" />' +
 	           '<div id="location-sel-div"><select id="location-sel" class="location-sel"></select></div>' +
-		       '<div class="note"><p>Optinal: Let friends konw who helped you</p></div>' +
+		       '<div class="note"><p>Optional: Let friends know who helped you</p></div>' +
 		       '<input id="employeeId-input" class="location-sel" type="text" name="employeeId" placeholder="Employee ID [optional]" />' +
                '<button id="create-share-btn" class="share-btn btn grd-btn" disabled="disabled" >Create offer to share</button>' +
              '</div>',
@@ -317,7 +317,7 @@ var authType = {
                '<div id="create-share-div" style="display:none">' +
                  '<h3>2. Create your offer</h3>' +
 	             '<div id="location-sel-div"><select id="location-sel" class="location-sel"></select></div>' +
-		         '<div class="note"><p>Optinal: Let friends konw who helped you</p></div>' +
+		         '<div class="note"><p>Optional: Let friends know who helped you</p></div>' +
 		         '<input id="employeeId-input" class="location-sel" type="text" name="employeeId" placeholder="Employee name [optional]" />' +
                  '<button id="create-share-btn" class="share-btn btn grd-btn" disabled="disabled" >Create offer to share</button>' +
                '</div>',

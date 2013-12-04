@@ -46,7 +46,7 @@ public class SharedController2 {
 
             share.channel = Channel.web;
 
-            tmp = httpRequest.getParameter("locationId");
+            tmp = httpRequest.getParameter("locationid");
             if (tmp != null) {
                 share.locationId = Long.parseLong(tmp);
             }
