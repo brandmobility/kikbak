@@ -5,8 +5,10 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.kikbak.client.service.v1.CheatProtectionService;
@@ -54,10 +56,11 @@ public class PushNotifierImpl implements PushNotifier {
 
     @Autowired
     ReadOnlyOfferDAO roOfferDAO;
-    
+
     @Autowired
     CheatProtectionService cheatProtectionService;
 
+    @Async
     @Override
     public void sendKikbakNotification(Long fromUserId, Long toUserId, Kikbak kikbak, Long creditId) {
         if (creditId == null) {
@@ -79,10 +82,20 @@ public class PushNotifierImpl implements PushNotifier {
             return;
         }
     }
-
-    private void sendKikbakNotificationApple(Long fromUserId, Devicetoken deviceToken, Kikbak kikbak) {
+    
+    private String getUserName(Long fromUserId) {
+        if(fromUserId == null)
+            return "Friend";
         User user = roUserDAO.findById(fromUserId);
         String who = user.getFirstName() + " " + user.getLastName();
+        if(StringUtils.isEmpty(who)) {
+            who = user.getManualName();
+        }
+        return who;
+    }
+
+    private void sendKikbakNotificationApple(Long fromUserId, Devicetoken deviceToken, Kikbak kikbak) {
+        String who = getUserName(fromUserId);
 
         long oid = kikbak.getOfferId();
         long mid = roOfferDAO.findById(oid).getMerchantId();
@@ -120,9 +133,7 @@ public class PushNotifierImpl implements PushNotifier {
 
     private void sendKikbakNotificationGoogle(Long fromUserId, Devicetoken deviceToken, Kikbak kikbak) {
         try {
-
-            User user = roUserDAO.findById(fromUserId);
-            String who = user.getFirstName() + " " + user.getLastName();
+            String who = getUserName(fromUserId);
 
             long oid = kikbak.getOfferId();
             long mid = roOfferDAO.findById(oid).getMerchantId();
@@ -174,6 +185,7 @@ public class PushNotifierImpl implements PushNotifier {
         return "\"" + user.getFirstName() + " " + user.getLastName() + "\"<" + user.getEmail() + ">";
     }
 
+    @Async
     @Override
     public void sendGiftNotification(Long fromUserId, Gift gift) {
         Offer offer = roOfferDAO.findById(gift.getOfferId());

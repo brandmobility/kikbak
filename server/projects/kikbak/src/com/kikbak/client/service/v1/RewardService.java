@@ -1,6 +1,7 @@
 package com.kikbak.client.service.v1;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import com.kikbak.jaxb.v1.barcode.BarcodeResponse;
@@ -26,4 +27,6 @@ public interface RewardService {
     GiftType getLastGiftByCreditId(final long creditId) throws RewardException;
     AvailableCreditType getCreditByCode(final String code) throws RewardException;
     String getBarcode(String referralCode, BarcodeResponse response) throws OfferExpiredException, OfferExhaustedException;
+    void registerBarcodeRedemption(String code, Date date);
+        
 }

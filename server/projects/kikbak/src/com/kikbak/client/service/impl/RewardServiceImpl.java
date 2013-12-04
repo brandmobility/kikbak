@@ -655,4 +655,43 @@ public class RewardServiceImpl implements RewardService {
 
         return barcode.getCode();
     }
+        
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public void registerBarcodeRedemption(String code, Date date) {
+        // TODO: this is not yet implemented
+
+        Barcode barcode = roBarcodeDao.findByCode(code);
+        if (barcode == null)
+            throw new IllegalArgumentException("No such barcode:" + code);
+
+        if (barcode.getRedeemed())
+            throw new IllegalArgumentException("Barcode was already redeemed:" + code);
+
+        Long allocatedGiftId = barcode.getAllocatedGiftId();
+        if (allocatedGiftId == null)
+            throw new IllegalArgumentException("Barcode was not associated:" + code);
+
+        Allocatedgift allocatedGift = roAllocatedGiftDao.findById(allocatedGiftId);
+
+        allocatedGift.setRedemptionDate(date);
+        barcode.setRedeemed(true);
+
+        rwBarcodeDao.makePersistent(barcode);
+        rwGiftDao.makePersistent(allocatedGift);
+
+        Offer offer = roOfferDao.findById(allocatedGift.getOfferId());
+        if (offer.getOfferType().equals(OfferType.both.name())) {
+            // update credit ? should we do it after 25 days?
+
+            CreditManager km = new CreditManager(roOfferDao, roKikbakDAO, roCreditDao, rwCreditDao, rwTxnDao);
+            Long creditId = km.manageCredit(allocatedGift.getFriendUserId(), allocatedGift.getOfferId(),
+                    allocatedGift.getMerchantId(), -1L);
+
+            // send notification for kikbak when gift is redeemed
+            Kikbak kikbak = roKikbakDAO.findByOfferId(allocatedGift.getOfferId());
+            pushNotifier.sendKikbakNotification(allocatedGift.getUserId(), allocatedGift.getFriendUserId(), kikbak,
+                    creditId);
+        }
+    }
 }

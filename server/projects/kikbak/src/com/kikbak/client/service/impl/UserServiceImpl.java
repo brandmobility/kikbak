@@ -51,8 +51,6 @@ import com.kikbak.location.Coordinate;
 import com.kikbak.location.GeoBoundaries;
 import com.kikbak.location.GeoFence;
 
-import freemarker.log.Logger;
-
 @Service
 public class UserServiceImpl implements UserService2 {
 
