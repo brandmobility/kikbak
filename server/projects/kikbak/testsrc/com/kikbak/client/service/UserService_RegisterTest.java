@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -19,6 +20,8 @@ import com.kikbak.client.service.v1.FbLoginService;
 import com.kikbak.client.service.v1.FbUserLimitException;
 import com.kikbak.client.service.v1.UserService;
 import com.kikbak.dao.ReadOnlyUserDAO;
+import com.kikbak.dao.ReadWriteUserDAO;
+import com.kikbak.dao.enums.GenderType;
 import com.kikbak.dto.User;
 import com.kikbak.jaxb.v1.register.UserType;
 
@@ -29,6 +32,9 @@ public class UserService_RegisterTest extends KikbakTest {
 
     @Autowired
     ReadOnlyUserDAO roUserDao;
+
+    @Autowired
+    ReadWriteUserDAO rwUserDao;
 
     @Before
     public void setUp() throws Exception {
@@ -48,7 +54,7 @@ public class UserService_RegisterTest extends KikbakTest {
         long id = userService.registerWebUser(NAME_A, EMAIL_A, PHONE_A);
         User u = roUserDao.findById(id);
         assertTrue(u != null);
-        User v = roUserDao.findByManualPhone(PHONE_A);
+        User v = roUserDao.findByManualPhoneNotFb(PHONE_A);
         assertTrue(v != null);
         assertTrue(v.getId() == id);
     }
@@ -77,6 +83,28 @@ public class UserService_RegisterTest extends KikbakTest {
         assertTrue(idA != idB);
         assertNotNull(roUserDao.findById(idA));
         assertNotNull(roUserDao.findById(idB));
+    }
+
+    @Test
+    public void testCanRegisterWebAndFbWithSameNumber() {
+        User fbUser = new User();
+        fbUser.setFirstName("first");
+        fbUser.setLastName("last");
+        fbUser.setEmail("email@email.il");
+        fbUser.setFacebookId(1L);
+        fbUser.setGender((byte) GenderType.male.ordinal());
+        fbUser.setCreateDate(new Date());
+        fbUser.setUpdateDate(new Date());
+        fbUser.setManualNumber(PHONE_A);
+
+        // save fb user with phone number
+        rwUserDao.makePersistent(fbUser);
+
+        // register web user with same phone number
+        long id = userService.registerWebUser(NAME_A, EMAIL_A, PHONE_A);
+
+        // should be different users
+        assertTrue(id != fbUser.getId());
     }
 
     @Test

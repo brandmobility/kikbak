@@ -14,8 +14,6 @@ public interface ReadOnlyUserDAO {
 	
     public Collection<Long> listEligibleForOfferFromUser(Long offerId, Long fromUserId);
     
-    public User findByManualPhone(String phone);
+    public User findByManualPhoneNotFb(String phone);
     
-    public User findByManualEmail(String email);
-	
 }

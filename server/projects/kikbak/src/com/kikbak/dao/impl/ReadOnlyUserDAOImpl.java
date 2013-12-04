@@ -45,13 +45,7 @@ public class ReadOnlyUserDAOImpl extends ReadOnlyGenericDAOImpl<User, Long> impl
     
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public User findByManualEmail(String email) {
-        return findByCriteria(Restrictions.eq("manualEmail", email).ignoreCase());
-    }
-
-    @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public User findByManualPhone(String phone) {
-        return findByCriteria(Restrictions.eq("manualNumber", phone));
+    public User findByManualPhoneNotFb(String phone) {
+        return findByCriteria(Restrictions.eq("manualNumber", phone), Restrictions.isNull("facebookId"));
     }
 }

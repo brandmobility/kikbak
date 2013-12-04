@@ -148,7 +148,7 @@ public class UserServiceImpl implements UserService2 {
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public long registerWebUser(String name, String email, String phone) {
-        User user = roUserDao.findByManualPhone(phone);
+        User user = roUserDao.findByManualPhoneNotFb(phone);
         if (user == null) {
             user = new User();
             user.setCreateDate(new Date());
