@@ -1319,9 +1319,8 @@ function getOfferDetail() {
             
             var imgUrl = canvas.toDataURL('image/png');
             try {
-              var images = $('#show-picture');
-              images.unbind('load');
-              images.load(function(e) {
+              var images = new Image();
+              images.onload = function(e) {
                 icon.removeClass('camicon');
                 icon.addClass('smallcamicon');
                 $('#take-photo-header').hide();
@@ -1360,19 +1359,24 @@ function getOfferDetail() {
     
                     $('#crop-image').unbind('click');
                     $('#crop-image').click(function(e) {
+                      var croppedCanvas = document.createElement('canvas');
+                      var ctx = croppedCanvas.getContext("2d");
+                      croppedCanvas.setAttribute('width', w);
+                      croppedCanvas.setAttribute('height', h);
+                      var r = images.width / parseInt(width);
+                      ctx.drawImage(images, x * r, y * r, w * r, h * r, 0, 0, width, width);
+                      var dataurl = croppedCanvas.toDataURL("image/jpeg");
+                      $('#show-picture').attr('src', dataurl);
+
                       e.preventDefault();
                       $("#share-btn").removeAttr('disabled');
-                      $('#photo-x').val(x);
-                      $('#photo-y').val(y);
-                      $('#photo-w').val(w);
-                      $('#photo-h').val(h);
                       goback();
                     });
                   });
                 });
                 cropImage.attr('src', imgUrl);
-              });
-              images.attr('src', imgUrl);
+              };
+              images.src = imgUrl;
   
             } catch (e) {
               console.log(e);
@@ -1632,33 +1636,19 @@ function uploadPhotoAfterLogin(cb) {
     cb();
   } else {
     var req = new FormData();
-    var file = $('#take-picture')[0].files[0];
     var img = new Image();
-    var cropImage = $('#crop-image-div .tkpoto img');
+    var cropImage = $('#show-picture');
     img.onload = function() {
-      var max = 1024;
-      var r = max / ((img.width > img.height) ? img.width : img.height);
-      var h = img.height * r;
-      var w = img.width * r;
+      var h = img.height;
+      var w = img.width;
       var canvas = document.createElement("canvas");
       canvas.setAttribute('width', w);
       canvas.setAttribute('height', h);
       var ctx = canvas.getContext("2d");
       ctx.drawImage(img, 0, 0, w, h);
       var dataurl = canvas.toDataURL("image/jpeg");
-      console.log(img.height + ' ' + img.width + ' ' + r);
       req.append('file', dataURItoBlob(dataurl, 'image/jpeg'));
       req.append('userId', userId);
-      req.append('ios', 'false');
-      var x = $('#photo-x').val() / parseInt(window.innerWidth);
-      var y = $('#photo-y').val() / parseInt(window.innerHeight);
-      var w = $('#photo-w').val() / parseInt(window.innerWidth);
-      var h = $('#photo-h').val() / parseInt(window.innerHeight);
-      req.append('x', x);
-      req.append('y', y);
-      req.append('w', w);
-      req.append('h', h);
-      console.log(x + " " + y + " " + w + " " + h);
       $.ajax({
         url : config.backend + '/s/upload.php',
         data : req,
