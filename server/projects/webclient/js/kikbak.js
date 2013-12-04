@@ -1251,17 +1251,19 @@ function getOfferDetail() {
           var URL = window.webkitURL || window.URL;
           var imgUrl = URL.createObjectURL(file);
           var images = $('#show-picture');
-          images.one('load', function(e) {
+          images.unbind('load');
+          images.load(function(e) {
             icon.removeClass('camicon');
             icon.addClass('smallcamicon');
             $('#take-photo-header').hide();
-
-            $('#back-btn').unbind();
             $('#heading').html('Resize image');
             $('#offer-details-view').hide();
             $('#crop-image-div').show();
             var cropImage = $('#crop-image-div .tkpoto img');
             cropImage.attr('src', imgUrl);
+            cropImage.one('load', function(e) {
+              URL.revokeObjectURL(imgUrl);
+            });
 
             var width = window.innerWidth;
             var jcrop_api, x, y, w, h;
@@ -1283,22 +1285,11 @@ function getOfferDetail() {
             });
 
             var goback = function() {
-              jcrop_api.destroy();
+              jcrop_api.release();
               $('#heading').html('Give');
               $('#offer-details-view').show();
               $('#crop-image-div').hide();
-              $('#back-btn').unbind();
-              $('#back-btn').click(function(e) {
-                e.preventDefault();
-                history.pushState({}, 'offer-list', '#offer-list');
-                initPage();
-              });
             };
-
-            $('#back-btn').click(function(e) {
-              e.preventDefault();
-              goback();
-            });
 
             $('#crop-image').unbind('click');
             $('#crop-image').click(function(e) {
