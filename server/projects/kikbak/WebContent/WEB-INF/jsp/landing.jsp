@@ -346,7 +346,9 @@
             <p>Share the same offer with your friends.<br/>
             You earn for every friend that redeems.</p>
         </div>
-        <button id="share-offer-btn" class="btn grd-btn">I'm ready to give to others</button>
+        <div style="text-align: center; padding-top: 20px;">
+             <input type="button" id="share-offer-btn"  class="btn grd-btn" value="I'm ready to give to others" /t>
+        </div>
     </div>
     </c:otherwise>
     </c:choose>
