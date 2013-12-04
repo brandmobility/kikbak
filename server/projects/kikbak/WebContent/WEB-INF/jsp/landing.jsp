@@ -270,7 +270,7 @@
                 </c:choose>
                 <div class="page-header"
                     style="padding-left: 10px; padding-right: 10px; margin: 10px 0 0 0; text-align: center">
-                    <p style="font-size: 15px; font-family: HelveticaNeueLT Pro 45 Lt;">Connect with Facebook to claim your gift.</p>
+                    <p style="font-size: 15px; font-family: HelveticaNeueLT Pro 45 Lt;">Or connect with Facebook to send the offer to the Kikbak app for iOS and Android. Use it to easily access your gift at the store.</p>
                     <div style="height: 40px">
                         <a id="loginFb" href="#"> <img src="img/facebook-button.png" width=240 />
                         </a>
