@@ -409,6 +409,7 @@ h1.pg-hedng {
     width: 96%;
     margin: 2%;
     border-bottom: 2px solid #c4c4c4;
+    text-align: center;
 }
 .cd-br-stin h1, .cd-br-stin h2, .cd-br-stin h3 {
     float: left;

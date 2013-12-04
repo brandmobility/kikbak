@@ -424,7 +424,7 @@ textarea{
     margin: 20px 120px 10px 120px;
 }
 #main-right .btn-group {
-    margin: 5px 90px 5px 100px;
+    margin: 5px 85px 5px 85px;
 }
 #main-right .col-5 {
     float: left;
@@ -486,6 +486,8 @@ textarea{
 }
 #btn-container #share-btn {
     font-size: 16px;
+    margin-left: auto;
+	margin-right: auto;
 }
 button :disable {
     opacity: 0.4;

@@ -257,7 +257,7 @@ strong{
 #main-right #ribbon{
     color:#FFF;
     width:540px;
-    height: 76px;
+    height: 78px;
     background: url(../img/ribbon.png) no-repeat top left;
     text-align:center;
     padding: 18px 0;
@@ -329,7 +329,7 @@ strong{
 #main-right .redeem-note{
     font-size: 16px;
     line-height: 22px;
-    margin: 15px 10px 20px 10px;
+    margin: 30px 10px 10px 10px;
 }
 #barcode-val {
     font-size: 20px;

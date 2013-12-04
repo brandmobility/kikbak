@@ -105,13 +105,13 @@
                     </div>
                     <div id="success-msg" style="display:none;">
                         <h1>Success!</h1>
-                        <h3 style="margin-bottom:25px;">Bring this offer into ${gift.merchant.name} to redeem your gift.</h3>
+                        <h3 style="margin-bottom:25px;">Bring this offer into ${gift.merchant.name} Store to redeem your gift.</h3>
                     </div>
                     <div id="welcome-msg">
                         <h3>An exclusive offer for <strong>${gift.merchant.name}</strong></h3>
                     </div>
                     <div id="ribbon">
-                        <h2>${gift.desc}</h2>
+                    	<h2>${gift.desc}</h2>
                         <p>${gift.detailedDesc}</p>
                         <small>offer valid in-store only</small>
                     </div>
@@ -123,7 +123,7 @@
                         <p class="disclaimer">We use Facebook to make it easy for you to share, redeem and share gifts.<br/> We will never post without your permission.</p>
                         </c:when>
                         <c:otherwise>
-                        <p class="redeem-note" style="margin-top:30px;" >Print out your code now or visit this link from your phone at the store</p>
+                        <p class="redeem-note" style="margin-top:5px;" >Print out your code now or visit this link from your phone at the store</p>
                         <button id="anonymous-redeem-barcode-btn" class="btn grd-btn">Generate offer to use in store</button>
                         <p class="redeem-note">Or connect with Facebook to send the offer to the Kikbak app for iOS or Android. Use it to easily access your gift at the store.</p>
                         <a id="loginFb" href="#"> <img src="img/fb-btn-new.png" width="258" height="55" style="margin: 0 auto;" /></a>
@@ -251,7 +251,7 @@
             <div class="page-header">
                 <div class="col-md-6">
                     <div
-                        style="background-color: #767676; padding-top: 20px; padding-bottom: 10px;">
+                        style="background-color: #767676; padding-top: 20px; padding-bottom: 4px;">
                         <h3 style="font-size: 38px; font-family: HelveticaNeue Bold; line-height: 18px;">${gift.desc}</h3>
                         <p style="font-family: HelveticaNeueLT Pro 55 Roman; font-size: 18px; margin: 0;">${gift.detailedDesc}</p>
                         <small style="font-family: HelveticaNeueLT Pro 45 Lt; font-size: 12px;">offer valid in-store only</small>
