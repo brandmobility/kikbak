@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -13,9 +14,11 @@ import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewStub;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -105,6 +108,30 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
     Nearest nearest = new Nearest(mOffer.locations);
     iconBar.setPhone(Long.toString(nearest.get().phoneNumber));
     iconBar.setLocation(nearest);
+  }
+
+  @Override
+  public boolean dispatchTouchEvent(final MotionEvent ev) {
+    final View currentFocus = getCurrentFocus();
+    if ((currentFocus instanceof EditText) && !isTouchInsideView(ev, currentFocus)) {
+      hideSoftKeyboard();
+    }
+    return super.dispatchTouchEvent(ev);
+  }
+
+  private void hideSoftKeyboard() {
+    ((InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE))
+        .hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+            InputMethodManager.HIDE_NOT_ALWAYS);
+  }
+
+  private static int[] sLocTmp = new int[2];
+
+  private boolean isTouchInsideView(MotionEvent ev, View view) {
+    view.getLocationOnScreen(sLocTmp);
+    return ev.getRawX() > sLocTmp[0] && ev.getRawY() > sLocTmp[1]
+        && ev.getRawX() < (sLocTmp[0] + view.getWidth())
+        && ev.getRawY() < (sLocTmp[1] + view.getHeight());
   }
 
   @Override
