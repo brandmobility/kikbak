@@ -118,9 +118,9 @@
                                 <input type="text" name="zipcode" class="claim-reuqired" placeholder="Zip (number only)" class="bsnm" />
                                 </c:otherwise>
                                 </c:choose>
-                                <p>Your reward will be mailed to the billing address associated with your account. It should arrive in 2 – 4weeks.</p>
+                                <p style="margin-top: 20px;">Your reward will be mailed to the billing address associated with your account. It should arrive in 2 – 4weeks.</p>
                             </div>
-                            <button id="claim-credit-btn" class="btn grd-btn" style="margin-top: 20px;" disabled="disabled">Submit</button>
+                            <button id="claim-credit-btn" class="btn grd-btn" style="margin-top: 5px;" disabled="disabled">Submit</button>
                         </form>
                     </div>
                     <div id="redeem-success" style="display:none;">
@@ -151,7 +151,7 @@
                     <input type="hidden" name="creditId" value="${credit.id}" class="bsnm" />
                     <c:choose>
                     <c:when test="${gift.merchant.shortname == 'Verizon'}">
-                    <input type="tel" name="phoneNumber" placeholder="Phone number (number only)" class="bsnm" />
+                    <input type="tel" name="phoneNumber" placeholder="Phone number" class="bsnm" />
                     </c:when>
                     <c:otherwise>
                     <input type="text" name="name" placeholder="First Last Name" class="bsnm" />
@@ -162,8 +162,10 @@
                     <input type="number" name="zipcode" placeholder="Zip (number only)" class="bsnm" />
                     </c:otherwise>
                     </c:choose>
-                    <p>Your reward should arrive in 2 - 4 weeks.</p>
-                    <button id="claim-credit-btn" class="btn grd-btn" disabled="disabled">Submit</button>
+                    <p>Your reward will be mailed to the billing address associated with your account.  It should arrive in 2 – 4weeks.</p>
+                    <div style="text-align: center; ">
+              			<input type="button" id="claim-credit-btn"  class="btn grd-btn" disabled="disabled" value="Submit" /t>
+ 			        </div>
                 </div>
                 <div id="redeem-success" style="display:none;">
                     <h1>Success!</h1>
