@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 
 import com.flurry.android.FlurryAgent;
 import com.google.gson.Gson;
+import com.referredlabs.crop.CropActivity;
 import com.referredlabs.kikbak.R;
 import com.referredlabs.kikbak.data.ClientOfferType;
 import com.referredlabs.kikbak.data.OfferType;
@@ -220,7 +222,13 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
       try {
         File file = getTempFile();
         mCroppedPhotoUri = Uri.fromFile(file);
-        Intent intent = new Intent("com.android.camera.action.CROP");
+        Intent intent;
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+          intent = new Intent("com.android.camera.action.CROP");
+        } else {
+          intent = new Intent(this, CropActivity.class);
+        }
+        
         intent.setDataAndType(mPhotoUri, "image/*");
         intent.putExtra(MediaStore.EXTRA_OUTPUT, mCroppedPhotoUri);
         intent.putExtra("aspectX", 1);

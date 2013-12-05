@@ -98,6 +98,10 @@
             android:name="com.referredlabs.kikbak.twitter.TwitterAuthActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name="com.referredlabs.crop.CropActivity"
+            android:theme="@style/Theme.Crop"
+            android:screenOrientation="portrait" />
+
         <receiver
             android:name="com.referredlabs.kikbak.gcm.GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND" >

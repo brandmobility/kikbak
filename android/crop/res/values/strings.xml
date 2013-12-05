@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_crop">Crop</string>
+    <string name="cannot_load_image">Can not load image</string>
+</resources>
