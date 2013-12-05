@@ -143,7 +143,7 @@
                 <h1 class="pg-hedng">${credit.merchant.name}</h1>
                 <div class="hedng hedbk">
                     <h1>$${credit.value}</h1>
-                    <h3>Gift Card</h3>
+                    <h3 style="color: #0f4689;">Gift Card</h3>
                 </div>
                 <div class="clearfix"></div>
                 <div id="redeem-div" class="frm-fed">
