@@ -65,6 +65,7 @@ function shareOfferFromChannel(channel) {
   var requestUrl = config.backend + 'kikbak/v2/share/addsharetype?code=' + encodeURIComponent(storiesResponse.code) + '&type=' + encodeURIComponent(channel);
   $.ajax({
     type: 'GET',
+    global: false,
     contentType: 'application/json',
     url: requestUrl,
     success: function() {},
@@ -77,9 +78,6 @@ function registerUser(cb) {
   var requestUrl = config.backend + 'kikbak/user/register';
   if (user.type === 'facebook') {
     requestUrl += '/fb?token=' + encodeURIComponent(user.accessToken);
-    if (user.phone) {
-      requestUrl += '&phone=' + encodeURIComponent(user.phone);
-    }
   } else {
     var emailInput = $('#email-input');
     var email = emailInput.val();
