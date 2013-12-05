@@ -420,33 +420,7 @@
       $('#redeem-div').show();
       preClaimGift(userId);
       $('#redeem-barcode-btn').click(function() {
-        <c:choose>
-        <c:when test="${not mobile}">
         claimGift(userId);
-        </c:when>
-        <c:otherwise>
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(p) {
-            var near = false;
-            <c:forEach items="${locations}" var="l">
-              if (computeDistanceDigit(p.coords, ${l.latitude}, ${l.longitude}) < 0.5) {
-                near = true;
-              }
-            </c:forEach>
-            if (near) {
-              claimGift(userId);
-            } else {
-              alert("Oops! You have to be in the store to redeem.\n\nLooks like you might not be there yet. Try again?");
-            }
-          }, function() {
-            alert('We are unable to detect your current location.\n\nIf you are inside a participating store and would like to share a Kikbak offer with your friends, please enable location services for your phone and web browser in your device settings.');
-          },
-          { enableHighAccuracy:true,maximumAge:600000,timeout:5000 });
-        } else {
-          alert('We are unable to detect your current location.\n\nIf you are inside a participating store and would like to share a Kikbak offer with your friends, please enable location services for your phone and web browser in your device settings.');
-        }
-        </c:otherwise>
-        </c:choose>
       });
     }
     
