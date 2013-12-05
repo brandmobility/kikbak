@@ -1281,14 +1281,16 @@ function getOfferDetail() {
           binaryReader.onloadend=function(d) {
             var exif, transform = "none";
             exif=EXIF.readFromBinaryFile(createBinaryFile(d.target.result));
-            if(exif.Orientation === 8) {
+            if(exif.Orientation === 8 || (exif.Orientation === 3 && img.width > img.height)) {
                 width = img.height;
                 height = img.width;
                 transform = "left";
-            } else if(exif.Orientation === 6) {
+                exif.Orientation = 8;
+            } else if(exif.Orientation === 6 || (exif.Orientation === 1 && img.width > img.height)) {
                 width = img.height;
                 height = img.width;
                 transform = "right";
+                exif.Orientation = 6;
             } else if(exif.Orientation === 1) {
                 width = img.width;
                 height = img.height;

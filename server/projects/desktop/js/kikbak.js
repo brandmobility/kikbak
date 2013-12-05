@@ -126,7 +126,6 @@ $(document).ready(function() {
   if (pageType.indexOf(merchantTypePrefix) === 0) {
     var strArray = pageType.split('-', 2);
     var merchantTag = strArray[0] + '-' + strArray[1];
-   	history.pushState({}, 'merchant', merchantTag);
   }
   $.ajaxSetup({ cache: true });
   $.getScript('//connect.facebook.net/en_US/all.js', function(){
@@ -339,8 +338,7 @@ function getOffersByMerchant(merchant) {
         holder = placeHolder[merchant.toLowerCase()];
       }
       s.holder = escape(JSON.stringify(holder));
-  	  history.pushState({}, 'merchant-offer-detail', '#merchant-' + merchant + '-offer');
-      initPage();
+      getOfferDetail();
     },
     error: showError
   });
