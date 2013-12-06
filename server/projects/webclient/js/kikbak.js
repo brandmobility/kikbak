@@ -1462,7 +1462,7 @@ function renderOfferDetail(offer) {
     html += '<a href="' + offer.merchantUrl + '"><img class="website-img" src="images/ic_web@2x.png" /></a>';
   }
   html += '</div>';
-  html += '<input name="comment" id="comment-input" placeholder="Add comment" class="addcmt" style="width:94%;"/>';
+  html += '<input name="comment" id="comment-input" placeholder="Add comment" class="addcmt" style="width:91%;"/>';
   html += '</div>';
   html += '<div class="img-botm-patrn"></div>';
   if (offer.kikbakDesc) {
