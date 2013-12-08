@@ -31,9 +31,16 @@
 	</bean>
 	<tx:advice id="readWriteAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
-			<tx:method name="*" rollback-for="lang.java.Exception" />
+			<tx:method name="*" rollback-for="com.kikbak.client.service.v1.OfferExhaustedException,com.kikbak.client.service.v1.OfferExpiredException" />
 		</tx:attributes>
 	</tx:advice>
+	
+	
+	<aop:config>
+	  	<aop:pointcut id="kikbakMethods" expression="execution(* com.kikbak.client.service.impl.RewardServiceImpl.*(..))"/>
+	  	<aop:advisor advice-ref="readWriteAdvice" pointcut-ref="kikbakMethods"/>
+	</aop:config>
+		
 
 	<bean id="ReadOnlyAccountDAO" class="com.kikbak.dao.impl.ReadOnlyAccountDAOImpl">
 		<property name="sessionFactory" ref="roSessionFactory" />
