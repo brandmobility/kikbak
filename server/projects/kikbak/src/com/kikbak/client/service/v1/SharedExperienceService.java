@@ -23,5 +23,7 @@ public interface SharedExperienceService {
     public String registerSharingAndNotify(ShareInfo share) throws RateLimitException;
 
     public void addShareType(String code, Channel channel);
+    
+    public boolean validateZipCodeEligibility(long offerId, String zipCode);
 
 }

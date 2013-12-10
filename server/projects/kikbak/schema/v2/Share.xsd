@@ -52,5 +52,20 @@
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>
+	
+	<xsd:simpleType name="ZipEligibility">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="OK"/>
+            <xsd:enumeration value="INELIGIBLE"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+	
+	<xsd:element name="ZipValidationResponse">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="status" type="kikbak:ZipEligibility" minOccurs="1" maxOccurs="1"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
 
 </xsd:schema>

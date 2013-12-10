@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kikbak.client.service.v1.RateLimitException;
 import com.kikbak.client.service.v1.SharedExperienceService;
@@ -19,6 +20,8 @@ import com.kikbak.dao.enums.Channel;
 import com.kikbak.jaxb.v2.share.StoriesResponse;
 import com.kikbak.jaxb.v2.share.StoryStatus;
 import com.kikbak.jaxb.v2.share.StoryType;
+import com.kikbak.jaxb.v2.share.ZipEligibility;
+import com.kikbak.jaxb.v2.share.ZipValidationResponse;
 
 @Controller
 @RequestMapping("/v2/share")
@@ -100,4 +103,20 @@ public class SharedController2 {
             return;
         }
     }
+
+    @RequestMapping(value = "/validateZip", method = RequestMethod.GET)
+    public ZipValidationResponse validateZip(@RequestParam("zipCode") String zipCode,
+            @RequestParam("offerId") Long offerId, final HttpServletResponse httpResponse) {
+        try {
+            boolean eligible = sharedService.validateZipCodeEligibility(offerId, zipCode);
+            ZipValidationResponse response = new ZipValidationResponse();
+            response.setStatus(eligible ? ZipEligibility.OK : ZipEligibility.INELIGIBLE);
+            return response;
+        } catch (Exception e) {
+            logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return null;
+        }
+    }
+
 }
