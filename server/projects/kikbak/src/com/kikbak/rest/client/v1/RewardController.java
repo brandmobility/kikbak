@@ -1,12 +1,15 @@
 package com.kikbak.rest.client.v1;
 
+import java.net.URI;
 import java.util.EnumMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,14 +56,21 @@ public class RewardController extends AbstractController {
 
     @RequestMapping(value = "/claimgift/{userId}/{referralCode}", method = RequestMethod.GET)
     public ClaimGiftResponse claimGift(@PathVariable("userId") Long userId,
-            @PathVariable("referralCode") String referralCode, final HttpServletResponse httpResponse) {
+            @PathVariable("referralCode") String referralCode,
+            final HttpServletRequest request, final HttpServletResponse httpResponse) {
         try {
             ensureCorrectUser(userId);
+		    String referer = request.getHeader("Referer");
+            String hostname = null;
+            if (StringUtils.isNotBlank(referer)) {
+                URI uri = new URI(referer);
+                hostname = uri.getHost();
+            }
 
             ClaimGiftResponse response = new ClaimGiftResponse();
             List<GiftType> gifts = new LinkedList<GiftType>();
             List<Long> agIds = new LinkedList<Long>();
-            ClaimStatusType status = service.claimGift(userId, referralCode, gifts, agIds);
+            ClaimStatusType status = service.claimGift(userId, referralCode, gifts, agIds, hostname);
             response.setStatus(status);
             response.getGifts().addAll(gifts);
             if (!agIds.isEmpty()) {

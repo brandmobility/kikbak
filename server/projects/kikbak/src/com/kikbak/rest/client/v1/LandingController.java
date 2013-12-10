@@ -67,6 +67,7 @@ public class LandingController {
 		try {
 		    String userAgent = request.getHeader("User-Agent");
 		    String httpAccept = request.getHeader("Accept");
+		    String referer = request.getHeader("Referer");
 		    UAgentInfo detector = new UAgentInfo(userAgent, httpAccept);
 		    
 			request.setCharacterEncoding("UTF-8");
@@ -96,6 +97,7 @@ public class LandingController {
 			request.setAttribute("validationType", gift.getValidationType());
 			request.setAttribute("locationType", gift.getRedemptionLocationType());
 			request.setAttribute("mobile", detector.detectMobileQuick());
+			request.setAttribute("referer", referer);
 	    	return new ModelAndView();
 		} catch (Exception e) {
 			log.error("Error to get gift of code " + code, e);

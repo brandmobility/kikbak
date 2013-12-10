@@ -285,7 +285,7 @@ public class RewardServiceImpl implements RewardService {
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = RewardException.class)
-    public ClaimStatusType claimGift(Long userId, String referralCode, List<GiftType> gifts, List<Long> agIds) throws RewardException {
+    public ClaimStatusType claimGift(Long userId, String referralCode, List<GiftType> gifts, List<Long> agIds, String refererHost) throws RewardException {
         ClaimStatusType status = ClaimStatusType.INVALID_CODE;
         if (userId == null || StringUtils.isBlank(referralCode)) {
             throw new RewardException("userId or referralCode cannot be empty");
@@ -315,7 +315,7 @@ public class RewardServiceImpl implements RewardService {
                 if (now.before(offer.getBeginDate()) || now.after(offer.getEndDate())) {
                     status = ClaimStatusType.EXPIRED;
                 } else {
-                    Allocatedgift ag = createAllocateOffer(userId, shared, offer);
+                    Allocatedgift ag = createAllocateOffer(userId, shared, offer, refererHost);
                     newGifts.add(ag);
                     status = ClaimStatusType.OK;
 
@@ -457,7 +457,7 @@ public class RewardServiceImpl implements RewardService {
         gt.getShareInfo().add(sit);
     }
 
-    private Allocatedgift createAllocateOffer(Long userId, Shared shared, Offer offer) {
+    private Allocatedgift createAllocateOffer(Long userId, Shared shared, Offer offer, String refererHost) {
         Gift gift = roGiftDao.findByOfferId(shared.getOfferId());
         double giftValue = gift.getValue();
         if (userId != null && gift.getLottery() != null) {
@@ -481,6 +481,7 @@ public class RewardServiceImpl implements RewardService {
         ag.setSharedId(shared.getId());
         ag.setValue(giftValue);
         ag.setCreatedDate(new Date());
+        ag.setRefererHost(refererHost);
 
         rwGiftDao.makePersistent(ag);
         return ag;
@@ -492,7 +493,7 @@ public class RewardServiceImpl implements RewardService {
             Offer offer = roOfferDao.findById(shared.getOfferId());
             Long fromUserId = shared.getUserId();
             if (cheatProtectionService.canReceiveGift(userId, fromUserId, offer))
-                createAllocateOffer(userId, shared, offer);
+                createAllocateOffer(userId, shared, offer, null);
         }
     }
 
@@ -639,7 +640,7 @@ public class RewardServiceImpl implements RewardService {
             throw new OfferExpiredException("Offer " + offer.getId() + " expired");
         }
 
-        Allocatedgift allocatedGift = createAllocateOffer(null, shared, offer);
+        Allocatedgift allocatedGift = createAllocateOffer(null, shared, offer, null);
         Barcode barcode = rwBarcodeDao.allocateAnonymousBarcode(allocatedGift.getGiftId(), allocatedGift.getId());
         if(barcode == null)
             throw new OfferExhaustedException("No free barcodes for offer " + offer.getId());

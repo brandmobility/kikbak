@@ -18,7 +18,7 @@ public interface RewardService {
     Collection<AvailableCreditType> getCredits(final Long userId) throws RewardException;
     String registerGiftRedemption(final Long userId, final GiftRedemptionType giftType) throws RedemptionException, RateLimitException;
     CreditRedemptionResponseType redeemCredit(final Long userId, final CreditRedemptionType creditType) throws RedemptionException;
-    ClaimStatusType claimGift(Long userId, String referralCode, List<GiftType> gifts, List<Long> agIds) throws RewardException;
+    ClaimStatusType claimGift(Long userId, String referralCode, List<GiftType> gifts, List<Long> agIds, String refererHost) throws RewardException;
     void claimCredit(final Long userId, final ClaimType claim) throws Exception;
     void getBarcode(final Long userId, final Long allocatedGiftId, BarcodeResponse barcodeResponse)throws Exception;
     GiftType getGiftByReferredCode(final String code) throws RewardException;
