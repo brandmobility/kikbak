@@ -163,10 +163,11 @@ function onInput() {
   if (zipcodeInput.hasClass('required')) {
     var zipcode = zipcodeInput.val().replace(/^\d$/g, "");
     if (zipcode.length === 5) {
+      var offer = jQuery.parseJSON(unescape(s.offerDetail));
       $.ajax({
         type: 'GET',
         contentType: 'application/json',
-        url: 'kikbak/v2/share/validateZip?zipCode=' + zipcode,
+        url: 'kikbak/v2/share/validateZip?zipCode=' + zipcode + '&offerId=' + offer.id,
         success: function(json) {
           var valid = json.zipValidationResponse.status;
           if (valid === 'OK') {
@@ -174,6 +175,7 @@ function onInput() {
             $('#zipcode-hidden').removeClass('required');
             zipcodeInput.hide();
             $('#loginFb').removeAttr('disabled');
+            $('.divider').css('top', '6px');
           } else {
             var html = '<h3>Unfortunately Verizon subscribers in this billing zip code are not eligible tp participate in this program.</h3>';
             $('#zipcode-note').html(html);
