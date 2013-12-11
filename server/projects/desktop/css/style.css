@@ -486,6 +486,7 @@ textarea{
 }
 #btn-container #share-btn {
     font-size: 16px;
+    cursor: pointer;
     margin-left: auto;
 	margin-right: auto;
 }
@@ -592,6 +593,17 @@ input[type="button"]:disabled {
 }
 #btn-container #email-input {
     width: 230px;
+}
+#btn-container #loginFb {
+    width: 240px;
+    height: 50px;
+    background-image: url(../images/fb-btn-new.png);
+    background-size: 100%;
+    cursor: pointer;
+}
+#zipcode-note {
+    text-align:center;
+    color:red;
 }
 ::-webkit-input-placeholder { /* WebKit browsers */
     color:#a3a3a3;
