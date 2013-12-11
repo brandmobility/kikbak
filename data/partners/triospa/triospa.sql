@@ -1,5 +1,5 @@
 #set @server="https://m.kikbak.me";
-#set @server="https://test.kikbak.me";
+set @server="https://test.kikbak.me";
 
 #Trio Spa
 
@@ -11,8 +11,8 @@ set @id := (select LAST_INSERT_ID());
 insert into location (address_1,          city,       state, zipcode, phone_number, verification_code, merchant_id, latitude,  longitude) values
                      ('2160 The Alameda', 'San Jose', 'CA',  '95126', 4089851544,   '35v8trio',         @id,         37.344439, -121.930489);
 
-insert into offer (merchant_id, name,         offer_type, has_employee_program, redeem_limit, auth, protection, map_uri, image_url,                                   tos_url,                                   begin_date, end_date) values 
-                  (@id,         'first-time', 'both',     0,                    10,           null, null,       null,    concat(@server, '/data/triospa/banner.png'), concat(@server, '/data/triospa/tos.html'), now(),      now() + interval 90 day);
+insert into offer (merchant_id, name,   offer_type, has_employee_program, redeem_limit, auth, protection, map_uri, image_url,                                   tos_url,                                   begin_date, end_date) values 
+                  (@id,         'trio', 'both',     0,                    10,           null, null,       null,    concat(@server, '/data/triospa/banner.png'), concat(@server, '/data/triospa/tos.html'), now(),      now() + interval 90 day);
 
 set @offer_id := (select LAST_INSERT_ID());
 
