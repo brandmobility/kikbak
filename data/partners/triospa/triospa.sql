@@ -4,7 +4,7 @@
 #Trio Spa
 
 insert into merchant (name,                 shortname,     description,    url,                      image_url) values 
-                     ('TrioSpa',            'Trio',        'spa',          'http://www.TrioSpa.net', concat(@server, '/data/triospa/logo.png'));
+                     ('TrioSpa',            'trio',        'spa',          'http://www.TrioSpa.net', concat(@server, '/data/triospa/logo.png'));
 
 set @id := (select LAST_INSERT_ID());
 
