@@ -492,7 +492,7 @@ public class RewardServiceImpl implements RewardService {
             Offer offer = roOfferDao.findById(shared.getOfferId());
             Long fromUserId = shared.getUserId();
             if (cheatProtectionService.canReceiveGift(userId, fromUserId, offer))
-                createAllocateOffer(userId, shared, offer, null);
+                createAllocateOffer(userId, shared, offer);
         }
     }
 
@@ -639,7 +639,7 @@ public class RewardServiceImpl implements RewardService {
             throw new OfferExpiredException("Offer " + offer.getId() + " expired");
         }
 
-        Allocatedgift allocatedGift = createAllocateOffer(null, shared, offer, null);
+        Allocatedgift allocatedGift = createAllocateOffer(null, shared, offer);
         Barcode barcode = rwBarcodeDao.allocateAnonymousBarcode(allocatedGift.getGiftId(), allocatedGift.getId());
         if(barcode == null)
             throw new OfferExhaustedException("No free barcodes for offer " + offer.getId());
