@@ -176,7 +176,7 @@ public class ClaimInputFragmentVerizon extends KikbakFragment implements OnClick
     @Override
     public void onClick(View v) {
       if(v.getId() == R.id.give) {
-        Toast.makeText(getActivity(), "Not implemented", Toast.LENGTH_SHORT);
+        Toast.makeText(getActivity(), "Not implemented", Toast.LENGTH_SHORT).show();
       }
       dismiss();
     }
