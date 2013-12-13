@@ -8,8 +8,8 @@ insert into merchant (name,           shortname, description, url) values
 
 set @id := (select LAST_INSERT_ID());
 
-insert into location (address_1,        city,        state, zipcode, phone_number, verification_code, merchant_id, latitude,  longitude) values
-                     ('225 Wilton Ave', 'Palo Alto', 'CA',  '94306', 3107094681,   'spa',             @id,         37.42080, -122.13034);
+insert into location (address_1,        city,        state, zipcode, phone_number, verification_code, merchant_id, geofence, latitude,  longitude) values
+                     ('225 Wilton Ave', 'Palo Alto', 'CA',  '94306', 3107094681,   'spa',             @id,         25,       37.42080, -122.13034);
 
 insert into offer (merchant_id, name,         offer_type, has_employee_program, image_url,                                                     tos_url,                                                     begin_date, end_date) values 
                   (@id,         'first_time', 'both',     0,                    concat(@server, '/data/serenity_spa/serenity_spa_banner.png'), concat(@server, '/data/serenity_spa/serenity_spa_tos.html'), now(),      now() + interval 180 day);

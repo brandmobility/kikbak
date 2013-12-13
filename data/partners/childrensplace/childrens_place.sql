@@ -8,8 +8,8 @@ insert into merchant (name,                    shortname,     description, url, 
 
 set @id := (select LAST_INSERT_ID());
 
-insert into location (address_1,      city,       state, zipcode, phone_number, verification_code, merchant_id, latitude,   longitude) values
-                     ('500 Plaza Dr', 'Secaucus', 'NJ',  '07094', "2015582400", 'child',           @id,         40.7881347, -74.0452675);
+insert into location (address_1,      city,       state, zipcode, phone_number, verification_code, merchant_id, geofence, latitude,   longitude) values
+                     ('500 Plaza Dr', 'Secaucus', 'NJ',  '07094', "2015582400", 'child',           @id,         25,       40.7881347, -74.0452675);
 
 insert into offer (merchant_id, name,    offer_type, has_employee_program, image_url,                                                           tos_url,                                                           begin_date, end_date) values 
                   (@id,         'first', 'both',     0,                    concat(@server, '/data/childrens_place/childrens_place_banner.png'), concat(@server, '/data/childrens_place/childrens_place_tos.html'), now(),      now() + interval 180 day);
