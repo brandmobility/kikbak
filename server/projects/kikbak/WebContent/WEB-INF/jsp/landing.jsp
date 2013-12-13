@@ -431,11 +431,6 @@
         type: 'GET',
         contentType: 'application/json',
         url: url,
-        <c:choose>
-        <c:when test="${not empty referer}">
-        headers: {'referer' : '{$referer}'},
-        </c:when>
-        </c:choose>
         success: function(json) {
           if (json && json.claimGiftResponse) {
             var resp = json.claimGiftResponse;

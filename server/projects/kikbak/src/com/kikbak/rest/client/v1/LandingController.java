@@ -1,6 +1,7 @@
 package com.kikbak.rest.client.v1;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,8 @@ import com.kikbak.dao.ReadOnlyGiftDAO;
 import com.kikbak.dao.ReadOnlyLocationDAO;
 import com.kikbak.dao.ReadOnlyMerchantDAO;
 import com.kikbak.dao.ReadOnlyUserDAO;
+import com.kikbak.dao.ReadWriteLandingHostDAO;
+import com.kikbak.dto.LandingHost;
 import com.kikbak.jaxb.v1.rewards.AvailableCreditType;
 import com.kikbak.jaxb.v1.rewards.GiftType;
 
@@ -59,6 +62,9 @@ public class LandingController {
 	@Autowired
 	private ReadOnlyGiftDAO readOnlyGiftDAO;
 		
+	@Autowired
+	private ReadWriteLandingHostDAO readWriteLandingHostDAO;
+	
 	@RequestMapping( value = "/landing", method = RequestMethod.GET)
 	public ModelAndView getLandingPage(final HttpServletRequest request,
 			final HttpServletResponse httpResponse) {
@@ -77,6 +83,17 @@ public class LandingController {
 				httpResponse.sendRedirect(config.getString("landing.code_not_found.url"));
 				return null; 
 			}
+			
+            if (StringUtils.isNotBlank(referer)) {
+            	try {
+            		URI uri = new URI(referer);
+            		String hostname = uri.getHost();
+            		LandingHost host = readWriteLandingHostDAO.increaseCount(hostname);
+            		request.setAttribute("hostBlock", host.getBlock());
+            	} catch (Exception e) {
+        			log.error("Error check referer hostname " + referer, e);	
+            	}
+            }
 			
 			String title = config.getString(SHARE_TEMPLATE_TITLE_FB).replace("%MERCHANT%", gift.getMerchant().getName())
 					.replace("%DESC%", gift.getDesc())
@@ -97,7 +114,6 @@ public class LandingController {
 			request.setAttribute("validationType", gift.getValidationType());
 			request.setAttribute("locationType", gift.getRedemptionLocationType());
 			request.setAttribute("mobile", detector.detectMobileQuick());
-			request.setAttribute("referer", referer);
 	    	return new ModelAndView();
 		} catch (Exception e) {
 			log.error("Error to get gift of code " + code, e);

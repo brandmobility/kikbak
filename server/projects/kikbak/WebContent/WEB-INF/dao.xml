@@ -182,4 +182,8 @@
 		<property name="sessionFactory" ref="rwSessionFactory" />
 	</bean>
 
+    <bean id="ReadWriteLandingHostDAO" class="com.kikbak.dao.impl.ReadWriteLandingHostDAOImpl">
+        <property name="sessionFactory" ref="rwSessionFactory" />
+    </bean>
+
 </beans>

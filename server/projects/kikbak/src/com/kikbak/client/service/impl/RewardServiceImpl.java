@@ -285,7 +285,7 @@ public class RewardServiceImpl implements RewardService {
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = RewardException.class)
-    public ClaimStatusType claimGift(Long userId, String referralCode, List<GiftType> gifts, List<Long> agIds, String refererHost) throws RewardException {
+    public ClaimStatusType claimGift(Long userId, String referralCode, List<GiftType> gifts, List<Long> agIds) throws RewardException {
         ClaimStatusType status = ClaimStatusType.INVALID_CODE;
         if (userId == null || StringUtils.isBlank(referralCode)) {
             throw new RewardException("userId or referralCode cannot be empty");
@@ -315,7 +315,7 @@ public class RewardServiceImpl implements RewardService {
                 if (now.before(offer.getBeginDate()) || now.after(offer.getEndDate())) {
                     status = ClaimStatusType.EXPIRED;
                 } else {
-                    Allocatedgift ag = createAllocateOffer(userId, shared, offer, refererHost);
+                    Allocatedgift ag = createAllocateOffer(userId, shared, offer);
                     newGifts.add(ag);
                     status = ClaimStatusType.OK;
 
@@ -457,7 +457,7 @@ public class RewardServiceImpl implements RewardService {
         gt.getShareInfo().add(sit);
     }
 
-    private Allocatedgift createAllocateOffer(Long userId, Shared shared, Offer offer, String refererHost) {
+    private Allocatedgift createAllocateOffer(Long userId, Shared shared, Offer offer) {
         Gift gift = roGiftDao.findByOfferId(shared.getOfferId());
         double giftValue = gift.getValue();
         if (userId != null && gift.getLottery() != null) {
@@ -481,7 +481,6 @@ public class RewardServiceImpl implements RewardService {
         ag.setSharedId(shared.getId());
         ag.setValue(giftValue);
         ag.setCreatedDate(new Date());
-        ag.setRefererHost(refererHost);
 
         rwGiftDao.makePersistent(ag);
         return ag;
