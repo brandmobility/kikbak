@@ -131,6 +131,9 @@ function preShareClick() {
     uploadPhotoAfterLogin(function() {
       var requestUrl = config.backend + 'kikbak/v2/share/getstories?userid=' + encodeURIComponent(user.id) + '&offerid=' + encodeURIComponent(offer.id) 
         + '&platform=' + (getBrowserName() === 'Safari' ? 'ios' : 'android') + '&imageurl=' + encodeURIComponent(offer.sharedImageUrl);
+      if ($('#zipcode-input').hasClass('required')) {
+        requestUrl += '&zipcode=' + $('#zipcode-input').val().replace(/^\d$/g, "");
+      }
       if (user.email) {
         requestUrl += '&email=' + encodeURIComponent(user.email);
       }
@@ -209,26 +212,33 @@ function onInput() {
   if (zipcodeInput.hasClass('required')) {
     var zipcode = zipcodeInput.val().replace(/^\d$/g, "");
     if (zipcode.length === 5) {
-      var offer = jQuery.parseJSON(unescape(s.offerDetail));
-      $.ajax({
-        type: 'GET',
-        contentType: 'application/json',
-        url: 'kikbak/v2/share/validateZip?zipCode=' + zipcode + '&offerId=' + offer.id,
-        success: function(json) {
-          var valid = json.zipValidationResponse.status;
-          if (valid === 'OK') {
-            $('#zipcode-note').html('');
-            $('#zipcode-hidden').removeClass('required');
-            zipcodeInput.hide();
-            $('#share-btn-fb').removeAttr('disabled');
-          } else {
-            var html = '<h3>Unfortunately Verizon subscribers in this billing zip code are not eligible tp participate in this program.</h3>';
-            $('#zipcode-note').html(html);
-          }
-        },
-        error: showError
-      });
+      if (onInput.oldVal !== zipcode) {
+        onInput.oldVal = zipcode;
+        var offer = jQuery.parseJSON(unescape(s.offerDetail));
+        $.ajax({
+          type: 'GET',
+          contentType: 'application/json',
+          url: 'kikbak/v2/share/validateZip?zipCode=' + zipcode + '&offerId=' + offer.id,
+          success: function(json) {
+            var valid = json.zipValidationResponse.status;
+            if (valid === 'OK') {
+              $('#zipcode-note').html('');
+              $('#zipcode-hidden').removeClass('required');
+              $('#share-btn-fb').removeAttr('disabled');
+            } else {
+              var html = '<h3>Unfortunately Verizon subscribers in this billing zip code are not eligible tp participate in this program.</h3>';
+              $('#zipcode-hidden').addClass('required');
+              $('#share-btn-fb').attr('disabled', 'disabled');
+              $('#zipcode-note').html(html);
+            }
+          },
+          error: showError
+        });
+      }
     } else {
+      onInput.oldVal = zipcode;
+      $('#zipcode-hidden').addClass('required');
+      $('#share-btn-fb').attr('disabled', 'disabled');
       $('#zipcode-note').html('');
     }
   }
