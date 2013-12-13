@@ -24,7 +24,16 @@ public class ReadOnlyOfferDAOImpl extends ReadOnlyGenericDAOImpl<Offer, Long> im
 	private static final String list_offers_in_geo_fence = "select * from offer where offer.begin_date <= ? and offer.end_date >= ? and merchant_id in" +
 														" (select merchant_id from location where location.latitude > ? " +
 														" and location.latitude < ? and location.longitude > ? and location.longitude < ?)"; 
-	
+
+    private static final String list_merchants_in_area = "select merchant_id from ("
+            + "select merchant_id, geofence, "
+            + " (3959*acos(cos(radians(:latitude))*cos(radians(latitude))*cos(radians(longitude)-radians(:longitude))+sin(radians(:latitude))*sin(radians(latitude)))) as distance"
+            + " from location having distance < geofence" + " ) as tmp";
+
+    private static final String list_offers_in_area = "select *"
+            + " from offer where offer.begin_date <= :now and offer.end_date >= :now" + 
+             " and merchant_id in (" + list_merchants_in_area + ")";
+
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public Collection<Offer> listValidOffers() {
@@ -62,5 +71,16 @@ public class ReadOnlyOfferDAOImpl extends ReadOnlyGenericDAOImpl<Offer, Long> im
 																				   .list();
 		return offers;
 	}
+
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public Collection<Offer> listValidOffersForArea(double latitude, double longitude) {
+        Date now = new Date();
+        Session session = sessionFactory.getCurrentSession();
+        @SuppressWarnings("unchecked")
+        Collection<Offer> offers = session.createSQLQuery(list_offers_in_area).addEntity(Offer.class)
+                .setTimestamp("now", now).setDouble("latitude", latitude).setDouble("longitude", longitude).list();
+        return offers;
+    }
 
 }

@@ -67,6 +67,7 @@ import com.kikbak.jaxb.v1.rewards.ClaimStatusType;
 import com.kikbak.jaxb.v1.rewards.ClientMerchantType;
 import com.kikbak.jaxb.v1.rewards.GiftType;
 import com.kikbak.jaxb.v1.rewards.ShareInfoType;
+import com.kikbak.jaxb.v1.userlocation.UserLocationType;
 import com.kikbak.push.service.PushNotifier;
 
 @Service
@@ -137,7 +138,7 @@ public class RewardServiceImpl implements RewardService {
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = RewardException.class)
-    public Collection<GiftType> getGifts(Long userId) throws RewardException {
+    public Collection<GiftType> getGifts(Long userId, UserLocationType location) throws RewardException {
         createGifts(userId);
         Collection<Allocatedgift> gifts = new ArrayList<Allocatedgift>();
         gifts.addAll(roAllocatedGiftDao.listValidByUserId(userId));
@@ -166,6 +167,11 @@ public class RewardServiceImpl implements RewardService {
                 addShareInfoToGift(gt, shared, friend, ag.getId());
             }
 
+            if(location != null) {
+                gt.setNearby(roLocationDao.hasLocationInArea(offer.getMerchantId(), location.getLatitude(),
+                        location.getLongitude()));
+            }
+            
             gts.add(gt);
         }
 
@@ -626,7 +632,7 @@ public class RewardServiceImpl implements RewardService {
     }
     
     @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public String getBarcode(String referralCode, BarcodeResponse response) throws OfferExpiredException, OfferExhaustedException {
         Shared shared = roSharedDao.findByReferralCode(referralCode);
         if (shared == null)

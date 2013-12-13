@@ -86,4 +86,12 @@ public class OfferDAOTest extends KikbakBaseTest{
 		Collection<Offer> offers = roDao.listValidOffersInGeoFence(fence);
 		assertTrue(offers.size() == 1);
 	}
+	
+    @Test
+    public void testListValidOffersForArea(){
+        final double latitude = 37.4207480;
+        final double longitude = -122.1303430;
+        Collection<Offer> offers = roDao.listValidOffersForArea(latitude, longitude);
+        assertTrue(offers.size() == 1);
+    }	
 }

@@ -52,4 +52,32 @@ public class LocationDAOTest extends AccountDAOTest {
 		assertEquals("SJ", l2.getCity());
 		
 	}
+	
+	
+	@Test
+	public void testLocationArea() {
+        final double latitude = 20;
+        final double longitude = 20;
+        final float geofence = 50;
+	    
+	    Location location = new Location();
+        location.setAddress1("1234 ave");
+        location.setCity("SJ");
+        location.setMerchantId(3);
+        location.setLatitude(latitude);
+        location.setLongitude(longitude);
+        location.setGeofence(geofence);
+        location.setState("CA");
+        location.setVerificationCode("3241");
+        location.setZipcode(12343);
+        location.setStatus("participating");
+        
+        rwDao.makePersistent(location);
+
+        
+        assertTrue(roDao.hasLocationInArea(3L, latitude, longitude));
+        assertTrue(roDao.hasLocationInArea(3L, latitude + 0.1, longitude + 0.1));
+        assertFalse(roDao.hasLocationInArea(3L, latitude + 1, longitude + 1));        
+	}
+	
 }

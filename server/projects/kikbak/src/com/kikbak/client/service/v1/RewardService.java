@@ -11,10 +11,11 @@ import com.kikbak.jaxb.v1.redeemgift.GiftRedemptionType;
 import com.kikbak.jaxb.v1.rewards.AvailableCreditType;
 import com.kikbak.jaxb.v1.rewards.ClaimStatusType;
 import com.kikbak.jaxb.v1.rewards.GiftType;
+import com.kikbak.jaxb.v1.userlocation.UserLocationType;
 
 public interface RewardService {
 
-    Collection<GiftType> getGifts(final Long userId) throws RewardException;
+    Collection<GiftType> getGifts(final Long userId, UserLocationType location) throws RewardException;
     Collection<AvailableCreditType> getCredits(final Long userId) throws RewardException;
     String registerGiftRedemption(final Long userId, final GiftRedemptionType giftType) throws RedemptionException, RateLimitException;
     CreditRedemptionResponseType redeemCredit(final Long userId, final CreditRedemptionType creditType) throws RedemptionException;
