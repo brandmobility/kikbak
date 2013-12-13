@@ -18,7 +18,7 @@ insert into offer (merchant_id, name,            offer_type, has_employee_progra
 set @offer_id := (select LAST_INSERT_ID());
 
 insert into gift ( offer_id,  description, detailed_desc,              value, discount_type, redemption_location_type, validation_type, image_url,                                         default_give_image_url) values
-                 (@offer_id, '$50 off',    'with new 2-year contract', 50,    'amount',      'store',                  'barcode',       concat(@server, '/data/verizon/verizon_give.png'), concat(@server, '/data/verizon/verizon_banner.png'));
+                 (@offer_id, '$50 off',    'with new 2-year contract', 50,    'amount',      'all',                  'barcode',       concat(@server, '/data/verizon/verizon_give.png'), concat(@server, '/data/verizon/verizon_banner.png'));
 
 set @gift_id := (select LAST_INSERT_ID());
 
