@@ -22,4 +22,4 @@ insert into gift ( offer_id,  description, detailed_desc,                 value,
 set @gift_id := (select LAST_INSERT_ID());
 
 insert into kikbak (offer_id,  description, detailed_desc,                           value, reward_type, validation_type, image_url) values
-                   (@offer_id, '$10 off',   'any Massage, Facial or Waxing Service', 10.00, 'purchase',  'qrcode',        concat(@server, '/data/triospa/banner.png'));
+                   (@offer_id, '$10 credit',   'towards massage, facial or waxing', 10.00, 'purchase',  'qrcode',        concat(@server, '/data/triospa/banner.png'));
