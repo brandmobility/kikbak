@@ -189,6 +189,7 @@ function onInput() {
         });
       }
     } else {
+      onInput.oldVal = zipcode;
       $('.divider').css('top', '48px');
       $('#zipcode-hidden').addClass('required');
       $('#loginFb').attr('disabled', 'disabled');
@@ -539,7 +540,10 @@ function renderOfferDetail(offer, custom, holder) {
 function getOfferStory(offer) {
   ga('send', 'event', 'button', 'click', 'share offer');
   registerUser(function() {
-    var requestUrl = config.backend + 'kikbak/v2/share/getstories?userid=' + encodeURIComponent(user.id) + '&offerid=' + encodeURIComponent(offer.id) + '&platform=PC&imageurl=' + encodeURIComponent(offer.giveImageUrl) + '&zipcode=' + $('#zipcode-input').val().replace(/^\d$/g, "");
+    var requestUrl = config.backend + 'kikbak/v2/share/getstories?userid=' + encodeURIComponent(user.id) + '&offerid=' + encodeURIComponent(offer.id) + '&platform=PC&imageurl=' + encodeURIComponent(offer.giveImageUrl);
+    if ($('#zipcode-input').hasClass('required')) {
+      requestUrl += '&zipcode=' + $('#zipcode-input').val().replace(/^\d$/g, "");
+    }
     if (user.email) {
       requestUrl += '&email=' + encodeURIComponent(user.email);
     }
