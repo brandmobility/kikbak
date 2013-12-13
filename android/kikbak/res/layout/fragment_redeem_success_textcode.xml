@@ -18,9 +18,10 @@
         android:id="@+id/text_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
         android:text="kik123456"
         android:textColor="#135317"
-        android:textSize="56dp"
+        android:textSize="48dp"
         kikbak:typeface="Roboto-Regular.ttf" />
 
 </LinearLayout>

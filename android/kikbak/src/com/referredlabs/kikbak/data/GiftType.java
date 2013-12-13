@@ -13,4 +13,5 @@ public class GiftType {
   public String defaultGiveImageUrl;
   public String tosUrl;
   public ShareInfoType[] shareInfo;
+  public Boolean nearby;
 }

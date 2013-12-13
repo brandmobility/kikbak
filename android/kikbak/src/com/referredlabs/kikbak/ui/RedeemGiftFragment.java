@@ -27,6 +27,7 @@ import com.referredlabs.kikbak.data.GiftType;
 import com.referredlabs.kikbak.data.RedeemGiftRequest;
 import com.referredlabs.kikbak.data.RedeemGiftResponse;
 import com.referredlabs.kikbak.data.RedeemGiftStatus;
+import com.referredlabs.kikbak.data.RedemptionLocationType;
 import com.referredlabs.kikbak.data.ShareInfoType;
 import com.referredlabs.kikbak.data.ValidationType;
 import com.referredlabs.kikbak.fb.Fb;
@@ -47,7 +48,7 @@ public class RedeemGiftFragment extends KikbakFragment implements OnClickListene
     OnBarcodeScanningListener {
 
   public interface RedeemGiftCallback {
-    void onRedeemGiftSuccess(String barcode);
+    void onRedeemGiftSuccess(String barcode, boolean inStore);
   }
 
   private static final int REQUEST_NOT_IN_STORE = 1;
@@ -67,6 +68,7 @@ public class RedeemGiftFragment extends KikbakFragment implements OnClickListene
   private Button mRedeemOnline;
 
   RedeemGiftCallback mCallback;
+  boolean mIsInStoreRedemption = false;
 
   @Override
   public void onAttach(Activity activity) {
@@ -127,10 +129,13 @@ public class RedeemGiftFragment extends KikbakFragment implements OnClickListene
     mGiftValue.setText(mGift.desc);
     mGiftDesc.setText(mGift.detailedDesc);
 
-    // not supported yet
-    // if (RedemptionLocationType.ALL.equals(mGift.redemptionLocationType)) {
-    // mRedeemOnline.setVisibility(View.VISIBLE);
-    // }
+    if (RedemptionLocationType.all.equals(mGift.redemptionLocationType)) {
+      mRedeemOnline.setVisibility(View.VISIBLE);
+      
+      if(mGift.nearby == null || !mGift.nearby) {
+        mRedeemInStore.setVisibility(View.GONE);
+      }
+    }
   }
 
   @Override
@@ -160,6 +165,7 @@ public class RedeemGiftFragment extends KikbakFragment implements OnClickListene
       showNotInStore();
       return;
     }
+    mIsInStoreRedemption = true;
 
     if (mGift.validationType == ValidationType.qrcode) {
       // scanning QR code
@@ -167,13 +173,23 @@ public class RedeemGiftFragment extends KikbakFragment implements OnClickListene
     } else if (mGift.validationType == ValidationType.barcode) {
       // barcode generation
       mRedeemInStore.setEnabled(false);
+      mRedeemOnline.setEnabled(false);
       mTask = new BarcodeTask();
       mTask.execute();
     }
   }
 
   private void onRedeemOnlineClicked() {
-    registerRedemption("online");
+    mIsInStoreRedemption = false;
+    if (mGift.validationType == ValidationType.qrcode) {
+      // TODO: implement me 
+    } else if (mGift.validationType == ValidationType.barcode) {
+      // barcode generation
+      mRedeemInStore.setEnabled(false);
+      mRedeemOnline.setEnabled(false);
+      mTask = new BarcodeTask();
+      mTask.execute();
+    }
   }
 
   private boolean isInStore() {
@@ -218,6 +234,7 @@ public class RedeemGiftFragment extends KikbakFragment implements OnClickListene
     scanner.setTargetFragment(this, 0);
     scanner.show(getFragmentManager(), null);
     mRedeemInStore.setEnabled(false);
+    mRedeemOnline.setEnabled(false);
   }
 
   @Override
@@ -233,14 +250,16 @@ public class RedeemGiftFragment extends KikbakFragment implements OnClickListene
   @Override
   public void onScanningCancelled() {
     mRedeemInStore.setEnabled(true);
+    mRedeemOnline.setEnabled(true);
   }
 
   public void onBarcodeFetched(String barcode) {
-    mCallback.onRedeemGiftSuccess(barcode);
+    mCallback.onRedeemGiftSuccess(barcode, mIsInStoreRedemption);
   }
 
   public void onBarcodeFetchFailed() {
     mRedeemInStore.setEnabled(true);
+    mRedeemOnline.setEnabled(true);
     Toast.makeText(getActivity(), R.string.redeem_failure, Toast.LENGTH_SHORT).show();
   }
 
@@ -248,11 +267,12 @@ public class RedeemGiftFragment extends KikbakFragment implements OnClickListene
     if (mGift.validationType == ValidationType.qrcode) {
       DataStore.getInstance().giftUsed(mGift.offerId);
     }
-    mCallback.onRedeemGiftSuccess(code);
+    mCallback.onRedeemGiftSuccess(code, mIsInStoreRedemption);
   }
 
   public void onRegistrationFailed(Exception exception) {
     mRedeemInStore.setEnabled(true);
+    mRedeemOnline.setEnabled(true);
 
     if (exception instanceof StatusException) {
       StatusException e = (StatusException) exception;

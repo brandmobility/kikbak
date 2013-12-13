@@ -4,6 +4,7 @@ package com.referredlabs.kikbak.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -30,11 +31,13 @@ public class RedeemGiftSuccessFragment extends Fragment implements OnClickListen
   private GiftType mGift;
 
   private String mBarcode;
+  private boolean mIsInStore;
 
   private TextView mName;
   private TextView mValue;
   private TextView mDesc;
   private Button mGive;
+  private Button mUseOnline;
 
   public static RedeemGiftSuccessFragment newInstance() {
     RedeemGiftSuccessFragment fragment = new RedeemGiftSuccessFragment();
@@ -48,6 +51,7 @@ public class RedeemGiftSuccessFragment extends Fragment implements OnClickListen
     String data = args.getString(SuccessActivity.ARG_GIFT);
     mGift = new Gson().fromJson(data, GiftType.class);
     mBarcode = args.getString(SuccessActivity.ARG_BARCODE);
+    mIsInStore = args.getBoolean(SuccessActivity.ARG_IN_STORE, false);
   }
 
   @Override
@@ -58,8 +62,21 @@ public class RedeemGiftSuccessFragment extends Fragment implements OnClickListen
     mDesc = (TextView) root.findViewById(R.id.redeem_desc);
     mGive = (Button) root.findViewById(R.id.give);
     mGive.setOnClickListener(this);
+    mUseOnline = (Button) root.findViewById(R.id.use_online);
+    mUseOnline.setOnClickListener(this);
+
     setupGiftViews();
     setupBarcodeViews(root);
+
+    if (!mIsInStore) {
+      ((TextView) root.findViewById(R.id.redeem_success_message))
+          .setText(R.string.redeem_gift_success_note_first_online);
+      mUseOnline.setVisibility(View.VISIBLE);
+
+      root.findViewById(R.id.give_note).setVisibility(View.GONE);
+      mGive.setVisibility(View.GONE);
+    }
+
     return root;
   }
 
@@ -76,10 +93,12 @@ public class RedeemGiftSuccessFragment extends Fragment implements OnClickListen
       stub.setLayoutResource(layout);
       root = stub.inflate();
       if (mGift.validationType == ValidationType.barcode) {
-        Bitmap bmp = BarcodeGenerator.generateUpcaCode(getActivity(), mBarcode);
-        ImageView img = (ImageView) root.findViewById(R.id.code);
+        if (mIsInStore) {
+          Bitmap bmp = BarcodeGenerator.generateUpcaCode(getActivity(), mBarcode);
+          ImageView img = (ImageView) root.findViewById(R.id.code);
+          img.setImageBitmap(bmp);
+        }
         TextView text = (TextView) root.findViewById(R.id.text_code);
-        img.setImageBitmap(bmp);
         text.setText(mBarcode);
       } else if (mGift.validationType == ValidationType.qrcode && !TextUtils.isEmpty(mBarcode)) {
         Bitmap bmp = BarcodeGenerator.generateQrCode(getActivity(), mBarcode);
@@ -92,15 +111,19 @@ public class RedeemGiftSuccessFragment extends Fragment implements OnClickListen
   }
 
   private int getBarcodeLayout() {
-    switch (mGift.validationType) {
-      case barcode:
-        return R.layout.fragment_redeem_success_barcode;
+    if (mIsInStore) {
+      switch (mGift.validationType) {
+        case barcode:
+          return R.layout.fragment_redeem_success_barcode;
 
-      case qrcode:
-        return R.layout.fragment_redeem_success_qrcode;
+        case qrcode:
+          return R.layout.fragment_redeem_success_qrcode;
 
-      default:
-        return 0;
+        default:
+          return 0;
+      }
+    } else {
+      return R.layout.fragment_redeem_success_textcode;
     }
   }
 
@@ -109,6 +132,9 @@ public class RedeemGiftSuccessFragment extends Fragment implements OnClickListen
     switch (v.getId()) {
       case R.id.give:
         onGiveClicked();
+        break;
+      case R.id.use_online:
+        onUseOnlineClicked();
         break;
     }
   }
@@ -123,5 +149,10 @@ public class RedeemGiftSuccessFragment extends Fragment implements OnClickListen
       intent.putExtra(GiveActivity.ARG_OFFER, data);
       startActivity(intent);
     }
+  }
+
+  private void onUseOnlineClicked() {
+    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.verizon.com"));
+    startActivity(intent);
   }
 }
