@@ -91,6 +91,16 @@ html, body {
 
 }
 
+#zipcode-input {
+    font-size: 16px;
+    margin: 5% 8%;
+    padding: 2%;
+    border: 0px;
+    width: 84%;
+    height: 40px;
+    border-radius: 5px;
+}
+
 #header h1 {
     background-repeat: no-repeat;
     width: 200px;
@@ -120,6 +130,19 @@ html, body {
 
 #pageconatiner {
 
+}
+.btn.grd-btn.mini-btn {
+    width:46%;
+    height:60px;
+    margin:0;
+    border-radius: 10px;
+}
+.redeem-online {
+    float: left;
+    width: 96%;
+    margin: 2%;
+    font-size:25px;
+    text-align: center;
 }
 .sidebar {
     padding: 10px;

@@ -106,7 +106,7 @@
                             <div class="frm-fed">
                                 <input type="hidden" name="creditId" value="${credit.id}" class="bsnm" />
                                 <c:choose>
-                                <c:when test="${gift.merchant.shortname == 'Verizon'}">
+                                <c:when test="${credit.merchant.shortname == 'Verizon'}">
                                 <input type="text" name="phoneNumber" class="claim-reuqired" style="margin-top: 20px;" placeholder="Verizon phone number" class="bsnm" />
                                 </c:when>
                                 <c:otherwise>
@@ -126,6 +126,9 @@
                     <div id="redeem-success" style="display:none;">
                         <h3>Success!</h3>
                         <p>Your reward claim has been submitted.</p>
+                        <div id="share-link-div">
+                            <a id="share-offer-btn" href="/d/${credit.merchant.shortname}" target="_blank" class="btn grd-btn">I'm ready to give to others</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -170,6 +173,7 @@
                 <div id="redeem-success" style="display:none;">
                     <h1>Success!</h1>
                     <p>Your reward claim has been submitted.</p>
+                    <a id="share-offer-btn" href="/m/${credit.merchant.shortname}" target="_blank" class="btn grd-btn">I'm ready to give to others</a>
                 </div>
             </form>
         </div>
