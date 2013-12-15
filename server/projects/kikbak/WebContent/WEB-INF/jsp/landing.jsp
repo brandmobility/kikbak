@@ -525,6 +525,7 @@
         $('#barcode').attr('src', imgUrl);
         $('#barcode-val').html(json.barcodeResponse.code);
         if (online) {
+          $('#barcode-val').css('color', 'red');
           $('#barcode-note').html('Your code');
           $('#barcode').hide();
           $('#barcode-link').attr('href', 'http://www.verizon.com');
@@ -534,6 +535,7 @@
           $('#success-msg h3').html('You have claimed your gift.');
           $('#success-msg p').html('You have claimed your gift.');
         } else {
+          $('#barcode-val').css('color', 'black');
           $('#barcode').show();
           $('.share-offer').show();
           $('#share-offer-btn').show();
