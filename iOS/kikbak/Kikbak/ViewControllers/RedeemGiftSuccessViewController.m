@@ -104,6 +104,15 @@ static int offsetForIOS6 = 44;
         self.details.frame = CGRectMake(0, 184 + offsetForIOS6, 320, 26);
         self.validationImage.frame = CGRectMake(60, 232 + offsetForIOS6, 200, 75);
         self.couponCode.frame = CGRectMake(0, 307 + offsetForIOS6, 320, 12);
+        
+        if( self.online == true ){
+            self.couponCode.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:30];
+            CGRect fr = self.couponCode.frame;
+            fr.origin.y = 240;
+            fr.size.height = 40;
+            self.couponCode.frame = fr;
+            self.couponCode.textColor = [UIColor redColor];
+        }
 
         if( [self.validationType compare:@"qrcode"] == NSOrderedSame){
             self.validationImage.frame = CGRectMake(42, 210 + offsetForIOS6, 100, 100);
@@ -201,13 +210,33 @@ static int offsetForIOS6 = 44;
     self.details.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
     [self.view addSubview:self.details];
     
-    self.seperator = [[UIImageView alloc]initWithFrame:CGRectMake(11, 406 + offsetForIOS6, 298, 1)];
-    self.seperator.image = [UIImage imageNamed:@"separator_gray_line"];
-    [self.view addSubview:self.seperator];
     
-    self.validationImage = [[UIImageView alloc]initWithFrame:CGRectMake(60, 295 + offsetForIOS6, 200, 75)];
-    self.validationImage.image = [UIImage imageWithContentsOfFile:self.imagePath];
-    [self.view addSubview:self.validationImage];
+    if( self.online == false ){
+        self.seperator = [[UIImageView alloc]initWithFrame:CGRectMake(11, 406 + offsetForIOS6, 298, 1)];
+        self.seperator.image = [UIImage imageNamed:@"separator_gray_line"];
+        [self.view addSubview:self.seperator];
+
+        
+        self.validationImage = [[UIImageView alloc]initWithFrame:CGRectMake(60, 295 + offsetForIOS6, 200, 75)];
+        self.validationImage.image = [UIImage imageWithContentsOfFile:self.imagePath];
+        [self.view addSubview:self.validationImage];
+        
+        self.share = [[UILabel alloc] initWithFrame:CGRectMake(0, 415 + offsetForIOS6, 320, 15)];
+        self.share.text = NSLocalizedString(@"Share with friends", nil);
+        self.share.textAlignment = NSTextAlignmentCenter;
+        self.share.backgroundColor = [UIColor clearColor];
+        self.share.textColor = UIColorFromRGB(0x3a3a3a);
+        self.share.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
+        [self.view addSubview:self.share];
+        
+        self.earn = [[UILabel alloc] initWithFrame:CGRectMake(0, 429 + offsetForIOS6, 320, 15)];
+        self.earn.text = NSLocalizedString(@"Earn for friend", nil);
+        self.earn.textAlignment = NSTextAlignmentCenter;
+        self.earn.backgroundColor = [UIColor clearColor];
+        self.earn.textColor = UIColorFromRGB(0x3a3a3a);
+        self.earn.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
+        [self.view addSubview:self.earn];
+    }
     
     self.couponCode = [[UILabel alloc] initWithFrame:CGRectMake(0, 376 + offsetForIOS6, 320, 12)];
     self.couponCode.text = self.validationCode;
@@ -217,6 +246,15 @@ static int offsetForIOS6 = 44;
     self.couponCode.font = [UIFont fontWithName:@"HelveticaNeue" size:11];
     [self.view addSubview:self.couponCode];
     
+    if( self.online == true ){
+        self.couponCode.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:30];
+        CGRect fr = self.couponCode.frame;
+        fr.origin.y = 300;
+        fr.size.height = 40;
+        self.couponCode.frame = fr;
+        self.couponCode.textColor = [UIColor redColor];
+    }
+    
     if( [self.validationType compare:@"qrcode"] == NSOrderedSame){
         self.validationImage.frame = CGRectMake(35, 285 + offsetForIOS6, 100, 100);
         self.couponCode.frame = CGRectMake(185, 324 + offsetForIOS6, 150, 33);
@@ -224,30 +262,22 @@ static int offsetForIOS6 = 44;
         self.couponCode.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:30];
     }
     
-    self.share = [[UILabel alloc] initWithFrame:CGRectMake(0, 415 + offsetForIOS6, 320, 15)];
-    self.share.text = NSLocalizedString(@"Share with friends", nil);
-    self.share.textAlignment = NSTextAlignmentCenter;
-    self.share.backgroundColor = [UIColor clearColor];
-    self.share.textColor = UIColorFromRGB(0x3a3a3a);
-    self.share.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
-    [self.view addSubview:self.share];
-
-    self.earn = [[UILabel alloc] initWithFrame:CGRectMake(0, 429 + offsetForIOS6, 320, 15)];
-    self.earn.text = NSLocalizedString(@"Earn for friend", nil);
-    self.earn.textAlignment = NSTextAlignmentCenter;
-    self.earn.backgroundColor = [UIColor clearColor];
-    self.earn.textColor = UIColorFromRGB(0x3a3a3a);
-    self.earn.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
-    [self.view addSubview:self.earn];
     
-    self.giveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.giveBtn setBackgroundImage:[UIImage imageNamed:@"btn_blue"] forState:UIControlStateNormal];
-    [self.giveBtn setTitle:NSLocalizedString(@"Give to Friends", nil) forState:UIControlStateNormal];
-    [self.giveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.giveBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:15];
-    self.giveBtn.frame = CGRectMake(11, 453 + offsetForIOS6, 298, 40);
-    [self.giveBtn addTarget:self action:@selector(onGiveBtn:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.giveBtn];
+    if( [OfferService findOfferById:self.offerId] ){   
+        self.giveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.giveBtn setBackgroundImage:[UIImage imageNamed:@"btn_blue"] forState:UIControlStateNormal];
+        if( self.online){
+            [self.giveBtn setTitle:NSLocalizedString(@"Use Online", nil) forState:UIControlStateNormal];
+        }
+        else{
+            [self.giveBtn setTitle:NSLocalizedString(@"Give to Friends", nil) forState:UIControlStateNormal];
+        }
+        [self.giveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        self.giveBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:15];
+        self.giveBtn.frame = CGRectMake(11, 453 + offsetForIOS6, 298, 40);
+        [self.giveBtn addTarget:self action:@selector(onGiveBtn:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:self.giveBtn];
+    }
 }
 
 #pragma mark - btn actions
@@ -256,9 +286,21 @@ static int offsetForIOS6 = 44;
 }
 
 -(IBAction)onGiveBtn:(id)sender{
-    GiveViewController* vc = [[GiveViewController alloc]init];
-    vc.offer = [OfferService findOfferById:self.offerId];
-    [self.navigationController pushViewController:vc animated:YES];
+    if( self.online ){
+        NSURL* url = [[NSURL alloc]initWithString:@"http://www.verizon.com"];
+        if(![[UIApplication sharedApplication] canOpenURL:url]){
+            UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:@"You need to be on an iPhone to make a call" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+            [alert show];
+        }
+        else{
+            [[UIApplication sharedApplication]openURL:url];
+        }
+    }
+    else{
+        GiveViewController* vc = [[GiveViewController alloc]init];
+        vc.offer = [OfferService findOfferById:self.offerId];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 @end

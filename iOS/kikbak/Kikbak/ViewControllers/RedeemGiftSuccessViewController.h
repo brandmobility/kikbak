@@ -22,4 +22,6 @@
 @property (nonatomic, strong) NSString* validationType;
 @property (nonatomic, strong) NSNumber* offerId;
 
+@property (nonatomic) Boolean online;
+
 @end

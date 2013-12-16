@@ -340,10 +340,6 @@ static int offsetForIOS6 = 44;
             [self.navigationController pushViewController:vc animated:YES];
         }
         else{
-//            ClaimCreditViewController* vc = [[ClaimCreditViewController alloc]init];
-//            vc.hidesBottomBarWhenPushed = true;
-//            vc.amount = collection.credit.value;
-//            vc.merchantName = collection.credit.merchantName;
             RedeemClaimViewController* vc = [[RedeemClaimViewController alloc]init];
             vc.credit = collection.credit;
             [self.navigationController pushViewController:vc animated:YES];
@@ -438,9 +434,6 @@ static int offsetForIOS6 = 44;
     else{
         vc = [[RedeemClaimViewController alloc]init];
         ((RedeemClaimViewController*)vc).credit = credit;
-//        vc = [[ClaimCreditViewController alloc]init];
-//        ((ClaimCreditViewController* )vc).amount = credit.value;
-//        ((ClaimCreditViewController* )vc).merchantName = credit.merchantName;
     }
     vc.hidesBottomBarWhenPushed = true;
     [self.navigationController pushViewController:vc animated:YES];

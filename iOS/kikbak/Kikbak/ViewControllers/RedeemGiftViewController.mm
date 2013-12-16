@@ -69,12 +69,17 @@ static int offsetForIOS6 = 44;
 @property (nonatomic,strong) UIButton* termsBtn;
 
 @property (nonatomic,strong) UIButton* redeemBtn;
+@property (nonatomic,strong) UIButton* onlineBtn;
+
+
+@property (nonatomic) Boolean redeemOnline;
 
 
 -(void)createSubviews;
 -(void)manuallyLayoutSubviews;
 
 -(IBAction)onRedeemBtn:(id)sender;
+-(IBAction)onOnlineBtn:(id)sender;
 
 
 -(void)updateDistance;
@@ -146,6 +151,8 @@ static int offsetForIOS6 = 44;
     
     [self updateDistance];
     [self manuallyLayoutSubviews];
+    
+    self.redeemOnline = false;
     
     if(self.gift){
         NSString* imagePath = [ImagePersistor imageFileExists:self.shareInfo.allocatedGiftId imageType:UGC_GIVE_IMAGE_TYPE];
@@ -337,6 +344,20 @@ static int offsetForIOS6 = 44;
     self.redeemBtn.frame = CGRectMake(11, 453+offsetForIOS6, 298, 40);
     [self.redeemBtn addTarget:self action:@selector(onRedeemBtn:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.redeemBtn];
+    
+    if( [self.gift.redemptionLocationType compare:@"all"] == NSOrderedSame){
+        CGRect fr = self.redeemBtn.frame;
+        fr.size.width = 143;
+        self.redeemBtn.frame = fr;
+        self.onlineBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.onlineBtn setBackgroundImage:[UIImage imageNamed:@"btn_blue"] forState:UIControlStateNormal];
+        [self.onlineBtn setTitle:NSLocalizedString(@"Redeem Online", nil) forState:UIControlStateNormal];
+        [self.onlineBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        self.onlineBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:15];
+        self.onlineBtn.frame = CGRectMake(166, 453+offsetForIOS6, 143, 40);
+        [self.onlineBtn addTarget:self action:@selector(onOnlineBtn:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:self.onlineBtn];
+    }
 }
 
 -(void)manuallyLayoutSubviews{
@@ -361,6 +382,14 @@ static int offsetForIOS6 = 44;
         self.giftDetails.frame = CGRectMake(0, 318+offsetForIOS6, 320, 14);
         self.termsBtn.frame = CGRectMake(11, 343+offsetForIOS6, 150, 14);
         self.redeemBtn.frame = CGRectMake(11, 365+offsetForIOS6, 298, 40);
+        if( [self.gift.redemptionLocationType compare:@"all"] == NSOrderedSame){
+            CGRect fr = self.redeemBtn.frame;
+            fr.size.width = 143;
+            self.redeemBtn.frame = fr;
+            fr = self.onlineBtn.frame;
+            fr.origin.y = 365+offsetForIOS6;
+            self.onlineBtn.frame = fr;
+        }
     }
 }
 
@@ -398,6 +427,12 @@ static int offsetForIOS6 = 44;
     }
     
 }
+
+-(IBAction)onOnlineBtn:(id)sender{
+    self.redeemOnline = true;
+    [self onRedeemBtn:sender];
+}
+
 
 -(void)onTermsBtn:(id)sender{
     CGRect frame = ((AppDelegate*)[UIApplication sharedApplication].delegate).window.frame;
@@ -458,6 +493,7 @@ static int offsetForIOS6 = 44;
     vc.optionalDesc = self.giftDetails.text;
     vc.validationType = self.gift.validationType;
     vc.offerId = self.gift.offerId;
+    vc.online = self.redeemOnline;
     
     self.gift.location = nil;
     NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
@@ -489,6 +525,7 @@ static int offsetForIOS6 = 44;
     vc.offerId = self.gift.offerId;
     vc.imagePath = [[notification object] objectForKey:@"imagePath"];
     vc.validationCode = [[notification object] objectForKey:@"barcode"];
+    vc.online = self.redeemOnline;
     [self.navigationController pushViewController:vc animated:YES];
     
 }

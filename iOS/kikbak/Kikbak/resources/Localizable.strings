@@ -69,7 +69,8 @@
 
 //redeem gift
 "Redeem" = "Redeem";
-"Redeem in Store" = "Redeem now in store";
+"Redeem in Store" = "Redeem in store";
+"Redeem Online" = "Redeem online";
 "Redeemed By Friends" = "Your gift has been redeemed by %d friends";
 "Credit To Apply" = "Credit to be applied to purchase";
 "Change" = "Change";
@@ -79,6 +80,7 @@
 "Earn for friend" = "You earn for every friend that redeems.";
 "Earn more credit" = "and earn even more credit.";
 "Give to Friends" = "Give to friends";
+"Use Online" = "Use Online Now";
 
 //credit amount
 "Cancel"="Cancel";

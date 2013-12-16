@@ -220,8 +220,8 @@ static int offsetForIOS6 = 44;
 
 -(IBAction)onClaimBtn:(id)sender{
     ClaimCreditViewController* vc = [[ClaimCreditViewController alloc]initWithNibName:nil bundle:nil];
-    vc.amount = self.credit.value;
     vc.merchantName = self.credit.merchantName;
+    vc.credit = self.credit;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

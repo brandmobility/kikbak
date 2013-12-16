@@ -16,6 +16,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.background = [UIImage imageNamed:@"bg_textview_suggest_business"];
+        self.returnKeyType = UIReturnKeyDone;
     }
     return self;
 }

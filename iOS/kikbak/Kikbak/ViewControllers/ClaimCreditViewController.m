@@ -16,6 +16,10 @@
 #import "UIButton+Util.h"
 #import "UIDevice+OSVersion.h"
 #import "Flurry.h"
+#import "Credit.h"
+#import "OfferService.h"
+#import "GiveViewController.h"
+
 
 static int offsetForIOS6 = 44;
 
@@ -25,7 +29,7 @@ static int offsetForIOS6 = 44;
 @property (nonatomic, strong) UIImageView* dropShadow;
 @property (nonatomic, strong) UILabel* merchant;
 @property (nonatomic, strong) UIView* amountBackground;
-@property (nonatomic, strong) UILabel* credit;
+@property (nonatomic, strong) UILabel* amount;
 @property (nonatomic, strong) UILabel* giftCard;
 @property (nonatomic, strong) UILabel* userInfo;
 
@@ -139,13 +143,13 @@ static int offsetForIOS6 = 44;
     self.amountBackground.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_blue"]];
     [self.view addSubview:self.amountBackground];
     
-    self.credit = [[UILabel alloc]initWithFrame:CGRectMake(12, 8, 100, 35)];
-    self.credit.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:33];
-    self.credit.text = [NSString stringWithFormat:NSLocalizedString(@"currency format", nil), self.amount];
-    self.credit.textColor = UIColorFromRGB(0x144887);
-    self.credit.textAlignment = NSTextAlignmentLeft;
-    self.credit.backgroundColor = [UIColor clearColor];
-    [self.amountBackground addSubview:self.credit];
+    self.amount = [[UILabel alloc]initWithFrame:CGRectMake(12, 8, 100, 35)];
+    self.amount.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:33];
+    self.amount.text = [NSString stringWithFormat:NSLocalizedString(@"currency format", nil), self.credit.value];
+    self.amount.textColor = UIColorFromRGB(0x144887);
+    self.amount.textAlignment = NSTextAlignmentLeft;
+    self.amount.backgroundColor = [UIColor clearColor];
+    [self.amountBackground addSubview:self.amount];
     
     self.giftCard = [[UILabel alloc]initWithFrame:CGRectMake(230, 20, 90, 20)];
     self.giftCard.font = [UIFont fontWithName:@"HelveticaNeue" size:20];
@@ -165,8 +169,7 @@ static int offsetForIOS6 = 44;
     
     self.phoneNumber = [[KikbakTextField alloc]initWithFrame:CGRectMake(11,140,298,35)];
     self.phoneNumber.delegate = self;
-    self.phoneNumber.tag = 
-    self.phoneNumber.placeholder = NSLocalizedString(@"Phone Number", nil);
+    self.phoneNumber.tag = self.phoneNumber.placeholder = NSLocalizedString(@"Phone Number", nil);
     [self.view addSubview:self.phoneNumber];
     
 //    self.name = [[KikbakTextField alloc]initWithFrame:CGRectMake(11,186,298,35)];
@@ -225,6 +228,8 @@ static int offsetForIOS6 = 44;
     [view createSubviews];
     view.delegate = self;
     [self.view addSubview:view];
+    
+    
 }
 
 -(void)onClaimError:(NSNotification*)notification{
@@ -279,7 +284,7 @@ static int offsetForIOS6 = 44;
     [Flurry logEvent:@"claim credit"];
     
     NSMutableDictionary* dict = [[NSMutableDictionary alloc] initWithCapacity:8];
-    [dict setObject:[NSNumber numberWithLong:1] forKey:@"creditId"];
+    [dict setObject:self.credit.creditId forKey:@"creditId"];
     [dict setObject:self.phoneNumber.text forKey:@"phoneNumber"];
 //    [dict setObject:self.name.text forKey:@"name"];
 //    [dict setObject:self.street.text forKey:@"street"];
@@ -339,7 +344,21 @@ static int offsetForIOS6 = 44;
 
 #pragma mark - claim success delegate
 -(void)onClaimFinished{
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    NSNumber* offerId = self.credit.offerId;
+    
+    NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
+    [context deleteObject:self.credit];
+    NSError* error;
+    [context save:&error];
+    if(error){
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+    }
+    self.credit = nil;
+
+    GiveViewController* vc = [[GiveViewController alloc]init];
+    vc.offer = [OfferService findOfferById:offerId];
+    [self.navigationController pushViewController:vc animated:YES];
+
 }
 
 -(IBAction)onBackBtn:(id)sender{

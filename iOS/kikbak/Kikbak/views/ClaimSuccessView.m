@@ -77,7 +77,7 @@
     self.okBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.okBtn.frame = CGRectMake(11,frame.size.height - 52, frame.size.width - 22, 40);
     [self.okBtn setBackgroundImage:[UIImage imageNamed:@"btn_blue"] forState:UIControlStateNormal];
-    [self.okBtn setTitle:NSLocalizedString(@"Ok", nil) forState:UIControlStateNormal];
+    [self.okBtn setTitle:NSLocalizedString(@"Give to Friends", nil) forState:UIControlStateNormal];
     self.okBtn.titleLabel.textColor = [UIColor whiteColor];
     [self.backgroundView addSubview:self.okBtn];
     [self.okBtn addTarget:self action:@selector(onOk:) forControlEvents:UIControlEventTouchUpInside];
