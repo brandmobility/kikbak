@@ -997,6 +997,7 @@ p.msg {
 }
 .cls-popup #pre-share-detail select,
 .cls-popup #pre-share-detail input[type=text],
+.cls-popup #pre-share-detail input[type=number],
 .cls-popup #pre-share-detail input[type=email],
 .cls-popup #pre-share-detail input[type=tel] {
     height: 32px;
@@ -1510,6 +1511,11 @@ h1.pg-hedng {
 #friend-list .avatar {
     float: left;
     width: 40px;
+}
+
+#zipcode-note {
+    text-align:center;
+    color:red;
 }
 
 @-webkit-keyframes spinnerRotate {

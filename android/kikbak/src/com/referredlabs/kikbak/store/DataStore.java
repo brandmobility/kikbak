@@ -18,6 +18,7 @@ import com.referredlabs.kikbak.data.GetUserOffersResponse;
 import com.referredlabs.kikbak.data.GiftType;
 import com.referredlabs.kikbak.data.RewardsRequest;
 import com.referredlabs.kikbak.data.RewardsResponse;
+import com.referredlabs.kikbak.data.UserLocationType;
 import com.referredlabs.kikbak.http.Http;
 import com.referredlabs.kikbak.service.LocationFinder;
 import com.referredlabs.kikbak.tasks.Task;
@@ -256,6 +257,13 @@ public class DataStore {
       long userId = Register.getInstance().getUserId();
       String uri = Http.getUri(RewardsRequest.PATH + userId);
       RewardsRequest req = new RewardsRequest();
+      Location loc = LocationFinder.getLastLocation();
+      if (loc != null) {
+        req.userLocation = new UserLocationType();
+        req.userLocation.latitude = loc.getLatitude();
+        req.userLocation.longitude = loc.getLongitude();
+      }
+
       RewardsResponse response = Http.execute(uri, req, RewardsResponse.class);
       swapRewards(validate(response.gifts), validate(response.credits));
     }

@@ -67,6 +67,7 @@ import com.kikbak.jaxb.v1.rewards.ClaimStatusType;
 import com.kikbak.jaxb.v1.rewards.ClientMerchantType;
 import com.kikbak.jaxb.v1.rewards.GiftType;
 import com.kikbak.jaxb.v1.rewards.ShareInfoType;
+import com.kikbak.jaxb.v1.userlocation.UserLocationType;
 import com.kikbak.push.service.PushNotifier;
 
 @Service
@@ -137,7 +138,7 @@ public class RewardServiceImpl implements RewardService {
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = RewardException.class)
-    public Collection<GiftType> getGifts(Long userId) throws RewardException {
+    public Collection<GiftType> getGifts(Long userId, UserLocationType location) throws RewardException {
         createGifts(userId);
         Collection<Allocatedgift> gifts = new ArrayList<Allocatedgift>();
         gifts.addAll(roAllocatedGiftDao.listValidByUserId(userId));
@@ -166,6 +167,11 @@ public class RewardServiceImpl implements RewardService {
                 addShareInfoToGift(gt, shared, friend, ag.getId());
             }
 
+            if(location != null) {
+                gt.setNearby(roLocationDao.hasLocationInArea(offer.getMerchantId(), location.getLatitude(),
+                        location.getLongitude()));
+            }
+            
             gts.add(gt);
         }
 
@@ -285,7 +291,7 @@ public class RewardServiceImpl implements RewardService {
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = RewardException.class)
-    public ClaimStatusType claimGift(Long userId, String referralCode, List<GiftType> gifts, List<Long> agIds, String refererHost) throws RewardException {
+    public ClaimStatusType claimGift(Long userId, String referralCode, List<GiftType> gifts, List<Long> agIds) throws RewardException {
         ClaimStatusType status = ClaimStatusType.INVALID_CODE;
         if (userId == null || StringUtils.isBlank(referralCode)) {
             throw new RewardException("userId or referralCode cannot be empty");
@@ -315,7 +321,7 @@ public class RewardServiceImpl implements RewardService {
                 if (now.before(offer.getBeginDate()) || now.after(offer.getEndDate())) {
                     status = ClaimStatusType.EXPIRED;
                 } else {
-                    Allocatedgift ag = createAllocateOffer(userId, shared, offer, refererHost);
+                    Allocatedgift ag = createAllocateOffer(userId, shared, offer);
                     newGifts.add(ag);
                     status = ClaimStatusType.OK;
 
@@ -457,7 +463,7 @@ public class RewardServiceImpl implements RewardService {
         gt.getShareInfo().add(sit);
     }
 
-    private Allocatedgift createAllocateOffer(Long userId, Shared shared, Offer offer, String refererHost) {
+    private Allocatedgift createAllocateOffer(Long userId, Shared shared, Offer offer) {
         Gift gift = roGiftDao.findByOfferId(shared.getOfferId());
         double giftValue = gift.getValue();
         if (userId != null && gift.getLottery() != null) {
@@ -481,7 +487,6 @@ public class RewardServiceImpl implements RewardService {
         ag.setSharedId(shared.getId());
         ag.setValue(giftValue);
         ag.setCreatedDate(new Date());
-        ag.setRefererHost(refererHost);
 
         rwGiftDao.makePersistent(ag);
         return ag;
@@ -493,7 +498,7 @@ public class RewardServiceImpl implements RewardService {
             Offer offer = roOfferDao.findById(shared.getOfferId());
             Long fromUserId = shared.getUserId();
             if (cheatProtectionService.canReceiveGift(userId, fromUserId, offer))
-                createAllocateOffer(userId, shared, offer, null);
+                createAllocateOffer(userId, shared, offer);
         }
     }
 
@@ -627,7 +632,7 @@ public class RewardServiceImpl implements RewardService {
     }
     
     @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public String getBarcode(String referralCode, BarcodeResponse response) throws OfferExpiredException, OfferExhaustedException {
         Shared shared = roSharedDao.findByReferralCode(referralCode);
         if (shared == null)
@@ -640,7 +645,7 @@ public class RewardServiceImpl implements RewardService {
             throw new OfferExpiredException("Offer " + offer.getId() + " expired");
         }
 
-        Allocatedgift allocatedGift = createAllocateOffer(null, shared, offer, null);
+        Allocatedgift allocatedGift = createAllocateOffer(null, shared, offer);
         Barcode barcode = rwBarcodeDao.allocateAnonymousBarcode(allocatedGift.getGiftId(), allocatedGift.getId());
         if(barcode == null)
             throw new OfferExhaustedException("No free barcodes for offer " + offer.getId());
@@ -649,5 +654,44 @@ public class RewardServiceImpl implements RewardService {
         response.setValidDays(String.valueOf(barcode.getValidDays()));
 
         return barcode.getCode();
+    }
+        
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public void registerBarcodeRedemption(String code, Date date) {
+        // TODO: this is not yet implemented
+
+        Barcode barcode = roBarcodeDao.findByCode(code);
+        if (barcode == null)
+            throw new IllegalArgumentException("No such barcode:" + code);
+
+        if (barcode.getRedeemed())
+            throw new IllegalArgumentException("Barcode was already redeemed:" + code);
+
+        Long allocatedGiftId = barcode.getAllocatedGiftId();
+        if (allocatedGiftId == null)
+            throw new IllegalArgumentException("Barcode was not associated:" + code);
+
+        Allocatedgift allocatedGift = roAllocatedGiftDao.findById(allocatedGiftId);
+
+        allocatedGift.setRedemptionDate(date);
+        barcode.setRedeemed(true);
+
+        rwBarcodeDao.makePersistent(barcode);
+        rwGiftDao.makePersistent(allocatedGift);
+
+        Offer offer = roOfferDao.findById(allocatedGift.getOfferId());
+        if (offer.getOfferType().equals(OfferType.both.name())) {
+            // update credit ? should we do it after 25 days?
+
+            CreditManager km = new CreditManager(roOfferDao, roKikbakDAO, roCreditDao, rwCreditDao, rwTxnDao);
+            Long creditId = km.manageCredit(allocatedGift.getFriendUserId(), allocatedGift.getOfferId(),
+                    allocatedGift.getMerchantId(), -1L);
+
+            // send notification for kikbak when gift is redeemed
+            Kikbak kikbak = roKikbakDAO.findByOfferId(allocatedGift.getOfferId());
+            pushNotifier.sendKikbakNotification(allocatedGift.getUserId(), allocatedGift.getFriendUserId(), kikbak,
+                    creditId);
+        }
     }
 }

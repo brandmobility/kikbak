@@ -239,7 +239,7 @@ public class UserServiceImpl implements UserService2 {
 
         Coordinate origin = new Coordinate(userLocation.getLatitude(), userLocation.getLongitude());
         GeoFence fence = GeoBoundaries.getGeoFence(origin, config.getDouble("geo.fence.distance"));
-        return getOffersByLocation(fence);
+        return getOffersByLocation(userLocation.getLatitude(), userLocation.getLongitude());
     }
 
     private Collection<ClientOfferType> getOffersByMerchant(String merchantName) {
@@ -333,6 +333,64 @@ public class UserServiceImpl implements UserService2 {
             ot.setMerchantUrl(merchant.getUrl());
 
             Collection<Location> locations = roLocationDao.listForMerchantInGeoFence(offer.getMerchantId(), fence);
+            for (Location location : locations) {
+                MerchantLocationType ml = new MerchantLocationType();
+                ml.setLocationId(location.getId());
+                ml.setSiteName(location.getSiteName());
+                ml.setAddress1(location.getAddress1());
+                ml.setAddress2(location.getAddress2());
+                ml.setCity(location.getCity());
+                ml.setState(location.getState());
+                ml.setZipcode(String.valueOf(location.getZipcode()));
+                ml.setZip4(location.getZipPlusFour());
+                ml.setLatitude(location.getLatitude());
+                ml.setLongitude(location.getLongitude());
+                ml.setPhoneNumber(location.getPhoneNumber());
+                ot.getLocations().add(ml);
+            }
+            ot.setHasEmployeeProgram(offer.getHasEmployeeProgram() != 0);
+            ot.setMapUri(offer.getMapUri());
+            ot.setAuth(offer.getAuth());
+
+            ots.add(ot);
+        }
+
+        return ots;
+    }
+
+
+    private Collection<ClientOfferType> getOffersByLocation(double latitude, double longitude) {
+        Collection<Offer> offers = roOfferDao.listValidOffersForArea(latitude, longitude);
+        
+        Collection<ClientOfferType> ots = new ArrayList<ClientOfferType>(offers.size());
+        for (Offer offer : offers) {
+            Gift gift = roGiftDao.findByOfferId(offer.getId());
+            Kikbak kikbak = roKikbakDao.findByOfferId(offer.getId());
+            ClientOfferType ot = new ClientOfferType();
+            ot.setBeginDate(offer.getBeginDate().getTime());
+            ot.setEndDate(offer.getEndDate().getTime());
+            ot.setId(offer.getId());
+            ot.setName(offer.getName());
+            ot.setOfferType(offer.getOfferType());
+            ot.setTosUrl(offer.getTosUrl());
+            ot.setGiftDesc(gift.getDescription());
+            ot.setGiftDetailedDesc(gift.getDetailedDesc());
+            ot.setGiftValue(gift.getValue());
+            ot.setGiftDiscountType(gift.getDiscountType());
+            if (kikbak != null) {
+                ot.setKikbakDesc(kikbak.getDescription());
+                ot.setKikbakDetailedDesc(kikbak.getDetailedDesc());
+                ot.setKikbakValue(kikbak.getValue());
+            }
+            ot.setOfferImageUrl(offer.getImageUrl());
+            ot.setMerchantId(offer.getMerchantId());
+            ot.setGiveImageUrl(gift.getImageUrl());
+
+            Merchant merchant = roMerchantDao.findById(offer.getMerchantId());
+            ot.setMerchantName(merchant.getName());
+            ot.setMerchantUrl(merchant.getUrl());
+
+            Collection<Location> locations = roLocationDao.listForMerchantInArea(offer.getMerchantId(), latitude, longitude);
             for (Location location : locations) {
                 MerchantLocationType ml = new MerchantLocationType();
                 ml.setLocationId(location.getId());

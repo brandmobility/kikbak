@@ -12,6 +12,7 @@ public class SuccessActivity extends KikbakActivity {
 
   public static final String ARG_GIFT = "gift";
   public static final String ARG_BARCODE = "barcode";
+  public static final String ARG_IN_STORE = "in_store";
   public static final String ARG_CREDIT = "credit";
   public static final String ARG_CREDIT_USED = "credit_used";
 

@@ -1,5 +1,8 @@
 package com.kikbak.rest.client.v1;
 
+import java.io.IOException;
+import java.util.Date;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
@@ -93,4 +96,24 @@ public class UnauthedRewardController extends AbstractController {
         }
     }
 
+    // TEMPORARY FOR TESTING 
+    @RequestMapping(value = "/registerBarcode/{barcode}", method = RequestMethod.GET)
+    public void registerBarcode(@PathVariable("barcode") String code,
+            final HttpServletResponse httpResponse) throws IOException {
+        try {
+            service.registerBarcodeRedemption(code, new Date());
+            httpResponse.getWriter().print("OK!");
+            return;
+        } catch (IllegalArgumentException e) {
+            logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            httpResponse.getWriter().print(e.getMessage());
+            return;
+        } catch (Exception e) {
+            logger.error(e, e);
+            httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            httpResponse.getWriter().print(e.getMessage());
+            return;
+        }
+    }
 }

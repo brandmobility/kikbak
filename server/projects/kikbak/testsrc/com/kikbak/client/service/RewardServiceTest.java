@@ -182,9 +182,8 @@ public class RewardServiceTest extends KikbakBaseTest{
 	    ct.setZipcode("code");
 	    
 	    try {
-            service.claimCredit(12L, ct);
+            service.claimCredit(2L, ct);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             fail();
         }

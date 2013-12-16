@@ -8,9 +8,9 @@ insert into merchant (name,               shortname, description, url,          
 
 set @id := (select LAST_INSERT_ID());
 
-insert into location (address_1,               city,            state, zipcode, phone_number, verification_code, merchant_id, latitude, longitude) values
-                     ('219 University Avenue', 'Palo Alto',     'CA',  '94301', 6503236127,   'verizon',         @id,         37.4455,  -122.1620),
-                     ('1020 N Rengstorff Ave', 'Mountain View', 'CA',  '94043', 6509661441,   'verizon',         @id,         37.4214,  -122.0944);
+insert into location (address_1,               city,            state, zipcode, phone_number, verification_code, merchant_id, geofence, latitude, longitude) values
+                     ('219 University Avenue', 'Palo Alto',     'CA',  '94301', 6503236127,   'verizon',         @id,         25,       37.4455,  -122.1620),
+                     ('1020 N Rengstorff Ave', 'Mountain View', 'CA',  '94043', 6509661441,   'verizon',         @id,         25,       37.4214,  -122.0944);
 
 insert into offer (merchant_id, name,            offer_type, has_employee_program, redeem_limit, auth,    protection, map_uri, image_url,                                           tos_url,                                           begin_date, end_date) values 
                   (@id,         'subscription',  'both',     1,                    10,           'phone', null,       null,    concat(@server, '/data/verizon/verizon_banner.png'), concat(@server, '/data/verizon/verizon_tos.html'), now(),      now() + interval 180 day);
@@ -18,7 +18,7 @@ insert into offer (merchant_id, name,            offer_type, has_employee_progra
 set @offer_id := (select LAST_INSERT_ID());
 
 insert into gift ( offer_id,  description, detailed_desc,              value, discount_type, redemption_location_type, validation_type, image_url,                                         default_give_image_url) values
-                 (@offer_id, '$50 off',    'with new 2-year contract', 50,    'amount',      'store',                  'barcode',       concat(@server, '/data/verizon/verizon_give.png'), concat(@server, '/data/verizon/verizon_banner.png'));
+                 (@offer_id, '$50 off',    'with new 2-year contract', 50,    'amount',      'all',                  'barcode',       concat(@server, '/data/verizon/verizon_give.png'), concat(@server, '/data/verizon/verizon_banner.png'));
 
 set @gift_id := (select LAST_INSERT_ID());
 

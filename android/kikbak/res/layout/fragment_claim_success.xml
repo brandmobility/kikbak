@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:kikbak="http://schemas.android.com/apk/res/com.referredlabs.kikbak"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/claim_success_title"
+        android:textColor="#247de9"
+        android:textSize="23dp"
+        kikbak:typeface="Roboto-Bold.ttf" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="15dp"
+        android:background="#0061e5" />
+
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:id="@+id/share_options_location_note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/claim_success_msg"
+        android:textColor="#3a3a3a"
+        android:textSize="19dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
+
+    <com.referredlabs.kikbak.widget.TtfButton
+        android:id="@+id/done"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="14dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/btn_blue"
+        android:text="@string/done"
+        android:textColor="@android:color/white"
+        android:textSize="21dp"
+        kikbak:typeface="Roboto-Light.ttf" />
+
+    <com.referredlabs.kikbak.widget.TtfButton
+        android:id="@+id/give"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="14dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/btn_blue"
+        android:text="@string/claim_success_share_button"
+        android:textColor="@android:color/white"
+        android:textSize="21dp"
+        kikbak:typeface="Roboto-Light.ttf" />
+
+</LinearLayout>

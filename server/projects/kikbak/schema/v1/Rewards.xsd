@@ -3,6 +3,7 @@
     xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
     xmlns:st="com:kikbak:jaxb:statustype"
     xmlns:ml="com:kikbak:jaxb:merchantlocation"
+   	xmlns:ul="com:kikbak:jaxb:userlocation"
     jaxb:version="1.0">
 
     <xsd:annotation>
@@ -15,6 +16,7 @@
     
     <xsd:import namespace="com:kikbak:jaxb:statustype" schemaLocation="./StatusType.xsd" />
     <xsd:import namespace="com:kikbak:jaxb:merchantlocation" schemaLocation="./MerchantLocation.xsd" />
+    <xsd:import namespace="com:kikbak:jaxb:userlocation" schemaLocation="./UserLocation.xsd" />
     
     <xsd:complexType name="ClientMerchantType">
         <xsd:sequence>
@@ -78,12 +80,14 @@
             <xsd:element name="tosUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="expired" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="shareInfo" type="kikbak:ShareInfoType" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="nearby" type="xsd:boolean" minOccurs="0" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
      
     <xsd:element name="RewardsRequest">
         <xsd:complexType>
             <xsd:sequence>
+				<xsd:element name="userLocation" type="ul:UserLocationType" minOccurs="0" maxOccurs="1" />
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>

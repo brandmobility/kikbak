@@ -131,8 +131,10 @@
     <string name="redeem_success_title">Success!</string>
     <string name="redeem_success_your_code">YOUR CODE</string>
     <string name="redeem_gift_success_note_first">Please show this screen when paying.</string>
+    <string name="redeem_gift_success_note_first_online">You have claimed your gift.</string>
     <string name="redeem_gift_success_share_note">Share the same offer with your friends.\nYou earn for every friend that redeems.</string>
     <string name="redeem_gift_success_share_button">"I am ready to give to others"</string>
+    <string name="redeem_gift_success_use_online">Use online now</string>
     <string name="redeem_credit_success_note_first">You have claimed your credit.</string>
     <string name="redeem_credit_success_note_second">Please show this screen to the cashier.</string>
     <string name="redeem_credit_success_value_desc">can now be applied to your purchase</string>
@@ -160,7 +162,7 @@
     <string name="claim_card_arrival">Your reward should arrive in 2 to 4 weeks.</string>
     <string name="claim_card_arrival_verizon">Your reward will be mailed to the billing address associated with your account.\nIt should arrive in 2–4 weeks.</string>
     <string name="claim_card_submit">Submit</string>
-
+    <string name="claim_success_share_button">Share offer with more friends</string>
     <!-- validation -->
     <string name="claim_zip_empty">ZIP cannot be empty</string>
     <string name="claim_zip_wrong_format">This is not a valid ZIP code, use XXXXX or XXXXX-XXXX pattern"</string>

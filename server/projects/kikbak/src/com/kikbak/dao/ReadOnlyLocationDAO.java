@@ -10,4 +10,6 @@ public interface ReadOnlyLocationDAO {
 	public Location findById(Long id);
 	public Collection<Location> listByMerchant(Long merchantId);
 	public Collection<Location> listForMerchantInGeoFence(Long merchantId,GeoFence fence);
+    public Collection<Location> listForMerchantInArea(Long merchantId, double latitude, double longitude);
+    public boolean hasLocationInArea(Long merchantId, double latitude, double longitude);
 }

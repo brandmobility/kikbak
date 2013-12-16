@@ -12,5 +12,6 @@ public interface ReadOnlyOfferDAO {
 	public Collection<Offer> listValidOffers();	
 	public Collection<Offer> listOffers(Merchant merchant);
 	public Collection<Offer> listValidOffersInGeoFence(GeoFence fence);
+    public Collection<Offer> listValidOffersForArea(double latitude, double longitude);
 
 }

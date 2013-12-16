@@ -163,27 +163,36 @@ function onInput() {
   if (zipcodeInput.hasClass('required')) {
     var zipcode = zipcodeInput.val().replace(/^\d$/g, "");
     if (zipcode.length === 5) {
-      var offer = jQuery.parseJSON(unescape(s.offerDetail));
-      $.ajax({
-        type: 'GET',
-        contentType: 'application/json',
-        url: 'kikbak/v2/share/validateZip?zipCode=' + zipcode + '&offerId=' + offer.id,
-        success: function(json) {
-          var valid = json.zipValidationResponse.status;
-          if (valid === 'OK') {
-            $('#zipcode-note').html('');
-            $('#zipcode-hidden').removeClass('required');
-            zipcodeInput.hide();
-            $('#loginFb').removeAttr('disabled');
-            $('.divider').css('top', '6px');
-          } else {
-            var html = '<h3>Unfortunately Verizon subscribers in this billing zip code are not eligible tp participate in this program.</h3>';
-            $('#zipcode-note').html(html);
-          }
-        }, 
-        error: showError
-      });
+      if (onInput.oldVal !== zipcode) {
+        onInput.oldVal = zipcode;
+        var offer = jQuery.parseJSON(unescape(s.offerDetail));
+        $.ajax({
+          type: 'GET',
+          contentType: 'application/json',
+          url: 'kikbak/v2/share/validateZip?zipCode=' + zipcode + '&offerId=' + offer.id,
+          success: function(json) {
+            var valid = json.zipValidationResponse.status;
+            if (valid === 'OK') {
+              $('#zipcode-note').html('');
+              $('#zipcode-hidden').removeClass('required');
+              $('#loginFb').removeAttr('disabled');
+              $('.divider').css('top', '48px');
+            } else {
+              var html = '<h3>Unfortunately Verizon subscribers in this billing zip code are not eligible tp participate in this program.</h3>';
+              $('.divider').css('top', '88px');
+              $('#zipcode-note').html(html);
+              $('#zipcode-hidden').addClass('required');
+              $('#loginFb').attr('disabled', 'disabled');
+            }
+          }, 
+          error: showError
+        });
+      }
     } else {
+      onInput.oldVal = zipcode;
+      $('.divider').css('top', '48px');
+      $('#zipcode-hidden').addClass('required');
+      $('#loginFb').attr('disabled', 'disabled');
       $('#zipcode-note').html('');
     }
   }
@@ -532,6 +541,9 @@ function getOfferStory(offer) {
   ga('send', 'event', 'button', 'click', 'share offer');
   registerUser(function() {
     var requestUrl = config.backend + 'kikbak/v2/share/getstories?userid=' + encodeURIComponent(user.id) + '&offerid=' + encodeURIComponent(offer.id) + '&platform=PC&imageurl=' + encodeURIComponent(offer.giveImageUrl);
+    if ($('#zipcode-input').hasClass('required')) {
+      requestUrl += '&zipcode=' + $('#zipcode-input').val().replace(/^\d$/g, "");
+    }
     if (user.email) {
       requestUrl += '&email=' + encodeURIComponent(user.email);
     }

@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.referredlabs.kikbak.R;
@@ -149,8 +150,14 @@ public class ClaimInputFragmentVerizon extends KikbakFragment implements OnClick
     }
   }
 
-  public static class ClaimSubmittedPopup extends DialogFragment {
+  public static class ClaimSubmittedPopup extends DialogFragment implements OnClickListener {
     ClaimInputFragment.ClaimCompletedCallback mCallback;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      setStyle(STYLE_NO_TITLE, 0);
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -159,13 +166,19 @@ public class ClaimInputFragmentVerizon extends KikbakFragment implements OnClick
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-      AlertDialog dialog = new AlertDialog.Builder(getActivity())
-          .setTitle(R.string.claim_success_title)
-          .setMessage(R.string.claim_success_msg)
-          .setPositiveButton(android.R.string.ok, null)
-          .create();
-      return dialog;
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+      View root = inflater.inflate(R.layout.fragment_claim_success, container, false);
+      root.findViewById(R.id.give).setOnClickListener(this);
+      root.findViewById(R.id.done).setOnClickListener(this);
+      return root;
+    }
+
+    @Override
+    public void onClick(View v) {
+      if(v.getId() == R.id.give) {
+        Toast.makeText(getActivity(), "Not implemented", Toast.LENGTH_SHORT).show();
+      }
+      dismiss();
     }
 
     @Override

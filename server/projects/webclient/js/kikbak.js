@@ -131,6 +131,9 @@ function preShareClick() {
     uploadPhotoAfterLogin(function() {
       var requestUrl = config.backend + 'kikbak/v2/share/getstories?userid=' + encodeURIComponent(user.id) + '&offerid=' + encodeURIComponent(offer.id) 
         + '&platform=' + (getBrowserName() === 'Safari' ? 'ios' : 'android') + '&imageurl=' + encodeURIComponent(offer.sharedImageUrl);
+      if ($('#zipcode-input').hasClass('required')) {
+        requestUrl += '&zipcode=' + $('#zipcode-input').val().replace(/^\d$/g, "");
+      }
       if (user.email) {
         requestUrl += '&email=' + encodeURIComponent(user.email);
       }
@@ -205,6 +208,40 @@ function onInput() {
   } else {
     $('.share-btn').attr('disabled', 'disabled');
   }
+  var zipcodeInput = $('#zipcode-input');
+  if (zipcodeInput.hasClass('required')) {
+    var zipcode = zipcodeInput.val().replace(/^\d$/g, "");
+    if (zipcode.length === 5) {
+      if (onInput.oldVal !== zipcode) {
+        onInput.oldVal = zipcode;
+        var offer = jQuery.parseJSON(unescape(s.offerDetail));
+        $.ajax({
+          type: 'GET',
+          contentType: 'application/json',
+          url: 'kikbak/v2/share/validateZip?zipCode=' + zipcode + '&offerId=' + offer.id,
+          success: function(json) {
+            var valid = json.zipValidationResponse.status;
+            if (valid === 'OK') {
+              $('#zipcode-note').html('');
+              $('#zipcode-hidden').removeClass('required');
+              $('#share-btn-fb').removeAttr('disabled');
+            } else {
+              var html = '<h3>Unfortunately Verizon subscribers in this billing zip code are not eligible tp participate in this program.</h3>';
+              $('#zipcode-hidden').addClass('required');
+              $('#share-btn-fb').attr('disabled', 'disabled');
+              $('#zipcode-note').html(html);
+            }
+          },
+          error: showError
+        });
+      }
+    } else {
+      onInput.oldVal = zipcode;
+      $('#zipcode-hidden').addClass('required');
+      $('#share-btn-fb').attr('disabled', 'disabled');
+      $('#zipcode-note').html('');
+    }
+  }
 }
 
 function completeUserInfo() {
@@ -264,11 +301,16 @@ var authType = {
   phone: {
     login_div: '<div id="login-div">' +
                  '<h3>1. Register</h3>' +
+                 '<div id="zipcode-div">' +
+                   '<div id="zipcode-note"></div>' +
+                   '<input id="zipcode-hidden" type="hidden" class="required">' +
+                   '<input id="zipcode-input" type="number" class="required" name="zipcode" placeholder="Zipcode">' +
+                 '</div>' +
                  '<input id="username-input" type="text" class="required" placeholder="Your name" name="username" />' + 
                  '<input id="email-input" type="email" class="required" placeholder="Your email" name="email" />' + 
                  '<button id="login-email" class="share-btn btn grd-btn" disabled="disabled" >Submit</button>' +
                  '<hr>' +
-                 '<span> OR </span><input id="share-btn-fb" name="share" type="button" class="fb-share" style="width:88%;margin:0;height:30px;" value="       Connect with Facebook" />' +
+                 '<span> OR </span><input id="share-btn-fb" name="share" type="button" disabled="disabled" class="fb-share" style="width:88%;margin:0;height:30px;" value="       Connect with Facebook" />' +
                  '<p>We use Facebook to personalize your offers and notify you via email when friends redeem them. <b>We will never post without your permission.</b></p>' +
                '</div>' +
                '<div id="create-share-div" style="display:none">' +

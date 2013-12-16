@@ -18,8 +18,12 @@ import com.kikbak.location.GeoFenceCoordinateType;
 @Repository
 public class ReadOnlyLocationDAOImpl extends ReadOnlyGenericDAOImpl<Location, Long> implements ReadOnlyLocationDAO{
 
-    private static String location_in_geofence = "select * from location where merchant_id=? and latitude > ? " +
+    private static final String location_in_geofence = "select * from location where merchant_id=? and latitude > ? " +
                                                         " and latitude < ? and longitude > ? and longitude < ?";
+    
+    private static final String locations_in_area = "select *, "
+            + " (3959*acos(cos(radians(:latitude))*cos(radians(latitude))*cos(radians(longitude)-radians(:longitude))+sin(radians(:latitude))*sin(radians(latitude)))) as distance"
+            + " from location where merchant_id=:merchantId having distance < geofence";
 
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
@@ -44,4 +48,27 @@ public class ReadOnlyLocationDAOImpl extends ReadOnlyGenericDAOImpl<Location, Lo
                                                                                    .list();
         return locations;
     }
+    
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public Collection<Location> listForMerchantInArea(Long merchantId, double latitude, double longitude) {
+        Session session = sessionFactory.getCurrentSession();
+        @SuppressWarnings("unchecked")
+        Collection<Location> locations = session.createSQLQuery(locations_in_area).addEntity(Location.class)
+                .setLong("merchantId", merchantId).setDouble("latitude", latitude).setDouble("longitude", longitude)
+                .list();
+        return locations;
+    }    
+
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public boolean hasLocationInArea(Long merchantId, double latitude, double longitude) {
+        Session session = sessionFactory.getCurrentSession();
+        @SuppressWarnings("unchecked")
+        Collection<Location> locations = session.createSQLQuery(locations_in_area + " limit 1").addEntity(Location.class)
+                .setLong("merchantId", merchantId).setDouble("latitude", latitude).setDouble("longitude", longitude)
+                .list();
+        return !locations.isEmpty();
+    }    
+    
 }

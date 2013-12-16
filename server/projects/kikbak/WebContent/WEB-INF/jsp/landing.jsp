@@ -123,10 +123,19 @@
                         <p class="disclaimer">We use Facebook to make it easy for you to share, redeem and share gifts.<br/> We will never post without your permission.</p>
                         </c:when>
                         <c:otherwise>
-                        <p class="redeem-note" style="margin-top:5px;" >Print out your code now or visit this link from your phone at the store</p>
-                        <button id="anonymous-redeem-barcode-btn" class="btn grd-btn">Generate offer to use in store</button>
-                        <p class="redeem-note">Or connect with Facebook to send the offer to the Kikbak app for iOS or Android. Use it to easily access your gift at the store.</p>
-                        <a id="loginFb" href="#"> <img src="img/fb-btn-new.png" width="258" height="55" style="margin: 0 auto;" /></a>
+                        <div id="zipcode-div">
+                            <input type="text" id="zipcode-input" placeholder="Zipcode"></input>
+                        </div>
+                        <div id="zipcode-qualify-div" style="display:none;">
+                            <button id="anonymous-redeem-barcode-btn" class="btn grd-btn mini-btn">Generate in-store coupon</button>
+                            <button id="anonymous-redeem-barcode-online-btn1" class="btn grd-btn mini-btn">Redeem online</button>
+                            <p class="redeem-note">Or connect with Facebook to send the offer to the Kikbak app for iOS or Android. Use it to easily access your gift at the store.</p>
+                            <a id="loginFb" href="#"> <img src="img/fb-btn-new.png" width="258" height="55" style="margin: 0 auto;" /></a>
+                        </div>
+                        <div id="zipcode-nonqualify-div" style="display:none;">
+                            <p class="redeem-note" style="margin-top:5px;" >Sorry, this offer is not eligible for stores in your area. However, you can still redeem this offer online.</p>
+                            <button id="anonymous-redeem-barcode-online-btn2" class="btn grd-btn">Redeem online now</button>
+                        </div>
                         </c:otherwise>
                         </c:choose>
                     </div>
@@ -155,8 +164,13 @@
                                 <a href="https://play.google.com/store/apps/details?id=com.referredlabs.kikbak&hl=en"><img src="img/google-play.png" /></a>
                             </div>
                         </div>
+                        <p id="barcode-note"></p>
                         <img id="barcode" src="" style="display: none;" />
                         <p id="barcode-val"></p>
+                        <a id="barcode-link" target="_blank" style="display:none;">Use online now</a>
+                        <div id="share-link-div">
+                            <a id="share-offer-btn" href="/d/${gift.merchant.shortname}" target="_blank" class="btn grd-btn share-offer" style="display:none;" >I'm ready to give to others</a>
+                        </div>
                     </div>
                     </c:otherwise>
                     </c:choose>
@@ -263,11 +277,28 @@
             <div id="facebook-div">
                 <c:choose>
                 <c:when test="${gift.merchant.shortname == 'Verizon'}">
-                <div style="text-align: center; padding-top: 20px;">
-                    <input type="button" id="anonymous-redeem-barcode-btn" class="btn grd-btn" value="Redeem now in store" />
+                <div id="zipcode-div">
+                    <input type="number" id="zipcode-input" placeholder="Zipcode"></input>
+                </div>
+                <div id="zipcode-qualify-div" style="text-align: center;display:none;">
+                    <button id="anonymous-redeem-barcode-btn" class="btn grd-btn mini-btn">Generate in-store<br/>coupon</button>
+                    <button id="anonymous-redeem-barcode-online-btn1" class="btn grd-btn mini-btn">Redeem online</button>
+                    <div class="page-header" style="padding-left: 10px; padding-right: 10px; margin: 10px 0 0 0; text-align: center">
+                        <p style="font-size: 15px; font-family: HelveticaNeueLT Pro 45 Lt;">Or connect with Facebook to send the offer to the Kikbak app for iOS and Android. Use it to easily access your gift at the store.</p>
+                        <div style="height: 40px">
+                            <a id="loginFb" href="#"> <img src="img/facebook-button.png" width=240 /> </a>
+                        </div>
+                        <p align="center" style="padding-top: 20px; font-family: HelveticaNeueLT Pro 45 Lt; font-size: 10px;">
+                            We use Facebook to make it easy for you to claim and access your gift. We will never post on Facebook without your permission.
+                        </p>
+                    </div>
+                </div>
+                <div id="zipcode-npnequalify-div" style="text-align: center;display:none;">
+                     <p style="font-size: 15px; font-family: HelveticaNeueLT Pro 45 Lt;" >Sorry, this offer is not eligible for stores in your area. However, you can still redeem this offer online.</p>
+                     <button id="anonymous-redeem-barcode-online-btn2" class="btn grd-btn">Redeem online now</button>
                 </div>
                 </c:when>
-                </c:choose>
+                <c:otherwise>
                 <div class="page-header"
                     style="padding-left: 10px; padding-right: 10px; margin: 10px 0 0 0; text-align: center">
                     <p style="font-size: 15px; font-family: HelveticaNeueLT Pro 45 Lt;">Or connect with Facebook to send the offer to the Kikbak app for iOS and Android. Use it to easily access your gift at the store.</p>
@@ -280,6 +311,8 @@
                     We use Facebook to make it easy for you to claim and access your gift. We will never post on Facebook without your permission.
                     </p>
                 </div>
+                </c:otherwise>
+                </c:choose>
             </div>
             <c:choose>
             <c:when test="${gift.validationType != 'barcode'}">
@@ -328,7 +361,7 @@
     </div>
     <div id="redeem-gift-success" style="display:none;">
         <h1 class="pg-hedng">${gift.merchant.name}</h1>
-        <div class="hedng hedbk2">
+        <div class="hedng hedbk2" id="success-msg">
         <h2>Success!</h2>
             <p>Please show this screen when paying.</p>
         </div>
@@ -337,17 +370,19 @@
             <h2>OFFER</h2>
             <h1>${gift.desc}</h1>
             <h3>${gift.detailedDesc}</h3>
-            <h2>
-                <img id="barcode" src="" />
-                <p id="barcode-val"></p>
-            </h2>
         </div>
-        <div class="crt">
+        <div class="redeem-online">
+            <p id="barcode-note"></p>
+            <img id="barcode" src="" />
+            <p id="barcode-val"></p>
+            <a id="barcode-link" target="_blank" style="display:none;">Use online now</a>
+        </div>
+        <div class="crt share-offer">
             <p>Share the same offer with your friends.<br/>
             You earn for every friend that redeems.</p>
         </div>
-        <div style="text-align: center; padding-top: 20px;">
-             <input type="button" id="share-offer-btn"  class="btn grd-btn" value="I'm ready to give to others" /t>
+        <div style="text-align: center; padding-top: 20px;" class="share-offer">
+            <a id="share-offer-btn" href="/m/${gift.merchant.shortname}" target="_blank" class="btn grd-btn">I'm ready to give to others</a>
         </div>
     </div>
     </c:otherwise>
@@ -371,7 +406,7 @@
     </c:choose>
 
     <c:choose>
-    <c:when test="${gift.expired}">
+    <c:when test="${gift.expired or hostBlock}">
     setTimeout(function() {
       alert('The offer has expired');
       window.location.href = "https://kikbak.me";
@@ -381,8 +416,39 @@
 
     <c:choose>
     <c:when test="${gift.merchant.shortname == 'Verizon'}">
+    var zipcodeInput = $('#zipcode-input');
+    zipcodeInput.keyup(function() {
+      var zipcode = zipcodeInput.val().replace(/^\d$/g, "");
+      if (zipcode.length === 5) {
+        $.ajax({
+          type: 'GET',
+          contentType: 'application/json',
+          url: 'v2/share/validateZip?zipCode=' + zipcode + '&offerId=${gift.offerId}',
+          success: function(json) {
+            var valid = json.zipValidationResponse.status;
+            if (valid === 'OK') {
+              $('#zipcode-qualify-div').show();
+              $('#zipcode-nonqualify-div').hide();
+            } else {
+              $('#zipcode-qualify-div').hide();
+              $('#zipcode-nonqualify-div').show();
+            }
+          }, 
+          error: showError
+        });
+      } else {
+        $('#zipcode-qualify-div').hide();
+        $('#zipcode-nonqualify-div').hide();
+      }
+    });    
     $('#anonymous-redeem-barcode-btn').click(function() {
-      claimGift();
+      claimGift(0, false);
+    });
+    $('#anonymous-redeem-barcode-online-btn1').click(function() {
+      claimGift(0, true);
+    });
+    $('#anonymous-redeem-barcode-online-btn2').click(function() {
+      claimGift(0, true);
     });
     </c:when>
     </c:choose>
@@ -431,11 +497,6 @@
         type: 'GET',
         contentType: 'application/json',
         url: url,
-        <c:choose>
-        <c:when test="${not empty referer}">
-        headers: {'referer' : '{$referer}'},
-        </c:when>
-        </c:choose>
         success: function(json) {
           if (json && json.claimGiftResponse) {
             var resp = json.claimGiftResponse;
@@ -458,26 +519,45 @@
       });
     }
 
-    function renderBarcode(json) {
+    function renderBarcode(json, online) {
       if (json && json.barcodeResponse && json.barcodeResponse.code) {
         var imgUrl = 'unauth/rewards/generateBarcode/' + json.barcodeResponse.code + '/100/200/';
         $('#barcode').attr('src', imgUrl);
         $('#barcode-val').html(json.barcodeResponse.code);
+        if (online) {
+          $('#barcode-val').css('color', 'red');
+          $('#barcode-note').html('Your code');
+          $('#barcode').hide();
+          $('#barcode-link').attr('href', 'http://www.verizon.com');
+          $('#barcode-link').show();
+          $('.share-offer').hide();
+          $('#share-offer-btn').hide();
+          $('#success-msg h3').html('You have claimed your gift.');
+          $('#success-msg p').html('You have claimed your gift.');
+        } else {
+          $('#barcode-val').css('color', 'black');
+          $('#barcode').show();
+          $('.share-offer').show();
+          $('#share-offer-btn').show();
+          $('#success-msg h3').html('Bring this offer into ${gift.merchant.name} Store to redeem your gift.');
+          $('#success-msg p').html('Please show this screen when paying.');
+        }
         <c:choose>
         <c:when test="${not mobile}">
         $('#welcome-msg').hide();
         $('#redeem-btn-div').hide();
-        $('#barcode').show();
-        $('#header .logo').css('float', 'left');
-        $('#header .logo').css('margin-left', '50px');
+        if (!online) {
+          $('#header .logo').css('float', 'left');
+          $('#header .logo').css('margin-left', '50px');
+          $('#green-overlay').css('height', '145px');
+          $('#print-btn').show();
+        } else {
+          $('#green-overlay').css('height', '120px');
+        }
         $('#success-msg').show();
         $('#green-overlay').show();
-        $('#print-btn').show();
         </c:when>
         <c:otherwise>
-        $('#share-offer-btn').click(function(){
-          window.open('/m/${gift.merchant.shortname}', '_blank');
-        });
         $('#landing-div').hide();
         $('#redeem-gift-success').show();
         </c:otherwise>
@@ -487,7 +567,7 @@
       }
     }
    
-    function claimGift(userId) {
+    function claimGift(userId, online) {
       <c:choose>
       <c:when test="${gift.validationType == 'barcode'}">
       if (userId) {
@@ -513,7 +593,7 @@
             if (json && json.barcodeResponse && json.barcodeResponse.code) {
               $('#facebook-div').hide();
               $('#redeem-div').show();
-              renderBarcode(json);
+              renderBarcode(json, online);
             }
           },
           error: function() {
