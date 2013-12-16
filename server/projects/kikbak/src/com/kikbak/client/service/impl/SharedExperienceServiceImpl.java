@@ -16,6 +16,7 @@ import com.kikbak.client.service.v1.ReferralCodeUniqueException;
 import com.kikbak.client.service.v1.SharedExperienceService;
 import com.kikbak.dao.ReadOnlyAllocatedGiftDAO;
 import com.kikbak.dao.ReadOnlyGiftDAO;
+import com.kikbak.dao.ReadOnlyLocationDAO;
 import com.kikbak.dao.ReadOnlyOfferDAO;
 import com.kikbak.dao.ReadOnlySharedDAO;
 import com.kikbak.dao.ReadWriteSharedDAO;
@@ -55,6 +56,9 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
 
     @Autowired
     private ReadOnlyAllocatedGiftDAO roAllocatedGiftDAO;
+    
+    @Autowired
+    private ReadOnlyLocationDAO roLocationDAO;
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
@@ -71,6 +75,11 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
 
         Offer offer = roOfferDAO.findById(share.offerId);
 
+        if( share.zipCode != null && !roLocationDAO.isValidZipcode(offer.getMerchantId(), share.zipCode)){
+        	throw new IllegalArgumentException();
+        }
+        
+        
         if (OfferType.both.equals(offer.getOfferType())) {
             checkMaxRedeemCountReached(share.userId, share.offerId);
         }

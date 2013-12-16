@@ -16,6 +16,7 @@ public interface SharedExperienceService {
         public String employeeId;
         public String email;
         public String phoneNumber;
+        public String zipCode;
     }
 
     public String registerSharing(ShareInfo share) throws RateLimitException;

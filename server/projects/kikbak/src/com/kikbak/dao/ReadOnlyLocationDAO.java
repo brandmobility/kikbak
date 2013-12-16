@@ -12,4 +12,5 @@ public interface ReadOnlyLocationDAO {
 	public Collection<Location> listForMerchantInGeoFence(Long merchantId,GeoFence fence);
     public Collection<Location> listForMerchantInArea(Long merchantId, double latitude, double longitude);
     public boolean hasLocationInArea(Long merchantId, double latitude, double longitude);
+    public boolean isValidZipcode(Long merchantId, String zipcode);
 }

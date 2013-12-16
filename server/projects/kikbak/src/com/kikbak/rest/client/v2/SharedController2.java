@@ -59,6 +59,7 @@ public class SharedController2 {
             share.phoneNumber = ServletRequestUtils.getStringParameter(httpRequest, "phonenumber");
             share.caption = ServletRequestUtils.getStringParameter(httpRequest, "caption");
             share.employeeId = ServletRequestUtils.getStringParameter(httpRequest, "employeeid");
+            share.zipCode = ServletRequestUtils.getStringParameter(httpRequest, "zipCode");
 
             String code = sharedService.registerSharing(share);
 
