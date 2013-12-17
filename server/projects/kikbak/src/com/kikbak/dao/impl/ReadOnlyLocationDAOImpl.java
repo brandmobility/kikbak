@@ -79,8 +79,8 @@ public class ReadOnlyLocationDAOImpl extends ReadOnlyGenericDAOImpl<Location, Lo
     	Session session = sessionFactory.getCurrentSession();
     	@SuppressWarnings("unchecked")
     	Collection<Location> locations = session.createSQLQuery(locations_with_zip).addEntity(Location.class)
-    			.setLong("merchantId", merchantId)
-    			.setInteger("zipcode", Integer.parseInt(zipcode)).list();
+    			.setLong(0, merchantId)
+    			.setInteger(1, Integer.parseInt(zipcode)).list();
     	
     	return !locations.isEmpty();
     }

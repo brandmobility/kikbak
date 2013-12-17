@@ -158,9 +158,10 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
     public boolean validateZipCodeEligibility(long offerId, String zipCode) {
         // TODO: implement me
         // if offer is zipcode-limited and provided one is not listed then throw
-        if (false)
-            return false;
-        return true;
+    	
+    	Offer offer = roOfferDAO.findById(offerId);
+    	
+        return roLocationDAO.isValidZipcode(offer.getMerchantId(), zipCode);
     }
 
 }
