@@ -71,7 +71,7 @@ var authType = {
     login_div: '<div id="zipcode-div">' +
                  '<div id="zipcode-note"></div>' +
                  '<input id="zipcode-hidden" type="hidden" class="required">' +
-                 '<input id="zipcode-input" type="text" class="required" name="zipcode" placeholder="Zipcode">' +
+                 '<input id="zipcode-input" type="text" class="required" name="zipcode" placeholder="Your billing zip code">' +
                '</div>' +
                '<div class="zip-hidden"></div>' +
                '<div style="width:53%;float:left;margin-top:5px">' +
