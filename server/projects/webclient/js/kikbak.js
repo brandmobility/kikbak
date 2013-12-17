@@ -132,7 +132,7 @@ function preShareClick() {
       var requestUrl = config.backend + 'kikbak/v2/share/getstories?userid=' + encodeURIComponent(user.id) + '&offerid=' + encodeURIComponent(offer.id) 
         + '&platform=' + (getBrowserName() === 'Safari' ? 'ios' : 'android') + '&imageurl=' + encodeURIComponent(offer.sharedImageUrl);
       if ($('#zipcode-input').hasClass('required')) {
-        requestUrl += '&zipcode=' + $('#zipcode-input').val().replace(/^\d$/g, "");
+        requestUrl += '&zipcode=' + $('#zipcode-input').val().replace(/[^\d]/g, "");
       }
       if (user.email) {
         requestUrl += '&email=' + encodeURIComponent(user.email);
@@ -194,7 +194,7 @@ function onInput() {
     thisElement.css('border', '1px solid gray');
     var value = thisElement.val();
     if (thisElement.attr('type') === 'tel') {
-      if (value.replace(/^\d/g, "") === '') {
+      if (value.replace(/[^\d]/g, "") === '') {
         valid = false;
       }
     } else {
@@ -210,7 +210,7 @@ function onInput() {
   }
   var zipcodeInput = $('#zipcode-input');
   if (zipcodeInput.hasClass('required')) {
-    var zipcode = zipcodeInput.val().replace(/^\d$/g, "");
+    var zipcode = zipcodeInput.val().replace(/[^\d]/g, "");
     if (zipcode.length === 5) {
       if (onInput.oldVal !== zipcode) {
         onInput.oldVal = zipcode;
@@ -273,7 +273,7 @@ function validateEmail(email) {
 
 function validatePhone(phone) {
   if (!phone) return false;
-  var normalizedPhone = phone.replace(/^\d$/g, "");
+  var normalizedPhone = phone.replace(/[^\d]/g, "");
   return normalizedPhone.length >= 10;
 }
 

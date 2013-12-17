@@ -285,12 +285,9 @@
                     <button id="anonymous-redeem-barcode-online-btn1" class="btn grd-btn mini-btn">Redeem online</button>
                     <div class="page-header" style="padding-left: 10px; padding-right: 10px; margin: 10px 0 0 0; text-align: center">
                         <p style="font-size: 15px; font-family: HelveticaNeueLT Pro 45 Lt;">Or connect with Facebook to send the offer to the Kikbak app for iOS and Android. Use it to easily access your gift at the store.</p>
-                        <div style="height: 40px">
+                        <div style="height: 40px;margin-bottom:20px;">
                             <a id="loginFb" href="#"> <img src="img/facebook-button.png" width=240 /> </a>
                         </div>
-                        <p align="center" style="padding-top: 20px; font-family: HelveticaNeueLT Pro 45 Lt; font-size: 10px;">
-                            We use Facebook to make it easy for you to claim and access your gift. We will never post on Facebook without your permission.
-                        </p>
                     </div>
                 </div>
                 <div id="zipcode-npnequalify-div" style="text-align: center;display:none;">
@@ -302,14 +299,10 @@
                 <div class="page-header"
                     style="padding-left: 10px; padding-right: 10px; margin: 10px 0 0 0; text-align: center">
                     <p style="font-size: 15px; font-family: HelveticaNeueLT Pro 45 Lt;">Or connect with Facebook to send the offer to the Kikbak app for iOS and Android. Use it to easily access your gift at the store.</p>
-                    <div style="height: 40px">
+                    <div style="height: 40px;margin-bottom:20px;">
                         <a id="loginFb" href="#"> <img src="img/facebook-button.png" width=240 />
                         </a>
                     </div>
-                    <p align="center"
-                    style="padding-top: 20px; font-family: HelveticaNeueLT Pro 45 Lt; font-size: 10px;">
-                    We use Facebook to make it easy for you to claim and access your gift. We will never post on Facebook without your permission.
-                    </p>
                 </div>
                 </c:otherwise>
                 </c:choose>
