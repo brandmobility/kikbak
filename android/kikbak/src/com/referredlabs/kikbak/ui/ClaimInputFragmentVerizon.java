@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -18,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.referredlabs.kikbak.R;
@@ -26,6 +26,7 @@ import com.referredlabs.kikbak.data.AvailableCreditType;
 import com.referredlabs.kikbak.data.ClaimCreditRequest;
 import com.referredlabs.kikbak.data.ClaimCreditResponse;
 import com.referredlabs.kikbak.data.ClaimType;
+import com.referredlabs.kikbak.data.ClientOfferType;
 import com.referredlabs.kikbak.http.Http;
 import com.referredlabs.kikbak.store.DataStore;
 import com.referredlabs.kikbak.tasks.TaskEx;
@@ -135,7 +136,7 @@ public class ClaimInputFragmentVerizon extends KikbakFragment implements OnClick
   }
 
   private void showClaimSubmittedPopup() {
-    DialogFragment popup = new ClaimSubmittedPopup();
+    DialogFragment popup = ClaimSubmittedPopup.newInstance(mCredit.offerId);
     popup.show(getChildFragmentManager(), TAG_CLAIM_SUBMITTED);
   }
 
@@ -153,10 +154,22 @@ public class ClaimInputFragmentVerizon extends KikbakFragment implements OnClick
   public static class ClaimSubmittedPopup extends DialogFragment implements OnClickListener {
     ClaimInputFragment.ClaimCompletedCallback mCallback;
 
+    private static final String OFFER_ID = "offerId";
+    private long mOfferId;
+
+    public static ClaimSubmittedPopup newInstance(long offerId) {
+      ClaimSubmittedPopup popup = new ClaimSubmittedPopup();
+      Bundle args = new Bundle();
+      args.putLong(OFFER_ID, offerId);
+      popup.setArguments(args);
+      return popup;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setStyle(STYLE_NO_TITLE, 0);
+      mOfferId = getArguments().getLong(OFFER_ID);
     }
 
     @Override
@@ -168,17 +181,32 @@ public class ClaimInputFragmentVerizon extends KikbakFragment implements OnClick
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
       View root = inflater.inflate(R.layout.fragment_claim_success, container, false);
-      root.findViewById(R.id.give).setOnClickListener(this);
       root.findViewById(R.id.done).setOnClickListener(this);
+      root.findViewById(R.id.give).setOnClickListener(this);
+      if (DataStore.getInstance().getOffer(mOfferId) == null) {
+        root.findViewById(R.id.give).setVisibility(View.GONE);
+      }
       return root;
     }
 
     @Override
     public void onClick(View v) {
-      if(v.getId() == R.id.give) {
-        Toast.makeText(getActivity(), "Not implemented", Toast.LENGTH_SHORT).show();
+      if (v.getId() == R.id.give) {
+        showShareGift();
       }
+
       dismiss();
+    }
+
+    private void showShareGift() {
+      ClientOfferType offer = DataStore.getInstance().getOffer(mOfferId);
+      if (offer != null) {
+        Intent intent = new Intent(getActivity(), GiveActivity.class);
+        Gson gson = new Gson();
+        String data = gson.toJson(offer);
+        intent.putExtra(GiveActivity.ARG_OFFER, data);
+        startActivity(intent);
+      }
     }
 
     @Override

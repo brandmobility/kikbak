@@ -304,7 +304,7 @@ var authType = {
                  '<div id="zipcode-div">' +
                    '<div id="zipcode-note"></div>' +
                    '<input id="zipcode-hidden" type="hidden" class="required">' +
-                   '<input id="zipcode-input" type="number" class="required" name="zipcode" placeholder="Zipcode">' +
+                   '<input id="zipcode-input" type="number" class="required" name="zipcode" placeholder="Your billing zip code">' +
                  '</div>' +
                  '<input id="username-input" type="text" class="required" placeholder="Your name" name="username" />' + 
                  '<input id="email-input" type="email" class="required" placeholder="Your email" name="email" />' + 

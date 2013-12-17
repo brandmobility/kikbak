@@ -19,6 +19,7 @@ import com.kikbak.client.service.v1.FbLoginService;
 import com.kikbak.client.service.v1.FbUserLimitException;
 import com.kikbak.client.service.v2.UserService2;
 import com.kikbak.config.ContextUtil;
+import com.kikbak.dao.ReadOnlyAllocatedGiftDAO;
 import com.kikbak.dao.ReadOnlyDeviceTokenDAO;
 import com.kikbak.dao.ReadOnlyGiftDAO;
 import com.kikbak.dao.ReadOnlyKikbakDAO;
@@ -102,6 +103,9 @@ public class UserServiceImpl implements UserService2 {
 
     @Autowired
     private FbLoginService fbLoginService;
+    
+    @Autowired
+    private ReadOnlyAllocatedGiftDAO roAllocatedGiftDAO;
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
@@ -230,19 +234,16 @@ public class UserServiceImpl implements UserService2 {
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public Collection<ClientOfferType> getOffers2(final Long userId, String merchantName) {
-        return getOffersByMerchant(merchantName);
+        return getOffersByMerchant(userId, merchantName);
     }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public Collection<ClientOfferType> getOffers2(Long userId, UserLocationType userLocation) {
-
-        Coordinate origin = new Coordinate(userLocation.getLatitude(), userLocation.getLongitude());
-        GeoFence fence = GeoBoundaries.getGeoFence(origin, config.getDouble("geo.fence.distance"));
-        return getOffersByLocation(userLocation.getLatitude(), userLocation.getLongitude());
+        return getOffersByLocation(userId, userLocation.getLatitude(), userLocation.getLongitude());
     }
 
-    private Collection<ClientOfferType> getOffersByMerchant(String merchantName) {
+    private Collection<ClientOfferType> getOffersByMerchant(Long userId, String merchantName) {
         Merchant merchant = roMerchantDao.findByName(merchantName);
         if (merchant == null) {
             return Collections.emptyList();
@@ -250,6 +251,9 @@ public class UserServiceImpl implements UserService2 {
         Collection<Offer> offers = roOfferDao.listOffers(merchant);
         Collection<ClientOfferType> ots = new ArrayList<ClientOfferType>(offers.size());
         for (Offer offer : offers) {
+            if (!canUserShare(userId, offer))
+                continue;
+            
             Gift gift = roGiftDao.findByOfferId(offer.getId());
             Kikbak kikbak = roKikbakDao.findByOfferId(offer.getId());
             ClientOfferType ot = new ClientOfferType();
@@ -359,11 +363,14 @@ public class UserServiceImpl implements UserService2 {
     }
 
 
-    private Collection<ClientOfferType> getOffersByLocation(double latitude, double longitude) {
+    private Collection<ClientOfferType> getOffersByLocation(Long userId, double latitude, double longitude) {
         Collection<Offer> offers = roOfferDao.listValidOffersForArea(latitude, longitude);
         
         Collection<ClientOfferType> ots = new ArrayList<ClientOfferType>(offers.size());
         for (Offer offer : offers) {
+            if (!canUserShare(userId, offer))
+                continue;
+            
             Gift gift = roGiftDao.findByOfferId(offer.getId());
             Kikbak kikbak = roKikbakDao.findByOfferId(offer.getId());
             ClientOfferType ot = new ClientOfferType();
@@ -414,6 +421,17 @@ public class UserServiceImpl implements UserService2 {
         }
 
         return ots;
+    }
+    
+    private boolean canUserShare(Long userId, Offer offer) {
+        if (offer.getRedeemLimit() == 0)
+            return true;
+
+        if (userId == null || userId == 0) // TODO: is this needed ?
+            return true;
+
+        int count = roAllocatedGiftDAO.countOfRedeemedShares(userId, offer.getId());
+        return count < offer.getRedeemLimit();
     }
 
     @Override
