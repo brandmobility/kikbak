@@ -145,7 +145,7 @@ function onInput() {
     thisElement.css('border', '1px solid rgba(1,1,1,.2)');
     var value = thisElement.val();
     if (thisElement.attr('type') === 'tel') {
-      if (value.replace(/^\d/g, "") === '') {
+      if (value.replace(/[^\d]/g, "") === '') {
         valid = false;
       }
     } else {
@@ -161,11 +161,12 @@ function onInput() {
   }
   var zipcodeInput = $('#zipcode-input');
   if (zipcodeInput.hasClass('required')) {
-    var zipcode = zipcodeInput.val().replace(/^\d$/g, "");
+    var zipcode = zipcodeInput.val().replace(/[^\d]/g, "");
     if (zipcode.length === 5) {
       if (onInput.oldVal !== zipcode) {
         onInput.oldVal = zipcode;
         var offer = jQuery.parseJSON(unescape(s.offerDetail));
+ 
         $.ajax({
           type: 'GET',
           contentType: 'application/json',
@@ -254,7 +255,7 @@ function validateEmail(email) {
 
 function validatePhone(phone) {
   if (!phone) return false;
-  var normalizedPhone = phone.replace(/^\d$/g, "");
+  var normalizedPhone = phone.replace(/[^\d]/g, "");
   return normalizedPhone.length >= 10;
 }
 
@@ -526,6 +527,7 @@ function renderOfferDetail(offer, custom, holder) {
   
   if (offer.hasEmployeeProgram) {
 	$('#share-employee-div').show();
+	$('#share-location-div').show();
   }
  
   $('#tos').click(function(e) {
@@ -542,7 +544,7 @@ function getOfferStory(offer) {
   registerUser(function() {
     var requestUrl = config.backend + 'kikbak/v2/share/getstories?userid=' + encodeURIComponent(user.id) + '&offerid=' + encodeURIComponent(offer.id) + '&platform=PC&imageurl=' + encodeURIComponent(offer.giveImageUrl);
     if ($('#zipcode-input').hasClass('required')) {
-      requestUrl += '&zipcode=' + $('#zipcode-input').val().replace(/^\d$/g, "");
+      requestUrl += '&zipcode=' + $('#zipcode-input').val().replace(/[^\d]/g, "");
     }
     if (user.email) {
       requestUrl += '&email=' + encodeURIComponent(user.email);
@@ -557,6 +559,10 @@ function getOfferStory(offer) {
     var employeeId = $('#employeeId-input').val();
     if (employeeId) {
       requestUrl += '&employeeid=' + encodeURIComponent(employeeId);
+    }
+    var locationId= $('#location-input').val().replace(/[^\d]/g, "");
+    if (locationId) {
+      requestUrl += '&locationid=' + encodeURIComponent(locationId);
     }
     $.ajax({
       type: 'GET',
