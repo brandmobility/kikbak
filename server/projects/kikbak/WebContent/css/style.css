@@ -343,6 +343,7 @@ strong{
 }
 #barcode-val {
     font-size: 20px;
+    margin-bottom: 20px;
 }
 #footer-wrap{
     position:fixed;

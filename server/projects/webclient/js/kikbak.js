@@ -1491,7 +1491,9 @@ function renderOfferDetail(offer) {
   html += '<input name="x" id="photo-w" type="hidden" />';
   html += '<input name="x" id="photo-h" type="hidden" /></div>';
   html += '</div>';
+  html += '<div class="merchantname">'
   html += '<h3>' + offer.merchantName + '</h3>';
+  html += '</div>'
   html += '<div class="opt-icon">';
   var local = getDisplayLocation(offer.locations);
   if (local) {
@@ -1504,7 +1506,7 @@ function renderOfferDetail(offer) {
     html += '<a href="' + offer.merchantUrl + '"><img class="website-img" src="images/ic_web@2x.png" /></a>';
   }
   html += '</div>';
-  html += '<input name="comment" id="comment-input" placeholder="Add comment" class="addcmt" style="width:91%;"/>';
+  html += '<input name="comment" id="comment-input" placeholder="Add comment" class="addcmt" style="width:91%;height:25px"/>';
   html += '</div>';
   html += '<div class="img-botm-patrn"></div>';
   if (offer.kikbakDesc) {

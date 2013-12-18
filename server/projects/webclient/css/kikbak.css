@@ -439,6 +439,15 @@ p.msg {
     text-decoration: none;
     margin-right: 5%
 }
+
+.merchantname{
+	margin-bottom:2px;
+	z-index: 999;
+	position: absolute;
+	bottom:30%;
+	width: 100%;
+}
+
 .addcmt {
     bottom: 5%;
     left: 3%;
