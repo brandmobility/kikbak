@@ -265,7 +265,6 @@ textarea{
 }
 #main-right #header h1{
     background-repeat: no-repeat;
-    width: 260px;
     height: 105px;
     text-indent: -99999px;
     margin: 0 auto;
@@ -290,14 +289,19 @@ textarea{
     text-align:center;
     padding: 23px 0 20px;
 }
-#main-right #ribbon h2{
+
+#main-right #ribbon #ribbon-margin{
+	margin-left:40px;
+}
+
+#main-right #ribbon #ribbon-margin h2{
     font-size: 42px;
     line-height: 42px;
     height:42px;
     font-family:'HelveticaNeue Bold';
     margin-bottom:2px;
 }
-#main-right #ribbon p{
+#main-right #ribbon #ribbon-margin p{
     font-size:22px;
     line-height:27px;
     height:27px;
@@ -316,7 +320,13 @@ textarea{
     text-align:center;
     padding: 23px 0 20px;
 }
-#main-right #ribbon-bottom h2{
+
+#main-right #ribbon-bottom #ribbon-margin{
+	margin-left:40px;
+}
+
+
+#main-right #ribbon-bottom #ribbon-margin h2{
     font-size: 42px;
     line-height: 42px;
     height:42px;
@@ -324,7 +334,7 @@ textarea{
     margin-bottom:2px;
     color:#2079e8;
 }
-#main-right #ribbon-bottom p{
+#main-right #ribbon-bottom #ribbon-margin p{
     font-size:22px;
     line-height:27px;
     height:27px;

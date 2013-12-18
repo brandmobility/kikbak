@@ -240,8 +240,8 @@ strong{
 }
 #main-right #header .logo {
     float: left;
-    margin-left: 140px;
-    width: 260px;
+    margin-left: 220px;
+    width: auto;
     height: 105px;
     text-indent: -99999px;
     padding: 0px;

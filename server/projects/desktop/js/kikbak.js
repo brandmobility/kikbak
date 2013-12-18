@@ -490,9 +490,11 @@ function renderOfferDetail(offer, custom, holder) {
   $('#container').css('background-position', 'initial initial');
   $('#container').css('background-repeat', 'initial initial');
   $('#header h1').css('background-image', 'url(' + offer.merchantLogoUrl + ')');
-  $('#header h1').css('background-size', '100%');
+  $('#header h1').css('background-size', 'contain');
+  $('#header h1').css('background-position', 'center');
   $('#header h1').css('background-position', 'initial initial');
   $('#header h1').css('background-repeat', 'no-repeat');
+  $('#header h1').css('margin-left', '40px');
 
   var auth = offer.auth ? offer.auth : 'none';
   var template = authType[auth];
@@ -508,13 +510,13 @@ function renderOfferDetail(offer, custom, holder) {
   $('#show-picture').attr('src', offer.giveImageUrl);
   if (offer.kikbakDesc) {
     $('#ribbon-bottom').show();
-    $('#ribbon-bottom h2').html(offer.kikbakDesc);
-    $('#ribbon-bottom p').html(offer.kikbakDetailedDesc);
+    $('#ribbon-bottom #ribbon-margin h2').html(offer.kikbakDesc);
+    $('#ribbon-bottom #ribbon-margin p').html(offer.kikbakDetailedDesc);
   } else {
     $('#ribbon-bottom').hide();	  
   }
-  $('#ribbon h2').html(offer.giftDesc);
-  $('#ribbon p').html(offer.giftDetailedDesc);
+  $('#ribbon #ribbon-margin h2').html(offer.giftDesc);
+  $('#ribbon #ribbon-margin p').html(offer.giftDetailedDesc);
 
   for (var name in custom) {
     $('#' + name + ' p').html(custom[name]);
