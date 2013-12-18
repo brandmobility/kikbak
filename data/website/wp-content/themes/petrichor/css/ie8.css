@@ -1,0 +1,39 @@
+	#teaser-slider {
+		margin-left: 100px!important
+	}
+
+	.box-subtitle {
+		font-size: 23px
+	}
+
+	.thumbnails > li {
+		margin-bottom: 17px!important
+	}
+
+	#social-share {
+		margin-left: 300px
+	}
+
+	#teaser-slider-2 {
+		margin-left: -121px!important
+	}
+
+	#teaser-slider-3 {
+		margin-left: 70px!important
+	}
+
+	#newsletterform {
+		float: left!important;
+		margin-top: 25px!important;
+		width:100%!important
+	}
+
+	.cutoff-container {
+		bottom:-120px!important
+	}
+
+	#newsletter h3,#newsletter p  {
+		float: left!important;
+		display:block;
+		width:100%
+	}

@@ -1,0 +1,19 @@
+#content-boxes h3,.page-title,#main-navigation li a:hover,.section-odd #newsletter h3, #sidebar a {
+	color: #ff0000
+}
+
+footer a {
+	color:#ff0000!important
+}
+
+.download-btn {
+	background-color:#ff0000
+}
+
+#blockquote-rotator,#logo a,#twitter-feed, .section-even {
+	background:#ff0000
+}
+
+.thumbnail:hover {
+	border: 1px solid #ff0000!important
+}
