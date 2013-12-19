@@ -35,7 +35,6 @@ function shareOfferFromChannel(channel) {
       var str = "https://twitter.com/share?";
       var params = [ 
         {name:"url", value:landingUrl},
-        {name:"via", value:"kikbak"},
         {name:"count", value:"none"},
         {name:"text", value: body}
       ];  
@@ -151,6 +150,11 @@ function preShareClick() {
       var locationId = $('#location-sel').val();
       if (locationId && locationId !== 'false') {
     	requestUrl += "&locationid=" + encodeURIComponent(locationId);
+      } else {
+        locationId = $('#location-input').val().replace(/[^\d]/g, "");
+        if (locationId !== '') {
+          requestUrl += "&locationid=" + encodeURIComponent(locationId);
+        }
       }
       $.ajax({
         type: 'GET',
@@ -168,7 +172,7 @@ function preShareClick() {
               if (offer.auth === 'facebook') {
                 $('#post-share-detail h3').html('Give offer to friends');
               } else {
-                $('#post-share-detail h3').html('3. Share your offer');
+                $('#post-share-detail h3').html('Share your offer');
               }
               $('#share-popup').show();
               ga('send', 'event', 'button', 'show', 'give method select');
@@ -209,39 +213,46 @@ function onInput() {
     $('.share-btn').attr('disabled', 'disabled');
   }
   var zipcodeInput = $('#zipcode-input');
-  if (zipcodeInput.hasClass('required')) {
-    var zipcode = zipcodeInput.val().replace(/[^\d]/g, "");
-    if (zipcode.length === 5) {
-      if (onInput.oldVal !== zipcode) {
-        onInput.oldVal = zipcode;
-        var offer = jQuery.parseJSON(unescape(s.offerDetail));
-        $.ajax({
-          type: 'GET',
-          contentType: 'application/json',
-          url: 'kikbak/v2/share/validateZip?zipCode=' + zipcode + '&offerId=' + offer.id,
-          success: function(json) {
-            var valid = json.zipValidationResponse.status;
-            if (valid === 'OK') {
-              $('#zipcode-note').html('');
-              $('#zipcode-hidden').removeClass('required');
-              $('#share-btn-fb').removeAttr('disabled');
-            } else {
-              var html = '<h3>Unfortunately Verizon subscribers in this billing zip code are not eligible tp participate in this program.</h3>';
-              $('#zipcode-hidden').addClass('required');
-              $('#share-btn-fb').attr('disabled', 'disabled');
-              $('#zipcode-note').html(html);
-            }
-          },
-          error: showError
-        });
-      }
-    } else {
-      onInput.oldVal = zipcode;
-      $('#zipcode-hidden').addClass('required');
-      $('#share-btn-fb').attr('disabled', 'disabled');
-      $('#zipcode-note').html('');
-    }
+  if (zipcodeInput !== '') {
+    $('#zipcode-btn').removeAttr('disabled');
+  } else {
+    $('#zipcode-btn').addAttr('disabled', 'disabled');
   }
+}
+
+function validateZipcode() {
+  var zipcodeInput = $('#zipcode-input');
+  var zipcode = zipcodeInput.val().replace(/[^\d]/g, "");
+  if (zipcode.length === 5) {
+    var offer = jQuery.parseJSON(unescape(s.offerDetail));
+    $.ajax({
+      type: 'GET',
+      contentType: 'application/json',
+      url: 'kikbak/v2/share/validateZip?zipCode=' + zipcode + '&offerId=' + offer.id,
+      success: function(json) {
+        var valid = json.zipValidationResponse.status;
+        if (valid === 'OK') {
+          $('#zipcode-div').hide();
+          $('#register-div').show();
+        } else {
+          handleInvalidZipcode();
+        }
+      },
+      error: showError
+    });
+  } else {
+    handleInvalidZipcode;
+  }
+}
+
+function handleInvalidZipcode() {
+  $('#zipcode-div').hide();
+  $('#zipcode-invalid-div').show();
+  $('#invalid-zipcode-btn').click(function() {
+    $('.popup').hide();
+    $('#zipcode-div').show();
+    $('#zipcode-invalid-div').hide();
+  });
 }
 
 function completeUserInfo() {
@@ -282,7 +293,6 @@ var authType = {
     login_div: '<div id="login-div">' +
                  '<h3>Create your offer</h3>' +
     	         '<div id="location-sel-div"><select id="location-sel" class="location-sel"></select></div>' +
-		         '<div class="note"><p>Optional: Let friends know who helped you</p></div>' +
     		     '<input id="employeeId-input" class="location-sel" type="text" name="employeeId" placeholder="Employee name [optional]" />' +
                  '<input id="share-btn-fb" name="share" type="button" class="fb-share" value="       Connect with Facebook" />' +
                  '<p>We use Facebook to personalize your offers and notify you via email when friends redeem them. <b>We will never post without your permission.</b></p>' +
@@ -300,25 +310,32 @@ var authType = {
   },
   phone: {
     login_div: '<div id="login-div">' +
-                 '<h3>1. Register</h3>' +
                  '<div id="zipcode-div">' +
-                   '<div id="zipcode-note"></div>' +
-                   '<input id="zipcode-hidden" type="hidden" class="required">' +
-                   '<input id="zipcode-input" type="number" class="required" name="zipcode" placeholder="Your billing zip code">' +
-                 '</div>' +
+                 '<h3>Confirm Eligibility</h3>' +
+                 '<div style="margin-bottom: 40px;" id="zipcode-note">To participate in this program you must be a current Verizon customer with your billing address in one of the following states: TBD. If your billing address is not in a qualifying state you may share this offer with friends but you will not be eligible to earn rewards.</div>' +
+                 '<input id="zipcode-input" type="number" class="required" name="zipcode" placeholder="Your billing zip code">' +
+                 '<button id="zipcode-btn" class="btn grd-btn" disabled="disabled" >Submit</button>' +
+               '</div>' +
+               '<div id="zipcode-invalid-div" style="display:none">' +
+                 '<span style="font-size: 16px;color:red; margin:50px 0 50px;">Unfortunately Verizon subscribers in this billing zip code are not eligible to participate in this program.</span>' +
+                 '<button id="invalid-zipcode-btn" class="btn grd-btn" >Done</button>' +
+               '</div>' +
+               '<div id="register-div" style="display:none">' +
+                 '<h3>Register</h3>' +
                  '<input id="username-input" type="text" class="required" placeholder="Your name" name="username" />' + 
                  '<input id="email-input" type="email" class="required" placeholder="Your email" name="email" />' + 
                  '<button id="login-email" class="share-btn btn grd-btn" disabled="disabled" >Submit</button>' +
                  '<hr>' +
-                 '<span> OR </span><input id="share-btn-fb" name="share" type="button" disabled="disabled" class="fb-share" style="width:88%;margin:0;height:30px;" value="       Connect with Facebook" />' +
+                 '<span> OR </span><input id="share-btn-fb" name="share" type="button" class="fb-share" style="width:88%;margin:0;height:35px;" value="       Connect with Facebook" />' +
                  '<p>We use Facebook to personalize your offers and notify you via email when friends redeem them. <b>We will never post without your permission.</b></p>' +
                '</div>' +
+               '</div>' +
                '<div id="create-share-div" style="display:none">' +
-               '<h3>2. Create your offer</h3>' +
+               '<h3>Create your offer</h3>' +
                '<input type="tel" id="phone-input" placeholder="Your Verizon phone number" />' +
-	           '<div id="location-sel-div"><select id="location-sel" class="location-sel"></select></div>' +
-		       '<div class="note"><p>Optional: Let friends know who helped you</p></div>' +
-		       '<input id="employeeId-input" class="location-sel" type="text" name="employeeId" placeholder="Employee ID [optional]" />' +
+	           '<div id="location-sel-div" style="display:none;"><select id="location-sel" class="location-sel"></select></div>' +
+	           '<div id="location-input-div" style="display:none;"><input type="number" id="location-input" class="location-sel" placeholder="Store ID" /></div>' +
+		       '<input id="employeeId-input" class="location-sel" type="text" name="employeeId" placeholder="Name of employee that helped you [optional]" />' +
                '<button id="create-share-btn" class="share-btn btn grd-btn" disabled="disabled" >Create offer to share</button>' +
              '</div>',
     handler_register: function() {
@@ -346,18 +363,17 @@ var authType = {
   },
   none: {
     login_div: '<div id="login-div">' +
-                 '<h3>1. Register</h3>' +
+                 '<h3>Register</h3>' +
                  '<input id="username-input" type="text" class="required" placeholder="Your name" name="username" />' + 
                  '<input id="email-input" type="email" class="required" placeholder="Your email" name="email" />' + 
                  '<button id="login-email" class="share-btn btn grd-btn" disabled="disabled" >Submit</button>' +
                  '<hr>' +
-                 '<span> OR </span><input id="share-btn-fb" name="share" type="button" class="fb-share" style="width:88%;margin:0;height:30px;" value="       Connect with Facebook" />' +
+                 '<span> OR </span><input id="share-btn-fb" name="share" type="button" class="fb-share" style="width:88%;margin:0;height:35px;" value="       Connect with Facebook" />' +
                  '<p>We use Facebook to personalize your offers and notify you via email when friends redeem them. <b>We will never post without your permission.</b></p>' +
                '</div>' + 
                '<div id="create-share-div" style="display:none">' +
-                 '<h3>2. Create your offer</h3>' +
+                 '<h3>Create your offer</h3>' +
 	             '<div id="location-sel-div"><select id="location-sel" class="location-sel"></select></div>' +
-		         '<div class="note"><p>Optional: Let friends know who helped you</p></div>' +
 		         '<input id="employeeId-input" class="location-sel" type="text" name="employeeId" placeholder="Employee name [optional]" />' +
                  '<button id="create-share-btn" class="share-btn btn grd-btn" disabled="disabled" >Create offer to share</button>' +
                '</div>',
@@ -409,7 +425,9 @@ if (!window.mobilecheck()) {
 
 var config = {
   backend: '',
-  appId: 493383324061333
+  appId: 493383324061333,
+  selectDist: 0.5,
+  nearDist: 20
 }
 
 var s = (Storage) ? localStorage : {};
@@ -905,7 +923,7 @@ function renderOfferList(json, tagname, tag, force) {
       if (offer.locations.length) {
       var local = getDisplayLocation(offer.locations);
         offer.dist = local.dist;
-        if (local.dist < 0.5) {
+        if (local.dist < config.selectDist) {
           ++availCount;
           availOffer = offer;
         }
@@ -968,6 +986,7 @@ function getOffersByMerchantWithLocation(merchant) {
     contentType: 'application/json',
     url: config.backend + 'kikbak/v2/user/offer/0/' + merchant,
     success: function(json) {
+      $('#spinner h2').html('Waiting');
       renderOfferList(json, 'merchant-offer-detail', '#merchant-' + merchant + '-offer');
     },
     error: showError
@@ -985,7 +1004,6 @@ function getOffersByLocation(userId, position, force) {
   var req = {};
   req['GetUserOffersRequest'] = data;      
   var str = JSON.stringify(req);
-  $('#spinner h2').html('Loading offer');
   $.ajax({
     dataType: 'json',
     type: 'POST',
@@ -993,7 +1011,7 @@ function getOffersByLocation(userId, position, force) {
     data: str,
     url: config.backend + 'kikbak/v2/user/offer/' + userId,
     success: function(json) {
-      $('#spinner h2').html('Loading offer');
+      $('#spinner h2').html('Waiting');
       renderOfferList(json, 'offer-detail', '#offer-detail', force);
     },
     error: showError
@@ -1397,6 +1415,8 @@ function getOfferDetail() {
                       jcrop_api.destroy();
                       $('#crop-image-div').hide();
                       $('#offer-details-view').show();
+                      $('.imgshado').css('height', '50%');
+                      $('.imgshado').css('top', '50%');
                     };
     
                     $('#crop-image').unbind('click');
@@ -1468,6 +1488,7 @@ function renderOfferDetail(offer) {
     shareOfferFromChannel($(this).attr('data-channel'));
     e.preventDefault();
   });
+  $('#zipcode-btn').click(validateZipcode);
   $('#pre-share-popup input').keyup(onInput);
   if (getBrowserName() === 'Safari') {
     $('#share-sms-div').hide();
@@ -1572,23 +1593,34 @@ function initLocationAndRenderSharePopup(offer) {
 function renderSharePopup(offer) {
   var locations = offer.locations.sort(function(a, b) {return a.dist && b.dist ? a.dist - b.dist : -1});
   var options = '';
+  var near = false;
   $.each(offer.locations, function(i, l) {
     var selected = '';
     if (i === 0) {
-      if ((l.dist && l.dist < 0.5) || offer.locations.length === 1) {
+      if ((l.dist && l.dist < config.selectDist) || offer.locations.length === 1) {
         selected = ' selected';
       } else {
-    	options += '<option value="false">Pick location</options>'  
+    	options += '<option value="false">Suggest a nearby store</options>'  
       }
     }
-    var addr2 = l.address2 ? ' ' + l.address2 : '';
-    options += '<option value="' + l.locationId + '" ' + selected + '>' + l.address1 + addr2 + ', ' + l.city + '</option>';
+    if (l.dist < config.nearDist) {
+      near = true;
+      var addr2 = l.address2 ? ' ' + l.address2 : '';
+      options += '<option value="' + l.locationId + '" ' + selected + '>' + l.address1 + addr2 + ', ' + l.city + '</option>';
+    }
   });
   $('#location-sel').html(options);
   if (offer.locations.length === 1) {
 	$('#share-locaition-div').hide('');
   } else {
 	$('#share-locaition-div').show('');
+  }
+  if (near) {
+    $('#location-sel-div').show();
+    $('#location-input-div').hide();
+  } else {
+    $('#location-sel-div').hide();
+    $('#location-input-div').show();
   }
   
   if (offer.hasEmployeeProgram) {
@@ -1764,7 +1796,7 @@ function renderRedeemGiftDetail(data) {
   } else {
     html += '<a href="' + gift.merchant.url + '"><img class="website-img" src="images/ic_web@2x.png" /></a>';
   }
-  if (local && dist < 0.5) {
+  if (local && dist < config.selectDist) {
     doRedeemGift(gift);
     return;
   }
@@ -1793,7 +1825,7 @@ function renderRedeemGiftDetail(data) {
   
   $('#redeem-gift-instore-btn').click(function(e) {
     e.preventDefault();
-    if (dist > 0.5) {
+    if (dist > config.selectDist) {
       alert("Oops! You have to be in the store to redeem.\n\nLooks like you might not be there yet. Try again?");
     } else {
       doRedeemGift(gift);

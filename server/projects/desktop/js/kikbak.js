@@ -179,7 +179,7 @@ function onInput() {
               $('#loginFb').removeAttr('disabled');
               $('.divider').css('top', '48px');
             } else {
-              var html = '<h3>Unfortunately Verizon subscribers in this billing zip code are not eligible to participate in this program.</h3>';
+              var html = '<h3>Unfortunately Verizon subscribers with this billing zip code are not eligible to participate in this program.</h3>';
               $('.divider').css('top', '88px');
               $('#zipcode-note').html(html);
               $('#zipcode-hidden').addClass('required');
@@ -191,6 +191,7 @@ function onInput() {
       }
     } else {
       onInput.oldVal = zipcode;
+      $('#loginFb').attr('disabled', 'disabled');
       $('.divider').css('top', '48px');
       $('#zipcode-hidden').addClass('required');
       $('#loginFb').attr('disabled', 'disabled');
@@ -414,7 +415,6 @@ function shareOfferFromChannel(channel) {
       var str = "https://twitter.com/share?";
       var params = [ 
         {name:"url", value:landingUrl},
-        {name:"via", value:"kikbak"},
         {name:"count", value:"none"},                                                                                            
         {name:"text", value: body}                                                            
       ];  

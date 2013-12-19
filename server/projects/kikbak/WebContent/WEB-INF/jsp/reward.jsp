@@ -145,7 +145,8 @@
             <form id="claim-credit-form">
                 <h1 class="pg-hedng">${credit.merchant.name}</h1>
                 <div class="hedng hedbk">
-                    <h1>$${credit.value}</h1>
+                    <fmt:formatNumber var="creditValue" value="${credit.value}"  maxFractionDigits="0" />
+                    <h1>$${creditValue}</h1>
                     <h3 style="color: #0f4689;">Gift Card</h3>
                 </div>
                 <div class="clearfix"></div>
@@ -154,7 +155,7 @@
                     <input type="hidden" name="creditId" value="${credit.id}" class="bsnm" />
                     <c:choose>
                     <c:when test="${gift.merchant.shortname == 'Verizon'}">
-                    <input type="tel" name="phoneNumber" placeholder="Phone number" class="bsnm" />
+                    <input type="tel" name="phoneNumber" placeholder="Your Verizon phone number" class="bsnm" />
                     </c:when>
                     <c:otherwise>
                     <input type="text" name="name" placeholder="First Last Name" class="bsnm" />
@@ -173,7 +174,7 @@
                 <div id="redeem-success" style="display:none;">
                     <h1>Success!</h1>
                     <p>Your reward claim has been submitted.</p>
-                    <a id="share-offer-btn" href="/m/${credit.merchant.shortname}" target="_blank" class="btn grd-btn">I'm ready to give to others</a>
+                    <a id="share-offer-btn" href="/m/${credit.merchant.shortname}" target="_blank" class="btn grd-btn">Share offer with more friends</a>
                 </div>
             </form>
         </div>
