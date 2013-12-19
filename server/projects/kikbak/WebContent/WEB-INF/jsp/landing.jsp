@@ -188,8 +188,7 @@
                 <p style="margin-top: 10px; margin-left: 10px;">
                     <c:choose>
                     <c:when test="${not empty shareInfo.employeeId}">
-                        ${shareInfo.friendName} was helped by <strong>${shareInfo.employeeId}</strong> at <strong>${gift.merchant.name}</strong>: <strong>${location.address1}, ${location.city}, ${location.state}</strong><br />
-                        If you visit the same store, ${shareInfo.employeeId} can help you too.
+                        ${shareInfo.friendName} was helped by <strong>${shareInfo.employeeId}</strong> at <strong>${gift.merchant.name}</strong>: <strong>${location.address1}, ${location.city}, ${location.state}</strong>. If you visit the same store, ${shareInfo.employeeId} can help you too.
                     </c:when>
                     <c:otherwise>
                         ${shareInfo.friendName} was at <strong>${gift.merchant.name}</strong>: <strong>${location.address1}, ${location.city}, ${location.state}</strong>
@@ -285,9 +284,9 @@
                         </div>
                     </div>
                 </div>
-                <div id="zipcode-npnequalify-div" style="text-align: center;display:none;">
+                <div id="zipcode-nonqualify-div" style="text-align: center;display:none;">
                      <p style="font-size: 15px; font-family: HelveticaNeueLT Pro 45 Lt;" >Sorry, this offer is not eligible for stores in your area. However, you can still redeem this offer online.</p>
-                     <button id="anonymous-redeem-barcode-online-btn2" class="btn grd-btn">Redeem online now</button>
+                     <button id="anonymous-redeem-barcode-online-btn2" style="margin-bottom:20px;" class="btn grd-btn">Redeem online now</button>
                 </div>
                 </c:when>
                 <c:otherwise>
@@ -514,6 +513,7 @@
         $('#barcode-val').html(json.barcodeResponse.code);
         if (online) {
           $('#barcode-val').css('color', 'red');
+          $('#barcode-val').css('font-size', '32px');
           $('#barcode-note').html('Your coupon code');
           $('#barcode').hide();
           $('#barcode-link').attr('href', 'http://www.verizon.com');
@@ -524,6 +524,7 @@
           $('#success-msg p').html('You have claimed your gift.');
         } else {
           $('#barcode-val').css('color', 'black');
+          $('#barcode-val').css('font-size', '16px');
           $('#barcode').show();
           $('.share-offer').show();
           $('#share-offer-btn').show();
@@ -535,17 +536,20 @@
         $('#welcome-msg').hide();
         $('#redeem-btn-div').hide();
         if (!online) {
+          $('#barcode-val').css('font-size', '24px');
           $('#header .logo').css('float', 'left');
           $('#header .logo').css('margin-left', '50px');
           $('#green-overlay').css('height', '145px');
           $('#print-btn').show();
         } else {
+          $('#barcode-val').css('font-size', '35px');
           $('#green-overlay').css('height', '120px');
         }
         $('#success-msg').show();
         $('#green-overlay').show();
         </c:when>
         <c:otherwise>
+        $('body').css('background-image','none');
         $('#landing-div').hide();
         $('#redeem-gift-success').show();
         </c:otherwise>
