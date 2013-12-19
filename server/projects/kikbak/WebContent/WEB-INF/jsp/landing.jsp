@@ -191,7 +191,7 @@
                         ${shareInfo.friendName} was helped by <strong>${shareInfo.employeeId}</strong> at <strong>${gift.merchant.name}</strong>: <strong>${location.address1}, ${location.city}, ${location.state}</strong>. If you visit the same store, ${shareInfo.employeeId} can help you too.
                     </c:when>
                     <c:otherwise>
-                        ${shareInfo.friendName} was at <strong>${gift.merchant.name}</strong>: <strong>${location.address1}, ${location.city}, ${location.state}</strong>
+                        ${shareInfo.friendName} was at <strong>${gift.merchant.name}</strong>: <strong>${location.address1}, ${location.city}, ${location.state}</strong>.
                     </c:otherwise>
                     </c:choose>
                 </p>
