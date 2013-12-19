@@ -317,7 +317,7 @@ var authType = {
                  '<button id="zipcode-btn" class="btn grd-btn" disabled="disabled" >Submit</button>' +
                '</div>' +
                '<div id="zipcode-invalid-div" style="display:none">' +
-                 '<span style="font-size: 16px;color:red; margin:50px 0 50px;">Unfortunately Verizon subscribers in this billing zip code are not eligible tp participate in this program.</span>' +
+                 '<span style="font-size: 16px;color:red; margin:50px 0 50px;">Unfortunately Verizon subscribers in this billing zip code are not eligible to participate in this program.</span>' +
                  '<button id="invalid-zipcode-btn" class="btn grd-btn" >Done</button>' +
                '</div>' +
                '<div id="register-div" style="display:none">' +
