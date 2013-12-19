@@ -145,7 +145,8 @@
             <form id="claim-credit-form">
                 <h1 class="pg-hedng">${credit.merchant.name}</h1>
                 <div class="hedng hedbk">
-                    <h1>$${credit.value}</h1>
+                    <fmt:formatNumber var="creditValue" value="${credit.value}"  maxFractionDigits="0" />
+                    <h1>$${creditValue}</h1>
                     <h3 style="color: #0f4689;">Gift Card</h3>
                 </div>
                 <div class="clearfix"></div>
