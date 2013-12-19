@@ -166,7 +166,7 @@
                         <p id="barcode-note"></p>
                         <img id="barcode" src="" style="display: none;" />
                         <p id="barcode-val"></p>
-                        <a id="barcode-link" target="_blank" class="btn grd-btn" style="display:none;">Use online now</a>
+                        <a id="barcode-link" target="_blank" class="btn grd-btn" style="display:none;padding-top:3%;">Use online now</a>
                     </div>
                     </c:otherwise>
                     </c:choose>

@@ -79,7 +79,7 @@ var authType = {
                  '<input id="email-input" type="email" class="required" name="email" placeholder="Your email">' +
                '</div><div class="divider" style="top:48px;"></div><div style="width:45%;float:left;margin-top:10px;">' +
                  '<p>OR</p>' +
-                 '<input type="button" id="loginFbZip" disabled="disabled">' + 
+                 '<input type="button" id="loginFb" disabled="disabled">' + 
                '</div>' +
                '<div class="clearfix"></div>' +
                '<p class="note">We use Facebook to personalize your offers and notify you via email when friends redeem them. We will never post without your permission.</p>',
@@ -92,7 +92,7 @@ var authType = {
                  '<input id="email-input" class="required" type="email" name="email" placeholder="Your email">' +
                '</div><div class="divider"></div><div style="width:45%;float:left;margin-top:10px;">' +
                  '<p>OR</p>' +
-                 '<a id="loginFb" href="#">' + 
+                 '<a id="loginFb" href="#" style="background-image:none;">' + 
                    '<img src="images/fb-btn-new.png" width="240" height="50">' +
                  '</a>' +
                '</div>' +
@@ -176,10 +176,10 @@ function onInput() {
             if (valid === 'OK') {
               $('#zipcode-note').html('');
               $('#zipcode-hidden').removeClass('required');
-              $('#loginFbZip').removeAttr('disabled');
+              $('#loginFb').removeAttr('disabled');
               $('.divider').css('top', '48px');
             } else {
-              var html = '<h3>Unfortunately Verizon subscribers in this billing zip code are not eligible tp participate in this program.</h3>';
+              var html = '<h3>Unfortunately Verizon subscribers in this billing zip code are not eligible to participate in this program.</h3>';
               $('.divider').css('top', '88px');
               $('#zipcode-note').html(html);
               $('#zipcode-hidden').addClass('required');
