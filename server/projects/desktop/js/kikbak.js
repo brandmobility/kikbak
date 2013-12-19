@@ -179,7 +179,7 @@ function onInput() {
               $('#loginFbZip').removeAttr('disabled');
               $('.divider').css('top', '48px');
             } else {
-              var html = '<h3>Unfortunately Verizon subscribers in this billing zip code are not eligible tp participate in this program.</h3>';
+              var html = '<h3>Unfortunately Verizon subscribers with this billing zip code are not eligible tp participate in this program.</h3>';
               $('.divider').css('top', '88px');
               $('#zipcode-note').html(html);
               $('#zipcode-hidden').addClass('required');
@@ -191,6 +191,7 @@ function onInput() {
       }
     } else {
       onInput.oldVal = zipcode;
+      $('#loginFb').attr('disabled', 'disabled');
       $('.divider').css('top', '48px');
       $('#zipcode-hidden').addClass('required');
       $('#loginFb').attr('disabled', 'disabled');
