@@ -285,7 +285,7 @@
                     </div>
                 </div>
                 <div id="zipcode-nonqualify-div" style="text-align: center;display:none;">
-                     <p style="font-size: 15px; font-family: HelveticaNeueLT Pro 45 Lt;" >Sorry, this offer is not eligible for stores in your area. However, you can still redeem this offer online.</p>
+                     <p style="font-size: 15px; font-family: HelveticaNeueLT Pro 45 Lt;" >Sorry, this offer is not eligible for stores in your area, but you can still use it online.</p>
                      <button id="anonymous-redeem-barcode-online-btn2" style="margin-bottom:20px;" class="btn grd-btn">Redeem online now</button>
                 </div>
                 </c:when>
