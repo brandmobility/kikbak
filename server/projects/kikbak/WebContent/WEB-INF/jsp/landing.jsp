@@ -113,7 +113,6 @@
                     <div id="ribbon">
                     	<h2>${gift.desc}</h2>
                         <p>${gift.detailedDesc}</p>
-                        <small>offer valid in-store only</small>
                     </div>
                     <div id="facebook-div">
                         <c:choose>
@@ -133,7 +132,7 @@
                             <a id="loginFb" href="#"> <img src="img/fb-btn-new.png" width="258" height="55" style="margin: 0 auto;" /></a>
                         </div>
                         <div id="zipcode-nonqualify-div" style="display:none;">
-                            <p class="redeem-note" style="margin-top:5px;" >Sorry, this offer is not eligible for stores in your area. However, you can still redeem this offer online.</p>
+                            <p class="redeem-note" style="margin-top:5px;" >This offer is not eligible for stores in your area, but you can still  use it  online.</p>
                             <button id="anonymous-redeem-barcode-online-btn2" class="btn grd-btn">Redeem online now</button>
                         </div>
                         </c:otherwise>
@@ -167,10 +166,7 @@
                         <p id="barcode-note"></p>
                         <img id="barcode" src="" style="display: none;" />
                         <p id="barcode-val"></p>
-                        <a id="barcode-link" target="_blank" style="display:none;">Use online now</a>
-                        <div id="share-link-div">
-                            <a id="share-offer-btn" href="/d/${gift.merchant.shortname}" target="_blank" class="btn grd-btn share-offer" style="display:none;" >I'm ready to give to others</a>
-                        </div>
+                        <a id="barcode-link" target="_blank" class="btn grd-btn" style="display:none;">Use online now</a>
                     </div>
                     </c:otherwise>
                     </c:choose>
@@ -268,7 +264,6 @@
                         style="background-color: #767676; padding-top: 20px; padding-bottom: 4px;">
                         <h3 style="font-size: 38px; font-family: HelveticaNeue Bold; line-height: 18px;">${gift.desc}</h3>
                         <p style="font-family: HelveticaNeueLT Pro 55 Roman; font-size: 18px; margin: 0;">${gift.detailedDesc}</p>
-                        <small style="font-family: HelveticaNeueLT Pro 45 Lt; font-size: 12px;">offer valid in-store only</small>
                     </div>
                 </div>
                 <div class="col-md-1"></div>
@@ -368,7 +363,7 @@
             <p id="barcode-note"></p>
             <img id="barcode" src="" />
             <p id="barcode-val"></p>
-            <a id="barcode-link" target="_blank" style="display:none;">Use online now</a>
+            <a id="barcode-link" target="_blank" style="display:none;" class="btn grd-btn">Use online now</a>
         </div>
         <div class="crt share-offer">
             <p>Share the same offer with your friends.<br/>
@@ -519,7 +514,7 @@
         $('#barcode-val').html(json.barcodeResponse.code);
         if (online) {
           $('#barcode-val').css('color', 'red');
-          $('#barcode-note').html('Your code');
+          $('#barcode-note').html('Your coupon code');
           $('#barcode').hide();
           $('#barcode-link').attr('href', 'http://www.verizon.com');
           $('#barcode-link').show();

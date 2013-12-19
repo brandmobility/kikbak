@@ -344,6 +344,7 @@ strong{
 #barcode-val {
     font-size: 20px;
     margin-bottom: 20px;
+    margin-left: 6px;
 }
 #footer-wrap{
     position:fixed;
