@@ -604,7 +604,7 @@ input[type="button"]:disabled {
 #btn-container #email-input {
     width: 230px;
 }
-#btn-container #loginFb {
+#btn-container #loginFbZip {
     width: 240px;
     height: 50px;
     background-image: url(../images/fb-btn-new.png);
@@ -612,6 +612,16 @@ input[type="button"]:disabled {
     cursor: pointer;
     border: 0;
 }
+
+#btn-container #loginFb {
+    width: 240px;
+    height: 50px;
+    background-size: 100%;
+    cursor: pointer;
+    border: 0;
+}
+
+
 #zipcode-note {
     text-align:center;
     color:red;

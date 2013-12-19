@@ -127,7 +127,7 @@
                         <h3>Success!</h3>
                         <p>Your reward claim has been submitted.</p>
                         <div id="share-link-div">
-                            <a id="share-offer-btn" href="/d/${credit.merchant.shortname}" target="_blank" class="btn grd-btn">I'm ready to give to others</a>
+                            <a id="share-offer-btn" href="/d/${credit.merchant.shortname}" target="_blank" class="btn grd-btn">Share offer with more friends</a>
                         </div>
                     </div>
                 </div>

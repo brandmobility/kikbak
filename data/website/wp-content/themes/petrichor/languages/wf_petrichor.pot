@@ -1,0 +1,238 @@
+# Copyright (C) 2012 Web factory Ltd
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Text in function
+#: single.php:19
+msgid " | Category: "
+msgstr ""
+
+#. Text in function
+#: single.php:19
+msgid " | Tagged as: "
+msgstr ""
+
+#. Text in function
+#: search.php:31
+#: index.php:30
+msgid "&laquo; Older Entries"
+msgstr ""
+
+#. Text in function
+#: 404.php:29
+msgid "<p>Looks like the page you\\'re looking for isn\\'t here any more. Sorry.</p>"
+msgstr ""
+
+#. Text in function
+#: header.php:176
+msgid "Archive"
+msgstr ""
+
+#. Text in function
+#: header.php:176
+msgid "Archive for "
+msgstr ""
+
+#. Text in function
+#: header.php:176
+msgid "Author Archive"
+msgstr ""
+
+#. Text in function
+#: header.php:176
+msgid "Blog Archives"
+msgstr ""
+
+#. Text in echo
+#: loop-main.php:10
+msgid "Category:"
+msgstr ""
+
+#. Text in function
+#: comments.php:48
+#: comments.php:35
+msgid "Comments are closed."
+msgstr ""
+
+#. Text in function
+#: admin/widgets.php:164
+msgid "Header Menu Circle"
+msgstr ""
+
+#. Text in echo
+#: index.php:26
+msgid "Looks like the page you\\'re looking for isn\\'t here any more. Sorry!"
+msgstr ""
+
+#. Text in function
+#: search.php:32
+#: index.php:31
+msgid "Newer Entries &raquo;"
+msgstr ""
+
+#. Text in function
+#: single.php:19
+msgid "No tags"
+msgstr ""
+
+#. Text in echo
+#: index.php:25
+msgid "Page Not Found"
+msgstr ""
+
+#. Text in function
+#: header.php:176
+msgid "Page not found (error 404)"
+msgstr ""
+
+#. Text in function
+#: comments.php:48
+msgid "Please do not load this page directly. Thank you!"
+msgstr ""
+
+#. Text in function
+#: header.php:176
+msgid "Posts Tagged &#8216;"
+msgstr ""
+
+#. Text in echo
+#: loop-main.php:21
+msgid "Read more"
+msgstr ""
+
+#. Text in function
+#: header.php:176
+msgid "Search results for: "
+msgstr ""
+
+#. Text in function
+#: search.php:44
+msgid "Sorry, but nothing matched your search criteria. Please try again with some different keywords."
+msgstr ""
+
+#. Text in echo
+#: loop-main.php:11
+msgid "Tagged as:"
+msgstr ""
+
+#. Text in function
+#: admin/widgets.php:164
+msgid "Text With Icon"
+msgstr ""
+
+#. Text in echo
+#: comments.php:11
+msgid "This post is password protected. Enter the password to view comments."
+msgstr ""
+
+#. Text in echo
+#: admin/widgets.php:160
+msgid "Title:"
+msgstr ""
+
+#. Text in echo
+#: comments.php:47
+msgid "You must be"
+msgstr ""
+
+#. Text in echo
+#: comments.php:47
+msgid "logged in"
+msgstr ""
+
+#. Text in echo
+#: comments.php:47
+msgid "to post a comment."
+msgstr ""
+
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Text in function
+#: admin/wordpress-importer/wordpress-importer.php:288
+msgid "All done."
+msgstr ""
+
+#. Text in echo
+#: admin/wordpress-importer/wordpress-importer.php:266
+msgid "Assign Authors"
+msgstr ""
+
+#. Text in function
+#: admin/wordpress-importer/parsers.php:1
+msgid "Details are shown above. The importer will now try again with a different parser..."
+msgstr ""
+
+#. Text in echo
+#: admin/wordpress-importer/wordpress-importer.php:282
+msgid "Download and import file attachments"
+msgstr ""
+
+#. Text in function
+#: admin/wordpress-importer/wordpress-importer.php:288
+msgid "Failed to import author %s. Their posts will be attributed to the current user."
+msgstr ""
+
+#. Text in function
+#: admin/wordpress-importer/wordpress-importer.php:288
+msgid "Have fun!"
+msgstr ""
+
+#. Text in function
+#: admin/wordpress-importer/wordpress-importer.php:269
+msgid "If a new user is created by WordPress, a new password will be randomly generated and the new user&#8217;s role will be set as %s. Manually changing the new user&#8217;s details will be necessary."
+msgstr ""
+
+#. Text in echo
+#: admin/wordpress-importer/wordpress-importer.php:279
+msgid "Import Attachments"
+msgstr ""
+
+#. Text in function
+#: admin/wordpress-importer/wordpress-importer.php:288
+msgid "Remember to update the passwords and roles of imported users."
+msgstr ""
+
+#. Text in function
+#: admin/wordpress-importer/wordpress-importer.php:288
+msgid "Sorry, there has been an error."
+msgstr ""
+
+#. Text in echo
+#: admin/wordpress-importer/wordpress-importer.php:286
+msgid "Submit"
+msgstr ""
+
+#. Text in function
+#: admin/wordpress-importer/wordpress-importer.php:288
+msgid "The export file could not be found at <code>%s</code>. It is likely that this was caused by a permissions problem."
+msgstr ""
+
+#. Text in function
+#: admin/wordpress-importer/wordpress-importer.php:288
+msgid "The file does not exist, please try again."
+msgstr ""
+
+#. Text in function
+#: admin/wordpress-importer/parsers.php:1
+msgid "There was an error when reading this WXR file"
+msgstr ""
+
+#. Text in function
+#: admin/wordpress-importer/wordpress-importer.php:288
+msgid "This WXR file (version %s) may not be supported by this version of the importer. Please consider updating."
+msgstr ""
+
+#. Text in function
+#: admin/wordpress-importer/parsers.php:1
+msgid "This does not appear to be a WXR file, missing/invalid WXR version number"
+msgstr ""
+
+#. Text in echo
+#: admin/wordpress-importer/wordpress-importer.php:267
+msgid "To make it easier for you to edit and save the imported content, you may want to reassign the author of the imported item to an existing user of this site. For example, you may want to import all the entries as <code>admin</code>s entries."
+msgstr ""

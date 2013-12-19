@@ -1,0 +1,53 @@
+/**
+ * Super Agency
+ * (c) Web factory Ltd, 2012
+ */
+
+.customizer-help {
+  font-family: Trebuchet MS, Arial, sans-serif;
+  font-size: 11px;
+  font-style: italic;
+  color: #A6A6A6;
+  margin-bottom: 0px;
+  margin-top: -4px;
+}
+
+.customize-control textarea {
+  width: 98%;
+}
+
+ul.bullets {
+  list-style-position: inside;
+  list-style-type: circle;
+  margin-left: 10px;
+}
+
+.dropdown-preview {
+  font-size: 24px;
+}
+
+.help_heading {
+  line-height: 24px;
+  font-weight: bold;
+  font-style: normal;
+  color: #333;
+  font-size: 12px;
+  font-family: sans-serif;
+}
+
+.circle-icon-preview {
+  background: #111;
+  display: block;
+  padding: 7px;
+  width: 80px;
+  height: auto;
+  margin-left: 136px;
+  margin-top: -24px;
+  margin-bottom: 45px;
+  clear: both;
+}
+
+#wf-fp-circles p.description {
+  color: red;
+  font-weight: bold;
+}

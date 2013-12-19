@@ -228,7 +228,7 @@ public class RewardServiceTest extends KikbakBaseTest{
 	@Test
 	public void testGenerateCode(){
 		try {
-			String code = CryptoUtils.symetricEncrypt(2L);
+			String code = CryptoUtils.symetricEncrypt(1L);
 			System.out.println("new code: " + code);
 		} catch (GeneralSecurityException e) {
 			// TODO Auto-generated catch block
