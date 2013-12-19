@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="4dp"
-        android:text="@string/gift_card"
+        android:text="@string/gift_card_vz"
         android:textColor="#9c9c9c"
         android:textSize="26dp"
         kikbak:typeface="Roboto-Regular.ttf" />

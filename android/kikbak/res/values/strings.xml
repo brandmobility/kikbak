@@ -68,7 +68,7 @@
     <string name="share_options_employee_note">Let friends know who helped you:</string>
     <string name="share_options_employee_name_hint">Employee name [optional]</string>
     <string name="share_options_location_note">Choose your preferred location</string>
-    <string name="share_options_location_hint">Pick location</string>
+    <string name="share_options_location_hint">Suggest a nearby store</string>
 
     <!-- Share progress -->
     <string name="share_in_progress">Sharing gift&#8230;</string>
@@ -108,6 +108,7 @@
     <string name="scan_code">Scan QR code to Redeem</string>
     <string name="redeem_card_ready">You have a reward ready to be claimed!</string>
     <string name="gift_card">Gift Card</string>
+    <string name="gift_card_vz">Visa Prepaid Debit Card</string>
     <string name="claim_reward">Claim reward now</string>
     <string name="redeem_store">Redeem in store</string>
     <string name="redeem_online">Redeem online</string>
@@ -129,7 +130,7 @@
 
     <!-- Redeem success -->
     <string name="redeem_success_title">Success!</string>
-    <string name="redeem_success_your_code">YOUR CODE</string>
+    <string name="redeem_success_your_code">YOUR COUPON CODE</string>
     <string name="redeem_gift_success_note_first">Please show this screen when paying.</string>
     <string name="redeem_gift_success_note_first_online">You have claimed your gift.</string>
     <string name="redeem_gift_success_share_note">Share the same offer with your friends.\nYou earn for every friend that redeems.</string>
@@ -153,6 +154,7 @@
     <!-- Claim credit card -->
     <string name="claim_card_instruction">Please provide the following to redeem:</string>
     <string name="claim_card_phone_hint">Phone number</string>
+    <string name="claim_card_phone_hint_vz">Your Verizon phone number</string>
     <string name="claim_card_name_hint">First Last Name</string>
     <string name="claim_card_street_hint">Street</string>
     <string name="claim_card_apt_hint">Apartment or Unit #</string>
@@ -160,7 +162,7 @@
     <string name="claim_card_state_hint">State</string>
     <string name="claim_card_zip_hint">Zip</string>
     <string name="claim_card_arrival">Your reward should arrive in 2 to 4 weeks.</string>
-    <string name="claim_card_arrival_verizon">Your reward will be mailed to the billing address associated with your account.\nIt should arrive in 2–4 weeks.</string>
+    <string name="claim_card_arrival_verizon">Your reward will be mailed to the billing address associated with your account. It should arrive in 2–4 weeks.</string>
     <string name="claim_card_submit">Submit</string>
     <string name="claim_success_share_button">Share offer with more friends</string>
     <!-- validation -->

@@ -61,7 +61,7 @@
         android:background="@drawable/btn_blue"
         android:text="@string/claim_success_share_button"
         android:textColor="@android:color/white"
-        android:textSize="21dp"
+        android:textSize="20dp"
         kikbak:typeface="Roboto-Light.ttf" />
 
 </LinearLayout>

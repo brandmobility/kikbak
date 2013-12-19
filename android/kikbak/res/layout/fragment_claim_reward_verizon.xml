@@ -89,7 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/text_field"
-            android:hint="@string/claim_card_phone_hint"
+            android:hint="@string/claim_card_phone_hint_vz"
             android:inputType="phone"
             android:textColor="#868686"
             android:textSize="17dp"
