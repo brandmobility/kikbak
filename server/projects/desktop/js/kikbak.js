@@ -414,7 +414,6 @@ function shareOfferFromChannel(channel) {
       var str = "https://twitter.com/share?";
       var params = [ 
         {name:"url", value:landingUrl},
-        {name:"via", value:"kikbak"},
         {name:"count", value:"none"},                                                                                            
         {name:"text", value: body}                                                            
       ];  
