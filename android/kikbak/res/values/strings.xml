@@ -66,7 +66,7 @@
     <!-- Share options -->
     <string name="share_options_title">Give offer to friends</string>
     <string name="share_options_employee_note">Let friends know who helped you:</string>
-    <string name="share_options_employee_name_hint">Employee name [optional]</string>
+    <string name="share_options_employee_name_hint">Suggest an employee [optional]</string>
     <string name="share_options_location_note">Choose your preferred location</string>
     <string name="share_options_location_hint">Suggest a nearby store</string>
 
