@@ -191,7 +191,6 @@ function onInput() {
       }
     } else {
       onInput.oldVal = zipcode;
-      $('#loginFb').attr('disabled', 'disabled');
       $('.divider').css('top', '48px');
       $('#zipcode-hidden').addClass('required');
       $('#loginFb').attr('disabled', 'disabled');
@@ -527,11 +526,6 @@ function renderOfferDetail(offer, custom, holder) {
     $('#' + name).attr('placeholder', holder[name]);
   }
   
-  if (offer.hasEmployeeProgram) {
-	$('#share-employee-div').show();
-	$('#share-location-div').show();
-  }
- 
   $('#tos').click(function(e) {
     e.preventDefault();
     window.open(offer.tosUrl, '_blank');
