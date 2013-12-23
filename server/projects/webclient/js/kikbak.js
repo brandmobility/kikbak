@@ -197,7 +197,7 @@ function onInput() {
     var thisElement = $(this);
     thisElement.css('border', '1px solid gray');
     var value = thisElement.val();
-    if (thisElement.attr('type') === 'tel') {
+    if (thisElement.attr('id') === 'phone-input') {
       if (value.replace(/[^\d]/g, "") === '') {
         valid = false;
       }
@@ -347,7 +347,7 @@ var authType = {
                '</div>' +
                '<div id="create-share-div" style="display:none">' +
                '<h3>Create your offer</h3>' +
-               '<input type="tel" id="phone-input" placeholder="Your Verizon phone number" />' +
+               '<input type="text" onfocus="this.type=\'tel\'" onblur="this.type=\'text\'" id="phone-input" placeholder="Your Verizon phone number" />' +
 	           '<div id="location-sel-div" style="display:none;"><select id="location-sel" class="location-sel"></select></div>' +
 	           '<div id="location-input-div" style="display:none;"><input type="text" onfocus="this.type=\'number\'" onblur="this.type=\'text\'" id="location-input" class="location-sel" placeholder="Store ID" /></div>' +
 		       '<input id="employeeId-input" class="location-sel" type="text" name="employeeId" placeholder="Name of employee that helped you [optional]" />' +

@@ -165,7 +165,11 @@
                         </div>
                         <p id="barcode-note"></p>
                         <img id="barcode" src="" style="display: none;" />
-                        <p id="barcode-val"></p>
+                        <div class="clearfix"></div>
+                        <div style="position:relative">
+                            <p id="barcode-val"></p>
+                            <a id="barcode-copy" class="btn grd-btn copy-btn">Copy the code</a>
+                        </div>
                         <a id="barcode-link" target="_blank" class="btn grd-btn" style="display:none;padding-top:3%;">Use online now</a>
                     </div>
                     </c:otherwise>
@@ -272,7 +276,7 @@
                 <c:choose>
                 <c:when test="${gift.merchant.shortname == 'Verizon'}">
                 <div id="zipcode-div">
-                    <input type="number" id="zipcode-input" placeholder="Your zip code"></input>
+                    <input type="text" onfocus="this.type='number'" onblur="this.type='text'" placeholder="Your zip code"></input>
                 </div>
                 <div id="zipcode-qualify-div" style="text-align: center;display:none;">
                     <button id="anonymous-redeem-barcode-btn" class="btn grd-btn mini-btn">Generate in-store<br/>coupon</button>
@@ -379,6 +383,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/jquery.zclip.min.js"></script>
     <script>
     var agId;
     
@@ -542,6 +547,8 @@
           $('#green-overlay').css('height', '145px');
           $('#print-btn').show();
         } else {
+          $('#barcode-copy').show();
+          $('#barcode-copy').zclip({ path:'js/ZeroClipboard.swf', copy:json.barcodeResponse.code });
           $('#barcode-val').css('font-size', '35px');
           $('#green-overlay').css('height', '120px');
         }

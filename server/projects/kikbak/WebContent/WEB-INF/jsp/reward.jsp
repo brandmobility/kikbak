@@ -118,7 +118,7 @@
                                 <input type="text" name="zipcode" class="claim-reuqired" placeholder="Zip (number only)" class="bsnm" />
                                 </c:otherwise>
                                 </c:choose>
-                                <p style="margin-top: 20px;">Your reward will be mailed to the billing address associated with your account. It should arrive in 2 – 4weeks.</p>
+                                <p style="margin-top: 20px;">Your reward will be mailed to the billing address associated with your account. It should arrive in 2 – 4 weeks.</p>
                             </div>
                             <button id="claim-credit-btn" class="btn grd-btn" style="margin-top: 5px;" disabled="disabled">Submit</button>
                         </form>
@@ -155,7 +155,7 @@
                     <input type="hidden" name="creditId" value="${credit.id}" class="bsnm" />
                     <c:choose>
                     <c:when test="${gift.merchant.shortname == 'Verizon'}">
-                    <input type="tel" name="phoneNumber" placeholder="Your Verizon phone number" class="bsnm" />
+                    <input type="text" onfocus="this.type='number'" onblur="this.type='text'" name="phoneNumber" placeholder="Your Verizon phone number" class="bsnm" />
                     </c:when>
                     <c:otherwise>
                     <input type="text" name="name" placeholder="First Last Name" class="bsnm" />
@@ -166,7 +166,7 @@
                     <input type="number" name="zipcode" placeholder="Zip (number only)" class="bsnm" />
                     </c:otherwise>
                     </c:choose>
-                    <p>Your reward will be mailed to the billing address associated with your account.  It should arrive in 2 – 4weeks.</p>
+                    <p>Your reward will be mailed to the billing address associated with your account.  It should arrive in 2 – 4 weeks.</p>
                     <div style="text-align: center; ">
               			<input type="button" id="claim-credit-btn"  class="btn grd-btn" disabled="disabled" value="Submit" /t>
  			        </div>
