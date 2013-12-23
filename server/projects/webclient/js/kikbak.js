@@ -220,29 +220,43 @@ function onInput() {
   }
 }
 
-function validateZipcode() {
-  var zipcodeInput = $('#zipcode-input');
-  var zipcode = zipcodeInput.val().replace(/[^\d]/g, "");
-  if (zipcode.length === 5) {
-    var offer = jQuery.parseJSON(unescape(s.offerDetail));
-    $.ajax({
-      type: 'GET',
-      contentType: 'application/json',
-      url: 'kikbak/v2/share/validateZip?zipCode=' + zipcode + '&offerId=' + offer.id,
-      success: function(json) {
-        var valid = json.zipValidationResponse.status;
-        if (valid === 'OK') {
-          $('#zipcode-div').hide();
-          $('#register-div').show();
-        } else {
-          handleInvalidZipcode();
-        }
-      },
-      error: showError
-    });
-  } else {
-    handleInvalidZipcode;
+function validateZipcode(cb) {
+  shareOffer();
+  if (!cb) {
+    cb = function() {
+      $('#zipcode-div').hide();
+      $('#register-div').show()
+    };
   }
+  if (validateZipcode.valid) {
+    cb();
+  }
+  $('#zipcode-btn').click(function () {
+    var zipcodeInput = $('#zipcode-input');
+    var zipcode = zipcodeInput.val().replace(/[^\d]/g, "");
+    if (zipcode.length === 5) {
+      var offer = jQuery.parseJSON(unescape(s.offerDetail));
+      $.ajax({
+        type: 'GET',
+        contentType: 'application/json',
+        url: 'kikbak/v2/share/validateZip?zipCode=' + zipcode + '&offerId=' + offer.id,
+        success: function(json) {
+          var valid = json.zipValidationResponse.status;
+          if (valid === 'OK') {
+            validateZipcode.valid = true;
+            cb();
+            $('#zipcode-div').hide();
+            $('#register-div').show();
+          } else {
+            handleInvalidZipcode();
+          }
+        },
+        error: showError
+      });
+    } else {
+      handleInvalidZipcode();
+    }
+  });
 }
 
 function handleInvalidZipcode() {
@@ -298,6 +312,7 @@ var authType = {
                  '<p>We use Facebook to personalize your offers and notify you via email when friends redeem them. <b>We will never post without your permission.</b></p>' +
                '</div>',
     handler_register: function() {
+      validateZipcode.valid = true;
       $('#share-btn-fb').click(function () {
         user.status = 'share-login';
         var cb = function(resp) {
@@ -313,7 +328,7 @@ var authType = {
                  '<div id="zipcode-div">' +
                  '<h3>Confirm Eligibility</h3>' +
                  '<div style="margin-bottom: 40px;" id="zipcode-note">To participate in this program you must be a current Verizon customer with your billing address in one of the following states: TBD. If your billing address is not in a qualifying state you may share this offer with friends but you will not be eligible to earn rewards.</div>' +
-                 '<input id="zipcode-input" type="number" class="required" name="zipcode" placeholder="Your billing zip code">' +
+                 '<input id="zipcode-input" type="text" onfocus="this.type=\'number\'" onblur="this.type=\'text\'" class="required" name="zipcode" placeholder="Your billing zip code">' +
                  '<button id="zipcode-btn" class="btn grd-btn" disabled="disabled" >Submit</button>' +
                '</div>' +
                '<div id="zipcode-invalid-div" style="display:none">' +
@@ -334,11 +349,12 @@ var authType = {
                '<h3>Create your offer</h3>' +
                '<input type="tel" id="phone-input" placeholder="Your Verizon phone number" />' +
 	           '<div id="location-sel-div" style="display:none;"><select id="location-sel" class="location-sel"></select></div>' +
-	           '<div id="location-input-div" style="display:none;"><input type="number" id="location-input" class="location-sel" placeholder="Store ID" /></div>' +
+	           '<div id="location-input-div" style="display:none;"><input type="text" onfocus="this.type=\'number\'" onblur="this.type=\'text\'" id="location-input" class="location-sel" placeholder="Store ID" /></div>' +
 		       '<input id="employeeId-input" class="location-sel" type="text" name="employeeId" placeholder="Name of employee that helped you [optional]" />' +
                '<button id="create-share-btn" class="share-btn btn grd-btn" disabled="disabled" >Create offer to share</button>' +
              '</div>',
     handler_register: function() {
+      validateZipcode.valid = false;
       $('#share-btn-fb').click(function () {
         user.status = 'share-login';
         var cb = function(resp) {
@@ -378,6 +394,7 @@ var authType = {
                  '<button id="create-share-btn" class="share-btn btn grd-btn" disabled="disabled" >Create offer to share</button>' +
                '</div>',
     handler_register: function() {
+      validateZipcode.valid = true;
       $('#share-btn-fb').click(function () {
         user.status = 'share-login';
         var cb = function(resp) {
@@ -1313,141 +1330,154 @@ function getOfferDetail() {
     
     $('#share-btn').click(function(e){
       e.preventDefault();
-      shareOffer(offer);
+      validateZipcode();
     });
 
-    $('input [name="comment"]').bind('input',function(){
+    $('#comment-input').on('focus', function() {
       ga('send', 'event', 'button', 'click', 'add comment');
+      validateZipcode(function() {
+        $('.popup').hide();
+        $('#comment-input').unbind('focus');
+        $('#comment-input').focus();
+      });
     });
-    $('#take-picture').change(function(e) {
-      ga('send', 'event', 'button', 'click', 'take picture');
-      $("#share-btn").attr('disabled', 'disabled');
-      var icon = $('.camicon');
-      var files = e.target.files;
-      var file;
+    $('#pre-take-picture').on('click', function(e) {
+      validateZipcode(function() {
+        $('.popup').hide();
+        $('#pre-take-picture').hide();
+        var takePicture = $('#take-picture');
+        takePicture.show();
+        takePicture.change(function(e) {
+          ga('send', 'event', 'button', 'click', 'take picture');
+          $("#share-btn").attr('disabled', 'disabled');
+          var icon = $('.camicon');
+          var files = e.target.files;
+          var file;
 
-      if (files && files.length > 0) {
-        var imageFile = this.files[0];
-        var img = new Image();
-        var url = window.URL ? window.URL : window.webkitURL;
-        var mpImg = new MegaPixImage(imageFile);
-        img.src = url.createObjectURL(imageFile);
-        img.onload = function(e) {
-          url.revokeObjectURL(this.src);
-          var width, height;
-          var binaryReader = new FileReader();
-          binaryReader.onloadend=function(d) {
-            var exif, transform = "none";
-            exif=EXIF.readFromBinaryFile(createBinaryFile(d.target.result));
-            if(exif.Orientation === 8 || (exif.Orientation === 3 && img.width > img.height)) {
-                width = img.height;
-                height = img.width;
-                transform = "left";
-                exif.Orientation = 8;
-            } else if(exif.Orientation === 6 || (exif.Orientation === 1 && img.width > img.height)) {
-                width = img.height;
-                height = img.width;
-                transform = "right";
-                exif.Orientation = 6;
-            } else if(exif.Orientation === 1) {
-                width = img.width;
-                height = img.height;
-            } else if(exif.Orientation === 3) {
-                width = img.width;
-                height = img.height;
-                transform = "flip";
-            } else {
-                width = img.width;
-                height = img.height;
-            }
-            var MAX_WIDTH = 768;
-            var MAX_HEIGHT = 1024;
-            if (width/MAX_WIDTH > height/MAX_HEIGHT) {
-                if (width > MAX_WIDTH) {
-                    height *= MAX_WIDTH / width;
-                    width = MAX_WIDTH;
+          if (files && files.length > 0) {
+            var imageFile = this.files[0];
+            var img = new Image();
+            var url = window.URL ? window.URL : window.webkitURL;
+            var mpImg = new MegaPixImage(imageFile);
+            img.src = url.createObjectURL(imageFile);
+            img.onload = function(e) {
+              url.revokeObjectURL(this.src);
+              var width, height;
+              var binaryReader = new FileReader();
+              binaryReader.onloadend=function(d) {
+                var exif, transform = "none";
+                exif=EXIF.readFromBinaryFile(createBinaryFile(d.target.result));
+                if(exif.Orientation === 8 || (exif.Orientation === 3 && img.width > img.height)) {
+                    width = img.height;
+                    height = img.width;
+                    transform = "left";
+                    exif.Orientation = 8;
+                } else if(exif.Orientation === 6 || (exif.Orientation === 1 && img.width > img.height)) {
+                    width = img.height;
+                    height = img.width;
+                    transform = "right";
+                    exif.Orientation = 6;
+                } else if(exif.Orientation === 1) {
+                    width = img.width;
+                    height = img.height;
+                } else if(exif.Orientation === 3) {
+                    width = img.width;
+                    height = img.height;
+                    transform = "flip";
+                } else {
+                    width = img.width;
+                    height = img.height;
                 }
-            } else {
-                if (height > MAX_HEIGHT) {
-                    width *= MAX_HEIGHT / height;
-                    height = MAX_HEIGHT;
-                }
-            }
-            var canvas = document.createElement('canvas');
-            var ctx = canvas.getContext("2d");
-            mpImg.render(canvas, { maxWidth: width, maxHeight: height, orientation: exif.Orientation });
-            
-            var imgUrl = canvas.toDataURL('image/png');
-            try {
-              var images = new Image();
-              images.onload = function(e) {
-                icon.removeClass('camicon');
-                icon.addClass('smallcamicon');
-                $('#take-photo-header').hide();
-                $('#heading').html('Resize image');
-                $('#offer-details-view').hide();
-                $('#crop-image-div').show();
-                var cropImage = $('#crop-image-div .tkpoto img');
-  
-                cropImage.unbind('load');
-                cropImage.load(function(e) {
-                  var width = window.innerWidth;
-                  var height = window.innerHeight;
-                  var jcrop_api, x, y, w, h;
-                  var options = {
-                    boxWidth : width,
-                    boxHeight : height,
-                    bgColor : 'black',
-                    bgOpacity : .4,
-                    setSelect : [width - 10, width - 10, 10, 10],
-                    allowResize : false,
-                    allowSelect : false,
-                    onChange : function updateCoords(c) {
-                      x = c.x;
-                      y = c.y;
-                      w = c.w;
-                      h = c.h;
+                var MAX_WIDTH = 768;
+                var MAX_HEIGHT = 1024;
+                if (width/MAX_WIDTH > height/MAX_HEIGHT) {
+                    if (width > MAX_WIDTH) {
+                        height *= MAX_WIDTH / width;
+                        width = MAX_WIDTH;
                     }
-                  };
-                  cropImage.Jcrop(options, function() {
-                    jcrop_api = this;
-                    var goback = function() {
-                      jcrop_api.destroy();
-                      $('#crop-image-div').hide();
-                      $('#offer-details-view').show();
-                      $('.imgshado').css('height', '50%');
-                      $('.imgshado').css('top', '50%');
-                    };
-    
-                    $('#crop-image').unbind('click');
-                    $('#crop-image').click(function(e) {
-                      var croppedCanvas = document.createElement('canvas');
-                      var ctx = croppedCanvas.getContext("2d");
-                      croppedCanvas.setAttribute('width', w);
-                      croppedCanvas.setAttribute('height', h);
-                      var r = images.width / parseInt(width);
-                      ctx.drawImage(images, x * r, y * r, w * r, h * r, 0, 0, width, width);
-                      var dataurl = croppedCanvas.toDataURL("image/jpeg");
-                      $('#show-picture').attr('src', dataurl);
-
-                      e.preventDefault();
-                      $("#share-btn").removeAttr('disabled');
-                      goback();
-                    });
-                  });
-                });
-                cropImage.attr('src', imgUrl);
-              };
-              images.src = imgUrl;
+                } else {
+                    if (height > MAX_HEIGHT) {
+                        width *= MAX_HEIGHT / height;
+                        height = MAX_HEIGHT;
+                    }
+                }
+                var canvas = document.createElement('canvas');
+                var ctx = canvas.getContext("2d");
+                mpImg.render(canvas, { maxWidth: width, maxHeight: height, orientation: exif.Orientation });
+                
+                var imgUrl = canvas.toDataURL('image/png');
+                try {
+                  var images = new Image();
+                  images.onload = function(e) {
+                    icon.removeClass('camicon');
+                    icon.addClass('smallcamicon');
+                    $('#take-photo-header').hide();
+                    $('#heading').html('Resize image');
+                    $('#offer-details-view').hide();
+                    $('#crop-image-div').show();
+                    var cropImage = $('#crop-image-div .tkpoto img');
   
-            } catch (e) {
-              console.log(e);
-              alert('Unsupported browser');
+                    cropImage.unbind('load');
+                    cropImage.load(function(e) {
+                      var width = window.innerWidth;
+                      var height = window.innerHeight;
+                      var jcrop_api, x, y, w, h;
+                      var options = {
+                        boxWidth : width,
+                        boxHeight : height,
+                        bgColor : 'black',
+                        bgOpacity : .4,
+                        setSelect : [width - 10, width - 10, 10, 10],
+                        allowResize : false,
+                        allowSelect : false,
+                        onChange : function updateCoords(c) {
+                          x = c.x;
+                          y = c.y;
+                          w = c.w;
+                          h = c.h;
+                        }
+                      };
+                      cropImage.Jcrop(options, function() {
+                        jcrop_api = this;
+                        var goback = function() {
+                          jcrop_api.destroy();
+                          $('#crop-image-div').hide();
+                          $('#offer-details-view').show();
+                          $('.imgshado').css('height', '50%');
+                          $('.imgshado').css('top', '50%');
+                        };
+        
+                        $('#crop-image').unbind('click');
+                        $('#crop-image').click(function(e) {
+                          var croppedCanvas = document.createElement('canvas');
+                          var ctx = croppedCanvas.getContext("2d");
+                          croppedCanvas.setAttribute('width', w);
+                          croppedCanvas.setAttribute('height', h);
+                          var r = images.width / parseInt(width);
+                          ctx.drawImage(images, x * r, y * r, w * r, h * r, 0, 0, width, width);
+                          var dataurl = croppedCanvas.toDataURL("image/jpeg");
+                          $('#show-picture').attr('src', dataurl);
+
+                          e.preventDefault();
+                          $("#share-btn").removeAttr('disabled');
+                          goback();
+                        });
+                      });
+                    });
+                    cropImage.attr('src', imgUrl);
+                  };
+                  images.src = imgUrl;
+  
+                } catch (e) {
+                  console.log(e);
+                  alert('Unsupported browser');
+                }
+              };
+              binaryReader.readAsArrayBuffer(imageFile);
             }
-          };
-          binaryReader.readAsArrayBuffer(imageFile);
-        }
-      }
+          }
+        });
+      });
     });
   }
 }
@@ -1488,7 +1518,6 @@ function renderOfferDetail(offer) {
     shareOfferFromChannel($(this).attr('data-channel'));
     e.preventDefault();
   });
-  $('#zipcode-btn').click(validateZipcode);
   $('#pre-share-popup input').keyup(onInput);
   if (getBrowserName() === 'Safari') {
     $('#share-sms-div').hide();
@@ -1506,11 +1535,9 @@ function renderOfferDetail(offer) {
   html += '<div class="add-photo-btn">';
   html += '<h2 id="take-photo-header">Add your own photo</h2>';
   html += '<div class="camicon"><img src="images/camicon.png">';
-  html += '<input name="source" type="file" id="take-picture" class="camicon take-picture" style="height:60px;width:100%;opacity:0;" accept="image/*" />';
-  html += '<input name="x" id="photo-x" type="hidden" />';
-  html += '<input name="x" id="photo-y" type="hidden" />';
-  html += '<input name="x" id="photo-w" type="hidden" />';
-  html += '<input name="x" id="photo-h" type="hidden" /></div>';
+  html += '<input name="pre-source" type="button" id="pre-take-picture" class="camicon take-picture" style="height:60px;width:100%;opacity:0;" />';
+  html += '<input name="source" type="file" id="take-picture" class="camicon take-picture" style="height:60px;width:100%;opacity:0;display:none;" accept="image/*" />';
+  html += '</div>';
   html += '</div>';
   html += '<div class="merchantname">'
   html += '<h3>' + offer.merchantName + '</h3>';
