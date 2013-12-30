@@ -276,7 +276,7 @@
                 <c:choose>
                 <c:when test="${gift.merchant.shortname == 'Verizon'}">
                 <div id="zipcode-div">
-                    <input type="text" placeholder="Your zip code" id="zipcode-input"></input>
+                    <input type="text" onfocus="this.type='number'" onblur="this.type='text'" placeholder="Your zip code" id="zipcode-input"></input>
                 </div>
                 <div id="zipcode-qualify-div" style="text-align: center;display:none;">
                     <button id="anonymous-redeem-barcode-btn" class="btn grd-btn mini-btn">Generate in-store<br/>coupon</button>
