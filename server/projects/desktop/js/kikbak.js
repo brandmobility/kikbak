@@ -490,10 +490,9 @@ function renderOfferDetail(offer, custom, holder) {
   $('#container').css('background-repeat', 'initial initial');
   $('#header h1').css('background-image', 'url(' + offer.merchantLogoUrl + ')');
   $('#header h1').css('background-size', 'contain');
-  $('#header h1').css('background-position', 'center');
-  $('#header h1').css('background-position', 'initial initial');
+  $('#header h1').css('background-position', '100%');
   $('#header h1').css('background-repeat', 'no-repeat');
-  $('#header h1').css('margin-left', '40px');
+  
 
   var auth = offer.auth ? offer.auth : 'none';
   var template = authType[auth];

@@ -89,7 +89,6 @@
                     <div id="ribbon-blue">
                         <h2><img src="img/victor-icon.png" class="victor-img"/>  ${credit.desc}</h2>
                     </div>
-                    <div id="ribbon-blue-dec"></div>
                     <div class="clearfix"></div>
                     <div id="facebook-div" style="display:none;">
                         <p id="fb-signin-title" class="title">Sign-in with Facebook to redeem your credit now</p>

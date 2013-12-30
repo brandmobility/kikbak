@@ -239,8 +239,7 @@ strong{
     display: block;
 }
 #main-right #header .logo {
-    float: left;
-    margin-left: 220px;
+    float: right;
     width: auto;
     height: 105px;
     text-indent: -99999px;
@@ -263,6 +262,7 @@ strong{
     padding: 25px 0;
     font-size:22px;
     line-height: 22px;
+    background-size: 100% 100%;
 }
 
 #main-right #ribbon h2{
@@ -281,15 +281,14 @@ strong{
 
 #main-right #ribbon-blue{
     color:#FFF;
-    width:537px;
+    width:540px;
     height: 90px;
-    background: url(../img/blue-btn-bk-hvr.png);
-    background-size: cover;
+    background: url(../img/ribbon.png);
     text-align:center;
-    padding: 10px 0;
+    padding: 25px 0;
     font-size:22px;
     line-height: 22px;
-    float:left;
+    background-size: 100% 100%;
 }
 #main-right #ribbon-blue-dec{
     background: url(../img/bnr-blu-ptrn.png);

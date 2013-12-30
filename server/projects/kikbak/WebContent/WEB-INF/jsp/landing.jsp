@@ -264,7 +264,7 @@
             <div class="page-header">
                 <div class="col-md-6">
                     <div
-                        style="background-color: #767676; padding-top: 20px; padding-bottom: 4px;">
+                        style="padding-top: 20px; padding-bottom: 4px;">
                         <h3 style="font-size: 38px; font-family: HelveticaNeue Bold; line-height: 18px;">${gift.desc}</h3>
                         <p style="font-family: HelveticaNeueLT Pro 55 Roman; font-size: 18px; margin: 0;">${gift.detailedDesc}</p>
                     </div>
@@ -276,7 +276,7 @@
                 <c:choose>
                 <c:when test="${gift.merchant.shortname == 'Verizon'}">
                 <div id="zipcode-div">
-                    <input type="text" onfocus="this.type='number'" onblur="this.type='text'" placeholder="Your zip code"></input>
+                    <input type="text" placeholder="Your zip code" id="zipcode-input"></input>
                 </div>
                 <div id="zipcode-qualify-div" style="text-align: center;display:none;">
                     <button id="anonymous-redeem-barcode-btn" class="btn grd-btn mini-btn">Generate in-store<br/>coupon</button>
