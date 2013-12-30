@@ -239,7 +239,8 @@ strong{
     display: block;
 }
 #main-right #header .logo {
-    float: right;
+    float: left;
+    margin-left: 205px;
     width: auto;
     height: 105px;
     text-indent: -99999px;
