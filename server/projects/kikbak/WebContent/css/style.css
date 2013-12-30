@@ -257,7 +257,7 @@ strong{
 #main-right #ribbon{
     color:#FFF;
     width:540px;
-    height: 78px;
+    height: 65px;
     background: url(../img/ribbon.png) no-repeat top left;
     text-align:center;
     padding: 25px 0;
@@ -339,7 +339,7 @@ strong{
 #main-right .redeem-note{
     font-size: 16px;
     line-height: 22px;
-    margin: 30px 10px 10px 10px;
+    margin: 10px 10px 10px 10px;
 }
 #barcode-val {
     font-size: 20px;
@@ -406,7 +406,7 @@ strong{
 .btn {
     cursor: pointer;
     color: #fff;
-    font-size: 20px;
+    font-size: 18px;
     margin: 0%;
     padding: 2%;
     border: 0;
@@ -431,7 +431,7 @@ button[disabled="disabled"] {
     text-align: center;
     font-size: 40px;
     font-weight: bolder;
-    margin: 60px 0 40px;
+    margin: 30px 0 30px;
 }
 #redeem-success p {
     text-align: center;
@@ -443,7 +443,7 @@ button[disabled="disabled"] {
     float: right;
     margin-top: 40px;
     height: 40px;
-    margin-right: 10px;
+    margin-left:0px;
 }
 .print-btn img {
     width: 20px;
@@ -484,7 +484,7 @@ button[disabled="disabled"] {
 }
 #share-link-div {
     text-align: center;
-    margin: 30px auto;
+    margin: 20px auto;
 }
 .btn.grd-btn.mini-btn {
     width:200px;

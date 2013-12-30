@@ -435,7 +435,8 @@ textarea{
     margin: 20px 120px 10px 120px;
 }
 #main-right .btn-group {
-    margin: 5px 85px 5px 85px;
+    margin: 5px 80px 5px 80px;
+    padding-left: 10px;
 }
 #main-right .col-5 {
     float: left;
@@ -627,6 +628,7 @@ input[type="button"]:disabled {
 #zipcode-note {
     text-align:center;
     color:red;
+    margin-bottom:15px;
 }
 ::-webkit-input-placeholder { /* WebKit browsers */
     color:#a3a3a3;

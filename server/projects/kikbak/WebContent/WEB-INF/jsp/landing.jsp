@@ -542,8 +542,6 @@
         $('#redeem-btn-div').hide();
         if (!online) {
           $('#barcode-val').css('font-size', '24px');
-          $('#header .logo').css('float', 'left');
-          $('#header .logo').css('margin-left', '50px');
           $('#green-overlay').css('height', '145px');
           $('#print-btn').show();
         } else {
