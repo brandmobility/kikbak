@@ -121,8 +121,8 @@ static int offsetForIOS6 = 44;
         self.imageSeparator.frame = CGRectMake(0, 217+offsetForIOS6, 320, 2);
         self.amountToApply.frame = CGRectMake(11, 236+offsetForIOS6, 298, 14);
         self.topAmountSeparator.frame = CGRectMake(11, 255+offsetForIOS6, 298, 1);
-        self.creditAmount.frame = CGRectMake(11, 265+offsetForIOS6, 150, 38);
-        self.giftcard.frame = CGRectMake(11, 305+offsetForIOS6, 276, 28);
+        self.creditAmount.frame = CGRectMake(11, 265+offsetForIOS6, 298, 38);
+        self.giftcard.frame = CGRectMake(11, 305+offsetForIOS6, 298, 28);
         self.termsBtn.frame = CGRectMake(11, 347+offsetForIOS6, 150, 14);
         self.claimBtn.frame = CGRectMake(11, 366+offsetForIOS6, 298, 40);
     }
@@ -173,22 +173,22 @@ static int offsetForIOS6 = 44;
     self.topAmountSeparator.image = [UIImage imageNamed:@"separator_gray_line"];
     [self.view addSubview:self.topAmountSeparator];
     
-    self.creditAmount = [[UILabel alloc]initWithFrame:CGRectMake(11, 335+offsetForIOS6, 150, 38)];
+    self.creditAmount = [[UILabel alloc]initWithFrame:CGRectMake(11, 335+offsetForIOS6, 298, 38)];
     self.creditAmount.backgroundColor = [UIColor clearColor];
     self.creditAmount.textColor = UIColorFromRGB(0x3a3a3a);
-    self.creditAmount.textAlignment = NSTextAlignmentLeft;
-    self.creditAmount.text = [NSString stringWithFormat:NSLocalizedString(@"Redeem Amount", nil),[self.creditToUse doubleValue]];
+    self.creditAmount.textAlignment = NSTextAlignmentCenter;
+    self.creditAmount.text = [NSString stringWithFormat:NSLocalizedString(@"Gift Card Amount", nil),[self.creditToUse intValue]];
     self.creditAmount.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:36];
     [self.view addSubview:self.creditAmount];
     
     
-    self.giftcard = [[UILabel alloc]initWithFrame:CGRectMake(11, 375+offsetForIOS6, 276, 34)];
+    self.giftcard = [[UILabel alloc]initWithFrame:CGRectMake(11, 375+offsetForIOS6, 298, 34)];
     self.giftcard.backgroundColor = [UIColor clearColor];
     self.giftcard.textColor = UIColorFromRGB(0x929292);
     self.giftcard.font = [UIFont fontWithName:@"HelveticaNeue" size:26];
     self.giftcard.numberOfLines = 2;
-    self.giftcard.text = NSLocalizedString(@"Gift Card", nil);
-    self.giftcard.textAlignment = NSTextAlignmentLeft;
+    self.giftcard.text = NSLocalizedString(@"Prepaid Card", nil);
+    self.giftcard.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:self.giftcard];
     
     self.termsBtn = [UIButton buttonWithType:UIButtonTypeCustom];

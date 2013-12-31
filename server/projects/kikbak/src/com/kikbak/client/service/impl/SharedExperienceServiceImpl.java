@@ -19,6 +19,7 @@ import com.kikbak.dao.ReadOnlyGiftDAO;
 import com.kikbak.dao.ReadOnlyLocationDAO;
 import com.kikbak.dao.ReadOnlyOfferDAO;
 import com.kikbak.dao.ReadOnlySharedDAO;
+import com.kikbak.dao.ReadOnlyZipcodeDAO;
 import com.kikbak.dao.ReadWriteSharedDAO;
 import com.kikbak.dao.enums.Channel;
 import com.kikbak.dao.enums.OfferType;
@@ -60,6 +61,9 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
     @Autowired
     private ReadOnlyLocationDAO roLocationDAO;
 
+    @Autowired
+    private ReadOnlyZipcodeDAO roZipcodeDAO;
+
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public String registerSharingAndNotify(ShareInfo share) throws RateLimitException {
@@ -75,7 +79,7 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
 
         Offer offer = roOfferDAO.findById(share.offerId);
 
-        if( share.zipCode != null && !roLocationDAO.isValidZipcode(offer.getMerchantId(), share.zipCode)){
+        if( share.zipCode != null && !roZipcodeDAO.isValidZipcode(offer.getMerchantId(), share.zipCode)){
         	throw new IllegalArgumentException();
         }
         
@@ -156,12 +160,8 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public boolean validateZipCodeEligibility(long offerId, String zipCode) {
-        // TODO: implement me
-        // if offer is zipcode-limited and provided one is not listed then throw
-    	
     	Offer offer = roOfferDAO.findById(offerId);
-    	
-        return roLocationDAO.isValidZipcode(offer.getMerchantId(), zipCode);
+        return roZipcodeDAO.isValidZipcode(offer.getMerchantId(), zipCode);
     }
 
 }

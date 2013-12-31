@@ -108,7 +108,7 @@ static int offsetForIOS6 = 44;
         if( self.online == true ){
             self.couponCode.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:30];
             CGRect fr = self.couponCode.frame;
-            fr.origin.y = 240;
+            fr.origin.y = 240 + offsetForIOS6;
             fr.size.height = 40;
             self.couponCode.frame = fr;
             self.couponCode.textColor = [UIColor redColor];

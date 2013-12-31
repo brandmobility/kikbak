@@ -140,7 +140,7 @@ static int offsetForIOS6 = 44;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = NSLocalizedString(@"Give", nil);
+    self.title = NSLocalizedString(@"Give_tab_bar", nil);
 	// Do any additional setup after loading the view.
     shareViaEmail = NO;
     shareViaSMS = NO;
@@ -488,8 +488,8 @@ static int offsetForIOS6 = 44;
     
     if( photoTaken ){
         CGRect frOverlay = self.imageOverlay.frame;
-        frOverlay.origin.y = fr.origin.y - 20;
-        frOverlay.size.height = self.giveImage.frame.size.height - frOverlay.origin.y;
+        frOverlay.origin.y = fr.origin.y - 20 + offsetForIOS6;
+        frOverlay.size.height = self.giveImage.frame.size.height - frOverlay.origin.y + offsetForIOS6;
         self.imageOverlay.frame = frOverlay;
     }
     
@@ -618,12 +618,12 @@ static int offsetForIOS6 = 44;
     UIImage* grd = [UIImage imageNamed:@"grd_give_img"];
     self.imageOverlay.image = grd;
     CGRect fr = self.imageOverlay.frame;
-    fr.origin.y =  self.retailerName.frame.origin.y - 20;//self.captionContainerView.frame.origin.y - grd.size.height;
-    fr.size.height = self.giveImage.frame.size.height - fr.origin.y;
+    fr.origin.y =  self.retailerName.frame.origin.y - 20 + offsetForIOS6;//self.captionContainerView.frame.origin.y - grd.size.height;
+    fr.size.height = self.giveImage.frame.size.height - fr.origin.y + offsetForIOS6;
     self.imageOverlay.frame = fr;
 
     [self.takePhoto removeFromSuperview];
-    self.takePictureBtn.frame = CGRectMake(265, 0, 55, 55);
+    self.takePictureBtn.frame = CGRectMake(265, 0  + offsetForIOS6, 55, 55);
     [self.takePictureBtn setImage:[UIImage imageNamed:@"ic_post_give_camera"] forState:UIControlStateNormal];
     
 
@@ -692,10 +692,10 @@ static int offsetForIOS6 = 44;
 	// get a rect for the textView frame
 	CGRect containerFrame = self.captionContainerView.frame;
     if( [UIDevice hasFourInchDisplay] ){
-        containerFrame.origin.y = (containerFrame.size.height > DEFAULT_CONTAINER_VIEW_HEIGHT)?TEXT_EDIT_CONTAINER_ORIGIN_Y - (containerFrame.size.height - DEFAULT_CONTAINER_VIEW_HEIGHT): TEXT_EDIT_CONTAINER_ORIGIN_Y;
+        containerFrame.origin.y = (containerFrame.size.height > DEFAULT_CONTAINER_VIEW_HEIGHT)?TEXT_EDIT_CONTAINER_ORIGIN_Y - (containerFrame.size.height - DEFAULT_CONTAINER_VIEW_HEIGHT) + offsetForIOS6: TEXT_EDIT_CONTAINER_ORIGIN_Y + offsetForIOS6;
     }
     else{
-        containerFrame.origin.y = (containerFrame.size.height > DEFAULT_CONTAINER_VIEW_HEIGHT)? TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN - (containerFrame.size.height - DEFAULT_CONTAINER_VIEW_HEIGHT): TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN;
+        containerFrame.origin.y = (containerFrame.size.height > DEFAULT_CONTAINER_VIEW_HEIGHT)? TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN - (containerFrame.size.height - DEFAULT_CONTAINER_VIEW_HEIGHT) + offsetForIOS6: TEXT_EDIT_CONTAINER_ORIGIN_Y_35_SCREEN + offsetForIOS6;
     }
 	
 	// animations settings
@@ -707,7 +707,7 @@ static int offsetForIOS6 = 44;
 	// set views with new info
     // set views with new info
     if(self.captionContainerView.frame.origin.y != containerFrame.origin.y){
-        CGFloat delta = self.captionContainerView.frame.origin.y - containerFrame.origin.y;
+        CGFloat delta = self.captionContainerView.frame.origin.y - containerFrame.origin.y ;
         [self adjustRetailerInfo:delta];
     }
 	self.captionContainerView.frame = containerFrame;
@@ -769,7 +769,7 @@ static int offsetForIOS6 = 44;
             MFMailComposeViewController* picker = [[MFMailComposeViewController alloc]init];
             picker.mailComposeDelegate = self;
             [picker setSubject:result.subject];
-            [picker setMessageBody:result.body isHTML:YES];
+            [picker setMessageBody:result.body isHTML:NO];
             
             [self presentViewController:picker animated:YES completion:nil];
         }

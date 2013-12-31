@@ -12,6 +12,7 @@
 #import "Gift.h"
 #import <QuartzCore/QuartzCore.h>
 #import "UIDevice+Screen.h"
+#import "UIDevice+OSVersion.h"
 #import "ShareInfo.h"
 
 @interface FriendSelectorView()
@@ -42,7 +43,13 @@
 -(void)createSubviews{
     self.backgroundView = [[UIView alloc] initWithFrame:CGRectMake(23, 50, self.frame.size.width - 46, 336)];
     if( ![UIDevice hasFourInchDisplay] ){
-        self.backgroundView.frame = CGRectMake(23, 50, self.frame.size.width - 46, 250);
+        int height = 250;
+        int origin = 50;
+        if ( [UIDevice osVersion7orGreater] ) {
+            height = 280;
+            origin = 30;
+        }
+        self.backgroundView.frame = CGRectMake(23, origin, self.frame.size.width - 46, height);
     }
     self.backgroundView.backgroundColor = UIColorFromRGB(0xE0E0E0);
     self.backgroundView.layer.cornerRadius = 10;
@@ -62,14 +69,6 @@
         self.ammount.text = [NSString stringWithFormat:NSLocalizedString(@"amount off", nil), [self.gift.value integerValue]];
     }
     
-    self.select = [[UILabel alloc]initWithFrame:CGRectMake(39, 40, self.backgroundView.frame.size.width - 78, 40)];
-    self.select.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
-    self.select.text = NSLocalizedString(@"Select friend", nil);
-    self.select.textAlignment = NSTextAlignmentCenter;
-    self.select.backgroundColor = [UIColor clearColor];
-    self.select.numberOfLines = 2;
-    self.select.textColor = UIColorFromRGB(0x3a3a3a);
-    [self.backgroundView addSubview:self.select];
     
     self.table = [[UITableView alloc]initWithFrame:CGRectMake(0, 80, self.backgroundView.frame.size.width, 256) style:UITableViewStyleGrouped];
     self.table.dataSource = self;
@@ -80,6 +79,15 @@
     self.table.backgroundView = nil;
     [self.backgroundView addSubview:self.table];
     
+    self.select = [[UILabel alloc]initWithFrame:CGRectMake(39, 40, self.backgroundView.frame.size.width - 78, 40)];
+    self.select.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
+    self.select.text = NSLocalizedString(@"Select friend", nil);
+    self.select.textAlignment = NSTextAlignmentCenter;
+    self.select.backgroundColor = [UIColor clearColor];
+    self.select.numberOfLines = 2;
+    self.select.textColor = UIColorFromRGB(0x3a3a3a);
+    [self.backgroundView addSubview:self.select];
+
     
     self.closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.closeBtn addTarget:self action:@selector(onCloseBtn:) forControlEvents:UIControlEventTouchUpInside];

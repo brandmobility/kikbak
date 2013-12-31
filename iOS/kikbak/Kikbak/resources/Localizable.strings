@@ -89,6 +89,7 @@
 "Currency Symbol"="$";
 "Apply"="Apply";
 "Change Amount" = "Change Amount";
+"Gift Card Amount" = "$%d";
 
 "Reward Ready"="You have a reward ready to be claimed";
 "Claimed Credit" = "You have claimed your credit";
@@ -138,6 +139,7 @@
 "Select friend" = "Select the friend whose gift you would like to redeem";
 
 //claim screen
+"Prepaid Card" = "Visa Prepaid Debit Card";
 "Gift Card" = "Gift Card";
 "Customer Info" = "Please provide the following to redeem:";
 "Phone Number" = "Phone number";
