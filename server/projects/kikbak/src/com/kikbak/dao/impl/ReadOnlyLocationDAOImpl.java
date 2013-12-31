@@ -25,8 +25,6 @@ public class ReadOnlyLocationDAOImpl extends ReadOnlyGenericDAOImpl<Location, Lo
             + " (3959*acos(cos(radians(:latitude))*cos(radians(latitude))*cos(radians(longitude)-radians(:longitude))+sin(radians(:latitude))*sin(radians(latitude)))) as distance"
             + " from location where merchant_id=:merchantId having distance < geofence";
     
-    private static final String locations_with_zip = "select * from location where merchant_id=? and zipcode=?";
-
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public Collection<Location> listByMerchant(Long merchantId){
@@ -72,19 +70,7 @@ public class ReadOnlyLocationDAOImpl extends ReadOnlyGenericDAOImpl<Location, Lo
                 .list();
         return !locations.isEmpty();
     }    
-    
-    @Override
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public boolean isValidZipcode(Long merchantId, String zipcode){
-    	Session session = sessionFactory.getCurrentSession();
-    	@SuppressWarnings("unchecked")
-    	Collection<Location> locations = session.createSQLQuery(locations_with_zip).addEntity(Location.class)
-    			.setLong(0, merchantId)
-    			.setInteger(1, Integer.parseInt(zipcode)).list();
-    	
-    	return !locations.isEmpty();
-    }
-
+ 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public Location findBySiteName(String siteName){
