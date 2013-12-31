@@ -13,4 +13,6 @@ public interface ReadOnlyLocationDAO {
     public Collection<Location> listForMerchantInArea(Long merchantId, double latitude, double longitude);
     public boolean hasLocationInArea(Long merchantId, double latitude, double longitude);
     public boolean isValidZipcode(Long merchantId, String zipcode);
+    
+    Location findBySiteName(String siteName);
 }

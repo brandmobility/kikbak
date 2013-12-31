@@ -151,9 +151,9 @@ function preShareClick() {
       if (locationId && locationId !== 'false') {
     	requestUrl += "&locationid=" + encodeURIComponent(locationId);
       } else {
-        locationId = $('#location-input').val().replace(/[^\d]/g, "");
-        if (locationId !== '') {
-          requestUrl += "&locationid=" + encodeURIComponent(locationId);
+        var siteName = $('#location-input').val().replace(/\s+/g, "");
+        if (siteName !== '') {
+          requestUrl += "&sitename=" + encodeURIComponent(siteName);
         }
       }
       $.ajax({

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kikbak.client.service.v1.RateLimitException;
 import com.kikbak.client.service.v1.SharedExperienceService;
 import com.kikbak.client.service.v1.StoryTemplateService;
+import com.kikbak.dao.ReadOnlyLocationDAO;
 import com.kikbak.dao.enums.Channel;
+import com.kikbak.dto.Location;
 import com.kikbak.jaxb.v2.share.StoriesResponse;
 import com.kikbak.jaxb.v2.share.StoryStatus;
 import com.kikbak.jaxb.v2.share.StoryType;
@@ -34,6 +37,9 @@ public class SharedController2 {
 
     @Autowired
     private StoryTemplateService storyService;
+    
+    @Autowired
+    private ReadOnlyLocationDAO readOnlyLocationDAO;
 
     @RequestMapping(value = "/getstories", method = RequestMethod.GET)
     public StoriesResponse getStories(final HttpServletRequest httpRequest, final HttpServletResponse httpResponse) {
@@ -52,6 +58,14 @@ public class SharedController2 {
             tmp = httpRequest.getParameter("locationid");
             if (tmp != null) {
                 share.locationId = Long.parseLong(tmp);
+            } else {
+            	tmp = httpRequest.getParameter("sitename");
+            	if (StringUtils.isNotBlank(tmp)) {
+                    Location location = readOnlyLocationDAO.findBySiteName(tmp);
+            	    if (null != location) {
+            	        share.locationId = location.getId();
+            	    }
+            	}
             }
 
             share.imageUrl = ServletRequestUtils.getStringParameter(httpRequest, "imageurl");

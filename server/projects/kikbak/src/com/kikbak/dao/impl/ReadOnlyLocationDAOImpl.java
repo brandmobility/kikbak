@@ -84,4 +84,10 @@ public class ReadOnlyLocationDAOImpl extends ReadOnlyGenericDAOImpl<Location, Lo
     	
     	return !locations.isEmpty();
     }
+
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public Location findBySiteName(String siteName){
+        return findByCriteria(Restrictions.eq("siteName", siteName));
+    }
 }
