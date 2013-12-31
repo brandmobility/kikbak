@@ -139,26 +139,6 @@ $(document).ready(function() {
 });
 
 function onInput() {
-  var valid = true;
-  $('.required').each(function() {
-    var thisElement = $(this);
-    thisElement.css('border', '1px solid rgba(1,1,1,.2)');
-    var value = thisElement.val();
-    if (thisElement.attr('type') === 'tel') {
-      if (value.replace(/[^\d]/g, "") === '') {
-        valid = false;
-      }
-    } else {
-      if (value.replace(/^\s+|\s+$/g, '') === '') {
-        valid = false;
-      }
-    }
-  });
-  if (valid) {
-    $('#share-btn').removeAttr('disabled');
-  } else {
-    $('#share-btn').attr('disabled', 'disabled');
-  }
   var zipcodeInput = $('#zipcode-input');
   if (zipcodeInput.hasClass('required')) {
     var zipcode = zipcodeInput.val().replace(/[^\d]/g, "");
@@ -178,6 +158,7 @@ function onInput() {
               $('#zipcode-hidden').removeClass('required');
               $('#loginFb').removeAttr('disabled');
               $('.divider').css('top', '48px');
+              onInput();
             } else {
               var html = '<h3>Unfortunately Verizon subscribers with this billing zip code are not eligible to participate in this program.</h3>';
               $('.divider').css('top', '88px');
@@ -196,6 +177,26 @@ function onInput() {
       $('#loginFb').attr('disabled', 'disabled');
       $('#zipcode-note').html('');
     }
+  }
+  var valid = true;
+  $('.required').each(function() {
+    var thisElement = $(this);
+    thisElement.css('border', '1px solid rgba(1,1,1,.2)');
+    var value = thisElement.val();
+    if (thisElement.attr('type') === 'tel') {
+      if (value.replace(/[^\d]/g, "") === '') {
+        valid = false;
+      }
+    } else {
+      if (value.replace(/^\s+|\s+$/g, '') === '') {
+        valid = false;
+      }
+    }
+  });
+  if (valid) {
+    $('#share-btn').removeAttr('disabled');
+  } else {
+    $('#share-btn').attr('disabled', 'disabled');
   }
 }
 
