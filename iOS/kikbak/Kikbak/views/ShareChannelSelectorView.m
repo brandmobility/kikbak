@@ -12,6 +12,7 @@
 #import "LocationTableViewCell.h"
 #import "Location.h"
 #import "UIDevice+Screen.h"
+#import "UIDevice+OSVersion.h"
 #import "Distance.h"
 #import "Flurry.h"
 #import "TwitterApi.h"
@@ -238,19 +239,19 @@
 }
 
 -(IBAction)onEmail:(id)sender{
-    [self.delegate onEmailSelected:self.locationId withEmployeeName:@""];
+    [self.delegate onEmailSelected:self.locationId withEmployeeName:self.employeeName];
     [Flurry logEvent:@"share via email"];
     [self removeFromSuperview];
 }
 
 -(IBAction)onFacebook:(id)sender{
-    [self.delegate onFBSelected:self.locationId withEmployeeName:@""];
+    [self.delegate onFBSelected:self.locationId withEmployeeName:self.employeeName];
     [Flurry logEvent:@"share via facebook"];
     [self removeFromSuperview];
 }
 
 -(IBAction)onSms:(id)sender{
-    [self.delegate onSmsSelected:self.locationId withEmployeeName:@""];
+    [self.delegate onSmsSelected:self.locationId withEmployeeName:self.employeeName];
     [Flurry logEvent:@"share via sms"];
     [self removeFromSuperview];
 }
@@ -258,7 +259,7 @@
 -(IBAction)onTwitter:(id)sender{
     TwitterApi* twitter = [[TwitterApi alloc]init];
     if( [twitter userHasAccessToTwitter] ){
-        [self.delegate onTwitterSelected:self.locationId withEmployeeName:@""];
+        [self.delegate onTwitterSelected:self.locationId withEmployeeName:self.employeeName];
         
         [Flurry logEvent:@"share via twitter"];
         [self removeFromSuperview];
@@ -303,17 +304,37 @@
         textView.textColor = UIColorFromRGB(0x3a3a3a);
     }
     
+    if( textView == self.employee && ![UIDevice hasFourInchDisplay]){
+        CGRect fr = self.backgroundView.frame;
+        fr.origin.y -= 100;
+        self.backgroundView.frame = fr;
+        
+        fr = self.closeBtn.frame;
+        fr.origin.y -= 100;
+        self.closeBtn.frame = fr;
+    }
+    
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView{
     
-//    if(textView == self.employee && [textView.text compare:@""] == NSOrderedSame){
-//        self.employee.text = NSLocalizedString(@"Employee", nil);
-//        self.employee.textColor = UIColorFromRGB(0x7F7F7F);
-//    }
-//    else{
-//        self.employeeName = self.employee.text;
-//    }
+    if(textView == self.employee && [textView.text compare:@""] == NSOrderedSame){
+        self.employee.text = NSLocalizedString(@"Employee", nil);
+        self.employee.textColor = UIColorFromRGB(0x7F7F7F);
+    }
+    else{
+        self.employeeName = self.employee.text;
+    }
+    
+    if( textView == self.employee && ![UIDevice hasFourInchDisplay]){
+        CGRect fr = self.backgroundView.frame;
+        fr.origin.y += 100;
+        self.backgroundView.frame = fr;
+        
+        fr = self.closeBtn.frame;
+        fr.origin.y += 100;
+        self.closeBtn.frame = fr;
+    }
 }
 
 #pragma mark - table datasource methods
