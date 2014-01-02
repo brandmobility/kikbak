@@ -198,7 +198,7 @@ function onInput() {
     thisElement.css('border', '1px solid gray');
     var value = thisElement.val();
     if (thisElement.attr('id') === 'phone-input') {
-      if (value.replace(/[^\d]/g, "") === '') {
+      if (!validatePhone(value)) {
         valid = false;
       }
     } else {

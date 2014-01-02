@@ -313,8 +313,14 @@
             var form = $('#claim-credit-form');
             var valid = true;
             $.each(form.serializeArray(), function() { 
-              if (this.value.replace(/^\s+|\s+$/g, '') == '') {
-                valid = false;
+              if (this.name === 'phoneNumber') {
+                if (o[k].replace(/[^\d]/g, "").length < 10) {
+                  valid = false;
+                }
+              } else {
+                if (this.value.replace(/^\s+|\s+$/g, '') == '') {
+                  valid = false;
+                }
               }
             });
             if (valid) {
@@ -343,8 +349,7 @@
             for (var i in keys) {
               var k = keys[i];
               if (k === 'phoneNumber') {
-                if (o[k].replace(/^\d$/g, "").length >= 10) {
-                  o[k] = o[k].replace(/^\s+|\s+$/g, '');
+                if (o[k].replace(/[^\d]/g, "").length >= 10) {
                   $('#claim-credit-form input[name="' + k + '"]').css('border', '1px solid #ccc');
                 } else {
                   invalid = true;
@@ -352,7 +357,6 @@
                 }
               } else {
                 if (/^\d+$/.test(o[k].replace(/^\s+|\s+$/g, ''))) {
-                  o[k] = o[k].replace(/^\s+|\s+$/g, '');
                   $('#claim-credit-form input[name="' + k + '"]').css('border', '1px solid #ccc');
                 } else {
                   invalid = true;
