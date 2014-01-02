@@ -314,7 +314,7 @@
             var valid = true;
             $.each(form.serializeArray(), function() { 
               if (this.name === 'phoneNumber') {
-                if (o[k].replace(/[^\d]/g, "").length < 10) {
+                if (this.value.replace(/[^\d]/g, "").length < 10) {
                   valid = false;
                 }
               } else {
