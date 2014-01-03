@@ -184,7 +184,7 @@ function onInput() {
     thisElement.css('border', '1px solid rgba(1,1,1,.2)');
     var value = thisElement.val();
     if (thisElement.attr('type') === 'tel') {
-      if (value.replace(/[^\d]/g, "") === '') {
+      if (!validatePhone(value)) {
         valid = false;
       }
     } else {
