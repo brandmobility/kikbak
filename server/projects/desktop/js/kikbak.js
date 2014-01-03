@@ -43,7 +43,7 @@ var s = (Storage) ? localStorage : {};
 
 var merchantCustom = {
   verizon: {
-    instruction: "NOTE: To participate in this program you must be a current Verizon customer with your billing address in one of the following states: TBD. If your billing address is not in a qualifying state you may share this offer with friends but you will not be eligible to earn rewards.",
+    instruction: "NOTE: To participate in this program you must be a current Verizon customer with your billing address in one of the following states: AL, AR, FL, GA, LA, MS, NC, OK, SC, TN, TX. If your billing address is not in a qualifying state you may share this offer with friends but you will not be eligible to earn rewards.",
     program_name: ""
   },
   all: {

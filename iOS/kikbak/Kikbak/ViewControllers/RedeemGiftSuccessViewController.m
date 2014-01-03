@@ -41,11 +41,13 @@ static int offsetForIOS6 = 44;
 @property (nonatomic, strong) UILabel* earn;
 
 @property (nonatomic, strong) UIButton* giveBtn;
+@property (nonatomic, strong) UIButton* couponBtn;
 
 -(void)createSubviews;
 -(void)manuallyLayoutSubviews;
 
 -(IBAction)onGiveBtn:(id)sender;
+-(IBAction)onCouponBtn:(id)sender;
 
 @end
 
@@ -102,16 +104,19 @@ static int offsetForIOS6 = 44;
         self.offer.frame = CGRectMake(0, 122 + offsetForIOS6, 320, 28);
         self.desc.frame = CGRectMake(0, 146 + offsetForIOS6, 320, 48);
         self.details.frame = CGRectMake(0, 184 + offsetForIOS6, 320, 26);
-        self.validationImage.frame = CGRectMake(60, 232 + offsetForIOS6, 200, 75);
-        self.couponCode.frame = CGRectMake(0, 307 + offsetForIOS6, 320, 12);
+        
+        self.validationImage.frame = CGRectMake(60, 222 + offsetForIOS6, 200, 75);
+        self.couponCode.frame = CGRectMake(0, 302 + offsetForIOS6, 320, 12);
         
         if( self.online == true ){
             self.couponCode.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:30];
             CGRect fr = self.couponCode.frame;
             fr.origin.y = 240 + offsetForIOS6;
+            fr.origin.x = 11;
             fr.size.height = 40;
             self.couponCode.frame = fr;
             self.couponCode.textColor = [UIColor redColor];
+            self.couponBtn.frame = CGRectMake(250, 240 + offsetForIOS6, 60, 40);
         }
 
         if( [self.validationType compare:@"qrcode"] == NSOrderedSame){
@@ -250,9 +255,21 @@ static int offsetForIOS6 = 44;
         self.couponCode.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:30];
         CGRect fr = self.couponCode.frame;
         fr.origin.y = 300;
+        fr.origin.x = 11;
         fr.size.height = 40;
         self.couponCode.frame = fr;
+        self.couponCode.textAlignment = NSTextAlignmentLeft;
         self.couponCode.textColor = [UIColor redColor];
+        
+        self.couponBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.couponBtn setBackgroundImage:[UIImage imageNamed:@"btn_blue"] forState:UIControlStateNormal];
+        [self.couponBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        self.couponBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:15];
+        [self.couponBtn setTitle:NSLocalizedString(@"Copy", nil) forState:UIControlStateNormal];
+        self.couponBtn.frame = CGRectMake(250, 300 + offsetForIOS6, 60, 40);
+        [self.couponBtn addTarget:self action:@selector(onCouponBtn:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:self.couponBtn];
+
     }
     
     if( [self.validationType compare:@"qrcode"] == NSOrderedSame){
@@ -301,6 +318,11 @@ static int offsetForIOS6 = 44;
         vc.offer = [OfferService findOfferById:self.offerId];
         [self.navigationController pushViewController:vc animated:YES];
     }
+}
+
+-(IBAction)onCouponBtn:(id)sender{
+    UIPasteboard *pb = [UIPasteboard generalPasteboard];
+    [pb setString:self.couponCode.text];
 }
 
 @end

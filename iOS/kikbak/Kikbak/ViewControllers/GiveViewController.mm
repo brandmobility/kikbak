@@ -651,6 +651,11 @@ static int offsetForIOS6 = 44;
 
 #pragma mark - keyboard options
 -(IBAction)keyboardWillShow:(NSNotification*)notification{
+    
+    if(!adjustTextview){
+        return;
+    }
+    
     CGRect keyboardBounds;
     [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue: &keyboardBounds];
     NSNumber *duration = [notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
@@ -670,7 +675,7 @@ static int offsetForIOS6 = 44;
     [UIView setAnimationCurve:(UIViewAnimationCurve)[curve intValue]];
 	
 	// set views with new info
-    if(self.captionContainerView.frame.origin.y != containerFrame.origin.y){
+    if( self.captionContainerView.frame.origin.y != containerFrame.origin.y){
         CGFloat delta = self.captionContainerView.frame.origin.y - containerFrame.origin.y;
         [self adjustRetailerInfo:delta];
     }
@@ -786,7 +791,7 @@ static int offsetForIOS6 = 44;
     }
     else if( shareViaTwitter){
         TwitterApi* api = [[TwitterApi alloc]init];
-        [api postToTimeline:result.body];
+        [api postToTimeline:[NSString stringWithFormat:@"%@ %@", result.body, result.landingUrl]];
     }
     else{
 //        [FBSettings setLoggingBehavior:[NSSet setWithObject:FBLoggingBehaviorFBRequests]];
@@ -887,10 +892,10 @@ static int offsetForIOS6 = 44;
 }
 
 -(void) onTwitterPostError:(NSNotification*)notification{
-    [self.spinnerView removeFromSuperview];
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:NSLocalizedString(@"Unreachable", nil) delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [self.spinnerView removeFromSuperview];
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:NSLocalizedString(@"Twitter Error", nil) delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         [alert show];
     });
 }

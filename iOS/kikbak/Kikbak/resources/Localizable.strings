@@ -40,6 +40,7 @@
 "suggest required" = "Please tell us about the business you want to suggest";
 "configure mail" = "Please configure phone to send email";
 "Unreachable" = "Can't connect to Kikbak servers. Please try again later.";
+"Twitter Error" = "Can't post to twitter. Please check your twitter account under settings.";
 "Thank you" = "Thank you for suggesting a business.";
 "Give description" = "Give %@";
 "Get description"  = "Get %@";
@@ -170,3 +171,6 @@
 //LOCATION Notification
 "Location Required" = "Location Required";
 "Enable Location" = "Please enable location services. \nVisit Settings->Privacy->Location Services";
+
+//copy
+"Copy" = "Copy";
