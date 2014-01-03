@@ -170,7 +170,7 @@
                             <p id="barcode-val"></p>
                             <a id="barcode-copy" class="btn grd-btn copy-btn">Copy the code</a>
                         </div>
-                        <a id="barcode-link" target="_blank" class="btn grd-btn" style="display:none;padding-top:3%;">Use online now</a>
+                        <a id="barcode-link" target="_blank" class="btn grd-btn" style="display:none;padding-top:3%;padding-left: 25px;padding-right: 25px;">Use online now</a>
                     </div>
                     </c:otherwise>
                     </c:choose>
@@ -266,7 +266,7 @@
                     <div
                         style="padding-top: 20px; padding-bottom: 4px;">
                         <h3 style="font-size: 38px; font-family: HelveticaNeue Bold; line-height: 18px;">${gift.desc}</h3>
-                        <p style="font-family: HelveticaNeueLT Pro 55 Roman; font-size: 18px; margin: 0;">${gift.detailedDesc}</p>
+                        <p style="font-family: HelveticaNeueLT Pro 55 Roman; font-size: 17px; padding-top: 4px; margin: 0;">${gift.detailedDesc}</p>
                     </div>
                 </div>
                 <div class="col-md-1"></div>

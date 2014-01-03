@@ -77,7 +77,7 @@ var authType = {
                '<div style="width:53%;float:left;margin-top:5px">' +
                  '<input id="username-input" type="text" class="required" name="username" placeholder="Your name">' +
                  '<input id="email-input" type="email" class="required" name="email" placeholder="Your email">' +
-               '</div><div class="divider" style="top:48px;"></div><div style="width:45%;float:left;margin-top:10px;">' +
+               '</div><div class="divider" style="top:65px;"></div><div style="width:45%;float:left;margin-top:10px;">' +
                  '<p>OR</p>' +
                  '<input type="button" id="loginFb" disabled="disabled">' + 
                '</div>' +
