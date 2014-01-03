@@ -146,7 +146,7 @@
                 <div class="hedng hedbk">
                     <fmt:formatNumber var="creditValue" value="${credit.value}"  maxFractionDigits="0" />
                     <h1>$${creditValue}</h1>
-                    <h3 style="color: #0f4689;">Gift Card</h3>
+                    <h3>Gift Card</h3>
                 </div>
                 <div class="clearfix"></div>
                 <div id="redeem-div" class="frm-fed">
