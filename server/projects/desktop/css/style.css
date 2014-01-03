@@ -424,12 +424,12 @@ textarea{
     text-align: center;
     width: 340px;
     height: 50px;
-    border-radius: 10px;
+    border-radius: 12px;
     filter: dropshadow(color=#050505,offx=-1,offy=-1)
 }
 #main-right .grd-btn {
     background: url('../images/btn_blue.png');
-    background-size: cover;
+    background-size: 100% 100%;
 }
 #main-right .btn-center {
     margin: 20px 120px 10px 120px;

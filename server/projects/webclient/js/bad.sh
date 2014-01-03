@@ -1,1 +1,1 @@
-java -jar ../../../external/libs/compiler.jar --js jquery.js blockui.js megapix.js exif.js binaryajax.js bootstrap.min.js jquery.Jcrop.min.js kikbak.js --js_output_file kikbak.min.js; scp -r  ../*.html ../css ../js ubuntu@test:~/chen/m/
+java -jar ../../../external/libs/compiler.jar --js jquery.js blockui.js megapix.js exif.js binaryajax.js bootstrap.min.js jquery.Jcrop.min.js kikbak.js --js_output_file kikbak.min.js; scp -r  ../*.html ../css ../images ../js ubuntu@test:~/chen/m/
