@@ -34,7 +34,6 @@ function shareOfferFromChannel(channel) {
     if (channel === 'twitter') {
       var str = "https://twitter.com/share?";
       var params = [ 
-        {name:"url", value:landingUrl},
         {name:"count", value:"none"},
         {name:"text", value: body}
       ];  
@@ -327,7 +326,7 @@ var authType = {
     login_div: '<div id="login-div">' +
                  '<div id="zipcode-div">' +
                  '<h3>Confirm Eligibility</h3>' +
-                 '<div style="margin-bottom: 40px;" id="zipcode-note">To participate in this program you must be a current Verizon customer with your billing address in one of the following states: TBD. If your billing address is not in a qualifying state you may share this offer with friends but you will not be eligible to earn rewards.</div>' +
+                 '<div style="text-align: left; font-size: 14px; margin-bottom: 20px;" id="zipcode-note">To participate in this program you must be a current Verizon customer with your billing address in one of the following states: TBD. If your billing address is not in a qualifying state you may share this offer with friends but you will not be eligible to earn rewards.</div>' +
                  '<input id="zipcode-input" type="text" onfocus="this.type=\'number\'" onblur="this.type=\'text\'" class="required" name="zipcode" placeholder="Your billing zip code">' +
                  '<button id="zipcode-btn" class="btn grd-btn" disabled="disabled" >Submit</button>' +
                '</div>' +

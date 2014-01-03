@@ -414,7 +414,6 @@ function shareOfferFromChannel(channel) {
     if (channel === 'twitter') {
       var str = "https://twitter.com/share?";
       var params = [ 
-        {name:"url", value:landingUrl},
         {name:"count", value:"none"},                                                                                            
         {name:"text", value: body}                                                            
       ];  
