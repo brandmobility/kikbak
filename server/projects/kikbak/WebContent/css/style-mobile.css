@@ -215,10 +215,12 @@ html, body {
     width: 84%;
     height: 40px;
     font-weight: bold;
-    border-radius: 5px;
+    border-radius: 10px;
     filter: dropshadow(color=#050505,offx=-1,offy=-1)
 }
-
+#redeem-gift-success p {
+    margin:0;
+}
 .grd-btn {
     background: url('../img/btn_blue.png');
     background-size: cover;
@@ -455,7 +457,7 @@ h1.pg-hedng {
 .cd-br-stin h3 {
     color: #3A3A3A;
     font-size: 16px;
-    margin: 1% 0;
+    margin: 1% 0 5% 0;
     font-weight: normal;
 } 
 .crt {
