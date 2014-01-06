@@ -599,37 +599,37 @@ public class RewardServiceImpl implements RewardService {
         if (generateBarcode) {
             Allocatedgift ag = roAllocatedGiftDao.findById(allocatedGiftId);
             Barcode bc = rwBarcodeDao.allocateBarcode(userId, ag.getGiftId(), allocatedGiftId);
-            code.setCode(validateAndUpdateChecksum(bc.getCode()));
+            code.setCode(bc.getCode());
             code.setValidDays(String.valueOf(bc.getValidDays()));
             return;
         }
-        code.setCode(validateAndUpdateChecksum(barcode.getCode()));
+        code.setCode(barcode.getCode());
         code.setValidDays(String.valueOf(barcode.getValidDays()));
     }
 
-    protected String validateAndUpdateChecksum(String code) {
-
-        int odd = 0;
-        int even = 0;
-        String[] split = code.split("(?<=\\d)");
-        for (int i = 0; i < split.length - 1; ++i) {
-            if ((i % 2) == 0) {
-                odd += Integer.parseInt(split[i]);
-            } else {
-                even += Integer.parseInt(split[i]);
-            }
-        }
-
-        int checkdigit = (odd * 3) + even;
-        checkdigit = (checkdigit % 10);
-        if (checkdigit != 0) {
-            checkdigit = 10 - checkdigit;
-        }
-        StringBuffer buffer = new StringBuffer();
-        buffer.append(code.substring(0, code.length() - 1));
-        buffer.append(String.valueOf(checkdigit));
-        return buffer.toString();
-    }
+//    protected String validateAndUpdateChecksum(String code) {
+//
+//        int odd = 0;
+//        int even = 0;
+//        String[] split = code.split("(?<=\\d)");
+//        for (int i = 0; i < split.length - 1; ++i) {
+//            if ((i % 2) == 0) {
+//                odd += Integer.parseInt(split[i]);
+//            } else {
+//                even += Integer.parseInt(split[i]);
+//            }
+//        }
+//
+//        int checkdigit = (odd * 3) + even;
+//        checkdigit = (checkdigit % 10);
+//        if (checkdigit != 0) {
+//            checkdigit = 10 - checkdigit;
+//        }
+//        StringBuffer buffer = new StringBuffer();
+//        buffer.append(code.substring(0, code.length() - 1));
+//        buffer.append(String.valueOf(checkdigit));
+//        return buffer.toString();
+//    }
     
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -650,7 +650,7 @@ public class RewardServiceImpl implements RewardService {
         if(barcode == null)
             throw new OfferExhaustedException("No free barcodes for offer " + offer.getId());
 
-        response.setCode(validateAndUpdateChecksum(barcode.getCode()));
+        response.setCode(barcode.getCode());
         response.setValidDays(String.valueOf(barcode.getValidDays()));
 
         return barcode.getCode();

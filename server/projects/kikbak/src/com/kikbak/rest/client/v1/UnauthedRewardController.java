@@ -14,9 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
-import com.google.zxing.oned.UPCAWriter;
+import com.google.zxing.oned.Code128Writer;
 import com.kikbak.client.service.v1.OfferExhaustedException;
 import com.kikbak.client.service.v1.OfferExpiredException;
 import com.kikbak.client.service.v1.RewardService;
@@ -40,7 +41,7 @@ public class UnauthedRewardController extends AbstractController {
             @PathVariable("width") Integer width, final HttpServletResponse httpResponse) {
 
         try {
-            BitMatrix result = new UPCAWriter().encode(barcode, BarcodeFormat.UPC_A, width, height);
+            BitMatrix result = new Code128Writer().encode(barcode, BarcodeFormat.CODE_128, width, height);
             httpResponse.setContentType("image/png");
             httpResponse.addHeader("barcode", barcode);
             MatrixToImageWriter.writeToStream(result, "png", httpResponse.getOutputStream());

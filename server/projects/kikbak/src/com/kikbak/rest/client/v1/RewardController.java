@@ -20,7 +20,7 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
-import com.google.zxing.oned.UPCAWriter;
+import com.google.zxing.oned.Code128Writer;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.kikbak.client.service.v1.OfferExhaustedException;
 import com.kikbak.client.service.v1.OfferExpiredException;
@@ -181,7 +181,7 @@ public class RewardController extends AbstractController {
         try {
             ensureCorrectUser(userId);
 
-            BitMatrix result = new UPCAWriter().encode(barcode, BarcodeFormat.UPC_A, width, height);
+            BitMatrix result = new Code128Writer().encode(barcode, BarcodeFormat.CODE_128, width, height);
             httpResponse.setContentType("image/png");
             httpResponse.addHeader("barcode", barcode);
             MatrixToImageWriter.writeToStream(result, "png", httpResponse.getOutputStream());
