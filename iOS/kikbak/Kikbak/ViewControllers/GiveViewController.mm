@@ -791,7 +791,7 @@ static int offsetForIOS6 = 44;
     }
     else if( shareViaTwitter){
         TwitterApi* api = [[TwitterApi alloc]init];
-        [api postToTimeline:[NSString stringWithFormat:@"%@ %@", result.body, result.landingUrl]];
+        [api postToTimeline:result.body];
     }
     else{
 //        [FBSettings setLoggingBehavior:[NSSet setWithObject:FBLoggingBehaviorFBRequests]];
