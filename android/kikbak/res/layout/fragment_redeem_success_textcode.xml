@@ -7,6 +7,7 @@
     android:orientation="vertical" >
 
     <com.referredlabs.kikbak.widget.TtfTextView
+        android:id="@+id/code_note"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/redeem_success_your_code"
@@ -14,14 +15,29 @@
         android:textSize="26dp"
         kikbak:typeface="Roboto-Bold.ttf" />
 
-    <com.referredlabs.kikbak.widget.TtfTextView
-        android:id="@+id/text_code"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
-        android:text="kik123456"
-        android:textColor="#135317"
-        android:textSize="48dp"
-        kikbak:typeface="Roboto-Regular.ttf" />
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <com.referredlabs.kikbak.widget.TtfTextView
+            android:id="@+id/text_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="kik123456"
+            android:textColor="#135317"
+            android:textSize="36dp"
+            android:textIsSelectable="true"
+            kikbak:typeface="Roboto-Regular.ttf" />
+
+        <ImageButton
+            android:id="@+id/copy"
+            style="@style/borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_copy" />
+    </LinearLayout>
 
 </LinearLayout>

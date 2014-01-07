@@ -11,6 +11,7 @@ import android.util.Log;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.common.BitMatrix;
+import com.google.zxing.oned.Code128Writer;
 import com.google.zxing.oned.UPCAWriter;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.referredlabs.kikbak.R;
@@ -37,12 +38,28 @@ public class BarcodeGenerator {
   public static Bitmap generateUpcaCode(Context ctx, String code) {
 
     try {
-      int w = ctx.getResources().getDimensionPixelSize(R.dimen.upca_code_widht);
-      int h = ctx.getResources().getDimensionPixelSize(R.dimen.upca_code_height);
+      int w = ctx.getResources().getDimensionPixelSize(R.dimen.barcode_upca_widht);
+      int h = ctx.getResources().getDimensionPixelSize(R.dimen.barcode_upca_height);
       Map<EncodeHintType, Object> hints = new EnumMap<EncodeHintType, Object>(EncodeHintType.class);
       hints.put(EncodeHintType.MARGIN, 0);
       UPCAWriter writer = new UPCAWriter();
       BitMatrix result = writer.encode(code, BarcodeFormat.UPC_A, w, h, hints);
+      return toBitmap(result);
+    } catch (Exception e) {
+      Log.e(TAG, "generating barcode failed");
+    }
+    return null;
+  }
+
+  public static Bitmap generateCode128(Context ctx, String code) {
+
+    try {
+      int w = ctx.getResources().getDimensionPixelSize(R.dimen.barcode_code128_widht);
+      int h = ctx.getResources().getDimensionPixelSize(R.dimen.barcode_code128_height);
+      Map<EncodeHintType, Object> hints = new EnumMap<EncodeHintType, Object>(EncodeHintType.class);
+      hints.put(EncodeHintType.MARGIN, 0);
+      Code128Writer writer = new Code128Writer();
+      BitMatrix result = writer.encode(code, BarcodeFormat.CODE_128, w, h, hints);
       return toBitmap(result);
     } catch (Exception e) {
       Log.e(TAG, "generating barcode failed");
