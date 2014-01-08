@@ -50,7 +50,7 @@ function shareOfferFromChannel(channel) {
         window.open(str, '_blank');
       }
     } else if (channel === 'sms') {
-      var str = 'sms:?body=' + encodeURIComponent(encodeURIComponent(body));
+      var str = 'sms:?body=' + encodeURIComponent(body);
       if (getBrowserName() === 'Safari') {
         window.location.href = str;
       } else {

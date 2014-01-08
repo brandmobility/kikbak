@@ -87,7 +87,8 @@
                     </div>
                     <h3><strong>You have a reward to be claimed!</strong></h3>
                     <div id="ribbon-blue">
-                        <h2><img src="img/victor-icon.png" class="victor-img"/>  ${credit.desc}</h2>
+                        <fmt:formatNumber var="creditValue" value="${credit.value}"  maxFractionDigits="0" />
+                        <h2><img src="img/victor-icon.png" class="victor-img"/>  $${creditValue} prepaid Visa debit card</h2>
                     </div>
                     <div class="clearfix"></div>
                     <div id="facebook-div" style="display:none;">
@@ -389,6 +390,11 @@
             });
             return false;
           });  
+
+          if (parseInt(${credit.value}) <= 0) {
+            $('#redeem-div').hide();
+            $('#redeem-success').show();
+          }
         }
 
         function registerCb(userId) {

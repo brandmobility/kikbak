@@ -521,7 +521,7 @@
           $('#barcode-val').css('font-size', '32px');
           $('#barcode-note').html('Your coupon code');
           $('#barcode').hide();
-          $('#barcode-link').attr('href', 'http://www.verizon.com');
+          $('#barcode-link').attr('href', 'http://www.verizonwireless.com/wcms/consumer/shop.html');
           $('#barcode-link').show();
           $('.share-offer').hide();
           $('#share-offer-btn').hide();
