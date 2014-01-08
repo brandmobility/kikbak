@@ -1,10 +1,15 @@
 
 package com.referredlabs.kikbak.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -16,6 +21,7 @@ import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.referredlabs.kikbak.R;
@@ -94,12 +100,15 @@ public class RedeemGiftSuccessFragment extends Fragment implements OnClickListen
       root = stub.inflate();
       if (mGift.validationType == ValidationType.barcode) {
         if (mIsInStore) {
-          Bitmap bmp = BarcodeGenerator.generateUpcaCode(getActivity(), mBarcode);
+          Bitmap bmp = BarcodeGenerator.generateCode128(getActivity(), mBarcode);
           ImageView img = (ImageView) root.findViewById(R.id.code);
           img.setImageBitmap(bmp);
         }
         TextView text = (TextView) root.findViewById(R.id.text_code);
         text.setText(mBarcode);
+        if (!mIsInStore) {
+          root.findViewById(R.id.copy).setOnClickListener(this);
+        }
       } else if (mGift.validationType == ValidationType.qrcode && !TextUtils.isEmpty(mBarcode)) {
         Bitmap bmp = BarcodeGenerator.generateQrCode(getActivity(), mBarcode);
         ImageView img = (ImageView) root.findViewById(R.id.code);
@@ -136,6 +145,9 @@ public class RedeemGiftSuccessFragment extends Fragment implements OnClickListen
       case R.id.use_online:
         onUseOnlineClicked();
         break;
+      case R.id.copy:
+        onCopyClicked();
+        break;
     }
   }
 
@@ -154,5 +166,21 @@ public class RedeemGiftSuccessFragment extends Fragment implements OnClickListen
   private void onUseOnlineClicked() {
     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.verizon.com"));
     startActivity(intent);
+  }
+
+  @SuppressLint("NewApi")
+  @SuppressWarnings("deprecation")
+  private void onCopyClicked() {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+      android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getActivity()
+          .getSystemService(Context.CLIPBOARD_SERVICE);
+      clipboard.setText(mBarcode);
+    } else {
+      ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(
+          Context.CLIPBOARD_SERVICE);
+      ClipData clip = ClipData.newPlainText(getString(R.string.coupon_code_clip), mBarcode);
+      clipboard.setPrimaryClip(clip);
+    }
+    Toast.makeText(getActivity(), R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();
   }
 }

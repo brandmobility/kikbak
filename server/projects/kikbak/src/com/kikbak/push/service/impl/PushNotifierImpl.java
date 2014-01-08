@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -15,6 +14,7 @@ import com.kikbak.client.service.v1.CheatProtectionService;
 import com.kikbak.client.util.CryptoUtils;
 import com.kikbak.config.ContextUtil;
 import com.kikbak.dao.ReadOnlyDeviceTokenDAO;
+import com.kikbak.dao.ReadOnlyKikbakDAO;
 import com.kikbak.dao.ReadOnlyMerchantDAO;
 import com.kikbak.dao.ReadOnlyOfferDAO;
 import com.kikbak.dao.ReadOnlyUserDAO;
@@ -58,6 +58,9 @@ public class PushNotifierImpl implements PushNotifier {
     ReadOnlyOfferDAO roOfferDAO;
 
     @Autowired
+    ReadOnlyKikbakDAO roKikbakDAO;
+
+    @Autowired
     CheatProtectionService cheatProtectionService;
 
     @Async
@@ -82,16 +85,16 @@ public class PushNotifierImpl implements PushNotifier {
             return;
         }
     }
-    
-    private String getUserName(Long fromUserId) {
-        if(fromUserId == null)
+
+    private String getUserName(Long userId) {
+        if (userId == null)
             return "Friend";
-        User user = roUserDAO.findById(fromUserId);
-        String who = user.getFirstName() + " " + user.getLastName();
-        if(StringUtils.isEmpty(who)) {
-            who = user.getManualName();
+        User user = roUserDAO.findById(userId);
+        if (user.getFacebookId() == null) {
+            return user.getManualName();
+        } else {
+            return user.getFirstName() + " " + user.getLastName();
         }
-        return who;
     }
 
     private void sendKikbakNotificationApple(Long fromUserId, Devicetoken deviceToken, Kikbak kikbak) {
@@ -182,7 +185,11 @@ public class PushNotifierImpl implements PushNotifier {
 
     private String getDecoratedEmailForUser(Long userId) {
         User user = roUserDAO.findById(userId);
-        return "\"" + user.getFirstName() + " " + user.getLastName() + "\"<" + user.getEmail() + ">";
+        if (user.getFacebookId() == null) {
+            return "\"" + user.getManualName() + "\"<" + user.getManualEmail() + ">";
+        } else {
+            return "\"" + user.getFirstName() + " " + user.getLastName() + "\"<" + user.getEmail() + ">";
+        }
     }
 
     @Async
@@ -266,4 +273,27 @@ public class PushNotifierImpl implements PushNotifier {
             log.error("Failed to send gift notification via google:" + e, e);
         }
     }
+
+    @Async
+    @Override
+    public void sendRewardPendingNotification(Long fromUserId, Long toUserId, Long offerId) {
+        try {
+            long mid = roOfferDAO.findById(offerId).getMerchantId();
+            Merchant merchant = roMerchantDAO.findById(mid);
+            Kikbak kikbak = roKikbakDAO.findByOfferId(offerId);
+
+            String subjectTmpl = config.getString("notification.email.pending.subject");
+            subjectTmpl = subjectTmpl.replace("%RETAILER%", merchant.getName());
+            subjectTmpl = subjectTmpl.replace("%REWARD%", kikbak.getDescription());
+
+            String bodyTmpl = config.getString("notification.email.pending.body");
+            bodyTmpl = bodyTmpl.replace("%RETAILER%", merchant.getName());
+
+            String email = getDecoratedEmailForUser(toUserId);
+            EmailSender.send(email, subjectTmpl, bodyTmpl);
+        } catch (Exception e) {
+            log.error("Failed to send out pending reward notification email", e);
+        }
+    }
+
 }

@@ -3,16 +3,19 @@ package com.kikbak.client.service.impl;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +45,7 @@ import com.kikbak.dao.ReadWriteClaimDAO;
 import com.kikbak.dao.ReadWriteCreditDAO;
 import com.kikbak.dao.ReadWriteSharedDAO;
 import com.kikbak.dao.ReadWriteTransactionDAO;
+import com.kikbak.dao.enums.BarcodeStatus;
 import com.kikbak.dao.enums.OfferType;
 import com.kikbak.dao.enums.TransactionType;
 import com.kikbak.dto.Allocatedgift;
@@ -74,6 +78,9 @@ import com.kikbak.push.service.PushNotifier;
 public class RewardServiceImpl implements RewardService {
 
     Logger logger = Logger.getLogger(RewardServiceImpl.class);
+
+    @Autowired
+    private PropertiesConfiguration config;
 
     @Autowired
     ReadOnlyKikbakDAO roKikbakDAO;
@@ -659,36 +666,67 @@ public class RewardServiceImpl implements RewardService {
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void registerBarcodeRedemption(String code, Date date) {
-        // TODO: this is not yet implemented
-
         Barcode barcode = roBarcodeDao.findByCode(code);
         if (barcode == null)
             throw new IllegalArgumentException("No such barcode:" + code);
 
-        if (barcode.getRedeemed())
-            throw new IllegalArgumentException("Barcode was already redeemed:" + code);
+        if (!BarcodeStatus.open.name().equals(barcode.getStatus()))
+            throw new IllegalArgumentException("Barcode was already used:" + code + " " + barcode.getStatus());
 
         Long allocatedGiftId = barcode.getAllocatedGiftId();
         if (allocatedGiftId == null)
             throw new IllegalArgumentException("Barcode was not associated:" + code);
 
-        Allocatedgift allocatedGift = roAllocatedGiftDao.findById(allocatedGiftId);
-
-        allocatedGift.setRedemptionDate(date);
-        barcode.setRedeemed(true);
-
+        // set barcode as pending
+        barcode.setStatus(BarcodeStatus.pending.name());
+        barcode.setRedeemDate(date);
         rwBarcodeDao.makePersistent(barcode);
+
+        Allocatedgift allocatedGift = roAllocatedGiftDao.findById(allocatedGiftId);
+        Offer offer = roOfferDao.findById(allocatedGift.getOfferId());
+        if (offer.getOfferType().equals(OfferType.both.name())) {
+            // send reward pending mail
+            pushNotifier.sendRewardPendingNotification(allocatedGift.getUserId(), allocatedGift.getFriendUserId(),
+                    allocatedGift.getOfferId());
+        }
+    }
+    
+    @Override
+    @Scheduled(cron = "${barcodes.pending.cron}")
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    public void processPendingBarcodes() {
+        int delay = config.getInt("barcodes.pending.delay_days");
+        Calendar cal = Calendar.getInstance();
+        cal.roll(Calendar.DAY_OF_MONTH, delay);
+        Date before = cal.getTime();
+        
+        Collection<Barcode> pending = roBarcodeDao.getPendingBarcodes(before);
+        for (Barcode barcode : pending) {
+            try {
+                completeBarcodeRedemption(barcode);
+            } catch (Exception e) {
+                logger.error("Failed to process pending barcode:" + barcode.getCode(), e);
+            }
+        }
+    }
+    
+    public void completeBarcodeRedemption(Barcode barcode) {
+        barcode.setStatus(BarcodeStatus.redeemed.name());
+        rwBarcodeDao.makePersistent(barcode);
+
+        Long allocatedGiftId = barcode.getAllocatedGiftId();
+        Allocatedgift allocatedGift = roAllocatedGiftDao.findById(allocatedGiftId);
+        allocatedGift.setRedemptionDate(barcode.getRedeemDate());
         rwGiftDao.makePersistent(allocatedGift);
 
         Offer offer = roOfferDao.findById(allocatedGift.getOfferId());
         if (offer.getOfferType().equals(OfferType.both.name())) {
-            // update credit ? should we do it after 25 days?
-
+            // grant kikbak (credit)
             CreditManager km = new CreditManager(roOfferDao, roKikbakDAO, roCreditDao, rwCreditDao, rwTxnDao);
             Long creditId = km.manageCredit(allocatedGift.getFriendUserId(), allocatedGift.getOfferId(),
                     allocatedGift.getMerchantId(), -1L);
 
-            // send notification for kikbak when gift is redeemed
+            // send notification
             Kikbak kikbak = roKikbakDAO.findByOfferId(allocatedGift.getOfferId());
             pushNotifier.sendKikbakNotification(allocatedGift.getUserId(), allocatedGift.getFriendUserId(), kikbak,
                     creditId);

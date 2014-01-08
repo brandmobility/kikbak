@@ -141,8 +141,9 @@
     <string name="redeem_credit_success_value_desc">can now be applied to your purchase</string>
     <string name="redeem_credit_success_share_note">Share the offer with more friends\nand earn even more credit</string>
     <string name="redeem_credit_success_share_button">Ready to give to more friends</string>
-
-    <!-- Redeem chooser -->
+	<string name="coupon_code_clip">Coupon code</string>
+	<string name="copied_to_clipboard">Coupon code copied to clipboard</string>
+	<!-- Redeem chooser -->
     <string name="redeem_chooser_title">Select one to redeem</string>
     <string name="or">OR</string>
 

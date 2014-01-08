@@ -8,4 +8,6 @@ public interface PushNotifier {
     public void sendKikbakNotification(Long fromUserId, Long toUserId, Kikbak kikbak, Long creditId);
 
     public void sendGiftNotification(Long fromUserId, Gift gift);
+    
+    public void sendRewardPendingNotification(Long fromUserId, Long toUserId, Long offerId);
 }

@@ -28,5 +28,6 @@ public interface RewardService {
     AvailableCreditType getCreditByCode(final String code) throws RewardException;
     String getBarcode(String referralCode, BarcodeResponse response) throws OfferExpiredException, OfferExhaustedException;
     void registerBarcodeRedemption(String code, Date date);
+    void processPendingBarcodes();
         
 }
