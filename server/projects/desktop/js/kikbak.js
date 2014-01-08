@@ -24,6 +24,30 @@ if (window.mobilecheck()) {
   }
 }
 
+var test = document.createElement('input');
+if(!('placeholder' in test)) {
+  $(document).on('focus', 'input', function () {
+    if ($(this).attr('placeholder') != '' && $(this).val() == $(this).attr('placeholder')) {
+      $(this).val('').removeClass('hasPlaceholder');
+    }
+  });
+  $(document).on('blur', 'input', function () {
+    if ($(this).attr('placeholder') != '' && ($(this).val() == '' || $(this).val() == $(this).attr('placeholder'))) {
+      $(this).val($(this).attr('placeholder')).addClass('hasPlaceholder');
+    }
+  });
+  $(document).on('focus', 'textarea', function () {
+    if ($(this).attr('placeholder') != '' && $(this).val() == $(this).attr('placeholder')) {
+      $(this).val('').removeClass('hasPlaceholder');
+    }
+  });
+  $(document).on('blur', 'textarea', function () {
+    if ($(this).attr('placeholder') != '' && ($(this).val() == '' || $(this).val() == $(this).attr('placeholder'))) {
+      $(this).val($(this).attr('placeholder')).addClass('hasPlaceholder');
+    }
+  });
+}
+
 var user = {};
 var storiesResponse = {};
 
@@ -532,7 +556,9 @@ function renderOfferDetail(offer, custom, holder) {
     window.open(offer.tosUrl, '_blank');
     return false;
   });
-
+ 
+  $('input').blur();
+  $('textarea').blur();
   $('input').keyup(onInput);
 }
 

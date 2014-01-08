@@ -623,7 +623,9 @@ input[type="button"]:disabled {
     cursor: pointer;
     border: 0;
 }
-
+.hasPlaceholder {
+    color: #777;
+}
 
 #zipcode-note {
     text-align:center;
