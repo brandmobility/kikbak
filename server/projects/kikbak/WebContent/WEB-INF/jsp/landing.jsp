@@ -99,7 +99,7 @@
                         </a>
                         <c:choose>
                         <c:when test="${gift.validationType == 'barcode'}">
-                        <button id="print-btn" style="display:none;" class="btn grd-btn print-btn" onclick="window.print()"><img src="img/printer.png" /><span>  Print page</span></button>
+                        <button id="print-btn" style="display:none;" class="btn grd-red-btn print-btn" onclick="window.print()"><img src="img/printer.png" /><span>  Print page</span></button>
                         </c:when>
                         </c:choose>
                     </div>
@@ -168,9 +168,9 @@
                         <div class="clearfix"></div>
                         <div style="position:relative">
                             <p id="barcode-val"></p>
-                            <a id="barcode-copy" class="btn grd-btn copy-btn">Copy the code</a>
+                            <a id="barcode-copy" class="btn grd-btn copy-btn">Copy</a>
                         </div>
-                        <a id="barcode-link" target="_blank" class="btn grd-btn" style="display:none;padding-top:3%;padding-left: 25px;padding-right: 25px;">Use online now</a>
+                        <a id="barcode-link" target="_blank" class="btn grd-btn" style="display:none;padding-top:3%;padding-bottom:3%;padding-left: 25px;padding-right: 25px;">Use online now</a>
                     </div>
                     </c:otherwise>
                     </c:choose>
@@ -519,7 +519,7 @@
         if (online) {
           $('#barcode-val').css('color', 'red');
           $('#barcode-val').css('font-size', '32px');
-          $('#barcode-note').html('Your coupon code');
+          $('#barcode-note').html('Your discount code');
           $('#barcode').hide();
           $('#barcode-link').attr('href', 'http://www.verizon.com');
           $('#barcode-link').show();
@@ -533,7 +533,7 @@
           $('#barcode').show();
           $('.share-offer').show();
           $('#share-offer-btn').show();
-          $('#success-msg h3').html('Bring this offer into ${gift.merchant.name} Store to redeem your gift.');
+          $('#success-msg h3').html('Bring this offer into a ${gift.merchant.name} Store to redeem your gift.');
           $('#success-msg p').html('Please show this screen when paying.');
         }
         <c:choose>

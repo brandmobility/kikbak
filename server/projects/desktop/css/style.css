@@ -198,14 +198,14 @@ textarea{
 }
 #info .info-content{
     width:346px;
-    height:346px;
+    height:315px;
     position: relative;
 }
 #info .info-content .main-image{
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
     border-radius: 10px;
-    height:346px;
+    height:315px;
     width:346px;
 }
 #info .info-content .overlay{
@@ -287,7 +287,7 @@ textarea{
     height: 73px;
     background: url(../images/ribbon.png) no-repeat top left;
     text-align:center;
-    padding: 23px 0 20px;
+    padding: 23px 0 23px;
     background-size: 100% 100%;
 }
 
@@ -319,7 +319,7 @@ textarea{
     background: url(../images/ribbon-bottom.png) no-repeat top left;
     background-size: 100% 100%;
     text-align:center;
-    padding: 23px 0 20px;
+    padding: 23px 0 23px;
 }
 
 #main-right #ribbon-bottom #ribbon-margin{

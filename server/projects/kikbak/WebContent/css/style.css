@@ -168,15 +168,15 @@ strong{
     font-family:'HelveticaNeue Bold';
 }
 #info .info-content{
+    height:310px;
     width:340px;
-    height:340px;
     position: relative;
 }
 #info .info-content .main-image{
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
     border-radius: 10px;
-    height:340px;
+    height:310px;
     width:340px;
 }
 #info .info-content .overlay{
@@ -251,8 +251,8 @@ strong{
     font-size: 20px;
     line-height: 24px;
     text-align: center;
-    margin-bottom: 5px;
-    margin-top: 25px;
+    margin-bottom: 8px;
+    margin-top: 18px;
 }
 #main-right #ribbon{
     color:#FFF;
@@ -260,7 +260,7 @@ strong{
     height: 65px;
     background: url(../img/ribbon.png) no-repeat top left;
     text-align:center;
-    padding: 25px 0;
+    padding: 25px 0 28px;
     font-size:22px;
     line-height: 22px;
     background-size: 100% 100%;
@@ -418,6 +418,10 @@ strong{
 }
 .grd-btn {
     background: url('../img/btn_blue.png');
+    background-size: 100% 100%;
+}
+.grd-red-btn {
+    background: url('../img/red_btn.png');
     background-size: 100% 100%;
 }
 input[disabled="disabled"] {

@@ -117,7 +117,7 @@
                                 <input type="text" name="zipcode" class="claim-reuqired" placeholder="Zip (number only)" class="bsnm" />
                                 </c:otherwise>
                                 </c:choose>
-                                <p style="margin-top: 20px;">Your reward will be mailed to the billing address associated with your account. It should arrive in 2 – 4 weeks.</p>
+                                <p style="margin-top: 20px;">For your first reward, a reloadable Visa debit card will be mailed to the billing address associated with your Verizon account. Additional rewards will be loaded directly onto the same Visa debit card. Please allow 2 – 4 weeks for delivery or reloading of card.</p>
                             </div>
                             <button id="claim-credit-btn" class="btn grd-btn" style="margin-top: 5px;" disabled="disabled">Submit</button>
                         </form>
@@ -126,7 +126,7 @@
                         <h3>Success!</h3>
                         <p>Your reward claim has been submitted.</p>
                         <div id="share-link-div">
-                            <a id="share-offer-btn" href="/d/${credit.merchant.shortname}" target="_blank" class="btn grd-btn" style="padding-top:3%;padding-left: 25px;padding-right: 25px;">Share offer with more friends</a>
+                            <a id="share-offer-btn" href="/d/${credit.merchant.shortname}" target="_blank" class="btn grd-btn" style="padding-top:3%;padding-bottom:3%;padding-left: 25px;padding-right: 25px;">Share offer with more friends</a>
                         </div>
                     </div>
                 </div>

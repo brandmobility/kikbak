@@ -444,7 +444,7 @@ p.msg {
 	margin-bottom:2px;
 	z-index: 999;
 	position: absolute;
-	bottom:30%;
+	bottom:28%;
 	width: 100%;
 }
 
@@ -1564,7 +1564,7 @@ to {
         bottom: 30%;
     }
     .opt-icon {
-        bottom: 20%;
+        bottom: 18%;
     }
     .addcmt {
         height: 32px;
@@ -1683,7 +1683,7 @@ to {
         margin-top:10px;
     }
    .image-add {
-        height: 255px;
+        height: 292px;
     }
 }
 
