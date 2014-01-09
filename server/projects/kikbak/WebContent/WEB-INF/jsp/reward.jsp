@@ -88,7 +88,7 @@
                     <h3><strong>You have a reward to be claimed!</strong></h3>
                     <div id="ribbon-blue">
                         <fmt:formatNumber var="creditValue" value="${credit.value}"  maxFractionDigits="0" />
-                        <h2><img src="img/victor-icon.png" class="victor-img"/>  $${creditValue} prepaid Visa debit card</h2>
+                        <h2><img src="img/victor-icon.png" class="victor-img"/>  $${creditValue}</h2>
                     </div>
                     <div class="clearfix"></div>
                     <div id="facebook-div" style="display:none;">
@@ -147,7 +147,6 @@
                 <div class="hedng hedbk">
                     <fmt:formatNumber var="creditValue" value="${credit.value}"  maxFractionDigits="0" />
                     <h1>$${creditValue}</h1>
-                    <h3>Gift Card</h3>
                 </div>
                 <div class="clearfix"></div>
                 <div id="redeem-div" class="frm-fed">

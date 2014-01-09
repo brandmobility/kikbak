@@ -35,6 +35,7 @@ function shareOfferFromChannel(channel) {
       var str = "https://twitter.com/share?";
       var params = [ 
         {name:"count", value:"none"},
+        {name:"url", value:""},
         {name:"text", value: body}
       ];  
       $.each(params, function (i, item) {
@@ -1564,7 +1565,7 @@ function renderOfferDetail(offer) {
     html += '</div>';
     html += '<div class="crt">';
     html += '<h2><img width="19px" src="images/ic_give_trophy.png" /> ';
-    html += 'Get ' + offer.kikbakDesc + '</h2>';
+    html += 'Get $' + offer.kikbakValue + '</h2>';
     html += '<h4>' + offer.kikbakDetailedDesc + '</h4>';
     html += '</div>';
   } else {

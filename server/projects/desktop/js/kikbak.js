@@ -438,7 +438,8 @@ function shareOfferFromChannel(channel) {
     if (channel === 'twitter') {
       var str = "https://twitter.com/share?";
       var params = [ 
-        {name:"count", value:"none"},                                                                                            
+        {name:"count", value:"none"},
+        {name:"url", value:""},
         {name:"text", value: body}                                                            
       ];  
       $.each(params, function (i, item) {
@@ -534,12 +535,12 @@ function renderOfferDetail(offer, custom, holder) {
   $('#show-picture').attr('src', offer.giveImageUrl);
   if (offer.kikbakDesc) {
     $('#ribbon-bottom').show();
-    $('#ribbon-bottom #ribbon-margin h2').html(offer.kikbakDesc);
+    $('#ribbon-bottom #ribbon-margin h2').html('Get $' + offer.kikbakValue);
     $('#ribbon-bottom #ribbon-margin p').html(offer.kikbakDetailedDesc);
   } else {
     $('#ribbon-bottom').hide();	  
   }
-  $('#ribbon #ribbon-margin h2').html(offer.giftDesc);
+  $('#ribbon #ribbon-margin h2').html('Give ' + offer.giftDesc);
   $('#ribbon #ribbon-margin p').html(offer.giftDetailedDesc);
 
   for (var name in custom) {
