@@ -504,6 +504,9 @@ button[disabled="disabled"] {
     display:none;
     font-size:14px;
 }
+.hasPlaceholder {
+    color: #777;
+}
 input {
     border: 1px solid rgba(1,1,1,.2);
     -moz-border-radius: 7px / 5px;
