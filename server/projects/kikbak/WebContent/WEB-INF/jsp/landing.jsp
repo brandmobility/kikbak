@@ -246,11 +246,11 @@
                     </div>
                     </c:when>
                     <c:otherwise>
-                    <div class="col-md-8" style="padding: 0 0 0 10px;">
+                    <div class="col-md-12" style="padding: 0 0 0 10px;">
                         <c:choose>
                         <c:when test="${not empty shareInfo.caption}">
                         <h3 style="color: #3a3a3a; font-size: 20px; font-weight: bold;">${shareInfo.friendName}</h3>
-                        <p>${shareInfo.caption}</p>
+                        <p style="width:100%;">${shareInfo.caption}</p>
                         </c:when>
                         <c:otherwise>
                         <h3 style="color: #3a3a3a; font-size: 20px; font-weight: bold;">${shareInfo.friendName}</h3>

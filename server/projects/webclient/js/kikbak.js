@@ -326,7 +326,7 @@ var authType = {
     login_div: '<div id="login-div">' +
                  '<div id="zipcode-div">' +
                  '<h3>Confirm Eligibility</h3>' +
-                 '<div style="text-align: left; font-size: 14px; margin-bottom: 20px;" id="zipcode-note">To participate in this program you must be a current Verizon customer with your billing address in one of the following states: TBD. If your billing address is not in a qualifying state you may share this offer with friends but you will not be eligible to earn rewards.</div>' +
+                 '<div style="text-align: left; font-size: 14px; margin-bottom: 20px;" id="zipcode-note">To participate in this program you must be a current Verizon customer with your billing address in one of the following states: AL, AR, FL, GA, LA, MS, NC, OK, SC, TN, TX. If your billing address is not in a qualifying state you may share this offer with friends but you will not be eligible to earn rewards.</div>' +
                  '<input id="zipcode-input" type="text" onfocus="this.type=\'number\'" onblur="this.type=\'text\'" class="required" name="zipcode" placeholder="Your billing zip code">' +
                  '<button id="zipcode-btn" class="btn grd-btn" disabled="disabled" >Submit</button>' +
                '</div>' +
@@ -1558,7 +1558,7 @@ function renderOfferDetail(offer) {
   html += '<div class="img-botm-patrn"></div>';
   if (offer.kikbakDesc) {
     html += '<div class="gv">';
-    html += '<h2><img src="images/ic_gift@2x.png" />';
+    html += '<h2><img src="images/ic_gift@2x.png" height="19px" width="18px" />';
     html += 'Give ' + offer.giftDesc + '</h2>';
     html += '<h4>' + offer.giftDetailedDesc + '</h4>';
     html += '</div>';

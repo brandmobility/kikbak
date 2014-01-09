@@ -166,7 +166,7 @@
                     <input type="number" name="zipcode" placeholder="Zip (number only)" class="bsnm" />
                     </c:otherwise>
                     </c:choose>
-                    <p>Your reward will be mailed to the billing address associated with your account.  It should arrive in 2 – 4 weeks.</p>
+                    <p>For your first reward, a reloadable Visa debit card will be mailed to the billing address associated with your Verizon account.  Additional rewards will be loaded directly onto the same Visa debit card.  Please allow 2 – 4 weeks for delivery or reloading of card.</p>
                     <div style="text-align: center; ">
               			<input type="button" id="claim-credit-btn"  class="btn grd-btn" disabled="disabled" value="Submit" /t>
  			        </div>
