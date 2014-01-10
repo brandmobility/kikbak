@@ -53,7 +53,7 @@
             android:textColor="#0f4689"
             android:textSize="36dp"
             kikbak:typeface="Roboto-Regular.ttf" />
-
+<!-- 
         <com.referredlabs.kikbak.widget.TtfTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -64,6 +64,7 @@
             android:textColor="#0f4689"
             android:textSize="20dp"
             kikbak:typeface="Roboto-Regular.ttf" />
+-->            
     </RelativeLayout>
 
     <LinearLayout

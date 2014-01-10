@@ -130,7 +130,7 @@
 
     <!-- Redeem success -->
     <string name="redeem_success_title">Success!</string>
-    <string name="redeem_success_your_code">YOUR COUPON CODE</string>
+    <string name="redeem_success_your_code">YOUR DISCOUNT CODE</string>
     <string name="redeem_gift_success_note_first">Please show this screen when paying.</string>
     <string name="redeem_gift_success_note_first_online">You have claimed your gift.</string>
     <string name="redeem_gift_success_share_note">Share the same offer with your friends.\nYou earn for every friend that redeems.</string>
@@ -163,7 +163,7 @@
     <string name="claim_card_state_hint">State</string>
     <string name="claim_card_zip_hint">Zip</string>
     <string name="claim_card_arrival">Your reward should arrive in 2 to 4 weeks.</string>
-    <string name="claim_card_arrival_verizon">Your reward will be mailed to the billing address associated with your account. It should arrive in 2–4 weeks.</string>
+    <string name="claim_card_arrival_verizon">For your first reward, a reloadable prepaid Visa debit card will be mailed to the billing address associated with your Verizon account. Additional rewards will be loaded directly onto the same Visa debit card. Please allow 2–4 weeks for delivery or reloading of card.</string>
     <string name="claim_card_submit">Submit</string>
     <string name="claim_success_share_button">Share offer with more friends</string>
     <!-- validation -->
