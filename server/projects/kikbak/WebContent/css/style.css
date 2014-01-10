@@ -311,18 +311,18 @@ strong{
     font-style:italic;
     font-family: 'HelveticaNeueLT Pro 45 Lt';
 }
-#main-right #facebook-div{
+#main-right .fb{
     text-align:center;
     margin-top: 12px;
 }
-#main-right #facebook-div p.title{
+#main-right .fb p.title{
     font-size: 16px;
     line-height: 22px;
     margin-bottom: 10px;
     color: #393939;
     text-shadow: 0 2px 0 rgba(255,255,255,.5);
 }
-#main-right #facebook-div p.disclaimer{
+#main-right .fb p.disclaimer{
     font-size:12px;
     font-style: italic;
     line-height: 15px;

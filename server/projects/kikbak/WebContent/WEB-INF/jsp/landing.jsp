@@ -114,7 +114,7 @@
                     	<h2>${gift.desc}</h2>
                         <p>${gift.detailedDesc}</p>
                     </div>
-                    <div id="facebook-div">
+                    <div id="facebook-div" class="fb">
                         <c:choose>
                         <c:when test="${gift.merchant.shortname != 'Verizon'}">
                         <p class="title">Connect with Facebook to claim your gift.</p>
@@ -128,8 +128,10 @@
                         <div id="zipcode-qualify-div" style="display:none;">
                             <button id="anonymous-redeem-barcode-btn" class="btn grd-btn mini-btn">Generate in-store coupon</button>
                             <button id="anonymous-redeem-barcode-online-btn1" class="btn grd-btn mini-btn">Redeem online</button>
-                            <p class="redeem-note">Or connect with Facebook to send the offer to the Kikbak app for iOS or Android. Use it to easily access your gift at the store.</p>
-                            <a id="loginFb" href="#"> <img src="img/fb-btn-new.png" width="258" height="55" style="margin: 0 auto;" /></a>
+                            <div id="facebook-btn-div">
+                                <p class="redeem-note">Or connect with Facebook to send the offer to the Kikbak app for iOS or Android. Use it to easily access your gift at the store.</p>
+                                <a id="loginFb" href="#"> <img src="img/fb-btn-new.png" width="258" height="55" style="margin: 0 auto;" /></a>
+                            </div>
                         </div>
                         <div id="zipcode-nonqualify-div" style="display:none;">
                             <p class="redeem-note" style="margin-top:5px;" >This offer is not eligible for stores in your area, but you can still  use it  online.</p>
@@ -151,10 +153,6 @@
                     <c:otherwise>
                     <div id="redeem-div" style="display: none;">
                         <div id="redeem-btn-div">
-                            <p class="redeem-note">
-                                Print out your code now or visit this link from your phone at the store
-                            </p>
-                            <input type="button" id="redeem-barcode-btn" class="btn grd-btn" value="Generate offer to use in store" />
                             <p class="redeem-note">
                                 You will now find your offer in the Kikbak app for iOS and Android.<br />Download the app now.
                             </p>
@@ -272,7 +270,7 @@
                 <div class="col-md-1"></div>
             </div>
             <div class="clearfix"></div>
-            <div id="facebook-div">
+            <div id="facebook-div" class="fb">
                 <c:choose>
                 <c:when test="${gift.merchant.shortname == 'Verizon'}">
                 <div id="zipcode-div">
@@ -281,7 +279,7 @@
                 <div id="zipcode-qualify-div" style="text-align: center;display:none;">
                     <button id="anonymous-redeem-barcode-btn" class="btn grd-btn mini-btn">Generate in-store<br/>coupon</button>
                     <button id="anonymous-redeem-barcode-online-btn1" class="btn grd-btn mini-btn">Redeem online</button>
-                    <div class="page-header" style="padding-left: 10px; padding-right: 10px; margin: 10px 0 0 0; text-align: center">
+                    <div id="facebook-btn-div" class="page-header" style="padding-left: 10px; padding-right: 10px; margin: 10px 0 0 0; text-align: center">
                         <p style="font-size: 15px; font-family: HelveticaNeueLT Pro 45 Lt;">Or connect with Facebook to send the offer to the Kikbak app for iOS and Android. Use it to easily access your gift at the store.</p>
                         <div style="height: 40px;margin-bottom:20px;">
                             <a id="loginFb" href="#"> <img src="img/facebook-button.png" width=240 /> </a>
@@ -324,9 +322,8 @@
             <c:otherwise>
             <div id="redeem-div" style="display: none;">
                 <div style="text-align: center; padding-top: 20px;">
-                    <input type="button" id="redeem-barcode-btn" class="btn grd-btn" value="Redeem now in store" />
                     <p>
-                    You will now find your offer in the Kikbak app for iOS and Android.<br />Download the app now.
+                    You will now find your offer in the Kikbak app for iOS and Android. Download the app now.
                     </p>
                 </div>
                 <div style="text-align: center; padding-bottom: 20px;">
@@ -474,7 +471,7 @@
         alert('Sorry, you cannot claim your own gift.');
         return;
       }
-      $('#facebook-div').hide();
+      $('#facebook-btn-div').hide();
       $('#redeem-div').show();
       preClaimGift(userId);
       $('#redeem-barcode-btn').click(function() {
