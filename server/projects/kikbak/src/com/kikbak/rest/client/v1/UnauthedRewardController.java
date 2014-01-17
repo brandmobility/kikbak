@@ -35,7 +35,7 @@ public class UnauthedRewardController extends AbstractController {
     @Autowired
     RewardService service;
 
-    @RequestMapping(value = "/generateBarcode//{barcode}/{height}/{width}/", method = RequestMethod.GET)
+    @RequestMapping(value = "/generateBarcode/{barcode}/{height}/{width}/", method = RequestMethod.GET)
     public void generateBarcode(
             @PathVariable("barcode") String barcode, @PathVariable("height") Integer height,
             @PathVariable("width") Integer width, final HttpServletResponse httpResponse) {

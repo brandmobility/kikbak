@@ -15,6 +15,7 @@ import com.kikbak.client.service.v1.RateLimitException;
 import com.kikbak.client.service.v1.ReferralCodeUniqueException;
 import com.kikbak.client.service.v1.SharedExperienceService;
 import com.kikbak.dao.ReadOnlyAllocatedGiftDAO;
+import com.kikbak.dao.ReadOnlyCreditDAO;
 import com.kikbak.dao.ReadOnlyGiftDAO;
 import com.kikbak.dao.ReadOnlyLocationDAO;
 import com.kikbak.dao.ReadOnlyOfferDAO;
@@ -23,6 +24,7 @@ import com.kikbak.dao.ReadOnlyZipcodeDAO;
 import com.kikbak.dao.ReadWriteSharedDAO;
 import com.kikbak.dao.enums.Channel;
 import com.kikbak.dao.enums.OfferType;
+import com.kikbak.dto.Credit;
 import com.kikbak.dto.Gift;
 import com.kikbak.dto.Offer;
 import com.kikbak.dto.Shared;
@@ -59,6 +61,9 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
     private ReadOnlyAllocatedGiftDAO roAllocatedGiftDAO;
     
     @Autowired
+    private ReadOnlyCreditDAO roCreditDAO;
+    
+    @Autowired
     private ReadOnlyLocationDAO roLocationDAO;
 
     @Autowired
@@ -84,7 +89,7 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
         }
         
         
-        if (OfferType.both.equals(offer.getOfferType())) {
+        if (OfferType.both.name().equals(offer.getOfferType())) {
             checkMaxRedeemCountReached(share.userId, share.offerId);
         }
 
@@ -118,9 +123,9 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
     }
 
     private void checkMaxRedeemCountReached(Long userId, Long offerId) throws RateLimitException {
-        Integer count = roAllocatedGiftDAO.countOfRedeemedShares(userId, offerId);
+        Credit credit = roCreditDAO.findByUserIdAndOfferId(userId, offerId);
         Offer offer = roOfferDAO.findById(offerId);
-        if (count >= offer.getRedeemLimit()) {
+        if (credit.getRedeemCount() >= offer.getRedeemLimit()) {
             throw new RateLimitException("User can no longer share!");
         }
     }

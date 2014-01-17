@@ -217,7 +217,8 @@ public class RewardServiceImpl implements RewardService {
         ac.setValidationType(kikbak.getValidationType());
         ac.setTosUrl(offer.getTosUrl());
         ac.setImageUrl(kikbak.getImageUrl());
-        ac.setRedeemedGiftsCount(credit.getRedeemCount());
+                
+        ac.setRedeemedGiftsCount((int) (credit.getValue()/kikbak.getValue()));
         ac.setUserId(userId);
         return ac;
     }
@@ -685,6 +686,9 @@ public class RewardServiceImpl implements RewardService {
         Allocatedgift allocatedGift = roAllocatedGiftDao.findById(allocatedGiftId);
         Offer offer = roOfferDao.findById(allocatedGift.getOfferId());
         if (offer.getOfferType().equals(OfferType.both.name())) {
+        	Credit credit = roCreditDao.findByUserIdAndOfferId(barcode.getUserId(), barcode.getOfferId());
+            credit.setRedeemCount(credit.getRedeemCount() + 1);
+            rwCreditDao.makePersistent(credit);
             // send reward pending mail
             pushNotifier.sendRewardPendingNotification(allocatedGift.getUserId(), allocatedGift.getFriendUserId(),
                     allocatedGift.getOfferId());
