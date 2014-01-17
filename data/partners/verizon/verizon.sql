@@ -22,8 +22,8 @@ insert into gift ( offer_id,  description, detailed_desc,              value, di
 
 set @gift_id := (select LAST_INSERT_ID());
 
-insert into kikbak (offer_id,  description,     detailed_desc,                              value, reward_type, validation_type, image_url) values
-                   (@offer_id, '$50 gift card', 'for every friend that redeems your gift' , 50,    'gift_card', 'barcode',       concat(@server, '/data/verizon/verizon_banner.png'));
+insert into kikbak (offer_id,  description, detailed_desc,                              value, reward_type, validation_type, image_url) values
+                   (@offer_id, '$50',       'for every friend that redeems your gift' , 50,    'gift_card', 'barcode',       concat(@server, '/data/verizon/verizon_banner.png'));
 
 # generate test barcodes
 #call create_test_barcode(100, @id, @offer_id, @gift_id, 50, 10);
