@@ -177,7 +177,21 @@ function preShareClick() {
               $('#share-popup').show();
               ga('send', 'event', 'button', 'show', 'give method select');
             } else if (storiesResponse.status === 'LIMIT_REACH') {
-              showErrorWithMsg('Congrats! You have earned the maximum number of rewards. Thank you for referring your friends to Verizon.<br /><br />Unfortunately you are no longer eligible to share this offer with friends.');
+              var str = 'Congratulations! You have reached the maximum of 10 earned rewards.  You may continue to share this offer with friends, but you will not earn any additional referral rewards.';
+              var landingUrl = storiesResponse.stories[0].landingUrl;
+              var landingHref = $('#landing');
+              landingHref.attr('href', landingUrl);
+              landingHref.html(landingUrl);
+              $('#pre-share-popup').hide();
+              if (offer.auth === 'facebook') {
+                $('#post-share-detail h3').html('Give offer to friends');
+              } else {
+                $('#post-share-detail h3').html('Share your offer');
+              }
+              $('#post-share-detail p').html(str + '<br><br>' + $('#post-share-detail p').html());
+              $('#share-popup').show();
+              ga('send', 'event', 'button', 'show', 'give method select');
+
             } else {
               showError();
             }
@@ -625,6 +639,7 @@ function showError() {
 }
 
 function showErrorWithMsg(msg) {
+  $('.popup').hide();
   $('#spinner h2').html('Waiting');
   $('#success-popup h1').html('');
   $('#success-popup h3').html('');
