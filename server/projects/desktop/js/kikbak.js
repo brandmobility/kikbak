@@ -603,10 +603,12 @@ function getOfferStory(offer) {
             $('#share-div .btn-group').show();
             $('#share-div').show();
           } else if (storiesResponse.status === 'LIMIT_REACH') {
-            var html = '<h3>Congrats! You have earned the maximum number of rewards. Thank you for referring your friends to Verizon.<br /><br />Unfortunately you are no longer eligible to share this offer with friends.</h3>';
+            var landingUrl = storiesResponse.stories[0].landingUrl;
+            var html = '<h3>Congratulations! You have reached the maximum of 10 earned rewards. You may continue to share this offer with friends, but you will not earn any additional referral rewards.</h3><br><br>';
+            html += '<h3>Your unique offer page:</h3><a id="landing" href="' + landingUrl + '" target="_blank">' + landingUrl + '</a><h3><br />Share your offer with friends</h3>';
             $('#pre-share-div').hide();
             $('#share-info-div').html(html);
-            $('#share-div .btn-group').hide();
+            $('#share-div .btn-group').show();
             $('#share-div').show();
           } else {
             showError();

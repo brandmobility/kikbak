@@ -178,7 +178,7 @@
         <div id="footer-wrap">
             <div id="footer" class="clearfix">
                 <div class="footer-left"><a href="" onclick="window.open('${gift.tosUrl}');return false;" class="lft">Terms & Conditions</a></div>
-                <div class="footer-right"><a href="https://kikbak.me" class="rit">&copy; Referred Labs, 2013</a></div>
+                <div class="footer-right"><a href="https://kikbak.me" class="rit" target="_blank">Powered by Kikbak</a></div>
             </div>
         </div>
         </c:when>
@@ -340,8 +340,7 @@
                         class="lft" style="color: #F3F3F3;font-size:12px;font-family:arial;">Terms & Conditions</a>
                 </div>
                 <div class="pull-right">
-                    <a href="https://kikbak.me" class="rit" style="color: #C3C3C3;font-size:12px;font-family:arial;">&copy;
-                        Referred Labs, 2013</a>
+                    <a href="https://kikbak.me" class="rit" target="_blank" style="color: #C3C3C3;font-size:12px;font-family:arial;">Powered by Kikbak</a>
                 </div>
             </div>
             <div class="clearfix"></div>
@@ -551,6 +550,9 @@
         $('#green-overlay').show();
         </c:when>
         <c:otherwise>
+        if (online) {
+          $('#barcode-link').attr('href', 'https://m.verizonwireless.com/shop');
+        }
         $('body').css('background-image','none');
         $('#landing-div').hide();
         $('#redeem-gift-success').show();

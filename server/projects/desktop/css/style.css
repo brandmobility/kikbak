@@ -416,6 +416,15 @@ textarea{
 #footer .footer-left a:hover{
     color: #c3c3c3;  
 }
+#footer .footer-right a{
+    color: #c3c3c3;
+    text-decoration:none;
+    text-shadow: 0 -2px 0 rgba(0,0,0,.5);
+}
+#footer .footer-right a:hover{
+    color: #c3c3c3;  
+}
+
 #main-right .btn {
     color: #fff;
     font-size: 18px;
