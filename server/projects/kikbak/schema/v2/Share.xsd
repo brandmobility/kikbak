@@ -40,6 +40,7 @@
         <xsd:restriction base="xsd:string">
             <xsd:enumeration value="OK"/>
             <xsd:enumeration value="LIMIT_REACH"/>
+            <xsd:enumeration value="BLOCKED_NUMBER"/>
         </xsd:restriction>
     </xsd:simpleType>
 

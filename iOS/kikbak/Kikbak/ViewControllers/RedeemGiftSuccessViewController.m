@@ -304,7 +304,7 @@ static int offsetForIOS6 = 44;
 
 -(IBAction)onGiveBtn:(id)sender{
     if( self.online ){
-        NSURL* url = [[NSURL alloc]initWithString:@"http://www.verizon.com"];
+        NSURL* url = [[NSURL alloc]initWithString:@"https://m.verizonwireless.com/shop"];
         if(![[UIApplication sharedApplication] canOpenURL:url]){
             UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"Hmmm..." message:@"You need to be on an iPhone to make a call" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
             [alert show];
