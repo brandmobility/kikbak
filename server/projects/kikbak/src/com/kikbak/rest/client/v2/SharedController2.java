@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kikbak.client.service.v1.BlockedNumberException;
 import com.kikbak.client.service.v1.RateLimitException;
 import com.kikbak.client.service.v1.SharedExperienceService;
 import com.kikbak.client.service.v1.StoryTemplateService;
+import com.kikbak.dao.ReadOnlyBlockedNumberDAO;
 import com.kikbak.dao.ReadOnlyLocationDAO;
 import com.kikbak.dao.enums.Channel;
 import com.kikbak.dto.Location;
@@ -40,6 +42,9 @@ public class SharedController2 {
     
     @Autowired
     private ReadOnlyLocationDAO readOnlyLocationDAO;
+    
+    @Autowired
+    private ReadOnlyBlockedNumberDAO roBlockedNumberDAO;
 
     @RequestMapping(value = "/getstories", method = RequestMethod.GET)
     public StoriesResponse getStories(final HttpServletRequest httpRequest, final HttpServletResponse httpResponse) {
@@ -75,6 +80,10 @@ public class SharedController2 {
             share.employeeId = ServletRequestUtils.getStringParameter(httpRequest, "employeeid");
             share.zipCode = ServletRequestUtils.getStringParameter(httpRequest, "zipCode");
 
+            if( roBlockedNumberDAO.isBlockedNumber(share.phoneNumber)){
+            	throw new BlockedNumberException("Blocked number");
+            }
+            
             String code = sharedService.registerSharing(share);
 
             String platform = ServletRequestUtils.getStringParameter(httpRequest, "platform");
@@ -89,7 +98,12 @@ public class SharedController2 {
             StoriesResponse response = new StoriesResponse();
             response.setStatus(StoryStatus.LIMIT_REACH);
             return response;
-        } catch (IllegalArgumentException e) {
+        } catch (BlockedNumberException e){
+        	StoriesResponse response = new StoriesResponse();
+            response.setStatus(StoryStatus.BLOCKED_NUMBER);
+            return response;
+        }
+        catch (IllegalArgumentException e) {
             logger.error(e, e);
             httpResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return null;

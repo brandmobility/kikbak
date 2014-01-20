@@ -35,10 +35,12 @@ public class CryptoUtils {
 	/** Cache UTF-8 character set **/
 	private static final Charset UTF8_CHARSET = Charset.forName("UTF-8");	
 
+	@SuppressWarnings("serial")
 	private static final Set<String> algorithmsWhichUseInitializationVector = new HashSet<String>() {{
 		add("AES/CBC/PKCS5Padding");
 	}};
 	
+	@SuppressWarnings("serial")
 	private static final Map<String, String> keySpecAlgorithmNames = new HashMap<String, String>(){{
 		put("AES/CBC/PKCS5Padding", "AES");
 	}};

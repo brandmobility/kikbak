@@ -61,6 +61,10 @@
 	<bean id="ReadWriteBarcodeDAO" class="com.kikbak.dao.impl.ReadWriteBarcodeDAOImpl">
 		<property name="sessionFactory" ref="rwSessionFactory" />
 	</bean>
+	
+	<bean id="ReadOnlyBLockedNumberDAO" class="com.kikbak.dao.impl.ReadOnlyBlockedNumberDAOImpl">
+		<property name="sessionFactory" ref="roSessionFactory" />
+	</bean>
 
 	<bean id="ReadOnlyClaimDAO" class="com.kikbak.dao.impl.ReadOnlyClaimDAOImpl">
 		<property name="sessionFactory" ref="roSessionFactory" />
