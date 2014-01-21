@@ -105,6 +105,7 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
         shared.setPhonenumber(share.phoneNumber);
         shared.setType(share.channel.name());
         shared.setSharedDate(new Date());
+        shared.setZipcode(share.zipCode);
 
         int maxLength = config.getInt(RANDOM_SECRET_LENGTH, DEFAULT_RANDOM_SECRET_LENGTH);
         while (true) {
