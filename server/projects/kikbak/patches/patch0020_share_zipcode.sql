@@ -1,0 +1,1 @@
+alter table `shared` add `zipcode` varchar(10);
