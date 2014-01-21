@@ -29,6 +29,17 @@
         <link rel="shortcut icon" href="http://kikbak.me/wp-content/uploads/2013/10/fav.png">
     </head>
     <body>
+        <script>
+            <c:choose>
+            <c:when test="${gift.expired or hostBlock}">
+            setTimeout(function() {
+              alert('The offer has expired');
+              window.location.href = "https://kikbak.me";
+            }, 1000);
+            </c:when>
+            </c:choose>
+        </script>
+
         <c:choose>
         <c:when test="${not mobile}">
         <div id="container"></div>
@@ -390,15 +401,6 @@
     $('#container').css('background-position', 'initial initial');
     $('#container').css('background-repeat', 'initial initial');
     $('#header .logo').attr('src', '${merchantUrl}');
-    </c:when>
-    </c:choose>
-
-    <c:choose>
-    <c:when test="${gift.expired or hostBlock}">
-    setTimeout(function() {
-      alert('The offer has expired');
-      window.location.href = "https://kikbak.me";
-    }, 1000);
     </c:when>
     </c:choose>
 

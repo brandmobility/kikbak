@@ -192,6 +192,9 @@ function preShareClick() {
               $('#share-popup').show();
               ga('send', 'event', 'button', 'show', 'give method select');
 
+            } else if (storiesResponse.status === 'BLOCKED_NUMBER') {
+              showErrorWithMsg('Unfortunately you are no longer eligible to share this offer.');
+
             } else {
               showError();
             }
