@@ -29,6 +29,17 @@
         <link rel="shortcut icon" href="http://kikbak.me/wp-content/uploads/2013/10/fav.png">
     </head>
     <body>
+        <script>
+            <c:choose>
+            <c:when test="${gift.expired or hostBlock}">
+            setTimeout(function() {
+              alert('Unfortunately this shared offer is no longer valid.');
+              window.location.href = "https://kikbak.me";
+            }, 1000);
+            </c:when>
+            </c:choose>
+        </script>
+
         <c:choose>
         <c:when test="${not mobile}">
         <div id="container"></div>
@@ -394,15 +405,6 @@
     </c:choose>
 
     <c:choose>
-    <c:when test="${gift.expired or hostBlock}">
-    setTimeout(function() {
-      alert('The offer has expired');
-      window.location.href = "https://kikbak.me";
-    }, 1000);
-    </c:when>
-    </c:choose>
-
-    <c:choose>
     <c:when test="${gift.merchant.shortname == 'Verizon'}">
     var zipcodeInput = $('#zipcode-input');
     zipcodeInput.keyup(function() {
@@ -493,7 +495,7 @@
             } else if (resp.status && resp.status === 'LIMIT_REACH') {
               $('#redeem-div p').html('The gift is not available anymore.');
             } else if (resp.status && resp.status === 'NO_GIFTS_AVAILABLE') {
-              $('#redeem-div p').html('Sorry, you can only use this offer once.');
+              $('#redeem-div p').html('You have already claimed this offer.');
             } else if (resp.status !== 'OK') {
               showError();
               return;

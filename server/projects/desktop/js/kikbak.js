@@ -610,6 +610,12 @@ function getOfferStory(offer) {
             $('#share-info-div').html(html);
             $('#share-div .btn-group').show();
             $('#share-div').show();
+          } else if (storiesResponse.status === 'BLOCKED_NUMBER') {
+            var html = '<h3>Unfortunately you are no longer eligible to share this offer.</h3><br><br>';
+            $('#pre-share-div').hide();
+            $('#share-info-div').html(html);
+            $('#share-div .btn-group').hide();
+            $('#share-div').show();
           } else {
             showError();
           }
