@@ -33,7 +33,7 @@
             <c:choose>
             <c:when test="${gift.expired or hostBlock}">
             setTimeout(function() {
-              alert('The offer has expired');
+              alert('Unfortunately this shared offer is no longer valid.');
               window.location.href = "https://kikbak.me";
             }, 1000);
             </c:when>
@@ -495,7 +495,7 @@
             } else if (resp.status && resp.status === 'LIMIT_REACH') {
               $('#redeem-div p').html('The gift is not available anymore.');
             } else if (resp.status && resp.status === 'NO_GIFTS_AVAILABLE') {
-              $('#redeem-div p').html('Sorry, you can only use this offer once.');
+              $('#redeem-div p').html('You have already claimed this offer.');
             } else if (resp.status !== 'OK') {
               showError();
               return;
