@@ -615,10 +615,10 @@ static int offsetForIOS6 = 44;
 
 #pragma mark - image picker delegates
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
-    UIImage* grd = [UIImage imageNamed:@"grd_give_img"];
+    UIImage* grd = [UIImage imageNamed:@"grd_give_img"];//
     self.imageOverlay.image = grd;
     CGRect fr = self.imageOverlay.frame;
-    fr.origin.y =  self.retailerName.frame.origin.y - 20 + offsetForIOS6;//self.captionContainerView.frame.origin.y - grd.size.height;
+    fr.origin.y =  self.retailerName.frame.origin.y - 40 + offsetForIOS6;//self.captionContainerView.frame.origin.y - grd.size.height;
     fr.size.height = self.giveImage.frame.size.height - fr.origin.y + offsetForIOS6;
     self.imageOverlay.frame = fr;
 

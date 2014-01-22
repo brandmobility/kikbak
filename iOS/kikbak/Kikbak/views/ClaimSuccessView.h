@@ -11,6 +11,7 @@
 @protocol ClaimCompleteDelegate <NSObject>
 
 -(void)onClaimFinished;
+-(void)onClaimDone;
 
 @end
 

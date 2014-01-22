@@ -54,13 +54,13 @@
 "Let us know" = "Let us know";
 "recommend business" = "Want to recommend a business with a special offer? Tell us and we'll let them know they should join Kikbak.";
 
-"Received Gift" = "RECEIVED GIFT";
+"Received Gift" = "USE RECEIVED GIFT";
 "Claim Reward" = "CLAIM REWARD";
 "Earned Credit" = "USE EARNED CREDIT";
 "gift percent" = "%d%% off";
 "amount off" = "$%d off";
 "credit" = "$%@ Credit";
-"Gift card" = "$%@ Gift Card";
+"Gift card" = "$%@ Debit Card";
 "Fb coupon title" = "%@ for %@";
 
 //redeem chooser
@@ -80,7 +80,8 @@
 "Share with friends" = "Share the same offer with your friends";
 "Earn for friend" = "You earn for every friend that redeems.";
 "Earn more credit" = "and earn even more credit.";
-"Give to Friends" = "Give to friends";
+"Give to Friends" = "Share offer with more friends";
+"Done" = "Done";
 "Use Online" = "Use Online Now";
 
 //credit amount
@@ -129,10 +130,10 @@
 "Email" = "Share via Email";
 "SMS" = "Share via SMS";
 "Helped" = "Let friends know who helped you?";
-"Employee" = "Employee name [optional]";
+"Employee" = "Suggest an employee [optional]";
 "Preferred Location" = "Choose your preferred location?";
 "Give offer" = "Give offer to friends";
-"Pick Location" = "Pick a location";
+"Pick Location" = "Suggest a nearby store";
 "twitter" = "Twitter";
 "twitter access" = "Please log into twitter. Please login into twitter under Settings->Twitter";
 
@@ -150,7 +151,7 @@
 "City" = "City";
 "State" = "State";
 "Zip" = "Zip";
-"Arrival" = "Your reward should arrive in 2 - 4 weeks.";
+"Arrival" = "For your first reward, a reloadable Visa debit card will be mailed to the billing address associated with your Verizon account.  Additional rewards will be loaded directly onto the same Visa debit card.  Please allow 2 – 4 weeks for delivery or reloading of card.";
 "Submit" = "Submit";
 
 "Claim Error Title"="Redemption Failed";

@@ -18,8 +18,11 @@
 @property (nonatomic, strong) UILabel* success;
 @property (nonatomic, strong) UILabel* submitted;
 @property (nonatomic, strong) UIButton* okBtn;
+@property (nonatomic, strong) UIButton* doneBtn;
 
 -(IBAction)onOk:(id)sender;
+
+-(IBAction)onDone:(id)sender;
 
 @end
 
@@ -65,7 +68,7 @@
     self.success.backgroundColor = [UIColor clearColor];
     [self.backgroundView addSubview:self.success];
     
-    self.submitted = [[UILabel alloc]initWithFrame:CGRectMake(40, 80, frame.size.width-80, 50)];
+    self.submitted = [[UILabel alloc]initWithFrame:CGRectMake(40, 60, frame.size.width-80, 50)];
     self.submitted.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:20];
     self.submitted.text = NSLocalizedString(@"reward claim", nil);
     self.submitted.textAlignment = NSTextAlignmentCenter;
@@ -73,7 +76,16 @@
     self.submitted.textColor = UIColorFromRGB(0x3a3a3a);
     self.submitted.backgroundColor = [UIColor clearColor];
     [self.backgroundView addSubview:self.submitted];
-        
+
+    self.doneBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.doneBtn.frame = CGRectMake(11,frame.size.height - 102, frame.size.width - 22, 40);
+    [self.doneBtn setBackgroundImage:[UIImage imageNamed:@"btn_blue"] forState:UIControlStateNormal];
+    [self.doneBtn setTitle:NSLocalizedString(@"Done", nil) forState:UIControlStateNormal];
+    self.doneBtn.titleLabel.textColor = [UIColor whiteColor];
+    [self.backgroundView addSubview:self.doneBtn];
+    [self.doneBtn addTarget:self action:@selector(onDone:) forControlEvents:UIControlEventTouchUpInside];
+
+    
     self.okBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.okBtn.frame = CGRectMake(11,frame.size.height - 52, frame.size.width - 22, 40);
     [self.okBtn setBackgroundImage:[UIImage imageNamed:@"btn_blue"] forState:UIControlStateNormal];
@@ -85,6 +97,12 @@
 
 -(IBAction)onOk:(id)sender{
     [self.delegate onClaimFinished];
+    [self removeFromSuperview];
+}
+
+-(IBAction)onDone:(id)sender{
+
+    [self.delegate onClaimDone];
     [self removeFromSuperview];
 }
 

@@ -203,6 +203,17 @@ static int offsetForIOS6 = 44;
 //    self.zip.placeholder = NSLocalizedString(@"Zip", nil);
 //    [self.scrollView addSubview:self.zip];
     
+    self.arrival = [[UILabel alloc]initWithFrame:CGRectMake(11, self.view.frame.size.height - 210, 298, 80)];
+    self.arrival.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
+    self.arrival.text = NSLocalizedString(@"Arrival", nil);
+    self.arrival.textColor = UIColorFromRGB(0x888686);
+    self.arrival.textAlignment = NSTextAlignmentCenter;
+    self.arrival.numberOfLines = 5;
+    self.arrival.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:self.arrival];
+
+    
+    
     self.submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.submitBtn.frame = CGRectMake(11, self.view.frame.size.height - 120, 298, 40);
     [self.submitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -263,7 +274,8 @@ static int offsetForIOS6 = 44;
 
 #pragma mark - btn actions
 -(BOOL)validInput{
-    if( self.phoneNumber.text == nil ){// ||
+    if( self.phoneNumber.text == nil ||
+       [self.phoneNumber.text compare:@""] == NSOrderedSame){// ||
 //       self.name.text == nil ||
 //       self.street.text == nil ||
 //       self.city.text == nil ||
@@ -359,6 +371,20 @@ static int offsetForIOS6 = 44;
     vc.offer = [OfferService findOfferById:offerId];
     [self.navigationController pushViewController:vc animated:YES];
 
+}
+
+-(void)onClaimDone{
+    
+    NSManagedObjectContext* context = ((AppDelegate*)[UIApplication sharedApplication].delegate).managedObjectContext;
+    [context deleteObject:self.credit];
+    NSError* error;
+    [context save:&error];
+    if(error){
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+    }
+    self.credit = nil;
+    
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 -(IBAction)onBackBtn:(id)sender{

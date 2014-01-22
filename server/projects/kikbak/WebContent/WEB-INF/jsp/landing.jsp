@@ -317,7 +317,7 @@
             <c:choose>
             <c:when test="${gift.validationType != 'barcode'}">
             <div id="redeem-div" style="display: none;">
-                <div style="text-align: center; padding-top: 20px;">
+                <div style="text-align: center; padding-top: 20px;padding-left: 10px;padding-right: 10px;">
                     <p>
                     Awesome! Your gift is now stored to <br/> your Facebook
                     account. To use your gift, <br/> download the Kikbak app. It’ll
@@ -332,7 +332,7 @@
             </c:when>
             <c:otherwise>
             <div id="redeem-div" style="display: none;">
-                <div style="text-align: center; padding-top: 20px;">
+                <div style="text-align: center; padding-top: 20px;padding-left: 10px;padding-right: 10px;">
                     <p>
                     You will now find your offer in the Kikbak app for iOS and Android. Download the app now.
                     </p>

@@ -149,7 +149,7 @@ const int CELL_HEIGHT = 147;
     self.gift.text = NSLocalizedString(@"Received Gift", nil);
     self.gift.backgroundColor = [UIColor clearColor];
     self.gift.textColor = UIColorFromRGB(0X767676);
-    self.gift.font = [UIFont fontWithName:@"HelveticaNeue" size:11];
+    self.gift.font = [UIFont fontWithName:@"HelveticaNeue" size:10];
     self.gift.textAlignment = NSTextAlignmentLeft;
     
     self.giftBtn =  [UIButton buttonWithType:UIButtonTypeCustom];
@@ -178,7 +178,7 @@ const int CELL_HEIGHT = 147;
     self.credit.text = NSLocalizedString(@"Claim Reward", nil);
     self.credit.backgroundColor = [UIColor clearColor];
     self.credit.textColor = UIColorFromRGB(0X767676);
-    self.credit.font = [UIFont fontWithName:@"HelveticaNeue" size:11];
+    self.credit.font = [UIFont fontWithName:@"HelveticaNeue" size:10];
     self.credit.textAlignment = NSTextAlignmentRight;
 
     self.creditBtn =  [UIButton buttonWithType:UIButtonTypeCustom];

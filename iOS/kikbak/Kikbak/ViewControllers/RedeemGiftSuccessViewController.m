@@ -174,13 +174,13 @@ static int offsetForIOS6 = 44;
     [self.successBG addSubview:self.claimedGift];
     
     
-    self.showScreen = [[UILabel alloc]initWithFrame:CGRectMake(0, 62, 320, 15)];
-    self.showScreen.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
-    self.showScreen.textAlignment = NSTextAlignmentCenter;
-    self.showScreen.textColor = UIColorFromRGB(0x16521b);
-    self.showScreen.text = NSLocalizedString(@"Show Screen", nil);
-    self.showScreen.backgroundColor = [UIColor clearColor];
-    [self.successBG addSubview:self.showScreen];
+//    self.showScreen = [[UILabel alloc]initWithFrame:CGRectMake(0, 62, 320, 15)];
+//    self.showScreen.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
+//    self.showScreen.textAlignment = NSTextAlignmentCenter;
+//    self.showScreen.textColor = UIColorFromRGB(0x16521b);
+//    self.showScreen.text = NSLocalizedString(@"Show Screen", nil);
+//    self.showScreen.backgroundColor = [UIColor clearColor];
+//    [self.successBG addSubview:self.showScreen];
     
     self.dottedSeperator = [[UIImageView alloc]initWithFrame:CGRectMake(0, 174 + offsetForIOS6, 320, 2)];
     self.dottedSeperator.image = [UIImage imageNamed:@"separater_dots_gift_success"];
