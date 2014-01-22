@@ -60,7 +60,7 @@ function shareOfferFromChannel(channel) {
     }
   }
 
-  ga('send', 'event', 'button', 'click', 'share via ' + channel);
+  ga('send', 'event', 'share', 'click', 'share via ' + channel);
   var requestUrl = config.backend + 'kikbak/v2/share/addsharetype?code=' + encodeURIComponent(storiesResponse.code) + '&type=' + encodeURIComponent(channel);
   $.ajax({
     type: 'GET',
@@ -125,7 +125,7 @@ function registerUser(cb) {
 
 function preShareClick() {
   var offer = currentOffer;
-  ga('send', 'event', 'button', 'click', 'share offer');
+  ga('send', 'event', 'share', 'click', 'share offer');
   registerUser(function() {
     uploadPhotoAfterLogin(function() {
       var requestUrl = config.backend + 'kikbak/v2/share/getstories?userid=' + encodeURIComponent(user.id) + '&offerid=' + encodeURIComponent(offer.id) 
@@ -175,7 +175,7 @@ function preShareClick() {
                 $('#post-share-detail h3').html('Share your offer');
               }
               $('#share-popup').show();
-              ga('send', 'event', 'button', 'show', 'give method select');
+              ga('send', 'event', 'share', 'show', 'give method select');
             } else if (storiesResponse.status === 'LIMIT_REACH') {
               var str = 'Congratulations! You have reached the maximum of 10 earned rewards.  You may continue to share this offer with friends, but you will not earn any additional referral rewards.';
               var landingUrl = storiesResponse.stories[0].landingUrl;
@@ -190,7 +190,7 @@ function preShareClick() {
               }
               $('#post-share-detail p').html(str + '<br><br>' + $('#post-share-detail p').html());
               $('#share-popup').show();
-              ga('send', 'event', 'button', 'show', 'give method select');
+              ga('send', 'event', 'share', 'show', 'give method select');
 
             } else if (storiesResponse.status === 'BLOCKED_NUMBER') {
               showErrorWithMsg('Unfortunately you are no longer eligible to share this offer.');
@@ -1352,7 +1352,7 @@ function getOfferDetail() {
     });
 
     $('#comment-input').on('focus', function() {
-      ga('send', 'event', 'button', 'click', 'add comment');
+      ga('send', 'event', 'share', 'click', 'add comment');
       validateZipcode(function() {
         $('.popup').hide();
         $('#comment-input').unbind('focus');
@@ -1366,7 +1366,7 @@ function getOfferDetail() {
         var takePicture = $('#take-picture');
         takePicture.show();
         takePicture.change(function(e) {
-          ga('send', 'event', 'button', 'click', 'take picture');
+          ga('send', 'event', 'share', 'click', 'take picture');
           $("#share-btn").attr('disabled', 'disabled');
           var icon = $('.camicon');
           var files = e.target.files;
@@ -1544,7 +1544,7 @@ function renderOfferDetail(offer) {
 
   currentOffer = offer;
   var html = '';
-  ga('send', 'event', 'button', 'show', 'give ' + offer.merchantName);
+  ga('send', 'event', 'share', 'show', 'give ' + offer.merchantName);
   var userId = s.userId;
   html += '<div id="share-after-login-div">';
   html += '<form onsubmit="return false;" id="share-form" type="POST" enctype="multipart/form-data" style="margin-bottom:0px;">';
@@ -1737,7 +1737,7 @@ function onSuggestResponse(url) {
 }
 
 function shareOffer(offer) {
-  ga('send', 'event', 'button', 'click', 'share offer');
+  ga('send', 'event', 'share', 'click', 'share offer');
   initUserInfoForm();
   $('#pre-share-popup').show();
 }
@@ -1794,10 +1794,10 @@ function uploadPhotoAfterLogin(cb) {
 }
 
 function loginFb(cb) {
-  ga('send', 'event', 'button', 'click', 'facebook auth');
+  ga('send', 'event', 'share', 'click', 'facebook auth');
   FB.login(function(response) {
     if (response.status === 'connected') {
-      ga('send', 'event', 'button', 'click', 'facebook auth success');
+      ga('send', 'event', 'share', 'click', 'facebook auth success');
       if (cb) {
         cb(response.authResponse);
         user.cb = cb(response.authResponse);
@@ -1805,10 +1805,10 @@ function loginFb(cb) {
         connectFb(response.authResponse.accessToken);
       }
     } else if (response.status === 'not_authorized') {
-      ga('send', 'event', 'button', 'click', 'facebook auth failure');
+      ga('send', 'event', 'share', 'click', 'facebook auth failure');
       FB.login();
     } else {
-      ga('send', 'event', 'button', 'click', 'facebook auth failure');
+      ga('send', 'event', 'share', 'click', 'facebook auth failure');
       FB.login();
     }
   }, {

@@ -462,7 +462,7 @@ function shareOfferFromChannel(channel) {
           + '&body=' + encodeURI3986(encodeURI3986(body));
       window.open(str, '_blank', 'top='+y+',left='+x+',width='+w+',height='+h);
     } 
-    ga('send', 'event', 'button', 'click', 'share via ' + channel);
+    ga('send', 'event', 'share', 'click', 'share via ' + channel);
     var requestUrl = config.backend + 'kikbak/v2/share/addsharetype?code=' + encodeURIComponent(storiesResponse.code) + '&type=' + encodeURIComponent(channel);
     $.ajax({
       type: 'GET',
@@ -507,7 +507,7 @@ function getOfferDetail() {
 
 function renderOfferDetail(offer, custom, holder) {
   var html = '';
-  ga('send', 'event', 'button', 'show', 'give ' + offer.merchantName);
+  ga('send', 'event', 'share', 'show', 'give ' + offer.merchantName);
   $('.brand-name').html(offer.merchantName);
   $('#container').css('background-image', 'url(' + offer.offerImageUrl + ')');
   $('#container').css('background-size', '100%');
@@ -528,7 +528,7 @@ function renderOfferDetail(offer, custom, holder) {
     $('#' + i).html(template[i]);
   }
 
-  ga('send', 'event', 'button', 'show', 'facebook auth');
+  ga('send', 'event', 'share', 'show', 'facebook auth');
   
   $('#globe-href').attr('href', offer.merchantUrl);
   
@@ -564,7 +564,7 @@ function renderOfferDetail(offer, custom, holder) {
 }
 
 function getOfferStory(offer) {
-  ga('send', 'event', 'button', 'click', 'share offer');
+  ga('send', 'event', 'share', 'click', 'share offer');
   registerUser(function() {
     var requestUrl = config.backend + 'kikbak/v2/share/getstories?userid=' + encodeURIComponent(user.id) + '&offerid=' + encodeURIComponent(offer.id) + '&platform=PC&imageurl=' + encodeURIComponent(offer.giveImageUrl);
     if ($('#zipcode-input').hasClass('required')) {
@@ -629,16 +629,16 @@ function getOfferStory(offer) {
 }
 
 function loginFb() {
-  ga('send', 'event', 'button', 'click', 'facebook auth');
+  ga('send', 'event', 'share', 'click', 'facebook auth');
   FB.login(function(response) {
     if (response.status === 'connected') {
-      ga('send', 'event', 'button', 'click', 'facebook auth success');
+      ga('send', 'event', 'share', 'click', 'facebook auth success');
       connectFb(response.authResponse);
     } else if (response.status === 'not_authorized') {
-      ga('send', 'event', 'button', 'click', 'facebook auth failure');
+      ga('send', 'event', 'share', 'click', 'facebook auth failure');
       FB.login();
     } else {
-      ga('send', 'event', 'button', 'click', 'facebook auth failure');
+      ga('send', 'event', 'share', 'click', 'facebook auth failure');
       FB.login();
     }
   }, {

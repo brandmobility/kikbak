@@ -392,6 +392,13 @@
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/jquery.zclip.min.js"></script>
     <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-45251651-1');
+    ga('send', 'pageview');
+
     var agId;
     
     <c:choose>
@@ -417,9 +424,11 @@
           success: function(json) {
             var valid = json.zipValidationResponse.status;
             if (valid === 'OK') {
+              ga('send', 'event', 'gift landing', 'input', 'valid zipcode');
               $('#zipcode-qualify-div').show();
               $('#zipcode-nonqualify-div').hide();
             } else {
+              ga('send', 'event', 'gift landing', 'input', 'invalid zipcode');
               $('#zipcode-qualify-div').hide();
               $('#zipcode-nonqualify-div').show();
             }
@@ -432,12 +441,15 @@
       }
     });    
     $('#anonymous-redeem-barcode-btn').click(function() {
+      ga('send', 'event', 'gift landing', 'click', 'in-store barcode');
       claimGift(0, false);
     });
     $('#anonymous-redeem-barcode-online-btn1').click(function() {
+      ga('send', 'event', 'gift landing', 'click', 'online barcode');
       claimGift(0, true);
     });
     $('#anonymous-redeem-barcode-online-btn2').click(function() {
+      ga('send', 'event', 'gift landing', 'click', 'online barcode');
       claimGift(0, true);
     });
     </c:when>
