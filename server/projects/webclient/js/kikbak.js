@@ -1537,10 +1537,6 @@ function renderOfferDetail(offer) {
     e.preventDefault();
   });
   $('#pre-share-popup input').keyup(onInput);
-  if (getBrowserName() === 'Safari') {
-    $('#share-sms-div').hide();
-    $('.btn-group').css('width', '33%');
-  }
 
   currentOffer = offer;
   var html = '';
