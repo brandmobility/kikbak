@@ -164,7 +164,7 @@ public class RedeemGiftSuccessFragment extends Fragment implements OnClickListen
   }
 
   private void onUseOnlineClicked() {
-    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.verizon.com"));
+    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(" https://m.verizonwireless.com/shop"));
     startActivity(intent);
   }
 
