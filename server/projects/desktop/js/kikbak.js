@@ -107,7 +107,7 @@ var authType = {
                '</div>' +
                '<div class="clearfix"></div>' +
                '<p class="note">We use Facebook to personalize your offers and notify you via email when friends redeem them. We will never post without your permission.</p>',
-    phone_div: '<input id="phone-input" type="tel" class="required" name="phone" placeholder="Your Verizon phone number" />'
+    phone_div: '<input id="phone-input" type="tel" class="required" name="phone" placeholder="Your Verizon Wireless Phone Number" />'
 
   },
   none: {
@@ -184,7 +184,7 @@ function onInput() {
               $('.divider').css('top', '65px');
               onInput();
             } else {
-              var html = '<h3>Unfortunately Verizon subscribers with this billing zip code are not eligible to participate in this program.</h3>';
+              var html = '<h3>Unfortunately Verizon subscribers in this billing zip code are not eligible to participate in the program.</h3>';
               $('.divider').css('top', '102px');
               $('#zipcode-note').html(html);
               $('#zipcode-hidden').addClass('required');
@@ -509,10 +509,6 @@ function renderOfferDetail(offer, custom, holder) {
   var html = '';
   ga('send', 'event', 'share', 'show', 'give ' + offer.merchantName);
   $('.brand-name').html(offer.merchantName);
-  $('#container').css('background-image', 'url(' + offer.offerImageUrl + ')');
-  $('#container').css('background-size', '100%');
-  $('#container').css('background-position', 'initial initial');
-  $('#container').css('background-repeat', 'initial initial');
   $('#header h1').css('background-image', 'url(' + offer.merchantLogoUrl + ')');
   $('#header h1').css('background-size', 'contain');
   $('#header h1').css('background-position', 'center');

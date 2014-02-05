@@ -81,7 +81,6 @@
                         </div>
 
                         <div class="content-detail clearfix">
-                            <h3>${gift.merchant.name}</h3>
                             <a href="https://maps.google.com/maps?q=${encodeMerchantName}%40${location.latitude},${location.longitude}" target="_blank"><div class="location"><img src="img/icon-location.png" width=22 height=22></div></a>
                             <a href="${gift.merchant.url}" target="_blank"><div class="globe"><img src="img/icon-globe.png" width=22 height=22 /></div></a>
                         </div>
@@ -116,7 +115,7 @@
                     </div>
                     <div id="success-msg" style="display:none;">
                         <h1>Success!</h1>
-                        <h3 style="margin-bottom:25px;">Bring this offer into ${gift.merchant.name} Store to redeem your gift.</h3>
+                        <h3 style="margin-bottom:25px;">Bring this offer into ${gift.merchant.name} Store to redeem the offer.</h3>
                     </div>
                     <div id="welcome-msg">
                         <h3>An exclusive offer for <strong>${gift.merchant.name}</strong></h3>
@@ -128,7 +127,7 @@
                     <div id="facebook-div" class="fb">
                         <c:choose>
                         <c:when test="${gift.merchant.shortname != 'Verizon'}">
-                        <p class="title">Connect with Facebook to claim your gift.</p>
+                        <p class="title">Connect with Facebook to claim the offer.</p>
                         <a id="loginFb" href="#"> <img src="img/fb-btn-new.png" width="258" height="55" style="margin: 0 auto;" /></a>
                         <p class="disclaimer">We use Facebook to make it easy for you to share, redeem and share gifts.<br/> We will never post without your permission.</p>
                         </c:when>
@@ -137,16 +136,16 @@
                             <input type="text" id="zipcode-input" placeholder="Your zip code"></input>
                         </div>
                         <div id="zipcode-qualify-div" style="display:none;">
-                            <button id="anonymous-redeem-barcode-btn" class="btn grd-btn mini-btn">Generate in-store coupon</button>
-                            <button id="anonymous-redeem-barcode-online-btn1" class="btn grd-btn mini-btn">Redeem online</button>
+                            <button id="anonymous-redeem-barcode-btn" class="btn grd-btn mini-btn">Generate In-store Coupon</button>
+                            <button id="anonymous-redeem-barcode-online-btn1" class="btn grd-btn mini-btn">Redeem Online</button>
                             <div id="facebook-btn-div">
-                                <p class="redeem-note">Or connect with Facebook to send the offer to the Kikbak app for iOS or Android. Use it to easily access your gift at the store.</p>
+                                <p class="redeem-note">Or connect with Facebook to send the offer to the Kikbak app for iOS or Android. Use it to easily access the offer at the store.</p>
                                 <a id="loginFb" href="#"> <img src="img/fb-btn-new.png" width="258" height="55" style="margin: 0 auto;" /></a>
                             </div>
                         </div>
                         <div id="zipcode-nonqualify-div" style="display:none;">
-                            <p class="redeem-note" style="margin-top:5px;" >This offer is not eligible for stores in your area, but you can still  use it  online.</p>
-                            <button id="anonymous-redeem-barcode-online-btn2" class="btn grd-btn">Redeem online now</button>
+                            <p class="redeem-note" style="margin-top:5px;" >Sorry, this offer is not eligible for stores in your area. However, you can still redeem this offer online.</p>
+                            <button id="anonymous-redeem-barcode-online-btn2" class="btn grd-btn">Redeem Online</button>
                         </div>
                         </c:otherwise>
                         </c:choose>
@@ -154,7 +153,7 @@
                     <c:choose>
                     <c:when test="${gift.validationType != 'barcode'}">
                     <div id="redeem-div" style="display: none;">
-                        <p class="redeem-note">Awesome! Your gift is now stored to your Facebook <br/>account. To use your gift, download the Kikbak app. It’ll be<br/> waiting for whenever you’re ready to use it.</p>
+                        <p class="redeem-note">Awesome! Your gift is now stored to your Facebook <br/>account. To use the offer, download the Kikbak app. It’ll be<br/> waiting for whenever you’re ready to use it.</p>
                         <div>
                             <a href="https://itunes.apple.com/us/app/kikbak/id707697884?mt=8"><img src="img/app-store.png" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <a href="https://play.google.com/store/apps/details?id=com.referredlabs.kikbak&hl=en"><img src="img/google-play.png" /></a>
@@ -179,7 +178,7 @@
                             <p id="barcode-val"></p>
                             <a id="barcode-copy" class="btn grd-btn copy-btn">Copy</a>
                         </div>
-                        <a id="barcode-link" target="_blank" class="btn grd-btn" style="display:none;padding-top:3%;padding-bottom:3%;padding-left: 25px;padding-right: 25px;">Use online now</a>
+                        <a id="barcode-link" target="_blank" class="btn grd-btn" style="display:none;padding-top:3%;padding-bottom:3%;padding-left: 25px;padding-right: 25px;">Use Online</a>
                     </div>
                     </c:otherwise>
                     </c:choose>
@@ -288,10 +287,10 @@
                     <input type="text" onfocus="this.type='number'" onblur="this.type='text'" placeholder="Your zip code" id="zipcode-input"></input>
                 </div>
                 <div id="zipcode-qualify-div" style="text-align: center;display:none;">
-                    <button id="anonymous-redeem-barcode-btn" class="btn grd-btn mini-btn">Generate in-store<br/>coupon</button>
-                    <button id="anonymous-redeem-barcode-online-btn1" class="btn grd-btn mini-btn">Redeem online</button>
+                    <button id="anonymous-redeem-barcode-btn" class="btn grd-btn mini-btn">Generate In-store<br/>Coupon</button>
+                    <button id="anonymous-redeem-barcode-online-btn1" class="btn grd-btn mini-btn">Redeem Online</button>
                     <div id="facebook-btn-div" class="page-header" style="padding-left: 10px; padding-right: 10px; margin: 10px 0 0 0; text-align: center">
-                        <p style="font-size: 15px; font-family: HelveticaNeueLT Pro 45 Lt;">Or connect with Facebook to send the offer to the Kikbak app for iOS and Android. Use it to easily access your gift at the store.</p>
+                        <p style="font-size: 15px; font-family: HelveticaNeueLT Pro 45 Lt;">Or connect with Facebook to send the offer to the Kikbak app for iOS and Android. Use it to easily access the offer at the store.</p>
                         <div style="height: 40px;margin-bottom:20px;">
                             <a id="loginFb" href="#"> <img src="img/facebook-button.png" width=240 /> </a>
                         </div>
@@ -299,13 +298,13 @@
                 </div>
                 <div id="zipcode-nonqualify-div" style="text-align: center;display:none;">
                      <p style="font-size: 15px; font-family: HelveticaNeueLT Pro 45 Lt;" >Sorry, this offer is not eligible for stores in your area, but you can still use it online.</p>
-                     <button id="anonymous-redeem-barcode-online-btn2" style="margin-bottom:20px;" class="btn grd-btn">Redeem online now</button>
+                     <button id="anonymous-redeem-barcode-online-btn2" style="margin-bottom:20px;" class="btn grd-btn">Redeem Online Now</button>
                 </div>
                 </c:when>
                 <c:otherwise>
                 <div class="page-header"
                     style="padding-left: 10px; padding-right: 10px; margin: 10px 0 0 0; text-align: center">
-                    <p style="font-size: 15px; font-family: HelveticaNeueLT Pro 45 Lt;">Or connect with Facebook to send the offer to the Kikbak app for iOS and Android. Use it to easily access your gift at the store.</p>
+                    <p style="font-size: 15px; font-family: HelveticaNeueLT Pro 45 Lt;">Or connect with Facebook to send the offer to the Kikbak app for iOS and Android. Use it to easily access the offer at the store.</p>
                     <div style="height: 40px;margin-bottom:20px;">
                         <a id="loginFb" href="#"> <img src="img/facebook-button.png" width=240 />
                         </a>
@@ -320,7 +319,7 @@
                 <div style="text-align: center; padding-top: 20px;padding-left: 10px;padding-right: 10px;">
                     <p>
                     Awesome! Your gift is now stored to <br/> your Facebook
-                    account. To use your gift, <br/> download the Kikbak app. It’ll
+                    account. To use the offer, <br/> download the Kikbak app. It’ll
                     be waiting <br/> for whenever you’re ready to use it.
                     </p>
                 </div>
@@ -363,7 +362,6 @@
         <h2>Success!</h2>
             <p>Please show this screen when paying.</p>
         </div>
-        <div class="hedbk1-botm-patrn"></div>
         <div class="cd-br-stin">
             <h2>OFFER</h2>
             <h1>${gift.desc}</h1>
@@ -373,14 +371,13 @@
             <p id="barcode-note"></p>
             <img id="barcode" src="" />
             <p id="barcode-val"></p>
-            <a id="barcode-link" target="_blank" style="display:none;" class="btn grd-btn">Use online now</a>
+            <a id="barcode-link" target="_blank" style="display:none;" class="btn grd-btn">Use Online</a>
         </div>
         <div class="crt share-offer">
-            <p>Share the same offer with your friends.<br/>
-            You earn for every friend that redeems.</p>
+            <p>Share the same offer with your friends.</p>
         </div>
         <div style="text-align: center; padding-top: 20px;" class="share-offer">
-            <a id="share-offer-btn" href="/m/${gift.merchant.shortname}" target="_blank" class="btn grd-btn">I'm ready to give to others</a>
+            <a id="share-offer-btn" href="/m/${gift.merchant.shortname}" target="_blank" class="btn grd-btn">Give To Others</a>
         </div>
     </div>
     </c:otherwise>
@@ -535,15 +532,15 @@
           $('#barcode-link').show();
           $('.share-offer').hide();
           $('#share-offer-btn').hide();
-          $('#success-msg h3').html('You have claimed your gift.');
-          $('#success-msg p').html('You have claimed your gift.');
+          $('#success-msg h3').html('You have claimed the offer.');
+          $('#success-msg p').html('You have claimed the offer.');
         } else {
           $('#barcode-val').css('color', 'black');
           $('#barcode-val').css('font-size', '16px');
           $('#barcode').show();
           $('.share-offer').show();
           $('#share-offer-btn').show();
-          $('#success-msg h3').html('Bring this offer into a ${gift.merchant.name} Store to redeem your gift.');
+          $('#success-msg h3').html('Bring this offer into a ${gift.merchant.name} Store to redeem the offer.');
           $('#success-msg p').html('Please show this screen when paying.');
         }
         <c:choose>

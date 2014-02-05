@@ -364,9 +364,9 @@ var authType = {
                '</div>' +
                '<div id="create-share-div" style="display:none">' +
                '<h3>Create your offer</h3>' +
-               '<input type="text" onfocus="this.type=\'tel\'" onblur="this.type=\'text\'" id="phone-input" placeholder="Your Verizon phone number" />' +
+               '<input type="text" onfocus="this.type=\'tel\'" onblur="this.type=\'text\'" id="phone-input" placeholder="Verizon Wireless Phone Number" />' +
 	           '<div id="location-sel-div" style="display:none;"><select id="location-sel" class="location-sel"></select></div>' +
-	           '<div id="location-input-div" style="display:none;"><input type="text" id="location-input" class="location-sel" placeholder="Store ID" /></div>' +
+	           '<div id="location-input-div" style="display:none;"><input type="text" id="location-input" class="location-sel" placeholder="Store ID [optional]" /></div>' +
 		       '<input id="employeeId-input" class="location-sel" type="text" name="employeeId" placeholder="Suggest an employee [optional]" />' +
                '<button id="create-share-btn" class="share-btn btn grd-btn" disabled="disabled" >Create offer to share</button>' +
              '</div>',
@@ -1570,7 +1570,6 @@ function renderOfferDetail(offer) {
   html += '</div>';
   html += '<input name="comment" id="comment-input" placeholder="Add comment" class="addcmt" style="width:91%;height:25px"/>';
   html += '</div>';
-  html += '<div class="img-botm-patrn"></div>';
   if (offer.kikbakDesc) {
     html += '<div class="gv">';
     html += '<h2><img src="images/ic_gift@2x.png" height="19px" width="18px" />';
@@ -1592,7 +1591,7 @@ function renderOfferDetail(offer) {
   html += '<div class="crt" style="margin:0 2%;">';
   html += '<a href="#" class="trm" id="term-btn" >&nbsp;Terms and Conditions</a>';
   html += '</div>';
-  html += '<input id="share-btn" name="share" type="button" class="btn grd-btn botm-position" value="Give to friends" />';
+  html += '<input id="share-btn" name="share" type="button" class="btn grd-btn botm-position" value="Give To Friends" />';
   html += '</form>';
   html += '</div>';
   $('#offer-details-view').html(html);
