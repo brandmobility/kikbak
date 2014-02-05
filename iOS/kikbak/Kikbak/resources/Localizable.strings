@@ -14,8 +14,8 @@
 
 //share success
 "Success" = "Success!";
-"Shared Gift" = "You have shared a gift";
-"Gift Notification" = "We will notify you when a friend uses your gift and you earn a reward";
+"Shared Gift" = "You have shared an offer";
+"Gift Notification" = "We will notify you when a friend uses your offer and you earn a reward";
 "Ok" = "Ok";
 
 
@@ -51,10 +51,10 @@
 "add comment" = "Add Comment...";
 "Terms and Conditions" = "Terms and Conditions";
 "Learn More" = "Learn more...";
-"Let us know" = "Let us know";
+"Let us know" = "Let Us Know";
 "recommend business" = "Want to recommend a business with a special offer? Tell us and we'll let them know they should join Kikbak.";
 
-"Received Gift" = "USE RECEIVED GIFT";
+"Received Gift" = "USE OFFER";
 "Claim Reward" = "CLAIM REWARD";
 "Earned Credit" = "USE EARNED CREDIT";
 "gift percent" = "%d%% off";
@@ -70,9 +70,9 @@
 
 //redeem gift
 "Redeem" = "Redeem";
-"Redeem in Store" = "Redeem in store";
-"Redeem Online" = "Redeem online";
-"Redeemed By Friends" = "Your gift has been redeemed by %d friends";
+"Redeem in Store" = "Redeem In Store";
+"Redeem Online" = "Redeem Online";
+"Redeemed By Friends" = "Your offer has been redeemed by %d friends";
 "Credit To Apply" = "Credit to be applied to purchase";
 "Change" = "Change";
 "Credit Warning" = "WARNING: If you apply more credit then your purchase total, you will permanenty lose all excess credit applied";
@@ -80,7 +80,7 @@
 "Share with friends" = "Share the same offer with your friends";
 "Earn for friend" = "You earn for every friend that redeems.";
 "Earn more credit" = "and earn even more credit.";
-"Give to Friends" = "Share offer with more friends";
+"Give to Friends" = "Share Offer With More Friends";
 "Done" = "Done";
 "Use Online" = "Use Online Now";
 
@@ -95,8 +95,8 @@
 
 "Reward Ready"="You have a reward ready to be claimed";
 "Claimed Credit" = "You have claimed your credit";
-"Claimed Gift" = "You have claimed your gift";
-"Claim reward now" = "Claim reward now";
+"Claimed Gift" = "You have claimed your offer";
+"Claim reward now" = "Claim Reward Now";
 
 "Show Screen" = "Please show this screen to the cashier.";
 "Redeem Success Credit Label" = "CREDIT";
@@ -110,11 +110,11 @@
 "There are no Kikbak offers"="There are no Kikbak offers available in your area";
 "available in your area"="available in your area";
 "Tell Us" = "Or tell us about a business that you'd like to recommend to friends with a special offer";
-"Suggest for Kikbak" = "Suggest a business";
+"Suggest for Kikbak" = "Suggest A Business";
 "Doh" = "Doh!";
-"You haven't received any gifts or earned any credit" = "You haven't received any gifts or earned any credit";
+"You haven't received any gifts or earned any credit" = "You haven't received any offers or earned any credit";
 "Change empty gifts" = "You can change that by giving an offer to your friends. You'll earn credit for every friend that redeems.";
-"See Offers" = "See offers to give to friends";
+"See Offers" = "See Offers To Give To Friends";
 "Unable to suggest" = "Unable to contact kikbak servers. Please check your network connect.";
 
 //terms screen
@@ -138,7 +138,7 @@
 "twitter access" = "Please log into twitter. Please login into twitter under Settings->Twitter";
 
 //friend Selector
-"Select friend" = "Select the friend whose gift you would like to redeem";
+"Select friend" = "Select the friend whose offer you would like to redeem";
 
 //claim screen
 "Prepaid Card" = "Visa Prepaid Debit Card";
@@ -175,3 +175,5 @@
 
 //copy
 "Copy" = "Copy";
+
+"Accept Terms" = "Accept Terms";

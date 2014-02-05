@@ -88,7 +88,7 @@
     self.doneBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.doneBtn.frame = CGRectMake(16,self.backgroundView.frame.size.height - 50, self.backgroundView.frame.size.width - 36, 40);
     [self.doneBtn setBackgroundImage:[UIImage imageNamed:@"btn_blue"] forState:UIControlStateNormal];
-    [self.doneBtn setTitle:NSLocalizedString(@"Done", nil) forState:UIControlStateNormal];
+    [self.doneBtn setTitle:NSLocalizedString(@"Accept Terms", nil) forState:UIControlStateNormal];
     self.doneBtn.titleLabel.textColor = [UIColor whiteColor];
     [self.doneBtn addTarget:self action:@selector(onDone:) forControlEvents:UIControlEventTouchUpInside];
     [self.backgroundView addSubview:self.doneBtn];

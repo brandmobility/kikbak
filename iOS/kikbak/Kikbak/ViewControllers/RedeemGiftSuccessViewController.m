@@ -182,9 +182,9 @@ static int offsetForIOS6 = 44;
 //    self.showScreen.backgroundColor = [UIColor clearColor];
 //    [self.successBG addSubview:self.showScreen];
     
-    self.dottedSeperator = [[UIImageView alloc]initWithFrame:CGRectMake(0, 174 + offsetForIOS6, 320, 2)];
-    self.dottedSeperator.image = [UIImage imageNamed:@"separater_dots_gift_success"];
-    [self.view addSubview:self.dottedSeperator];
+//    self.dottedSeperator = [[UIImageView alloc]initWithFrame:CGRectMake(0, 174 + offsetForIOS6, 320, 2)];
+//    self.dottedSeperator.image = [UIImage imageNamed:@"separater_dots_gift_success"];
+//    [self.view addSubview:self.dottedSeperator];
     
     self.offer = [[UILabel alloc]initWithFrame:CGRectMake(0, 190 + offsetForIOS6, 320, 28)];
     self.offer.text = NSLocalizedString(@"Offer", nil);

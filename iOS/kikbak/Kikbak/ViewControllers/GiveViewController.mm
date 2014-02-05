@@ -385,9 +385,9 @@ static int offsetForIOS6 = 44;
     self.captionTextView.backgroundColor = [UIColor whiteColor];
     [self.captionContainerView addSubview:self.captionTextView];
     
-    self.dottedSeperator = [[UIImageView alloc] initWithFrame:CGRectMake(0, 290 + offsetForIOS6, 320, 2)];
-    self.dottedSeperator.image = [UIImage imageNamed:@"separator_dots"];
-    [self.view addSubview:self.dottedSeperator];
+//    self.dottedSeperator = [[UIImageView alloc] initWithFrame:CGRectMake(0, 290 + offsetForIOS6, 320, 2)];
+//    self.dottedSeperator.image = [UIImage imageNamed:@"separator_dots"];
+//    [self.view addSubview:self.dottedSeperator];
     
     
     self.giftDesctription = [[UILabel alloc]initWithFrame:CGRectMake(0, 305 + offsetForIOS6, 320, 33)];
