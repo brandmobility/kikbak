@@ -39,18 +39,12 @@
             android:id="@+id/redeem_success_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:gravity="center"
             android:text="@string/redeem_gift_success_note_first"
             android:textColor="#135317"
             android:textSize="17dp"
             kikbak:typeface="Roboto-Regular.ttf" />
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/dotted_line_pattern" />
     </LinearLayout>
 
     <com.referredlabs.kikbak.widget.TtfTextView
