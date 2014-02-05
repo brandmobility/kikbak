@@ -1,0 +1,1 @@
+alter table `gift` modify `detailed_desc` VARCHAR(45) CHARACTER SET utf8 NOT NULL;
