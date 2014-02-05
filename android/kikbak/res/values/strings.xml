@@ -87,7 +87,7 @@
 
 
     <!-- Rewards -->
-    <string name="reward_gift_label">USE RECEIVED GIFT</string>
+    <string name="reward_gift_label">USE OFFER</string>
     <string name="reward_gift_type_percentage_fmt">%.0f%% off</string>
     <string name="reward_gift_type_amount_fmt">$%.0f off</string>
     <string name="reward_credit_purchase_label">USE EARNED CREDIT</string>

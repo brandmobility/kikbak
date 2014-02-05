@@ -15,6 +15,7 @@ import com.referredlabs.kikbak.data.ClientMerchantType;
 import com.referredlabs.kikbak.fb.Fb;
 import com.referredlabs.kikbak.store.TheReward;
 import com.referredlabs.kikbak.ui.IconBarHelper.IconBarListener;
+import com.referredlabs.kikbak.utils.LocaleUtils;
 import com.referredlabs.kikbak.utils.Nearest;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -102,7 +103,13 @@ public class RewardAdapter extends BaseAdapter {
       helper.mFriendImage.setBackgroundDrawable(null);
     }
 
-    helper.setGiftValue(reward.hasGifts() ? reward.getGift().desc : null);
+    if (reward.hasGifts()) {
+      String value = LocaleUtils.getGiftValueString(mContext, reward.getGift());
+      helper.setGiftValue(value);
+    } else {
+      helper.setGiftValue(null);
+    }
+
     helper.setCreditPart(mContext.getResources(), reward.getCredit());
 
     return view;

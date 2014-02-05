@@ -26,7 +26,7 @@ public class LocaleUtils {
     } else if (gift.discountType == DiscountType.amount) {
       return ctx.getString(R.string.reward_gift_type_amount_fmt, gift.value);
     }
-    throw new RuntimeException("new discount type?"); // TODO: remove before release
+    return null;
   }
 
   public static String getGiftValueString(Context ctx, TheReward reward) {
