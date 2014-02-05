@@ -11,13 +11,6 @@
         android:layout_weight="1"
         layout="@layout/fragment_redeem_credit_photo_frame" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/black"
-        android:scaleType="fitXY"
-        android:src="@drawable/dotted_line_pattern" />
-
     <include layout="@layout/fragment_redeem_credit_desc" />
 
     <include layout="@layout/fragment_redeem_buttons" />

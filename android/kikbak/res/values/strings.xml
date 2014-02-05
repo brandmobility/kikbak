@@ -2,7 +2,6 @@
 <resources>
 
     <string name="app_name">Kikbak</string>
-    <string name="hello_world">Hello world!</string>
     <!-- Main menu -->
     <string name="action_suggest">+ SUGGEST</string>
     <string name="action_settings">Settings</string>
@@ -32,7 +31,7 @@
     <string name="bummer">Bummer!</string>
     <string name="no_offers">There are no Kikbak\noffers available in your area</string>
     <string name="tell_about">"Tell us about a business that you'd like to recommend to friends with a special offer"</string>
-    <string name="suggest_btn">Suggest a business</string>
+    <string name="suggest_btn">Suggest A Business</string>
     <string name="location_disabled">Location services are disabled, please enable them in device settings.</string>
 
     <!-- Redeem list empty -->
@@ -40,13 +39,13 @@
     <string name="redeem_empty_doh">Doh!</string>
     <string name="redeem_empty_note">"You haven't received any gifts or earned any credit."</string>
     <string name="redeem_empty_advise">"You can change that by giving an offer to your friends. You'll earn credit for every friend that redeems."</string>
-    <string name="redeem_empty_button">See offers to give to friends</string>
+    <string name="redeem_empty_button">See Offers To Give To Friends</string>
 
     <!-- Give Activity -->
 
     <string name="give_give">Give %s</string>
     <string name="give_get">Get %s</string>
-    <string name="give_to_friends">Give to friends</string>
+    <string name="give_to_friends">Give To Friends</string>
     <string name="give_gift_optional_note">Optional text, you can put 40 characters here.</string>
     <string name="give_get_optional_note">For every friend that redeems your gift</string>
     <string name="terms">Terms &amp; Conditions</string>
@@ -61,7 +60,7 @@
 
     <!-- terms and conditions -->
     <string name="terms_title">Terms and conditions for offer</string>
-    <string name="done">Done</string>
+    <string name="accept_terms">Accept Terms</string>
 
     <!-- Share options -->
     <string name="share_options_title">Give offer to friends</string>
@@ -72,7 +71,7 @@
 
     <!-- Share progress -->
     <string name="share_in_progress">Sharing gift&#8230;</string>
-    <string name="share_pick_button_email">Generate email</string>
+    <string name="share_pick_button_email">Generate Email</string>
     <string name="share_pick_button_sms">Generate SMS</string>
 
     <!-- Share success -->
@@ -109,9 +108,9 @@
     <string name="redeem_card_ready">You have a reward ready to be claimed!</string>
     <string name="gift_card">Gift Card</string>
     <string name="gift_card_vz">Visa Prepaid Debit Card</string>
-    <string name="claim_reward">Claim reward now</string>
-    <string name="redeem_store">Redeem in store</string>
-    <string name="redeem_online">Redeem online</string>
+    <string name="claim_reward">Claim Reward Now</string>
+    <string name="redeem_store">Redeem In Store</string>
+    <string name="redeem_online">Redeem Online</string>
 
     <!-- Change amount -->
     <string name="change_amount_title">Change amount</string>
@@ -132,15 +131,15 @@
     <string name="redeem_success_title">Success!</string>
     <string name="redeem_success_your_code">YOUR DISCOUNT CODE</string>
     <string name="redeem_gift_success_note_first">Please show this screen when paying.</string>
-    <string name="redeem_gift_success_note_first_online">You have claimed your gift.</string>
-    <string name="redeem_gift_success_share_note">Share the same offer with your friends.\nYou earn for every friend that redeems.</string>
-    <string name="redeem_gift_success_share_button">"I am ready to give to others"</string>
-    <string name="redeem_gift_success_use_online">Use online now</string>
+    <string name="redeem_gift_success_note_first_online">You have claimed the offer.</string>
+    <string name="redeem_gift_success_share_note">Share the same offer with your friends.</string>
+    <string name="redeem_gift_success_share_button">Give To Others</string>
+    <string name="redeem_gift_success_use_online">Use Online Now</string>
     <string name="redeem_credit_success_note_first">You have claimed your credit.</string>
     <string name="redeem_credit_success_note_second">Please show this screen to the cashier.</string>
     <string name="redeem_credit_success_value_desc">can now be applied to your purchase</string>
     <string name="redeem_credit_success_share_note">Share the offer with more friends\nand earn even more credit</string>
-    <string name="redeem_credit_success_share_button">Ready to give to more friends</string>
+    <string name="redeem_credit_success_share_button">Ready To Give To More Friends</string>
 	<string name="coupon_code_clip">Coupon code</string>
 	<string name="copied_to_clipboard">Coupon code copied to clipboard</string>
 	<!-- Redeem chooser -->
@@ -155,7 +154,7 @@
     <!-- Claim credit card -->
     <string name="claim_card_instruction">Please provide the following to redeem:</string>
     <string name="claim_card_phone_hint">Phone number</string>
-    <string name="claim_card_phone_hint_vz">Your Verizon phone number</string>
+    <string name="claim_card_phone_hint_vz">Your Verizon Wireless phone number</string>
     <string name="claim_card_name_hint">First Last Name</string>
     <string name="claim_card_street_hint">Street</string>
     <string name="claim_card_apt_hint">Apartment or Unit #</string>
@@ -163,9 +162,9 @@
     <string name="claim_card_state_hint">State</string>
     <string name="claim_card_zip_hint">Zip</string>
     <string name="claim_card_arrival">Your reward should arrive in 2 to 4 weeks.</string>
-    <string name="claim_card_arrival_verizon">For your first reward, a reloadable prepaid Visa debit card will be mailed to the billing address associated with your Verizon account. Additional rewards will be loaded directly onto the same Visa debit card. Please allow 2–4 weeks for delivery or reloading of card.</string>
+    <string name="claim_card_arrival_verizon">For your first reward, a reloadable prepaid card will be mailed to the billing address associated with your Verizon account. Additional rewards will be loaded directly onto the same Visa debit card. Please allow 2–4 weeks for delivery or reloading of card.</string>
     <string name="claim_card_submit">Submit</string>
-    <string name="claim_success_share_button">Share offer with more friends</string>
+    <string name="claim_success_share_button">Share Offer Again</string>
     <!-- validation -->
     <string name="claim_zip_empty">ZIP cannot be empty</string>
     <string name="claim_zip_wrong_format">This is not a valid ZIP code, use XXXXX or XXXXX-XXXX pattern"</string>
@@ -185,9 +184,11 @@
     <string name="suggest_desc">"Want to recommend a business with a special offer? Tell us and we'll let them know that they should join Kikbak."</string>
     <string name="businnes_name_hint">Business name</string>
     <string name="businnes_why_hint">What makes them great</string>
-    <string name="suggest_send">Let us know</string>
+    <string name="suggest_send">Let Us Know</string>
     <string name="select_friend_label">Select the friend whose gift you would like to redeem</string>
     <string name="suggest_success_title">Thanks for your suggestion</string>
     <string name="suggest_success_note">"We'll pass it along and let you know when the business joins Kikbak."</string>
 
+    <string name="done">Done</string>
+    
 </resources>

@@ -209,9 +209,8 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
   }
 
   protected void onTermsClicked() {
-    String title = getString(R.string.terms_title);
     String url = mOffer.tosUrl;
-    NoteDialog dialog = NoteDialog.newInstance(title, url);
+    TermsDialog dialog = TermsDialog.newInstance(url);
     dialog.show(getSupportFragmentManager(), null);
   }
 

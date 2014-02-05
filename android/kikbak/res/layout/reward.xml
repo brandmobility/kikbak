@@ -49,13 +49,6 @@
             kikbak:typeface="Roboto-Light.ttf" />
     </RelativeLayout>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/black"
-        android:scaleType="fitXY"
-        android:src="@drawable/dotted_line_pattern" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="61dp"

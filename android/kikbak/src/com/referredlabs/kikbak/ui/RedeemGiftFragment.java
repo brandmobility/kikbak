@@ -154,9 +154,8 @@ public class RedeemGiftFragment extends KikbakFragment implements OnClickListene
   }
 
   private void onTermsClicked() {
-    String title = getString(R.string.terms_title);
     String url = mGift.tosUrl;
-    NoteDialog dialog = NoteDialog.newInstance(title, url);
+    TermsDialog dialog = TermsDialog.newInstance(url);
     dialog.show(getFragmentManager(), null);
   }
 

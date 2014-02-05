@@ -216,9 +216,8 @@ public class RedeemCreditFragment extends Fragment implements OnClickListener,
   }
 
   private void onTermsClicked() {
-    String title = getString(R.string.terms_title);
     String url = mCredit.tosUrl;
-    NoteDialog dialog = NoteDialog.newInstance(title, url);
+    TermsDialog dialog = TermsDialog.newInstance(url);
     dialog.show(getFragmentManager(), null);
   }
 

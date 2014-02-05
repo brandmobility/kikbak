@@ -61,13 +61,12 @@
                             <img class="overlay-img" src="img/blk-shad.png" width="340" height="188" />
                         </div>
                         <div class="content-detail clearfix">
-                            <h3>${gift.merchant.name}</h3>
                             <c:choose>
                             <c:when test="${not empty redeemCountSingle}">
-                            <p style="color:#FFFFFF;">Your gift has been redeemed by a friend</p>
+                            <p style="color:#FFFFFF;">The offer has been redeemed by a friend</p>
                             </c:when>
                             <c:otherwise>
-                            <p style="color:#FFFFFF;">Your gift has been redeemed by ${redeemCount} friends</p>
+                            <p style="color:#FFFFFF;">The offer has been redeemed by ${redeemCount} friends</p>
                             </c:otherwise>
                             </c:choose>
                         </div>
@@ -107,7 +106,7 @@
                                 <input type="hidden" name="creditId" value="${credit.id}" class="bsnm" />
                                 <c:choose>
                                 <c:when test="${credit.merchant.shortname == 'Verizon'}">
-                                <input type="text" name="phoneNumber" class="claim-reuqired" style="margin-top: 20px;" placeholder="Verizon phone number" class="bsnm" />
+                                <input type="text" name="phoneNumber" class="claim-reuqired" style="margin-top: 20px;" placeholder="Your Verizon Wireless Phone Number" class="bsnm" />
                                 </c:when>
                                 <c:otherwise>
                                 <input type="text" name="name" class="claim-reuqired" style="margin-top: 20px;" placeholder="First Last Name" class="bsnm" />
@@ -118,7 +117,7 @@
                                 <input type="text" name="zipcode" class="claim-reuqired" placeholder="Zip (number only)" class="bsnm" />
                                 </c:otherwise>
                                 </c:choose>
-                                <p style="margin-top: 20px;">For your first reward, a reloadable Visa debit card will be mailed to the billing address associated with your Verizon account. Additional rewards will be loaded directly onto the same Visa debit card. Please allow 2 – 4 weeks for delivery or reloading of card.</p>
+                                <p style="margin-top: 20px;">For your first reward, a reloadable prepaid card will be mailed to the billing address associated with your Verizon account. Additional rewards will be loaded directly onto the same prepaid card. Please allow 2 – 4 weeks for delivery or reloading of card.</p>
                             </div>
                             <button id="claim-credit-btn" class="btn grd-btn" style="margin-top: 5px;" disabled="disabled">Submit</button>
                         </form>
@@ -127,7 +126,7 @@
                         <h3>Success!</h3>
                         <p>Your reward claim has been submitted.</p>
                         <div id="share-link-div">
-                            <a id="share-offer-btn" href="/d/${credit.merchant.shortname}" target="_blank" class="btn grd-btn" style="padding-top:3%;padding-bottom:3%;padding-left: 25px;padding-right: 25px;">Share offer with more friends</a>
+                            <a id="share-offer-btn" href="/d/${credit.merchant.shortname}" target="_blank" class="btn grd-btn" style="padding-top:3%;padding-bottom:3%;padding-left: 25px;padding-right: 25px;">Share Offer Again</a>
                         </div>
                     </div>
                 </div>
@@ -154,7 +153,7 @@
                     <input type="hidden" name="creditId" value="${credit.id}" class="bsnm" />
                     <c:choose>
                     <c:when test="${gift.merchant.shortname == 'Verizon'}">
-                    <input type="text" onfocus="this.type='number'" onblur="this.type='text'" name="phoneNumber" placeholder="Your Verizon phone number" class="bsnm" />
+                    <input type="text" onfocus="this.type='number'" onblur="this.type='text'" name="phoneNumber" placeholder="Your Verizon Wireless Phone Number" class="bsnm" />
                     </c:when>
                     <c:otherwise>
                     <input type="text" name="name" placeholder="First Last Name" class="bsnm" />
@@ -165,7 +164,7 @@
                     <input type="number" name="zipcode" placeholder="Zip (number only)" class="bsnm" />
                     </c:otherwise>
                     </c:choose>
-                    <p>For your first reward, a reloadable Visa debit card will be mailed to the billing address associated with your Verizon account.  Additional rewards will be loaded directly onto the same Visa debit card.  Please allow 2 – 4 weeks for delivery or reloading of card.</p>
+                    <p>For your first reward, a reloadable prepaid card will be mailed to the billing address associated with your Verizon account.  Additional rewards will be loaded directly onto the same prepaid card.  Please allow 2 – 4 weeks for delivery or reloading of card.</p>
                     <div style="text-align: center; ">
               			<input type="button" id="claim-credit-btn"  class="btn grd-btn" disabled="disabled" value="Submit" /t>
  			        </div>
@@ -173,7 +172,7 @@
                 <div id="redeem-success" style="display:none;">
                     <h1>Success!</h1>
                     <p>Your reward claim has been submitted.</p>
-                    <a id="share-offer-btn" href="/m/${credit.merchant.shortname}" target="_blank" class="btn grd-btn">Share offer with more friends</a>
+                    <a id="share-offer-btn" href="/m/${credit.merchant.shortname}" target="_blank" class="btn grd-btn">Share Offer Again</a>
                 </div>
             </form>
         </div>
@@ -182,10 +181,10 @@
                 <p><strong>You have a reward ready to be claimed!</strong></p>
                 <c:choose>
                 <c:when test="${not empty redeemCountSingle}">
-                <p>Your gift has been redeemed by ${redeemCount} friend</p>
+                <p>The offer has been redeemed by ${redeemCount} friend</p>
                 </c:when>
                 <c:otherwise>
-                <p>Your gift has been redeemed by ${redeemCount} friends</p>
+                <p>The offer has been redeemed by ${redeemCount} friends</p>
                 </c:otherwise>
                 </c:choose>
             </div>
