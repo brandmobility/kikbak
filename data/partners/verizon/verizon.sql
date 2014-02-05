@@ -5,8 +5,8 @@ set @offer_begin_date=CONVERT_TZ('2014-01-30 00:00','-08:00','+00:00');
 set @offer_end_date=CONVERT_TZ('2014-04-30 00:00','-08:00','+00:00');
 #Verizon Wireless
 
-insert into merchant (name,               shortname, description, url,                              image_url) values 
-                     ('Verizon Wireless', 'Verizon', 'telecom',   'http://www.verizonwireless.com', concat(@server, '/data/verizon/verizon_logo.png'));
+insert into merchant (name,      shortname, description, url,                                                      image_url) values
+                     ('Verizon', 'Verizon', 'telecom',   'http://www.verizonwireless.com/wcms/consumer/shop.html', concat(@server, '/data/verizon/verizon_logo.png'));
 
 set @merchant_id := (select LAST_INSERT_ID());
 
@@ -15,13 +15,13 @@ insert into offer (merchant_id,  name,            offer_type, has_employee_progr
 
 set @offer_id := (select LAST_INSERT_ID());
 
-insert into gift ( offer_id,  description, detailed_desc,              value, discount_type, redemption_location_type, validation_type, image_url,                                         default_give_image_url) values
-                 (@offer_id, '$50 off',    ' when switching with new 2-year service', 50,    'amount',      'all',                  'barcode',       concat(@server, '/data/verizon/verizon_give.png'), concat(@server, '/data/verizon/verizon_banner.png'));
+insert into gift ( offer_id,  description,     detailed_desc,                               value, discount_type, redemption_location_type, validation_type, image_url,                                       default_give_image_url) values
+                 (@offer_id, '$50 off device', 'when switching with new 2-year activation', 50,    'amount',      'all',                    'barcode',       concat(@server, '/data/verizon/verizon_give.png'), concat(@server, '/data/verizon/verizon_banner.png'));
 
 set @gift_id := (select LAST_INSERT_ID());
 
 insert into kikbak (offer_id,  description, detailed_desc,                              value, reward_type, validation_type, image_url) values
-                   (@offer_id, '$50',       'for every friend that redeems your gift' , 50,    'gift_card', 'barcode',       concat(@server, '/data/verizon/verizon_banner.png'));
+                   (@offer_id, '$50',       'for every friend that redeems the offer' , 50,    'gift_card', 'barcode',       concat(@server, '/data/verizon/verizon_banner.png'));
 
 #
 #insert into location (address_1,               city,            state, zipcode, phone_number, verification_code, merchant_id, geofence, latitude, longitude) values
