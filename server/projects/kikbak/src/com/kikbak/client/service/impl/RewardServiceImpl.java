@@ -28,6 +28,7 @@ import com.kikbak.client.service.v1.RedemptionException;
 import com.kikbak.client.service.v1.RewardException;
 import com.kikbak.client.service.v1.RewardService;
 import com.kikbak.client.util.CryptoUtils;
+import com.kikbak.client.util.LocationUtils;
 import com.kikbak.dao.ReadOnlyAllocatedGiftDAO;
 import com.kikbak.dao.ReadOnlyBarcodeDAO;
 import com.kikbak.dao.ReadOnlyCreditDAO;
@@ -163,11 +164,8 @@ public class RewardServiceImpl implements RewardService {
 
         for (Long offerId : m.keySet()) {
             Offer offer = roOfferDao.findById(offerId);
-            Gift gift = roGiftDao.findByOfferId(offerId);
-            double giftValue = m.get(offerId).get(0).getValue();
-            Merchant merchant = roMerchantDao.findById(offer.getMerchantId());
-
-            GiftType gt = createGiftType(merchant, gift, giftValue, offer);
+            GiftType gt = createGiftType(offer, m.get(offerId).get(0), location); 
+            
             for (Allocatedgift ag : m.get(offerId)) {
                 Shared shared = roSharedDao.findById(ag.getSharedId());
                 User friend = roUserDao.findById(ag.getFriendUserId());
@@ -187,26 +185,26 @@ public class RewardServiceImpl implements RewardService {
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS, rollbackFor = RewardException.class)
-    public Collection<AvailableCreditType> getCredits(Long userId) {
+    public Collection<AvailableCreditType> getCredits(Long userId, UserLocationType userLocation) {
         Collection<Credit> credits = roCreditDao.listCreditsWithBalance(userId);
         Collection<AvailableCreditType> acts = new ArrayList<AvailableCreditType>();
 
         for (Credit credit : credits) {
-            AvailableCreditType ac = createAvailableCreditType(userId, credit);
+            AvailableCreditType ac = createAvailableCreditType(userId, userLocation, credit);
             acts.add(ac);
         }
 
         return acts;
     }
 
-    private AvailableCreditType createAvailableCreditType(Long userId, Credit credit) {
+    private AvailableCreditType createAvailableCreditType(Long userId, UserLocationType userLocation, Credit credit) {
         AvailableCreditType ac = new AvailableCreditType();
         ac.setValue(credit.getValue());
         ac.setId(credit.getId());
         ac.setOfferId(credit.getOfferId());
 
         Merchant merchant = roMerchantDao.findById(credit.getMerchantId());
-        ClientMerchantType cmt = fillClientMerchantType(merchant);
+        ClientMerchantType cmt = createClientMerchantType(merchant, userLocation);
         ac.setMerchant(cmt);
 
         Kikbak kikbak = roKikbakDAO.findByOfferId(credit.getOfferId());
@@ -333,11 +331,10 @@ public class RewardServiceImpl implements RewardService {
                     newGifts.add(ag);
                     status = ClaimStatusType.OK;
 
-                    Merchant merchant = roMerchantDao.findById(ag.getMerchantId());
-                    Gift gift = roGiftDao.findById(ag.getGiftId());
+                    GiftType gt = createGiftType(offer, ag, null);
+                    
                     User friend = roUserDao.findById(ag.getFriendUserId());
 
-                    GiftType gt = createGiftType(merchant, gift, ag.getValue(), offer);
                     addShareInfoToGift(gt, shared, friend, ag.getId());
                     gifts.add(gt);
                     agIds.add(ag.getId());
@@ -365,11 +362,8 @@ public class RewardServiceImpl implements RewardService {
 
         Offer offer = roOfferDao.findById(shared.getOfferId());
         
-        Merchant merchant = roMerchantDao.findById(offer.getMerchantId());
-        Gift gift = roGiftDao.findById(shared.getOfferId());
+        GiftType gt = createGiftType(offer, null, null);
         User friend = roUserDao.findById(shared.getUserId());
-
-        GiftType gt = createGiftType(merchant, gift, gift.getValue(), offer);
         addShareInfoToGift(gt, shared, friend, 0);
 
         return gt;
@@ -382,11 +376,8 @@ public class RewardServiceImpl implements RewardService {
         Shared shared = roSharedDao.findLastShareByUserAndOffer(credit.getUserId(), credit.getOfferId());
 
         Offer offer = roOfferDao.findById(shared.getOfferId());
-        Merchant merchant = roMerchantDao.findById(offer.getMerchantId());
-        Gift gift = roGiftDao.findById(shared.getOfferId());
         User friend = roUserDao.findById(shared.getUserId());
-
-        GiftType gt = createGiftType(merchant, gift, gift.getValue(), offer);
+        GiftType gt = createGiftType(offer, null, null);
         addShareInfoToGift(gt, shared, friend, 0);
 
         return gt;
@@ -402,17 +393,35 @@ public class RewardServiceImpl implements RewardService {
         }
 
         Credit credit = roCreditDao.findById(creditId);
-        return createAvailableCreditType(credit.getUserId(), credit);
+        return createAvailableCreditType(credit.getUserId(), null, credit);
     }
-
-    private GiftType createGiftType(Merchant merchant, Gift gift, double giftValue, Offer offer) {
+    
+    /**
+     * Creates gift information structure used by clients.
+     * 
+     * @param offer
+     *            - the offer for which gift info should be created
+     * @param allocatedGift
+     *            - allocated gift or <code>null</code> <br>
+     *            If <code>null</code> then the default gift value is set, otherwise gift value is taken from
+     *            <i>allocatedGift</i>. For gifts with lottery we need to check what actual gift value was granted to
+     *            the user, so if user is known never pass <code>null</code> here!
+     * @param userLocation
+     *            - a user location or <code>null</code> <br>
+     *            This determines what location is available in <i>merchant.locations</i> <br>
+     *            If <code>null</code> then one random location is set. <br>
+     *            If user location is available then the nearest location to the user is set. <br>
+     */
+    private GiftType createGiftType(Offer offer, Allocatedgift allocatedGift, UserLocationType userLocation) {
+        Merchant merchant = roMerchantDao.findById(offer.getMerchantId());
+        Gift gift = roGiftDao.findByOfferId(offer.getId());
         GiftType gt = new GiftType();
-        ClientMerchantType cmt = fillClientMerchantType(merchant);
+        ClientMerchantType cmt = createClientMerchantType(merchant, userLocation);
         gt.setMerchant(cmt);
         gt.setOfferId(gift.getOfferId());
         gt.setDesc(gift.getDescription());
         gt.setDetailedDesc(gift.getDetailedDesc());
-        gt.setValue(giftValue);
+        gt.setValue(gift.getValue());
         gt.setDiscountType(gift.getDiscountType());
         gt.setValidationType(gift.getValidationType());
         gt.setRedemptionLocationType(gift.getRedemptionLocationType());
@@ -425,6 +434,11 @@ public class RewardServiceImpl implements RewardService {
         	gt.setExpired(true);
         } else {
         	gt.setExpired(false);
+        }
+        
+        // for lottery - check what actual value was granted
+        if(allocatedGift != null) {
+            gt.setValue(allocatedGift.getValue());
         }
         
         return gt;
@@ -514,7 +528,7 @@ public class RewardServiceImpl implements RewardService {
         return new BigInteger(16, random).toString(16);
     }
 
-    protected ClientMerchantType fillClientMerchantType(Merchant merchant) {
+    protected ClientMerchantType createClientMerchantType(Merchant merchant, UserLocationType userLocation) {
         ClientMerchantType cmt = new ClientMerchantType();
         cmt.setId(merchant.getId());
         cmt.setName(merchant.getName());
@@ -523,22 +537,48 @@ public class RewardServiceImpl implements RewardService {
         cmt.setShortname(merchant.getShortname());
 
         Collection<Location> locations = roLocationDao.listByMerchant(merchant.getId());
-        for (Location location : locations) {
-            MerchantLocationType clt = new MerchantLocationType();
-            clt.setLocationId(location.getId());
-            clt.setSiteName(location.getSiteName());
-            clt.setAddress1(location.getAddress1());
-            clt.setAddress2(location.getAddress2());
-            clt.setCity(location.getCity());
-            clt.setState(location.getState());
-            clt.setZipcode(String.valueOf(location.getZipcode()));
-            clt.setZip4(location.getZipPlusFour());
-            clt.setLatitude(location.getLatitude());
-            clt.setLongitude(location.getLongitude());
-            clt.setPhoneNumber(location.getPhoneNumber());
-            cmt.getLocations().add(clt);
+        ArrayList<Location> locationsToSend = new ArrayList<Location>();
+
+        if (userLocation != null) {
+            // report only one nearest location
+            double latitude = userLocation.getLatitude();
+            double longitude = userLocation.getLongitude();
+            double distance = Double.MAX_VALUE;
+            Location nearest = null;
+            for (Location l : locations) {
+                double d = LocationUtils.distance(latitude, longitude, l.getLatitude(), l.getLongitude());
+                if (d < distance) {
+                    distance = d;
+                    nearest = l;
+                }
+            }
+            locationsToSend.add(nearest);
+        } else {
+            // report first location
+            locationsToSend.add(locations.iterator().next());
+        }
+
+        for (Location location : locationsToSend) {
+            MerchantLocationType mlt = createMerchantLocationType(location);
+            cmt.getLocations().add(mlt);
         }
         return cmt;
+    }
+
+    private MerchantLocationType createMerchantLocationType(Location location) {
+        MerchantLocationType clt = new MerchantLocationType();
+        clt.setLocationId(location.getId());
+        clt.setSiteName(location.getSiteName());
+        clt.setAddress1(location.getAddress1());
+        clt.setAddress2(location.getAddress2());
+        clt.setCity(location.getCity());
+        clt.setState(location.getState());
+        clt.setZipcode(String.valueOf(location.getZipcode()));
+        clt.setZip4(location.getZipPlusFour());
+        clt.setLatitude(location.getLatitude());
+        clt.setLongitude(location.getLongitude());
+        clt.setPhoneNumber(location.getPhoneNumber());
+        return clt;
     }
 
     @Override

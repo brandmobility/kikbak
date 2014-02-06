@@ -17,7 +17,7 @@ import com.kikbak.jaxb.v1.userlocation.UserLocationType;
 public interface RewardService {
 
     Collection<GiftType> getGifts(final Long userId, UserLocationType location) throws RewardException;
-    Collection<AvailableCreditType> getCredits(final Long userId) throws RewardException;
+    Collection<AvailableCreditType> getCredits(final Long userId, UserLocationType userLocation) throws RewardException;
     String registerGiftRedemption(final Long userId, final GiftRedemptionType giftType) throws RedemptionException, RateLimitException;
     CreditRedemptionResponseType redeemCredit(final Long userId, final CreditRedemptionType creditType) throws RedemptionException;
     ClaimStatusType claimGift(Long userId, String referralCode, List<GiftType> gifts, List<Long> agIds) throws RewardException;

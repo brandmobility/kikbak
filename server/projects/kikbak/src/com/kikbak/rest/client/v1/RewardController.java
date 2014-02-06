@@ -87,7 +87,7 @@ public class RewardController extends AbstractController {
 
             RewardsResponse response = new RewardsResponse();
             response.getGifts().addAll(service.getGifts(userId, request.getUserLocation()));
-            response.getCredits().addAll(service.getCredits(userId));
+            response.getCredits().addAll(service.getCredits(userId, request.getUserLocation()));
             return response;
         } catch (WrongUserException e) {
             logger.error(e, e);
