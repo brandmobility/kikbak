@@ -51,6 +51,8 @@ public class CreditManager {
 	    
 	    Kikbak kikbak = roKikbakDao.findByOfferId(offerId);
 		credit.setValue(kikbak.getValue() + credit.getValue());
+		credit.setRedeemCount(credit.getRedeemCount() + 1);
+        
 		
 		Transaction txn = new Transaction();
 		txn.setAmount(kikbak.getValue());
