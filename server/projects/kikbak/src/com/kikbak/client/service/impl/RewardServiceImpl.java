@@ -686,10 +686,7 @@ public class RewardServiceImpl implements RewardService {
         Allocatedgift allocatedGift = roAllocatedGiftDao.findById(allocatedGiftId);
         Offer offer = roOfferDao.findById(allocatedGift.getOfferId());
         if (offer.getOfferType().equals(OfferType.both.name())) {
-        	Credit credit = roCreditDao.findByUserIdAndOfferId(barcode.getUserId(), barcode.getOfferId());
-            credit.setRedeemCount(credit.getRedeemCount() + 1);
-            rwCreditDao.makePersistent(credit);
-            // send reward pending mail
+        	// send reward pending mail
             pushNotifier.sendRewardPendingNotification(allocatedGift.getUserId(), allocatedGift.getFriendUserId(),
                     allocatedGift.getOfferId());
         }
