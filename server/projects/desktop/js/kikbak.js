@@ -509,6 +509,7 @@ function renderOfferDetail(offer, custom, holder) {
   var html = '';
   ga('send', 'event', 'share', 'show', 'give ' + offer.merchantName);
   $('.brand-name').html(offer.merchantName);
+  document.title = 'Kikbak For ' + offer.merchantName;
   $('#header h1').css('background-image', 'url(' + offer.merchantLogoUrl + ')');
   $('#header h1').css('background-size', 'contain');
   $('#header h1').css('background-position', 'center');
@@ -516,7 +517,6 @@ function renderOfferDetail(offer, custom, holder) {
   $('#header h1').css('background-repeat', 'no-repeat');
   $('#header h1').css('margin-left', '40px'); 
   
-
   var auth = offer.auth ? offer.auth : 'none';
   var template = authType[auth];
 

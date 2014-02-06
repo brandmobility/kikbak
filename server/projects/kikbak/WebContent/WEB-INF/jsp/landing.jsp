@@ -7,7 +7,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head prefix="og: http://ogp.me/ns# product: http://ogp.me/ns/product#">
-        <title>Kikbak</title>
+        <title>Kikbak For ${gift.merchant.name}</title>
         <meta property="fb:app_id" content="493383324061333">
         <meta property="og:url" content="${url}">
         <meta property="og:type" content="kikbakme:coupon">
