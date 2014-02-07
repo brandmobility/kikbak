@@ -174,6 +174,7 @@ public class PushNotifierImpl implements PushNotifier {
 
             String bodyTmpl = config.getString("notification.email.kikbak.body");
             bodyTmpl = bodyTmpl.replace("%RETAILER%", merchant.getName());
+            bodyTmpl = bodyTmpl.replace("%REWARD%", kikbak.getDescription());
             bodyTmpl = bodyTmpl.replace("%CODE%", CryptoUtils.symetricEncrypt(creditId));
 
             String email = getDecoratedEmailForUser(toUserId);
