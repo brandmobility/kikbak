@@ -133,6 +133,10 @@ function preShareClick() {
       if ($('#zipcode-input').hasClass('required')) {
         requestUrl += '&zipcode=' + $('#zipcode-input').val().replace(/[^\d]/g, "");
       }
+      if (typeof initPage.p !== 'undefined') {
+        requestUrl += '&longitude=' + initPage.p.longitude;
+        requestUrl += '&latitude=' + initPage.p.latitude;
+      }
       if (user.email) {
         requestUrl += '&email=' + encodeURIComponent(user.email);
       }
