@@ -17,6 +17,8 @@ public interface SharedExperienceService {
         public String email;
         public String phoneNumber;
         public String zipCode;
+        public Double latitude;
+        public Double longitude;
     }
 
     public String registerSharing(ShareInfo share) throws RateLimitException;

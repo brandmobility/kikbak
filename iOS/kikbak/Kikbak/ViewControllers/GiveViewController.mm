@@ -31,6 +31,7 @@
 #import "UIDevice+OSVersion.h"
 #import "Flurry.h"
 #import "TwitterApi.h"
+#import "LocationManager.h"
 
 
 #define DEFAULT_CONTAINER_VIEW_HEIGHT 50
@@ -936,6 +937,12 @@ static int offsetForIOS6 = 44;
     [dict setObject:@"email" forKey:@"type"];
     [dict setObject:@"ios" forKey:@"platform"];
     [dict setObject:name forKey:@"employeeId"];
+    
+    CLLocation* currentLocation = ((AppDelegate*)[UIApplication sharedApplication].delegate).locationMgr.currentLocation;
+    [dict setObject:[NSNumber numberWithDouble:currentLocation.coordinate.latitude ] forKey:@"latitude"];
+    [dict setObject:[NSNumber numberWithDouble:currentLocation.coordinate.longitude ] forKey:@"longitude"];
+
+    
     if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
         [dict setObject:@"" forKey:@"caption"];
     }
@@ -967,6 +974,12 @@ static int offsetForIOS6 = 44;
     [dict setObject:@"sms" forKey:@"type"];
     [dict setObject:@"ios" forKey:@"platform"];
     [dict setObject:name forKey:@"employeeId"];
+    
+    CLLocation* currentLocation = ((AppDelegate*)[UIApplication sharedApplication].delegate).locationMgr.currentLocation;
+    [dict setObject:[NSNumber numberWithDouble:currentLocation.coordinate.latitude ] forKey:@"latitude"];
+    [dict setObject:[NSNumber numberWithDouble:currentLocation.coordinate.longitude ] forKey:@"longitude"];
+
+    
     if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
         [dict setObject:@"" forKey:@"caption"];
     }
@@ -1000,6 +1013,12 @@ static int offsetForIOS6 = 44;
     [dict setObject:self.imageUrl forKey:@"imageUrl"];
     [dict setObject:@"fb" forKey:@"type"];
     [dict setObject:@"ios" forKey:@"platform"];
+    
+    CLLocation* currentLocation = ((AppDelegate*)[UIApplication sharedApplication].delegate).locationMgr.currentLocation;
+    [dict setObject:[NSNumber numberWithDouble:currentLocation.coordinate.latitude ] forKey:@"latitude"];
+    [dict setObject:[NSNumber numberWithDouble:currentLocation.coordinate.longitude ] forKey:@"longitude"];
+
+    
     if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
         [dict setObject:@"" forKey:@"caption"];
     }
@@ -1031,6 +1050,11 @@ static int offsetForIOS6 = 44;
     [dict setObject:self.imageUrl forKey:@"imageUrl"];
     [dict setObject:@"twitter" forKey:@"type"];
     [dict setObject:@"ios" forKey:@"platform"];
+    
+    CLLocation* currentLocation = ((AppDelegate*)[UIApplication sharedApplication].delegate).locationMgr.currentLocation;
+    [dict setObject:[NSNumber numberWithDouble:currentLocation.coordinate.latitude ] forKey:@"latitude"];
+    [dict setObject:[NSNumber numberWithDouble:currentLocation.coordinate.longitude ] forKey:@"longitude"];
+    
     if( [self.captionTextView.text compare:NSLocalizedString(@"add comment", nil)] == NSOrderedSame ){
         [dict setObject:@"" forKey:@"caption"];
     }
