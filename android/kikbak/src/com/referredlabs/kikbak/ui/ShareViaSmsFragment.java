@@ -131,6 +131,7 @@ public class ShareViaSmsFragment extends ShareViaBase {
       req.experience.merchantId = mOffer.merchantId;
       req.experience.offerId = mOffer.id;
       req.experience.type = SharedType.SHARE_MODE_SMS;
+      updateLocation(req.experience);
 
       String uri = Http.getUri(ShareExperienceRequest.PATH + userId);
       ShareExperienceResponse resp = Http.execute(uri, req, ShareExperienceResponse.class);

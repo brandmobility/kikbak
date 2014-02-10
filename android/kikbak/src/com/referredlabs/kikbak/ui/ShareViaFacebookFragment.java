@@ -129,6 +129,7 @@ public class ShareViaFacebookFragment extends ShareViaBase {
       req.experience.merchantId = mOffer.merchantId;
       req.experience.offerId = mOffer.id;
       req.experience.type = SharedType.SHARE_MODE_FACEBOOK;
+      updateLocation(req.experience);
 
       String uri = Http.getUri(ShareExperienceRequest.PATH + userId);
       return Http.execute(uri, req, ShareExperienceResponse.class);
