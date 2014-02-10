@@ -108,6 +108,7 @@ strong{
     font-family: 'HelveticaNeue Bold';
 }
 #container{
+    background-color: #595A5D;
     background-repeat: no-repeat;
     background-position: top center;
     height: 100%;

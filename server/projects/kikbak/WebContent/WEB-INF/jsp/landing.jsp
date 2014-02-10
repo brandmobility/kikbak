@@ -400,10 +400,6 @@
     
     <c:choose>
     <c:when test="${not mobile}">
-    $('#container').css('background-image', 'url(${gift.defaultGiveImageUrl})');
-    $('#container').css('background-size', '100%');
-    $('#container').css('background-position', 'initial initial');
-    $('#container').css('background-repeat', 'initial initial');
     $('#header .logo').attr('src', '${merchantUrl}');
     </c:when>
     </c:choose>
