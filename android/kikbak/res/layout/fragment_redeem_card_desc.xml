@@ -42,7 +42,7 @@
         android:layout_marginTop="4dp"
         android:text="@string/gift_card_vz"
         android:textColor="#9c9c9c"
-        android:textSize="26dp"
+        android:textSize="22dp"
         kikbak:typeface="Roboto-Regular.ttf" />
 
     <com.referredlabs.kikbak.widget.TtfTextView

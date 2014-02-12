@@ -107,7 +107,7 @@
     <string name="scan_code">Scan QR code to Redeem</string>
     <string name="redeem_card_ready">You have a reward ready to be claimed!</string>
     <string name="gift_card">Gift Card</string>
-    <string name="gift_card_vz">Visa Prepaid Debit Card</string>
+    <string name="gift_card_vz">Reloadable Prepaid Debit Card</string>
     <string name="claim_reward">Claim Reward Now</string>
     <string name="redeem_store">Redeem In Store</string>
     <string name="redeem_online">Redeem Online</string>
@@ -162,7 +162,7 @@
     <string name="claim_card_state_hint">State</string>
     <string name="claim_card_zip_hint">Zip</string>
     <string name="claim_card_arrival">Your reward should arrive in 2 to 4 weeks.</string>
-    <string name="claim_card_arrival_verizon">For your first reward, a reloadable prepaid card will be mailed to the billing address associated with your Verizon account. Additional rewards will be loaded directly onto the same Visa debit card. Please allow 2–4 weeks for delivery or reloading of card.</string>
+    <string name="claim_card_arrival_verizon">For your first reward, a reloadable prepaid card will be mailed to the billing address associated with your Verizon account. Additional rewards will be loaded directly onto the same debit card. Please allow 2–4 weeks for delivery or reloading of card.</string>
     <string name="claim_card_submit">Submit</string>
     <string name="claim_success_share_button">Share Offer Again</string>
     <!-- validation -->
