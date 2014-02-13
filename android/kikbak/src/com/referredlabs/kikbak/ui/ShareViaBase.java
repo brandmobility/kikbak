@@ -1,6 +1,7 @@
 
 package com.referredlabs.kikbak.ui;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -8,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.referredlabs.kikbak.R;
+import com.referredlabs.kikbak.data.SharedType;
+import com.referredlabs.kikbak.service.LocationFinder;
 import com.referredlabs.kikbak.tasks.Task;
 
 public class ShareViaBase extends DialogFragment {
@@ -42,6 +45,14 @@ public class ShareViaBase extends DialogFragment {
     if (mTask != null) {
       mTask.cancel(true);
       mTask = null;
+    }
+  }
+
+  protected void updateLocation(SharedType share) {
+    Location location = LocationFinder.getLastLocation();
+    if (location != null) {
+      share.latitude = location.getLatitude();
+      share.longitude = location.getLongitude();
     }
   }
 }

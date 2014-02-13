@@ -52,8 +52,8 @@ public class SharedController extends AbstractController {
             share.phoneNumber = null;
             share.channel = Channel.valueOf(experience.getType());
             share.userId = userId;
-            share.latitude = Double.parseDouble(experience.getLatitude());
-            share.longitude = Double.parseDouble(experience.getLongitude());
+            share.latitude = experience.getLatitude() == null ? null : Double.parseDouble(experience.getLatitude());
+            share.longitude = experience.getLongitude() == null ? null : Double.parseDouble(experience.getLongitude());
 
             String code = sharedExperienceService.registerSharingAndNotify(share);
             response.setReferrerCode(code);

@@ -16,4 +16,6 @@ public class SharedType {
   public String caption;
   public String type;
   public String platform = "android";
+  public Double latitude;
+  public Double longitude;
 }

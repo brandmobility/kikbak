@@ -79,6 +79,8 @@ public class SharedController2 {
             share.caption = ServletRequestUtils.getStringParameter(httpRequest, "caption");
             share.employeeId = ServletRequestUtils.getStringParameter(httpRequest, "employeeid");
             share.zipCode = ServletRequestUtils.getStringParameter(httpRequest, "zipCode");
+            share.longitude = ServletRequestUtils.getDoubleParameter(httpRequest, "longitude");
+            share.latitude = ServletRequestUtils.getDoubleParameter(httpRequest, "latitude");
 
             if( roBlockedNumberDAO.isBlockedNumber(share.phoneNumber)){
             	throw new BlockedNumberException("Blocked number");
