@@ -56,7 +56,7 @@
         android:includeFontPadding="false"
         android:text="$50 off"
         android:textColor="#3a3a3a"
-        android:textSize="46dp"
+        android:textSize="42dp"
         kikbak:typeface="Roboto-Bold.ttf" />
 
     <com.referredlabs.kikbak.widget.TtfTextView

@@ -88,7 +88,8 @@ public class RedeemGiftSuccessFragment extends Fragment implements OnClickListen
 
   private void setupGiftViews() {
     mName.setText(mGift.merchant.name);
-    mValue.setText(LocaleUtils.getGiftValueString(getActivity(), mGift));
+    //mValue.setText(LocaleUtils.getGiftValueString(getActivity(), mGift));
+    mValue.setText(mGift.desc);
     mDesc.setText(mGift.detailedDesc);
   }
 
