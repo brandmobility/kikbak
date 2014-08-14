@@ -177,19 +177,15 @@ function onInput() {
           url: 'kikbak/v2/share/validateZip?zipCode=' + zipcode + '&offerId=' + offer.id,
           success: function(json) {
             var valid = json.zipValidationResponse.status;
-            if (valid === 'OK') {
-              $('#zipcode-note').html('');
-              $('#zipcode-hidden').removeClass('required');
-              $('#loginFb').removeAttr('disabled');
-              $('.divider').css('top', '65px');
-              onInput();
-            } else {
-              var html = '<h3>Unfortunately Verizon subscribers in this billing zip code are not eligible to participate in the program.</h3>';
-              $('.divider').css('top', '102px');
-              $('#zipcode-note').html(html);
-              $('#zipcode-hidden').addClass('required');
-              $('#loginFb').attr('disabled', 'disabled');
+            if (valid !== 'OK') {
+              var html = 'Your billing address is not in a qualifying state.  You may share this offer with friends but you will not be eligible to earn rewards.';
+              showErrorWithMsg(html);
             }
+            $('#zipcode-note').html('');
+            $('#zipcode-hidden').removeClass('required');
+            $('#loginFb').removeAttr('disabled');
+            $('.divider').css('top', '65px');
+            onInput();
           }, 
           error: showError
         });
@@ -531,13 +527,12 @@ function renderOfferDetail(offer, custom, holder) {
   $('#show-picture').attr('src', offer.giveImageUrl);
   if (offer.kikbakDesc) {
     $('#ribbon-bottom').show();
-    $('#ribbon-bottom #ribbon-margin h2').html('Get $' + offer.kikbakValue);
-    $('#ribbon-bottom #ribbon-margin p').html(offer.kikbakDetailedDesc);
+    $('#ribbon-bottom #ribbon-margin h2').html('Get a $50 prepaid debit card');
   } else {
     $('#ribbon-bottom').hide();	  
   }
   $('#ribbon #ribbon-margin h2').html('Give ' + offer.giftDesc);
-  $('#ribbon #ribbon-margin p').html(offer.giftDetailedDesc);
+  $('#ribbon #ribbon-margin p').html('<a id="tos" href="#">See detail</a>');
 
   for (var name in custom) {
     $('#' + name + ' p').html(custom[name]);
@@ -593,9 +588,15 @@ function getOfferStory(offer) {
           storiesResponse = json.storiesResponse;
           if (storiesResponse.status === 'OK') {
             var landingUrl = storiesResponse.stories[0].landingUrl;
-            var html = '<h3>Your unique offer page:</h3><a id="landing" href="' + landingUrl + '" target="_blank">' + landingUrl + '</a><h3><br />Share your offer with friends</h3>';
+            var html = '<span>Click <a id="landing" href="' + landingUrl + '" target="_blank">here</a> for your personal offer page</span>';
             $('#pre-share-div').hide();
-            $('#share-info-div').html(html);
+            var d = new Date(offer.endDate);
+            var month = new Array("Jan", "Feb", "Mar", 
+                "Apr", "May", "June", "July", "Aug", "Sep", 
+                "Oct", "Nov", "Dec");
+            var dateStr = month[d.getMonth()] + " " + d.getDate() + " " + d.getFullYear();
+            $('#share-info-div').html('<h3>Congratulations – now share your offer – and get $50 every time a friend redeems the offer.</h3><p style="text-align: center;">Offer expires ' + dateStr + '</p>');
+            $('#share-info-after-div').html(html);
             $('#share-div .btn-group').show();
             $('#share-div').show();
           } else if (storiesResponse.status === 'LIMIT_REACH') {
