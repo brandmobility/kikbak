@@ -61,7 +61,7 @@ static int offsetForIOS6 = 44;
 
 
 @property (nonatomic,strong) UILabel* giftDescription;
-@property (nonatomic,strong) UILabel* giftDetails;
+@property (nonatomic,strong) UIButton* giftDetails;
 
 @property (nonatomic,strong) NSNumber* value;
 @property (nonatomic,strong) NSString* giftType;
@@ -318,12 +318,14 @@ static int offsetForIOS6 = 44;
     self.giftDescription.text = self.gift.desc;
     [self.view addSubview:self.giftDescription];
     
-    self.giftDetails = [[UILabel alloc]initWithFrame:CGRectMake(0, 398+offsetForIOS6, 320, 14)];
-    self.giftDetails.backgroundColor = [UIColor clearColor];
-    self.giftDetails.textAlignment = NSTextAlignmentCenter;
-    self.giftDetails.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
-    self.giftDetails.textColor = UIColorFromRGB(0x3a3a3a);
-    self.giftDetails.text = self.gift.detailedDesc;
+    self.giftDetails = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.giftDetails.frame = CGRectMake(0, 398+offsetForIOS6, 320, 14);
+    [self.giftDetails setTitle:NSLocalizedString(@"See details", nil) forState:UIControlStateNormal];
+    self.giftDetails.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
+    [self.giftDetails setTitleColor:UIColorFromRGB(0x3a3a3a) forState:UIControlStateNormal];
+    [self.giftDetails.titleLabel setTextAlignment: NSTextAlignmentCenter];
+    [self.giftDetails addTarget:self action:@selector(onTermsBtn:) forControlEvents:UIControlEventTouchUpInside];
+    self.giftDetails.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     [self.view addSubview:self.giftDetails];
     
     self.termsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -490,7 +492,7 @@ static int offsetForIOS6 = 44;
     vc.merchantName = self.retailerName.text;
     vc.value = self.value;
     vc.giftType = self.giftType;
-    vc.optionalDesc = self.giftDetails.text;
+    vc.optionalDesc = self.giftDetails.titleLabel.text;
     vc.validationType = self.gift.validationType;
     vc.offerId = self.gift.offerId;
     vc.online = self.redeemOnline;
@@ -521,7 +523,7 @@ static int offsetForIOS6 = 44;
     vc.value = self.value;
     vc.giftType = self.giftType;
     vc.validationType = self.gift.validationType;
-    vc.optionalDesc = self.giftDetails.text;
+    vc.optionalDesc = self.giftDetails.titleLabel.text;
     vc.offerId = self.gift.offerId;
     vc.imagePath = [[notification object] objectForKey:@"imagePath"];
     vc.validationCode = [[notification object] objectForKey:@"barcode"];

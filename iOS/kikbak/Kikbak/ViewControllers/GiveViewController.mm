@@ -80,7 +80,8 @@ static int offsetForIOS6 = 44;
 
 @property(nonatomic, strong) UIImageView* giftIcon;
 @property(nonatomic, strong) UILabel* giftDesctription;
-@property(nonatomic, strong) UILabel* giftDetailedDescription;
+//@property(nonatomic, strong) UILabel* giftDetailedDescription;
+@property(nonatomic, strong) UIButton* detailedDescBtn;
 @property(nonatomic, strong) UIImageView* seperator;
 @property(nonatomic, strong) UIImageView* rewardIcon;
 @property(nonatomic, strong) UILabel* rewardDescription;
@@ -263,7 +264,7 @@ static int offsetForIOS6 = 44;
         self.dottedSeperator.frame = CGRectMake(0, 216 + offsetForIOS6, 320, 2);
         self.giftDesctription.frame = CGRectMake(0, 230 + offsetForIOS6, 320, 33);
         self.giftIcon.frame = CGRectMake(self.giftIcon.frame.origin.x, 237 + offsetForIOS6, 19, 18);
-        self.giftDetailedDescription.frame = CGRectMake(0, 264 + offsetForIOS6, 320, 15);
+        self.detailedDescBtn.frame = CGRectMake(0, 264 + offsetForIOS6, 320, 15);
         self.seperator.frame = CGRectMake(11, 287 + offsetForIOS6, 298, 1);
         self.rewardDescription.frame = CGRectMake(0, 292 + offsetForIOS6, 320, 30);
         self.rewardIcon.frame = CGRectMake(self.rewardIcon.frame.origin.x, 298 + offsetForIOS6, 19, 18);
@@ -274,7 +275,7 @@ static int offsetForIOS6 = 44;
         if( [self.offer.offerType compare:@"give_only"] == NSOrderedSame ){
             self.giftDesctription.frame = CGRectMake(0, 250 + offsetForIOS6, 320, 33);
             self.giftIcon.frame = CGRectMake(self.giftIcon.frame.origin.x, 257 + offsetForIOS6, 19, 18);
-            self.giftDetailedDescription.frame = CGRectMake(0, 284 + offsetForIOS6, 320, 15);
+            self.detailedDescBtn.frame = CGRectMake(0, 284 + offsetForIOS6, 320, 15);
 
 //            self.giftDesctription.frame = CGRectMake(0, 335 + offsetForIOS6, 320, 33);
 //            self.giftIcon.frame = CGRectMake((self.view.frame.size.width/2) - (gdSize.width/2)- 24, 342 + offsetForIOS6, 19, 18);
@@ -404,14 +405,17 @@ static int offsetForIOS6 = 44;
     self.giftIcon.image = [UIImage imageNamed:@"ic_gift"];
     [self.view addSubview:self.giftIcon];
 
-    self.giftDetailedDescription = [[UILabel alloc]initWithFrame:CGRectMake(0, 338 + offsetForIOS6, 320, 15)];
-    self.giftDetailedDescription.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
-    self.giftDetailedDescription.text = self.offer.giftDescriptionOptional;
-    self.giftDetailedDescription.textColor = UIColorFromRGB(0x898989);
-    self.giftDetailedDescription.textAlignment = NSTextAlignmentCenter;
-    self.giftDetailedDescription.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:self.giftDetailedDescription];
+    self.detailedDescBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.detailedDescBtn.frame = CGRectMake(0, 338 + offsetForIOS6, 320, 15);
+    [self.detailedDescBtn setTitle:NSLocalizedString(@"See details", nil) forState:UIControlStateNormal];
+    self.detailedDescBtn.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:13];
+    [self.detailedDescBtn setTitleColor:UIColorFromRGB(0x898989) forState:UIControlStateNormal];
+    [self.detailedDescBtn.titleLabel setTextAlignment: NSTextAlignmentCenter];
+    [self.detailedDescBtn addTarget:self action:@selector(onTerms:) forControlEvents:UIControlEventTouchUpInside];
+    self.detailedDescBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    [self.view addSubview:self.detailedDescBtn];
 
+    
     if( [self.offer.offerType compare:@"both"] == NSOrderedSame){
         self.seperator = [[UIImageView alloc]initWithFrame:CGRectMake(11, 364 + offsetForIOS6, 298, 1)];
         self.seperator.image = [UIImage imageNamed:@"separator_gray_line"];
@@ -441,7 +445,7 @@ static int offsetForIOS6 = 44;
     else if( [self.offer.offerType compare:@"give_only"] == NSOrderedSame ){
         self.giftDesctription.frame = CGRectMake(0, 335 + offsetForIOS6, 320, 33);
         self.giftIcon.frame = CGRectMake((self.view.frame.size.width/2) - (gdSize.width/2)- 24, 342 + offsetForIOS6, 19, 18);
-        self.giftDetailedDescription.frame = CGRectMake(0, 368 + offsetForIOS6, 320, 15);
+        self.detailedDescBtn.frame = CGRectMake(0, 368 + offsetForIOS6, 320, 15);
     }
     
     self.termsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
