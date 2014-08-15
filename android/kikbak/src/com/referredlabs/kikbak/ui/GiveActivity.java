@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -97,6 +98,10 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
       String give = getString(R.string.give_give, mOffer.giftDesc);
       ((TextView) findViewById(R.id.gift_desc)).setText(give);
       ((TextView) findViewById(R.id.gift_desc_opt)).setText(mOffer.giftDetailedDesc);
+
+      TextView tv = (TextView) findViewById(R.id.gift_desc_opt);
+      tv.setPaintFlags(tv.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+      tv.setOnClickListener(this);
     }
     if (mOffer.offerType == OfferType.both || mOffer.offerType == OfferType.get_only) {
       String get = getString(R.string.give_get, mOffer.kikbakDesc);
@@ -149,6 +154,7 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
         break;
 
       case R.id.terms:
+      case R.id.gift_desc_opt:
         onTermsClicked();
         break;
     }

@@ -94,7 +94,7 @@ public class RedeemGiftCardFragment extends Fragment implements OnClickListener 
   private void onClaimClicked() {
     FragmentManager mgr = getFragmentManager();
     FragmentTransaction t = mgr.beginTransaction();
-    t.replace(getId(), new ClaimInputFragmentVerizon());
+    t.replace(getId(), new ClaimInputFragmentVerizon());//FIXME
     t.addToBackStack(null);
     t.commit();
   }

@@ -1,6 +1,11 @@
 
 package com.referredlabs.kikbak.ui;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ClipData;
@@ -8,11 +13,13 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,7 +37,6 @@ import com.referredlabs.kikbak.data.GiftType;
 import com.referredlabs.kikbak.data.ValidationType;
 import com.referredlabs.kikbak.store.DataStore;
 import com.referredlabs.kikbak.utils.BarcodeGenerator;
-import com.referredlabs.kikbak.utils.LocaleUtils;
 
 public class RedeemGiftSuccessFragment extends Fragment implements OnClickListener {
 
@@ -66,6 +72,8 @@ public class RedeemGiftSuccessFragment extends Fragment implements OnClickListen
     mName = (TextView) root.findViewById(R.id.name);
     mValue = (TextView) root.findViewById(R.id.redeem_value);
     mDesc = (TextView) root.findViewById(R.id.redeem_desc);
+    mDesc.setPaintFlags(mDesc.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+    mDesc.setOnClickListener(this);
     mGive = (Button) root.findViewById(R.id.give);
     mGive.setOnClickListener(this);
     mUseOnline = (Button) root.findViewById(R.id.use_online);
@@ -88,7 +96,7 @@ public class RedeemGiftSuccessFragment extends Fragment implements OnClickListen
 
   private void setupGiftViews() {
     mName.setText(mGift.merchant.name);
-    //mValue.setText(LocaleUtils.getGiftValueString(getActivity(), mGift));
+    // mValue.setText(LocaleUtils.getGiftValueString(getActivity(), mGift));
     mValue.setText(mGift.desc);
     mDesc.setText(mGift.detailedDesc);
   }
@@ -106,7 +114,9 @@ public class RedeemGiftSuccessFragment extends Fragment implements OnClickListen
           img.setImageBitmap(bmp);
         }
         TextView text = (TextView) root.findViewById(R.id.text_code);
+        TextView exp = (TextView) root.findViewById(R.id.expiration);
         text.setText(mBarcode);
+        exp.setText(getExpirationString());
         if (!mIsInStore) {
           root.findViewById(R.id.copy).setOnClickListener(this);
         }
@@ -114,10 +124,23 @@ public class RedeemGiftSuccessFragment extends Fragment implements OnClickListen
         Bitmap bmp = BarcodeGenerator.generateQrCode(getActivity(), mBarcode);
         ImageView img = (ImageView) root.findViewById(R.id.code);
         TextView text = (TextView) root.findViewById(R.id.text_code);
+        TextView exp = (TextView) root.findViewById(R.id.expiration);
         img.setImageBitmap(bmp);
         text.setText(mBarcode);
+        exp.setText(getExpirationString());
       }
     }
+  }
+
+  private String getExpirationString() {
+    //FIXME
+    GregorianCalendar cal = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
+    cal.clear();
+    cal.set(2015, Calendar.JANUARY, 1);
+    long expTime = cal.getTimeInMillis();
+
+    String date = DateFormat.getMediumDateFormat(getActivity()).format(new Date(expTime));
+    return getString(R.string.offer_expires, date);
   }
 
   private int getBarcodeLayout() {
@@ -149,6 +172,9 @@ public class RedeemGiftSuccessFragment extends Fragment implements OnClickListen
       case R.id.copy:
         onCopyClicked();
         break;
+      case R.id.redeem_desc:
+        onTermsClicked();
+        break;
     }
   }
 
@@ -165,7 +191,7 @@ public class RedeemGiftSuccessFragment extends Fragment implements OnClickListen
   }
 
   private void onUseOnlineClicked() {
-    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(" https://m.verizonwireless.com/shop"));
+    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mGift.merchant.url));
     startActivity(intent);
   }
 
@@ -184,4 +210,11 @@ public class RedeemGiftSuccessFragment extends Fragment implements OnClickListen
     }
     Toast.makeText(getActivity(), R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();
   }
+
+  private void onTermsClicked() {
+    String url = mGift.tosUrl;
+    TermsDialog dialog = TermsDialog.newInstance(url);
+    dialog.show(getFragmentManager(), null);
+  }
+
 }

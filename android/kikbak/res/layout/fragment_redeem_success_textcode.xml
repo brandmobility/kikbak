@@ -18,7 +18,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="30dp"
         android:gravity="center"
         android:orientation="horizontal" >
 
@@ -28,8 +28,8 @@
             android:layout_height="wrap_content"
             android:text="kik123456"
             android:textColor="#135317"
-            android:textSize="36dp"
             android:textIsSelectable="true"
+            android:textSize="36dp"
             kikbak:typeface="Roboto-Regular.ttf" />
 
         <ImageButton
@@ -39,5 +39,14 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_copy" />
     </LinearLayout>
+
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:id="@+id/expiration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:textColor="#3a3a3a"
+        android:textSize="16dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
 
 </LinearLayout>

@@ -25,7 +25,7 @@
         android:layout_below="@id/gift_value"
         android:layout_centerHorizontal="true"
         android:text="with new 1-year contract"
-        android:textColor="#3a3a3a"
+        android:textColor="@color/link_dark"
         android:textSize="14dp"
         kikbak:typeface="Roboto-Regular.ttf" />
 
@@ -40,7 +40,7 @@
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
         android:text="@string/terms"
-        android:textColor="#686868"
+        android:textColor="@color/link"
         android:textSize="13dp"
         kikbak:typeface="Roboto-Regular.ttf" />
 

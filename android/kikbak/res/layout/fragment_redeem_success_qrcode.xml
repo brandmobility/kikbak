@@ -3,25 +3,40 @@
     xmlns:kikbak="http://schemas.android.com/apk/res/com.referredlabs.kikbak"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center" >
+    android:gravity="center"
+    android:orientation="vertical" >
 
-    <ImageView
-        android:id="@+id/code"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:maxHeight="@dimen/qr_code_size"
-        android:maxWidth="@dimen/qr_code_size"
-        android:scaleType="centerInside" />
+        android:gravity="center" >
 
-    <com.referredlabs.kikbak.widget.TtfTextView
-        android:id="@+id/text_code"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="8dp"
-        android:textColor="#3a3a3a"
-        android:textSize="36dp"
-        kikbak:typeface="Roboto-Bold.ttf" />
+        <ImageView
+            android:id="@+id/code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:maxHeight="@dimen/qr_code_size"
+            android:maxWidth="@dimen/qr_code_size"
+            android:scaleType="centerInside" />
+
+        <com.referredlabs.kikbak.widget.TtfTextView
+            android:id="@+id/text_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            android:textColor="#3a3a3a"
+            android:textSize="36dp"
+            kikbak:typeface="Roboto-Bold.ttf" />
+
+        <com.referredlabs.kikbak.widget.TtfTextView
+            android:id="@+id/expiration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#3a3a3a"
+            android:textSize="16dp"
+            kikbak:typeface="Roboto-Regular.ttf" />
+    </LinearLayout>
 
 </LinearLayout>

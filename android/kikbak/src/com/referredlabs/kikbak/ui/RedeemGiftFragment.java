@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import android.app.Activity;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -95,6 +96,9 @@ public class RedeemGiftFragment extends KikbakFragment implements OnClickListene
 
     mGiftValue = (TextView) root.findViewById(R.id.gift_value);
     mGiftDesc = (TextView) root.findViewById(R.id.gift_desc);
+    mGiftDesc.setPaintFlags(mGiftDesc.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+    mGiftDesc.setOnClickListener(this);
+
     mRedeemInStore = (Button) root.findViewById(R.id.redeem_store);
     mRedeemInStore.setOnClickListener(this);
 
@@ -141,6 +145,7 @@ public class RedeemGiftFragment extends KikbakFragment implements OnClickListene
   @Override
   public void onClick(View v) {
     switch (v.getId()) {
+      case R.id.gift_desc:
       case R.id.terms:
         onTermsClicked();
         break;

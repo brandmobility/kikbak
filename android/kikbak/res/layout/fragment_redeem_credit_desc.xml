@@ -78,7 +78,7 @@
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
         android:text="@string/terms"
-        android:textColor="#686868"
+        android:textColor="@color/link"
         android:textSize="13dp"
         kikbak:typeface="Roboto-Regular.ttf" />
 

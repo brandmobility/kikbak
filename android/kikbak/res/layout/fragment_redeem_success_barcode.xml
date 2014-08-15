@@ -24,4 +24,12 @@
         android:textSize="18dp"
         kikbak:typeface="Roboto-Light.ttf" />
 
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:id="@+id/expiration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#3a3a3a"
+        android:textSize="16dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
+
 </LinearLayout>
