@@ -27,6 +27,6 @@ public interface SharedExperienceService {
 
     public void addShareType(String code, Channel channel);
     
-    public boolean validateZipCodeEligibility(long offerId, String zipCode);
+    public boolean validateZipCodeEligibility(long offerId, String zipCode, Boolean isLandingPage);
 
 }

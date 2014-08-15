@@ -21,12 +21,14 @@ import com.kikbak.dao.ReadOnlyLocationDAO;
 import com.kikbak.dao.ReadOnlyOfferDAO;
 import com.kikbak.dao.ReadOnlySharedDAO;
 import com.kikbak.dao.ReadOnlyZipcodeDAO;
+import com.kikbak.dao.ReadWriteRedeemZipcodeDAO;
 import com.kikbak.dao.ReadWriteSharedDAO;
 import com.kikbak.dao.enums.Channel;
 import com.kikbak.dao.enums.OfferType;
 import com.kikbak.dto.Credit;
 import com.kikbak.dto.Gift;
 import com.kikbak.dto.Offer;
+import com.kikbak.dto.Redeemzipcode;
 import com.kikbak.dto.Shared;
 import com.kikbak.push.service.PushNotifier;
 
@@ -68,6 +70,9 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
 
     @Autowired
     private ReadOnlyZipcodeDAO roZipcodeDAO;
+    
+    @Autowired
+    private ReadWriteRedeemZipcodeDAO rwRedeemZipcode;
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
@@ -167,7 +172,12 @@ public class SharedExperienceServiceImpl implements SharedExperienceService {
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    public boolean validateZipCodeEligibility(long offerId, String zipCode) {
+    public boolean validateZipCodeEligibility(long offerId, String zipCode, Boolean isLandingPage) {
+    	
+    	Redeemzipcode code = new Redeemzipcode();
+    	code.setZipcode(Integer.parseInt(zipCode));
+    	rwRedeemZipcode.makePersistent(code);
+    	
     	Offer offer = roOfferDAO.findById(offerId);
         return roZipcodeDAO.isValidZipcode(offer.getMerchantId(), zipCode);
     }

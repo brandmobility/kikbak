@@ -137,9 +137,9 @@ public class SharedController2 {
 
     @RequestMapping(value = "/validateZip", method = RequestMethod.GET)
     public ZipValidationResponse validateZip(@RequestParam("zipCode") String zipCode,
-            @RequestParam("offerId") Long offerId, final HttpServletResponse httpResponse) {
+            @RequestParam("offerId") Long offerId, @RequestParam("isLandingPage") Boolean isLandingPage, final HttpServletResponse httpResponse) {
         try {
-            boolean eligible = sharedService.validateZipCodeEligibility(offerId, zipCode);
+            boolean eligible = sharedService.validateZipCodeEligibility(offerId, zipCode, isLandingPage);
             ZipValidationResponse response = new ZipValidationResponse();
             response.setStatus(eligible ? ZipEligibility.OK : ZipEligibility.INELIGIBLE);
             return response;
