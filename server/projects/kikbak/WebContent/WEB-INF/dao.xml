@@ -193,4 +193,9 @@
 	<bean id="ReadOnlyZipcodeDAO" class="com.kikbak.dao.impl.ReadOnlyZipcodeDAOImpl">
 		<property name="sessionFactory" ref="roSessionFactory" />
 	</bean>
+
+	<bean id="ReadWriteRedeemZipcodeDAO" class="com.kikbak.dao.impl.ReadWriteRedeemZipcodeDAOImpl">
+		<property name="sessionFactory" ref="rwSessionFactory" />
+	</bean>
+
 </beans>

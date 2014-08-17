@@ -169,7 +169,7 @@ public class RewardServiceImpl implements RewardService {
             for (Allocatedgift ag : m.get(offerId)) {
                 Shared shared = roSharedDao.findById(ag.getSharedId());
                 User friend = roUserDao.findById(ag.getFriendUserId());
-                addShareInfoToGift(gt, shared, friend, ag.getId());
+                addShareInfoToGift(gt, shared, friend, ag.getId(), offer);
             }
 
             if(location != null) {
@@ -335,7 +335,7 @@ public class RewardServiceImpl implements RewardService {
                     
                     User friend = roUserDao.findById(ag.getFriendUserId());
 
-                    addShareInfoToGift(gt, shared, friend, ag.getId());
+                    addShareInfoToGift(gt, shared, friend, ag.getId(), offer);
                     gifts.add(gt);
                     agIds.add(ag.getId());
                 }
@@ -364,7 +364,7 @@ public class RewardServiceImpl implements RewardService {
         
         GiftType gt = createGiftType(offer, null, null);
         User friend = roUserDao.findById(shared.getUserId());
-        addShareInfoToGift(gt, shared, friend, 0);
+        addShareInfoToGift(gt, shared, friend, 0, offer);
 
         return gt;
     }
@@ -378,7 +378,7 @@ public class RewardServiceImpl implements RewardService {
         Offer offer = roOfferDao.findById(shared.getOfferId());
         User friend = roUserDao.findById(shared.getUserId());
         GiftType gt = createGiftType(offer, null, null);
-        addShareInfoToGift(gt, shared, friend, 0);
+        addShareInfoToGift(gt, shared, friend, 0, offer);
 
         return gt;
     }
@@ -444,7 +444,7 @@ public class RewardServiceImpl implements RewardService {
         return gt;
     }
 
-    private void addShareInfoToGift(GiftType gt, Shared shared, User friend, long agId) {
+    private void addShareInfoToGift(GiftType gt, Shared shared, User friend, long agId, Offer offer) {
         if (friend == null || shared == null) {
             logger.error(Thread.currentThread().getStackTrace()[1].getMethodName() + " Unable to find to friend to associate gift with shared:" + shared
                     + " friend:" + friend);
@@ -482,6 +482,8 @@ public class RewardServiceImpl implements RewardService {
             sit.setLocation(sharedLocation);
         }
 
+        gt.setBeginDate(offer.getBeginDate().getTime());
+        gt.setEndDate(offer.getEndDate().getTime());
         gt.getShareInfo().add(sit);
     }
 

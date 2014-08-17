@@ -655,7 +655,7 @@ p.msg {
     border: 0px;
     text-align: center;
     width: 94%;
-    height: 40px;
+    height: 32px;
     font-weight: bold;
     border-radius: 5px;
     filter: dropshadow(color=#050505,offx=-1,offy=-1)
@@ -1480,7 +1480,6 @@ h1.pg-hedng {
 .share-group {
     margin-top:20px;
     margin-bottom:10px;
-    overflow:auto;
     text-align:center;
 }
 .act-btn {

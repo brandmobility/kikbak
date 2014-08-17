@@ -107,11 +107,6 @@
                         <a href="${gift.merchant.url}" target="_blank">
                             <img class="logo" />
                         </a>
-                        <c:choose>
-                        <c:when test="${gift.validationType == 'barcode'}">
-                        <button id="print-btn" style="display:none;" class="btn grd-red-btn print-btn" onclick="window.print()"><img src="img/printer.png" /><span>  Print page</span></button>
-                        </c:when>
-                        </c:choose>
                     </div>
                     <div id="success-msg" style="display:none;">
                         <h1>Success!</h1>
@@ -122,7 +117,7 @@
                     </div>
                     <div id="ribbon">
                     	<h2>${gift.desc}</h2>
-                        <p>${gift.detailedDesc}</p>
+                        <p><a href="" onclick="window.open('${gift.tosUrl}');return false;">See details</a></p>
                     </div>
                     <div id="facebook-div" class="fb">
                         <c:choose>
@@ -135,9 +130,9 @@
                         <div id="zipcode-div">
                             <input type="text" id="zipcode-input" placeholder="Your zip code"></input>
                         </div>
-                        <div id="zipcode-qualify-div" style="display:none;">
-                            <button id="anonymous-redeem-barcode-btn" class="btn grd-btn mini-btn">Generate In-store Coupon</button>
-                            <button id="anonymous-redeem-barcode-online-btn1" class="btn grd-btn mini-btn">Redeem Online</button>
+                        <div id="zipcode-qualify-div">
+                            <input type="button" id="anonymous-redeem-barcode-btn" class="btn grd-btn mini-btn" value="Generate In-store Coupon" disabled="disabled" />
+                            <input type="button" id="anonymous-redeem-barcode-online-btn1" class="btn grd-btn mini-btn" value="Redeem Online" disabled="disabled" />
                             <div id="facebook-btn-div">
                                 <p class="redeem-note">Or connect with Facebook to send the offer to the Kikbak app for iOS or Android. Use it to easily access the offer at the store.</p>
                                 <a id="loginFb" href="#"> <img src="img/fb-btn-new.png" width="258" height="55" style="margin: 0 auto;" /></a>
@@ -179,6 +174,8 @@
                             <a id="barcode-copy" class="btn grd-btn copy-btn">Copy</a>
                         </div>
                         <a id="barcode-link" target="_blank" class="btn grd-btn" style="display:none;padding-top:3%;padding-bottom:3%;padding-left: 25px;padding-right: 25px;">Use Online</a>
+                        <p id="barcode-expire"></p>
+                        <button id="print-btn" style="display:none;" class="btn grd-red-btn print-btn" onclick="window.print()"><span>Print Coupon</span></button>
                     </div>
                     </c:otherwise>
                     </c:choose>
@@ -187,7 +184,10 @@
         </div>
         <div id="footer-wrap">
             <div id="footer" class="clearfix">
-                <div class="footer-left"><a href="" onclick="window.open('${gift.tosUrl}');return false;" class="lft">Terms & Conditions</a></div>
+                <div class="footer-left">
+                    <a href="" onclick="window.open('${gift.tosUrl}');return false;" class="lft">Terms & Conditions</a>
+                    <a href="" onclick="window.open('/data/privacy.html');return false;" class="lft" style="margin-left:30px">Privacy Policy</a>
+                </div>
                 <div class="footer-right"><a href="https://kikbak.me" class="rit" target="_blank">Powered by Kikbak</a></div>
             </div>
         </div>
@@ -274,7 +274,7 @@
                     <div
                         style="padding-top: 20px; padding-bottom: 4px;">
                         <h3 style="font-size: 38px; font-family: HelveticaNeue Bold; line-height: 18px;">${gift.desc}</h3>
-                        <p style="font-family: HelveticaNeueLT Pro 55 Roman; font-size: 17px; padding-top: 4px; margin: 0;">${gift.detailedDesc}</p>
+                        <p style="font-family: HelveticaNeueLT Pro 55 Roman; font-size: 17px; padding-top: 4px; margin: 0;"><href="" onclick="window.open('${gift.tosUrl}');return false;">See detais</a></p>
                     </div>
                 </div>
                 <div class="col-md-1"></div>
@@ -365,12 +365,13 @@
         <div class="cd-br-stin">
             <h2>OFFER</h2>
             <h1>${gift.desc}</h1>
-            <h3>${gift.detailedDesc}</h3>
+            <h3><a href="" onclick="window.open('${gift.tosUrl}');return false;">See details</a></h3>
         </div>
         <div class="redeem-online">
             <p id="barcode-note"></p>
             <img id="barcode" src="" />
             <p id="barcode-val"></p>
+            <p id="barcode-expire" style="font-size: 12px;"></p>
             <a id="barcode-link" target="_blank" style="display:none;" class="btn grd-btn">Use Online</a>
         </div>
         <div class="crt share-offer">
@@ -413,24 +414,18 @@
         $.ajax({
           type: 'GET',
           contentType: 'application/json',
-          url: 'v2/share/validateZip?zipCode=' + zipcode + '&offerId=${gift.offerId}',
+          url: 'v2/share/validateZip?zipCode=' + zipcode + '&offerId=${gift.offerId}&isLandingPage=true',
           success: function(json) {
-            var valid = json.zipValidationResponse.status;
-            if (valid === 'OK') {
-              ga('send', 'event', 'gift landing', 'input', 'valid zipcode');
-              $('#zipcode-qualify-div').show();
-              $('#zipcode-nonqualify-div').hide();
-            } else {
-              ga('send', 'event', 'gift landing', 'input', 'invalid zipcode');
-              $('#zipcode-qualify-div').hide();
-              $('#zipcode-nonqualify-div').show();
-            }
+            $('#anonymous-redeem-barcode-btn').removeAttr('disabled');
+            $('#anonymous-redeem-barcode-online-btn1').removeAttr('disabled');
+            $('#zipcode-qualify-div').show();
           }, 
           error: showError
         });
       } else {
+        $('#anonymous-redeem-barcode-btn').attr('disabled', 'diabled');
+        $('#anonymous-redeem-barcode-online-btn1').attr('disabled', 'disabled');
         $('#zipcode-qualify-div').hide();
-        $('#zipcode-nonqualify-div').hide();
       }
     });    
     $('#anonymous-redeem-barcode-btn').click(function() {
@@ -519,10 +514,16 @@
         var imgUrl = 'unauth/rewards/generateBarcode/' + json.barcodeResponse.code + '/100/200/';
         $('#barcode').attr('src', imgUrl);
         $('#barcode-val').html(json.barcodeResponse.code);
+        var d = new Date(${gift.beginDate} + 120 * 24 * 60 * 60 * 1000);
+        var month = new Array("Jan", "Feb", "Mar", 
+            "Apr", "May", "June", "July", "Aug", "Sep", 
+            "Oct", "Nov", "Dec");
+        var dateStr = month[(d.getMonth() - 1)] + " " + d.getDate() + ", " + d.getFullYear();
         if (online) {
           $('#barcode-val').css('color', 'red');
           $('#barcode-val').css('font-size', '32px');
           $('#barcode-note').html('Your discount code');
+          $('#barcode-expire').html('Offer expires [' + dateStr + ']');
           $('#barcode').hide();
           $('#barcode-link').attr('href', 'http://www.verizonwireless.com/wcms/consumer/shop.html');
           $('#barcode-link').show();
@@ -533,6 +534,7 @@
         } else {
           $('#barcode-val').css('color', 'black');
           $('#barcode-val').css('font-size', '16px');
+          $('#barcode-expire').html('Offer expires [' + dateStr + ']');
           $('#barcode').show();
           $('.share-offer').show();
           $('#share-offer-btn').show();

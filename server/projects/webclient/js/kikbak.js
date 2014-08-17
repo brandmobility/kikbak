@@ -171,7 +171,6 @@ function preShareClick() {
               var landingUrl = storiesResponse.stories[0].landingUrl;
               var landingHref = $('#landing');
               landingHref.attr('href', landingUrl);
-              landingHref.html(landingUrl);
               $('#pre-share-popup').hide();
               if (offer.auth === 'facebook') {
                 $('#post-share-detail h3').html('Give offer to friends');
@@ -269,24 +268,24 @@ function validateZipcode(cb) {
             $('#zipcode-div').hide();
             $('#register-div').show();
           } else {
-            handleInvalidZipcode();
+            handleInvalidZipcode(cb);
           }
         },
         error: showError
       });
     } else {
-      handleInvalidZipcode();
+      handleInvalidZipcode(cb);
     }
   });
 }
 
-function handleInvalidZipcode() {
+function handleInvalidZipcode(cb) {
   $('#zipcode-div').hide();
   $('#zipcode-invalid-div').show();
   $('#invalid-zipcode-btn').click(function() {
-    $('.popup').hide();
-    $('#zipcode-div').show();
     $('#zipcode-invalid-div').hide();
+    $('#register-div').show();
+    cb();
   });
 }
 
@@ -353,7 +352,7 @@ var authType = {
                  '<button id="zipcode-btn" class="btn grd-btn" disabled="disabled" >Submit</button>' +
                '</div>' +
                '<div id="zipcode-invalid-div" style="display:none">' +
-                 '<span style="font-size: 16px;color:red; margin:50px 0 50px;">Unfortunately Verizon subscribers in this billing zip code are not eligible to participate in this program.</span>' +
+                 '<span style="font-size: 16px;color:red; margin:50px 0 50px;">Your billing address is not in a qualifying state.  You may share this offer with friends but you will not be eligible to earn rewards.</span>' +
                  '<button id="invalid-zipcode-btn" class="btn grd-btn" >Done</button>' +
                '</div>' +
                '<div id="register-div" style="display:none">' +
@@ -1578,13 +1577,19 @@ function renderOfferDetail(offer) {
     html += '<div class="gv">';
     html += '<h2><img src="images/ic_gift@2x.png" height="19px" width="18px" />';
     html += 'Give ' + offer.giftDesc + '</h2>';
-    html += '<h4>' + offer.giftDetailedDesc + '</h4>';
+    html += '<h4><a href="" class="term-btn">See details</a></h4>';
     html += '</div>';
     html += '<div class="crt">';
-    html += '<h2><img width="19px" src="images/ic_give_trophy.png" /> ';
-    html += 'Get $' + offer.kikbakValue + '</h2>';
-    html += '<h4>' + offer.kikbakDetailedDesc + '</h4>';
+    html += '<h2><img width="19px" src="images/ic_give_trophy.png" />Get a $50 prepaid debit card</h2>';
+    html += '<span style="margin-left:20px;font-size:10px;">I agree to the <a href="" class="term-btn">Terms and Conditions</a> and the Kikbak <a href="" class="privacy-btn">Privacy Policy</a>.</span>'
+    var d = new Date(offer.beginDate + 120 * 24 * 60 * 60 * 1000);
+    var month = new Array("Jan", "Feb", "Mar", 
+            "Apr", "May", "June", "July", "Aug", "Sep", 
+            "Oct", "Nov", "Dec");
+    var dateStr = month[d.getMonth() - 1] + " " + d.getDate() + ", " + d.getFullYear();
+    html += '<p style="font-size:12px">Offer expires [' + dateStr + ']</p>';
     html += '</div>';
+    $('#congrats').html('Congratulations – now share your offer – and get a $50 prepaid  debit card<br />Offer expires ' + dateStr + '<br /><a href="" class="term-btn">See details</a>');
   } else {
     html += '<div class="gv gv-only">';
     html += '<h2><img src="images/ic_gift@2x.png" />';
@@ -1593,9 +1598,10 @@ function renderOfferDetail(offer) {
     html += '</div>';
   }
   html += '<div class="crt" style="margin:0 2%;">';
-  html += '<a href="#" class="trm" id="term-btn" >&nbsp;Terms and Conditions</a>';
+  html += '<a href="#" class="trm term-btn" >&nbsp;Terms and Conditions</a>';
+  html += '<a href="#" class="trm privacy-btn" style="float:right">Privacy Policy</a>';
   html += '</div>';
-  html += '<input id="share-btn" name="share" type="button" class="btn grd-btn botm-position" value="Give To Friends" />';
+  html += '<input id="share-btn" name="share" type="button" class="btn grd-btn" value="I Agree" />';
   html += '</form>';
   html += '</div>';
   $('#offer-details-view').html(html);
@@ -1605,11 +1611,16 @@ function renderOfferDetail(offer) {
     shareImg.height(Math.max(shareImg.height() + 25, shareImg.width()));
   }
   
-  $('#term-btn').click(function(e) {
+  $('.term-btn').click(function(e) {
 	e.preventDefault();
     showTerms(offer.tosUrl);
   });
-  
+   
+  $('.privacy-btn').click(function(e) {
+	e.preventDefault();
+    showTerms('/data/privacy.html');
+  });
+
   $('#offer-details-view').show('');
   $('#back-btn-div').hide('');
   $('#heading').html('Give');
@@ -1856,13 +1867,13 @@ function renderRedeemGiftDetail(data) {
   html += '<h2>' + gift.desc + '</h2>';
   html += '<h4>' + gift.detailedDesc + '</h4>';
   html += '<div class="crt">';
-  html += '<a href="#" class="trm" id="term-btn" >Terms and Conditions</a>';
+  html += '<a href="#" class="trm" class="term-btn" >Terms and Conditions</a>';
   html += '</div>';
   html += '<button id="redeem-gift-instore-btn" class="btn grd-btn botm-position">Redeem now in store</button>';
   
   $('#redeem-details-view').html(html);
   
-  $('#term-btn').click(function(e) {
+  $('.term-btn').click(function(e) {
 	e.preventDefault();
     showTerms(gift.tosUrl);
   });
@@ -1932,13 +1943,13 @@ function renderRedeemCreditDetail(credit) {
   if (credit.rewardType == 'gift_card') {
     html += '<h5>Gift Card</h5>';
   }
-  html += '<a href="#" class="trm" id="term-btn">Terms and Conditions</a>';
+  html += '<a href="#" class="trm" class="term-btn">Terms and Conditions</a>';
   html += '</div>';
   html += '<button id="claim-credit-form-btn" class="btn grd-btn botm-position">Claim reward now</button>';
   
   $('#redeem-details-view').html(html);
   
-  $('#term-btn').click(function(e) {
+  $('.term-btn').click(function(e) {
 	e.preventDefault();
     showTerms(credit.tosUrl);
   });

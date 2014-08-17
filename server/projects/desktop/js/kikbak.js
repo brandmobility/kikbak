@@ -532,7 +532,7 @@ function renderOfferDetail(offer, custom, holder) {
     $('#ribbon-bottom').hide();	  
   }
   $('#ribbon #ribbon-margin h2').html('Give ' + offer.giftDesc);
-  $('#ribbon #ribbon-margin p').html('<a id="tos" href="#">See detail</a>');
+  $('#ribbon #ribbon-margin p').html('<a class="tos" href="#">See detail</a>');
 
   for (var name in custom) {
     $('#' + name + ' p').html(custom[name]);
@@ -542,8 +542,14 @@ function renderOfferDetail(offer, custom, holder) {
   for (var name in holder) {
     $('#' + name).attr('placeholder', holder[name]);
   }
-  
-  $('#tos').click(function(e) {
+
+  $('.pp').click(function(e) {
+    e.preventDefault();
+    window.open('/data/privacy.html', '_blank');
+    return false;
+  });
+ 
+  $('.tos').click(function(e) {
     e.preventDefault();
     window.open(offer.tosUrl, '_blank');
     return false;
@@ -590,11 +596,11 @@ function getOfferStory(offer) {
             var landingUrl = storiesResponse.stories[0].landingUrl;
             var html = '<span>Click <a id="landing" href="' + landingUrl + '" target="_blank">here</a> for your personal offer page</span>';
             $('#pre-share-div').hide();
-            var d = new Date(offer.endDate);
+            var d = new Date(offer.beginDate + 120 * 24 * 60 * 60 * 1000);
             var month = new Array("Jan", "Feb", "Mar", 
                 "Apr", "May", "June", "July", "Aug", "Sep", 
                 "Oct", "Nov", "Dec");
-            var dateStr = month[d.getMonth()] + " " + d.getDate() + " " + d.getFullYear();
+            var dateStr = month[d.getMonth() - 1] + " " + d.getDate() + ", " + d.getFullYear();
             $('#share-info-div').html('<h3>Congratulations – now share your offer – and get $50 every time a friend redeems the offer.</h3><p style="text-align: center;">Offer expires ' + dateStr + '</p>');
             $('#share-info-after-div').html(html);
             $('#share-div .btn-group').show();

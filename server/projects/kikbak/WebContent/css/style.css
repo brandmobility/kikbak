@@ -444,7 +444,7 @@ button[disabled="disabled"] {
 }
 .print-btn {
     width: 140px;
-    float: right;
+    float: left;
     margin-top: 40px;
     height: 40px;
     margin-left:0px;
@@ -481,6 +481,10 @@ button[disabled="disabled"] {
     top: 124px;
     z-index:-1;
     position: absolute;
+}
+#barcode-expire{
+    margin-top: 20px;
+    font-size: 20px;
 }
 #barcode-note {
     font-size: 20px;
