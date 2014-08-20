@@ -42,7 +42,11 @@
 
         <c:choose>
         <c:when test="${not mobile}">
-        <div id="container"></div>
+
+        <div style="background:url(img/header_blue.png)">
+            <img style="display: block; margin: auto; padding-left: 10%" src="img/header_web.png" >
+        </div>
+
         <div id="wrap">
             <div id="green-overlay" style="display:none;"></div>
             <div id="main" class="clearfix">
@@ -399,12 +403,6 @@
 
     var agId;
     
-    <c:choose>
-    <c:when test="${not mobile}">
-    $('#header .logo').attr('src', '${merchantUrl}');
-    </c:when>
-    </c:choose>
-
     <c:choose>
     <c:when test="${gift.merchant.shortname == 'Verizon'}">
     var zipcodeInput = $('#zipcode-input');

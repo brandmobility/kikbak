@@ -524,7 +524,7 @@ function renderOfferDetail(offer, custom, holder) {
   
   $('#globe-href').attr('href', offer.merchantUrl);
   
-  $('#show-picture').attr('src', offer.giveImageUrl);
+  $('#show-picture').attr('src', offer.merchantLogoUrl);
   if (offer.kikbakDesc) {
     $('#ribbon-bottom').show();
     $('#ribbon-bottom #ribbon-margin h2').html('Get a $50 prepaid debit card');

@@ -125,29 +125,16 @@ textarea{
     line-height: 24px;
 }
 #container{
-    background-color: #595A5D;
-    background-repeat: no-repeat;
-    background-position: top center;
-    height: 100%;
+    background: url(../images/header_blue.png);
+    background-size: cover;
+    text-align: center;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    color: white;
 }
-#container img{
-    width:102%;
-    height:102%;
-    margin:-10px -20px -20px -10px;
-    -webkit-filter: blur(4px);
-    -moz-filter: blur(4px); 
-    -o-filter: blur(4px); 
-    -ms-filter: blur(4px); 
-    filter: blur(4px);
-}
+
 #wrap{
-    position:absolute;
-    top:0;
     height: 100%;
     width:100%;
-    margin:0;
-    background: url(../images/overlay-new.png) repeat-x top left;
-    display: inline-table;
 }
 #main{
     width:900px;
@@ -156,7 +143,6 @@ textarea{
 #info-wrapper{
     width:366px;
     float:left;
-    margin-top:90px;
 }
 #info{
     padding: 10px;
@@ -195,7 +181,6 @@ textarea{
     font-size: 18px;
     float:left;
     line-height: 62px;
-    font-family:'HelveticaNeue Bold';
 }
 #info .info-content{
     width:346px;
@@ -254,7 +239,6 @@ textarea{
     text-shadow: 0 2px 0 rgba(255,255,255,.5);
 }
 #main-right{
-    margin-top: 0px;
     width:534px;
     float: right;
 }
@@ -300,7 +284,6 @@ textarea{
     font-size: 42px;
     line-height: 42px;
     height:42px;
-    font-family:'HelveticaNeue Bold';
     margin-bottom:2px;
 }
 #main-right #ribbon #ribbon-margin p{
@@ -332,7 +315,6 @@ textarea{
     font-size: 42px;
     line-height: 42px;
     height:42px;
-    font-family:'HelveticaNeue Bold';
     margin-bottom:2px;
     color:white;
 }
@@ -460,7 +442,6 @@ textarea{
 #main-right #share-success h2 {
     font-size: 30px;
     line-height: 42px;
-    font-family:'HelveticaNeue Bold';
     margin-bottom:20px;
 }
 #main-right #share-success p {

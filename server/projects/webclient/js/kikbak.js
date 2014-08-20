@@ -246,6 +246,7 @@ function validateZipcode(cb) {
     cb = function() {
       $('#zipcode-div').hide();
       $('#register-div').show()
+      $('.popup').hide();
     };
   }
   if (validateZipcode.valid) {
@@ -1349,9 +1350,19 @@ function getOfferDetail() {
       initPage();
     });
     
+    $('#accept-btn').click(function(e){
+      e.preventDefault();
+      $('#pre-accepted').hide();
+      $('#accepted').show();
+      validateZipcode();
+    });
+ 
     $('#share-btn').click(function(e){
       e.preventDefault();
-      validateZipcode();
+      $('#accepted').show();
+      $('#zipcode-div').hide();
+      $('#register-div').show();
+      $('#pre-share-popup').show();
     });
 
     $('#comment-input').on('focus', function() {
@@ -1370,7 +1381,7 @@ function getOfferDetail() {
         takePicture.show();
         takePicture.change(function(e) {
           ga('send', 'event', 'share', 'click', 'take picture');
-          $("#share-btn").attr('disabled', 'disabled');
+          $(".sharebtn").attr('disabled', 'disabled');
           var icon = $('.camicon');
           var files = e.target.files;
           var file;
@@ -1480,7 +1491,7 @@ function getOfferDetail() {
                           $('#show-picture').attr('src', dataurl);
 
                           e.preventDefault();
-                          $("#share-btn").removeAttr('disabled');
+                          $(".sharebtn").removeAttr('disabled');
                           goback();
                         });
                       });
@@ -1547,7 +1558,7 @@ function renderOfferDetail(offer) {
   var userId = s.userId;
   html += '<div id="share-after-login-div">';
   html += '<form onsubmit="return false;" id="share-form" type="POST" enctype="multipart/form-data" style="margin-bottom:0px;">';
-  html += '<div id="share-image-add" class="image-add"><img src="' + offer.giveImageUrl + '" class="addimg add-photo show-picture" id="show-picture">';
+  html += '<div id="share-image-add" class="image-add"><img src="' + offer.merchantLogoUrl + '" class="addimg add-photo show-picture" id="show-picture">';
   html += '<span class="imgshado"></span>';
   html += '<div class="add-photo-btn">';
   html += '<h2 id="take-photo-header">Add your own photo</h2>';
@@ -1581,6 +1592,7 @@ function renderOfferDetail(offer) {
     html += '</div>';
     html += '<div class="crt">';
     html += '<h2><img width="19px" src="images/ic_give_trophy.png" />Get a $50 prepaid debit card</h2>';
+    html += '<div id="pre-accepted">'
     html += '<span style="margin-left:20px;font-size:10px;">I agree to the <a href="" class="term-btn">Terms and Conditions</a> and the Kikbak <a href="" class="privacy-btn">Privacy Policy</a>.</span>'
     var d = new Date(offer.beginDate + 120 * 24 * 60 * 60 * 1000);
     var month = new Array("Jan", "Feb", "Mar", 
@@ -1588,6 +1600,9 @@ function renderOfferDetail(offer) {
             "Oct", "Nov", "Dec");
     var dateStr = month[d.getMonth() - 1] + " " + d.getDate() + ", " + d.getFullYear();
     html += '<p style="font-size:12px">Offer expires [' + dateStr + ']</p>';
+    html += '<input id="accept-btn" name="share" type="button" class="btn grd-btn sharebtn" value="I accept" />';
+    html += '<a href="#" class="trm privacy-btn" style="margin:0;">Privacy Policy</a>';
+    html += '</div>';
     html += '</div>';
     $('#congrats').html('Congratulations – now share your offer – and get a $50 prepaid  debit card<br />Offer expires ' + dateStr + '<br /><a href="" class="term-btn">See details</a>');
   } else {
@@ -1597,11 +1612,13 @@ function renderOfferDetail(offer) {
     html += '<h4>' + offer.giftDetailedDesc + '</h4>';
     html += '</div>';
   }
+  html += '<div id="accepted" style="display:none;">'
   html += '<div class="crt" style="margin:0 2%;">';
   html += '<a href="#" class="trm term-btn" >&nbsp;Terms and Conditions</a>';
   html += '<a href="#" class="trm privacy-btn" style="float:right">Privacy Policy</a>';
   html += '</div>';
-  html += '<input id="share-btn" name="share" type="button" class="btn grd-btn" value="I Agree" />';
+  html += '<input id="share-btn" name="share" type="button" class="btn grd-btn sharebtn" value="Give to Friends" />';
+  html += '</div>';
   html += '</form>';
   html += '</div>';
   $('#offer-details-view').html(html);
