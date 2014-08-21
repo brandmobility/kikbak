@@ -12,7 +12,9 @@
 <title>Kikbak</title>
 </head>
 <body style="display:none;">
+<div style="display:block; margin-bottom: -4px;">
 <img src="images/header_mobile.png" width="100%">
+</div>
 <div id="offer-view" class="wrapper" style="dispaly:none;">
   <div class="scroller">
     <div id="offer-list" class="unstyled list-view">
@@ -29,13 +31,6 @@ to recommend to friends with a special offer</h3></div>
 </div>
 <div id="offer-details-view" class="details" style="display:none;">
 </div>
-<span id="terms" class="popup" style="display:none;">
-<div class="popin" style="height:90%"><h2>Terms & Conditions</h2>
-<div class="cntnt" style="height:75%;-webkit-overflow-scrolling:touch;"><iframe style="margin:0;padding:0;width:100%;height:100%;border:none;"></iframe>
-</div>
-  <button class="popup-close-btn btn grd-btn" >Close</button>
-</div>
-</span>
 <span id="spinner" class="popup" style="dispaly:none;">
 <div class="popin" style="margin-top:20%;height:30%"><h2>Loading offer</h2>
 <p class="spinner"></p>
@@ -85,6 +80,14 @@ to recommend to friends with a special offer</h3></div>
     <ul id="friend-list" class="frnd-lst"></ul>
   </div>
 </span>
+<span id="terms" class="popup" style="display:none;">
+<div class="popin" style="height:90%"><h2>Terms & Conditions</h2>
+<div class="cntnt" style="height:75%;-webkit-overflow-scrolling:touch;"><iframe style="margin:0;padding:0;width:100%;height:100%;border:none;"></iframe>
+</div>
+  <button id="close-term" class="btn grd-btn">Close</button>
+</div>
+</span>
+
 <div id="redeem-view" class="wrapper" style="display:none;">
   <div class="scroller">
     <div id="redeem-list" class="unstyled list-view">

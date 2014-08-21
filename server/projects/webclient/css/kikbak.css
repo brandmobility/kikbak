@@ -321,6 +321,13 @@ input, textarea {
     position: relative;
     width: 100%;
 }
+#show-picture {
+    margin: auto;
+    display: block;
+    width: auto;
+    height: 100%;
+}
+
 .tk-pht {
     height: 380px;
 }
@@ -869,9 +876,7 @@ p.msg {
 /* ---- */
 
 .tkpoto {
-    float: left;
     width: 100%;
-    position: relative;
     overflow: hidden;
 }
 .tkpoto .pht {
