@@ -1,6 +1,6 @@
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.+)$ https://m.kikbak.me/m/#merchant-$1 [R,L,NE]
+RewriteRule ^(.+)$ https://m.kikbak.me/d/#merchant-$1 [R,L,NE]
 RewriteCond %{HTTPS} off
 RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
 
