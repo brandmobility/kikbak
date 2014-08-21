@@ -324,8 +324,6 @@ input, textarea {
 #show-picture {
     margin: auto;
     display: block;
-    width: auto;
-    height: 100%;
 }
 
 .tk-pht {

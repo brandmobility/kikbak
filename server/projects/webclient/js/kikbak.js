@@ -1321,28 +1321,6 @@
         return false;
     }
 
-    var createBinaryFile = function(uintArray) {
-        var data = new Uint8Array(uintArray);
-        var file = new BinaryFile(data);
-
-        file.getByteAt = function(iOffset) {
-            return data[iOffset];
-        };
-
-        file.getBytesAt = function(iOffset, iLength) {
-            var aBytes = [];
-            for (var i = 0; i < iLength; i++) {
-                aBytes[i] = data[iOffset  + i];
-            }
-            return aBytes;
-        };
-
-        file.getLength = function() {
-            return data.length;
-        };
-        return file;
-    };
-
     function getOfferDetail() {
         var userId = 0;
         // s.userId;
@@ -1381,6 +1359,9 @@
             takePicture.show();
             takePicture.change(function(e) {
                 ga('send', 'event', 'share', 'click', 'take picture');
+                $('#show-picture').css("width", "auto");
+                $('#show-picture').css("height", "100%");
+                $('#share-image-add').css("background-color", "gray");
                 $(".sharebtn").attr('disabled', 'disabled');
                 var icon = $('.camicon');
                 var files = e.target.files;
@@ -1393,13 +1374,15 @@
 
                 $('#crop-image-div .tkpoto').html('<img class="pht">');
 
+                var that = this;
+                setTimeout(function() {
                 if (files && files.length > 0) {
-                    var imageFile = this.files[0];
+                    var imageFile = that.files[0];
                     try {
                         var images = new Image(),
                             imgUrl = url.createObjectURL(imageFile);
-                        images.src = imgUrl;
                         images.onload = function(e) {
+                            setTimeout(function() {
                             icon.removeClass('camicon');
                             icon.addClass('smallcamicon');
                             $('#take-photo-header').hide();
@@ -1457,13 +1440,16 @@
                                 });
                             });
                             cropImage.attr('src', imgUrl);
+                            }, 500);
                         };
+                        images.src = imgUrl;
 
                     } catch (e) {
                         console.log(e);
                         alert('Unsupported browser');
                     }
                 }
+                }, 50);
             });
         }
     }
