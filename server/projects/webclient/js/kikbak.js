@@ -1359,9 +1359,6 @@
             takePicture.show();
             takePicture.change(function(e) {
                 ga('send', 'event', 'share', 'click', 'take picture');
-                $('#show-picture').css("width", "auto");
-                $('#show-picture').css("height", "100%");
-                $('#share-image-add').css("background-color", "gray");
                 $(".sharebtn").attr('disabled', 'disabled');
                 var icon = $('.camicon');
                 var files = e.target.files;
@@ -1395,12 +1392,14 @@
                                 var width = window.innerWidth;
                                 var height = window.innerHeight;
                                 var jcrop_api, x, y, w, h;
+                                var ele = $('#share-image-add');
+                                var ratio = (ele.height() - 40) / width;
                                 var options = {
                                     boxWidth : width,
                                 boxHeight : height,
                                 bgColor : 'black',
                                 bgOpacity : .4,
-                                setSelect : [width - 10, width - 10, 10, 10],
+                                setSelect : [width - 10, width * ratio - 10, 10, 10],
                                 allowResize : false,
                                 allowSelect : false,
                                 onChange : function updateCoords(c) {
@@ -1428,7 +1427,7 @@
                                         croppedCanvas.setAttribute('width', w);
                                         croppedCanvas.setAttribute('height', h);
                                         var r = images.width / parseInt(width);
-                                        ctx.drawImage(images, x * r, y * r, w * r, h * r, 0, 0, width, width);
+                                        ctx.drawImage(images, x * r, y * r, w * r, h * r, 0, 0, width, width * ratio);
                                         images = null;
                                         var dataurl = croppedCanvas.toDataURL("image/jpeg");
                                         $('#show-picture').attr('src', dataurl);
