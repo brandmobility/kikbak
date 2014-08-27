@@ -1321,6 +1321,28 @@
         return false;
     }
 
+    var createBinaryFile = function(uintArray) {
+      var data = new Uint8Array(uintArray);
+      var file = new BinaryFile(data);
+
+      file.getByteAt = function(iOffset) {
+        return data[iOffset];
+      };
+
+      file.getBytesAt = function(iOffset, iLength) {
+        var aBytes = [];
+        for (var i = 0; i < iLength; i++) {
+          aBytes[i] = data[iOffset  + i];
+        }
+        return aBytes;
+      };
+
+      file.getLength = function() {
+        return data.length;
+      };
+      return file;
+    };
+
     function getOfferDetail() {
         var userId = 0;
         // s.userId;
@@ -1368,87 +1390,133 @@
                 if (o && o.src) {
                     url.revokeObjectURL(o.src);
                 }
-
                 $('#crop-image-div .tkpoto').html('<img class="pht">');
 
-                var that = this;
-                setTimeout(function() {
                 if (files && files.length > 0) {
-                    var imageFile = that.files[0];
-                    try {
-                        var images = new Image(),
-                            imgUrl = url.createObjectURL(imageFile);
-                        images.onload = function(e) {
-                            setTimeout(function() {
-                            icon.removeClass('camicon');
-                            icon.addClass('smallcamicon');
-                            $('#take-photo-header').hide();
-                            $('#heading').html('Resize image');
-                            $('#offer-details-view').hide();
-                            $('#crop-image-div').show();
-                            var cropImage = $('#crop-image-div .tkpoto img');
-                            cropImage.unbind('load');
-                            cropImage.load(function(e) {
-                                var width = window.innerWidth;
-                                var height = window.innerHeight;
-                                var jcrop_api, x, y, w, h;
-                                var ele = $('#share-image-add');
-                                var ratio = (ele.height() - 40) / width;
-                                var options = {
-                                    boxWidth : width,
-                                boxHeight : height,
-                                bgColor : 'black',
-                                bgOpacity : .4,
-                                setSelect : [width - 10, width * ratio - 10, 10, 10],
-                                allowResize : false,
-                                allowSelect : false,
-                                onChange : function updateCoords(c) {
-                                    x = c.x;
-                                    y = c.y;
-                                    w = c.w;
-                                    h = c.h;
+                    var imageFile = this.files[0];
+                    var img = new Image();
+                    var url = window.URL ? window.URL : window.webkitURL;
+                    var mpImg = new MegaPixImage(imageFile);
+                    img.src = url.createObjectURL(imageFile);
+                    img.onload = function(e) {
+                        url.revokeObjectURL(this.src);
+                        var width, height;
+                        var binaryReader = new FileReader();
+                        binaryReader.onloadend=function(d) {
+                            var exif, transform = "none";
+                            exif=EXIF.readFromBinaryFile(createBinaryFile(d.target.result));
+                            if(exif.Orientation === 8 || (exif.Orientation === 3 && img.width > img.height)) {
+                                width = img.height;
+                                height = img.width;
+                                transform = "left";
+                                exif.Orientation = 8;
+                            } else if(exif.Orientation === 6 || (exif.Orientation === 1 && img.width > img.height)) {
+                                width = img.height;
+                                height = img.width;
+                                transform = "right";
+                                exif.Orientation = 6;
+                            } else if(exif.Orientation === 1) {
+                                width = img.width;
+                                height = img.height;
+                            } else if(exif.Orientation === 3) {
+                                width = img.width;
+                                height = img.height;
+                                transform = "flip";
+                            } else {
+                                width = img.width;
+                                height = img.height;
+                            }
+                            var MAX_WIDTH = 768;
+                            var MAX_HEIGHT = 1024;
+                            if (width/MAX_WIDTH > height/MAX_HEIGHT) {
+                                if (width > MAX_WIDTH) {
+                                    height *= MAX_WIDTH / width;
+                                    width = MAX_WIDTH;
                                 }
-                                };
-                                cropImage.Jcrop(options, function() {
-                                    jcrop_api = this;
-                                    var goback = function() {
-                                        jcrop_api.destroy();
-                                        jcrop_api = null;
-                                        $('#crop-image-div').hide();
-                                        $('#offer-details-view').show();
-                                        $('.imgshado').css('height', '50%');
-                                        $('.imgshado').css('top', '50%');
-                                    };
+                            } else {
+                                if (height > MAX_HEIGHT) {
+                                    width *= MAX_HEIGHT / height;
+                                    height = MAX_HEIGHT;
+                                }
+                            }
+                            var canvas = document.createElement('canvas');
+                            var ctx = canvas.getContext("2d");
+                            mpImg.render(canvas, { maxWidth: width, maxHeight: height, orientation: exif.Orientation });
 
-                                    $('#crop-image').unbind('click');
-                                    $('#crop-image').click(function(e) {
-                                        var croppedCanvas = document.createElement('canvas');
-                                        var ctx = croppedCanvas.getContext("2d");
-                                        croppedCanvas.setAttribute('width', w);
-                                        croppedCanvas.setAttribute('height', h);
-                                        var r = images.width / parseInt(width);
-                                        ctx.drawImage(images, x * r, y * r, w * r, h * r, 0, 0, width, width * ratio);
-                                        images = null;
-                                        var dataurl = croppedCanvas.toDataURL("image/jpeg");
-                                        $('#show-picture').attr('src', dataurl);
+                            var imgUrl = canvas.toDataURL('image/png');
+                            try {
+                                var images = new Image();
+                                images.onload = function(e) {
+                                    icon.removeClass('camicon');
+                                    icon.addClass('smallcamicon');
+                                    $('#take-photo-header').hide();
+                                    $('#heading').html('Resize image');
+                                    $('#offer-details-view').hide();
+                                    $('#crop-image-div').show();
+                                    var cropImage = $('#crop-image-div .tkpoto img');
 
-                                        e.preventDefault();
-                                        $(".sharebtn").removeAttr('disabled');
-                                        goback();
+                                    cropImage.unbind('load');
+                                    cropImage.load(function(e) {
+                                        var width = window.innerWidth;
+                                        var height = window.innerHeight;
+                                        var jcrop_api, x, y, w, h;
+                                        var ele = $('#share-image-add');
+                                        var ratio = (ele.height() - 40) / width;
+                                        var options = {
+                                            boxWidth : width,
+                                        boxHeight : height,
+                                        bgColor : 'black',
+                                        bgOpacity : .4,
+                                        setSelect : [width - 10, width * ratio - 10, 10, 10],
+                                        allowResize : false,
+                                        allowSelect : false,
+                                        onChange : function updateCoords(c) {
+                                            x = c.x;
+                                            y = c.y;
+                                            w = c.w;
+                                            h = c.h;
+                                        }
+                                        };
+                                        cropImage.Jcrop(options, function() {
+                                            jcrop_api = this;
+                                            var goback = function() {
+                                                jcrop_api.destroy();
+                                                jcrop_api = null;
+                                                $('#crop-image-div').hide();
+                                                $('#offer-details-view').show();
+                                                $('.imgshado').css('height', '50%');
+                                                $('.imgshado').css('top', '50%');
+                                            };
+
+                                            $('#crop-image').unbind('click');
+                                            $('#crop-image').click(function(e) {
+                                                var croppedCanvas = document.createElement('canvas');
+                                                var ctx = croppedCanvas.getContext("2d");
+                                                croppedCanvas.setAttribute('width', w);
+                                                croppedCanvas.setAttribute('height', h);
+                                                var r = images.width / parseInt(width);
+                                                ctx.drawImage(images, x * r, y * r, w * r, h * r, 0, 0, width, width * ratio);
+                                                var dataurl = croppedCanvas.toDataURL("image/jpeg");
+                                                $('#show-picture').attr('src', dataurl);
+
+                                                e.preventDefault();
+                                                $(".sharebtn").removeAttr('disabled');
+                                                goback();
+                                            });
+                                        });
                                     });
-                                });
-                            });
-                            cropImage.attr('src', imgUrl);
-                            }, 500);
-                        };
-                        images.src = imgUrl;
+                                    cropImage.attr('src', imgUrl);
+                                };
+                                images.src = imgUrl;
 
-                    } catch (e) {
-                        console.log(e);
-                        alert('Unsupported browser');
+                            } catch (e) {
+                                console.log(e);
+                                alert('Unsupported browser');
+                            }
+                        };
+                        binaryReader.readAsArrayBuffer(imageFile);
                     }
                 }
-                }, 50);
             });
         }
     }

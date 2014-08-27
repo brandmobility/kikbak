@@ -523,7 +523,7 @@
           $('#barcode-note').html('Your discount code');
           $('#barcode-expire').html('Offer expires [' + dateStr + ']');
           $('#barcode').hide();
-          $('#barcode-link').attr('href', 'http://www.verizonwireless.com/stores/');
+          $('#barcode-link').attr('href', 'http://www.verizonwireless.com/wcms/consumer/shop.html');
           $('#barcode-link').show();
           $('.share-offer').hide();
           $('#share-offer-btn').hide();

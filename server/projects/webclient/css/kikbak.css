@@ -1690,9 +1690,6 @@ to {
 }
 
 @media screen and (max-aspect-ratio: 1/1) and (max-height: 450px) {
-    .image-add {
-        height: 140px;
-    }
     .image-add h2 {
         display: none;
     }
