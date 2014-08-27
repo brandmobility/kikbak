@@ -372,7 +372,7 @@
                 '<h3>Create your offer</h3>' +
                 '<input type="text" onfocus="this.type=\'tel\'" onblur="this.type=\'text\'" id="phone-input" placeholder="Verizon Wireless Phone Number" />' +
                 '<div id="location-sel-div" style="display:none;"><select id="location-sel" class="location-sel"></select></div>' +
-                '<div id="location-input-div" style="display:none;"><input type="text" id="location-input" class="location-sel" placeholder="Store ID [optional]" /></div>' +
+                '<div id="location-input-div" style="display:none;"><input type="text" id="location-input" class="location-sel" placeholder="Suggest a nearby store [optional]" /></div>' +
                 '<input id="employeeId-input" class="location-sel" type="text" name="employeeId" placeholder="Suggest an employee [optional]" />' +
                 '<button id="create-share-btn" class="share-btn btn grd-btn" disabled="disabled" >Create offer to share</button>' +
                 '</div>',

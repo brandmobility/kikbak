@@ -215,8 +215,8 @@
             </c:when>
             </c:choose>
             <div style="position:relative">
-                <img src="${shareInfo.imageUrl}" width="100%" height="330px" />
-                <img src="img/blk-shad.png" width="100%" height="200px" style="position: absolute; top: 130px;" />
+                <img src="${shareInfo.imageUrl}" width="100%" height="250px" />
+                <img src="img/blk-shad.png" width="100%" height="200px" style="position: absolute; top: 50px;" />
             </div>
             <div class="widget">
                 <div class="span4">
@@ -278,7 +278,7 @@
                     <div
                         style="padding-top: 20px; padding-bottom: 4px;">
                         <h3 style="font-size: 38px; font-family: HelveticaNeue Bold; line-height: 18px;">${gift.desc}</h3>
-                        <p style="font-family: HelveticaNeueLT Pro 55 Roman; font-size: 17px; padding-top: 4px; margin: 0;"><href="" onclick="window.open('${gift.tosUrl}');return false;">See detais</a></p>
+                        <p style="font-family: HelveticaNeueLT Pro 55 Roman; font-size: 17px; padding-top: 4px; margin: 0;"><href="" onclick="window.open('${gift.tosUrl}');return false;">See details</a></p>
                     </div>
                 </div>
                 <div class="col-md-1"></div>
@@ -523,7 +523,7 @@
           $('#barcode-note').html('Your discount code');
           $('#barcode-expire').html('Offer expires [' + dateStr + ']');
           $('#barcode').hide();
-          $('#barcode-link').attr('href', 'http://www.verizonwireless.com/wcms/consumer/shop.html');
+          $('#barcode-link').attr('href', 'http://www.verizonwireless.com/stores/');
           $('#barcode-link').show();
           $('.share-offer').hide();
           $('#share-offer-btn').hide();
