@@ -93,7 +93,7 @@ public class FbObjectApi {
       data.put("gift_desc", offer.giftDesc);
       data.put("gift_detailed_desc", offer.giftDetailedDesc);
 
-      Nearest nearest = new Nearest(offer.locations);
+      Nearest nearest = new Nearest(offer.merchantName, offer.locations);
       if (nearest.getDistance() < C.CLOSE_TO_STORE_DISTANCE) {
         MerchantLocationType loc = nearest.get();
         String who = Register.getInstance().getFirstName();

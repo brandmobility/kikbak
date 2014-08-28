@@ -15,7 +15,7 @@ public class TheReward {
 
   public TheReward(long offerId, ClientMerchantType merchant, double latitude, double longitude) {
     mMerchant = merchant;
-    mNearest = new Nearest(merchant.locations, latitude, longitude);
+    mNearest = new Nearest(merchant.name, merchant.locations, latitude, longitude);
   }
 
   public void addGift(GiftType gift) {

@@ -12,11 +12,13 @@ import com.referredlabs.kikbak.data.MerchantLocationType;
 import com.referredlabs.kikbak.service.LocationFinder;
 
 public class Nearest {
+  private String mMerchantName;
   private MerchantLocationType[] mLocations;
   private MerchantLocationType mNearestLocation;
   private float mDistanceToNearest;
 
-  public Nearest(MerchantLocationType[] locations) {
+  public Nearest(String merchantName, MerchantLocationType[] locations) {
+    mMerchantName = merchantName;
     mLocations = locations;
 
     Location l = LocationFinder.getLastLocation();
@@ -28,7 +30,9 @@ public class Nearest {
     }
   }
 
-  public Nearest(MerchantLocationType[] locations, double latitude, double longitude) {
+  public Nearest(String merchantName, MerchantLocationType[] locations, double latitude,
+      double longitude) {
+    mMerchantName = merchantName;
     mLocations = locations;
     determineNearestLocation(latitude, longitude);
   }
@@ -56,6 +60,10 @@ public class Nearest {
 
   public MerchantLocationType get() {
     return mNearestLocation;
+  }
+
+  public String getMerchantName() {
+    return mMerchantName;
   }
 
   public static void sortByDistance(ArrayList<MerchantLocationType> locations, double latitude,

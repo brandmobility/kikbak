@@ -103,7 +103,7 @@ public class RedeemGiftFragment extends KikbakFragment implements OnClickListene
     mRedeemOnline.setOnClickListener(this);
 
     IconBarHelper ih = new IconBarHelper(root, new IconBarActionHandler(getActivity()));
-    Nearest nearest = new Nearest(mGift.merchant.locations);
+    Nearest nearest = new Nearest(mGift.merchant.name, mGift.merchant.locations);
     ih.setLink(mGift.merchant.url);
     ih.setLocation(nearest);
     ih.setPhone(Long.toString(nearest.get().phoneNumber));
@@ -193,7 +193,7 @@ public class RedeemGiftFragment extends KikbakFragment implements OnClickListene
   }
 
   private boolean isInStore() {
-    Nearest nearest = new Nearest(mGift.merchant.locations);
+    Nearest nearest = new Nearest(mGift.merchant.name, mGift.merchant.locations);
     return D.BYPASS_STORE_CHECK || nearest.getDistance() < C.IN_STORE_DISTANCE;
   }
 
@@ -301,7 +301,7 @@ public class RedeemGiftFragment extends KikbakFragment implements OnClickListene
   private void reportSeen() {
     HashMap<String, String> map = new HashMap<String, String>();
     map.put(Log.ARG_OFFER_ID, Long.toString(mGift.offerId));
-    float distance = new Nearest(mGift.merchant.locations).getDistance();
+    float distance = new Nearest(mGift.merchant.name, mGift.merchant.locations).getDistance();
     map.put(Log.ARG_DISTANCE, Float.toString(distance));
     FlurryAgent.logEvent(Log.EVENT_GIFT_SEEN, map);
   }
@@ -319,7 +319,7 @@ public class RedeemGiftFragment extends KikbakFragment implements OnClickListene
       mReq.gift = new GiftRedemptionType();
       mReq.gift.id = mGift.shareInfo[mShareIdx].allocatedGiftId;
       mReq.gift.friendUserId = mGift.shareInfo[mShareIdx].friendUserId;
-      mReq.gift.locationId = new Nearest(mGift.merchant.locations).get().locationId;
+      mReq.gift.locationId = new Nearest(mGift.merchant.name, mGift.merchant.locations).get().locationId;
       mReq.gift.verificationCode = code;
     }
 

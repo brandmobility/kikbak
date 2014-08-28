@@ -145,7 +145,7 @@ public class GiveActivity extends KikbakActivity implements OnClickListener,
     // FIXME:VZ
     findViewById(R.id.web_icon).setVisibility(View.GONE);
 
-    Nearest nearest = new Nearest(mOffer.locations);
+    Nearest nearest = new Nearest(mOffer.merchantName, mOffer.locations);
     iconBar.setPhone(Long.toString(nearest.get().phoneNumber));
     iconBar.setLocation(nearest);
   }

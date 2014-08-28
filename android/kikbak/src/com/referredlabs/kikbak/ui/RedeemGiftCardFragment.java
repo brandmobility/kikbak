@@ -102,7 +102,7 @@ public class RedeemGiftCardFragment extends Fragment implements OnClickListener 
   private void reportSeen() {
     HashMap<String, String> map = new HashMap<String, String>();
     map.put(Log.ARG_OFFER_ID, Long.toString(mCredit.offerId));
-    float distance = new Nearest(mCredit.merchant.locations).getDistance();
+    float distance = new Nearest(mCredit.merchant.name, mCredit.merchant.locations).getDistance();
     map.put(Log.ARG_DISTANCE, Float.toString(distance));
     FlurryAgent.logEvent(Log.EVENT_CREDIT_SEEN, map);
   }

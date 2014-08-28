@@ -11,7 +11,7 @@ public class TheOffer {
 
   public TheOffer(long offerId, ClientOfferType offer, double latitude, double longitude) {
     mOffer = offer;
-    mNearest = new Nearest(mOffer.locations, latitude, longitude);
+    mNearest = new Nearest(mOffer.merchantName, mOffer.locations, latitude, longitude);
   }
 
   public ClientOfferType getOffer() {

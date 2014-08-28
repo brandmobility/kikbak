@@ -25,8 +25,9 @@ public class IconBarActionHandler implements IconBarListener {
   @Override
   public void onMapIconClicked(Nearest nearest) {
     MerchantLocationType loc = nearest.get();
-    String address = String.format("%s, %s, %s" , loc.address1, loc.city, loc.state);
-    String uri = String.format(Locale.US, "geo:0,0?q=%s", Uri.encode(address));
+    String address = String.format("%s, %s, %s", loc.address1, loc.city, loc.state);
+    String uri = String.format(Locale.US, "geo:0,0?q=%s(%s)", Uri.encode(address),
+        Uri.encode(nearest.getMerchantName()));
     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
     start(intent);
   }

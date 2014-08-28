@@ -94,7 +94,7 @@ public class ShareOptionsFragment extends DialogFragment implements OnClickListe
     mStoreSpinner.setVisibility(View.VISIBLE);
     mStoreSpinner.setAdapter(new LocationsAdapter(inflater, mOffer.locations.clone()));
 
-    float minDistance = new Nearest(mOffer.locations).getDistance();
+    float minDistance = new Nearest(mOffer.merchantName, mOffer.locations).getDistance();
     if (minDistance < C.CLOSE_TO_STORE_DISTANCE) {
       mStoreSpinner.setSelection(1); // preselect closest one
     }
