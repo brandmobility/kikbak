@@ -5,17 +5,21 @@ package com.referredlabs.kikbak;
 
 public class C {
 
+  public static final String HOST_URI;
   public static final String REST_URI;
   public static final String UPLOAD_URI;
+  public static final String PRIVACY_URI;
 
   static {
     if (BuildConfig.DEBUG) {
-      REST_URI = "http://test.kikbak.me/m/kikbak";
-      UPLOAD_URI = "http://test.kikbak.me/s/upload.php";
+      HOST_URI = "http://test.kikbak.me";
     } else {
-      REST_URI = "https://m.kikbak.me/m/kikbak";
-      UPLOAD_URI = "https://m.kikbak.me/s/upload.php";
+      HOST_URI = "https://m.kikbak.me";
     }
+
+    REST_URI = HOST_URI + "/m/kikbak";
+    UPLOAD_URI = HOST_URI + "/s/upload.php";
+    PRIVACY_URI = HOST_URI + "/data/privacy.html";
   }
 
   public static final float IN_STORE_DISTANCE = 100; // 100 meters

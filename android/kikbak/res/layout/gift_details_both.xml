@@ -19,7 +19,9 @@
         android:textSize="26dp"
         kikbak:typeface="Roboto-Bold.ttf" />
 
+    <!-- FIXME:VZ -->
     <com.referredlabs.kikbak.widget.TtfTextView
+        android:visibility="gone"
         android:id="@+id/gift_desc_opt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,7 +29,7 @@
         android:layout_centerHorizontal="true"
         android:includeFontPadding="false"
         android:text="@string/give_gift_optional_note"
-        android:textColor="@color/link"
+        android:textColor="#686868"
         android:textSize="13dp"
         kikbak:typeface="Roboto-Regular.ttf" />
 
@@ -50,14 +52,16 @@
         android:layout_marginTop="8dp"
         android:drawableLeft="@drawable/ic_cup"
         android:drawablePadding="8dp"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:includeFontPadding="false"
-        android:text="Get $10 credit"
+        android:text="Get $50 prepaid\ndebit card"
         android:textColor="#3a3a3a"
         android:textSize="26dp"
         kikbak:typeface="Roboto-Bold.ttf" />
 
+    <!-- FIXME:VZ -->
     <com.referredlabs.kikbak.widget.TtfTextView
+        android:visibility="gone"
         android:id="@+id/reward_desc_opt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -70,16 +74,46 @@
         kikbak:typeface="Roboto-Regular.ttf" />
 
     <com.referredlabs.kikbak.widget.TtfTextView
-        android:id="@+id/terms"
+        android:id="@+id/expiration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_centerHorizontal="true"
         android:layout_below="@id/reward_desc_opt"
         android:includeFontPadding="false"
         android:paddingLeft="13dp"
         android:paddingRight="13dp"
         android:paddingTop="11dp"
+        android:text="Offer expires:31.12.2014"
+        android:textColor="#686868"
+        android:textSize="13dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
+    
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:id="@+id/terms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/expiration"
+        android:includeFontPadding="false"
+        android:paddingLeft="13dp"
+        android:paddingRight="13dp"
+        android:paddingTop="11dp"
         android:text="@string/terms"
+        android:textColor="@color/link"
+        android:textSize="13dp"
+        kikbak:typeface="Roboto-Regular.ttf" />
+
+    <com.referredlabs.kikbak.widget.TtfTextView
+        android:id="@+id/privacy_policy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/expiration"
+        android:includeFontPadding="false"
+        android:paddingLeft="13dp"
+        android:paddingRight="13dp"
+        android:paddingTop="11dp"
+        android:text="@string/privacy_policy"
         android:textColor="@color/link"
         android:textSize="13dp"
         kikbak:typeface="Roboto-Regular.ttf" />

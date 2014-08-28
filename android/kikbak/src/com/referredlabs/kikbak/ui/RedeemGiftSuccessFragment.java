@@ -1,10 +1,7 @@
 
 package com.referredlabs.kikbak.ui;
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -133,14 +130,12 @@ public class RedeemGiftSuccessFragment extends Fragment implements OnClickListen
   }
 
   private String getExpirationString() {
-    //FIXME
-    GregorianCalendar cal = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
-    cal.clear();
-    cal.set(2015, Calendar.JANUARY, 1);
-    long expTime = cal.getTimeInMillis();
-
-    String date = DateFormat.getMediumDateFormat(getActivity()).format(new Date(expTime));
-    return getString(R.string.offer_expires, date);
+    ClientOfferType offer = DataStore.getInstance().getOffer(mGift.offerId);
+    if (offer != null) {
+      String date = DateFormat.getMediumDateFormat(getActivity()).format(new Date(offer.endDate));
+      return getString(R.string.offer_expires, date);
+    }
+    return null;
   }
 
   private int getBarcodeLayout() {

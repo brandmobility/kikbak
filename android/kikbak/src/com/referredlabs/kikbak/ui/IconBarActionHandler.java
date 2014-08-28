@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.net.Uri;
 
 import com.flurry.android.FlurryAgent;
+import com.referredlabs.kikbak.data.MerchantLocationType;
 import com.referredlabs.kikbak.log.Log;
 import com.referredlabs.kikbak.ui.IconBarHelper.IconBarListener;
 import com.referredlabs.kikbak.utils.Nearest;
@@ -23,10 +24,9 @@ public class IconBarActionHandler implements IconBarListener {
 
   @Override
   public void onMapIconClicked(Nearest nearest) {
-    String uri = String.format(Locale.US, "geo:0,0?q=%1$f,%2$f", nearest.get().latitude,
-        nearest.get().longitude);
-    // String uri = String.format(Locale.US, "https://maps.google.com/maps?q=%1$f,%2$f",
-    // loc.getLatitude(), loc.getLongitude());
+    MerchantLocationType loc = nearest.get();
+    String address = String.format("%s, %s, %s" , loc.address1, loc.city, loc.state);
+    String uri = String.format(Locale.US, "geo:0,0?q=%s", Uri.encode(address));
     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
     start(intent);
   }

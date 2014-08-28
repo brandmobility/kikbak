@@ -45,7 +45,8 @@
 
     <string name="give_give">Give %s</string>
     <string name="give_get">Get %s</string>
-    <string name="give_to_friends">Give To Friends</string>
+    <!-- FIXME: VZ -->
+    <string name="give_to_friends">I agree to the Terms and Conditions and the Kikbak Privacy Policy</string>
     <string name="give_gift_optional_note">Optional text, you can put 40 characters here.</string>
     <string name="give_get_optional_note">For every friend that redeems your gift</string>
     <string name="terms">Terms &amp; Conditions</string>
@@ -61,6 +62,7 @@
     <!-- terms and conditions -->
     <string name="terms_title">Terms and conditions for offer</string>
     <string name="accept_terms">Accept Terms</string>
+    <string name="privacy_policy">Privacy Policy</string>
 
     <!-- Share options -->
     <string name="share_options_title">Give offer to friends</string>
@@ -142,7 +144,7 @@
     <string name="redeem_credit_success_share_button">Ready To Give To More Friends</string>
 	<string name="coupon_code_clip">Coupon code</string>
 	<string name="copied_to_clipboard">Coupon code copied to clipboard</string>
-	<string name="offer_expires">Offer expires %s</string>
+	<string name="offer_expires">Offer expires: %s</string>
 	<!-- Redeem chooser -->
     <string name="redeem_chooser_title">Select one to redeem</string>
     <string name="or">OR</string>
